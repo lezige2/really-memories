@@ -127,6 +127,20 @@ def main():
     res["put_refuses_empty_text"] = e
     c2.close()
 
+    # ---------- 4b. negative test: the DATABASE itself refuses the UPDATE ----------
+    c2b = sqlite3.connect(copy_db("trigger"))
+    trig = must_raise(
+        "UPDATE text with the immutability trigger in place",
+        lambda: c2b.execute("UPDATE memory_source SET text = text || 'x' WHERE name = ?",
+                            (tgt[4],)),
+        (sqlite3.IntegrityError,))
+    trig["trigger"] = c2b.execute(
+        "SELECT name FROM sqlite_master WHERE type='trigger' "
+        "AND name='memory_source_text_is_immutable'").fetchone()
+    trig["ok"] = trig["ok"] and trig["trigger"] is not None
+    res["trigger_layer_holds"] = trig
+    c2b.close()
+
     # ---------- 5. negative test: tamper bypassing the trigger (copy) ----------
     c3 = sqlite3.connect(copy_db("tampered"))
     c3.execute("DROP TRIGGER memory_source_text_is_immutable")
@@ -210,6 +224,7 @@ def main():
         "7_refuses_empty": res["put_refuses_empty_text"]["ok"],
         "8_fidelity": res["fidelity_vs_chat_py_constants"]["ok"],
         "9_db_untouched": res["db_untouched"],
+        "10_trigger_layer": res["trigger_layer_holds"]["ok"],
     }
     res["pass"] = all(res["acceptance"].values())
     json.dump(res, open(os.path.join(HERE, "run_registry_check.json"), "w",
@@ -220,6 +235,8 @@ def main():
         print("%-8s %-10s %-18s %-18s %s" % (r["id"], r["name"], r["stored_sha16"],
                                              r["computed_sha16"], r["match"]))
     print()
+    print("  trigger layer: %s -> %s" % (res["trigger_layer_holds"]["raised"],
+                                         (res["trigger_layer_holds"].get("message") or "")[:70]))
     for c in res["negative_test_tampered_copy"]["checks"]:
         print("  tamper -> %-42s %s" % (c["check"], c.get("raised") or c.get("problems")))
     print()

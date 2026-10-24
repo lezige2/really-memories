@@ -67,6 +67,33 @@
 | 7 | 拒绝空文本 | true |
 | 8 | 与 chat.py 常量逐字节一致 | true |
 | 9 | 权威库字节未变 | true |
+| 10 | 库触发器本体在且拦得住（不 DROP 直改 => IntegrityError） | true |
+
+## 三层防线（库触发器 -> API -> 不变量）
+
+同一件事有三道独立的闸门，**任何一道单独失效都还有另一道**：
+
+| 层 | 位置 | 被触发时的实测输出 |
+|---|---|---|
+| 物理层：库触发器 | `memory_source_text_is_immutable`（`BEFORE UPDATE OF text, source_hash`） | `IntegrityError: memory_source.text is immutable: insert a new row instead of editing history` |
+| API 层：读时重算 | `memory_source.get_source` / `probe_text` 调 `_verify_row` | `SourceHashMismatch: stored source_hash ... != sha256(text) ...` |
+| 不变量层：I1 | `assert_unique_texts` | `SourceHashMismatch` 或 `AssertionError: the same text is stored more than once` |
+
+负向测试**两条都跑**（`check_registry.py`）：不 DROP TRIGGER 直接 `UPDATE` => `IntegrityError`（触发器挡下，连 API 都到不了）；
+DROP TRIGGER 后再改 => 上面三条 API 校验全部抛错。绕得过一层，绕不过三层。
+
+## 1a 真正拿到的收益（比"加了校验"更硬）
+
+链路的权威方向现在是：
+
+`MEMORIES 字面量 (tools/chat.py:58) --put_source--> 注册表 --get_source(校验 hash)--> build_block`
+
+- 1a **之前**：改一行字面量 => 下次 `put_source` 静默插入新修订 => `get_source` 返回新文本 => **所有块悄悄换源，没有任何一处报错**。
+- 1a **之后**：同样的动作抛 `SourceConflict`（消息里给新旧 hash 与"要新版本请显式 revise"），必须人为 `--revise`。
+  => 「改一行常量就悄悄换掉所有块的源」这条路被堵住了。
+
+**剩余缺口**：权威方向仍是 **字面量 -> 注册表**（字面量说了算）。Stage 2 要反过来：chat.py 直接读注册表文本，
+并补一条负向测试 —— **把 `MEMORIES` 删掉/改坏后，chat.py 仍应正常索引**（不再依赖常量存在）。
 
 ## 边界
 
