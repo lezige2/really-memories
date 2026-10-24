@@ -35,6 +35,19 @@ def _index(con):
     return R
 
 
+def derive_or_fallback(ans):
+    """A display-layer bug must never destroy the raw evidence: fall back, keep the reason."""
+    raw = ans.strip()
+    try:
+        return DISP.derive(raw)
+    except Exception as exc:                      # noqa: BLE001 - recorded, never silent
+        return {"answer": raw, "answer_display": raw, "answer_display_changed": False,
+                "display_error": "%s: %s" % (type(exc).__name__, exc),
+                "per_tag_count": len(DISP.STRAY.findall(raw)),
+                "removed_chars": 0, "display_len": len(raw), "display_empty": raw == "",
+                "diff_explained": False, "idempotent": None, "content_warnings": []}
+
+
 def _route(con, q, k=3):
     """retrieval hit -> (block_id, path, source_id, score, unit_text)."""
     R = _index(con)
@@ -101,10 +114,8 @@ def mode_answer(a):
                                                             "score": meta.get("score")},
              "block_id": block_id, "block_path": path, "cells_loaded": n, "range": [lo, hi],
              "ask_pos": ASK_ANCHOR, "rc": rc,
-             "answer": ans.strip(),                       # evidence, byte-identical to before
              "answer_exact": ans,                         # untouched model output
-             "answer_display": DISP.strip_think(ans.strip()),   # derived, user-facing
-             "answer_display_changed": DISP.has_tag(ans.strip()),
+             **derive_or_fallback(ans),                    # answer + display + 4 trace fields
              "live_cells": P.cell_scan(eng, 0)[0],
              "block_cells": P.cell_scan(eng, 1)[0],
              "engine": {"model": getattr(P, "MODEL", None), "n_ctx": P.N_CTX,

@@ -10,6 +10,10 @@ ROOT = r"D:/llama-mem"
 for p in (os.path.join(ROOT, "tools"), HERE):
     sys.path.insert(0, p)
 import m4_extract as X                                            # noqa: E402
+import retrieval as R                                            # noqa: E402
+
+GATES = {"GATE": R.GATE, "COV_MIN": R.COV_MIN, "INDEX_VERSION": R.INDEX_VERSION,
+         "unchanged": (R.GATE == 1.30 and R.COV_MIN == 0.35)}
 import m4_store as S                                              # noqa: E402
 
 DB = os.path.join(HERE, "m4_memory.db")
@@ -99,11 +103,17 @@ def main():
            "questions": QUESTIONS}
 
     con = sqlite3.connect(DB)
-    res["stored"] = [dict(zip(("mem_id", "attr", "value", "status", "anchored_time"), r))
-                     for r in con.execute("SELECT mem_id, attr, value, status, anchored_time "
-                                          "FROM memory ORDER BY mem_id")]
-    res["sources"] = [dict(zip(("id", "name", "label", "text"), r))
-                      for r in con.execute("SELECT id, name, label, text FROM memory_source")]
+    res["stored"] = [dict(zip(("mem_id", "attr", "value", "type", "status", "anchored_time",
+                               "unit_id", "resolved", "resolved_to"), r))
+                     for r in con.execute(
+                         "SELECT mem_id, attr, value, type, status, anchored_time, unit_id, "
+                         "resolved, resolved_to FROM memory ORDER BY mem_id")]
+    res["sources"] = [dict(zip(("id", "name", "label", "text", "fanout"), r))
+                      for r in con.execute(
+                          "SELECT id, name, label, text, fanout FROM memory_source")]
+    res["block_text"] = con.execute(
+        "SELECT b.text FROM source_block sb JOIN block bl ON bl.block_id = sb.block_id "
+        "JOIN memory_source b ON b.id = bl.source_id LIMIT 1").fetchone()[0]
     res["blocks"] = [dict(zip(("block_id", "path", "sha256", "cells", "pos_lo", "pos_hi"),
                               r))
                      for r in con.execute("SELECT block_id, path, sha256, cells, pos_lo, pos_hi "
@@ -136,6 +146,13 @@ def main():
                        "raw_has_tag": "<" "/think" ">" in (d.get("answer") or ""),
                        "raw_kept_unchanged": d.get("answer_exact", "").strip()
                                              == (d.get("answer") or ""),
+                       "per_tag_count": d.get("per_tag_count"),
+                       "removed_chars": d.get("removed_chars"),
+                       "display_len": d.get("display_len"),
+                       "display_empty": d.get("display_empty"),
+                       "diff_explained": d.get("diff_explained"),
+                       "idempotent": d.get("idempotent"),
+                       "content_warnings": d.get("content_warnings"),
                        "pid": d.get("pid"), "child_of": os.getpid(),
                        "new_process": bool(d.get("pid")) and d.get("pid") != os.getpid(),
                        "retrieval_routed": bool(d.get("routed_by"))})
@@ -156,6 +173,10 @@ def main():
         "7_relative_time_anchored": any(m["anchored_time"] == "2026-10-28"
                                         for m in res["stored"]),
         "8_dedupe_no_new_row": res["dedupe"]["ok"] and bool(res["dedupe"]["deduped"]),
+        "9_units_deduped_by_text": None,
+        "10_type_and_resolved": all(m["type"] for m in res["stored"]) and any(
+            m["attr"] == "提醒规则" and m["resolved"] == "in_sentence" and m["resolved_to"]
+            for m in res["stored"]),
         "position0_pass_and_refuse": bool(
             (res["position0"].get("json") or {}).get("pass", {}).get("ok")
             and (res["position0"].get("json") or {}).get("refuse", {}).get("both_guards_refuse")),
@@ -164,8 +185,20 @@ def main():
                                         for c in checks) and all(not c["display_has_tag"]
                                                                  for c in checks)
     acc["raw_answer_preserved"] = all(c["raw_kept_unchanged"] for c in checks)
+    acc["display_trace_fields"] = all(
+        isinstance(c.get("per_tag_count"), int) and isinstance(c.get("removed_chars"), int)
+        and isinstance(c.get("display_len"), int) and c.get("display_empty") is False
+        for c in checks) and all(c.get("diff_explained") and c.get("idempotent")
+                                 for c in checks)
+    units = res["sources"][1:]
+    acc["9_units_deduped_by_text"] = (
+        len(units) == len({u["text"] for u in units})
+        and sum(u["fanout"] for u in units) == len(res["stored"])
+        and all(u["text"] in res["block_text"] for u in units))
+    acc["gates_untouched"] = GATES["unchanged"]
     acc["all_pass"] = all(acc.values())
     res["acceptance"] = acc
+    res["gates"] = GATES
     res["finished_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
     out = os.path.join(HERE, "run_m4_verify.json")
     json.dump(res, io.open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=2)

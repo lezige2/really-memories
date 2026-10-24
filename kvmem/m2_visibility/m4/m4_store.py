@@ -17,7 +17,9 @@ import sqlite3
 
 DDL = """
 CREATE TABLE IF NOT EXISTS memory_source (
-    id INTEGER PRIMARY KEY, name TEXT NOT NULL, label TEXT NOT NULL, text TEXT NOT NULL);
+    id INTEGER PRIMARY KEY, name TEXT NOT NULL, label TEXT NOT NULL, text TEXT NOT NULL,
+    fanout INTEGER NOT NULL DEFAULT 1,       -- how many memories share this unit (R9 dedupe)
+    UNIQUE (text));
 CREATE TABLE IF NOT EXISTS block (
     block_id TEXT PRIMARY KEY, source_id INTEGER NOT NULL, path TEXT NOT NULL,
     sha256 TEXT NOT NULL, cells INTEGER NOT NULL, pos_lo INTEGER NOT NULL,
@@ -26,6 +28,8 @@ CREATE TABLE IF NOT EXISTS memory (
     mem_id INTEGER PRIMARY KEY, turn INTEGER, sent_id INTEGER, code TEXT,
     subject TEXT NOT NULL, attr TEXT NOT NULL, value TEXT NOT NULL, type TEXT,
     evidence_span TEXT, anchored_time TEXT, confidence REAL,
+    unit_id INTEGER,                          -- R9: which retrieval unit carries this memory
+    resolved TEXT, resolved_to TEXT,          -- R7: value stays verbatim, reference gets resolved
     status TEXT NOT NULL DEFAULT 'live', superseded_by INTEGER, superseded_at TEXT,
     block_id TEXT, created_at TEXT NOT NULL,
     UNIQUE (subject, attr, value));
@@ -104,15 +108,20 @@ def add_source(con, name, label, text, source_id=None):
 
 
 def add_fact_source(con, block_id, attr, span, kind="fact"):
-    """A retrieval unit. text is a VERBATIM substring of the block text (never a rewrite).
+    """One retrieval unit per DISTINCT text (R9). text is a verbatim substring of the block.
 
-    Measured why: one 91-token conversation block scores 0.575 with coverage 0.12 and is
-    rejected by retrieval.GATE=1.30 / COV_MIN=0.35, while the same fact as its own unit
-    scores 3.18. Same index, same query -- the unit granularity is what the gate sees.
+    Measured why units exist at all: the whole 91-token block scores 0.575 / coverage 0.12 and is
+    rejected by retrieval.GATE=1.30 / COV_MIN=0.35, while the same fact as its own unit scores
+    3.18. Two memories that quote the SAME sentence share one unit; fanout records the sharing
+    instead of indexing the same text twice.
     """
-    r = con.execute("SELECT COALESCE(MAX(id), 0) + 1 FROM memory_source").fetchone()
-    sid = r[0]
-    con.execute("INSERT INTO memory_source (id, name, label, text) VALUES (?,?,?,?)",
+    row = con.execute("SELECT id FROM memory_source WHERE text=?", (span,)).fetchone()
+    if row:
+        con.execute("UPDATE memory_source SET fanout=fanout+1 WHERE id=?", (row[0],))
+        con.commit()
+        return row[0]
+    sid = con.execute("SELECT COALESCE(MAX(id), 0) + 1 FROM memory_source").fetchone()[0]
+    con.execute("INSERT INTO memory_source (id, name, label, text, fanout) VALUES (?,?,?,?,1)",
                 (sid, "fact_%s_%s" % (attr, sid), attr, span))
     con.execute("INSERT OR REPLACE INTO source_block (source_id, block_id, kind) VALUES (?,?,?)",
                 (sid, block_id, kind))
@@ -147,10 +156,11 @@ def upsert_memory(con, mem, turn=None, sent_id=None, code=None, block_id=None):
     if live:
         cur = con.execute(
             "INSERT INTO memory (turn, sent_id, code, subject, attr, value, type, evidence_span, "
-            "anchored_time, confidence, status, block_id, created_at) "
-            "VALUES (?,?,?,?,?,?,?,?,?,?,'live',?,?)",
+            "anchored_time, confidence, unit_id, resolved, resolved_to, status, block_id, "
+            "created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,'live',?,?)",
             (turn, sent_id, code, mem["subject"], mem["attr"], mem["value"], mem.get("type"),
              mem["evidence_span"], mem.get("anchored_time"), mem.get("confidence"),
+             mem.get("unit_id"), mem.get("resolved"), mem.get("resolved_to"),
              block_id, now()))
         mid = cur.lastrowid
         for (old,) in live:                             # keep, never delete
@@ -161,10 +171,11 @@ def upsert_memory(con, mem, turn=None, sent_id=None, code=None, block_id=None):
 
     cur = con.execute(
         "INSERT INTO memory (turn, sent_id, code, subject, attr, value, type, evidence_span, "
-        "anchored_time, confidence, status, block_id, created_at) "
-        "VALUES (?,?,?,?,?,?,?,?,?,?,'live',?,?)",
+        "anchored_time, confidence, unit_id, resolved, resolved_to, status, block_id, "
+        "created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,'live',?,?)",
         (turn, sent_id, code, mem["subject"], mem["attr"], mem["value"], mem.get("type"),
          mem["evidence_span"], mem.get("anchored_time"), mem.get("confidence"),
+         mem.get("unit_id"), mem.get("resolved"), mem.get("resolved_to"),
          block_id, now()))
     con.commit()
     return "inserted", cur.lastrowid
@@ -177,8 +188,10 @@ def add_review(con, sent_id, text, attr, reason):
 
 
 def dump_memories(con):
-    return [dict(zip(("mem_id", "subject", "attr", "value", "status", "anchored_time",
-                      "superseded_by", "evidence_span", "code"), r))
+    return [dict(zip(("mem_id", "subject", "attr", "value", "type", "status", "anchored_time",
+                      "superseded_by", "evidence_span", "code", "unit_id", "resolved",
+                      "resolved_to"), r))
             for r in con.execute(
-                "SELECT mem_id, subject, attr, value, status, anchored_time, superseded_by, "
-                "evidence_span, code FROM memory ORDER BY mem_id")]
+                "SELECT mem_id, subject, attr, value, type, status, anchored_time, superseded_by, "
+                "evidence_span, code, unit_id, resolved, resolved_to FROM memory "
+                "ORDER BY mem_id")]

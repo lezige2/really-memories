@@ -53,4 +53,7 @@ verdict = ("newlines_necessary" if res["cases"][0]["has_tag"] and not res["cases
            else "not_explained_by_newlines")
 res["verdict"] = verdict
 print("VERDICT:", verdict, flush=True)
+out = os.path.join(HERE, "evidence_think_newline.json")
+json.dump(res, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
 print("@@JSON@@" + json.dumps(res, ensure_ascii=False), flush=True)
+print("[RUN] wrote", out, flush=True)

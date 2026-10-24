@@ -138,6 +138,24 @@ HEALTH = re.compile(r"(长期|一直|总是|常年|每天晚上)?\s*"
                     r"(失眠|头痛|头疼|胃病|过敏|颈椎|腰疼|焦虑|鼻炎|高血压|糖尿病)")
 
 
+# code -> memory.type. The column used to be always NULL; an always-empty column lies about
+# being a field, so it is filled from the judgement code and the mapping is frozen here.
+TYPE_OF = {"K1": "fact", "K2": "preference", "K3": "plan", "K4": "identity",
+           "K5": "constraint", "K6": "meta"}
+# R7: a rule pointing at 那个时候 keeps its verbatim value; the referent goes in resolved.
+PRONOUN = re.compile(r"(那个时候|那时|这时候|这个时间|那个时间)")
+
+
+def resolve_reference(value, sentence):
+    """(resolved, resolved_to). Never rewrites value -- §9 verbatim wins over §7 anchoring."""
+    if not PRONOUN.search(value):
+        return "no_reference", None
+    m = SCHEDULE.search(sentence)
+    if m and m.group(1) not in value:
+        return "in_sentence", m.group(1)
+    return "unresolved", None
+
+
 def _mk(attr, value, span, confidence=0.9, **kw):
     m = {"subject": "用户", "attr": attr, "value": value, "type": None,
          "evidence_span": span, "anchored_time": None, "confidence": confidence}
@@ -276,7 +294,9 @@ def _extract(t, ts):
         value = value.strip(" ，,。！？")
         if not value or not _verbatim(value, t):
             return                                              # §9: value must appear verbatim
-        mems.append(_mk(attr, value, t, **kw))
+        resolved, resolved_to = resolve_reference(value, t)
+        mems.append(_mk(attr, value, t, type=TYPE_OF.get(code, "fact"),
+                        resolved=resolved, resolved_to=resolved_to, **kw))
         codes.append(code)
 
     for _name, attr, rx in FACT_RULES:

@@ -122,24 +122,41 @@ def main():
         source_id = S.add_source(con, "conv_2026-10-25", "对话",
                                  block_text, 1)
         S.add_block(con, block_id, source_id, path, n, POS0, "seq%d" % BLOCK_SEQ)
+        # R9: one retrieval unit per DISTINCT sentence; memories that quote the same sentence
+        # share the unit and the sharing is recorded as fanout (no double indexing).
+        units, unit_of = [], {}
+        for r, m in keeps:
+            span = m["evidence_span"]
+            assert span in block_text, "unit text is not a verbatim substring of the block"
+            sid = S.add_fact_source(con, block_id, m["attr"], span)
+            m["unit_id"] = sid
+            u = unit_of.setdefault(sid, {"source_id": sid, "attr": m["attr"], "text": span,
+                                           "block_id": block_id, "memories": 0})
+            u["memories"] += 1
+        units = sorted(unit_of.values(), key=lambda u: u["source_id"])
         actions = []
         for r, m in keeps:
             act, mid = S.upsert_memory(con, m, turn=r["turn"], sent_id=r["sent_id"],
                                        code=r["code"], block_id=block_id)
             actions.append({"attr": m["attr"], "value": m["value"], "action": act,
-                            "mem_id": mid, "anchored_time": m.get("anchored_time")})
-        units = []
-        for r, m in keeps:
-            sid = S.add_fact_source(con, block_id, m["attr"], m["evidence_span"])
-            units.append({"source_id": sid, "attr": m["attr"], "text": m["evidence_span"],
-                          "block_id": block_id})
+                            "mem_id": mid, "anchored_time": m.get("anchored_time"),
+                            "type": m.get("type"), "unit_id": m.get("unit_id"),
+                            "resolved": m.get("resolved"),
+                            "resolved_to": m.get("resolved_to")})
         res["retrieval_units"] = {
             "why": ("A single 91-token conversation block is rejected by retrieval's gate "
                     "(score 0.575 < GATE 1.30, coverage 0.12 < COV_MIN 0.35); the same fact as "
                     "its own unit scores 3.18. One KV block stays the context unit (1 block, "
                     "position 0); the retrieval units are verbatim substrings that map back to "
                     "it through source_block."),
+            "dedup": {"keeps": len(keeps), "unique_units": len(units),
+                      "fanout_sum": sum(u["memories"] for u in units),
+                      "fanout": [u["memories"] for u in units]},
             "units": units}
+        import retrieval as R
+        res["gates"] = {"GATE": R.GATE, "COV_MIN": R.COV_MIN,
+                        "INDEX_VERSION": R.INDEX_VERSION,
+                        "unchanged": (R.GATE == 1.30 and R.COV_MIN == 0.35)}
         res["db"] = {"path": a.db, "source_id": source_id, "blocks": 1,
                      "sources": con.execute("SELECT COUNT(*) FROM memory_source").fetchone()[0],
                      "memories": len(S.dump_memories(con)), "keeps": len(keeps),

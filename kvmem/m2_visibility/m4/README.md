@@ -205,10 +205,16 @@ python -u -X utf8 m4_verify.py                   # 新进程检索/作答 + 去�
 | B 无对话结构的散文（M2 风格） | 55 | 230 | **否** |
 | C 同一对话，**去掉全部 assistant 轮** | 82 | 93 | **是** |
 
-**结论**：触发条件是**块正文是「对话记录」形态**，**不是** assistant 轮、也不是问句模板——
-模板是 `"\n问：" + q + "\n答："`（`kvslots.py:53-58`），本身不含 think 标签；
-M2/M3 的 run json 里也**没有**这个标签（grep 过），所以这是**对话型块正文 + 蒸馏模型**才出现的。
-最可能的机制：R1 蒸馏模型看到对话记录后被拉进「思考模式」，于是先吐一个闭合标签再作答。
+**结论（第二版，已按检测员的单例改口）：未查明。**
+原先我写「块正文是对话记录形态即触发」，但那是**两个变量未分离**：A（含 assistant 轮，91 token，多行）与
+B（散文，55 token，单行）长度、行结构、续写模式（rc 93 vs 230）同时不同，不能说成「对话形态」。
+按检测员给的单例做了唯一变量对照（`_probe_think2.py` → `evidence_think_newline.json`）：**同一段文字、只删换行**
+（127 → 119 字符，内容一字不改）→ **标签仍然出现**（91 → 90 token，rc 93）。
+所以「换行/多行」也不是必要条件，归因降为**未查明**。
+
+已知的只是触发面：本样例下**会**出现；M2/M3 的 run json 里**没有**（grep 过）；问句模板本身不含该标签
+（`kvslots.py:53-58` 的 `"\n问：" + q + "\n答："`）。
+**归因不影响处置**：M4 的产品形态就是对话段落落块，这条路径上标签必现，清洗是必需品。
 
 **处置（队长 2026-10-25 定）：展示层清洗 + 原文强制留档；块正文一律不动。**
 
@@ -243,3 +249,72 @@ M2/M3 的 run json 里也**没有**这个标签（grep 过），所以这是**�
 - 块文件里的位置是 **0 起**；载入后**必须重定位到「结束于问位锚点」**（§5），否则 rc=-1。
 - `memory_source.text` 是**逐字子串**，不要当完整块正文用；块正文在 `block` 表 + `.kvmem` 文件里。
 - 想接产品路径：`tools/chat.py` 的四处裸 reset 需要改成走 `m3_lease.BlockLeases`（本轮不许改）。
+
+## 15 第二轮改动（检测员 R7 / R9 / R10 与队长三条放行条件）
+
+### 15.1 展示层三条硬条件（都进了代码与单测）
+| 条件 | 实现 | 证据 |
+|---|---|---|
+| ① 差异可解释断言 | `assert_diff_explained()`：把删掉的字符收集成区间，逐段校验「∈ 标签」或「连续空行合并（该处 ≥3 个换行）」，再用**子序列对齐**确认 display 是 answer 删标签后的子序列；任何标点/空格/多删一字/少删一个标签 → 抛 `DiffNotExplained`，不静默 | `_test_display.py` 的 4 条反例（标点被改 / 一个字被删 / 标签残留 / 凭空多字）全部被拒 |
+| ② 幂等 + 无标签逐字节相等 | `audit()` 内断言 `strip(strip(x)) == strip(x)`；无标签时直接原样返回并断言 `removed_chars == 0`；补「相邻连写」``` 与 `T*120` 两个极端 | 11 例 0 failed |
+| ③ 留痕四项 | `per_tag_count / removed_chars / display_len / display_empty` 进 `derive()` → 子进程 json → 验收 `display_trace_fields`；清洗后为空置 `display_empty: true` 并保留空串，**不用原文顶替** | `only_tag` / 未闭合到结尾两例 display 为空且标记为 true |
+
+**结构层 / 内容层分离**（不许一锅端）：控制标签属结构层，必须剔净；「问/答」自问自答与同句重复 `X\n\nX` 属内容层，
+**默认不清洗**，只报 `content_warnings`；需要处理时用独立开关 `first_sentence_only`（只作用于 display、同样计数、
+**只记告警不参与 pass/fail**）。
+
+### 15.2 R9 检索单元去重
+6 条记忆按**句子文本**去重成 **4 个检索单元**，`fanout = [1, 2, 1, 2]`（合计 6），不再把同一句索引两次。
+`memory_source` 新增 `fanout` 列与 `UNIQUE(text)`；`memory.unit_id` 记录该记忆由哪个单元承载。
+约束逐条守住：单元文本是块正文**逐字子串**（写路径里 `assert span in block_text`）、每个单元**至少 1 条记忆**、
+映射到**实际挂载**的块（`source_block`）、**门限未调**——`gates` 是运行时从 `tools/retrieval.py` 读出来的
+（`GATE 1.30 / COV_MIN 0.35 / INDEX_VERSION 5`，`unchanged: true`）。
+
+### 15.3 R7 指代裁决：「别在那个时候给我推消息」
+判据 §7（要锚定）与 §9（要逐字）冲突，按裁决：**value 逐字保留**，新增 `resolved / resolved_to` 两列。
+本句的指代在同一句里能落地 ⇒ `resolved: "in_sentence"`，`resolved_to: "每天早上七点半出门"`。
+无指代时记 `no_reference`；有指代但句内找不到先行词时记 `unresolved`——**绝不改写 value**。
+
+### 15.4 `memory.type` 空列处理
+原来该列永远是 NULL。恒空的列会让人以为有字段，所以按判定码填：`K1→fact / K2→preference / K3→plan /
+K4→identity / K5→constraint / K6→meta`（映射冻结在 `m4_extract.TYPE_OF`）。实测 6 条全非空。
+
+### 15.5 跨实验：同一布局删掉车牌句再问车牌
+`m4_crosscheck.py` → `run_m4_crosscheck.json`（另存 `blocks/blk_conv_noplate.kvmem`，不覆盖主块）。
+删掉「我车牌是浙B-3F19K。」后：块正文不含车牌（`block_contains_plate: false`）、判定层不再产出车牌记忆
+（`has_plate_memory: false`），同一问题：
+
+| 问题 | rc | 是否吐出 浙B-3F19K | 答 |
+|---|---|---|---|
+| 我车牌号是多少？ | 245 | **否** | 「我需要先确认您的身份…」（要求身份验证） |
+| 我住在哪？（对照，同块） | 93 | — | 「我住在广陵路 12 号 2 单元 602。」**正确** |
+
+对照正常 ⇒ 块本身可用，车牌问题的变化来自被删掉的那一句。**措辞**：由「支持性观察」升级为
+**一例同布局消融对照（单例，非统计）**；不写成「已证明答案来自块」——单例、单模型、单问句，且模型是**回避**而非明说「不知道」。
+
+## 16 验收键（第二轮，16 项；§8 的 11 项表为准的旧版）
+`1_one_block / 2_memories_with_spans / 3_saved_and_inserted / 4_new_process_retrieval / 5_new_process_answer /
+6_multi_value_keeps_old / 7_relative_time_anchored / 8_dedupe_no_new_row / 9_units_deduped_by_text /
+10_type_and_resolved / position0_pass_and_refuse / display_never_decides / raw_answer_preserved /
+display_trace_fields / gates_untouched / all_pass`
+
+实测：**16 键全 true**（`run_m4_verify.json`）。
+
+## 17 交接：`tools/chat.py` 接租约（下一轮，本轮不动）
+我上一轮预判的 `:176/:284 走 safe_reset_all` **是错的**，检测员否掉了，理由我复核过
+（`m3_lease.py:107-119`：`skip = set(skip) | set(self.blocks)` 会无条件跳过全部已注册块 seq，
+块根本没被清，紧随的 `load_into` 会**叠在旧 cell 上**——静默走位，比报错糟）。正确方向：
+
+| 位置 | 语义 | 用哪个 | 断言 |
+|---|---|---|---|
+| `:176` / `:284` | 放置路径（无引用） | **`leases.reset(seq)`**（无引用放行、有引用拒绝） | reset 后 `cells_of(seq) == 0` |
+| `:444` | 卸旧（前面已有 drop，等价 detach） | `leases.reset` | 同上 |
+| `:449` | 装新前清位（无引用） | `leases.reset` | 清完 `cells == 0` 再 `load_into` |
+
+三条硬条件（队长）：默认路径答案逐字节一致；**M2 51 格布局改前改后各跑一次，三问答案 sha 必须相同**（唯一真回归，不用单测代替）；
+单独一次提交，提交信息写明「未改变 reset-then-reload 语义，只加租约检查」。**`safe_reset_all` 不得出现在这几处。**
+
+## 18 仍未检验（第二轮更新）
+500–1000 token 长对话分段、多段并存、段间去重、supersede 多跳、词表外新属性的真实样例 —— **未检验**；
+free VRAM —— **未测出**；think 标签的**归因** —— **未查明**（只测出会/不会出现的样例边界）；
+跨实验 —— **单例**，非统计。
