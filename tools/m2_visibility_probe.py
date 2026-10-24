@@ -459,6 +459,7 @@ def load_and_place(eng, layout):
         # actually applied here. Neither is implied by the layout, and without them a product
         # cannot answer "was this block rotated, and by how much".
         placed.append({"id": sid, "slot": slot, "cells": n, "file": os.path.basename(seg["file"]),
+                       "file_sha256": sha256_file(seg["file"]),
                        "base": base, "delta": target - base,
                        "pos_lo": seg["pos_lo"], "pos_hi": seg["pos_hi"]})
         by_slot[slot] = sid
