@@ -1,3 +1,26 @@
+RULE 0 (applies to everything below): any offset / spacing / position is derived or located,
+never written down. A literal that only happens to hold today is a defect, not a fact.
+Three instances on 2026-10-24: layout spacing hardcoded 64; 3886 borrowed across layouts;
+the PE stamp offset pinned to 47838724. Compute what can be computed.
+
+BUILD STAMP NORMALIZATION v3 -- structured PE enumeration (patches/norm_pe.py)
+  Sites, all derived from the PE layout, never searched for:
+    COFF.TimeDateStamp           e_lfanew+8
+    OptionalHeader.CheckSum      e_lfanew+24+64
+    Section[i].TimeDateStamp     section table + 40*i + 8
+    DebugDir[i].TimeDateStamp    DEBUG data directory (RVA mapped through the section table) + 28*i + 4
+  Current DLL: 17 sites / 68 bytes cleared; the script prints every site with its offset and
+  original value and asserts the byte count against the enumerated site count.
+  v2 (locate-by-value) is withdrawn: a stamp value that also occurs in a constant pool or an
+  immediate would be rewritten and still report "equal" -- a forged certificate is worse than
+  a reported mismatch.
+
+BUILD BASELINES under the v3 rule (a change of rule invalidates cross-rule comparison):
+  pre-topk  (sha16 849e7281c74a5288, 49,952,768 B) -> bde389d3ce995988
+  post-topk (sha16 5d3e7e46bc4d9aa6, 49,954,304 B) -> cc602829b33afbb1
+  Earlier values dfb0449461a39b06 and 168f8e9c4f2fb360 came from the v1 fixed-offset and v2
+  locate-by-value rules and are NOT comparable with these. Re-record the baseline after every
+  source change; a stale baseline will judge a new build with an old ruler.
 PATCH MANIFEST
 
 file: patches/persistent-memory.patch
