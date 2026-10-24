@@ -35,6 +35,8 @@ LAYOUTS = {
                                             (3, "habit", "habit"), (4, "habit2", "habit")]},
     "iso_car_mid":  {"spacing": 64, "segs": [(1, "home", "home"), (2, "car", "car"),
                                             (3, "habit", "habit"), (4, "project", "project")]},
+    "iso_home_only": {"spacing": 64, "segs": [(1, "home", "home")]},
+    "iso_habit_only": {"spacing": 64, "segs": [(1, "habit", "habit")]},
 }
 
 

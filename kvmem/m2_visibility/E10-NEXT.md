@@ -116,13 +116,50 @@
 
 ---
 
+### 1.5 T-010 五条同代 run（`--debug`，`dll_sha256` 全为 `849e7281c74a5288`）【实测】
+
+| run | layout / target | cells | 原口径形态 | ok | 答案首段 |
+|---|---|---|---|---|---|
+| A | `iso_car_back` / **car** | 70 | plain | **true** | "我的车牌号是浙B-3F19K。解释：车牌号由地区代码…" |
+| B | `iso_dup4` / home | 69 | plain | true | "你住在广陵路 12 号 2 单元 602。解析：根据给出" |
+| C | `iso_no_car` / home | 51 | plain | true | "我住在广陵路 12 号 2 单元 602。解析：这个句子" |
+| D | `iso_habit_bot` / home | **63** | plain（见 §1.6） | false | "我住在\\_\\_\\_…。根据以上对话，填空最恰当" |
+| E | `iso_car_back` / **habit** | 70 | plain | false | "我喝咖啡的习惯是每天早上7点起床后，先喝一杯温水…" |
+
+**A 与 home 失败臂（`t009_iso_car_back`）对比**：`dll_sha256` 相同、`cell_layer.coverage` **逐段相同（含 lo/hi）**、`cell_count` 同为 70；**唯一变量 `target`**，`ask.ok` 由 false 变 true。
+⇒ **① 的几何稀释版在同代被判红**，不再是旧代疑似。【实测】
+
+### 1.6 形态口径：不追认、不追溯改判，改用"新增独立维度"
+
+D 的答案是 `我住在\_\_\_…。根据以下对话，填空最恰当` —— 模型输出的是**反斜杠+下划线（`\_` 共 12 组）**，不是连续下划线。
+
+- **按预登记口径**（`A.`/`B.`/连续 ≥3 下划线）⇒ D = **plain**，五条预测 **5/5 相符**；
+- **按语义** ⇒ D 明明是"填空未作答"，应是 quiz。
+
+**裁定（三选一取第三）：预登记口径不改，结果按原口径记为 5/5 相符**；同时**新增一个独立派生维度** `cloze_marker`（答案中是否出现 `\_` 或连续 `_`），与形态并列记录。
+
+理由：改预先写死的判据去迎合结果，等于把"预登记"变成装饰；而把一个已经看见的语义事实丢掉，等于自欺。**新增维度可以同时满足两边**——这与 T-009 的 `adopted` 是同一种做法（只增不改，让数据自己说话）。
+
+今后任何形态判定必须同时报两个数：**最长连续字面 `_` 数** 与 **字面 `\_` 组数**，缺一即不算判过。
+
+### 1.7 按 target 汇总：两个恒定的、两个依布局的
+
+| target | 观测 | 是否稳定 |
+|---|---|---|
+| **car** | A ok、order_rev ok、swap_top ok | **恒成 3/3**，与布局无关 |
+| **habit** | E plain-fail、order_rev plain-fail、swap_top plain-fail | **恒败 3/3**，与布局无关，且**恒为 plain** |
+| **home** | dup4 ok、no_car ok；car_back **quiz-fail**、habit_bot **quiz-fail**、order_rev **quiz-fail**、swap_top **plain-fail** | **依布局 2 成 4 败**，失败形态还不唯一 |
+| **project** | car_back/no_car/order_rev/swap_top 全 ok；no_home **empty-fail** | 除"home 缺席"外恒成 |
+
+**问题范围由此收窄一句**：要解释的不是"记忆用不上"，而是**"同一个 home 问题，为何 4 种布局失败、2 种成功，且失败分两种形态"**；同时任何解释都得顺带说明 **habit 恒败（plain）** 与 **car 恒成**——②③ 那种"生成模式/提问框架"的说法解释不了 habit 为什么连错都错得很普通。
+
 ## 2 三条候选解释 × 六格
 
 ### 2.1 ① 共驻块把注意力稀释到阈值以下
 
 1. **观测量**：`cell_layer.cell_count`（70/69）与 `coverage[seg].cells`，配对 `ask.ok`。
 2. **判红**：同一 `layout.key`+同一 `cell_layer`，**仅换 `target`**，`ask.ok` false→true ⇒ 几何稀释被排除。
-   现状：`runs_head/calib_base_car_run1/2.json`（`experiment=iso_car_back`、`target=car`、`ok=true`）满足形态，**但旧代无 `cell_layer`/`dll_sha256`** ⇒ 疑似红。
+   **现状：已在同代判红。** `t010_a_car`（target=car）与失败臂 `t009_iso_car_back`（target=home）在 `dll_sha256`、`cell_count=70`、`coverage` 逐段（含 lo/hi）**完全相同**下，`ask.ok` 由 false 变 true（§1.5）⇒ **同代硬证据，非疑似**。
 3. **判绿**：同版本下 home 失败率随共驻新块数单调上升。**现状不满足**：dup4(69) 成功、car_back(70) 失败，两点同 cells 而结局相反 ⇒ ① **几何版已被 O3 否证**，仅"内容竞争"版存活【推断】。
 4. **成本**：判红强化 = 1 run（现驱动、现块、无新 key、无新哈希链）；判绿 = 同版本补齐 3 点。
 5. **零成本可行性**：**部分**（几何版零成本即否证；内容版需 §3 步 1）。
@@ -174,7 +211,7 @@
 3. **判绿**：`project` 重复、`habit` 重复、`home` 重复各 ≥2 次，结局稳定分裂 ⇒ 支持。
 4. **成本**：改 `LAYOUTS` 一行（授权）+ 每组 2 run，**无新块文件**；但**会改变哈希链之外的可比性**（新 layout key 需登记）。
 5. **零成本可行性**：**否**。新代产物只有 car_back/dup4 两个 layout。
-6. **长度控制**：**这是 ④ 的致命伤** —— 三个块每段 cells 不同：home 21 / project 18 / habit 12 / car 19（O3）【实测】。因此"重复 project(=69)"与"重复 habit（约 63，旧代无 `cell_layer`，未实测【推断】）"**总长度不同**，现有对比把"重复对象"与"总长度"混在一起。⇒ ④ 必须在**等 cells 的块对**上做（例如把 project 的重复换成另一条 18 cells 的块），否则判不了。
+6. **长度控制**：**这是 ④ 的致命伤** —— 三个块每段 cells 不同：home 21 / project 18 / habit 12 / car 19（O3）【实测】；`iso_habit_bot` 总 cells = **63**（T-010 D 实测，此前为推断值）。因此"重复 project(=69)"与"重复 habit（约 63，旧代无 `cell_layer`，未实测【推断】）"**总长度不同**，现有对比把"重复对象"与"总长度"混在一起。⇒ ④ 必须在**等 cells 的块对**上做（例如把 project 的重复换成另一条 18 cells 的块），否则判不了。
 
 ---
 

@@ -196,6 +196,16 @@ def worker(argv):
                       "n_predict": P.N_PREDICT,
                       "n_predict_source": "probe constant (tools/m2_visibility_probe.py:103)",
                       "ok": bool(P.fact_ok(fact, ans))}
+        # T-009: generation-side observables. ask.answer / ask.answer_sha256 stay the ONLY
+        # copy of the text and its hash -- a second readable copy is a second thing to rot.
+        # What is added here are derived scalars, each recomputable from ask.* alone.
+        res["answer_len"] = len(res["ask"]["answer"])
+        res["expected_fact_sha256"] = hashlib.sha256(fact.encode("utf-8")).hexdigest()
+        res["adopted"] = res["ask"]["ok"]
+        res["answer_source"] = (
+            "canonical: ask.answer / ask.answer_sha256 / ask.ok; adopted == ask.ok == probe "
+            "fact_ok(expected_fact, answer); expected_fact is read from the probe block "
+            "manifest (P.FULL[block_id]['fact'])")
         if a.debug:
             sys.stdout.flush()
             for s in layout["segments"]:
