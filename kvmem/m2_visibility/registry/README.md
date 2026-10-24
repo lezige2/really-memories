@@ -348,7 +348,17 @@ SQLite 不能加 CHECK，所以 `registry/migrate_i8.py` 按 `tools/memory_sourc
 2. 新增机器自检：用 AST 取 `res["acceptance"]` 的每个键与其判据表达式，**两两必须不同**，
    输出同时打印 `key_count` 与 `distinct_judgements`，两者不等即 FAIL。
 
-实测：`ledger: 12 keys / 12 distinct judgements`、`retired keys: 8_fidelity`。
+实测三层证据（缺一层就是"不可能失败的检查"）：
+
+| 层 | 输入 | 实测输出 |
+|---|---|---|
+| 真账本 | 当前文件 | `ledger: 14 keys / 14 distinct judgements`（无重复组）|
+| **注入别名负向** | `{"1_a": res["x"]["ok"], "2_b": res["x"]["ok"], "3_c": res["y"]["ok"]}` | `injected alias detected => {"res['x']['ok']": ['1_a', '2_b']}`、`selfcheck_ok_when_fed_alias=False` |
+| **历史重放** | `git show 31afe89^:…/check_registry.py` | `keys=13 distinct=12`，重复组 `no_second_copy_of_memory_text -> [8_fidelity, 13_…]`，自检返回 **False** |
+
+第三层是这条自检唯一的"真数据可验"证据：**先删 8 再加自检**，真账本里已经无重复可验，
+所以只用真账本跑，这条自检就是**又一条不可能失败的检查**（与刚退役的投毒测试同类）。
+历史重放证明：如果当时已有这条自检，它在那次提交上**会红**。
 
 ### 两类缺陷，两种查法
 

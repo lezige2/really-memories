@@ -67,6 +67,46 @@ def chat_memory_literal():
             "writes_sources_in_build": "ms.put_source(" in src}
 
 
+def judgement_duplicates(acc_dict_node):
+    """{source_expr: [keys...]} for every source expression used by more than one key.
+
+    Deduplication is by the source EXPRESSION text, never by the value: when every judgement
+    is true, deduplicating by value would mark every key as a duplicate of every other.
+    """
+    if not isinstance(acc_dict_node, ast.Dict):
+        raise SystemExit("ledger self-check: res[acceptance] not found")
+    seen = {}
+    for k, v in zip(acc_dict_node.keys, acc_dict_node.values):
+        seen.setdefault(ast.unparse(v), []).append(k.value)
+    return {v: ks for v, ks in seen.items() if len(ks) > 1}
+
+
+def ledger_acceptance_node(tree):
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Assign):
+            for t in node.targets:
+                if (isinstance(t, ast.Subscript) and isinstance(t.value, ast.Name)
+                        and t.value.id == "res"
+                        and getattr(t.slice, "value", None) == "acceptance"):
+                    return node.value
+    return None
+
+
+def ledger_selfcheck(acc_node):
+    """How many keys, and how many INDEPENDENT judgements do they stand on.
+
+    Deduplication is by the source EXPRESSION text, never by the value: when every judgement
+    is true, deduplicating by value would mark every key as a duplicate of every other.
+    """
+    keys = [k.value for k in acc_node.keys]
+    srcs = [ast.unparse(v) for v in acc_node.values]
+    dup = judgement_duplicates(acc_node)
+    return {"keys": keys, "key_count": len(keys),
+            "distinct_judgements": len(set(srcs)),
+            "duplicate_sources": dup,
+            "ok": len(keys) == len(set(srcs))}
+
+
 def main():
     res = {"schema": "source_registry_invariants_1a_v1",
            "db": os.path.relpath(DB, ROOT).replace("\\", "/"),
@@ -270,6 +310,39 @@ def main():
     res["gate_regression"] = gate
     res["i8_undeclared_insert"] = probe
 
+    # --- ledger self-check: one key must never borrow another key's boolean ------------
+    acc_node = ledger_acceptance_node(ast.parse(open(os.path.abspath(__file__),
+                                                     encoding="utf-8").read()))
+    real = ledger_selfcheck(acc_node)
+    res["ledger_selfcheck"] = real
+    res["ledger_selfcheck_real"] = {"key_count": real["key_count"],
+                                    "distinct_judgements": real["distinct_judgements"],
+                                    "duplicate_sources": real["duplicate_sources"],
+                                    "ok": real["ok"]}
+    # the self-check must be able to come out FALSE, or it is coverage theatre (the same
+    # disease as the poison test we just retired, and as the shared booleans).
+    probe_alias = ('res["acceptance"] = {"1_a": res["x"]["ok"], "2_b": res["x"]["ok"], '
+                   '"3_c": res["y"]["ok"]}')
+    probe_ok = 'res["acceptance"] = {"1_a": res["x"]["ok"], "2_b": res["y"]["ok"]}'
+    neg = ledger_selfcheck(ledger_acceptance_node(ast.parse(probe_alias)))
+    pos = ledger_selfcheck(ledger_acceptance_node(ast.parse(probe_ok)))
+    # ast.unparse renders subscripts with single quotes, so compare the GROUP VALUES,
+    # not the rendered text: exactly one duplicate group, and it is the aliased pair.
+    res["ledger_selfcheck_negative"] = {
+        "injected": "1_a and 2_b both read res['x']['ok']",
+        "duplicate_sources": neg["duplicate_sources"],
+        "selfcheck_ok_when_fed_alias": neg["ok"],
+        "pass": (neg["ok"] is False
+                 and list(neg["duplicate_sources"].values()) == [["1_a", "2_b"]])}
+    res["ledger_selfcheck_control"] = {
+        "injected": "1_a reads res['x']['ok'], 2_b reads res['y']['ok']",
+        "duplicate_sources": pos["duplicate_sources"],
+        "ok": pos["ok"]}
+    # retired on purpose: a key whose judgement no longer has anything to compare against
+    # would only inflate the count while looking green.
+    res["retired_keys"] = {
+        "8_fidelity": "registry-vs-chat.py-constant comparison; Stage 2 deleted the constant, "
+                      "so 8 had nowhere to look -- replaced by 13 (a source scan)"}
     res["acceptance"] = {
         "1_hashes_self_consistent": res["all_stored_hashes_self_consistent"],
         "2_tamper_raises": res["negative_test_tampered_copy"]["all_fail_closed"],
@@ -285,36 +358,9 @@ def main():
         "11_gate_rejects_conversation": res["gate_regression"]["conversation_rejected"],
         "12_undeclared_insert_fails_closed": res["i8_undeclared_insert"]["ok"],
         "13_no_second_copy_of_memory_text": res["no_second_copy_of_memory_text"]["ok"],
+        "14_ledger_selfcheck_negative": res["ledger_selfcheck_negative"]["pass"],
+        "15_ledger_selfcheck_control_passes": res["ledger_selfcheck_control"]["ok"],
     }
-    # --- ledger self-check: one key must never borrow another key's boolean ------------
-    src = open(os.path.abspath(__file__), encoding="utf-8").read()
-    tree = ast.parse(src)
-    acc_node = None
-    for node in ast.walk(tree):
-        if isinstance(node, ast.Assign):
-            for t in node.targets:
-                if (isinstance(t, ast.Subscript) and isinstance(t.value, ast.Name)
-                        and t.value.id == "res"
-                        and getattr(t.slice, "value", None) == "acceptance"):
-                    acc_node = node.value
-    if not isinstance(acc_node, ast.Dict):
-        raise SystemExit("ledger self-check: res[acceptance] not found")
-    keys = [k.value for k in acc_node.keys]
-    srcs = [ast.unparse(v) for v in acc_node.values]
-    seen = {}
-    for k, v in zip(keys, srcs):
-        seen.setdefault(v, []).append(k)
-    dup = {v: ks for v, ks in seen.items() if len(ks) > 1}
-    res["ledger_selfcheck"] = {
-        "keys": keys, "key_count": len(keys), "distinct_judgements": len(seen),
-        "duplicate_sources": dup,
-        "ok": (len(keys) == len(seen) and len(keys) == len(res["acceptance"])
-               and sorted(keys) == sorted(res["acceptance"].keys()))}
-    # retired on purpose: a key whose judgement no longer has anything to compare against
-    # would only inflate the count while looking green.
-    res["retired_keys"] = {
-        "8_fidelity": "registry-vs-chat.py-constant comparison; Stage 2 deleted the constant, "
-                      "so 8 had nowhere to look -- replaced by 13 (a source scan)"}
     res["pass"] = (all(res["acceptance"].values())
                    and res["ledger_selfcheck"]["ok"])
     json.dump(res, open(os.path.join(HERE, "run_registry_check.json"), "w",
@@ -341,6 +387,10 @@ def main():
           % (lc["key_count"], lc["distinct_judgements"],
              "" if lc["ok"] else "  DUPLICATE: %s" % lc["duplicate_sources"]))
     print("  retired keys: %s" % ", ".join(sorted(res["retired_keys"])))
+    ng = res["ledger_selfcheck_negative"]
+    print("  negative test: injected alias detected => %s | selfcheck_ok_when_fed_alias=%s"
+          % (ng["duplicate_sources"], ng["selfcheck_ok_when_fed_alias"]))
+    print("  control: distinct expressions => ok=%s" % res["ledger_selfcheck_control"]["ok"])
     print("PASS" if res["pass"] else "FAIL")
 
 
