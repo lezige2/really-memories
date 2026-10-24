@@ -109,3 +109,54 @@ fail-closed（源缺失不重写）、单向不指控、重写只动涉事句这
 
 **边界声明（写进交付，避免过度宣称）**：M5 通过验收不等于"不会再编造"。它对"用真实 token 编假关系"（如「3 月 14 日是我的生日」）
 无能力（§8），对归属错误（「我住的小区叫蓝鲸」）判 supported（§0）。这两类必须由上层处理，不许记在 M5 账上。
+
+## 7 R12 已记（M5-CRITERIA §9.2，237 行）
+
+缺陷形状（两侧不对称）、修法（抽取侧对称）、禁止事项（不得改 `a_hit` / 不得双向包含）、
+新增自检（抽取侧对称性自检：块正文经两个抽取器得到的 A 族 key 集合必须相等）都已冻结，标注「数据之后追加、原条文未改」。
+
+## 8 判你否掉「双向包含」：**对**，理由比"在匹配点打补丁"更硬
+
+双向包含 `latin in key` 会抹掉**省份字**这个判别位，而负对照正是靠它：M2-Q4 是 `苏A12345` vs `浙B-3F19K`，本次消融是 `苏K12345` vs `浙B-3F19K`。
+具体反例：答案是「苏B3F19K」（省份错、身体对）时，`B3F19K ⊂ 苏B3F19K` 成立 ⇒ 判 **supported** ⇒ **把编造当命中**。
+这比原缺陷更糟：原缺陷是把对的判成错的（**安全方向**，弃答），双向包含会把错的判成对的（**不安全方向**）。
+所以我不认为"更保守"——它在错误方向上是**放宽**的。抽取侧对称修法我支持，并已把"不得改 a_hit"写成可核条件。
+
+## 9 我核的接线事实（含三条设计决定）
+
+- schema `m5_in_m4_answer_path_v1`，四例 + 一个 undecidable 例；acceptance 八个键我逐条复核：
+  `1_plate_main_supported_display_unchanged`=**false（缺陷复现）** ｜ `2_plate_ablated_unsupported_template`=true ｜ `3_home_supported_under_both_blocks`=true ｜
+  `4_four_records_complete`=true ｜ `4b_three_values_recorded`=`["supported","undecidable","unsupported"]` ｜ `5_m5_ground_unmodified`=true ｜
+  `m3_lease_untouched`=[] ｜ `m4_existing_files_untouched`=[]。
+- **两个块 sha 我从磁盘重算**：主块 `81127d24…`、消融块 `e3bfec41…`，与 run json / README 一致。
+- **消融是真消融**：`run_ablate.json` 的 `dropped` 恰为「我车牌是浙B-3F19K。」，`block_text` 与消融库 `memory_source` 里 **「浙B」「车牌」均不存在**，其余句子逐字相同。
+- plate_main / home 走 routed（91 cells），plate_ablated 走 **all-blocks**（79 cells，engine cells 匹配）✓；
+  **但 json 里没有"检索在消融库对该问句命中 0"的原始分数** ⇒ 要求把该次检索结果（hit=0 + top 分）写进 `mount_evidence`，否则"为什么强制 all"不可复核。
+- `display_policy` = "unsupported -> template only; m5_rewritten kept verbatim" ✓；`display_trace` 里已有 per_tag_count / removed_chars / display_len / display_empty /
+  **diff_explained=true** / idempotent ⇒ **我 R10 的三条补充已落地**，这一项我认。
+- **undecidable 是合成输入**：它是 `m4_verify_grounded.py:80` 的**字面量**，但 json 里**没有任何来源字段**（只有 `flag_note` 讲繁简）⇒ 要求加 `input_origin` / `synthetic:true`，否则下游会当成模型生成。
+- **无 overclaim，我认**：README §19.6 第 1 项直接写 `false（被 §19.5 卡住）`；§19.8 写"不写「M5 修好了接地」这种话"，并点明 M5 自己**也有反向缺陷**。
+
+## 10 验收结论与条件
+
+- **接线这件事：通过。**（M5 接进作答路径、四例跑通、块 sha 可追、三值留痕、既有文件未改、display_trace 四项齐）
+- **M5 产品可用：不通过（P0 未闭环）。** plate_main 现在仍判 unsupported，产品会把**正确答案**改写成「记忆里没有记录车牌号。」；
+  修法尚未实施（`m5_ground.py` 未改，`5_m5_ground_unmodified`=true 恰好证明这一点）。
+
+**修完的验收条件（可判形式）**：
+
+A. **成对断言**（同一 json 内两条必须同时为 true，任一侧翻转即整批失败）：
+   plate_main `verdict=="supported"` **且** `answer_display` 与 `display_pre_grounding` 逐字节相同；
+   plate_ablated `verdict=="unsupported"` **且** `answer_display=="记忆里没有记录车牌号。"` **且** `unhit` 含 `苏K12345`。
+B. **四象限判别力**（专防放宽过头）：
+   (a) 省份错、身体对：答案「苏B-3F19K」对块里「浙B-3F19K」⇒ 必须 **unsupported**（这条封死双向包含的退路）；
+   (b) 同一车牌不同分隔/大小写：「浙B 3F19K」「浙b3f19k」「浙B3F19K」⇒ 必须**全部 supported**（封"修过头变过严"）；
+   (c) 裸 body「B3F19K」单独出现时，必须记录它归 A 族还是代号类，不许两边各算一次；
+   (d) **抽取侧对称性自检**：对块正文，答案侧抽取器与源侧 profile 构造出的 A 族 key 集合必须相等（写成断言）。
+C. **修法形状可核**：本次 diff 不得出现 `def a_hit`（grep 断言）；两侧必须调用同一归一化函数（两处调用点可 grep）。
+D. **修改前后对照表**：每例给 `(verdict_before, verdict_after)`，且**除 plate_main 外其余项 after == before**（"只有该翻的翻了"的机器判据）；
+   同时 `test_m5` 的 `form_invariant_all_four` 与 `false_positive=false_negative=0` 必须保持。
+E. **口径**：全量重跑逐项报数我认可，但**必须附 D 的对照表** —— 只报"全绿"无法区分"修好了"与"判据被放宽了"。
+
+**一处数字对不上**：你说 "test_m5 16 键"，我实跑 `m5/test_m5.py` 得到 acceptance **8 键**（three_supported_in_both_forms / plate_unsupported_in_both_forms /
+form_invariant_all_four / supported_answers_untouched / boundary_all_pass / false_positive=0 / false_negative=0 / all_pass=true）。请给 16 键那份的路径，否则这条验收项我无法核。
