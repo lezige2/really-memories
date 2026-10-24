@@ -68,9 +68,10 @@ def main():
     counts, sum_by_layout, values = scan(a.log)
     items = []
 
-    def row(name, expect, actual, ok, why=""):
+    def row(name, expect, actual, ok, why="", status=None):
+        st = status or ("pass" if ok else "fail")
         items.append({"item": name, "expect": str(expect), "actual": str(actual),
-                      "pass": bool(ok), "note": why})
+                      "pass": st == "pass", "status": st, "note": why})
 
     # 1) A -- per-class label correctness, SUM class only
     on_key = sum_by_layout.get(key, 0)
@@ -102,9 +103,15 @@ def main():
     #     log file (re-read here)  vs  the launcher's tee of the child stderr pipe.
     #     json.trace_classes is itself a count of the log file, so using it alone would be
     #     unfalsifiable -- it is only a fallback for artifacts predating the tee.
-    declared_stream = d.get("worker_counts")
-    inert = declared_stream is None
-    side = declared_stream if declared_stream else declared
+    # Three kinds of artifact, three verdicts -- never written as one:
+    #   worker_counts present            -> 3b is a REAL check (pipe stream vs log file)
+    #   new run (child_env) without it   -> driver bug, 3b RED, exit 7
+    #   frozen pre-tee artifact          -> physically cannot have it, 3b INERT, no vote
+    has_counts = isinstance(d.get("worker_counts"), dict)
+    is_new_run = "child_env" in d
+    driver_bug = (not has_counts) and is_new_run
+    inert = (not has_counts) and (not is_new_run)
+    side = d.get("worker_counts") if has_counts else declared
     diffs = []
     for cls in ("SUM", "SUM2", "blk", "OK"):
         want = side.get(cls)
@@ -113,26 +120,38 @@ def main():
             diffs.append("%s: 未记录" % cls)
         elif want != got:
             diffs.append("%s: json=%s log=%s" % (cls, want, got))
-    row("3b", "逐类 log==%s（SUM/SUM2/blk/OK 各自比）" % ("worker_counts" if not inert
-                                                          else "trace_classes"),
-        "diffs=%s" % ("; ".join(diffs) if diffs else "none"),
-        not diffs,
-        ("独立路径对账：log 文件 vs 驱动对子进程 stderr 的 tee 计数" if not inert
-         else "退化: 与 log 同源的计数，不可证伪，仅作管线自检"))
+    if inert:
+        row("3b", "逐类 log==worker_counts（该产物无独立计数，不可证伪）",
+            "diffs=%s (对比退化源 trace_classes)" % ("; ".join(diffs) if diffs else "none"),
+            True, "冻结产物早于 tee：3b INERT，不参与 overall", status="inert")
+    else:
+        row("3b", "逐类 log==worker_counts（SUM/SUM2/blk/OK 各自比）",
+            "diffs=%s" % ("; ".join(diffs) if diffs else "none"),
+            (not diffs) and not driver_bug,
+            ("新 run 缺 worker_counts（驱动未接 tee 计数）" if driver_bug
+             else "独立路径对账：log 文件 vs 驱动对子进程 stderr 的 tee 计数"))
 
     # 3c) conflict hint -- not an extra item, printed only
     hint = ""
     if not items[2]["pass"] and items[3]["pass"]:
         hint = "3c: 3a 红而 3b 绿 -> 先查驱动计数与门控前提(trace_gate)，不先查引擎"
 
-    overall = all(it["pass"] for it in items)
+    # An inert item is one whose baseline is a count of the very file it checks, so it can
+    # never go red. Counting it in the AND would mean "four-item gate" is really 3 + 1 always
+    # green -- exactly the defect we keep rejecting. It stays printed, it does not vote.
+    live = [it for it in items if it["status"] != "inert"]
+    inert_n = len(items) - len(live)
+    overall = all(it["pass"] for it in live)
+    expr = ("%d 项 AND + 3b INERT（不计入）" % len(live)) if inert_n else "%d 项 AND" % len(live)
     print("=== gate on %s / %s ===" % (a.log, a.run_json))
     for it in items:
-        print("  %-3s %s  expect=%s | actual=%s" % (it["item"], "GREEN" if it["pass"] else "RED  ",
-                                                    it["expect"], it["actual"]))
+        tag = {"pass": "GREEN", "fail": "RED  ", "inert": "INERT"}[it["status"]]
+        print("  %-3s %-5s expect=%s | actual=%s" % (it["item"], tag, it["expect"], it["actual"]))
+    if inert_n:
+        print("  门禁 %d/4 实测，3b INERT：该产物无独立计数（冻结产物，早于 tee）" % len(live))
     if hint:
         print(" ", hint)
-    print("  OVERALL:", "GREEN" if overall else "RED", " (四项 AND)")
+    print("  OVERALL:", "GREEN" if overall else "RED", " (%s)" % expr)
 
     if a.write_rows:
         # _gate_rows keeps its original name and shape (the 25 trace rows written by
@@ -142,13 +161,16 @@ def main():
                            "json_sha256": sha256_file(a.run_json),
                            "trace_gate": d.get("trace_gate"),
                            "items": {it["item"]: {"expect": it["expect"], "actual": it["actual"],
-                                                  "pass": it["pass"], "note": it["note"]}
+                                                  "status": it["status"], "pass": it["pass"],
+                                                  "note": it["note"]}
                                      for it in items},
-                           "overall": overall, "hint": hint}
+                           "overall": overall, "overall_expr": expr, "hint": hint}
         with open(a.run_json, "w", encoding="utf-8") as fh:
             json.dump(d, fh, ensure_ascii=False, indent=1)
         print("  _gate_four written into", a.run_json)
-    return 0 if overall else 6
+    if overall:
+        return 0
+    return 7 if driver_bug else 6
 
 
 if __name__ == "__main__":
