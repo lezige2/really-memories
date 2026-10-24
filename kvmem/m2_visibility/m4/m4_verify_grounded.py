@@ -7,7 +7,7 @@ A paired assertions | B four quadrants | C shape of the criteria-file change
 D before/after by really running the pre-R12 module | E undecidable kept verbatim
 Every conclusion carries artifact sha256 (short 16 hex), see .delivery_anchor.
 """
-import hashlib, importlib.util, io, json, os, sqlite3, subprocess, sys, time
+import hashlib, importlib.util, io, json, os, sqlite3, subprocess, sys, tempfile, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = r"D:/llama-mem"
@@ -25,6 +25,58 @@ CASES = [
     ("home_main", "我住在哪？", [], "routed"),
     ("home_ablated", "我住在哪？", ["--db", ABL], "routed"),
 ]
+
+
+# R12: the object is a POSITIVELY ENUMERATED set of M4 product files, and the judgement asks
+# whether each one still holds its recorded content -- not whether it is committed. A git
+# status check answers a different question: an uncommitted-but-unchanged file looks dirty
+# (false alarm) and a committed-but-rewritten file looks clean (false all-clear).
+M4_UNTOUCHED = [
+    ("m4_memory.db", "before_copy"),
+    ("_ablate/m4_memory_noplate.db", "before_copy"),
+    ("_stage3_pre.json", "before_copy"),
+    ("blocks/blk_conv_2026-10-25_01.kvmem", "stage3_pre.block_files"),
+    ("_ablate/blocks/blk_conv_noplate_2026-10-25_01.kvmem", "stage3_pre.block_files"),
+]
+
+
+def m4_files_untouched_or_registered():
+    """Each enumerated object is either byte-identical to a registered copy of itself in
+    _before/, or equal to the sha that _stage3_pre.json recorded before this step ran."""
+    before = os.path.join(HERE, "_before")
+    reg = json.load(open(os.path.join(before, "REGISTER.json"), encoding="utf-8"))
+    by_base = {}
+    for e in reg.get("entries", []):
+        cp = e.get("copy_path")
+        if cp:
+            by_base[os.path.basename(cp)] = e
+    pre = json.load(open(os.path.join(HERE, "_stage3_pre.json"), encoding="utf-8"))
+    out = {}
+    for rel, anchor in M4_UNTOUCHED:
+        path = os.path.join(HERE, rel.replace("/", os.sep))
+        cur = sha_file(path, 16) if os.path.exists(path) else None
+        if anchor == "before_copy":
+            base = "%s@%s" % (os.path.basename(rel), cur)
+            e = by_base.get(base)
+            out[rel] = {"anchor": "registered copy", "current_sha16": cur,
+                        "registered_as": base if e else None,
+                        "reason": (e or {}).get("reason"),
+                        "ok": bool(e) and e.get("source_sha16") == cur and bool(e.get("reason"))}
+        else:
+            key = os.path.splitext(os.path.basename(rel))[0]
+            want = (pre.get("block_files", {}).get(key) or {}).get("sha16")
+            out[rel] = {"anchor": "_stage3_pre.json block_files", "current_sha16": cur,
+                        "expected_sha16": want, "ok": cur is not None and cur == want}
+    return {"name": "m4_files_untouched_or_registered",
+            "objects_are": "positively enumerated M4 product files, not 'everything minus this "
+                           "run own artefacts'",
+            "judgement": "byte-identical to a registered copy in _before/, or equal to the sha "
+                         "_stage3_pre.json recorded before this step",
+            "git_status_not_used": "that answers whether a file is committed, not whether it "
+                                   "is unchanged",
+            "objects": out,
+            "ok": all(v["ok"] for v in out.values()),
+            "_failures": [k for k, v in out.items() if not v["ok"]]}
 
 
 def sha_file(p, n=64):
@@ -68,8 +120,10 @@ def row(cid, d):
 
 
 def load_pre_module():
-    d = os.path.join(HERE, "_before")
-    os.makedirs(d, exist_ok=True)
+    # R11: this module is GENERATED here and imported immediately. Writing it into _before/
+    # turned the evidence directory into a scratch area (and its __pycache__ with it), which is
+    # why a bare .py kept reappearing among the registered copies. Scratch lives in TEMP now.
+    d = tempfile.mkdtemp(prefix="m5_scratch_")
     src = subprocess.run(["git", "show", PRE_COMMIT + ":kvmem/m2_visibility/m5/m5_ground.py"],
                          cwd=ROOT, capture_output=True, text=True, encoding="utf-8").stdout
     if "def a_hit" not in src:
@@ -79,7 +133,8 @@ def load_pre_module():
     spec = importlib.util.spec_from_file_location("m5_ground_preR12", path)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    return mod, {"commit": PRE_COMMIT, "path": path, "sha256": sha_file(path)}
+    return mod, {"commit": PRE_COMMIT, "path": path, "scratch_dir": d,
+                 "not_in_before": True, "sha256": sha_file(path)}
 
 
 def verdict(mod, text, block, q):
@@ -200,7 +255,13 @@ def main():
 
     # ---------------- D ----------------
     pre, pre_meta = load_pre_module()
-    res["before_module"] = pre_meta
+    # a random temp path in the artefact would make every run differ in shape; record what
+    # is reproducible instead (same source, same place-by-construction)
+    res["before_module"] = {"commit": pre_meta["commit"],
+                            "sha256": pre_meta["sha256"],
+                            "scratch": "tempfile.mkdtemp('m5_scratch_')/m5_ground_preR12.py",
+                            "not_in_before": True,
+                            "why": "generated at run time and imported immediately; keeping it in _before/ turned the evidence directory into a scratch area"}
     d_rows = []
     for cid in ("plate_main", "plate_ablated", "home_main", "home_ablated"):
         c = by[cid]
@@ -299,16 +360,13 @@ def main():
         "cells_match_block_row": all(c["mount_evidence"]["cells_match_block_row"]
                                      for c in res["cases"]),
     }
-    own = {"m5_bridge.py", "m4_answer_grounded.py", "m4_ablate.py",
-           "m4_verify_grounded.py", "m5_fix_compare.py", "README.md"}
-    for label, path in (("m3_lease_untouched", "kvmem/m2_visibility/m3"),
-                        ("m4_existing_files_untouched", "kvmem/m2_visibility/m4")):
-        st = subprocess.run(["git", "status", "--porcelain", "--", path],
-                            cwd=ROOT, capture_output=True, text=True, encoding="utf-8")
-        dirty = [l for l in (st.stdout or "").splitlines()
-                 if not l.startswith("??") and os.path.basename(l.split()[-1]) not in own]
-        res[label + "_dirty_files"] = dirty
-        res["acceptance"][label] = dirty == []
+    res["m4_untouched"] = m4_files_untouched_or_registered()
+    res["acceptance"][res["m4_untouched"]["name"]] = res["m4_untouched"]["ok"]
+    st = subprocess.run(["git", "status", "--porcelain", "--", "kvmem/m2_visibility/m3"],
+                        cwd=ROOT, capture_output=True, text=True, encoding="utf-8")
+    dirty3 = [l for l in (st.stdout or "").splitlines() if not l.startswith("??")]
+    res["m3_lease_untouched_dirty_files"] = dirty3
+    res["acceptance"]["m3_lease_untouched"] = dirty3 == []
     res["block_shas"] = {c["mounted"][0]: c["mount_evidence"]["block_sha256"]
                          for c in res["cases"]}
     res["block_shas"]["m5_text_copy_content"] = res["m5_db"]["content_sha256"]

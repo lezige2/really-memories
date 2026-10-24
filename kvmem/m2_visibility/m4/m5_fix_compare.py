@@ -6,7 +6,7 @@
 Both modules are REAL: pre-R12 is recovered from git (e172aca) into _before/, current is
 kvmem/m2_visibility/m5/m5_ground.py. Every case runs through both, side by side.
 """
-import importlib.util, json, os, subprocess, sys
+import importlib.util, json, os, subprocess, sys, tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = r"D:/llama-mem"
@@ -25,8 +25,10 @@ MAIN = "blk_conv_2026-10-25_01"
 
 
 def load_pre():
-    d = os.path.join(HERE, "_before")
-    os.makedirs(d, exist_ok=True)
+    # R11: same change as m4_verify_grounded.load_pre_module -- the generated module must not be
+    # written into _before/. Both call sites change together, otherwise one keeps turning the
+    # evidence directory into a scratch area.
+    d = tempfile.mkdtemp(prefix="m5_scratch_cmp_")
     src = subprocess.run(["git", "show", PRE_COMMIT + ":kvmem/m2_visibility/m5/m5_ground.py"],
                          cwd=ROOT, capture_output=True, text=True, encoding="utf-8").stdout
     path = os.path.join(d, "m5_ground_preR12.py")
@@ -92,7 +94,9 @@ def main():
     absorbed = G.extract("是B3F19K")
     res = {
         "schema": "m5_fix_compare_r12_v1",
-        "criteria_before": {"commit": PRE_COMMIT, "path": "_before/m5_ground_preR12.py"},
+        "criteria_before": {"commit": PRE_COMMIT,
+                            "scratch": "tempfile.mkdtemp('m5_scratch_cmp_')/m5_ground_preR12.py",
+                            "not_in_before": True},
         "criteria_after": {"path": "kvmem/m2_visibility/m5/m5_ground.py"},
         "rows": rows,
         "all_non_flip_hold": all(r["flip_ok"] for r in rows if not r["expected_flip"]),

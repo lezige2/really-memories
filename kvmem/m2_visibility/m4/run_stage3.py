@@ -509,8 +509,8 @@ def main():
         "run_json_sha16": sha16_file(os.path.join(HERE, "run_m5_grounded.json")),
         "verdicts": got, "frozen": frozen, "verdicts_match": got == frozen,
         "acceptance_used": used,
-        "excluded": {"m4_existing_files_untouched": acc["m4_existing_files_untouched"]},
-        "excluded_reason": "that field checks whether the evidence SCRIPTS are uncommitted "
+        "excluded": {"m4_files_untouched_or_registered": acc["m4_files_untouched_or_registered"]},
+        "excluded_reason": "that field checks whether the M4 PRODUCT FILES still hold their "
                            "dirty in git; it says nothing about whether the product answers",
         "rule": "通过 iff the four verdicts equal the frozen set AND zero false positives / "
                 "negatives AND cells match the block row AND the m3 lease is untouched",

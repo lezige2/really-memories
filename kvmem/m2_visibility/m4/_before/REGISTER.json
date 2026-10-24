@@ -3,11 +3,11 @@
   {
    "source_name": "_stage3_pre.json",
    "source_sha16": "9500f1c7c59c118f",
-   "copy_path": null,
-   "in_place": true,
+   "copy_path": "D:/llama-mem/kvmem/m2_visibility/m4/_before/_stage3_pre.json@9500f1c7c59c118f",
+   "in_place": false,
    "copy_time": "2026-10-25T04:55:22",
    "copyist": "executor",
-   "reason": "运行前预防"
+   "reason": "运行前预防（Stage 3 之前的层-2 快照；原登记为 in_place，R11 起与其它副本同规矩）"
   },
   {
    "source_name": "run_m5_grounded.json",
@@ -224,6 +224,24 @@
    "copy_time": "2026-10-25T05:22:58",
    "copyist": "executor",
    "reason": "运行前预防（修复 new_sha16 派生字段之前）"
+  },
+  {
+   "source_name": "m4_memory.db",
+   "source_sha16": "fd244c80c0cc974d",
+   "copy_path": "D:/llama-mem/kvmem/m2_visibility/m4/_before/m4_memory.db@fd244c80c0cc974d",
+   "in_place": false,
+   "copy_time": "2026-10-25T05:30:06",
+   "copyist": "executor",
+   "reason": "R12 纳入不动对象：此后每一步都必须与这份副本逐字节一致（本副本是纳入时点的锚）"
+  },
+  {
+   "source_name": "m4_memory_noplate.db",
+   "source_sha16": "c44abc2547aad560",
+   "copy_path": "D:/llama-mem/kvmem/m2_visibility/m4/_before/m4_memory_noplate.db@c44abc2547aad560",
+   "in_place": false,
+   "copy_time": "2026-10-25T05:30:06",
+   "copyist": "executor",
+   "reason": "R12 纳入不动对象：此后每一步都必须与这份副本逐字节一致（本副本是纳入时点的锚）"
   }
  ],
  "rule": "any run that overwrites an accepted artifact must first copy it to _before/<name>@<sha16>; an anchor proves what a value WAS, it does not keep it",

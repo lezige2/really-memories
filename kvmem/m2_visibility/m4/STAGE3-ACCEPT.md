@@ -172,11 +172,11 @@
 | 项 | 值 | 强度 |
 |---|---|---|
 | `_m5db` **内容哈希** | `76df01317bfaf3e7`（六次重建同值）| **R** |
-| `_m5db` **文件 sha16** | `eb8838d8ad2adb12`（这个会随每次重建变；**判据用内容哈希，不用它**）| **R** |
-| `run_m5_grounded.json` | `6f962e81b82aa87b`（自指字段 `ebd3798f074c74c1`）| **R** |
-| `PREREG-STAGE3-11ROWS.json` | `093231838f6b63e2`；`after_side_run.sha16 = 6f962e81b82aa87b`，`authored_at 05:25:30 > run 05:22:58` | **R** |
-| `run_stage3.json` | `8f15070db77bd254`（14 项 status 全 `通过`）| **R** |
-| `m4_verify_grounded.py` / `run_stage3.py` / `run_stage3_before.py` / `check_m5_gate.py` | `0891d268d567efcd` / `bd45f4e2a8592d8b` / `6be1c7a9f0a18349` / `37d69f780fb8cf0c` | **R** |
+| `_m5db` **文件 sha16** | `3f71fedb6dff1432`（这个会随每次重建变；**判据用内容哈希，不用它**）| **R** |
+| `run_m5_grounded.json` | `007cb08b8f117ec5`（自指字段按 ZERO_RULE 复算一致；`before_module` 里记的是构造式描述，不含临时路径）| **R** |
+| `PREREG-STAGE3-11ROWS.json` | `943abaac74193363`；`after_side_run.sha16 = 007cb08b8f117ec5` | **R** |
+| `run_stage3.json` | `305a3b0cbc1e9424`（14 项 status 全 `通过`）| **R** |
+| `m4_verify_grounded.py` / `run_stage3.py` / `run_stage3_before.py` / `check_m5_gate.py` | `2815d20b6c75f386` / `50e98acdd2c6a226` / `6be1c7a9f0a18349` / `37d69f780fb8cf0c` | **R** |
 | 裁决 | plate_main supported、plate_ablated unsupported、home_main supported、home_ablated supported | **R** |
 
 **一处如实标注**：`m4_existing_files_untouched = False`，脏文件是
@@ -203,12 +203,144 @@
   提交后再跑一次才会转 `True`——即这条判据对"产物自己的重算"是自指的，建议改成只比较 `HEAD` 之外的文件。
 - 强度 **R**（可复算，且能红：把任一裁决改掉，`ok` 立刻为 False）。
 
+
+## R11 · `_before/` 登记层自检 + 把 scratch 赶出证据目录
+
+**先说撤回**：初版规格要求「`_before` 内 `.py` 一律改名 `.py@<sha16>`」且「`__pycache__` 再现即红」。
+检测员查了写入方，证明 `_before/m5_ground_preR12.py` 不是躺着的旧副本，而是**运行时写进去、随即被 import 的 scratch**：
+
+```
+m4_verify_grounded.py:122-134   git show PRE_COMMIT:...m5_ground.py -> 写 _before/m5_ground_preR12.py -> spec_from_file_location 导入
+m5_fix_compare.py:27-38         同一套动作（写同一路径、导入）
+```
+
+⇒ 改名会**打断两个 loader**，而「`__pycache__` 即红」在 scratch 搬走之前**每次正常运行都会红** ——
+那正是「逼人造假」的那类判据。两条都撤回。
+
+**最终做的（顺序不可反：红判据只有在它能被满足之后才成立）**
+
+1. scratch 搬到 TEMP，**同一提交内两个调用点一起改**：
+   ```
+   m4_verify_grounded.py:122-131  d = tempfile.mkdtemp(prefix="m5_scratch_")
+                                  ... return mod, {..., "scratch_dir": d, "not_in_before": True, ...}
+   m5_fix_compare.py:27-39        d = tempfile.mkdtemp(prefix="m5_scratch_cmp_")
+                                  ... mod._scratch_path = path
+   ```
+2. 删掉旧代码留在 `_before` 里的那份 scratch（`m5_ground_preR12.py@ea749781368c798e`）及其登记
+   —— 它从来不是人登记的副本。
+3. `kvmem/m2_visibility/registry/check_before_register.py`：允许集合**正面枚举**（`<name>@<sha16>` + `REGISTER.json`），
+   其余条目一律违规并**列出文件名**。
+
+```
+$ python -X utf8 check_before_register.py
+before-dir: D:\llama-mem\kvmem\m2_visibility\m4\_before
+copies on disk: 27 (+ REGISTER.json)
+BEFORE-REGISTER: PASS (0 problem(s))
+```
+
+断言（`file:line` = `check_before_register.py:96-118`）：
+```
+assert os.path.isfile(resolved)      # 不是 os.path.exists —— 目录也 exists
+assert base != ""                    # copy_path 是文件，不是目录路径
+名字里的 sha16 == 内容重算 == 登记 source_sha16
+copyist / copy_time / reason 三项齐全
+```
+**A 项的根因**（检测员给的）：旧登记里 `_stage3_pre.json@9500f1c7c59c118f` 的 `copy_path` 指向 m4 目录本身，
+`basename` 为空 ⇒ 登记的是**一条路径**，不是**一份文件**。已复验 live 文件 sha 确为 `9500f1c7c59c118f` 后才补副本
+（否则就是「把一个不同内容的东西命名成一个旧哈希」）。
+
+**三条失败输入（都不依赖 `__pycache__`）**
+```
+$ python -X utf8 check_before_register.py --selftest
+  delete a copy    -> caught: {'missing_copy': 1}
+  flip one byte    -> caught: {'sha_mismatch': 1}
+  clear a reason   -> caught: {'register': 1}
+SELFTEST: PASS -- every failure input was caught
+```
+（自检的改动全部发生在临时目录内，并且断言了每个被改动的路径都在该临时目录下 —— 见下面「我自己的第二次事故」。）
+
+**关于数数**：截至 **05:35** 实测，`_before` 有 **27 份副本 + `REGISTER.json`**。
+你上一封看到「27 文件」的时刻，那份 scratch 还在里面；现在是 27 份**人登记的副本**，两个数都对，但是两个时刻、两种东西。
+
+## R12 · `m4_files_untouched_or_registered`（对象与轴都换掉）
+
+- 位置：`m4_verify_grounded.py:47-84`（`M4_UNTOUCHED` + `m4_files_untouched_or_registered()`），
+  `acceptance` 里那一项的名字随之改成 `m4_files_untouched_or_registered`。
+- **对象 = 正面枚举**（不是 all − 本轮产物）：`m4_memory.db`、`_ablate/m4_memory_noplate.db`、`_stage3_pre.json`、
+  两个 `.kvmem` 块文件。
+- **判定 = 内容轴**：每个对象要么与 `_before` 里一份**已登记副本**逐字节一致，要么等于 `_stage3_pre.json` 里
+  记录的 sha。**完全不看 `git status`** —— 它回答「提交了没有」，不是「改没改」。
+- 原值（engine 重跑后）：
+  ```
+  acceptance.m4_files_untouched_or_registered = True
+  objects: m4_memory.db True | _ablate/m4_memory_noplate.db True | _stage3_pre.json True
+           | blocks/blk_conv_2026-10-25_01.kvmem True | _ablate/blocks/blk_conv_noplate...kvmem True
+  ```
+- **失败输入（造一个「真被改动且未登记」的对象）**：
+  ```
+  追加 1 字节到 _ablate/m4_memory_noplate.db
+     judgement ok = False
+     failures     = ['_ablate/m4_memory_noplate.db']
+     detail       = {"anchor": "registered copy", "current_sha16": "e3fcc5bbc1600f80",
+                     "registered_as": null, "reason": null, "ok": false}
+  复原后 sha16 = c44abc2547aad560（与原始一致），judgement 回到 True
+  ```
+
+## R13 · 纪律 21 变成可复跑的断言
+
+- 检查器：`kvmem/m2_visibility/registry/check_truncate_then_read.py`；命中样例：
+  `registry/fixtures/truncate_then_read_sample.py`（正是事故那一行）。
+- 判据：**同一条简单语句**里既有 `open(..., 'w')`（截断）又有 `open(...).read()` ⇒ 违规。
+  只取简单语句（`Assign/Expr/Return/...`），不取 `with/for/if/def` —— 否则「一处在写、另一处在读」的普通文件会被误判。
+- 命令 / 返回：
+  ```
+  $ python -X utf8 check_truncate_then_read.py
+  TRUNCATE-THEN-READ: PASS (0 hit(s))
+  $ python -X utf8 check_truncate_then_read.py --selftest
+  selftest sample: .../fixtures/truncate_then_read_sample.py -> caught at line 8
+  SELFTEST: PASS -- the sample is caught
+  ```
+
+## 事故记录（按「发生了什么 / 怎么发现的 / 怎么恢复的 / 加了什么断言」写）
+
+**发生了什么**：我用
+`io.open(p, 'w').write(io.open(p).read().replace(old, new))`
+改 `run_stage3_before.py`。`'w'` 在参数求值之前就完成了截断 —— 先清空，再读到空串，写回空串。
+文件变成 **0 字节**（sha256 前缀 `e3b0c44298fc1c14`，即空文件的哈希）。
+**怎么发现的**：下一条命令立刻 `SyntaxError`（空文件），且 `ast.parse` 报「源为空」；`ls -l` 显示 0 字节。
+**怎么恢复的**：`_before/run_stage3_before.py@dcf75778ac381629`（9034 字节）**原样复制回来**，
+然后按原补丁逐条重放，每步 `ast.parse` 校验。**恢复过程没有重新推导任何内容，只是把那份副本放回去。**
+**这次能恢复的唯一原因，是我事先有一份 `_before@dcf75778ac381629`。**
+今晚 `_before/` 那套看起来很繁琐的规矩，第一次真正救回了一份工作 —— 这就是它值得留下的理由：
+繁琐的成本是一次性的，而它救回的那份文件没有任何别的副本。
+**加了什么断言**：`check_truncate_then_read.py`（上面 R13），并带一条**必须被命中**的样例；
+从此这种写法在仓库里出现会红，而不是只靠我记住。
+
+**我自己的第二次事故（同一次交付里，必须一并交代）**：`check_before_register.py` 的第一版 `--selftest`
+用登记里的 `copy_path`（绝对路径，指向**真的** `_before`）去改文件，于是它**改到了真的证据副本**
+`_before/run_m5_grounded.json@d13df1e987ee509c`（被追加了一个字节）。发现方式：判据立刻报 `sha_mismatch`，
+显示该副本内容 `36a9e7f1c95b82ff`（空文件哈希）而名字声称 `d13df1e9`。
+恢复：`git checkout --` 该副本，核到 37440 字节 / `d13df1e987ee509c`。
+**加的断言**：自检现在把 register 的 `copy_path` 全部重写进临时目录，并 `assert` 每个被改动的路径都在该临时目录下
+（`check_before_register.py:186-190`）。改证据的自检比没有自检更糟 —— 这一条写进纪律候选。
+
+
+## 两个「读数变了」的交代（数目变了就要说明变的是哪一个）
+
+- `run_m5_fix_compare.json`：`5f7c196a32a659a6` → **`9eab963bdf977241`**。
+  原因只有一个：`criteria_before` 里原来写着路径字符串 `_before/m5_ground_preR12.py`，而那份文件已搬到 TEMP，
+  现在记的是构造式描述 `tempfile.mkdtemp('m5_scratch_cmp_')/m5_ground_preR12.py`。
+  **判据本身没变**：`all_non_flip_hold = True`、`all_flips_happened = True`，与旧产物相同；变的是那一行元数据。
+- `m4_verify_grounded.py` 的 `before_module`：第一版把 `tempfile.mkdtemp()` 的**真实路径**写进了产物，
+  于是每次运行产物形状都不同（一个随机串）。已改成构造式描述，产物里不再有随机路径
+  （核查命令：`grep -c "m5_scratch_mh" run_m5_grounded.json` → `0`）。
+
 ---
 
 ## 纪律登记（本轮新增，供并入 DISCIPLINES）
 
 - **#17 守门布尔必须派生**：`False` 写死与 `True` 写死一样无用，而前者更隐蔽（看起来像"检查过了"）。→ R8。
 - **#18 `C`/`R` 必须由真算产生**，不得由标签决定。→ R9。
-- 教训（本轮我自己犯的）：**"一条命令里读和写同一个文件"** —— `io.open(p,'w').write(io.open(p).read()...)`
-  先截断后读取，把 `run_stage3_before.py` 清成 0 字节。已从 `_before` 副本恢复（`dcf75778ac381629`），
-  并把所有还原改成"先读入内存、再写回"。
+- **纪律 21（已立，DISCIPLINES `d0c4f10`）**：禁止同一语句内先截断后读。检查器见 R13。
+- **纪律候选 22**：**自检不得改动它所检验的证据**。第一版 `--selftest` 改了真的 `_before` 副本；
+  自检的每一次写入都必须落在临时目录内，并断言路径前缀。
