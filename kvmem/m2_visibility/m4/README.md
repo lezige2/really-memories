@@ -550,5 +550,56 @@ json 自身无法记录自己的 sha（写进去就变了），所以 `delivery_
 `run_m5_grounded_json_previous_run` 并在 `invalidated_anchors` 列出了作废值；
 **权威值只认这张表**（表由产物文件重算，不手抄）。
 
+**锚账本（只追加，README 是权威落点；`anchors_history.json` 是同内容的机器可读副本，按仓库策略不入库）**
+
+| # | 字段 | old_sha16 | new_sha16 | 原因 | 时间 |
+|---|---|---|---|---|---|
+| 1 | `run_m5_grounded.json` | `5cd106eead0c9bac` | `dd8703d1022cdeb9` | 修验收脚本自身三处误报（C_shape / D_before_after / 未改动白名单）需真引擎重跑 | 03:57 |
+| 2 | `run_m5_grounded.json` | `dd8703d1022cdeb9` | `d97cdfdcbd6c6d3d` | 收尾 (i)：mount_evidence 补原始检索分数（hit=0 / top=null / value_gate 理由）=> 重跑 | 04:04 |
+| 3 | `m4_memory.db` | `817a66e45a4e3594` | **未变** | Stage 1b 未对真库执行（层 1 无 M4 语料容器，待裁决） | 04:20 |
+
+规则：**只追加、不覆盖**；每跑一次就断一次链的记录等于没有记录。
+验收结论里的锚值以验收方重算为准，本表与 json 只作旁证。
+
 **并 store 一句**：`m5_ground.py` 的 R12 diff 落在 lead 的 `f63097b` 里（他 `git add -A` 扫的），
 最终形状由 `0cf588b` 定稿；引用请用 `git diff e172aca -- kvmem/m2_visibility/m5/m5_ground.py`。
+
+
+### 19.12 Stage 1b：层 2 可校验化（机制已就绪，**未对真库执行**）
+
+**先说一条必须由 lead 裁决的事实**（机器输出，不是推测）：
+
+| 层 | 内容 |
+|---|---|
+| 层 1 = `kvmem/chat.db::memory_source` | `id=1 profile(61 chars)`、`id=2 project(45 chars)` |
+| 层 2 = `m4/m4_memory.db::memory_source` | `conv_2026-10-25(127)` + 4 条 `fact_*` |
+
+`m4_layer2_link.py` 逐行解析的结果是 **5 行全部 no layer-1 container**：
+M4 的语料（2026-10-25 那段对话）**根本不在注册表里**，注册表只有 chat.py 的 profile / project。
+所以 C4-a / C4-b 照现状**不可能通过** —— 不是实现问题，是层 1 里没有容器。
+
+两条路径都在**库副本**上跑过（真库一个字节没动）：
+
+| 路径 | 做法 | 结果 |
+|---|---|---|
+| A 现状 | 不提升、直接链 | 四条断言全 FAIL，5 行 no layer-1 container |
+| B 提升 | `--register-source conv_2026-10-25`（走未改动的 `put_source`） | C4-a/b/d/e **全 OK**：1 行 exact + 4 行 substring 全部指向 `conv_2026-10-25`，两条负向测试 OK |
+
+路径 B 的关键原值：`conv_2026-10-25` 走 `exact`，4 条 fact（21/23/13/26 字符）走 `substring`，
+全部落在同一层 1 行；`text_origin` 由 `m4.memory_source.text` 改写为
+`registry:conv_2026-10-25@d8c094c1f5fcb8f1`，且能反解回 `(registry_source_id=3, sha256 全文)`。
+
+**第二个事实**：消融库 `_ablate/m4_memory_noplate.db` 的 conv 文本是**删掉一句后的编辑文本**，
+按"层 2 不得出现层 1 没有的文本"，它**不能被注册**（否则等于把衍生文本塞进权威层），
+所以它的块在 `_m5db` 里被显式标为 `declared_synthetic`（见 `origins_summary`），不并入 registry 链。
+
+**机制清单**（`m4/m4_layer2_link.py`，加 `--apply` 才写库）：
+`migrate` 加两列；`do_link` 解析 exact / substring（多容器时拒绝猜测）；
+`assert_linked` / `assert_substrings` / `assert_no_foreign` / `assert_not_stale` 四条断言；
+`backfill_origins` 改写并回查；`resolve_origin` 反解 `registry:name@sha16`；
+两条负向测试（外来文本 -> `ForeignText`；层 1 hash 变 -> `Stale`）。
+`m5_bridge.py::origin_of` 已改为**链接优先**：已链写 `registry:name@sha16`，
+未链保留字面量并标注 `unlinked: ...`（不会被误当已解析）。
+
+**锚账本**：`m4/anchors_history.json`（只追加，每条 `(field, old_sha16, new_sha16, reason, time)`）——
+因为 `delivery_anchor` 里的 `*_previous_run` 每跑一次就被覆盖，链条会断。

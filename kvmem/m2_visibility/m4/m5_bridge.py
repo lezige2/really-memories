@@ -54,6 +54,26 @@ def sha_file(p):
     return h.hexdigest()
 
 
+def origin_of(src, sid, text):
+    """text_origin for one block: registry:<name>@<sha16> when layer 2 is linked.
+
+    Stage 1b: the origin must resolve back to a row in the authoritative registry.
+    Until the link is applied the literal is kept, but marked unlinked so it can never
+    be mistaken for a resolved origin.
+    """
+    try:
+        row = src.execute("SELECT registry_source_id, source_hash FROM memory_source "
+                          "WHERE id=?", (sid,)).fetchone()
+    except sqlite3.OperationalError:
+        return "m4.memory_source.text (unlinked: layer 2 has no registry columns)"
+    if not row or row[0] is None or not row[1]:
+        return "m4.memory_source.text (unlinked: run m4_layer2_link.py --apply)"
+    name = src.execute("SELECT name FROM memory_source WHERE id=?", (row[0],)).fetchone()
+    if not name:
+        return "m4.memory_source.text (unlinked: registry id %r not in this db)" % (row[0],)
+    return "registry:%s@%s" % (name[0], row[1][:16])
+
+
 def register_block(con, block_id, text, path, cells, model, origin):
     """One row per real block file; sha is measured from disk at registration time."""
     disk = sha_file(path)
@@ -86,7 +106,7 @@ def ensure_db(db=DB_PATH):
                 model = json.load(open(os.path.join(HERE, "_ablate", "run_ablate.json"),
                                        encoding="utf-8"))["save"]["path"] if False else None
                 reg.append(register_block(out, bid, text, path, cells,
-                                          model or _model_of(bid), "m4.memory_source.text"))
+                                          model or _model_of(bid), origin_of(src, sid, text)))
         finally:
             src.close()
     out.execute("INSERT OR REPLACE INTO meta VALUES (?,?)",
