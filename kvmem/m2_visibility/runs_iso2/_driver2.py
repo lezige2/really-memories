@@ -45,18 +45,29 @@ LAYOUTS = {
                                             (4, "habit", "habit"), (5, "car", "car")]},
     "iso_dup4_s128": {"spacing": 128, "segs": [(1, "home", "home"), (2, "project", "project"),
                                               (3, "habit", "habit"), (4, "project2", "project")]},
+    # T-025 factor blocks (variant family), canonical first three + one padded variant.
+    "iso_fac_p40":  {"spacing": 64, "segs": [(1, "home", "home"), (2, "project", "project"),
+                                            (3, "habit", "habit"), (4, "project_p40", "project_p40", "variant")]},
+    "iso_fac_h28":  {"spacing": 64, "segs": [(1, "home", "home"), (2, "project", "project"),
+                                            (3, "habit", "habit"), (4, "habit_p28", "habit_p28", "variant")]},
+    "iso_fac_h40":  {"spacing": 64, "segs": [(1, "home", "home"), (2, "project", "project"),
+                                            (3, "habit", "habit"), (4, "habit_p40", "habit_p40", "variant")]},
+    "iso_fac_pp18": {"spacing": 64, "segs": [(1, "home", "home"), (2, "project", "project"),
+                                            (3, "habit", "habit"), (4, "project_paraphrase18", "project_paraphrase18", "variant")]},
 }
 
 
 def build_layout(key, manifest):
     spec = LAYOUTS[key]
-    m2 = manifest["blocks"]["m2"]
     segs, order = [], []
-    for slot, sid, bid in spec["segs"]:
-        b = m2[bid]
+    for seg in spec["segs"]:
+        # 3-tuple = pristine family "m2"; a 4th element names another family (e.g. "variant").
+        slot, sid, bid = seg[0], seg[1], seg[2]
+        fam = seg[3] if len(seg) > 3 else "m2"
+        b = manifest["blocks"][fam][bid]
         n = b["cells"]
         lo = P.CHAT - (slot - 1) * spec["spacing"] - n
-        segs.append({"id": sid, "block": "m2", "block_id": bid, "file": b["path"],
+        segs.append({"id": sid, "block": fam, "block_id": bid, "file": b["path"],
                      "file_sha256": b["sha256"], "cells": n, "slot": slot,
                      "pos_lo": lo, "pos_hi": lo + n, "add_order": len(order) + 1})
         order.append(sid)

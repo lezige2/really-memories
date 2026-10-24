@@ -56,6 +56,10 @@ __pycache__/
 *.json
 # 配置样本属于源码，例外放行（注意：父目录若被整体忽略，否定规则不生效）
 !legacy/biomem-legacy-src/**/config.example.json
+# 夹具登记表属于源码：它记录每个 .kvmem 的 cells / sha256 / text 全文。
+# *.kvmem 是二进制且可由 text 确定性重建（T-025 实测：同文本 encode 两次 sha 相同），故仍忽略；
+# 但登记表若不入库，整个实验所依赖的块描述在库里就不存在。
+!kvmem/m2_visibility/fixtures.json
 
 # ===== 密钥 / 本地配置 =====
 .env
