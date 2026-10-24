@@ -685,7 +685,15 @@ KVSHIM_API int kvshim_write_at(h, seq, text, pos_start, add_bos) {
 ### 2.17.2 位置：不能放 3000，应紧贴最低块
 
 放在 3000 ⇒ 距提问点（4096）约 **1100 token**；在这么远的距离上，前置问答对生成几乎无影响 ⇒ **实验欠功率，null 结果不可解释**（"没影响"可能只是"太远了"）。
-⇒ **前置问答占 `[lo_min − n, lo_min)`**，与最低块**紧邻**、距提问点约 **210 token**（`iso_car_back` 的最低块 `lo = 3886`）。
+⇒ **前置问答占 `[lo_min − n, lo_min)`**，与最低块**紧邻**、距提问点约 **210 token**。
+
+**`lo_min` 必须从布局算出，不许写死、不许跨布局借用**：
+```
+lo_min = min(s.pos_lo)  over layout.segments      # 或 min(coverage[*].lo)
+assert preamble_end <= lo_min, "preamble overlaps the lowest block"; # 失败直接退出，不跑 ask
+```
+例（`iso_car_back`，四块 21/18/12/19、spacing 64）：`min(pos_lo) = 3885`（car 块首格），验算 `4096 − 3×64 − 19 = 3885` ✔。
+**注意 `3885 ≠ 3886`**：`3886` 是另一族（第四块 18 cells）的 `lo`。**跨布局借数字，与跨 run 借证据是同一类错**——本节第一版就抄错了这个数，若照抄，前置问答末 token 会落在 car 块首格上 ⇒ 位置冲突 ⇒ `rc=-1` ⇒ 三臂全废。
 
 ### 2.17.3 两条臂不够，**必须三条**
 
@@ -703,6 +711,39 @@ KVSHIM_API int kvshim_write_at(h, seq, text, pos_start, add_bos) {
 - **不需要新 encode**（块一个都不动）⇒ 是 `write_at` + 现有块；**3 臂 × 1 run = 3 run**。
 - 仍需**驱动小改**：加 `--preamble <text>`（或 `--preamble-target`）与 `--preamble-pos`，写完后照常 ask。
 - **裁定：构型可行且干净，但（a）位置改为 `[lo_min−n, lo_min)`；（b）臂数 3；（c）跑前声明 `SUM` 锚点 `2+N_PREDICT` 与 `cell_count` 新基线。三条缺一，结果不得用于判定顺序假设。**
+
+
+### 2.16.5 实测补强：同位置第二次 ask **直接失败**（不是"踩踏"）
+
+`runs_mask/t027_order_habit_then_home.json`（作废产物，仅作现场）【实测读回】：
+```
+layout.key = iso_car_back   target = home   cell_count = 70
+ask.ok = False   answer_len = 0   answer_sha256 = e3b0c44298fc1c14…（空串 sha）
+log: [MASKDBG-SUM] 25 行 ｜ SUM2 25 行      ← 只有"一次 ask"的量
+```
+⇒ 第一次 ask（habit）有非空答案、`ok=False`；**第二次 ask（home）返回 `bytes_rc=-1`、答案为空、且一条新的 `SUM` 都没打**（第二次 decode batch 根本不存在）。
+⇒ **修正 §2.16.2 的措辞**：同位置第二次 ask 不是"覆盖/踩踏后给出扭曲答案"，而是**被引擎直接拒绝**。这个差别对我们有利：**坏设计不会产出"看着像结论"的数字，而是产出明显坏掉的产物。**
+
+**另记一条取证要求（新，来自这次作废产物）**：该 json 只有 `ask`（home 那一问），**没有保存第一条 ask 的答案** ⇒ 报告里出现的 `habit` 答案在盘上**不可复现**。
+⇒ 规律：**凡是"一问以上"的设计，必须落 `answers[]`**（全库已有该 schema），否则就是 X1 那一类"报告与产物不一致"的翻版。
+
+**门禁那次的 RED 是口径不适用**（`A` 维拿 `SUM` 与 `2×(1+N_PREDICT)=50` 比、实得 25），既不是绿，也不是布局缺陷。**该产物永久标注"不可作为结果"。**
+
+
+### 2.17.5 纪律：**几何数字一律现算，禁止跨布局借用**
+
+本轮第三次栽在同一件事上（前两次：`layout.spacing` 硬编码 64、`iso_gap32` 残片当基准）：
+- **现象**：`3886`（第四块 18 cells 那一族的 `lo`）被当成了 `iso_car_back`（第四块 19 cells）的 `lo`；
+- **后果**：若照抄，前置问答的最后一个 token 落在 **3885 = car 块首格** ⇒ 位置冲突 ⇒ `rc=-1` ⇒ 三臂全废；
+- **正确值**：`min(pos_lo) = 3885`（`runs_mask/AB_A_default.json`、`gate_green_iso_base.json` 等 iso_car_back 产物一致读出），验算 `4096 − 3×64 − 19 = 3885` ✔。
+
+**口径（本轮起强制）**：
+1. 任何位置量（`lo_min`、`span_hi`、`head_gap`、`cell_count`）**必须由 `layout.segments` 现算**，代码里出现字面量即视为缺陷；
+2. **跑之前断言**，失败即退出，不许"先跑再看"：`assert preamble_end <= lo_min`、`assert preamble_end > 0`、`assert preamble_start >= prefix_end`（不许覆盖 prefix 占的 [0,67)）；
+3. **数字与它的来源布局绑定**：引用必须写"取自哪个布局的哪个字段"，`3885` 只对 `iso_car_back` 成立；
+4. 这条与"`layout.spacing` 硬编码 64"、"拿残片当基准"、"跨 run 借证据"是同一条纪律的四个面：**一个数只要离开它的来源，就不再是证据。**
+
+**关于这次谁先错**：这个 `3886` 是队长引进的（把 pp18 那一族的数当成 car_back 的），我照抄未复核 —— **他错在前，我错在后**；而"跨布局借数字"这条纪律对两边同样适用。
 
 ## 3 非单调 63/69/70 的正面处理
 

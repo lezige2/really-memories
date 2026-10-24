@@ -42,6 +42,20 @@ def add_args(ap):
     # escape hatch for layouts whose target_n cannot hold the fixed control prefix;
     # it skips the control arm and says so in the json -- never silently.
     ap.add_argument("--no-control", action="store_true")
+    # T-028: write one extra Q&A turn into the conversation hole just below the lowest
+    # block, before asking.  Without these two arguments the single-target path is
+    # byte-for-byte what it was.
+    ap.add_argument("--preamble")
+    ap.add_argument("--preamble-pos", type=int, default=None)
+
+
+def preamble_spec(a):
+    """(text, pos) or None.  Refuses half a specification instead of guessing a position."""
+    if a.preamble is None and a.preamble_pos is None:
+        return None
+    if a.preamble is None or a.preamble_pos is None:
+        raise SystemExit("--preamble and --preamble-pos must be given together")
+    return (a.preamble, a.preamble_pos)
 
 
 def windows_for(layout):
@@ -125,6 +139,9 @@ def worker(argv):
     q = P.FULL[seg["block_id"]]["q"]
     fact = P.FULL[seg["block_id"]]["fact"]
     qs = sha8(q)
+    pre_spec = preamble_spec(a)
+    n_pre_write = 1 if pre_spec is not None else 0        # one extra write decode
+    ub = (1 + n_pre_write) + P.N_PREDICT                  # declared BEFORE the run, not fitted
     child_env = {k: os.environ.get(k) for k in MASK_KEYS}
     t0 = time.time()
     res = {"schema": "mask_run_v3", "experiment": a.layout, "target": a.target,
@@ -132,9 +149,14 @@ def worker(argv):
            "started_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
            "cmdline": sys.argv, "child_env": child_env, "env_source": a.env_source,
            "asks_expected": 1,
-           # one ask = 1 prompt ubatch + N_PREDICT decode ubatches; the "one p1 row per
-           # ubatch" part is an ENGINE gate, so it is recorded as a named premise below.
-           "decode_batches_expected": 1 + P.N_PREDICT,
+           # one ask = 1 prompt ubatch + N_PREDICT decode ubatches, plus 1 more prompt ubatch
+           # when a preamble is written first. The "one p1 row per ubatch" part is an ENGINE
+           # gate, so it is recorded as a named premise below.
+           "decode_batches_expected": ub,
+           "decode_batches_expected_declared": {
+               "value": ub, "expr": "1 + n_preamble_writes + ask_n_predict",
+               "n_preamble_writes": n_pre_write, "ask_n_predict": P.N_PREDICT,
+               "declared": "before the run (pre-registration); never re-fit after seeing trace"},
            "trace_gate": TRACE_GATE,
            "trace_gate_cpp_sha256": (hashlib.sha256(open(CPP, "rb").read()).hexdigest()
                                      if os.path.exists(CPP) else None),
@@ -181,13 +203,14 @@ def worker(argv):
                                   "come from _driver2.LAYOUTS[key] and the probe block manifest"),
             "ask_n_predict": n_pred,
             "ask_n_predict_source": "probe constant, tools/m2_visibility_probe.py:103",
-            "decode_batches_expected_expr": "1 + ask.n_predict",
-            "decode_batches_expected_source": "1 prompt ubatch + ask.n_predict decode ubatches",
-            "SUM": {"expect": 1 + n_pred, "expr": "decode_batches_expected",
+            "decode_batches_expected_expr": "1 + n_preamble_writes + ask.n_predict",
+            "decode_batches_expected_source": ("1 prompt ubatch + ask.n_predict decode ubatches, "
+                                               "+1 prompt ubatch when a preamble is written"),
+            "SUM": {"expect": ub, "expr": "decode_batches_expected",
                     "source": "engine prints one [MASKDBG-SUM] per ubatch, gate: " + TRACE_GATE},
-            "SUM2": {"expect": 1 + n_pred, "expr": "SUM",
+            "SUM2": {"expect": ub, "expr": "SUM",
                      "source": "engine prints one [MASKDBG-SUM2] per traced p1 row (same gate)"},
-            "blk": {"expect": n_seg * (1 + n_pred), "expr": "n_segments * SUM",
+            "blk": {"expect": n_seg * ub, "expr": "n_segments * SUM",
                     "source": "engine prints one [MASKDBG] per (p1 row, segment)"},
             "OK": {"expect": n_seg, "expr": "n_segments",
                    "source": "this driver prints one [MASKDBG-OK] per segment after the ask"},
@@ -201,6 +224,22 @@ def worker(argv):
                              "positions_max": positions[-1] if positions else None,
                              "coverage": P.coverage(positions, layout),
                              "overlaps": P.overlaps(layout)}
+        pre = preamble_spec(a)
+        if pre is not None:
+            # One Q&A turn placed INSIDE the hole between the control prefix [0,67) and the
+            # lowest block.  write_at takes explicit positions, so it cannot spill into a
+            # block; the hole is empty in every layout, so this is not a new condition.
+            pre_text, pre_pos = pre
+            n_pre = int(eng.write_at(P.LIVE, pre_text, pre_pos, add_bos=False))
+            res["preamble"] = {"text": pre_text, "tokens": n_pre, "pos_lo": pre_pos,
+                               "pos_hi": pre_pos + n_pre,
+                               "sha256": hashlib.sha256(pre_text.encode("utf-8")).hexdigest(),
+                               "lowest_block_lo": min(s["pos_lo"] for s in layout["segments"]),
+                               "written_via": "kvshim_write_at(seq, text, pos, add_bos=0)",
+                               "note": ("preamble occupies [pos_lo, pos_hi); it must end at or "
+                                        "below the lowest block lo, and it is NOT saved: a seq "
+                                        "whose token positions are non-monotonic must never "
+                                        "be persisted or continued with next_pos")}
         n_bytes, ans = D2.ask_native(eng, P.LIVE, q, P.CHAT, P.N_PREDICT)
         asha = hashlib.sha256(ans.encode("utf-8")).hexdigest()
         res["ask"] = {"kvshim_ask_at_return_bytes": n_bytes, "answer": ans.strip(),
