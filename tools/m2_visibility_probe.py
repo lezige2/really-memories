@@ -455,7 +455,11 @@ def load_and_place(eng, layout):
         pm = eng.pos_max(slot)
         if pm != seg["pos_hi"] - 1:
             raise RuntimeError("%s pos_max=%d, expected %d" % (sid, pm, seg["pos_hi"] - 1))
-        placed.append({"id": sid, "slot": slot, "cells": n,
+        # base is the position the .kvmem carries in its own file; delta is the re-rotation
+        # actually applied here. Neither is implied by the layout, and without them a product
+        # cannot answer "was this block rotated, and by how much".
+        placed.append({"id": sid, "slot": slot, "cells": n, "file": os.path.basename(seg["file"]),
+                       "base": base, "delta": target - base,
                        "pos_lo": seg["pos_lo"], "pos_hi": seg["pos_hi"]})
         by_slot[slot] = sid
     return placed

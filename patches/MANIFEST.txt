@@ -35,3 +35,12 @@ so the build is deterministic and the difference is the timestamp, not the code 
 consequence for T-030: a code change in llama-kv-cache.cpp must be judged by
   (a) rebuilding, (b) comparing against the baseline with the 4 stamp bytes zeroed, and
   (c) the behavioural checks (sha 7ec1430d..., ABLDBG counts) - never by the raw sha alone.
+CORRECTION (same day, after independent recomputation):
+the two stamps are WHOLE 4-byte fields. Clearing only the low half of the second one would
+let a build from a different machine slip through as noise, so the rule is:
+  clear @128 +4  (COFF TimeDateStamp)
+  clear @47838724 +4  (second build stamp, same linker clock)
+=> 2 fields, 8 bytes total; normalized baseline of the shipped DLL = dfb0449461a39b06
+   (an earlier note here quoted 5a66fa4b... which came from a window shifted by 2 bytes:
+    the number matched the shipped pair but the window was wrong and is not used any more).
+script: patches/norm_dll.py (prints the fields and the byte count it cleared).
