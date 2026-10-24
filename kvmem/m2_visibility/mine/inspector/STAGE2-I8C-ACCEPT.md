@@ -71,3 +71,23 @@
 - I8-C：通过（默认值翻向拒绝态、CHECK 补全、闸门真读两列、12 可复跑）。
 - 三条修正（8 重复计数 / README 锚过期 / 投毒测试失效）不阻塞 Stage 3 开工，但必须在 Stage 3 交付前清掉，
   否则最终状态报告里会同时出现「13/13」和「过期锚」两处不可复算 —— 而那正是这一整轮在防的东西。
+
+## 5 追加（2026-10-25 04:42 后重算；上一版结论已过期）
+
+锚规则适用：`check_registry.py`（04:41:41）与 `run_registry_check.json`（04:42:08）在我上版验收后又变过，
+因此 §1 里「13 项、12 独立」那组数字**作废**，以下是重算结果（我自己跑的函数，不是读它的自述）。
+
+| 项 | 值 |
+|---|---|
+| `check_registry.py` | `ed4e84530d16c26c` |
+| `run_registry_check.json` | `6923269ba0a40f70` |
+| `registry/README.md` | `11f775d898af30b3` |
+| acceptance 键数 | **14**，**全 True** |
+| `retired_keys` | `[8_fidelity]`（值是说明文本，不进键数）|
+| 账本自检 | `key_count 14 / distinct_judgements 14 / duplicate_sources {} / ok True` |
+| 负向（14） | 我重跑：`ok=False`、`duplicate_sources={"res['x']['ok']": ["1_a","2_b"]}`、断言要求**恰好这一组** |
+| 对照（15） | 我重跑：`ok=True`、`duplicate_sources={}` |
+| 双边成立 | **True**（恒 False 的实现过不了 15，恒 True 的过不了 14，报错组不对的过不了 14 的取值比对）|
+
+复核要点：负向断言不是只要求 `ok is False`，而是同时要求**重复组恰好是 `[[1_a, 2_b]]`** —— 这挡住了「乱报一个组也算过」的退路。
+提示一处可加强（非阻塞）：对照侧目前只取 `["ok"]`，未显式要求 `duplicate_sources == {}`；若将来 `ok` 定义被改，这条会失去意义。
