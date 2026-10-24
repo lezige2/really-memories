@@ -25,6 +25,7 @@ cannot produce a false refusal there.
 """
 from __future__ import annotations
 
+import functools
 import json
 import os
 import sys
@@ -50,6 +51,111 @@ def _append(path, rec):
         pass                                                   # logging never breaks the run
 
 
+_LIVE = []          # live tables, in creation order (identity-matched against the engine)
+_BRIDGED = False    # session_state.save_session/restore_session installed exactly once
+
+
+def _active_for(eng):
+    """The lease table bound to this exact engine object, or None."""
+    for t in reversed(_LIVE):
+        if t.eng is eng:
+            return t
+    return None
+
+
+def install_bridge(force=False):
+    """Let the table see session_state's own share/drop WITHOUT editing that file.
+
+    session_state.save_session does drop->save->share and restore_session does
+    reset->load_strict->repos->share on its own. It edits no file here: the two
+    module functions are wrapped once, keyed by engine identity, and the engine
+    argument is swapped for a RecordingEngine only when a live table is bound to it.
+    Any other caller (tests, probes, another engine) gets the real object back, so
+    behaviour is unchanged when no table is active.
+    """
+    global _BRIDGED
+    if _BRIDGED and not force:
+        return False
+    if os.environ.get("CHAT_LEASE_BRIDGE", "1") == "0":
+        return False
+    import session_state as ss
+    if getattr(ss.save_session, "_lease_bridge", False) and not force:
+        _BRIDGED = True
+        return False
+
+    def wrap(fn, name):
+        @functools.wraps(fn)
+        def inner(eng, *a, **kw):
+            table = _active_for(eng)
+            return fn(RecordingEngine(eng, table) if table else eng, *a, **kw)
+        inner._lease_bridge = True
+        inner._lease_original = fn
+        return inner
+
+    ss.save_session = wrap(ss.save_session, "save_session")
+    ss.restore_session = wrap(ss.restore_session, "restore_session")
+    _BRIDGED = True
+    _append(EVENT_LOG, {"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "site": "bridge",
+                        "kind": "bridge.installed"})
+    return True
+
+
+class RecordingEngine:
+    """Pass-through proxy: mirrors share/drop into the table, forwards everything else.
+
+    Only share/drop change *references*. Everything else is forwarded untouched; the
+    handful of calls that can MOVE a block (reset, load_strict/load, repos_local, save,
+    write_at) are logged so a future reordering shows up in the event log instead of
+    silently invalidating the recorded (dst, lo, hi) ranges.
+
+    attach()/detach() already perform the real eng.share/eng.drop on the real engine, so
+    this proxy must NOT repeat them -- the table owns the call, the proxy only routes.
+    """
+
+    def __init__(self, eng, leases):
+        self._eng = eng
+        self._leases = leases
+
+    def __getattr__(self, name):
+        return getattr(self._eng, name)
+
+    # -- references (recorded) ---------------------------------------------
+    def share(self, block_seq, dst_seq, lo, hi):
+        if int(block_seq) not in self._leases.blocks:
+            self._leases.register_block(int(block_seq), "seq%d@session_state" % int(block_seq))
+        self._leases.attach(block_seq, dst_seq, lo, hi, site="session_state.share")
+
+    def drop(self, dst_seq, lo, hi):
+        self._leases.detach(dst_seq, lo, hi, site="session_state.drop")
+
+    def reset(self, seq, *a, **kw):
+        # NOT gated yet (deferred to task B): record it, so the exposure is countable
+        _append(EVENT_LOG, {"at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                            "site": "session_state.reset", "kind": "unguarded_reset",
+                            "seq": int(seq), "table_refs": self._leases.referrers(seq),
+                            "cells_before": self._leases.cells_of(seq)})
+        return self._eng.reset(seq, *a, **kw)
+
+    # -- calls that can move a block (logged, not intercepted) --------------
+    def _forward_logged(self, name, *a, **kw):
+        _append(EVENT_LOG, {"at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                            "site": "session_state." + name, "kind": "engine_call",
+                            "seq": int(a[0]) if a and isinstance(a[0], int) else None})
+        return getattr(self._eng, name)(*a, **kw)
+
+    def repos_local(self, *a, **kw):
+        return self._forward_logged("repos_local", *a, **kw)
+
+    def load_strict(self, *a, **kw):
+        return self._forward_logged("load_strict", *a, **kw)
+
+    def load(self, *a, **kw):
+        return self._forward_logged("load", *a, **kw)
+
+    def save(self, *a, **kw):
+        return self._forward_logged("save", *a, **kw)
+
+
 class GuardedLeases(BlockLeases):
     """BlockLeases + a post-reset emptiness assertion + refusal logging."""
 
@@ -58,6 +164,8 @@ class GuardedLeases(BlockLeases):
         self.site_prefix = site_prefix
         self.counts = {"reset": 0, "refused": 0, "attached": 0, "detached": 0}
         self.sites = {}
+        _LIVE.append(self)
+        install_bridge()          # chat.py needs no change: the table is found by identity
 
     # -- the gated reset ---------------------------------------------------
     def reset(self, seq, force=False, site=""):

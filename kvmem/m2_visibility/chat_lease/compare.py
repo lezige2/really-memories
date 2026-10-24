@@ -73,6 +73,15 @@ def main():
                                    for lb in LABELS if runs[lb]
                                    for k in ("chat", "m1", "save")),
     }
+    m2_rc = [k.get("kvshim_ask_at_return_bytes") for k in (m2a or {}).get("asks", [])]
+    non_empty = all(p["chars"] > 0 for lb in LABELS if runs[lb]
+                    for cmd in ("chat", "m1", "save")
+                    for p in runs[lb].get(cmd, {}).get("pairs", []))
+    res["return_codes"] = {"m2_ask_bytes": m2_rc,
+                           "m2_ask_all_positive": bool(m2_rc) and all((x or 0) > 0 for x in m2_rc),
+                           "product_answers_non_empty": non_empty}
+    res["acceptance"]["7_rc_positive_and_answers_non_empty"] = bool(
+        res["return_codes"]["m2_ask_all_positive"] and non_empty)
     res["acceptance"]["all_pass"] = all(v for k, v in res["acceptance"].items())
     json.dump(res, open(os.path.join(HERE, "run_compare.json"), "w", encoding="utf-8"),
               ensure_ascii=False, indent=2)
