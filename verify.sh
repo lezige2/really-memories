@@ -28,6 +28,18 @@ for f in ['_mask_run.py','_gate.py','_assert_trace.py']:
     print('   ', f, hashlib.sha256(b).hexdigest()[:16], sum(1 for _ in open(f,encoding='utf-8')), '行')
 " ) || bad "读取驱动文件失败"
 
+# ---------- 2.5 报告哈希边车 ----------
+# 文档不自印哈希：自印会让"打印哈希的那一行"也参与计算，读者必须知道排除规则，
+# 一次改动就会让那个数悄悄变成假的。改用同目录边车文件，sha256sum -c 即可校验。
+SIDE=kvmem/m2_visibility/ISOLATION-REPORT.md.sha256
+if [ -f "$SIDE" ]; then
+  if ( cd kvmem/m2_visibility && $PY -c "
+import hashlib,sys
+exp=open('ISOLATION-REPORT.md.sha256',encoding='utf-8').read().split()[0]
+got=hashlib.sha256(open('ISOLATION-REPORT.md','rb').read()).hexdigest()
+sys.exit(0 if exp==got else 1)" ); then ok "ISOLATION-REPORT.md 与 .sha256 边车一致"; else bad "ISOLATION-REPORT.md 与 .sha256 边车不一致"; fi
+else bad "缺少 $SIDE"; fi
+
 # ---------- 3. 门禁五支 ----------
 run_gate() { # $1=log $2=json  -> 输出退出码
   ( cd "$RM" && $PY _gate.py --log "$1" --run-json "$2" >/dev/null 2>&1; echo $? )
