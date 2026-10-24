@@ -98,6 +98,35 @@ class Incompatible(Exception):
     """The block on disk cannot be trusted for the current model / engine."""
 
 
+class SourceConflict(Exception):
+    """A name already has a different text. Revisions are explicit, never implicit.
+
+    Silently appending a revision makes every block built from the old row point at text
+    that get_source() no longer returns -- the copies drift apart with no error anywhere.
+    Pass revise=True when a new revision is really intended.
+    """
+
+    def __init__(self, name, old_hash, new_hash):
+        self.name, self.old_hash, self.new_hash = name, old_hash, new_hash
+        Exception.__init__(
+            self,
+            "source %r already exists with sha256 %s; refusing to add sha256 %s. "
+            "Revisions are explicit: pass revise=True (or --revise) to append a new row."
+            % (name, old_hash[:16], new_hash[:16]))
+
+
+class SourceHashMismatch(Exception):
+    """Stored text and stored source_hash disagree: the row cannot be trusted."""
+
+    def __init__(self, name, sid, stored, computed):
+        self.name, self.id, self.stored, self.computed = name, sid, stored, computed
+        Exception.__init__(
+            self,
+            "source %r (id=%r): stored source_hash %s != sha256(text) %s -- the text was "
+            "changed behind the immutability trigger; refusing to hand it out."
+            % (name, sid, stored[:16], computed[:16]))
+
+
 def sha256_text(text):
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
@@ -122,18 +151,27 @@ def connect(path=None):
 # write path: source first (authoritative), then the block (derived)
 # ---------------------------------------------------------------------------
 def put_source(con, name, label, text, tenant="default", scope="private",
-               mode="chat"):
+               mode="chat", revise=False):
     """Insert the authoritative row. Idempotent on (tenant, scope, name, hash).
 
-    A different text under the same name is a NEW row: history is append-only, so a
-    block always points at the exact text it was built from.
+    Idempotent means same name + same text returns the existing id and writes nothing.
+    A DIFFERENT text under an existing name raises SourceConflict unless revise=True:
+    history is append-only, so a block always points at the exact text it was built
+    from -- and an unannounced second revision is how two copies start drifting.
     """
+    if not text or not text.strip():
+        raise ValueError("source %r: refusing to store an empty text" % (name,))
     h = sha256_text(text)
     row = con.execute(
         "SELECT id FROM memory_source WHERE tenant=? AND scope=? AND name=? AND source_hash=?",
         (tenant, scope, name, h)).fetchone()
     if row:
         return row[0], False
+    prev = con.execute(
+        "SELECT id, source_hash FROM memory_source WHERE tenant=? AND scope=? AND name=? "
+        "ORDER BY id DESC LIMIT 1", (tenant, scope, name)).fetchone()
+    if prev and not revise:
+        raise SourceConflict(name, prev[1], h)
     cur = con.execute(
         "INSERT INTO memory_source (tenant,scope,mode,name,label,text,source_hash,created_at) "
         "VALUES (?,?,?,?,?,?,?,?)",
@@ -143,12 +181,45 @@ def put_source(con, name, label, text, tenant="default", scope="private",
     return cur.lastrowid, True
 
 
-def get_source(con, name, tenant="default", scope="private"):
-    """Newest revision for a name, or None."""
-    return con.execute(
+def get_source(con, name, tenant="default", scope="private", verify_hash=True):
+    """Newest revision for a name, or None.
+
+    The row is checked against its own hash before it is handed out. This is the read
+    path every consumer uses, so a mutated row fails here instead of flowing on as
+    plausible text; there is deliberately no try/except around it anywhere.
+    """
+    row = con.execute(
         "SELECT id,tenant,scope,mode,name,label,text,source_hash,created_at "
         "FROM memory_source WHERE tenant=? AND scope=? AND name=? "
         "ORDER BY id DESC LIMIT 1", (tenant, scope, name)).fetchone()
+    if row and verify_hash:
+        _verify_row(row)
+    return row
+
+
+def _verify_row(row):
+    sid, _t, _s, _m, name, _lbl, text, sh, _ts = row
+    computed = sha256_text(text)
+    if computed != sh:
+        raise SourceHashMismatch(name, sid, sh, computed)
+
+
+def assert_unique_texts(con):
+    """I1: one canonical row per text. Two rows holding the same text = two copies.
+
+    Returns {sha256: [names]} for inspection; raises if any text is stored twice.
+    """
+    seen = {}
+    for sid, name, text, sh in con.execute(
+            "SELECT id, name, text, source_hash FROM memory_source ORDER BY id"):
+        computed = sha256_text(text)
+        if computed != sh:
+            raise SourceHashMismatch(name, sid, sh, computed)
+        seen.setdefault(computed, []).append("%s#%d" % (name, sid))
+    dupes = {k: v for k, v in seen.items() if len(v) > 1}
+    if dupes:
+        raise AssertionError("the same text is stored more than once: %r" % (dupes,))
+    return seen
 
 
 def probe_text(con, source_id):
@@ -158,10 +229,13 @@ def probe_text(con, source_id):
     only place allowed to hand the raw memory back, and it is used for rebuild and
     for grounding checks -- never to build a prompt.
     """
-    r = con.execute("SELECT text FROM memory_source WHERE id=?", (source_id,)).fetchone()
+    r = con.execute(
+        "SELECT id,tenant,scope,mode,name,label,text,source_hash,created_at "
+        "FROM memory_source WHERE id=?", (source_id,)).fetchone()
     if not r:
         raise KeyError("no source row %r" % (source_id,))
-    return r[0]
+    _verify_row(r)
+    return r[6]
 
 
 def build_block(eng, con, src_row, blocks_dir=None, kv_type="q8_0", model_path=MODEL,
@@ -347,6 +421,8 @@ def main():
     ap.add_argument("--tenant", default="default")
     ap.add_argument("--scope", default="private")
     ap.add_argument("--mode", default="chat")
+    ap.add_argument("--revise", action="store_true",
+                    help="append a new revision when the text differs from the stored one")
     ap.add_argument("--kv", default="q8_0")
     a = ap.parse_args()
     con = connect(a.db)
@@ -359,7 +435,7 @@ def main():
     elif a.cmd == "put":
         text = open(a.text_file, encoding="utf-8").read()
         sid, created = put_source(con, a.name, a.label or a.name, text,
-                                  a.tenant, a.scope, a.mode)
+                                  a.tenant, a.scope, a.mode, revise=a.revise)
         print("%s %s (id=%d, %d chars, sha256 %s...)"
               % ("inserted" if created else "already present:", a.name, sid,
                  len(text), sha256_text(text)[:12]))
@@ -386,6 +462,12 @@ def main():
                      os.path.basename(path) if path else "-"))
 
     elif a.cmd == "verify":
+        try:
+            uniq = assert_unique_texts(con)
+            print("uniqueness: OK (%d distinct texts, one row each)" % len(uniq))
+        except (AssertionError, SourceHashMismatch) as e:
+            print("uniqueness: FAIL %s" % e)
+            return 1
         c = classify(con)
         probs = verify(con)
         print("managed  %d: %s" % (len(c["managed"]), ", ".join(c["managed"]) or "-"))
