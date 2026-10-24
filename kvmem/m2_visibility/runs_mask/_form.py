@@ -6,7 +6,9 @@ dimension, never by bending the rule.
 
 form:
     empty : answer length == 0
-    quiz  : answer contains a run of >= 3 "_"   OR   one of "A." / "B." / "A、" / "B、"
+    quiz  : answer contains a run of >= 3 "_"   OR   one of "A." / "B." / "A、" / "B、" /
+            "\boxed{"   (a multiple-choice reply that fills the blank with an option letter is
+            still a multiple-choice reply, not free recall -- T-026 addendum)
     plain : otherwise
     (no normalization: a literal backslash-underscore pair is NOT an underscore)
 
@@ -25,7 +27,8 @@ import re
 import sys
 
 US = chr(92) + "_"                              # literal backslash + underscore
-QUIZ_MARKERS = ("A.", "B.", "A\u3001", "B\u3001")   # A、 / B、
+BOXED = chr(92) + "boxed{"                         # \boxed{  <- multiple-choice answer
+QUIZ_MARKERS = ("A.", "B.", "A\u3001", "B\u3001", BOXED)   # A、 / B、 / \boxed{
 CLOZE_WORD = "\u586b\u7a7a"                       # 填空
 
 
