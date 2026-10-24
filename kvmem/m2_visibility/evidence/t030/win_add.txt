@@ -1,0 +1,44 @@
+                        // [MASKDBG-WIN] observed cell runs vs the windows we declared: data vs data.
+                        // A declared window is only confirmed when a contiguous run of real cells
+                        // (taken from cells.pos_get, independent of the env string) equals it.
+                        {
+                            int64_t win_lo[8], win_hi[8];
+                            int nwin = 0;
+                            const char * mw2 = getenv("LLAMA_KV_MASK_WINDOWS");
+                            if (mw2 != nullptr) {
+                                char b2[512];
+                                snprintf(b2, sizeof(b2), "%s", mw2);
+                                for (char * tk = strtok(b2, ","); tk != nullptr && nwin < 8; tk = strtok(nullptr, ",")) {
+                                    char * c1 = strchr(tk, ':');
+                                    if (c1 == nullptr) { continue; }
+                                    *c1 = '\0';
+                                    char * c2 = strchr(c1 + 1, ':');
+                                    if (c2 == nullptr) { continue; }
+                                    *c2 = '\0';
+                                    win_lo[nwin] = atoll(c1 + 1);
+                                    win_hi[nwin] = atoll(c2 + 1);
+                                    ++nwin;
+                                }
+                            }
+                            std::vector<llama_pos> ps;
+                            ps.reserve((size_t) n_kv);
+                            for (int64_t j3 = 0; j3 < n_kv; ++j3) {
+                                if (!cells.is_empty(j3)) { ps.push_back(cells.pos_get(j3)); }
+                            }
+                            std::sort(ps.begin(), ps.end());
+                            int run = 0;
+                            size_t i3 = 0;
+                            while (i3 < ps.size() && run < 12) {
+                                size_t j3 = i3;
+                                while (j3 + 1 < ps.size() && ps[j3 + 1] == ps[j3] + 1) { ++j3; }
+                                int match = -1;
+                                for (int w = 0; w < nwin; ++w) {
+                                    if (win_lo[w] == (int64_t) ps[i3] && win_hi[w] == (int64_t) ps[j3]) { match = w; break; }
+                                }
+                                fprintf(stderr, "[MASKDBG-WIN] seq=%d p1=%d run=%d lo=%d hi=%d cells=%zu declared_idx=%d match=%d\n",
+                                        (int) seq_id, (int) p1, run, (int) ps[i3], (int) ps[j3],
+                                        j3 - i3 + 1, match, match >= 0 ? 1 : 0);
+                                ++run;
+                                i3 = j3 + 1;
+                            }
+                        }
