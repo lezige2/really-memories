@@ -219,6 +219,23 @@ KVSHIM_API long long kvshim_seq_bytes(kvshim * h, int seq) {
 }
 
 KVSHIM_API int kvshim_n_tokens(kvshim * h, int seq)  { return (int) h->tokens[seq].size(); }
+// Token identities, so a loaded block can be proven to hold exactly the text we
+// declared: a matching cell count cannot tell that text apart from text + padding.
+KVSHIM_API int kvshim_tokenize(kvshim * h, const char * text, int * out, int cap) {
+    if (!h || !text || !out || cap <= 0) { return -1; }
+    const std::vector<llama_token> ids = tokenize(h->vocab, text, false);
+    const int n = (int) std::min<size_t>(ids.size(), (size_t) cap);
+    for (int i = 0; i < n; ++i) { out[i] = (int) ids[i]; }
+    return n;
+}
+
+KVSHIM_API int kvshim_seq_tokens(kvshim * h, int seq, int * out, int cap) {
+    if (!h || !out || cap <= 0 || seq < 0 || seq >= h->n_seq) { return -1; }
+    const auto & v = h->tokens[seq];
+    const int n = (int) std::min<size_t>(v.size(), (size_t) cap);
+    for (int i = 0; i < n; ++i) { out[i] = (int) v[i]; }
+    return (int) v.size();
+}
 KVSHIM_API int kvshim_pos_max(kvshim * h, int seq) {
     if (h->tokens[seq].empty()) {
         return -1;
@@ -393,6 +410,149 @@ KVSHIM_API int kvshim_ask_at_topk(kvshim * h, int seq, const char * text, int po
     memcpy(out, ans.data(), (size_t) n);
     out[n] = '\0';
     return n;
+}
+
+// ---------------------------------------------------------------- scoring (additive)
+//
+// Teacher-forced scoring: decode the prompt at pos_start, then walk the answer tokens and
+// read each one's logprob out of the CURRENT logits (log_softmax over the full vocabulary)
+// BEFORE decoding it in. Nothing above changes behaviour: when these two exports are not
+// called the shim behaves exactly as before.
+//
+// rank is 1-based and dense: 1 = argmax, and tokens whose value is not strictly greater do
+// not push the rank up (ties share the better rank, same tie rule as topk_probs).
+static void logsoftmax_at(const float * logits, int n_vocab, llama_token tok,
+                          double * out_lp, int * out_rank) {
+    double mx = (double) logits[0];
+    for (int t = 1; t < n_vocab; t++) {
+        if ((double) logits[t] > mx) { mx = (double) logits[t]; }
+    }
+    double z = 0.0;
+    for (int t = 0; t < n_vocab; t++) {
+        z += std::exp((double) logits[t] - mx);
+    }
+    const double ref = (double) logits[tok];
+    const double lp  = ref - mx - std::log(z);
+    int rank = 1;
+    for (int t = 0; t < n_vocab; t++) {
+        if ((double) logits[t] > ref) { rank++; }
+    }
+    *out_lp = lp;
+    *out_rank = rank;
+}
+
+// Token id -> its text piece. Additive; returns bytes written, or -1 on bad input.
+// A piece that does not fit in cap is refused rather than silently truncated.
+KVSHIM_API int kvshim_piece(kvshim * h, int token, char * out, int cap) {
+    if (!h || !h->vocab || !out || cap <= 0) {
+        return -1;
+    }
+    if (token < 0 || token >= llama_vocab_n_tokens(h->vocab)) {
+        return -1;
+    }
+    char buf[256];
+    const int nb = llama_token_to_piece(h->vocab, token, buf, sizeof(buf), 0, false);
+    if (nb < 0 || nb >= cap) {
+        return -1;
+    }
+    memcpy(out, buf, (size_t) nb);
+    out[nb] = 0;
+    return nb;
+}
+
+// Score the answer tokens under the prompt, teacher-forced.
+//
+//   out_sum  : sum of the answer tokens' logprobs
+//   out_mean : out_sum / out_n
+//   out_last : the last scored token's logprob
+//   out_n    : answer tokens actually scored (<= cap)
+//   out_tok/out_lp/out_rank : per-token id / logprob / rank, first out_n entries written
+//
+// Every out pointer may be null (that output is then skipped); cap must be >= 1.
+// An answer longer than cap is truncated to cap tokens and reported as ret -3, so a
+// caller can never mistake a truncated mean for a full one.
+// Returns 0 on success, -1 on bad arguments / overflow / engine failure, -3 on truncation.
+KVSHIM_API int kvshim_score_at(kvshim * h, int seq, const char * prompt, const char * answer,
+                              int pos_start, double * out_sum, double * out_mean,
+                              double * out_last, int * out_tok, float * out_lp,
+                              int * out_rank, int cap, int * out_n) {
+    if (!h || !h->ctx || !h->vocab) {
+        return -1;
+    }
+    if (seq < 0 || seq >= h->n_seq || cap <= 0) {
+        return -1;
+    }
+    if (!prompt || !answer) {
+        return -1;
+    }
+    if (out_n)    { *out_n = 0; }
+    if (out_sum)  { *out_sum = 0.0; }
+    if (out_mean) { *out_mean = 0.0; }
+    if (out_last) { *out_last = 0.0; }
+
+    const std::vector<llama_token> pids = tokenize(h->vocab, prompt, false);
+    std::vector<llama_token> aids = tokenize(h->vocab, answer, false);
+    if (pids.empty() || aids.empty()) {
+        return -1;
+    }
+
+    const llama_pos pos0 = (pos_start < 0) ? next_pos(h, seq) : (llama_pos) pos_start;
+    if (pos0 < 0) {
+        return -1;
+    }
+    const bool truncated = (int) aids.size() > cap;
+    if (truncated) {
+        aids.resize((size_t) cap);
+    }
+
+    // The whole run (prompt + every answer token) has to fit inside the pool. n_ctx is the
+    // per-sequence position ceiling, so this is the real bound, not a guess.
+    const long long last_pos = (long long) pos0 + (long long) pids.size()
+                             + (long long) aids.size() - 1;
+    if (last_pos >= (long long) llama_n_ctx(h->ctx)) {
+        return -1;
+    }
+
+    if (!decode_tokens(h, seq, pids, pos0, true)) {
+        return -1;
+    }
+    h->tokens[seq].insert(h->tokens[seq].end(), pids.begin(), pids.end());
+
+    const int n_vocab = llama_vocab_n_tokens(h->vocab);
+    llama_pos pos = pos0 + (llama_pos) pids.size();
+    double sum = 0.0;
+    double last = 0.0;
+    int n = 0;
+    for (int i = 0; i < (int) aids.size(); i++) {
+        const float * logits = llama_get_logits_ith(h->ctx, -1);
+        if (!logits) {
+            return -1;
+        }
+        double lp = 0.0;
+        int rank = 0;
+        logsoftmax_at(logits, n_vocab, aids[i], &lp, &rank);
+        if (out_tok)  { out_tok[n]  = (int) aids[i]; }
+        if (out_lp)   { out_lp[n]   = (float) lp; }
+        if (out_rank) { out_rank[n] = rank; }
+        sum += lp;
+        last = lp;
+        n++;
+
+        // Teacher forcing: feed the answer token in unchanged, whatever the model would
+        // have picked. One token per batch, so the next step's row is this token's.
+        const std::vector<llama_token> one(1, aids[i]);
+        if (!decode_tokens(h, seq, one, pos, true)) {
+            return -1;
+        }
+        h->tokens[seq].push_back(aids[i]);
+        pos++;
+    }
+
+    if (out_n)    { *out_n = n; }
+    if (out_sum)  { *out_sum = sum; }
+    if (out_mean) { *out_mean = (n > 0) ? sum / (double) n : 0.0; }
+    if (out_last) { *out_last = last; }
+    return truncated ? -3 : 0;
 }
 
 // ---------------------------------------------------------------- state <-> file

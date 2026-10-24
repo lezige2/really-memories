@@ -1,0 +1,12 @@
+blocks/MANIFEST.txt -- every .kvmem in this directory, with the fields that decide
+whether two arms are comparable. Written 2026-10-24 by executor.
+
+file | cells | sha16 | text | add_bos | referenced by | notes
+
+blk_filler_c21.kvmem | 21 | 3f41489bc0db9990 | 我上周把阳台的花盆都换了大一号的，绿萝长得比原来快了不少。| false | (none yet) | built by rebuild_blocks.py; cells==loaded==write_at==measure==21
+filler21.kvmem.bad_bos | 22 | 5b30d3450b5ad6d9 | unknown | true(implied by 22 cells) | none | NOT built by this project; provenance unknown; quarantined
+G18.kvmem.bad_bos | 19 | 693ac31d8c2150e7 | unknown | true(implied by 19 cells) | none | NOT built by this project; provenance unknown; quarantined
+
+Moved into quarantine/ : filler21.kvmem.bad_bos, G18.kvmem.bad_bos (kept as evidence, not deleted).
+Rule learned here: a filename is not provenance. Two files can share a name and hold different
+content, and the engine error text will not tell you which one it could not read.

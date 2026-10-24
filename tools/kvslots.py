@@ -172,6 +172,53 @@ class KVEngine:
                 "answer": "" if n < 0 else buf.value.decode("utf-8", "replace"),
                 "topk": [{"token": int(toks[i]), "prob": float(probs[i])} for i in range(k)]}
 
+    def score_at(self, seq, prompt, answer, pos, cap=64):
+        """Teacher-forced logprob of every answer token, after decoding prompt at pos
+        (additive shim export kvshim_score_at).
+
+        Returns rc / sum / mean / last / n plus per-token tokens / logprobs / ranks
+        (rank 1 = argmax, dense). rc == -3 means the answer was longer than cap and got
+        truncated to cap tokens; any other negative rc is a hard failure.
+        """
+        cap = int(cap)
+        if cap < 1:
+            raise ValueError("cap must be >= 1")
+        toks = (ctypes.c_int * cap)()
+        lps = (ctypes.c_float * cap)()
+        ranks = (ctypes.c_int * cap)()
+        d_sum = ctypes.c_double(0.0)
+        d_mean = ctypes.c_double(0.0)
+        d_last = ctypes.c_double(0.0)
+        n_out = ctypes.c_int(0)
+        f = self.lib.kvshim_score_at
+        f.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_char_p,
+                      ctypes.c_int, ctypes.POINTER(ctypes.c_double),
+                      ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_double),
+                      ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_float),
+                      ctypes.POINTER(ctypes.c_int), ctypes.c_int,
+                      ctypes.POINTER(ctypes.c_int)]
+        f.restype = ctypes.c_int
+        rc = f(ctypes.c_void_p(self.h), int(seq), prompt.encode("utf-8"),
+               answer.encode("utf-8"), int(pos), ctypes.byref(d_sum),
+               ctypes.byref(d_mean), ctypes.byref(d_last), toks, lps, ranks, cap,
+               ctypes.byref(n_out))
+        n = int(n_out.value)
+        nn = max(0, min(n, cap))
+        return {"rc": int(rc), "sum": float(d_sum.value), "mean": float(d_mean.value),
+                "last": float(d_last.value), "n": n,
+                "tokens": [int(toks[i]) for i in range(nn)],
+                "logprobs": [float(lps[i]) for i in range(nn)],
+                "ranks": [int(ranks[i]) for i in range(nn)]}
+
+    def piece(self, token, cap=256):
+        """Token id -> text piece (additive shim export kvshim_piece), or None."""
+        buf = ctypes.create_string_buffer(cap)
+        f = self.lib.kvshim_piece
+        f.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_int]
+        f.restype = ctypes.c_int
+        n = f(ctypes.c_void_p(self.h), int(token), buf, cap)
+        return None if n < 0 else buf.value.decode("utf-8", "replace")
+
     def save(self, seq, path):
         return self.lib.kvshim_save(self.h, seq, path.encode("utf-8"))
 

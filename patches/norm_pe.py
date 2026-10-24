@@ -78,7 +78,23 @@ def main():
         for name, off, val in detail:
             print("    %-34s @%-9d 原值 %d" % (name, off, val))
     if len(sys.argv) > 2:
-        print("NORMALIZED_EQUAL=%s" % (len(set(hs.values())) == 1))
+        a, b = sys.argv[1], sys.argv[2]
+        ba = open(a, "rb").read()
+        bb = open(b, "rb").read()
+        if len(ba) != len(bb):
+            print("FATAL size mismatch %d vs %d" % (len(ba), len(bb)))
+            return
+        raw_diff = [i for i in range(len(ba)) if ba[i] != bb[i]]
+        _nb, detail, _c = normalize(a)
+        sites = [off for _n, off, _v in detail]
+        covered = all(any(site <= i < site + 4 for site in sites) for i in raw_diff)
+        nonempty = len(raw_diff) > 0
+        print("raw differing bytes: %d at %s" % (len(raw_diff), raw_diff[:12]))
+        print("(a) raw diff subset of enumerated sites: %s" % covered)
+        print("(b) raw diff non-empty: %s" % nonempty)
+        eq = len(set(hs.values())) == 1
+        print("(c) sites inside their parent structures: True (parser raises otherwise)") 
+        print("NORMALIZED_EQUAL=%s%s" % (eq, "" if (eq and covered and nonempty) else "  <-- NO CERTIFICATE"))
 
 
 if __name__ == "__main__":
