@@ -502,3 +502,39 @@ if kind != "human_memory": raise SourceNotAllowed(...)   # turns 只被拼进报
   此时建立的锚会"对得上但对象错了"，比锚过期更麻烦。
 - 规则：块文件一变 ⇒ **停下**，不许把变化"顺便解释成正常"，也不许在这个产物上建新锚。
 
+### 12.16 基线自锚、逐列机器比对、整体性陈述不合格（2026-10-25 冻结）
+
+**基线的自锚（I7 自我施加）**
+- 判定「块文件没变」所依据的 `mine/inspector/baseline_blocks.json` 自己也有锚：
+  `sha16 = 0a63717933055e65`、677 B、mtime 04:44:58（我复算，与 lead 同值）。
+- 我复跑基线比对（Step 1 落盘前）：`profile.kvmem` 与 `project.kvmem` 的 **sha / bytes / mtime 三项全 MATCH**。
+  mtime 也一致 ⇒ 不是「读了又写回同样内容」。
+- 规则：凡用来判断「别的东西没变」的东西，自己必须也有锚；基线若需更新，必须走
+  `invalidated_anchors`（old/new/reason/time/expected_by），不得静默覆盖。
+
+**`blocks` 表逐列期望（Step 1 验收口径）**
+
+| 列 | 期望 |
+|---|---|
+| `source_text` | **预期变**：`source_text_len` 127 -> 110 |
+| `text_origin` | **预期变**：`registry:conv_2026-10-25@d8c094c1f5fcb8f1` -> `declared_human_turns:…`（139 字符）|
+| `sha256` / `sha256_disk` / `cells` | **预期不变**（KV 块内容指纹，不是源文本指纹）|
+| 其余列（`block_id`/`source_id`/`path`/`model`/`size_bytes`/`note` 等）| **预期不变** |
+| `kvmem/blocks/*.kvmem` | **预期不变**（已落基线，见上）|
+
+**机器比对（不接受人眼对报告）**：交付里必须给「改动前后逐列 diff 的列名集合」，且
+`changed_columns == {"source_text","text_origin"}` 才算过；多一列少一列都失败，并**打印实际集合**。
+这样「某列悄悄变了」没有靠人读报告漏过去的余地。
+
+**纪律（新）· 整体性陈述不合格**
+> 凡「某表变了」「`_m5db` 四处变了」这类**整表/整体**说法，都不构成验收材料；
+> 必须**逐列/逐项**列出「预期变」与「预期不变」，并由机器逐列比对。
+
+同族三例（今晚）：`8_fidelity` 与 13 共用布尔（项数膨胀）、对照侧只取 `ok`（静默失义）、`_m5db` 整表一起说（真变化被整体陈述吞掉）。
+共同点：**一个"整体"的说法，会让"某些部分其实不该变"这件事消失。**
+
+**`expected_by=none` 提为一等数字**：验收报告必须有一行
+`invalidated_anchors: expected_by=none 计数 = N`，N>0 时必须列出是哪几条。
+今晚已知命中一条：`876deaa3`（lead 事后判死又撤回，事前无任何声明）⇒ 回填时记 `none`，不许攀附其它声明。
+（`none` 的意义不是"写法失败"，而是**证据污染可见化**：被攀附的声明本身为真，但它背书的这次失效并未预登记。）
+
