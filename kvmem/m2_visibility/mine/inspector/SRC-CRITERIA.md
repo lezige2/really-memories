@@ -425,3 +425,29 @@ if kind != "human_memory": raise SourceNotAllowed(...)   # turns 只被拼进报
 - 实证：`source_profile(texts)` 收列表；传字符串会逐字符遍历 ⇒ `latin/plate/props` 全空，而**结论方向恰好不变**。
 - 这类错误最难被抓：它错的是量的定义，不是结论的方向；任何只看结论的复核都会漏掉。
 
+### 12.13 验收单格式要求（2026-10-25 冻结）
+
+**格式 A · CHECK 与负向一一对号**
+- 每一个 DB 层 CHECK（以及每一条触发型约束）必须在验收单里登记「哪条负向用例覆盖了它」。
+- **缺号的 CHECK 视为未验**，不得计入通过项。理由：一条没人测过的 CHECK，与一句注释等价；
+  而读者看到 CHECK 会以为它已经被验证过。
+- 已存在的 CHECK 清单（`memory_source`）：合法值三连（text_kind / contains_model_turns / is_excerpt）、
+  `NOT (text_kind=human_memory AND contains_model_turns=1)`、`is_excerpt=0 OR derived_from IS NOT NULL`；
+  Stage 3 将新增 `origin IS NOT NULL AND ((origin LIKE 声明合成前缀) = (synthetic=1))` 与 `synthetic IN (0,1)`。
+  每条都要有号。
+
+**格式 B · 账本自检的两个数必须同时打印**
+- `key_count` 与 `distinct_judgements` 同时输出，不等即失败；并附 `retired_keys` 清单（退役项不得计入键数）。
+
+**通 4 · 不得比对「渲染出来的字符串」，只比对结构或取值**
+- 实证（我在真实提交上抓到的红态）：`ledger_selfcheck` 用 `ast.unparse` 渲染来源表达式，输出 `res['x']['ok']`（**单引号**）；
+  而负向断言里写死的是 `res["x"]["ok"]`（**双引号**）⇒ 断言恒假 ⇒ `14_ledger_selfcheck_catches_alias=False` ⇒ 整体 `pass=False`。
+- 这不是笔误的孤例，是「两处各存一半真相」在**字符串格式化层**的复现：生产端负责渲染，消费端硬编码同一格式，
+  两者一旦不同就是静默错位（此处恰好被断言抓住，因为它比的是精确相等）。
+- 规则：凡比对由格式化函数/序列化函数产生的字符串，必须改为比对**结构或取值**（如 `list(dup.values()) == [[...]]`）。
+  现已按此修正，并有注释说明原因 —— 该注释必须保留。
+
+**附：这条红的正面价值**
+- 它证明负向测试**在真实提交上确实能变红**，不只是在我构造的探针里。
+- 记录：`14= False` 曾真实出现于 04:4x 的一次中间产物中，随后修正；修正前后我都独立复跑过 `ledger_selfcheck`。
+
