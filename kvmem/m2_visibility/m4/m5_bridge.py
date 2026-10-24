@@ -22,8 +22,10 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = r"D:/llama-mem"
 sys.path.insert(0, os.path.join(ROOT, "kvmem", "m2_visibility", "m5"))
+sys.path.insert(0, os.path.join(ROOT, "tools"))
 
 import m5_ground as G                                              # noqa: E402
+import memory_source as ms                                        # noqa: E402
 
 DB_PATH = os.path.join(HERE, "_m5db", "m5_m4_blocks.db")
 
@@ -41,7 +43,18 @@ CREATE TABLE IF NOT EXISTS blocks (
   source_text  TEXT NOT NULL,
   source_path  TEXT NOT NULL,
   text_origin  TEXT NOT NULL,
-  note         TEXT
+  note         TEXT,
+  -- Stage 3 / D3-1. The ablation block is an EDITED text and may never be registered in
+  -- layer 1, so it needs an explicit exemption channel -- but an exemption nobody can see
+  -- is worse than none. DEFAULT 0 is the REFUSAL direction: a real block that says
+  -- nothing is still held to the gate, while a real block wrongly marked 1 would also
+  -- have to carry the declared_synthetic: prefix, which the CHECK below forbids.
+  synthetic    INTEGER NOT NULL DEFAULT 0 CHECK (synthetic IN (0, 1)),
+  -- text_origin IS NOT NULL is not decoration: a CHECK comparing two columns evaluates
+  -- to NULL when either side is NULL, and SQLite treats NULL as PASS -- so without this
+  -- first clause a NULL origin slips past BOTH the prefix rule and its own non-null demand.
+  CHECK (text_origin IS NOT NULL
+         AND ((text_origin LIKE 'declared_synthetic:%') = (synthetic = 1)))
 );
 """
 
@@ -79,7 +92,7 @@ def origin_of(reg, src, sid, text, block_id):
     return "registry:%s@%s" % (l1[0], l1[1][:16])
 
 
-def register_block(con, block_id, text, path, cells, model, origin):
+def register_block(con, block_id, text, path, cells, model, origin, synthetic=False):
     """One row per real block file; sha is measured from disk at registration time.
 
     TODO(stage3): when M5 selects its own sources from the registry, every source admitted
@@ -87,17 +100,90 @@ def register_block(con, block_id, text, path, cells, model, origin):
     text copy is built from the M4 db, so the gate is not on this path yet -- this marker is
     what tools/../registry/check_m5_gate.py looks for.
     """
+    if ms.origin_is_synthetic(origin) != bool(synthetic):
+        # the DB CHECK enforces the same rule; failing here names the CALLER instead of
+        # handing back a bare IntegrityError.
+        raise ms.OriginError(
+            "origin prefix and synthetic flag disagree: origin=%r synthetic=%s"
+            % (origin[:60], synthetic))
     disk = sha_file(path)
-    con.execute("INSERT OR REPLACE INTO blocks VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+    con.execute("INSERT OR REPLACE INTO blocks VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 (block_id, "m4", model, int(cells), os.path.getsize(path), disk, disk, 1,
                  text, path.replace("\\", "/"), origin,
-                 "registered by m4/m5_bridge.py from the M4 db + the file on disk"))
+                 "registered by m4/m5_bridge.py from the M4 db + the file on disk",
+                 1 if synthetic else 0))
     return {"block_id": block_id, "sha256_disk": disk, "cells": int(cells),
             "bytes": os.path.getsize(path), "text_len": len(text)}
 
 
 REG_DB = os.path.join(ROOT, "kvmem", "chat.db")
 
+
+def select_m5_source(regcon, src_l2, sid, block_id):
+    """THE source-selection point: which text is allowed to become an M5 source.
+
+    Layer 2 is derived. When its row points back at a registry id, the M5 text must be
+    assembled from LAYER 1:
+      * a conversation container is NEVER a source (it carries model turns) -- only its
+        declared human excerpts are, joined in line order;
+      * a human_memory container is used as-is.
+    Without a registry link (the ablation db) the text is a DECLARED SYNTHETIC source:
+    admitted only with synthetic=1 and a declared_synthetic: origin.
+    """
+    try:
+        name, text, rid = src_l2.execute(
+            "SELECT name, text, registry_source_id FROM memory_source WHERE id=?",
+            (sid,)).fetchone()
+    except sqlite3.OperationalError:
+        # the ablation db has no registry columns: its text is an edited copy, not a source
+        name, text = src_l2.execute("SELECT name, text FROM memory_source WHERE id=?",
+                                    (sid,)).fetchone()
+        rid = None
+    if rid is None:
+        if regcon is not None and regcon.execute(
+                "SELECT 1 FROM memory_source WHERE name=?", (name,)).fetchone():
+            raise ms.OriginError(
+                "layer-2 row %r exists in layer 1 but is not linked: refusing to label it "
+                "declared_synthetic (run m4_layer2_link.py --apply)" % name)
+        return {"text": text, "names": [], "synthetic": True, "mode": "synthetic",
+                "origin": origin_of(regcon, src_l2, sid, text, block_id)}
+    c = regcon.execute(
+        "SELECT id, name, text, text_kind, is_excerpt, source_hash FROM memory_source "
+        "WHERE id=?", (rid,)).fetchone()
+    if not c:
+        raise ms.OriginError("registry id %r is not in layer 1 (stale link for %r)"
+                             % (rid, name))
+    cid, cname, ctext, kind, is_exc, chash = c
+    if is_exc:
+        raise ms.OriginError(
+            "%r is an excerpt row; an excerpt is a span of its container, never a source"
+            % (cname,))
+    if kind == "conversation":
+        ex = list(regcon.execute(
+            "SELECT e.line_index, e.excerpt_source_id, s.name "
+            "FROM memory_source_excerpt e JOIN memory_source s ON s.id = e.excerpt_source_id "
+            "WHERE e.container_id=? ORDER BY e.line_index", (cid,)))
+        if not ex:
+            raise ms.OriginError(
+                "容器 %r 没有任何已声明的人类摘录: 不能当源, 也不许悄悄退回容器全文" % (cname,))
+        texts = [regcon.execute("SELECT text FROM memory_source WHERE id=?",
+                                (r[1],)).fetchone()[0] for r in ex]
+        joined = chr(10).join(texts)
+        for nm in [r[2] for r in ex]:
+            ms.assert_m5_source_allowed(regcon, nm)
+        # S3-1 -- this assertion is the GUARD, not a bug to fix. Skipping the assistant
+        # turns is DELIBERATE: making joined a contiguous substring again would pull the
+        # model turns back onto the source side, which is exactly what R15 forbids.
+        assert joined not in ctext, (
+            "joined text must NOT be a contiguous substring of the container: it "
+            "deliberately skips the model turns (L2/L6). Removing this assert re-admits "
+            "model output as a memory source.")
+        origin = ms.format_human_turns_origin(cname, chash[:16], [r[0] for r in ex], joined)
+        return {"text": joined, "names": [r[2] for r in ex], "synthetic": False,
+                "mode": "human_turns", "origin": origin}
+    ms.assert_m5_source_allowed(regcon, cname)
+    return {"text": ctext, "names": [cname], "synthetic": False, "mode": "container",
+            "origin": origin_of(regcon, src_l2, sid, text, block_id)}
 
 def ensure_db(db=DB_PATH):
     """Build the M5 text copy from the two M4 dbs (main + ablation). Idempotent."""
@@ -116,13 +202,12 @@ def ensure_db(db=DB_PATH):
         try:
             for bid, sid, path, cells in src.execute(
                     "SELECT block_id, source_id, path, cells FROM block"):
-                text = src.execute("SELECT text FROM memory_source WHERE id=?",
-                                   (sid,)).fetchone()[0]
+                sel = select_m5_source(regcon, src, sid, bid)
                 model = json.load(open(os.path.join(HERE, "_ablate", "run_ablate.json"),
                                        encoding="utf-8"))["save"]["path"] if False else None
-                reg.append(register_block(out, bid, text, path, cells,
-                                          model or _model_of(bid),
-                                          origin_of(regcon, src, sid, text, bid)))
+                reg.append(register_block(out, bid, sel["text"], path, cells,
+                                          model or _model_of(bid), sel["origin"],
+                                          synthetic=sel["synthetic"]))
         finally:
             src.close()
     if regcon is not None:

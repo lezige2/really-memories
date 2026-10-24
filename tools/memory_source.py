@@ -39,6 +39,7 @@ Usage:
 import argparse
 import hashlib
 import os
+import re
 import sqlite3
 import sys
 from datetime import datetime
@@ -506,6 +507,140 @@ def rebuild(eng, con, name, tenant="default", scope="private", blocks_dir=None,
                            "text or tokenizer is not stable" % (name, old[0], rec["n_tokens"]))
     return rec
 
+
+# --- M5 origin strings for a text assembled from layer-1 human turns -------------
+#
+# One writer, one reader, one regex: a format built by hand in one place and parsed
+# by a regex in another is the half-the-truth-in-each-place failure this codebase
+# keeps closing. format_* and parse_* below share ORIGIN_RE.
+ORIGIN_HUMAN_TURNS = "declared_human_turns"
+ORIGIN_SYNTHETIC = "declared_synthetic"
+
+ORIGIN_RE = re.compile(
+    r"^declared_human_turns:(?P<name>[^@#]+)@(?P<csha16>[0-9a-f]{16})"
+    r"#(?P<lines>L[1-9][0-9]*(?:,L[1-9][0-9]*)*)@(?P<jsha256>[0-9a-f]{64})$")
+ORIGIN_LOOSE_RE = re.compile(
+    r"^declared_human_turns:(?P<name>[^@#]+)@(?P<csha16>[0-9a-f]{16})"
+    r"#(?P<lines>L[1-9][0-9]*(?:,L[1-9][0-9]*)*)@(?P<jsha>[0-9a-fA-F]+)$")
+
+
+class OriginError(Exception):
+    """Any failure to build, parse or verify an origin. Never warn -- always raise."""
+
+
+class OriginBadLength(OriginError):
+    pass
+
+
+class OriginLinesChanged(OriginError):
+    pass
+
+
+class OriginContainerStale(OriginError):
+    pass
+
+
+class OriginJoinedMismatch(OriginError):
+    pass
+
+
+def origin_is_synthetic(origin):
+    return isinstance(origin, str) and origin.startswith(ORIGIN_SYNTHETIC + ":")
+
+
+def format_human_turns_origin(name, container_sha16, line_indexes, joined_text):
+    """THE writer. Use this; never build the string anywhere else."""
+    if not isinstance(container_sha16, str) or not re.fullmatch(r"[0-9a-f]{16}", container_sha16):
+        raise OriginContainerStale("容器 sha16 必须是 16 位小写 hex, got %r" % (container_sha16,))
+    idx = [int(i) for i in line_indexes]
+    if not idx or idx != sorted(idx) or len(set(idx)) != len(idx):
+        raise OriginLinesChanged("行集/顺序不符: indexes must be unique and ascending, got %r" % (idx,))
+    return "%s:%s@%s#%s@%s" % (ORIGIN_HUMAN_TURNS, name, container_sha16,
+                              ",".join("L%d" % i for i in idx),
+                              sha256_text(joined_text))
+
+
+def parse_human_turns_origin(text):
+    """THE reader. Structure out, never a comparison against a rendered string."""
+    if not isinstance(text, str):
+        raise OriginError("origin must be a string, got %r" % (type(text).__name__,))
+    m = ORIGIN_RE.match(text)
+    if m:
+        return {"shape": "human_turns", "name": m.group("name"),
+                "container_sha16": m.group("csha16"),
+                "line_indexes": [int(x[1:]) for x in m.group("lines").split(",")],
+                "joined_sha256": m.group("jsha256")}
+    loose = ORIGIN_LOOSE_RE.match(text)
+    if loose:
+        got = loose.group("jsha")
+        raise OriginBadLength(
+            "需要 64 hex, 收到 %d hex: 短 hex 一律拒收, 因为它把校验从『全内容指纹』"
+            '降级成『任意前缀相同即过』的前缀比对' % len(got))
+    if origin_is_synthetic(text):
+        return {"shape": "synthetic", "raw": text}
+    raise OriginError("origin is neither declared_human_turns nor declared_synthetic: %r"
+                      % (text[:120],))
+
+
+def verify_human_turns_origin(con, origin, source_text=None):
+    """Parse, then recompute three things independently. Any miss raises; none warns.
+
+    Check order matters: the line set is compared BEFORE any hash, so a changed
+    declaration reports line-set/order mismatch instead of a misleading hash mismatch.
+    """
+    p = parse_human_turns_origin(origin)
+    if p["shape"] != "human_turns":
+        raise OriginError("not a declared_human_turns origin: %r" % (origin[:60],))
+    row = con.execute(
+        "SELECT id, text, text_kind, is_excerpt, source_hash FROM memory_source "
+        "WHERE name=? AND is_excerpt=0", (p["name"],)).fetchone()
+    if not row:
+        raise OriginContainerStale("容器不存在: %r" % (p["name"],))
+    cid, ctext, kind, is_exc, chash = row
+    if not chash.startswith(p["container_sha16"]):
+        raise OriginContainerStale("容器版本不符: origin declares %s, registry has %s"
+                                   % (p["container_sha16"], chash[:16]))
+    ex = list(con.execute(
+        "SELECT line_index, excerpt_source_id, line_sha256 FROM memory_source_excerpt "
+        "WHERE container_id=? ORDER BY line_index", (cid,)))
+    declared = [r[0] for r in ex]
+    if p["line_indexes"] != declared:
+        raise OriginLinesChanged("行集/顺序不符: origin declares %s, registry declares %s"
+                                 % (p["line_indexes"], declared))
+    clines = ctext.split(chr(10))
+    texts = []
+    for li, esid, lsha in ex:
+        t = con.execute("SELECT text FROM memory_source WHERE id=?",
+                        (esid,)).fetchone()[0]
+        if t != clines[li - 1]:
+            raise OriginError("第 %d 行不是容器的逐字子串: %r" % (li, t[:40]))
+        if sha256_text(t) != lsha:
+            raise OriginJoinedMismatch("第 %d 行 sha256 与 line_sha256 不符: %s != %s"
+                                       % (li, sha256_text(t)[:16], lsha[:16]))
+        texts.append(t)
+    joined = chr(10).join(texts)
+    if sha256_text(joined) != p["joined_sha256"]:
+        raise OriginJoinedMismatch("joined 段与重组文本不符: origin=%s recomputed=%s"
+                                   % (p["joined_sha256"][:16], sha256_text(joined)[:16]))
+    if source_text is not None and sha256_text(source_text) != p["joined_sha256"]:
+        raise OriginJoinedMismatch(
+            "joined 段与块 source_text 不符: origin=%s source_text=%s"
+            % (p["joined_sha256"][:16], sha256_text(source_text)[:16]))
+    return {"name": p["name"], "container_sha16": p["container_sha16"],
+            "line_indexes": p["line_indexes"], "joined_sha256": p["joined_sha256"],
+            "joined_text": joined, "container_text": ctext, "text_kind": kind}
+
+
+def assert_origin_roundtrip(origin, joined_text):
+    """format(parse(x)) == x -- a write/read mismatch must explode here, not stay silent."""
+    p = parse_human_turns_origin(origin)
+    if p["shape"] != "human_turns":
+        return True
+    again = format_human_turns_origin(p["name"], p["container_sha16"], p["line_indexes"],
+                                      joined_text)
+    if again != origin:
+        raise OriginError("round-trip mismatch: %r -> %r" % (origin, again))
+    return True
 
 def main():
     ap = argparse.ArgumentParser()

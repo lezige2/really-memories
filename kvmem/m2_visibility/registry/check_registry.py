@@ -359,7 +359,12 @@ def main():
         "12_undeclared_insert_fails_closed": res["i8_undeclared_insert"]["ok"],
         "13_no_second_copy_of_memory_text": res["no_second_copy_of_memory_text"]["ok"],
         "14_ledger_selfcheck_negative": res["ledger_selfcheck_negative"]["pass"],
-        "15_ledger_selfcheck_control_passes": res["ledger_selfcheck_control"]["ok"],
+        # symmetric with the negative side: ok is derived from dup today, so the two are
+        # equivalent -- but if ok is ever redefined, this key must not silently keep
+        # passing on a ledger that has grown a duplicate group.
+        "15_ledger_selfcheck_control_passes":
+            (res["ledger_selfcheck_control"]["ok"]
+             and res["ledger_selfcheck_control"]["duplicate_sources"] == {}),
     }
     res["pass"] = (all(res["acceptance"].values())
                    and res["ledger_selfcheck"]["ok"])
