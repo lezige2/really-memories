@@ -121,15 +121,22 @@ def main():
         elif want != got:
             diffs.append("%s: json=%s log=%s" % (cls, want, got))
     if inert:
+        # INERT means NOT CHECKED, not "no differences": saying diffs=none would imply
+        # the comparison happened and passed.
         row("3b", "逐类 log==worker_counts（该产物无独立计数，不可证伪）",
-            "diffs=%s (对比退化源 trace_classes)" % ("; ".join(diffs) if diffs else "none"),
+            "未对账（无独立计数；退化基准 trace_classes，不参与 overall）",
             True, "冻结产物早于 tee：3b INERT，不参与 overall", status="inert")
+    elif driver_bug:
+        # RED because the independent side is MISSING, not because values disagreed.
+        # Saying diffs=none here would print RED next to a clean diff -- unreadable.
+        row("3b", "逐类 log==worker_counts（SUM/SUM2/blk/OK 各自比）",
+            "worker_counts 缺失（新 run 未接 tee 计数）",
+            False, "新 run 缺 worker_counts（驱动未接 tee 计数）")
     else:
         row("3b", "逐类 log==worker_counts（SUM/SUM2/blk/OK 各自比）",
             "diffs=%s" % ("; ".join(diffs) if diffs else "none"),
-            (not diffs) and not driver_bug,
-            ("新 run 缺 worker_counts（驱动未接 tee 计数）" if driver_bug
-             else "独立路径对账：log 文件 vs 驱动对子进程 stderr 的 tee 计数"))
+            not diffs,
+            "独立路径对账：log 文件 vs 驱动对子进程 stderr 的 tee 计数")
 
     # 3c) conflict hint -- not an extra item, printed only
     hint = ""
@@ -146,7 +153,10 @@ def main():
     print("=== gate on %s / %s ===" % (a.log, a.run_json))
     for it in items:
         tag = {"pass": "GREEN", "fail": "RED  ", "inert": "INERT"}[it["status"]]
-        print("  %-3s %-5s expect=%s | actual=%s" % (it["item"], tag, it["expect"], it["actual"]))
+        # a red line that hides WHY it is red just makes the next reader re-derive it
+        tail = ("   <- %s" % it["note"]) if it["status"] == "fail" and it["note"] else ""
+        print("  %-3s %-5s expect=%s | actual=%s%s" % (it["item"], tag, it["expect"],
+                                                       it["actual"], tail))
     if inert_n:
         print("  门禁 %d/4 实测，3b INERT：该产物无独立计数（冻结产物，早于 tee）" % len(live))
     if hint:

@@ -246,9 +246,16 @@
 > 1. **cell 层**：失败布局里 home **21/21** 覆盖、`overlaps` 为空（引擎 cell 表实测，非 manifest 声明）。
 > 2. **掩码层**：`iso_base` 与 `iso_dup4` 两臂 home 均 **allowed=21 masked=0**；两臂 **各 100 条块行**（每臂 25 个解码步 × 4 块，合计 200），masked>0 的 0 条；每臂另有 4 条 [MASKDBG-OK]（ask 之后的 JOIN 行，属另一类，不计入块行）（trace 出自冻结版 `dbe52f9124f1ad29`）。
 > 3. **失败在生成侧**：同块同位置同掩码，`iso_dup4` 复述「你住在广陵路 12 号 2 单元 602。」，`iso_base` 输出「住在______。  A. 杭州市拱墅区  B. 杭州市拱墅区北高峰」。
-> 冻结哈希（复核用）：`llama-kv-cache.cpp` **dbe52f9124f1ad29**；`runs_mask/_mask_run.py` **9d7d502c3563ec25**；`runs_mask/_assert_trace.py` **130401439f3ee438**；`runs_mask/_smoke_pair.py` **c0e568431ebca0d6**（DLL `849e7281c74a5288`）。
-> **臂名口径**：本轮失败臂在 run json 中记作 experiment=iso_car_back（D2.LAYOUTS 无 iso_base 这个键），其几何与本文所称 iso_base 相同（home/project/habit/car，70 cells，span 3885–4095）。mask_iso_base_home.json 里的 mask_env.LLAMA_KV_MASK_LAYOUT=iso_base 是 shell 继承值，**trace 行内的 layout= 不是实际布局的证据**（静态 CRT 快照，见附录 C 第 5 条）；实际布局以 run json 的 layout.key 与 cell_layer.coverage 为准，二者与本轮 windows 逐段一致（21/18/12/19）。
+> 冻结哈希（**产出本文所引产物的版本**，非现盘版本）：`llama-kv-cache.cpp` **dbe52f9124f1ad29**；`runs_mask/_mask_run.py` **9d7d502c3563ec25**；`runs_mask/_assert_trace.py` **130401439f3ee438**；`runs_mask/_smoke_pair.py` **c0e568431ebca0d6**（DLL `849e7281c74a5288`）。**驱动两文件与门禁已被 T-006 取代（现盘哈希见第 8 条）；重跑本文所引冻结产物须先检出上列版本。**
+> **臂名口径**：本轮失败臂在 run json 中记作 experiment=iso_car_back（D2.LAYOUTS 无 iso_base 这个键），其几何与本文所称 iso_base 相同（home/project/habit/car，70 cells，span 3885–4095）。mask_iso_base_home.json 里的 mask_env.LLAMA_KV_MASK_LAYOUT=iso_base 是 shell 继承值，**trace 行内的 layout= 不是实际布局的证据**（静态 CRT 快照，见附录 C 第 5 条）；实际布局以 run json 的 layout.key 与 cell_layer.coverage 为准，二者与本轮 windows 逐段一致（21/18/12/19）。**本行仅适用于本文引用的冻结产物**；T-006 之后新 run 的 `layout=` 已是真值（见第 4 条）。
 > 未修复：引擎逻辑一行未改（500 插入 / 0 删除），生成侧的三种候选解释**均未验证**。
+>
+> **T-006（验证工具链）已完成** —— 只改驱动与门禁，引擎未动。
+> 4. **静态 CRT 坑已绕过**：驱动从"同进程调用"改为**启动器 + worker**，`Popen(env=...)` 在子进程启动前注入真实布局键；进程内 `os.environ` 无效（DLL 在进程启动时快照环境）。新 run 的 trace **154 行全部 `layout=iso_car_back`**，`iso_base` 出现 **0** 次；run json 记 `child_env` / `env_source` / `ask.n_predict` / `trace_gate`。
+> 5. **四项 AND 门禁**（`runs_mask/_gate.py`）：**A** 按类标签（SUM 行 25 / 旧值 0）· **B** 集合断言（不含任何数量）· **3a** 外部锚点（`SUM==1+N_PREDICT`、`blk==len(segments)*SUM`、`OK==len(segments)`、`SUM2==SUM`）· **3b** 独立管路（启动器在 stderr 管道上 tee 计数 vs 日志实测，逐类）。3b 为三态 `{pass,fail,inert}`：新 run 缺 `worker_counts` → **rc=7**；冻结旧产物 → **INERT 不投票**，汇总行明写"3 项 AND + 3b INERT"，不得混称四项。
+> 6. **3b 可证伪（已造红）**：日志删 10 行 blk → `blk 90 != 100`，3a 与 3b 同红、rc=6。**整类缺失由 A 与 3a 承担**——3b 在"整类不打印"时会退化为恒真（`AB_B_seq99`：A红 / B**绿** / 3a红 / 3b INERT 为正确排布）。
+> 7. **插桩零行为影响**：答案 sha `e63faeff` 与历史失败臂逐字节相同；不传 `--debug` 时日志 0 字节、答案 `7ec1430d`。
+> 8. T-006 冻结哈希：`runs_mask/_mask_run.py` **1b9a0b383554dd70**（208 行）；`runs_mask/_gate.py` **c2085a04a21c21da**（187 行）；`runs_mask/_assert_trace.py` **5df5ae7c539b377a**（92 行）；`llama.cpp` **ins=500 del=0**、cpp **dbe52f9124f1ad29**。
 
 ### 7.1 m2_visibility 三臂——**n=5 重复性检验已做**（T-003 A 段）
 
