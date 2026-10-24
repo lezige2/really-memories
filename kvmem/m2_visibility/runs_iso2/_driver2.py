@@ -60,7 +60,7 @@ def build_layout(key, manifest):
                      "file_sha256": b["sha256"], "cells": n, "slot": slot,
                      "pos_lo": lo, "pos_hi": lo + n, "add_order": len(order) + 1})
         order.append(sid)
-    return {"key": key, "segments": segs,
+    return {"key": key, "spacing": spec["spacing"], "segments": segs,
             "add_order": spec.get("add_order", order),
             "control_order": CONTROL_ORDER,
             "start": min(s["pos_lo"] for s in segs),

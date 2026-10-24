@@ -160,7 +160,9 @@ def worker(argv):
         P.reset_all(eng)
         placed = P.load_and_place(eng, layout)
         P.share_layout(eng, layout, placed)
-        res["layout"] = {"key": a.layout, "spacing": 64,
+        # spacing must describe THIS layout: a product that states its own geometry wrong is
+        # worse than one that omits it, because others will recompute from the wrong number.
+        res["layout"] = {"key": a.layout, "spacing": layout["spacing"],
                          "cells_total": layout["cells_total"],
                          "span_lo": layout["span_lo"], "span_hi": layout["span_hi"],
                          "head_gap_cells": (P.CHAT - 1) - (layout["span_hi"] - 1),
