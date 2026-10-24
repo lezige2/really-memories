@@ -101,3 +101,68 @@ DROP TRIGGER 后再改 => 上面三条 API 校验全部抛错。绕得过一层�
 - **未做**（按 lead 分工）：Stage 1b（层 2 加 `registry_source_id`/`source_hash` 两列、子串断言、`text_origin` 改写）、Stage 2（chat.py 改读库）、Stage 3（M5 改读库）、R14（省份词表）、C5 那四个平行版本。
 - 层 2 现在的缺口照实记在 `run_registry_check.json::consumer_coverage`：`m4/m4_memory.db::memory_source` 只有 `id,name,label,text,fanout` —— 无 hash 无注册表 id；
   `_m5db/m5_m4_blocks.db::text_origin` 是字面量 `m4.memory_source.text`，不是 `(id, sha)`。
+
+
+## Stage 1b 增量：层 1 的四种行 + M5 源闸门（R15 候选）
+
+### 新列（幂等 ALTER，**没有重写任何一行 text 的字节**）
+
+| 列 | 值域 | 含义 |
+|---|---|---|
+| `text_kind` | `human_memory` / `conversation` | 这行是什么 |
+| `contains_model_turns` | 0 / 1 | 里面有没有模型产出 |
+| `is_excerpt` | 0 / 1 | 是"某容器的一句话摘录"还是独立源 |
+| `derived_from` | `<container>@<sha16>` / NULL | 摘录必填，指回容器 |
+
+层 1 现在是 10 行：`profile` / `project`（human_memory,0,0）、`conv_2026-10-25`（conversation,1,0）、
+`conv_2026-10-25#L1/L3/L4/L5/L7/L8/L9`（human_memory,0,1，derived_from=`conv_2026-10-25@d8c094c1f5fcb8f1`）。
+
+### I1 精确化（`assert_unique_texts`）
+
+1. 同一 `(text_kind, is_excerpt)` 层内：一个文本只有一行；
+2. 跨层唯一允许的重复 = **摘录 ⊂ 容器**，且 `derived_from` 必须解析到**唯一**的非摘录行、sha16 前缀匹配、文本逐字子串；
+3. 分层不许变成「看不见的重复」：跨层重复**必须可追溯**。
+
+实测三个层：`conversation/is_excerpt=0`、`human_memory/is_excerpt=0`、`human_memory/is_excerpt=1`。
+
+### R15（候选纪律，写进判据）
+
+> `text_kind=conversation` 的源**只能**用于证明「块正文来自何处」（`text_origin` 回查），
+> **绝不得作为 M5 的源侧**。M5 源侧只接受 `text_kind=human_memory`。
+
+理由：对话记录含模型回合，若它当 M5 源，模型自己的一句「记住了」甚至一句编造都会被当成"源里有"。
+**安全方向**：人类发言若未进入 M5 源，相关提问变 `undecidable`（弃答）——按「漏判优先于误判」可接受。
+
+### 闸门调用点（C4-k）
+
+`registry/check_m5_gate.py` 做两件机器可查的事：① 打印 `assert_m5_source_allowed` 的调用点；② 扫描「会materialize M5 源文本」的文件，
+要求每个都调用闸门或带 `TODO(stage3)` 标记，否则判 BYPASS。
+当前结论：调用点 1 处（`m4_layer2_link.py:604`）；M5 现在**不读注册表**，所以还没有源选择分支可拦 ——
+Stage 3 必须在 M5 选源处加调用，在此之前 `m5_bridge.py:86` 的 `TODO(stage3)` 是标记点。
+
+### 覆盖率五元组（源侧与可检索是两件事）
+
+`(user 行数=7, assistant 行数=2, 层1 摘录行数=7, 被层2事实覆盖的行数=4, 可检索事实数=4)`
+
+**L1「你好呀！」/ L7「帮我查下明天天气。」/ L8「谢谢，就这样吧。」是「不可检索」（没被抽成事实、进不了检索），
+不是「不可支撑」（它们仍是层 1 的源）。**
+
+### 角色声明与逐字节断言
+
+枚举写死在 `m4/m4_layer2_link.py::EXCERPTS` 并落库 `memory_source_excerpt`
+（`container_id/container_name/container_sha256/line_index/excerpt_source_id/line_sha256/line_len/role/roles_declared/decl_source`）。
+断言：`line_text == container_text.split(换行)[line_index-1]` **逐字节相等**，不等即报错（不取最近、不跳过）。
+声明变更 => `drop_stale_excerpts` 把该容器的摘录集**整体删除重建**，不许就地改 role。
+role **只作准入闸门**，不得参与任何内容判断。
+
+### 一条必须记住的观察
+
+既有 4 条 fact 的溯源（住址_2→L3、作息_3→L4、车牌_4→L5、家庭成员_5→L9）全是用户行、全是逐字子串，
+所以今天**把 L2 标成 user 也不会改变任何结果**（L2 没有事实）=> 枚举标错是**隐性**的。
+显式枚举 + sha16 绑定 + 逐字节断言防的是**将来**：某条助手发言恰好含一个硬事实被静默存进层 1 的那一刻，
+**没有任何字节层面的东西会报错**。
+
+### 锚
+
+`chat.db`：`f02763dcd8512e83` -> **`a699fd1e5aaa9adf`**（列变更 + 3 条新源 + 7 条摘录）。
+`profile` / `project` 的 text 与 `source_hash` **未变**：`d3e57f11838e6bf8` / `aa9769adb3cb4493`（len 61 / 45）。

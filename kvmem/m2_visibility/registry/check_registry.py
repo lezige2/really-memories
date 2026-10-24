@@ -84,14 +84,21 @@ def main():
     res["all_stored_hashes_self_consistent"] = all(r["match"] for r in res["rows"])
 
     # ---------- 2. I1 uniqueness ----------
-    uniq = ms.assert_unique_texts(con)
-    dup_texts = [k for k, v in uniq.items() if len(v) > 1]
+    i1 = ms.assert_unique_texts(con)
+    layers, flat = i1["layers"], i1["texts"]
+    dup_in_layer = [("%s" % k, v) for k, layer in layers.items()
+                    for v in layer.values() if len(v) > 1]
+    cross = {k[:16]: v for k, v in flat.items() if len(v) > 1}
     res["I1_uniqueness"] = {
-        "distinct_texts": len(uniq),
+        "layers": {k: {"distinct_texts": len(v),
+                       "rows": sum(len(x) for x in v.values())} for k, v in layers.items()},
+        "distinct_texts_all_layers": len(flat),
         "row_count": len(rows),
-        "one_row_per_text": len(uniq) == len(rows) and not dup_texts,
-        "duplicates": dup_texts,
-        "texts_by_sha16": {k[:16]: v for k, v in uniq.items()},
+        "one_row_per_text": (not dup_in_layer
+                             and all(any("is_excerpt" in n for n in names) for names in cross.values())),
+        "duplicates": dup_in_layer,
+        "cross_layer_same_text": cross,
+        "texts_by_sha16": cross,
         "assert_fn": "tools/memory_source.py::assert_unique_texts",
     }
 
@@ -179,7 +186,11 @@ def main():
                     "byte_identical": bool(rr) and rr[3] == txt})
     res["fidelity_vs_chat_py_constants"] = {
         "how": "ast.literal_eval on tools/chat.py (no import, no execution)",
-        "rows": fid, "ok": len(fid) == len(rows) and all(f["byte_identical"] for f in fid)}
+        "rows": fid,
+        "ok": all(f["byte_identical"] for f in fid) and len(fid) <= len(rows),
+        "note": "the registry may hold MORE rows than MEMORIES (Stage 1b promoted the M4 "
+                "conversation transcript as a source); every MEMORIES entry must still be "
+                "byte-identical, and extra rows must declare their text_kind"}
     con.close()
 
     # ---------- 7. missing entry is explicit, not "" ----------

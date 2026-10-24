@@ -603,3 +603,49 @@ M4 的语料（2026-10-25 那段对话）**根本不在注册表里**，注册�
 
 **锚账本**：`m4/anchors_history.json`（只追加，每条 `(field, old_sha16, new_sha16, reason, time)`）——
 因为 `delivery_anchor` 里的 `*_previous_run` 每跑一次就被覆盖，链条会断。
+
+
+### 19.13 Stage 1b 已执行（§19.12 是执行前状态，以本节数字为准）
+
+**层 2 两列已填满**：`registry_source_id` + `source_hash`，5 行全部可追到层 1 容器 `conv_2026-10-25@d8c094c1f5fcb8f1`。
+
+| 判据 | 结果 | 证据 |
+|---|---|---|
+| C4-a 每行 registry_source_id 命中层 1 | 通过 | 5/5，`assert_linked` OK |
+| C4-b 逐字子串 | 通过 | `assert_substrings` OK（1 行 exact + 4 行 substring：21/23/13/26 字符）|
+| C4-c 注册表变更未重建 => Stale | 通过 | 见 C4-i 负向 1 |
+| C4-d `text_origin` 可回查 | 通过 | `registry:conv_2026-10-25@d8c094c1f5fcb8f1` -> `(id=3, sha256 全文, text_kind=conversation)` |
+| C4-e 改坏注册表 => 报 stale | 通过 | `Stale: ... linked to conv_2026-10-25@d8c094c1f5fcb8f1 but layer 1 now hashes 019e29613d9a4d3f` |
+| C4-f `text_kind` 合法 | 通过 | profile/project=human_memory/0，conv=conversation/1，7 条摘录=human_memory/0/is_excerpt=1 |
+| C4-g 闸门 | 通过 | conv **抛 SourceNotAllowed**；profile 过；`conv_2026-10-25#L5` 过 |
+| C4-h `resolve_origin` 含 `text_kind` | 通过 | 返回 7 个键，含 `text_kind` / `contains_model_turns` |
+| C4-i 负向两条 | 通过 | `ForeignText` + `Stale` 均实测抛出 |
+| C4-j 摘录三件套 | 通过 | 7 条摘录、声明表 7 行、逐字节相等、assistant L2/L6 **未**入库（`assistant_not_promoted`）|
+| C4-k 调用点 + 无旁路 | 通过 | `registry/run_check_m5_gate.json`：调用点 1、bypass 0、M5 目前无注册表读 |
+
+**`_m5db` 的 origin（D2 字面形态）**
+
+| block | text_origin |
+|---|---|
+| `blk_conv_2026-10-25_01` | `registry:conv_2026-10-25@d8c094c1f5fcb8f1` |
+| `blk_conv_noplate_2026-10-25_01` | `declared_synthetic:blk_conv_noplate_2026-10-25_01@93332bde804698bc` |
+
+内容哈希不变：`876deaa3a4b7ad1d4a01f49e2a451b0c577b3feb6aaf86f03920fe2e98e07edf`（正文没动，只动来源标注）。
+
+**两处实测抓到的真缺陷（测试确实在挡东西，不是空转）**
+
+1. `migrate_layer1` 原先在**提升之前**跑 => 新插入的 conv 行吃了 `human_memory` 默认值，
+   闸门对它**放行**。修法：分类必须在提升之后，且只处理 `is_excerpt=0` 的行。
+   （这正是「默认值朝不安全方向」的活例：默认 human_memory 会让模型产出蒙混过关。）
+2. `origin_of` 原先在**层 2** 里按 `registry_source_id` 查名字 => 得到 `fact_作息_3`。
+   原因：层 2 id 与注册表 id 是两个命名空间。修法：名字必须回层 1 查，且校验两侧 hash 一致，不一致写 `stale:` 前缀。
+
+**新锚（M4 三锚作废并重新锚定）**
+
+| artifact | 旧 | 新 |
+|---|---|---|
+| `m4_memory.db` | `817a66e45a4e3594` | **`fd244c80c0cc974d`** |
+| `run_m4_verify.json` | `bdf392e8f9a672a7` | **`857f13c514ad233e`**（重跑，16/16 true）|
+| `run_m4_write.json` | `6408d8e2ecdf6ee5` | 未变（未重跑写库）|
+| `_m5db/m5_m4_blocks.db` | — | `ef5fdfb65640d2fa`（内容哈希仍 876deaa3…）|
+| `chat.db` | `f02763dcd8512e83` | **`a699fd1e5aaa9adf`** |

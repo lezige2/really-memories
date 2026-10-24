@@ -54,28 +54,39 @@ def sha_file(p):
     return h.hexdigest()
 
 
-def origin_of(src, sid, text):
+def origin_of(reg, src, sid, text, block_id):
     """text_origin for one block: registry:<name>@<sha16> when layer 2 is linked.
 
-    Stage 1b: the origin must resolve back to a row in the authoritative registry.
-    Until the link is applied the literal is kept, but marked unlinked so it can never
-    be mistaken for a resolved origin.
+    The NAME must come from layer 1: a layer-2 id and a registry id are different id
+    spaces, so resolving the name inside the layer-2 db silently yields the wrong source.
+    Anything that cannot be resolved is labelled, never left looking authoritative.
     """
     try:
         row = src.execute("SELECT registry_source_id, source_hash FROM memory_source "
                           "WHERE id=?", (sid,)).fetchone()
     except sqlite3.OperationalError:
-        return "m4.memory_source.text (unlinked: layer 2 has no registry columns)"
+        # the ablation db has no registry columns: its text is an edited copy, not a source
+        return "declared_synthetic:%s@%s" % (
+            block_id, hashlib.sha256(text.encode("utf-8")).hexdigest()[:16])
     if not row or row[0] is None or not row[1]:
         return "m4.memory_source.text (unlinked: run m4_layer2_link.py --apply)"
-    name = src.execute("SELECT name FROM memory_source WHERE id=?", (row[0],)).fetchone()
-    if not name:
-        return "m4.memory_source.text (unlinked: registry id %r not in this db)" % (row[0],)
-    return "registry:%s@%s" % (name[0], row[1][:16])
+    l1 = reg.execute("SELECT name, source_hash FROM memory_source WHERE id=?",
+                     (row[0],)).fetchone() if reg else None
+    if not l1:
+        return "m4.memory_source.text (unlinked: registry id %r not in layer 1)" % (row[0],)
+    if l1[1] != row[1]:
+        return "stale:layer2@%s!=registry@%s" % (row[1][:16], l1[1][:16])
+    return "registry:%s@%s" % (l1[0], l1[1][:16])
 
 
 def register_block(con, block_id, text, path, cells, model, origin):
-    """One row per real block file; sha is measured from disk at registration time."""
+    """One row per real block file; sha is measured from disk at registration time.
+
+    TODO(stage3): when M5 selects its own sources from the registry, every source admitted
+    here must first pass tools/memory_source.assert_m5_source_allowed(name). Today the M5
+    text copy is built from the M4 db, so the gate is not on this path yet -- this marker is
+    what tools/../registry/check_m5_gate.py looks for.
+    """
     disk = sha_file(path)
     con.execute("INSERT OR REPLACE INTO blocks VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
                 (block_id, "m4", model, int(cells), os.path.getsize(path), disk, disk, 1,
@@ -85,9 +96,13 @@ def register_block(con, block_id, text, path, cells, model, origin):
             "bytes": os.path.getsize(path), "text_len": len(text)}
 
 
+REG_DB = os.path.join(ROOT, "kvmem", "chat.db")
+
+
 def ensure_db(db=DB_PATH):
     """Build the M5 text copy from the two M4 dbs (main + ablation). Idempotent."""
     os.makedirs(os.path.dirname(db), exist_ok=True)
+    regcon = sqlite3.connect(REG_DB) if os.path.exists(REG_DB) else None
     if os.path.exists(db):
         os.remove(db)
     out = sqlite3.connect(db)
@@ -106,9 +121,12 @@ def ensure_db(db=DB_PATH):
                 model = json.load(open(os.path.join(HERE, "_ablate", "run_ablate.json"),
                                        encoding="utf-8"))["save"]["path"] if False else None
                 reg.append(register_block(out, bid, text, path, cells,
-                                          model or _model_of(bid), origin_of(src, sid, text)))
+                                          model or _model_of(bid),
+                                          origin_of(regcon, src, sid, text, bid)))
         finally:
             src.close()
+    if regcon is not None:
+        regcon.close()
     out.execute("INSERT OR REPLACE INTO meta VALUES (?,?)",
                 ("built_at", __import__("time").strftime("%Y-%m-%dT%H:%M:%S")))
     out.commit()

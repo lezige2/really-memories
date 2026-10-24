@@ -205,21 +205,59 @@ def _verify_row(row):
 
 
 def assert_unique_texts(con):
-    """I1: one canonical row per text. Two rows holding the same text = two copies.
+    """I1: one canonical row per text -- scoped by (text_kind, is_excerpt).
 
-    Returns {sha256: [names]} for inspection; raises if any text is stored twice.
+    An excerpt row repeats its container's bytes on purpose (it IS a span of it), so a flat
+    "one row per text" rule would forbid the excerpt layer outright. The invariant is:
+
+      * inside one (text_kind, is_excerpt) layer: exactly one row per text;
+      * across layers: every excerpt must name a container whose text really contains it,
+        otherwise "layered dedupe" would just be invisible duplication.
+
+    Returns {"layers": {...}, "texts": {sha256: [names]}}.
     """
-    seen = {}
-    for sid, name, text, sh in con.execute(
-            "SELECT id, name, text, source_hash FROM memory_source ORDER BY id"):
+    cols = set(r[1] for r in con.execute("PRAGMA table_info(memory_source)"))
+    layered = {"text_kind", "is_excerpt", "derived_from"} <= cols
+    sql = ("SELECT id, name, text, source_hash, text_kind, is_excerpt, derived_from "
+           "FROM memory_source ORDER BY id") if layered else \
+          ("SELECT id, name, text, source_hash, 'human_memory', 0, NULL "
+           "FROM memory_source ORDER BY id")
+    seen, rows, flat = {}, {}, {}
+    for sid, name, text, sh, kind, exc, derived in con.execute(sql):
         computed = sha256_text(text)
         if computed != sh:
             raise SourceHashMismatch(name, sid, sh, computed)
-        seen.setdefault(computed, []).append("%s#%d" % (name, sid))
-    dupes = {k: v for k, v in seen.items() if len(v) > 1}
+        seen.setdefault((kind, exc), {}).setdefault(computed, []).append("%s#%d" % (name, sid))
+        flat.setdefault(computed, []).append("%s#%d" % (name, sid))
+        rows[sid] = {"id": sid, "name": name, "text": text, "sha": computed,
+                     "text_kind": kind, "is_excerpt": exc, "derived_from": derived}
+
+    dupes = [("%s/is_excerpt=%s" % k, v) for k, layer in seen.items()
+             for v in layer.values() if len(v) > 1]
     if dupes:
-        raise AssertionError("the same text is stored more than once: %r" % (dupes,))
-    return seen
+        raise AssertionError("the same text is stored more than once inside one layer: %r"
+                             % (dupes,))
+
+    for r in rows.values():
+        if not r["is_excerpt"]:
+            continue
+        if not r["derived_from"]:
+            raise AssertionError("excerpt %s#%d declares no derived_from container"
+                                 % (r["name"], r["id"]))
+        cname, _, csha16 = r["derived_from"].rpartition("@")
+        cont = [c for c in rows.values() if c["name"] == cname and not c["is_excerpt"]]
+        if len(cont) != 1:
+            raise AssertionError("excerpt %s#%d names container %r, but that is not one "
+                                 "non-excerpt row" % (r["name"], r["id"], cname))
+        cont = cont[0]
+        if not cont["sha"].startswith(csha16):
+            raise AssertionError("excerpt %s#%d declares container sha %s but %s hashes %s"
+                                 % (r["name"], r["id"], csha16, cname, cont["sha"][:16]))
+        if r["text"] not in cont["text"]:
+            raise AssertionError("excerpt %s#%d is not a verbatim substring of container %s"
+                                 % (r["name"], r["id"], cname))
+    return {"layers": dict(("%s/is_excerpt=%s" % k, v) for k, v in seen.items()),
+            "texts": flat}
 
 
 def probe_text(con, source_id):
@@ -368,12 +406,16 @@ def classify(con, blocks_dir=None, model_path=MODEL, kv_type="q8_0"):
 def verify(con, blocks_dir=None, model_path=MODEL):
     """Everything that must hold for the derived layer to be trustworthy."""
     problems = []
+    exc = "is_excerpt" in set(r[1] for r in con.execute("PRAGMA table_info(memory_source)"))
     rows = con.execute(
         "SELECT s.id,s.name,s.text,s.source_hash,"
-        "       b.path,b.n_bytes,b.state_version,b.model_size,b.model_mtime,b.model_path "
-        "FROM memory_source s LEFT JOIN memory_block b ON b.source_id = s.id").fetchall()
+        "       b.path,b.n_bytes,b.state_version,b.model_size,b.model_mtime,b.model_path"
+        + (",s.is_excerpt" if exc else ",0") +
+        " FROM memory_source s LEFT JOIN memory_block b ON b.source_id = s.id").fetchall()
     fp = model_fp(model_path)
-    for sid, name, text, sh, path, n_bytes, sver, m_size, m_mtime, m_path in rows:
+    for sid, name, text, sh, path, n_bytes, sver, m_size, m_mtime, m_path, is_exc in rows:
+        if is_exc and path is None:
+            continue          # an excerpt is a span of its container, never a block source
         if sha256_text(text) != sh:
             problems.append("%s: source_hash mismatch (text was mutated behind the trigger)"
                             % name)
