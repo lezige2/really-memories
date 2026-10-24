@@ -318,3 +318,100 @@ display_trace_fields / gates_untouched / all_pass`
 500–1000 token 长对话分段、多段并存、段间去重、supersede 多跳、词表外新属性的真实样例 —— **未检验**；
 free VRAM —— **未测出**；think 标签的**归因** —— **未查明**（只测出会/不会出现的样例边界）；
 跨实验 —— **单例**，非统计。
+
+## 19 M5 接进作答路径（MD §4.5「接地与弃答（产品级）」）
+
+### 19.1 接线：生成之后过一遍校验，判据文件一行未动
+`BT~~
+route（retrieval） → mount（真块进 seq1） → generate（真引擎） → display 层（think 清洗）
+                                                        ↓
+                                    m5_ground.ground(display, mounted=[真实挂载块 id], question)
+                                                        ↓
+                       supported → 原样显示   unsupported → 只显示「记忆里没有记录{主题词}。」
+                       undecidable → 原样显示 + 标黄（记录，不静默）
+`BT~~
+新增文件（全在 `m4/`，没有改动任何既有脚本/块）：
+| 文件 | 作用 |
+|---|---|
+| `m5_bridge.py` | 只**调用** `m5_ground`：建 M5 侧文本副本（`blocks` 表：source_text / sha256 / sha_match / source_path）、把校验报告翻成产品记录、决定显示文本 |
+| `m4_answer_grounded.py` | 产品作答路径：route → mount → 生成 → display → M5 → 最终 `answer_display`（每次都新进程） |
+| `m4_ablate.py` | 建消融块（同一段对话**只删车牌句**），真 14B 写入 → 79 cells → `_ablate/blocks/` |
+| `m4_verify_grounded.py` | 四例验收编排 + 三值留痕 + 未改动断言 → `run_m5_grounded.json` |
+
+### 19.2 字段契约（原文一律保留）
+| 字段 | 含义 |
+|---|---|
+| `answer_exact` | 模型原文，**永不改写**（判据与 M4 验收一直靠它） |
+| `answer` | display 层的 strip 副本，**保留** |
+| `display_pre_grounding` | display 层输出（含四项留痕：`answer_display_changed / per_tag_count / removed_chars / display_len / display_empty / diff_explained / idempotent / content_warnings`） |
+| `answer_display` | **最终显示**：只有 `unsupported` 时被替换 |
+| `grounding` | `verdict`、`hard_facts`（family/raw/key/sentence/hit）、`hits/unhit/exempt/undecidable_items`、`mounted`、`mount_evidence`（cells、range、block path、block sha256）、`topic_word`、`m5_rewritten`、`recheck` |
+
+**挂载块 id 不是手填的**：`m4_answer_grounded` 自己 route/mount，把**实际挂到 seq1 的那块**交给 M5，并同时记录引擎侧
+`engine_cells_on_seq1` 与块行 `cells` 的相等断言（四例全 True）。
+
+### 19.3 显示策略（产品决定，不是改判据）
+`unsupported` ⇒ 只显示 `"记忆里没有记录{topic_word}。"` 一行；冻结校验器自己的句级改写留在 `m5_rewritten` 里原样可查
+（它只替换涉及的句子、其余保留，所以模型那串「好的，好的…」会跟着留下——产品不把这类填充语和弃答行一起显示）。
+`supported` / `undecidable` ⇒ display 与 `display_pre_grounding` 逐字节相同。
+
+### 19.4 四例对照（真引擎、四例四进程，pid 各不相同）
+| 例 | 问句 | 挂载块 | M5 三值 | 原始 hard facts | 原答案前 40 字 | 最终 display 前 40 字 |
+|---|---|---|---|---|---|---|
+| plate_main | 我车牌号是多少？ | `blk_conv_2026-10-25_01` | **unsupported（误判，见 §19.5）** | `A:浙B-3F19K hit=False` ×2 | `浙B-3F19K\nresponse\n\n车牌号是浙B-3F19K。` | `记忆里没有记录车牌号。` |
+| plate_ablated | 我车牌号是多少？ | `blk_conv_noplate_2026-10-25_01` | **unsupported（正确）** | `A:苏K12345 hit=False` | `我车牌号是苏K12345。\n好的，我记下来了。…` | `记忆里没有记录车牌号。` |
+| home_main | 我住在哪？ | `blk_conv_2026-10-25_01` | **supported** | `P:广陵路 T；N:12 T；N:2 T；N:602 T（共 8 条，全命中）` | `我住在广陵路 12 号 2 单元 602。\nresponse…` | 同左（仅 think 清洗） |
+| home_ablated | 我住在哪？ | `blk_conv_noplate_2026-10-25_01` | **supported** | 同上（8 条全命中） | 同上 | 同上 |
+| undecidable（桥级，无生成） | 我住在哪？ | 复用 home_main 的块 | **undecidable** | `P:廣陵路 hit=True`，`why=含繁体字，不做繁简转换（§2.1.6）` | `我住在廣陵路 12 号 2 单元 602。` | **不变**（逐字节相同），`flagged=true` |
+
+三值都留痕（`supported / unsupported / undecidable`），每条都带 `mounted` + 块 sha256 + hard facts + 命中与否 + 最终显示文本。
+
+### 19.5 判据 1 **被冻结判据卡住**（照实报，不改判据）
+实测：主块挂着、问题「我车牌号是多少？」、模型正确答 `车牌号是浙B-3F19K。` —— 校验器仍判 `unsupported`。原因是判据里
+**答案侧与源侧的车牌归一化不对称**：
+| 侧 | 规则 | 结果 |
+|---|---|---|
+| 答案 | `RE_PLATE = [\u4e00-\u9fff][A-Za-z][-· ]?[A-Za-z0-9]{4,6}` → `alnum_key` | key = `浙B3F19K`（**带省份字**） |
+| 源 | `RE_CODE` 从拉丁/数字起 → `alnum_key` 进 `prof["latin"]` | `B3F19K`（**丢了省份字**） |
+| 判定 | `a_hit= key in latin or any(key in s for s in latin)` | 只查「答案 key ⊂ 源词」，不查反向 ⇒ `浙B3F19K` vs `B3F19K` **漏命中** |
+
+复现（一条命令，不需要引擎）：
+`BT~~
+cd kvmem/m2_visibility/m4 && python -X utf8 -c "
+import sys,sqlite3; sys.path.insert(0,r'D:/llama-mem/kvmem/m2_visibility/m5')
+import m5_ground as G
+t,_=G.verify_sources(sqlite3.connect('_m5db/m5_m4_blocks.db'),['blk_conv_2026-10-25_01'])
+p=G.source_profile(t); print(p['latin'], G.extract('浙B-3F19K'), G.a_hit('浙B3F19K',p), G.a_hit('B3F19K',p))"
+# {'B3F19K'} […] '浙B3F19K' → False, 'B3F19K' → True
+`BT~~
+**这是判据缺陷，方向是「该支持判成不支持」**，产品可见后果是「把正确车牌答案答成『记忆里没有记录』」。
+按你冻结判据的要求，我**没有**动 `m5_ground.py`（`git diff HEAD -- kvmem/m2_visibility/m5` 为空）。可选出路（请你定）：
+1. 解冻 `a_hit` 一行改成双向包含：`return key in latin or any(key in s or s in key for s in latin)`（最小、可回归）；
+2. 让 `source_profile` 也用 `RE_PLATE` 收一次 key（源侧补上省份字），同样是一行级；
+3. 判据 1 改写为「车牌正向例在题型层面不参与」（即承认 A 族 CJK 前缀车牌暂不可判），我把这条记成已知缺口。
+
+### 19.6 判据现状（`run_m5_grounded.json .acceptance`）
+| # | 结果 |
+|---|---|
+| 1 车牌正向 supported + display 不变 | **false（被 §19.5 卡住）** |
+| 2 消融例 unsupported + display=`记忆里没有记录车牌号。` | **true** |
+| 3 「我住在哪？」两块下都 supported + display 逐字节不变 | **true** |
+| 4 四条记录齐全（挂载块/hard facts/三值/最终显示，可追到块 sha） | **true** |
+| 4b 三值都留痕 | `["supported","undecidable","unsupported"]` |
+| 5 `m5_ground.py` 未修改 | **true**（`git diff` 空） |
+| 附加 不退化 | `m3/` 未改、`m4/` 既有文件未改（只新增文件） |
+
+### 19.7 一条可复制命令 + sha 锚点
+`BT~~
+cd kvmem/m2_visibility/m4 && python -u -X utf8 m4_verify_grounded.py     # 四例 + 三值 + 断言
+`BT~~
+| 对象 | sha256 |
+|---|---|
+| 主块 `blk_conv_2026-10-25_01.kvmem`（91 cells） | `81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6` |
+| 消融块 `blk_conv_noplate_2026-10-25_01.kvmem`（79 cells） | `e3bfec41d1f059e7d062a5e50a22802fe38cbf91cae2283b8a4a6c48ce940c04` |
+| M5 侧文本副本（内容哈希，重建稳定） | `876deaa3a4b7ad1d4a01f49e2a451b0c577b3feb6aaf86f03920fe2e98e07edf` |
+
+### 19.8 边界提醒（写死在这里，避免被误读）
+- 校验器只管**无中生有**，不管**张冠李戴**：例如把「我住的小区叫蓝鲸」这种错配判 `supported` 是**设计**，不是缺陷。
+- 本文档不写「M5 修好了接地」这种话。M5 只是**在生成之后**把「块里没有的硬事实」拦下来并置为弃答文本，
+  且有 §19.5 那个反向缺陷 —— 它既不是万能的，也不是没错的。
