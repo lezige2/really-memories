@@ -330,6 +330,69 @@
 
 **下一步若要继续，必须满足一条纪律**：新实验的预测**不得能从 §2.10.3 那条合取推出**（否则只是再拟合一次）；且应优先做能被引擎侧证据（trace/位置）验证的实验，而不是又一个"pass/fail"计数。
 
+## 2.11 T-020（`iso_dup4@spacing=128`）：距离轴判死
+
+三次 `ask.ok=TRUE`、答案逐字节相同（`e6a0807c…c968f0`）、`cell_count=69`，`coverage` project 落 **3950-3968**、project2 落 **3694-3712**（实距 128/384），trace `SUM=25 blk=100`、`VERDICT=GREEN`。【实测】
+
+⇒ **"副本源必须距 home ≤64" 判红**（同布局、同块、同 cells，只把间距 64→128，结局不变）。
+⇒ 同时把合取里的"位置条件"从**距离量**降级成**槽位量**：与 token 距离无关。
+
+**但"只剩结构说"不成立**：若结构说 = "副本源必须是 home 或紧邻它的那块"，`iso_dup_p2`（紧邻的是 habit，第四块正是 habit 副本）必须 pass，实测 **fail ×3**。
+⇒ **距离说 / 内容说 / 结构说 三条纯单变量说全部判死**（分别由 `dup4_s128` / `dup_p3` / `dup_p2` 判死）。
+
+### 2.12 把那条合取拿到全库撞一遍：**有反例，判死**
+
+口径：读每份产物的 `layout.segments`，把 `c_*/b_*/x2` 变体块按**内容**归到 home/project/habit/car；预测 = "前三块为 canonical (home,project,habit)，且第四块是 home 或 project 的副本（或无第四块）"；结局按 §7 去重口径取 home 记录。
+
+```
+layout           facts(slot1..4)                4th  predict  actual  verdict
+I13_b_habit20    home,project,habit,habit        no   fail     fail    OK     0/2
+I13_b_home31     home,project,habit,home         yes  pass     pass    OK     2/0
+I13_b_proj28     home,project,habit,project      yes  pass     fail    MISMATCH 0/2
+axA_c_car        home,project,habit,car          no   fail     pass    MISMATCH 2/0
+axA_c_habit      home,project,habit,habit        no   fail     pass    MISMATCH 2/0
+axA_c_home       home,project,habit,home         yes  pass     pass    OK     2/0
+axA_c_project    home,project,habit,project      yes  pass     pass    OK     2/0
+b3, iso_no_car   三块                            —    pass     pass    OK     6/0, 8/0
+iso_dup4         home,project,habit,project      yes  pass     pass    OK     16/0
+iso_dup4_s128    home,project,habit,project      yes  pass     pass    OK     3/0
+iso_car_mid      home,car,habit,project          yes  fail     fail    OK     0/4
+iso_dup_p2       home,habit,project,habit        no   fail     fail    OK     0/3
+iso_dup_p3       home,habit,project,project      yes  fail     fail    OK     0/3
+iso_habit_bot    home,project,habit,habit        no   fail     fail    OK     0/5
+iso_swap_top     car,project,habit,home          yes  fail     fail    OK     0/3
+iso_base/car_back/gap32/gap256/order_rev/m2_fwd/topgap/micro  …新内容  no  fail  fail  OK  0/3~18
+```
+
+**命中 21 / 反例 3**（`iso_home_only` 只有 1 块，跳过）。**有反例即判死，不加条款。**
+
+| 反例 | 实测 | 为什么是反例 |
+|---|---|---|
+| `I13_b_proj28` | fail 0/2 | 第四块是 **project 的副本**、顺序 canonical ⇒ 合取必须 pass |
+| `axA_c_car` | pass 2/0 | 第四块是 **car 的 5-cells 副本** ⇒ 合取必须 fail |
+| `axA_c_habit` | pass 2/0（**但形态是 cloze**） | 第四块是 habit 的 5-cells 副本 ⇒ 合取必须 fail |
+
+### 2.12.1 更要紧的一层：`ok` 这个标签本身不干净
+
+`ok` 是**子串匹配** expected 事实 ⇒ "**填空题把正确答案列成选项**"也会被判 ok。全库 home 记录 `ok × 形态` 交叉表【实测】：
+
+| | cloze | plain | empty |
+|---|---|---|---|
+| `ok=False` | 53 | 11 | 1 |
+| `ok=True` | **2** | 45 | 0 |
+
+那 2 条是 `axA_c_habit_home_r1/r2`：`"我住在\\_\\_\\_\\_\\_\\_。A. 广陵路 12 号 2 …"` —— **cloze 形态，靠选项里的"广陵路"被判 ok**。
+⇒ 反例数 = **3（原始 ok 标签）或 2（排除 cloze 后）**，**两种读法下合取都死**。
+⇒ 更深一层：**今晚所有 pass/fail 拟合都建立在这个标签上**（包括已被打死的 5 条）。这不是"某条假设写错了"，而是**判据本身在已知一类情形下把"填空"记成"回忆"**。
+
+### 2.12.2 天然终点：要分开"顺序 / 第四块内容 / 第四块尺寸"，必须造新块文件
+
+现有块把**内容与尺寸完全绑死**：`home=21`、`project=18`、`habit=12`、`car=19`，变体 `c_*=5`、`b_habit=20`、`b_project=28`、`b_home=31`。
+⇒ **"habit 内容 + 18 cells"这种组合在库里不存在** ⇒ 任何"内容能否单独决定结局"的检验都造不出来。
+⇒ **继续推进需要新造 `.kvmem` 块文件（新张量，不是新布局键）**，这是**真实成本**，也是今晚实验线的天然终点。
+
+**留一条观察，不当候选**（按"不要写新假设"）：`axA` 全族（第四块 5 cells）home 全部 `ok=True`（`c_home`/`c_project`/`c_car` plain；`c_habit` cloze）⇒ 存在"第四块极小时无论如何都不拖坏 home"的迹象；但它与"尺寸"共线、只此一族，**记录在案，不作假设**。
+
 ## 3 非单调 63/69/70 的正面处理
 
 | 被杀掉的说法 | 依据 |
@@ -475,4 +538,12 @@ grep -n 'prefix already' ../../tools/m2_visibility_probe.py
 2. **"E10 的机制"**：无。本轮所有机制候选都被下一批数据打死（`car 在场` / `第四块内容` / `距离` / `邻接` / `H_last`）。
 3. **任何依赖旧产物的几何量**：`isoI3_gap256_*` 自带 `pos_lo`（最低 **3309**、span 最大 **787**）⇒ `spacing=256` 的位置是**可自证的**；但 `iso_gap32`/`iso_gap256` 那批**没有** `spacing`/`span` 字段的旧产物，位置不可复核 ⇒ 一律不得当基准引用。
 
+
+
+### 8.5 证据卫生：`layout.spacing` 曾硬编码 64（已修，但旧产物不改）
+
+- **缺陷（现取）**：`runs_mask/_mask_run.py` 曾写 `res["layout"] = {"key": a.layout, "spacing": 64, …}`（字面量）⇒ 任何非 64 布局的产物都自述 `spacing=64`。**T-021 已改为 `layout["spacing"]`**（`_driver2.build_layout` 同时补 `spacing` 返回）。
+- **本轮实例**：`t020_s1/s2/s3_dup4s128.json` 自述 64、实为 128。几何反推：`4096 − project.pos_hi(3968) = 128`；验算 `habit: 4096−2×128−12 = 3828` ✔、`project2: 4096−3×128−18 = 3694` ✔。**三份原样保留**（它们是"错字段长什么样"的样本），引用时以几何 128 为准。
+- **回归证明结论不依赖该字段**：修复后重跑 `t021_r1`（spacing 64）与 `t021_r2`（spacing 128），`answer_sha256` 与前次**逐字相同**（`7ec1430d…` / `e6a0807c…`）。
+- **口径**：**几何自证优先于产物自述**；凡引用 `layout.spacing`，必须附一条由 `coverage` 反推的验算式。此前的 944 份产物该字段未被污染（全为 64）。
 
