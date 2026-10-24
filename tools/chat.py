@@ -34,6 +34,7 @@ import memory_source as ms
 import evidence as E
 import session_state as ss
 from kvslots import KVEngine
+from chat_lease import GuardedLeases    # M3 guard: every reset is gated + asserted empty
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")
@@ -144,6 +145,7 @@ def cmd_chat(control=False):
               % (row[0], row[1], row[2], os.path.basename(row[6]), row[7]))
 
     eng = KVEngine(MODEL, n_ctx=N_CTX, n_seq=8, gpu=99, kv="q8_0")
+    leases = GuardedLeases(eng, site_prefix="chat")
 
     try:
         # ---- 1+2) load each block and immediately move it out of the way ----
@@ -172,8 +174,12 @@ def cmd_chat(control=False):
 
         t_rot = 0.0
         n_cells = 0
+        ranges = {}
         for i, target in plan:
-            eng.reset(i)
+            # placement path: nothing references this seq yet, so the guard passes and
+            # asserts the sequence is empty before the block is loaded into it
+            leases.register_block(i, rows[i - 1][1])
+            leases.reset(i, site="chat.place.fresh")
             # compat-checked load: refuses a block built by another model / rope / kv type
             ms.load_into(eng, rows[i - 1], i)
 
@@ -196,6 +202,7 @@ def cmd_chat(control=False):
             n_cells += moved
 
             lo, hi = target, target + n[i]
+            ranges[i] = (lo, hi)
             # bytes actually crossing the bus: cells * bytes_per_token (q8_0)
             rate = (n[i] * eng.bytes_per_token() / 1048576.0) / dt if dt > 0 else 0.0
 
@@ -208,7 +215,8 @@ def cmd_chat(control=False):
         # ---- 3) attach to the dialogue (refcount only, zero copy) ----------
         if not control:
             for i, _target in plan:
-                eng.share(i, 0)
+                _lo, _hi = ranges[i]
+                leases.attach(i, 0, _lo, _hi, site="chat.attach")
             state = "attached (seq_cp)"
         else:
             state = "NOT attached (control run)"
@@ -279,9 +287,11 @@ def _place_slots(eng, rows):
     """Right-aligned slots: every block's tail sits at its slot's tail, and the top
     slot's tail is the chat anchor. This is the arrangement P0-4 proved keeps the
     decode path gap-free at the head, so no guard is needed."""
+    leases = GuardedLeases(eng, site_prefix="slots")
     blocks = []
     for i, row in enumerate(rows, start=1):
-        eng.reset(i)
+        leases.register_block(i, row[1])
+        leases.reset(i, site="slots.place.fresh")
         n = ms.load_into(eng, row, i)
         end = CHAT_START - (i - 1) * SLOT
         lo = end - n
@@ -290,7 +300,7 @@ def _place_slots(eng, rows):
             moved = eng.repos_local(i, lo - base)
             if moved != n:
                 die("repos_local moved %d of %d cells" % (moved, n))
-        eng.share(i, 0, lo, end)
+        leases.attach(i, 0, lo, end, site="slots.attach")
         blocks.append({"seq": i, "source_id": row[0], "name": row[1],
                        "lo": lo, "hi": end, "n_tokens": n, "path": row[6]})
         print("  slot %d  %-8s %3d tok -> [%d,%d)  gap %d below"
@@ -409,6 +419,7 @@ def cmd_m1(explain=False, control=False, save_path=None):
         return
 
     eng = KVEngine(MODEL, n_ctx=N_CTX, n_seq=8, gpu=99, kv="q8_0")
+    leases = GuardedLeases(eng, site_prefix="m1")
     try:
         rows = {r[1]: r for r in ms.block_rows(con) if r[5] is not None}
         import retrieval as R
@@ -440,20 +451,23 @@ def cmd_m1(explain=False, control=False, save_path=None):
                                             "signals": s2["signals"]} for s2 in sel]})
             if want != order:
                 for name, (seq, lo, hi) in mounted.items():
-                    eng.drop(0, lo, hi)
-                    eng.reset(seq)
+                    # drop first (== detach), then reset: the order is the contract
+                    leases.detach(0, lo, hi, site="m1.unmount.detach")
+                    leases.reset(seq, site="m1.unmount.after_detach")
                 mounted, order = {}, want
                 if not control:
                     for i, name in enumerate(order):
                         seq = i + 1
-                        eng.reset(seq)
+                        leases.register_block(seq, name)
+                        # asserts cells_of(seq)==0 BEFORE load_into stacks anything
+                        leases.reset(seq, site="m1.mount.before_load")
                         n = ms.load_into(eng, rows[name], seq)
                         end = CHAT_START - i * SLOT
                         lo = end - n
                         base = eng.pos_max(seq) + 1 - n
                         if base != lo and eng.repos_local(seq, lo - base) != n:
                             die("%s: repos_local refused" % name)
-                        eng.share(seq, 0, lo, end)
+                        leases.attach(seq, 0, lo, end, site="m1.attach")
                         mounted[name] = (seq, lo, end)
                 if mounted:
                     print("  挂载：" + ", ".join("%s[%d,%d)" % (k, v[1], v[2])
