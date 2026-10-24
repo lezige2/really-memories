@@ -1,0 +1,578 @@
+diff --git a/include/llama.h b/include/llama.h
+index 3af6e22..e9a2b0a 100644
+--- a/include/llama.h
++++ b/include/llama.h
+@@ -802,6 +802,26 @@ extern "C" {
+                  llama_pos p1,
+                        int d);
+ 
++    // Moves the positions of the specified cells and rotates *only those* cells' K
++    // in place. Unlike llama_memory_seq_add(), this is applied synchronously and
++    // leaves no pending K-shift, so every cell that did not move is left
++    // bit-identical (measured: 0 bytes changed over 100 moves).
++    //
++    // Intended for placing a memory block at an exact position range (the causal
++    // mask only allows cells with pos <= the query's pos, and a positional gap is
++    // not tolerated), after which llama_memory_seq_cp() makes it visible to a chat.
++    //
++    // p0 < 0 : [0,  p1)
++    // p1 < 0 : [p0, inf)
++    // Returns the number of cells moved, or 0 when unsupported (e.g. recurrent,
++    // MSA caches, M-RoPE models, or rope with custom freq factors).
++    LLAMA_API uint32_t llama_memory_seq_repos_local(
++            llama_memory_t mem,
++              llama_seq_id seq_id,
++                 llama_pos p0,
++                 llama_pos p1,
++                 llama_pos delta);
++
+     // Returns the smallest position present in the memory for the specified sequence
+     // This is typically non-zero only for SWA caches
+     // Note that all positions in the range [pos_min, pos_max] are guaranteed to be present in the memory
+diff --git a/src/llama-context.cpp b/src/llama-context.cpp
+index ca84fc4..7aac176 100644
+--- a/src/llama-context.cpp
++++ b/src/llama-context.cpp
+@@ -492,6 +492,10 @@ llama_context::llama_context(
+         };
+ 
+         memory.reset(model.create_memory(params_mem, cparams));
++
++        // let the memory implementation read runtime rope params (needed by
++        // llama_memory_seq_repos_local). no-op for impls that don't care.
++        memory->set_cparams(&cparams);
+     }
+ 
+     // init backends
+@@ -4467,6 +4471,19 @@ void llama_memory_seq_div(
+     mem->seq_div(seq_id, p0, p1, d);
+ }
+ 
++uint32_t llama_memory_seq_repos_local(
++        llama_memory_t mem,
++          llama_seq_id seq_id,
++             llama_pos p0,
++             llama_pos p1,
++             llama_pos delta) {
++    if (!mem) {
++        return 0;
++    }
++
++    return mem->seq_repos_local(seq_id, p0, p1, delta);
++}
++
+ llama_pos llama_memory_seq_pos_min(
+         llama_memory_t mem,
+           llama_seq_id seq_id) {
+diff --git a/src/llama-kv-cache.cpp b/src/llama-kv-cache.cpp
+index 6f0e3f7..9ea784b 100644
+--- a/src/llama-kv-cache.cpp
++++ b/src/llama-kv-cache.cpp
+@@ -8,6 +8,8 @@
+ #include <algorithm>
+ #include <cassert>
+ #include <cmath>
++#include <cstdio>
++#include <cstdlib>
+ #include <cstring>
+ #include <limits>
+ #include <map>
+@@ -589,6 +591,302 @@ void llama_kv_cache::seq_keep(llama_seq_id seq_id) {
+     }
+ }
+ 
++// ---------------------------------------------------------------------------
++// seq_repos_local: move a few cells and rotate *only their* K.
++//
++// Why a delta rotation is exact: in ggml_rope_cache_init() the angle for dimension
++// pair j is  theta_j(pos) = pos * w_j  with  w_j = theta_scale^j / ff_j, and the
++// YaRN ramp depends only on the dimension index i0, never on pos. So the angle is
++// linear in pos and  R(pos2) = R(pos1) * R(pos2 - pos1).  mscale is a magnitude
++// factor already baked in at encode time, so a pure rotation must not re-apply it.
++//
++// Why per-cell and not per-tensor: layer.k is a 3D tensor
++//   [n_embd_k_gqa, kv_size, n_stream]
++// so one cell is a contiguous run of nb[1] bytes at s*nb[2] + i*nb[1]. We read
++// exactly that run, rotate it and write it back -- physically no other cell can be
++// touched, unlike build_graph_shift() which rewrites the whole K tensor.
++// ---------------------------------------------------------------------------
++static inline float llama_kv_yarn_ramp(float low, float high, int i0) {
++    const float y = (i0 / 2 - low) / std::max(0.001f, high - low);
++    return 1.0f - std::min(1.0f, std::max(0.0f, y));
++}
++
++// Orthonormal Walsh-Hadamard transform, in place, O(n log n).
++//
++// This cache stores K in the Walsh-Hadamard basis whenever n_rot_k != 0: the write
++// path applies H to K (and to Q, so the scores are unchanged since H is orthogonal).
++// RoPE does NOT commute with H, so a shift must be done as H -> rope -> H, exactly
++// as build_graph_shift() does it. H here is the same matrix ggml_gen_hadamard()
++// builds (orthonormal Sylvester), so H*H = I.
++static void llama_kv_fwht(float * x, int64_t n) {
++    GGML_ASSERT(n > 0 && (n & (n - 1)) == 0 && "hadamard size must be a power of 2");
++
++    for (int64_t h = 1; h < n; h *= 2) {
++        for (int64_t i = 0; i < n; i += 2*h) {
++            for (int64_t j = i; j < i + h; ++j) {
++                const float a = x[j];
++                const float b = x[j + h];
++                x[j]     = a + b;
++                x[j + h] = a - b;
++            }
++        }
++    }
++
++    const float s = 1.0f / sqrtf((float) n);
++    for (int64_t i = 0; i < n; ++i) {
++        x[i] *= s;
++    }
++}
++
++// rotate one head's K values by delta * w_j; only the first n_rot dims participate
++static void llama_kv_rope_delta(
++        float * x, int64_t n_rot, bool neox,
++        float delta, float theta_scale, float freq_scale,
++        float ext_factor, const float corr_dims[2]) {
++    const int64_t half = n_rot / 2;
++
++    float theta = delta;               // theta_base, i.e. the position delta itself
++
++    for (int64_t i0 = 0; i0 < n_rot; i0 += 2) {
++        const float theta_extrap = theta;
++        const float theta_interp = freq_scale * theta_extrap;
++
++        float th = theta_interp;
++        if (ext_factor != 0.0f) {
++            const float ramp_mix = llama_kv_yarn_ramp(corr_dims[0], corr_dims[1], (int) i0) * ext_factor;
++            th = theta_interp * (1.0f - ramp_mix) + theta_extrap * ramp_mix;
++        }
++
++        const float c = cosf(th);
++        const float s = sinf(th);
++
++        // NEOX-style pairs (j, j + n_rot/2); NORMAL pairs (2j, 2j + 1)
++        const int64_t a = neox ? (i0 / 2)       : i0;
++        const int64_t b = neox ? (i0 / 2 + half) : (i0 + 1);
++
++        const float xa = x[a];
++        const float xb = x[b];
++
++        x[a] = xa * c - xb * s;
++        x[b] = xa * s + xb * c;
++
++        theta *= theta_scale;
++    }
++}
++
++uint32_t llama_kv_cache::seq_repos_local(
++        llama_seq_id seq_id,
++           llama_pos p0,
++           llama_pos p1,
++           llama_pos delta) {
++    // the shared-cell layout keeps two caches in sync - not supported here
++    if (other || delta == 0) {
++        return 0;
++    }
++
++    GGML_ASSERT(cparams_ptr != nullptr && "seq_repos_local() called before llama_context injected cparams");
++    const llama_cparams & cparams = *cparams_ptr;
++
++    GGML_ASSERT(seq_id >= 0 && (size_t) seq_id < seq_to_stream.size());
++    GGML_ASSERT(hparams.n_pos_per_embd() == 1 && "seq_repos_local() needs one position per token");
++
++    const uint32_t s = seq_to_stream[seq_id];
++
++    auto & cells = v_cells[s];
++
++    if (p0 < 0) { p0 = 0; }
++    if (p1 < 0) { p1 = std::numeric_limits<llama_pos>::max(); }
++
++    // 1) exactly the cells that move. nothing else is even looked at.
++    std::vector<uint32_t> idxs;
++
++    for (uint32_t i = 0; i < cells.size(); ++i) {
++        if (!cells.pos_in (i, p0, p1)) continue;
++        if (!cells.seq_has(i, seq_id)) continue;
++
++        idxs.push_back(i);
++    }
++
++    if (idxs.empty()) {
++        return 0;
++    }
++
++    // A freshly loaded block usually occupies consecutive cells. Transferring one
++    // cell at a time means one submit+fence per cell per layer (measured: ~500 ms
++    // for a 145-token block), so batch maximal runs of consecutive cells instead.
++    std::vector<std::pair<uint32_t, uint32_t>> runs; // [begin, end) into idxs
++    for (size_t k = 0; k < idxs.size(); ) {
++        size_t e = k + 1;
++        while (e < idxs.size() && idxs[e] == idxs[e - 1] + 1) {
++            ++e;
++        }
++        runs.emplace_back((uint32_t) k, (uint32_t) e);
++        k = e;
++    }
++
++    // 2) preflight. Every "this model is not supported" decision has to be made
++    //    BEFORE the first byte is written: the loop below writes each layer back as
++    //    it goes, so a `return 0` in the middle would leave the earlier layers
++    //    already rotated while cells.pos_move() never runs -- K encoding the new
++    //    positions with the bookkeeping still at the old ones. The caller would then
++    //    fall back to seq_add() and rotate a second time. Silent corruption, on
++    //    exactly the models we do not test.
++    //
++    //    SEAM: LLAMA_KV_REPOS_FAULT_LAYER is a permanent, refusal-only test seam.
++    //    Contract:  * it can ONLY make this preflight refuse; it cannot skip work,
++    //                 move positions, or hide an error;
++    //               * it is read once, here, before any loop -- never in the write
++    //                 path, never allocating, and when disabled it costs one getenv;
++    //               * it always logs when it fires, so an injected 0 is never
++    //                 mistaken for a real capability limit;
++    //               * unset => identical behaviour (regression in p0_2_check.py).
++    //    Why it exists: this model can never take the rope_freqs / n_rot != head_dim
++    //    branches, so without a seam the refusal path itself is untestable, and an
++    //    untested safety path rots. Revisit when a sealed production binary is
++    //    required (QQ / multi-tenant distribution): move it to a test build then.
++    const int fault_layer = ([]() {
++        const char * f = getenv("LLAMA_KV_REPOS_FAULT_LAYER");
++        return f ? atoi(f) : -1;
++    })();
++
++    for (const auto & layer : layers) {
++        const uint32_t il = layer.il;
++
++        if (!layer.k || !hparams.has_rope(il)) {
++            continue;
++        }
++
++        if ((int) il == fault_layer) {
++            LLAMA_LOG_WARN("%s: injected fault at layer %u - refusing local repos "
++                           "(LLAMA_KV_REPOS_FAULT_LAYER; this 0 is NOT a capability limit)\n",
++                           __func__, il);
++            return 0;
++        }
++
++        const int64_t n_rot         = hparams.n_rot(il);
++        const int64_t n_embd_head_k = hparams.n_embd_head_k(il);
++        const int64_t n_embd_k_gqa  = hparams.n_embd_k_gqa(il);
++
++        // custom per-dimension freq factors live in a backend tensor; refuse those
++        // (the caller can fall back to seq_add()) instead of silently diverging
++        if (model.get_rope_factors(cparams, il) != nullptr) {
++            LLAMA_LOG_WARN("%s: layer %u uses rope freq factors - refusing local repos\n", __func__, il);
++            return 0;
++        }
++
++        // K may live in the Walsh-Hadamard basis - see llama_kv_fwht()
++        if (n_rot_k != 0 && n_rot != n_embd_head_k) {
++            LLAMA_LOG_WARN("%s: layer %u has n_rot %d != n_embd_head_k %d with key rotation - "
++                           "refusing local repos\n", __func__, il, (int) n_rot, (int) n_embd_head_k);
++            return 0;
++        }
++
++        const auto * traits = ggml_get_type_traits(layer.k->type);
++        if (!traits || !traits->to_float || n_embd_k_gqa % traits->blck_size != 0) {
++            LLAMA_LOG_WARN("%s: layer %u K type is not convertible in whole blocks - "
++                           "refusing local repos\n", __func__, il);
++            return 0;
++        }
++    }
++
++    // 3) rotate their K in place, per cell. From here on nothing may return early.
++    for (const auto & layer : layers) {
++        const uint32_t il = layer.il;
++
++        if (!layer.k || !hparams.has_rope(il)) {
++            continue;
++        }
++
++        const int64_t n_rot         = hparams.n_rot(il);
++        const int64_t n_head_kv     = hparams.n_head_kv(il);
++        const int64_t n_embd_head_k = hparams.n_embd_head_k(il);
++        const int64_t n_embd_k_gqa  = hparams.n_embd_k_gqa(il);
++
++        // some archs store the non-rotated part at the start of each head
++        const int64_t n_nope = hparams.n_lora_kv > 0 ? n_embd_head_k - n_rot : 0;
++
++        const float freq_base_l  = model.get_rope_freq_base (cparams, il);
++        const float freq_scale_l = model.get_rope_freq_scale(cparams, il);
++
++        const float theta_scale = powf(freq_base_l, -2.0f / (float) n_rot);
++
++        float corr_dims[2] = { 0.0f, 0.0f };
++        if (cparams.yarn_ext_factor != 0.0f) {
++            ggml_rope_yarn_corr_dims(n_rot, cparams.n_ctx_orig_yarn, freq_base_l,
++                                     cparams.yarn_beta_fast, cparams.yarn_beta_slow, corr_dims);
++        }
++
++        const bool neox = hparams.rope_type != LLAMA_ROPE_TYPE_NORM;
++
++        // already validated in the preflight pass above
++        const bool use_hadamard = n_rot_k != 0;
++
++        const auto * traits = ggml_get_type_traits(layer.k->type);
++        GGML_ASSERT(traits != nullptr && traits->to_float != nullptr);
++
++        const size_t nb_cell = layer.k->nb[1];
++        GGML_ASSERT(nb_cell == ggml_row_size(layer.k->type, n_embd_k_gqa));
++        GGML_ASSERT(n_embd_k_gqa % traits->blck_size == 0);
++
++        // bound the scratch buffers for very long runs (256 cells * 512 f32 = 512 KiB)
++        constexpr uint32_t MAX_CHUNK = 256;
++
++        std::vector<uint8_t> raw;
++        std::vector<float>   f32;
++
++        for (const auto & run : runs) {
++            for (uint32_t k = run.first; k < run.second; k += MAX_CHUNK) {
++                const uint32_t lo = idxs[k];
++                const uint32_t hi = idxs[std::min(k + MAX_CHUNK, run.second) - 1];
++                const uint32_t ncell = hi - lo + 1;   // all of them are in idxs (run is maximal)
++
++                const size_t off  = (size_t) s * layer.k->nb[2] + (size_t) lo * nb_cell;
++                const size_t nbyt = (size_t) ncell * nb_cell;
++
++                raw.resize(nbyt);
++                f32.resize((size_t) ncell * n_embd_k_gqa);
++
++                ggml_backend_tensor_get(layer.k, raw.data(), off, nbyt);
++
++                traits->to_float(raw.data(), f32.data(), (int64_t) ncell * n_embd_k_gqa);
++
++                for (uint32_t c = 0; c < ncell; ++c) {
++                    float * cell_k = f32.data() + (size_t) c * n_embd_k_gqa;
++
++                    for (int64_t h = 0; h < n_head_kv; ++h) {
++                        float * head_k = cell_k + h * n_embd_head_k + n_nope;
++
++                        if (use_hadamard) {
++                            llama_kv_fwht(head_k, n_rot);   // into the rope basis
++                        }
++
++                        llama_kv_rope_delta(head_k, n_rot, neox, (float) delta,
++                                            theta_scale, freq_scale_l,
++                                            cparams.yarn_ext_factor, corr_dims);
++
++                        if (use_hadamard) {
++                            llama_kv_fwht(head_k, n_rot);   // back to the stored basis
++                        }
++                    }
++                }
++
++                ggml_quantize_chunk(layer.k->type, f32.data(), raw.data(),
++                                    0, (int64_t) ncell, n_embd_k_gqa, nullptr);
++
++                ggml_backend_tensor_set(layer.k, raw.data(), off, nbyt);
++            }
++        }
++    }
++
++    // 3) move the positions. pos_move() (not pos_add()) because the rotation is
++    //    already applied - pos_add() would leave a pending K-shift and rotate twice.
++    for (uint32_t i : idxs) {
++        cells.pos_move(i, delta);
++    }
++
++    return (uint32_t) idxs.size();
++}
++
+ void llama_kv_cache::seq_add(llama_seq_id seq_id, llama_pos p0, llama_pos p1, llama_pos shift) {
+     // TODO: refactor [TAG_KV_CACHE_SHARE_CELLS]
+     if (other) {
+@@ -1718,6 +2016,76 @@ static void set_input_kq_mask_impl(const args_set_input_kq_mask & args, T * data
+ skip:
+                 data[idst + j] = mask_drop;
+             }
++
++            // [MASKDBG] optional mask trace -- inactive unless LLAMA_KV_MASK_DEBUG=1
++            // diagnostics only: no control flow, threshold or mask value is altered
++            // note: the type of the mask element is never converted -- mask_drop is
++            //       llama_cast<T>(-INFINITY) and the comparison below stays in T, so an
++            //       F16 row cannot be misread as float garbage
++            {
++                const char * mdbg = getenv("LLAMA_KV_MASK_DEBUG");
++                if (mdbg != nullptr && mdbg[0] == '1' && seq_id == 1 && i == ubatch->n_tokens - 1) {
++                    static int mseen[64];
++                    static int mnseen = 0;
++                    bool mdup = false;
++                    for (int t = 0; t < mnseen; ++t) {
++                        if (mseen[t] == (int) p1) { mdup = true; break; }
++                    }
++                    if (!mdup) {
++                        if (mnseen < 64) { mseen[mnseen++] = (int) p1; }
++                        const char * mlay = getenv("LLAMA_KV_MASK_LAYOUT");
++                        const char * mq   = getenv("LLAMA_KV_MASK_Q");
++                        if (mlay == nullptr) { mlay = "na"; }
++                        if (mq   == nullptr) { mq   = "na"; }
++                        int64_t ok_n = 0, drop_n = 0, ok_first = -1, ok_last = -1;
++                        for (int64_t k = 0; k < n_kv; ++k) {
++                            if (data[idst + k] == mask_drop) { ++drop_n; }
++                            else { ++ok_n; if (ok_first < 0) { ok_first = k; } ok_last = k; }
++                        }
++                        fprintf(stderr, "[MASKDBG-SUM] layout=%s q=%s seq=%d p1=%d n_kv=%lld n_ub=%u type=%s seq_pos_min=%d idxs=%zu row_allowed=%lld row_masked=%lld ok_first=%lld ok_last=%lld\n",
++                                mlay, mq,
++                                (int) seq_id, (int) p1, (long long) n_kv, (unsigned) ubatch->n_tokens,
++                                sizeof(T) == 2 ? "f16" : "f32", (int) seq_pos_min[seq_id],
++                                idxs.size(), (long long) ok_n, (long long) drop_n,
++                                (long long) ok_first, (long long) ok_last);
++                        const char * mwin = getenv("LLAMA_KV_MASK_WINDOWS");
++                        if (mwin != nullptr) {
++                            char mbuf[512];
++                            snprintf(mbuf, sizeof(mbuf), "%s", mwin);
++                            for (char * tok = strtok(mbuf, ","); tok != nullptr; tok = strtok(nullptr, ",")) {
++                                char * c1 = strchr(tok, ':');
++                                if (c1 == nullptr) { continue; }
++                                *c1 = '\0';
++                                char * c2 = strchr(c1 + 1, ':');
++                                if (c2 == nullptr) { continue; }
++                                *c2 = '\0';
++                                const int64_t lo = atoll(c1 + 1);
++                                const int64_t hi = atoll(c2 + 1);
++                                int64_t w_keep = 0, w_drop = 0, m_first = -1, m_last = -1;
++                                int64_t m_head[8] = {0,0,0,0,0,0,0,0};
++                                for (int64_t k = lo; k <= hi && k < n_kv; ++k) {
++                                    if (data[idst + k] == mask_drop) {
++                                        if (w_drop < 8) { m_head[w_drop] = k; }
++                                        ++w_drop;
++                                        if (m_first < 0) { m_first = k; }
++                                        m_last = k;
++                                    } else {
++                                        ++w_keep;
++                                    }
++                                }
++                                fprintf(stderr, "[MASKDBG] layout=%s q=%s blk=%s lo=%lld hi=%lld cells=%lld allowed=%lld masked=%lld first=%lld last=%lld head=[",
++                                        mlay, mq, tok, (long long) lo, (long long) hi, (long long) (hi - lo + 1),
++                                        (long long) w_keep, (long long) w_drop, (long long) m_first, (long long) m_last);
++                                for (int64_t h = 0; h < 8 && h < w_drop; ++h) {
++                                    fprintf(stderr, "%s%lld", h ? "," : "", (long long) m_head[h]);
++                                }
++                                fprintf(stderr, "]\n");
++                            }
++                        }
++                        fflush(stderr);
++                    }
++                }
++            }
+         }
+     }
+ }
+diff --git a/src/llama-kv-cache.h b/src/llama-kv-cache.h
+index 9bfb8f2..fe22717 100644
+--- a/src/llama-kv-cache.h
++++ b/src/llama-kv-cache.h
+@@ -141,6 +141,16 @@ public:
+     void seq_add (llama_seq_id seq_id,                              llama_pos p0, llama_pos p1, llama_pos shift) override;
+     void seq_div (llama_seq_id seq_id,                              llama_pos p0, llama_pos p1, int d) override;
+ 
++    uint32_t seq_repos_local(
++            llama_seq_id seq_id,
++               llama_pos p0,
++               llama_pos p1,
++               llama_pos delta) override;
++
++    void set_cparams(const llama_cparams * cparams) override {
++        cparams_ptr = cparams;
++    }
++
+     llama_pos seq_pos_min(llama_seq_id seq_id) const override;
+     llama_pos seq_pos_max(llama_seq_id seq_id) const override;
+ 
+@@ -254,6 +264,9 @@ private:
+     const llama_model & model;
+     const llama_hparams & hparams;
+ 
++    // set once by llama_context after construction; needed by seq_repos_local()
++    const llama_cparams * cparams_ptr = nullptr;
++
+     struct kv_layer {
+         // layer index in the model
+         // note: can be different from the layer index in the KV cache
+diff --git a/src/llama-kv-cells.h b/src/llama-kv-cells.h
+index 9c0d51e..988e104 100644
+--- a/src/llama-kv-cells.h
++++ b/src/llama-kv-cells.h
+@@ -471,6 +471,37 @@ public:
+         return false;
+     }
+ 
++    // pos[i] = pos[i] + d   (same bookkeeping as pos_add, but WITHOUT recording a shift)
++    //
++    // pos_add() accumulates into shift[] and sets has_shift = true, which makes the
++    // engine rotate K again on the next decode. seq_repos_local() has already done
++    // that rotation itself, so it must use this variant instead -- otherwise the
++    // cells get rotated twice and generations degrade intermittently.
++    //
++    // note: call only if the cell is not empty
++    bool pos_move(uint32_t i, llama_pos d) {
++        assert(i < pos.size());
++        assert(pos[i] != -1);
++
++        seq_pos_rm(i);
++
++        pos[i] += d;
++
++        if (pos[i] < 0) {
++            seq[i].reset();
++            pos[i] = -1;
++            shift[i] = 0;
++
++            used.erase(i);
++
++            return true;
++        }
++
++        seq_pos_add(i);
++
++        return false;
++    }
++
+     // pos[i] = pos[i] / d
+     // sets "has_shift" to true
+     // note: call only if the cell is not empty
+diff --git a/src/llama-memory.h b/src/llama-memory.h
+index b33c7ae..e731f1c 100644
+--- a/src/llama-memory.h
++++ b/src/llama-memory.h
+@@ -9,6 +9,9 @@
+ 
+ struct llama_ubatch;
+ 
++// only needed by the seq_repos_local() signature below
++struct llama_cparams;
++
+ class llama_batch_allocr;
+ 
+ class llama_io_write_i;
+@@ -114,6 +117,31 @@ struct llama_memory_i {
+     virtual void seq_add (llama_seq_id seq_id,                              llama_pos p0, llama_pos p1, llama_pos shift) = 0;
+     virtual void seq_div (llama_seq_id seq_id,                              llama_pos p0, llama_pos p1, int d) = 0;
+ 
++    // Moves the positions of the specified cells and rotates *only those* cells' K
++    // in place, so that no other sequence in the cache is touched at all.
++    //
++    // Unlike seq_add(), this completes synchronously and leaves no pending K-shift:
++    // untouched cells stay bit-identical (verified: 0 bytes changed over 100 moves),
++    // and no whole-tensor rewrite happens on the next decode.
++    //
++    // Returns the number of cells moved. The default returns 0 (unsupported), so
++    // memory types that cannot do this (recurrent, MSA, DSV4) compile unchanged.
++    virtual uint32_t seq_repos_local(
++            llama_seq_id seq_id,
++               llama_pos p0,
++               llama_pos p1,
++               llama_pos delta) {
++        GGML_UNUSED(seq_id); GGML_UNUSED(p0); GGML_UNUSED(p1); GGML_UNUSED(delta);
++
++        return 0;
++    }
++
++    // Injected once by llama_context right after create_memory(), so that the
++    // implementation can read runtime rope overrides (freq base/scale, yarn).
++    virtual void set_cparams(const llama_cparams * cparams) {
++        GGML_UNUSED(cparams);
++    }
++
+     virtual llama_pos seq_pos_min(llama_seq_id seq_id) const = 0;
+     virtual llama_pos seq_pos_max(llama_seq_id seq_id) const = 0;
+ 

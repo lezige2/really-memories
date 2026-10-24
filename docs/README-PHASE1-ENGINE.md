@@ -1,5 +1,10 @@
 # llama-mem — 把长期记忆做进模型底层
 
+> **阶段文档 · 写作时点在 E10 之前**
+> 当前权威状态见 [`PROJECT-STATE.md`](../PROJECT-STATE.md)；E10 实验报告见
+> [`kvmem/m2_visibility/ISOLATION-REPORT.md`](../kvmem/m2_visibility/ISOLATION-REPORT.md)。
+> 本文出现的目录表、通过数、耗时等数字**未随代码更新**，引用前请以代码与运行产物为准。
+
 目标：**不用"对话 + 把记忆拼进 prompt"来维持记忆**，而是改推理引擎本身，
 让长期记忆以 KV 张量形式常驻在 attention 里，上下文由引擎自己读，
 淘汰"应用层拼字符串"的老路。

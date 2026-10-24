@@ -32,7 +32,16 @@ CMakeCache.txt
 CMakeFiles/
 
 # ===== 测试数据与日志 =====
-runs_*/
+# 注意：不能整目录排除 runs_*/，否则里面的驱动脚本（_mask_run.py / _gate.py 等）
+# 会被一并排除——那些是源码，必须入库。故按后缀排除运行产物，保留 *.py / *.patch。
+**/runs_*/*.json
+**/runs_*/*.log
+**/runs_*/*.txt
+**/runs_*/*.tsv
+**/runs_*/*.err
+**/runs_*/*.bak
+**/runs_*/*.pyc
+**/runs_*/_*/
 _*/ 
 *.log
 *.bak
