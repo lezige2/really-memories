@@ -37,7 +37,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_DIR = os.path.normpath(os.path.join(HERE, "..", "m4", "_before"))
 REGISTER = "REGISTER.json"
 HEX = "0123456789abcdef"
-KEYS = ("register", "missing_copy", "not_a_file", "sha_mismatch", "unregistered", "unexpected")
+KEYS = ("register", "missing_copy", "not_a_file", "sha_mismatch", "unregistered",
+        "unexpected", "changes")
 REQUIRED_FIELDS = ("copyist", "copy_time", "reason")
 
 
@@ -117,6 +118,25 @@ def check(before_dir):
         if f == REGISTER or is_copy_name(f):
             continue
         problems["unexpected"].append(f)
+
+    # every registered anchor move must point at a copy that still holds the OLD content
+    for ch in reg.get("changes", []):
+        base = ch.get("copy", "")
+        if base not in registered:
+            problems["changes"].append("change entry names a copy with no registration: %r"
+                                       % base)
+            continue
+        if not os.path.isfile(os.path.join(d, base)):
+            problems["changes"].append("change entry %r: the old copy is gone" % base)
+            continue
+        stem, claimed = split_name(base)
+        actual = sha16(os.path.join(d, base))
+        if claimed != ch.get("from") or actual != ch.get("from"):
+            problems["changes"].append(
+                {"copy": base, "registered_from": ch.get("from"), "copy_claims": claimed,
+                 "content_is": actual})
+        if not ch.get("class") or not ch.get("why") or not ch.get("by"):
+            problems["changes"].append("change entry %r lacks class / by / why" % base)
     return problems
 
 
@@ -143,7 +163,8 @@ def selftest(template_dir):
     points into the temp tree, and each touched path is asserted to stay under it.
     """
     results = []
-    for scenario in ("delete a copy", "flip one byte", "clear a reason"):
+    for scenario in ("delete a copy", "flip one byte", "clear a reason",
+                     "corrupt a changes entry"):
         tmp = tempfile.mkdtemp(prefix="_br_selftest_")
         dst = os.path.join(tmp, "_before")
         try:
@@ -155,11 +176,12 @@ def selftest(template_dir):
                 if cp:
                     e["copy_path"] = os.path.join(dst, os.path.basename(cp)).replace(chr(92), "/")
             json.dump(reg, open(regp, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-            target = reg["entries"][0]["copy_path"]
-            for e in reg["entries"]:
-                if e.get("copy_path", "").endswith(".json@d13df1e987ee509c"):
-                    target = e["copy_path"]
-                    break
+            # discipline 25: the scope of a self-check is built by the self-check itself.
+            # The target is chosen from the TEMP COPY's own listing -- never from a path string
+            # the register hands me, because a corrupted register would then aim my pen at
+            # somebody else's file.
+            names = sorted(f for f in os.listdir(dst) if is_copy_name(f))
+            target = os.path.join(dst, names[-1])
             assert os.path.abspath(target).startswith(os.path.abspath(tmp)), target
 
             if scenario == "delete a copy":
@@ -167,6 +189,11 @@ def selftest(template_dir):
             elif scenario == "flip one byte":
                 with open(target, "ab") as fh:
                     fh.write(b" ")
+            elif scenario == "corrupt a changes entry":
+                reg["entries"][0]["reason"] = "kept"
+                if reg.get("changes"):
+                    reg["changes"][0]["from"] = "0" * 16
+                json.dump(reg, open(regp, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
             else:
                 reg["entries"][0]["reason"] = ""
                 json.dump(reg, open(regp, "w", encoding="utf-8"), ensure_ascii=False, indent=1)

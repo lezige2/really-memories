@@ -167,22 +167,52 @@
 
 ---
 
-## 当刻锚（全部当场算出）
+## 当刻锚（纪律 24：锚必须满足「变了一定是错」）
 
 | 项 | 值 | 强度 |
 |---|---|---|
 | `_m5db` **内容哈希** | `76df01317bfaf3e7`（六次重建同值）| **R** |
-| `_m5db` **文件 sha16** | `3f71fedb6dff1432`（这个会随每次重建变；**判据用内容哈希，不用它**）| **R** |
+| `_m5db` **块集合** | 2 块 / `source_text` 长度 `[110, 113]` | **R** |
+| `blocks/blk_conv_2026-10-25_01.kvmem` | `81127d24fd64b96b`（9507412 字节；**输入盘，管线只读**）| **R** |
+| `_ablate/blocks/blk_conv_noplate_2026-10-25_01.kvmem` | `e3bfec41d1f059e7`（8253844 字节；同上是输入）| **R** |
 | `run_m5_grounded.json` | `007cb08b8f117ec5`（自指字段按 ZERO_RULE 复算一致；`before_module` 里记的是构造式描述，不含临时路径）| **R** |
 | `PREREG-STAGE3-11ROWS.json` | `943abaac74193363`；`after_side_run.sha16 = 007cb08b8f117ec5` | **R** |
 | `run_stage3.json` | `305a3b0cbc1e9424`（14 项 status 全 `通过`）| **R** |
 | `m4_verify_grounded.py` / `run_stage3.py` / `run_stage3_before.py` / `check_m5_gate.py` | `2815d20b6c75f386` / `50e98acdd2c6a226` / `6be1c7a9f0a18349` / `37d69f780fb8cf0c` | **R** |
 | 裁决 | plate_main supported、plate_ablated unsupported、home_main supported、home_ablated supported | **R** |
 
-**一处如实标注**：`m4_existing_files_untouched = False`，脏文件是
-`PREREG-STAGE3-11ROWS.json` / `_before/REGISTER.json` / `run_stage3.py` / `run_stage3_before.py`。
-这是 **git 未提交**判据（不是内容被改坏），**在上一份产物 `d13df1e9` 里同样是 `False` 且脏文件相同**，
-即它不是本轮返工引入的。提交后重跑会转 `True`；若检测员要求，我再跑一次并给新锚。
+### 为什么 `.kvmem` 的文件 sha 能当锚，而 `_m5db` 的文件 sha 不能
+
+两者都是「一个文件的 sha16」，区别**只有一个**：**这个文件在正常流程里会不会被重写。**
+
+    blocks/*.kvmem          管线的【输入】。重建 _m5db 只是读它们，谁都不会写回
+                            正常跑一百遍也不变 => 变了就是有人动了输入 => 可以作锚
+    _m5db/m5_m4_blocks.db   管线的【产物】。每次 run_stage3.py 都 DROP/CREATE 后重灌
+                            正常跑一遍就变（索引页、空闲页、WAL 回写都在变）
+                            变了不代表错 => 只能作观测值
+
+所以「文件 sha 能不能当锚」不能照抄，**必须逐项回答「它在正常流程里会不会被重写」**。
+`_m5db` 里真正不随重建改变的是**内容**：内容哈希 `76df01317bfaf3e7`（对
+`ORDER BY block_id` 的 `(block_id, sha256, source_text)` 三元组重算）+ 块集合 2 块 / `[110,113]`。
+
+**代码审计（顺带做的）**：`run_stage3.py` 里 `file_sha16` 只出现 3 处 —— `:68`（记录 pre）、`:74`（记录 post）、
+`:545`（记入摘要），**没有一处参与比较或判定**。也就是说代码从来没有把 `_m5db` 文件 sha 当判据，
+错的只是**文档措辞**；现在措辞也正确了。
+
+## 观测值（记录但不判）
+
+| 项 | 值 | 为什么只记录 |
+|---|---|---|
+| `_m5db` **文件 sha16** | `3f71fedb6dff1432`（历次：`eb8838d8` → `9ee0bad9` → `08a485dc` → `3f71fedb`）| 每次正常重跑都变，**变了不是错** |
+| `_m5db` mtime | `05:37:56` | 同上 |
+| `_stage3_pre.json.file_sha16` | `ef5fdfb65640d2fa` | 那是「写入前」的一次读数，被后续重跑覆盖即失效 |
+
+**一处必须更正的旧措辞**：上一版这里写着 `m4_existing_files_untouched = False`（脏文件是
+`PREREG-STAGE3-11ROWS.json` / `_before/REGISTER.json` / `run_stage3.py` / `run_stage3_before.py`）。
+那条判据问的是「这些文件提交了没有」，**不是「内容改没改」**，而且是自指的（它自己就写在这几个文件里）：
+**永远为 False 的判据与永远为 True 的断言同族。**
+它在 `d13df1e9` 与 `6f962e81` 两份产物里都是 `False` 且脏文件相同 —— 所以它也不是本轮引入的，
+只是从来没说对过话。R12 已把它换成 **内容轴** 的 `m4_files_untouched_or_registered`，现在 = `True`（见 R12 节）。
 
 
 ## R10 · 顺带发现的硬编码状态（同一类病，一并修掉）
@@ -261,6 +291,40 @@ SELFTEST: PASS -- every failure input was caught
 
 **关于数数**：截至 **05:35** 实测，`_before` 有 **27 份副本 + `REGISTER.json`**。
 你上一封看到「27 文件」的时刻，那份 scratch 还在里面；现在是 27 份**人登记的副本**，两个数都对，但是两个时刻、两种东西。
+
+
+## R11 补：隔离成立（不是「复原成功」）
+
+检测员的判定标准我接受：**「我发现改坏了又改回来」只证明我会修；「跑完一个字节都没变」才证明它不再需要修。**
+新增 `registry/check_selftest_isolation.py`：判据的作用范围由它自己构造（临时目录），
+且**不取自被检对象提供的任何路径**（纪律 25）。
+
+    $ python -X utf8 check_selftest_isolation.py
+    pre   : 28 file(s), digest=0c235ad3713d79bb
+    selftest: SELFTEST: PASS -- every failure input was caught (exit 0)
+    post  : 28 file(s), digest=0c235ad3713d79bb
+    diff  : [] (empty)
+    ISOLATION: PASS -- the self-check touched nothing it is testing
+
+四段（跑前摘要 / selftest 结论 / 跑后摘要 / 差异为空）合起来才是完整证据：
+`_before` 里 27 份副本 + `REGISTER.json` 在自检前后**逐字节不变**，摘要 `0c235ad3713d79bb` 前后同值。
+
+顺带补一个失败输入（新加的 `changes` 判据也要能红）：
+
+    corrupt a changes entry -> caught: {'changes': 1}
+
+`changes` 判据（`check_before_register.py:139-155`）：每条「锚位移」登记必须指向一份**仍然存在、且内容仍等于 `from`** 的旧副本，
+否则红。这样「锚变了」不能只靠散文交代。
+
+## 一个被移位的锚：按「按计划变」登记
+
+    run_m5_fix_compare.json   5f7c196a32a659a6 -> 9eab963bdf977241
+    原因: criteria_before 里的路径字符串换成构造式描述（scratch 已搬出 _before）
+
+三分类落格 = **按计划变**，两件登记都在：
+- 旧副本在：`_before/run_m5_fix_compare.json@5f7c196a32a659a6`（15082 字节，内容复算 = `5f7c196a32a659a6`）；
+- `REGISTER.json` 新增 `changes` 一条：`class: 按计划变` / `by: R11` / `why` 写明差异；
+- 差异实测：`rows` 逐字相同，`all_non_flip_hold` / `all_flips_happened` 均 True，**变动的顶层键只有 `criteria_before` 一个**。
 
 ## R12 · `m4_files_untouched_or_registered`（对象与轴都换掉）
 
@@ -342,5 +406,7 @@ SELFTEST: PASS -- every failure input was caught
 - **#17 守门布尔必须派生**：`False` 写死与 `True` 写死一样无用，而前者更隐蔽（看起来像"检查过了"）。→ R8。
 - **#18 `C`/`R` 必须由真算产生**，不得由标签决定。→ R9。
 - **纪律 21（已立，DISCIPLINES `d0c4f10`）**：禁止同一语句内先截断后读。检查器见 R13。
-- **纪律候选 22**：**自检不得改动它所检验的证据**。第一版 `--selftest` 改了真的 `_before` 副本；
+- **纪律候选 22 → 已立为纪律 25（`36846b1`）**：**凡自检，其作用范围必须由自检者自己构造，不得取自被检对象提供的数据。**
+  我第一版 `--selftest` 的错不在「忘记复原」，而在**要改哪个文件是从被检对象（REGISTER）给的路径里取的**
+  —— 登记一坏，自检就会去破坏别处的文件，而自检的本意正是发现损坏。修法：临时目录自构造 + 路径前缀断言 + 隔离证明（见上一节）。第一版 `--selftest` 改了真的 `_before` 副本；
   自检的每一次写入都必须落在临时目录内，并断言路径前缀。
