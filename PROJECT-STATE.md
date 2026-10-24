@@ -256,6 +256,10 @@
 > 6. **3b 可证伪（已造红）**：日志删 10 行 blk → `blk 90 != 100`，3a 与 3b 同红、rc=6。**整类缺失由 A 与 3a 承担**——3b 在"整类不打印"时会退化为恒真（`AB_B_seq99`：A红 / B**绿** / 3a红 / 3b INERT 为正确排布）。
 > 7. **插桩零行为影响**：答案 sha `e63faeff` 与历史失败臂逐字节相同；不传 `--debug` 时日志 0 字节、答案 `7ec1430d`。
 > 8. T-006 冻结哈希：`runs_mask/_mask_run.py` **1b9a0b383554dd70**（208 行）；`runs_mask/_gate.py` **c2085a04a21c21da**（187 行）；`runs_mask/_assert_trace.py` **5df5ae7c539b377a**（92 行）；`llama.cpp` **ins=500 del=0**、cpp **dbe52f9124f1ad29**。
+> 9. **T-007（锚点自证）**：run json 新增 `anchors`，把 3a 的四个期望值 SUM / SUM2 / blk / OK 连同**推导式与出处**一起写进产物（例：`blk.expect = n_segments * SUM`，`n_segments = len(layout.segments)`），另记 `trace_gate` 与 `trace_gate_cpp_sha256`。
+>    **边界（不可省）**：`anchors.*.expect` 是**驱动按表达式算出的期望，不是独立读数**——`SUM`/`blk` 仍以 `llama-kv-cache.cpp:2031` 门控为前提，`OK` 依赖驱动自身打印逻辑。
+>    故它**能自证推导链，不能自证前提成立**；前提以字符串形式记录，门控一旦变更 3a 会红且原因可读。**不得把它当外部锚点引用。**
+>    `runs_mask/_mask_run.py` 现为 **5ea03395954d76e9**（230 行，T-007 取代 T-006 的 1b9a0b38 / 208 行；`_gate.py` 与 `_assert_trace.py` 未变）。
 
 ### 7.1 m2_visibility 三臂——**n=5 重复性检验已做**（T-003 A 段）
 

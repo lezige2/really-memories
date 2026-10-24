@@ -158,6 +158,28 @@ def worker(argv):
                          "segments": [{"id": s["id"], "block_id": s["block_id"], "slot": s["slot"],
                                        "pos_lo": s["pos_lo"], "pos_hi": s["pos_hi"],
                                        "cells": s["cells"]} for s in layout["segments"]]}
+        # T-007: make the 3a anchors self-describing, so a third party holding ONLY this
+        # json can recompute every expectation without reading this script.
+        n_seg = len(res["layout"]["segments"])
+        n_pred = P.N_PREDICT
+        res["anchors"] = {
+            "segments": res["layout"]["segments"],
+            "n_segments": n_seg,
+            "n_segments_source": ("len(layout.segments) in this json; segment ids/slots "
+                                  "come from _driver2.LAYOUTS[key] and the probe block manifest"),
+            "ask_n_predict": n_pred,
+            "ask_n_predict_source": "probe constant, tools/m2_visibility_probe.py:103",
+            "decode_batches_expected_expr": "1 + ask.n_predict",
+            "decode_batches_expected_source": "1 prompt ubatch + ask.n_predict decode ubatches",
+            "SUM": {"expect": 1 + n_pred, "expr": "decode_batches_expected",
+                    "source": "engine prints one [MASKDBG-SUM] per ubatch, gate: " + TRACE_GATE},
+            "SUM2": {"expect": 1 + n_pred, "expr": "SUM",
+                     "source": "engine prints one [MASKDBG-SUM2] per traced p1 row (same gate)"},
+            "blk": {"expect": n_seg * (1 + n_pred), "expr": "n_segments * SUM",
+                    "source": "engine prints one [MASKDBG] per (p1 row, segment)"},
+            "OK": {"expect": n_seg, "expr": "n_segments",
+                   "source": "this driver prints one [MASKDBG-OK] per segment after the ask"},
+        }
         eng.reset(P.LIVE)
         P.share_layout(eng, layout, placed)
         raw = P.raw_pos_max(eng, P.LIVE)
