@@ -38,6 +38,13 @@ import hashlib,sys
 exp=open('ISOLATION-REPORT.md.sha256',encoding='utf-8').read().split()[0]
 got=hashlib.sha256(open('ISOLATION-REPORT.md','rb').read()).hexdigest()
 sys.exit(0 if exp==got else 1)" ); then ok "ISOLATION-REPORT.md 与 .sha256 边车一致"; else bad "ISOLATION-REPORT.md 与 .sha256 边车不一致"; fi
+  # PS 里也印了一份哈希：两份副本必须一致，否则其中一份已经过期
+  if $PY -c "
+import hashlib,re,sys
+side=open('kvmem/m2_visibility/ISOLATION-REPORT.md.sha256',encoding='utf-8').read().split()[0]
+ps=open('PROJECT-STATE.md',encoding='utf-8').read()
+m=re.search(r'冻结哈希 \*\*([0-9a-f]{16})', ps)
+sys.exit(0 if (m and side.startswith(m.group(1))) else 1)"; then ok "PS 内印的报告哈希与边车一致"; else bad "PS 内印的报告哈希与边车不一致（有一份已过期）"; fi
 else bad "缺少 $SIDE"; fi
 
 # ---------- 3. 门禁五支 ----------
