@@ -13,3 +13,25 @@ note: llama.cpp 为嵌套 git 仓库，补丁以本文件形式纳入版本控�
 13	0	src/llama-kv-cache.h
 31	0	src/llama-kv-cells.h
 28	0	src/llama-memory.h
+BUILD REPRODUCIBILITY (T-030 step 0, verified 2026-10-24)
+
+target: tools/kvshim_vk.dll   size 49,952,768 bytes
+shipped baseline sha256 (first 16): 849e7281c74a5288
+
+command (the only one; -Gpu -Dll -Only kvshim is what produces this DLL):
+  powershell -NoProfile -ExecutionPolicy Bypass -File D:\llama-mem\tools\build_tools.ps1 -Gpu -Dll -Only kvshim
+  (script: tools/build_tools.ps1, llvm-mingw clang++ 20260826-msvcrt, links build-vulkan/*.a)
+
+result: the rebuild is byte-identical to the shipped DLL EXCEPT the linker clock stamps:
+  offset 128..129        COFF TimeDateStamp (PE header, e_lfanew 0x78 + 8)
+  offset 47838724..47838725  a second build-time stamp that moves with the same clock
+  everything else (49,952,764 of 49,952,768 bytes) matches exactly.
+
+determinism check: two independent rebuilds differ from the baseline at the SAME 4 byte
+positions and nowhere else; with those 4 bytes zeroed all three files hash to
+  5a66fa4b285418b9
+so the build is deterministic and the difference is the timestamp, not the code or flags.
+
+consequence for T-030: a code change in llama-kv-cache.cpp must be judged by
+  (a) rebuilding, (b) comparing against the baseline with the 4 stamp bytes zeroed, and
+  (c) the behavioural checks (sha 7ec1430d..., ABLDBG counts) - never by the raw sha alone.
