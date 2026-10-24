@@ -80,3 +80,54 @@
 - 不许 try/except 包住校验后继续 —— 那是把 I2 变成装饰。
 - 不许在测试里把 chat.py 的字面量喂给 M5 —— 那正是本轮要消灭的形态。
 - 不许用「两张表都在、都对得上」代替「只有一份」：**唯一副本**是 I1，两条一致不等于一条。
+
+## 8 R15 · conversation 源不得作 M5 源侧（冻结：2026-10-25，1b 之前）
+
+**R15-a 规则（lead 定，我原文冻结）**
+- 层 1 增两个**结构性**字段：`text_kind`（`human_memory` | `conversation`）与 `contains_model_turns`（0/1）。
+  profile / project = `human_memory` / 0；conv_2026-10-25 = `conversation` / 1。`resolve_origin` 反查必须一并返回 `text_kind`。
+- **`text_kind=conversation` 的源只能用于证明「块正文来自何处」（text_origin 回查），绝不得作为 M5 的源侧。**
+  M5 源侧只接受 `text_kind=human_memory`。
+- 理由（同 R13-C② 同一条病，从「解析值」换成「模型发言」）：对话记录含模型回合，
+  若它当 M5 源，模型先前一句「记住了」甚至一句编造都会被当成「源里有」==> **拿自己的产出当接地依据**。
+- **安全方向（写死，防止以后被人当缺陷来"修"）**：M5 源侧只取人类发言 ⇒ 有些人类发言不会进 M5 源 ⇒ 相关提问变 `undecidable`（弃答）。
+  按 §5「漏判优先于误判」这是**安全方向，有意为之，不是缺陷**。
+- 事实依据（我 dump 的）：主块 `blk_conv_2026-10-25_01` 9 行，其中 **2 行是模型回合**（第 1 行「你好！有什么可以帮你？」、第 5 行「记住了。」），其余 7 行为用户。
+
+**R15-b M5 源侧到底是什么（我补，必须有定义，否则 1b 无法实现）**
+
+R15-a 只说"conv 不得作 M5 源"，但没说"那 M5 源是什么"。三种可能，后果完全不同：
+
+- **(a) 人类回合子集（role=user 的行）**：等于把 conv 切一半继续当源。**我否**——它仍是"块正文"的切片，不是可校验的源条目，且无法署名。
+- **(b) 人类回合**入库为**摘录行**：层 1 增 `text_kind=human_memory` + `is_excerpt=1` + `derived_from=<conv name>@<sha16>`，
+  并要求其 text 是 conv text 的**逐字子串**（断言）。M5 源侧 = 层 1 的 `human_memory` 行（含摘录）。**我裁定：取 (b)。**
+- **(c) conv 一律不作源、也不建摘录** ⇒ M4 产品路径**没有**合法 M5 源 ⇒ 每一个硬事实都只能 `undecidable`。
+
+**为什么必须现在定 (b)**：若取 (c)，`plate_main` 会从 `supported` 翻成 `undecidable` ⇒ **我上轮给的「M5 产品可用：通过」当场失效**。
+这不是反对 (c) 的理由，而是说**这个选择必须显式做、写进判据**，不许在 1b 里悄悄漂过去。
+我选 (b)：它既满足 R15-a（conv 不作源），又让可校验的人类事实有署名条目，且摘录带 `derived_from` + 逐字子串断言，符合 §4「派生数据不得冒充源」。
+
+**R15-c 由此对 I1 的精确化（必要，否则 (b) 会与 I1 冲突）**
+- I1 的原话「一条源的 text 全仓库只存 1 份」对**段落级源**成立；**摘录行允许与其容器共享字节**，但必须同时满足：
+  ① `is_excerpt=1` 且 `derived_from` 非空；② text 是容器 text 的逐字子串（断言）；③ `assert_unique_texts` **不得**把摘录当作容器的重复副本（判重只在同 `text_kind` 且同 `is_excerpt` 层内做）。
+
+## 9 D2 · `declared_synthetic` 必须显式可见（冻结）
+- 消融库文本是"删掉一句"的编辑文本，不是原话 ⇒ **不注册**，标 `declared_synthetic`。正确，我认。
+- **凡报告 origin 的地方**（`_m5db.text_origin`、bridge 输出、任何对照表/run json），`declared_synthetic` 必须**显式可见**：
+  不许留空，不许写成普通名字，必须是可 grep 的字面标记（例如 `declared_synthetic:blk_conv_noplate_2026-10-25_01@<sha16>`）。
+  否则读报告的人会误以为它也过了权威链。
+
+## 10 1b 重验清单（C4-a~C4-e 基础上加 lead 四条 + 我两条）
+
+| # | 判据 | 形态 |
+|---|---|---|
+| C4-f | 层 1 每行 `text_kind` 非空且取值合法（conv=conversation、profile/project=human_memory） | SQL 全表断言 |
+| C4-g | `assert_m5_source_allowed` 对 conv **必须抛错**、对 profile **必须通过** | 两条实测输出（异常类型 + 返回） |
+| C4-h | `resolve_origin` 返回含 `text_kind` | 实际反查输出 |
+| C4-i | 负向两条：注册表 hash 变 => `Stale`；外来文本 => `ForeignText` | 两条实测输出 |
+| C4-j（我补） | 摘录行（若采 R15-b）`is_excerpt=1` + `derived_from` 非空 + 逐字子串断言；`assert_unique_texts` 不误判为重复 | SQL + 断言 |
+| C4-k（我补） | **调用点清单**：`assert_m5_source_allowed` 现在被哪些路径调用、Stage 3 将接哪些，用 grep 列出； |
+| | 并加一条机器断言 —— **M5 取源必须经过它**（Stage 3 前允许 TODO，但 grep 测试要能证明"没有旁路"） | grep 输出 + 断言 |
+
+**为什么 C4-k 是硬条件**：`assert_m5_source_allowed` 若无任何真实调用点，就是 §7 反例①「库里有这行 ≠ 消费方读的是它」的第三次重演 ——
+本轮已经因为它逼出两次真问题（`get_source` 抛错的位置、`assert_m5_source_allowed` 的存在性），不能再让它第三次只存在于单元测试里。
