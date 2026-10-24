@@ -10,6 +10,8 @@ happen in the writer's process.
 """
 import argparse, json, os, sqlite3, sys
 
+import m4_display as DISP
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = r"D:/llama-mem"
 for p in (os.path.join(ROOT, "tools"), os.path.join(ROOT, "kvmem", "m2_visibility", "engine"),
@@ -98,7 +100,11 @@ def mode_answer(a):
                                                             "unit_text": unit_text,
                                                             "score": meta.get("score")},
              "block_id": block_id, "block_path": path, "cells_loaded": n, "range": [lo, hi],
-             "ask_pos": ASK_ANCHOR, "rc": rc, "answer": ans.strip(),
+             "ask_pos": ASK_ANCHOR, "rc": rc,
+             "answer": ans.strip(),                       # evidence, byte-identical to before
+             "answer_exact": ans,                         # untouched model output
+             "answer_display": DISP.strip_think(ans.strip()),   # derived, user-facing
+             "answer_display_changed": DISP.has_tag(ans.strip()),
              "live_cells": P.cell_scan(eng, 0)[0],
              "block_cells": P.cell_scan(eng, 1)[0],
              "engine": {"model": getattr(P, "MODEL", None), "n_ctx": P.N_CTX,

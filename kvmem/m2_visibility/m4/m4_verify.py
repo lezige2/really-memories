@@ -128,8 +128,14 @@ def main():
     for q, want, blob in ((QUESTIONS[0], val_home, res["answers"][0]),
                           (QUESTIONS[1], val_plate, res["answers"][1])):
         d = blob.get("json") or {}
-        checks.append({"q": q, "want_verbatim": want, "answer": d.get("answer", ""),
+        checks.append({"q": q, "want_verbatim": want,
+                       "answer": d.get("answer", ""),          # raw evidence: decides hit
                        "hit": want in (d.get("answer") or ""),
+                       "answer_display": d.get("answer_display"),
+                       "display_has_tag": "<" "/think" ">" in (d.get("answer_display") or ""),
+                       "raw_has_tag": "<" "/think" ">" in (d.get("answer") or ""),
+                       "raw_kept_unchanged": d.get("answer_exact", "").strip()
+                                             == (d.get("answer") or ""),
                        "pid": d.get("pid"), "child_of": os.getpid(),
                        "new_process": bool(d.get("pid")) and d.get("pid") != os.getpid(),
                        "retrieval_routed": bool(d.get("routed_by"))})
@@ -154,6 +160,10 @@ def main():
             (res["position0"].get("json") or {}).get("pass", {}).get("ok")
             and (res["position0"].get("json") or {}).get("refuse", {}).get("both_guards_refuse")),
     }
+    acc["display_never_decides"] = all(c["hit"] == (c["want_verbatim"] in c["answer"])
+                                        for c in checks) and all(not c["display_has_tag"]
+                                                                 for c in checks)
+    acc["raw_answer_preserved"] = all(c["raw_kept_unchanged"] for c in checks)
     acc["all_pass"] = all(acc.values())
     res["acceptance"] = acc
     res["finished_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")

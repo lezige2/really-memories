@@ -169,18 +169,76 @@
 | `lease_chain.steps[].rc / .hit` | 挂载后作答的返回码与是否命中（**rc=-1 就是位置不对**） |
 | `acceptance.*`（verify） | 8 项 + position 0 的机器判读，逐条对应 §8 表 |
 | `answer_checks[].new_process` | 子进程 pid ≠ 父进程 pid，即「真的是新进程」 |
+| `answer_checks[].answer` | **证据原文**，逐字节；所有 hit 判定只用它 |
+| `answer_checks[].answer_exact` | 模型原始输出（未做任何裁剪） |
+| `answer_checks[].answer_display` | 派生展示文本（已剥离 think 段），**不参与任何 pass/fail** |
+| `acceptance.display_never_decides` | 自检：hit 只由 `answer` 决定，且 display 里无标签 |
+| `acceptance.raw_answer_preserved` | 自检：`answer_exact.strip() == answer` |
 
 ## 12 复现
 
 ```bash
 cd D:/llama-mem/kvmem/m2_visibility/m4
 python -X utf8 _test_m4.py                       # 判定层，纯 CPU
+python -X utf8 _test_display.py                  # 展示层剔除规则，纯 CPU（8/8）
 rm -f m4_memory.db blocks/*.kvmem
 python -u -X utf8 m4_write.py --out run_m4_write.json   # 真引擎：写块 + 入库 + 租约全链路
 python -u -X utf8 m4_verify.py                   # 新进程检索/作答 + 去重/多值 + position 0
 ```
 
-## 13 消费方提醒
+## 13 已知产物缺陷：作答里混进 `</think>`（用户可见污染）
+
+**现象**（两条作答原文，码点已核：U+003C U+002F think U+003E）：
+
+```text
+住址：我住在广陵路 12 号 2 单元 602。\n</think>\n\n我住在广陵路 12 号 2 单元 602。
+车牌：浙B-3F19K\n</think>\n\n车牌号是浙B-3F19K。
+```
+
+**不影响事实命中**（值逐字都在），但这是**用户能看到的脏输出**，不能只写「命中」就放过。
+
+**定位（三组对照，`_probe_think.py` → `evidence_think_tag.json`，一次引擎加载）**：
+
+| 块正文 | token | rc | 出现 `</think>` |
+|---|---|---|---|
+| A 完整对话（含 assistant 轮） | 91 | 93 | **是** |
+| B 无对话结构的散文（M2 风格） | 55 | 230 | **否** |
+| C 同一对话，**去掉全部 assistant 轮** | 82 | 93 | **是** |
+
+**结论**：触发条件是**块正文是「对话记录」形态**，**不是** assistant 轮、也不是问句模板——
+模板是 `"\n问：" + q + "\n答："`（`kvslots.py:53-58`），本身不含 think 标签；
+M2/M3 的 run json 里也**没有**这个标签（grep 过），所以这是**对话型块正文 + 蒸馏模型**才出现的。
+最可能的机制：R1 蒸馏模型看到对话记录后被拉进「思考模式」，于是先吐一个闭合标签再作答。
+
+**处置（队长 2026-10-25 定）：展示层清洗 + 原文强制留档；块正文一律不动。**
+
+- **候选 1（采纳）**：只对「发给用户的那一份」剥掉标签段；KV、块文件、存库正文、run json 原文全不动。
+- **候选 2（否决）**：给块正文加引导头 —— ① 违反已冻结的 `block_text_policy`「段内原话逐字，不重写不摘要」（判据 §8）；
+  ② 会切断 M2/M3/M4 之间块正文的可比性。**块正文模板不属于本轮可改范围。**
+- **候选 3（不采用）**：接受脏输出 —— 用户可见污染没解决。
+
+**落地规格（已实现）**：
+
+| 要求 | 实现 |
+|---|---|
+| run json 的 `answer` 保持原样逐字节 | `answer` 语义未变（仍只裁首尾空白，与前几轮一致）；另存 `answer_exact` = 模型原始输出，一字不剪 |
+| 新增 `answer_display` 派生字段 | `m4_display.strip_think()` 产出，附 `answer_display_changed` |
+| 所有验收判据只用 `answer` | `m4_verify.py` 的 `hit` 只读 `answer`；自检 `display_never_decides` / `raw_answer_preserved` 均 true |
+| 「答案原文照抄」口径不变 | 原文在 `answer` 里，照抄照旧 |
+| 剔除规则可复验 | 规则是 `m4_display.py` 的常量正则；`_test_display.py` **8/8 通过**：句首 / 句中 / 多处 / 闭合对 / 未闭合到结尾 / **无标签时逐字节不变** / 空串 / 派生对 |
+
+实测对照（`run_m4_verify.json → answer_checks[]`；TAG 处即 think 标签，NL 处即换行）：
+
+```text
+住址  answer        : 我住在广陵路 12 号 2 单元 602。<TAG><NL><NL>我住在广陵路 12 号 2 单元 602。
+      answer_display: 我住在广陵路 12 号 2 单元 602。<NL><NL>我住在广陵路 12 号 2 单元 602。
+车牌  answer        : 浙B-3F19K<TAG><NL><NL>车牌号是浙B-3F19K。
+      answer_display: 浙B-3F19K<NL><NL>车牌号是浙B-3F19K。
+```
+
+复验：`python -X utf8 _test_display.py`（8/8）→ `python -u -X utf8 m4_verify.py`（**11/11**，含两条展示层自检）。
+
+## 14 消费方提醒
 
 - 块文件里的位置是 **0 起**；载入后**必须重定位到「结束于问位锚点」**（§5），否则 rc=-1。
 - `memory_source.text` 是**逐字子串**，不要当完整块正文用；块正文在 `block` 表 + `.kvmem` 文件里。
