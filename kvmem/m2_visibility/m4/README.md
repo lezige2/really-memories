@@ -621,7 +621,7 @@ M4 的语料（2026-10-25 那段对话）**根本不在注册表里**，注册�
 | C4-h `resolve_origin` 含 `text_kind` | 通过 | 返回 7 个键，含 `text_kind` / `contains_model_turns` |
 | C4-i 负向两条 | 通过 | `ForeignText` + `Stale` 均实测抛出 |
 | C4-j 摘录三件套 | 通过 | 7 条摘录、声明表 7 行、逐字节相等、assistant L2/L6 **未**入库（`assistant_not_promoted`）|
-| C4-k 调用点 + 无旁路 | 通过 | `registry/run_check_m5_gate.json`：调用点 1、bypass 0、M5 目前无注册表读 |
+| C4-k 调用点 + 无旁路 | 通过（**空真**）| `run_check_m5_gate.json`：生产路径接入点 **0**、唯一调用在验收脚本（`m4_layer2_link.py:604`）、`TODO(stage3)` 在 `m5_bridge.py:86`。M5 尚无选源分支，`bypass=0` 现在不具拦截力 |
 
 **`_m5db` 的 origin（D2 字面形态）**
 
