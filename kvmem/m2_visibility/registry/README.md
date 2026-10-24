@@ -219,18 +219,30 @@ role **只作准入闸门**，不得参与任何内容判断。
 | 块文件字节 | `profile.kvmem 3251081d12da5678`、`project.kvmem 981a9c776c720686` —— **重建前后相同** |
 | 运行证据 | 旧（冻结）：`chat_lease/run_m2_final.json`；新：`m2/run_m2_after_s2.json`（sha16 `2e1f2be9b5d51a21`）|
 
-### 负向测试：注释/常量已经不是依赖
+### 「文本不再是依赖」的证据清单（投毒那条已 retired）
 
-1. `grep -c MEMORIES tools/chat.py` -> **0**；`git show HEAD~1:tools/chat.py` 里是 2 处（循环 + 计数）。
-2. 把删掉的常量**投毒**回去再建块（`chat.MEMORIES = [("poison","坏","这句话永远不该被索引。")]`）：
-   实测输出 `indexed 2 sources + 2 blocks`、块目录只有 `profile.kvmem` / `project.kvmem`、
-   `rows named poison: 0`、`indexable` 仍是 `[profile, project]`。
-   => 常量即使存在也**没有任何代码路径读它**。
-3. 空库：`indexable_sources` 为空时 `die(...)` 退出，不会建出空索引冒充成功。
+| # | 证据 | 状态 |
+|---|---|---|
+| 1 | `grep -c MEMORIES tools/chat.py` -> **0**；`git show HEAD~1:tools/chat.py` 里是 2 处（循环 + 计数）| 有效 |
+| 2 | `tools/chat.py:103` 实际调用 `ms.indexable_sources(con)`（建块路径唯一入口）| 有效 |
+| 3 | 账本键 `13_no_second_copy_of_memory_text` 做源码扫描（无字面量 + 读注册表 + 建块不写源）| 有效 |
+| 4 | ~~投毒 `chat.MEMORIES` 后仍能正常建块~~ | **retired** |
+| 5 | 空库 => `die("the registry has no indexable source …")` | **未验**（跑它会动真库，检测员未跑）|
+
+**为什么投毒那条 retired**：`MEMORIES` 已经不存在，**投毒一个没有代码路径读取的名字，无论结果如何都不构成证据** ——
+它今天不可能失败，也就证明不了什么。它原本防的「文本被当成依赖」由第 1/2/3 条覆盖。
+**为什么空库那条写"未验"**：没跑过的检查不许写成通过。
 
 ### 锚
 
-`chat.db`：`a699fd1e5aaa9adf` -> **`5909b978e31e584a`**。
+`chat.db`：`a699fd1e5aaa9adf` -> **`6d2ff37a4861b08d`**（当前值；漂移原因见下）。
+
+**锚漂移记录（防止下次误判成内容变更）**：本文件上一版写的是 `5909b978e31e584a`，那是 **04:31:20 之前**测的值。
+`chat.db` 的 mtime 是 **04:31:20** —— 正是 `m4_layer2_link.py` / `run_layer2_link.json` 写盘那一分钟；
+README 的 mtime 04:31:45 在其后 => **锚是在"另一阶段还会再写一次这个库"之前测的**。
+内容层面已复核，全部一致：`memory_source` 10 行（`61/d3e57f11`、`45/aa9769ad`、`127/d8c094c1` + 7 条摘录）、
+`memory_source_excerpt` 7 行、`memory_block` 2 行、`PRAGMA integrity_check` = ok、page 22 / freelist 1
+=> **只有文件级漂移，没有内容漂移**。
 变的只有 `memory_block` 的派生状态（`built_at` / 路径重指回 `kvmem/blocks`）；
 `memory_source` **一行都没动**：10 行、`profile d3e57f11838e6bf8/61`、
 `project aa9769adb3cb4493/45`、`conv_2026-10-25 d8c094c1f5fcb8f1/127`、7 条摘录。
@@ -280,6 +292,10 @@ SQLite 不能加 CHECK，所以 `registry/migrate_i8.py` 按 `tools/memory_sourc
 读数 -> 建新表 -> 拷 13 列 -> 删旧 -> 改名 -> 重建索引与不可变触发器。
 `run_i8.json` 里 `row_parity_problems=none`（10 行逐列逐字节相同），`trigger_present=True`。
 
+**`row_parity` 是一次性迁移比对，不是回归项**：它证明的是"重建表那一刻，旧表 10 行逐列逐字节等于新表"，
+只在那一次迁移的运行记录里成立。之后再跑 `migrate_i8.py` 不会复现这个结论（表已是新 DDL，没有旧表可比），
+**不要把它当"每次都该 true"的检查用**。
+
 ### 常驻回归项（不再是"这一轮验过"）
 
 `check_registry.py` 有 13 个验收键，其中这三个是长期驻留：
@@ -309,3 +325,36 @@ SQLite 不能加 CHECK，所以 `registry/migrate_i8.py` 按 `tools/memory_sourc
 `python -X utf8 -c "import json,sqlite3,hashlib; con=sqlite3.connect('kvmem/m2_visibility/m4/_m5db/m5_m4_blocks.db'); rows=list(con.execute('SELECT block_id, sha256, source_text FROM blocks ORDER BY block_id')); print(hashlib.sha256(json.dumps(rows, ensure_ascii=False).encode('utf-8')).hexdigest())"`
 
 实测输出前 16 位 `876deaa3a4b7ad1d`，与记录一致；代码位置 `m5_bridge.py:133-137`。
+
+## 四条并列纪律（第 4 条是今晚新增）
+
+| # | 纪律 | 它防的是什么 |
+|---|---|---|
+| ① | **计数必须附原值** | "多了/少了"没有原值就无法复核 |
+| ② | **代码行为必须附原文或 git diff hunk** | 转述会漂移 |
+| ③ | **任何哈希必须附定义**（序列化方式 / 列集合 / 顺序 / 编码）| 定义未知的哈希不是锚，是死数字 |
+| ④ | **台账每项必须能独立溯源到只属于它的判据** | 共享布尔 = 隐性项数膨胀 |
+
+### ④ 的来历（真实事故）
+
+`check_registry.py` 曾有 `8_fidelity` 与 `13_no_second_copy_of_memory_text` 两个键
+**共用同一个布尔** `res["no_second_copy_of_memory_text"]["ok"]` —— 账本显示 13/13，**实际只有 12 个独立判据**。
+检测员的判词：
+
+> 这跟「把挡路那条删掉」是反向的同一类病：**把一条已经无意义的检查留着颜色好看。**
+
+处置：
+1. `8_fidelity` 置 **retired**（值不再参与 `pass`，输出里单列 `retired keys` 名单）；
+2. 新增机器自检：用 AST 取 `res["acceptance"]` 的每个键与其判据表达式，**两两必须不同**，
+   输出同时打印 `key_count` 与 `distinct_judgements`，两者不等即 FAIL。
+
+实测：`ledger: 12 keys / 12 distinct judgements`、`retired keys: 8_fidelity`。
+
+### 两类缺陷，两种查法
+
+> **运行验证只能抓到"被运行到"的东西。**
+> `DECL_SCHEMA` / `promote_excerpts` 因为 `NameError` 当场炸，被运行挡下；
+> 但 `8_fidelity` 这种「名字还在、值还在、只是指向了别人」的缺失，**运行永远不会报错** —— 它只会安静地让账本多一项。
+
+- **会炸的**（缺函数、缺常量、签名不符）=> 运行验证 + 断言；
+- **安静的**（两键共用一个布尔、检查指向了别人、退役后仍计分）=> 逐项回溯源头的布尔/字段，靠自检脚本，不靠跑。
