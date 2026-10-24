@@ -438,3 +438,41 @@ grep -n 'prefix already' ../../tools/m2_visibility_probe.py
 ```
 
 **本文不产生新 run、不修改任何既有文件。**
+
+---
+
+## 8 本轮到底证实了什么（只收"有引擎侧证据或受控对照"的条目）
+
+**先把边界写死**：本轮**没有找到机制**，**没有修改任何引擎代码**（补丁仍为 500 insertions / 0 deletions，`llama-kv-cache.cpp` sha256 `dbe52f9124f1ad29…`，DLL `849e7281c74a5288`）。
+**`E10 = 已定位·生成侧，未修复` 的结论不变。** 本事后各节里那条两条件合取**是现象描述，不是机制**。
+
+### 8.1 记忆**完整存在且完整可见**（E10 的原始事实，至今未被推翻）
+
+- **结论**：被写入的块全部落入 cell layer，无丢失、无 masking 异常：`home 4075-4096 cells=21/21`、`project 4014-4032 18/18`、`habit 3956-3968 12/12`、`project2 3886-3904 18/18`；引擎侧 trace `SUM=25 SUM2=25 blk=100 OK=4`。
+- **证据**：`runs_mask/t010_b_dup4_home.json`（`cell_layer.coverage`）+ `runs_mask/t010_b_dup4_home.log`（MASKDBG 计数 154）。
+- **复算**：`python -X utf8 _assert_trace.py --log t010_b_dup4_home.log --run-json t010_b_dup4_home.json`（见 §7 全套命令）。
+- **它能证伪什么**：任何"E10 是记忆没写进去 / 被 mask 掉了 / 只写了一半"的说法。**记忆在场且可见，模型生成时没有用它。**
+
+### 8.2 顶部空洞 ⇒ 引擎侧**零 trace**、记忆不生效（本轮唯一带引擎证据的新结论）
+
+- **结论**：`head_gap_cells > 0` 的 7 份产物**全部** `answer` 为空串，且引擎侧 `SUM=0 SUM2=0 blk=0`；`head_gap_cells = 0` 的 124 份是正常臂（有 trace、有答案）。
+- **证据**：`evidence/t018/t018_v1_topgap.json`（`head_gap_cells=64`、`cell_count=70`、`ask.answer=""`、`SUM=0`、门禁 `rc=6 RED`）；另 6 份 `iso_no_home` 全族（`head_gap=64`）空答。
+- **复算**：`grep -c MASKDBG t018_v1_topgap.log`（引擎侧 0 行，仅驱动自打的 4 行）。
+- **它能证伪什么**：**第一轮 P4「空答」的归因**。`iso_no_home` 的 project 0✓/7✗ **不是模型答不出，而是记忆没被铺进 KV 就没有可判读的上下文**。
+- **它不能证伪什么（必须同时写）**：那 7 份**同时**缺 `slot1`（记忆区不贴 `CHAT-1`），所以 **"有空洞"与"不贴提问点"仍完全共线，本库未分开**；且此时"答错"无从谈起，所以它也**不能**说明空洞会"劣化"生成 —— 只能说明**没有生成**。
+
+### 8.3 单块可答 ⇒ 没有任何块"坏了"，失败在布局层面
+
+- **结论**：`iso_home_only`（home `[4075,4096]`）与 `iso_habit_only`（habit `[4084,4096]`）在 `--no-control` 下均 `ask.ok=TRUE`，答案形态为 plain（非 cloze）。
+- **证据**：`evidence/t014/t014_x_home_only_noctl.json`、`evidence/t014/t014_y_habit_only_noctl.json`（各 `SUM=25 blk=25`、门禁 `GREEN`，`DIMS=… C:inert`）。
+- **复算**：`python -X utf8 _form.py t014_x_home_only_noctl.json` + `_gate.py`（`grep -E "^(VERDICT|DIMS)=" `）。
+- **它能证伪什么**：**"某块本身坏/被污染"这条整类解释**（此前把 `habit 恒败` 当块缺陷，已被 §1.8 否掉；本节把 home 也一并否掉）。
+- **它不能证伪什么**：这两条是 `--no-control` 产物（`C:inert`），**不能与有控制臂的 run 混进同一个计数**（§1.10、门禁第五维已按此实现）。
+
+### 8.4 明确不在本节的三类
+
+1. **任何"pass/fail 规律"**（含 §2.10.3 那条合取、`H-A`/`H-C`/`H_last`/`H_adjacent`/`H_neighbor`）：它们是**描述或已被证伪的候选**，不是本轮证实的东西。
+2. **"E10 的机制"**：无。本轮所有机制候选都被下一批数据打死（`car 在场` / `第四块内容` / `距离` / `邻接` / `H_last`）。
+3. **任何依赖旧产物的几何量**：`isoI3_gap256_*` 自带 `pos_lo`（最低 **3309**、span 最大 **787**）⇒ `spacing=256` 的位置是**可自证的**；但 `iso_gap32`/`iso_gap256` 那批**没有** `spacing`/`span` 字段的旧产物，位置不可复核 ⇒ 一律不得当基准引用。
+
+

@@ -2,6 +2,11 @@
 
 副本来自 `kvmem/m2_visibility/runs_mask/`。逐字节校验：**6/6 与原文件相同，bad=0**。
 
+> PATTERNS：**"调用发出去了" ≠ "文件已改"——跑批前先 `import` 一次确认键可见。**
+> 由来：本轮给 `_driver2.py` 加 `iso_dup_p2` 的那次编辑整段没执行（同轮 `run_code` 引号解析失败），
+> 而我当成已改就去跑批，四条 run 全以 `invalid choice: iso_dup_p2` 退出、一个 json 都没产出；
+> 是 `usage: _mask_run.py …` 这几行日志把原因摆出来的。
+
 ## 命令行（原样）
 
 ```
