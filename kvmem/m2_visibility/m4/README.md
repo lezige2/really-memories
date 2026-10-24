@@ -493,15 +493,15 @@ cd kvmem/m2_visibility/m4 && python -u -X utf8 m4_verify_grounded.py     # 四�
 |---|---|---|---|
 | 判据文件（主角，在改动清单里） | `kvmem/m2_visibility/m5/m5_ground.py` | `86b7c501ab9904aa` | 03:51:46 |
 | 桥 | `kvmem/m2_visibility/m4/m5_bridge.py` | `706c00d0345fe3c2` | 03:52:12 |
-| 作答路径 | `kvmem/m2_visibility/m4/m4_answer_grounded.py` | `9213bbeb41e97b9c` | 03:52:12 |
+| 作答路径 | `kvmem/m2_visibility/m4/m4_answer_grounded.py` | `54125ea0ec1e4f51` | 04:03:06 |
 | 消融块构建 | `kvmem/m2_visibility/m4/m4_ablate.py` | `172b5fa39eed84cd` | 03:37:27 |
-| 验收编排 | `kvmem/m2_visibility/m4/m4_verify_grounded.py` | `8e754405b7bbe67d` | 03:57:09 |
+| 验收编排 | `kvmem/m2_visibility/m4/m4_verify_grounded.py` | `9247e3fa19427eab` | 04:03:06 |
 | 前后对照 | `kvmem/m2_visibility/m4/m5_fix_compare.py` | `0e9e60882c8f55ba` | 03:55:54 |
-| 验收 json | `kvmem/m2_visibility/m4/run_m5_grounded.json` | `dd8703d1022cdeb9` | 03:58:05 |
-| 对照 json | `kvmem/m2_visibility/m4/run_m5_fix_compare.json` | `5f7c196a32a659a6` | 03:58:05 |
+| 验收 json | `kvmem/m2_visibility/m4/run_m5_grounded.json` | `d97cdfdcbd6c6d3d` | 04:04:44 |
+| 对照 json | `kvmem/m2_visibility/m4/run_m5_fix_compare.json` | `5f7c196a32a659a6` | 04:04:44 |
 | 消融 json | `kvmem/m2_visibility/m4/_ablate/run_ablate.json` | `8d0998c0014dde03` | 03:38:01 |
 | 消融库 | `kvmem/m2_visibility/m4/_ablate/m4_memory_noplate.db` | `c44abc2547aad560` | 03:38:01 |
-| M5 文本副本 | `kvmem/m2_visibility/m4/_m5db/m5_m4_blocks.db` | `980d30fdb69f6f0b` | 03:57:09 |
+| M5 文本副本（文件） | `kvmem/m2_visibility/m4/_m5db/m5_m4_blocks.db` | `9b833f09480a77cc` | 04:03:06 |
 | 消融块 | `kvmem/m2_visibility/m4/_ablate/blocks/blk_conv_noplate_2026-10-25_01.kvmem` | `e3bfec41d1f059e7` | 03:38:00 |
 | M5 证据 | `kvmem/m2_visibility/m5/evidence_m5.json` | `0f57f4357452a865` | 03:48:20 |
 | M4 验收 json（未重跑） | `kvmem/m2_visibility/m4/run_m4_verify.json` | `bdf392e8f9a672a7` | 02:59:13 |
@@ -517,3 +517,38 @@ cd kvmem/m2_visibility/m4 && python -u -X utf8 m4_verify_grounded.py     # 四�
 （`m4_write.py / m4_extract.py / m4_store.py / m4_display.py / m4_newproc.py / m4_verify.py / m4_crosscheck.py / m4_pos0_refuse.py / _test_*.py / _probe_*.py`）、
 `m4/blocks/blk_conv_2026-10-25_01.kvmem`（`81127d24fd64b96b`）、`m5/memory.db`、`m5/test_m5.py`、`m5/build_memory_db.py`。
 改动清单只有：`m5/m5_ground.py`（R12，抽取侧一处）+ `m4/` 下 5 个新文件 + `m4/README.md`（本文）。
+
+
+### 19.11 收尾两件（检测员非阻塞遗留）
+
+**(i) 消融库「检索命中 0」的原始分数，现在在 `mount_evidence` 里**（原先只在 `mount_meta`，读的人看不到）
+`run_m5_grounded.json → cases[plate_ablated].mount_evidence.retrieval_probe` 原值：
+
+| 键 | 值 |
+|---|---|
+| `query` | `我车牌号是多少？` |
+| `hit` / `hits` | **0 / 0** |
+| `top` / `top_score` / `top_source_id` | `null / null / null` |
+| `gate` | `{"GATE":1.3,"COV_MIN":0.35,"INDEX_VERSION":5}` |
+| `value_gate` | `{"property":"plate","scope":null,"allowed_sources":0,"abstained":true}` |
+| `value_gate.why` | `no memory_source states this property for this scope -> _search_one returns [] before scoring` |
+
+「top 分」在消融库里**不存在**：不是分数低被门限挡掉，而是值门控在打分之前就弃权
+（`tools/retrieval.py::_search_one` 里 `allowed` 为空直接 `return []`）。
+这才是「为什么被迫 all-blocks」的可审计理由，比一个 0 分更硬。
+
+**(ii) 四个 sha**：`run_m5_grounded.json` 因为 (i) 的补测必须重跑，按锚规则已换过两次：
+
+| 文件 | 旧值 | 状态 | 当前 |
+|---|---|---|---|
+| `run_m5_grounded.json` | `5cd106eead0c9bac` → `dd8703d1022cdeb9` | **均已失效** | `d97cdfdcbd6c6d3d` |
+| `run_m5_fix_compare.json` | — | 有效（重跑后字节相同） | `5f7c196a32a659a6` |
+| `m5_ground.py` | — | 有效 | `86b7c501ab9904aa` |
+| `_before/m5_ground_preR12.py` | — | 有效 | `ea749781368c798e` |
+
+json 自身无法记录自己的 sha（写进去就变了），所以 `delivery_anchor` 里给的是
+`run_m5_grounded_json_previous_run` 并在 `invalidated_anchors` 列出了作废值；
+**权威值只认这张表**（表由产物文件重算，不手抄）。
+
+**并 store 一句**：`m5_ground.py` 的 R12 diff 落在 lead 的 `f63097b` 里（他 `git add -A` 扫的），
+最终形状由 `0cf588b` 定稿；引用请用 `git diff e172aca -- kvmem/m2_visibility/m5/m5_ground.py`。

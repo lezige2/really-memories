@@ -61,16 +61,32 @@ def resolve_mounts(con, q, mode, k=3):
     if mode == "all":
         rows = list(con.execute("SELECT block_id, path, cells FROM block ORDER BY block_id"))
         probe = R.search(con, q, k=k)
+        A = R.A
+        prop = A.property_of(q)
+        scope = A.scope_of(q, prop) if prop else None
+        allowed = ({sid for sid, txt in con.execute("SELECT id, text FROM memory_source")
+                    if A.property_holds(txt, prop, scope)} if prop else None)
         return ([{"block_id": r[0], "path": r[1], "cells": r[2]} for r in rows],
                 {"mount_mode": "all-blocks",
                  "why": "product policy for a small memory: mount every block it holds",
-                 "retrieval_probe": {"query": q, "hits": len(probe),
-                                     "top_score": (round(probe[0].get("score", 0), 4)
-                                                   if probe else None),
-                                     "top_source_id": (probe[0].get("source_id")
-                                                       if probe else None),
-                                     "note": "routing WOULD have failed here; that is the "
-                                             "measured reason this case mounts by policy"}})
+                 "retrieval_probe": {
+                     "query": q,
+                     "hit": len(probe),
+                     "hits": len(probe),
+                     "top": (probe[0].get("score") if probe else None),
+                     "top_score": (round(probe[0].get("score", 0), 4) if probe else None),
+                     "top_source_id": (probe[0].get("source_id") if probe else None),
+                     "gate": {"GATE": R.GATE, "COV_MIN": R.COV_MIN,
+                              "INDEX_VERSION": R.INDEX_VERSION},
+                     "value_gate": {"property": prop, "scope": scope,
+                                    "allowed_sources": (len(allowed)
+                                                        if allowed is not None else None),
+                                    "abstained": bool(allowed is not None and not allowed),
+                                    "why": ("no memory_source states this property for this "
+                                            "scope -> _search_one returns [] before scoring"
+                                            if allowed is not None and not allowed else None)},
+                     "note": "routing WOULD have failed here; these are the measured raw "
+                             "numbers that justify mounting by policy"}})
     hits = R.search(con, q, k=k)
     if not hits:
         return [], {"mount_mode": "routed", "reason": "no retrieval hit", "hits": 0}
@@ -129,6 +145,7 @@ def main():
         disp = derive_or_fallback(ans)
         pre = disp["answer_display"]
         mount_rec = {"mounted": [blk["block_id"]], "source": "answer-path mount (seq 1)",
+                     "retrieval_probe": mount_meta.get("retrieval_probe"),
                      "mount_meta": mount_meta, "range": [lo, hi], "cells_loaded": n,
                      "engine_cells_on_seq1": mounted_cells,
                      "cells_match_block_row": mounted_cells == blk["cells"],

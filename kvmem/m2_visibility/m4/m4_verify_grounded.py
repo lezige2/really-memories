@@ -55,7 +55,8 @@ def row(cid, d):
                                "engine_cells_on_seq1": m["engine_cells_on_seq1"],
                                "cells_match_block_row": m["cells_match_block_row"],
                                "block_path": m["block_path"],
-                               "block_sha256": m["block_sha256"], "range": m["range"]},
+                               "block_sha256": m["block_sha256"], "range": m["range"],
+                               "retrieval_probe": m.get("retrieval_probe")},
             "verdict": g["verdict"], "reason": g["reason"], "topic_word": g["topic_word"],
             "hard_facts": g["hard_facts"], "hits": g["hits"], "unhit": g["unhit"],
             "exempt": g["exempt"], "undecidable_items": g["undecidable_items"],
@@ -311,7 +312,16 @@ def main():
     res["block_shas"] = {c["mounted"][0]: c["mount_evidence"]["block_sha256"]
                          for c in res["cases"]}
     res["block_shas"]["m5_text_copy_content"] = res["m5_db"]["content_sha256"]
+    run_sha = sha_file(os.path.join(HERE, "run_m5_grounded.json"), 16) \
+        if os.path.exists(os.path.join(HERE, "run_m5_grounded.json")) else None
+    cmp_sha = sha_file(os.path.join(HERE, "run_m5_fix_compare.json"), 16) \
+        if os.path.exists(os.path.join(HERE, "run_m5_fix_compare.json")) else None
     res["delivery_anchor"] = {
+        "note": "this json is written after these values are read, so run_m5_grounded.json "
+                "and run_m5_fix_compare.json below describe the PREVIOUS run; the authoritative "
+                "values are printed by the driver and recorded in README §19.10",
+        "run_m5_grounded_json_previous_run": run_sha,
+        "run_m5_fix_compare_json_previous_run": cmp_sha,
         "m5_ground.py": sha_file(os.path.join(ROOT, "kvmem", "m2_visibility", "m5",
                                               "m5_ground.py"), 16),
         "m5_ground_preR12.py": pre_meta["sha256"][:16],
@@ -324,6 +334,9 @@ def main():
                                                 MAIN + ".kvmem"), 16),
         "blk_noplate.kvmem": sha_file(os.path.join(HERE, "_ablate", "blocks",
                                                    "blk_conv_noplate_2026-10-25_01.kvmem"), 16),
+        "invalidated_anchors": ["5cd106eead0c9bac", "dd8703d1022cdeb9"],
+        "invalidated_note": "两份 run json 在不同时间点被重跑过，旧 sha 一律失效；"
+                            "README §19.10 记录 旧->失效->当前 的对照",
         "rule": "产物重跑、sha 变了 => 之前的验收结论自动失效，必须重新验收",
     }
     json.dump(res, open(os.path.join(HERE, "run_m5_grounded.json"), "w", encoding="utf-8"),
