@@ -241,7 +241,7 @@
 
 ## §7 数据与不确定性
 
-> **T-004（变量隔离 → 掩码层）已完成**，过程报告见 `kvmem/m2_visibility/ISOLATION-REPORT.md`（**已定稿·可引用**；引用须带其冻结哈希）。
+> **T-004（变量隔离 → 掩码层）已完成**，过程报告见 `kvmem/m2_visibility/ISOLATION-REPORT.md`（**已定稿·可引用**；引用须带其冻结哈希 **cb11df4453756882**，267 行）。
 > 三句结论：
 > 1. **cell 层**：失败布局里 home **21/21** 覆盖、`overlaps` 为空（引擎 cell 表实测，非 manifest 声明）。
 > 2. **掩码层**：`iso_base` 与 `iso_dup4` 两臂 home 均 **allowed=21 masked=0**；两臂 **各 100 条块行**（每臂 25 个解码步 × 4 块，合计 200），masked>0 的 0 条；每臂另有 4 条 [MASKDBG-OK]（ask 之后的 JOIN 行，属另一类，不计入块行）（trace 出自冻结版 `dbe52f9124f1ad29`）。
