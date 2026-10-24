@@ -260,6 +260,21 @@ def assert_unique_texts(con):
             "texts": flat}
 
 
+def indexable_sources(con):
+    """Source rows a block builder may index: human memory that is not a span.
+
+    Stage 2: the registry is the authority, so the builder reads rows instead of a literal
+    in the caller. A conversation transcript is excluded because it carries model turns,
+    and an excerpt is excluded because it is already inside its container.
+    """
+    cols = set(r[1] for r in con.execute("PRAGMA table_info(memory_source)"))
+    layered = {"text_kind", "is_excerpt", "derived_from"} <= cols
+    sql = ("SELECT name, label, text FROM memory_source WHERE text_kind='human_memory' "
+           "AND is_excerpt=0 ORDER BY id") if layered else \
+          ("SELECT name, label, text FROM memory_source ORDER BY id")
+    return [tuple(r) for r in con.execute(sql)]
+
+
 def probe_text(con, source_id):
     """The text of a source row.
 

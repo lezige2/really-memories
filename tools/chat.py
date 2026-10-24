@@ -53,18 +53,9 @@ SLOT       = 64        # slot capacity for the right-aligned slot layout (P0-4)
 SESSIONS   = os.path.join(ROOT, "kvmem", "sessions")
 SESSION    = os.path.join(SESSIONS, "live.json")
 
-# Two separable memory segments. Each is written as self-contained statements so
-# that it is a meaningful "episode" on its own -- the model never sees them as text.
-MEMORIES = [
-    ("profile",  "个人档案",
-     "我叫林知远，在供应链分析组工作，我的工号是 A-4417。"
-     "我养的猫叫年糕，是一只橘猫。"
-     "每周例会订在 B栋3层302会议室。"),
-
-    ("project",  "项目信息",
-     "我在做蓝鲸项目，项目代号就是蓝鲸。蓝鲸项目定在 3月14日 上线。"
-     "蓝鲸项目的负责人是周敏。"),
-]
+# The memory text is NOT here any more: kvmem/chat.db::memory_source is the authority and
+# the builder reads it (ms.indexable_sources). A literal here would be a second copy of the
+# same bytes, and editing it used to silently re-source every block -- Stage 2 removes that.
 
 # Each question needs both blocks, so a correct answer proves both are visible.
 QUESTIONS = [
@@ -98,8 +89,8 @@ def clean(s):
 def cmd_build():
     os.makedirs(BLOCKS, exist_ok=True)
 
-    # The source layer is the authority; the .kvmem block is a derived cache. Both are
-    # written here, in that order, so a block can always be rebuilt from text.
+    # The source layer is the authority; the .kvmem block is a derived cache. This only
+    # reads sources (verify_hash on every read) and rewrites blocks from them.
     con = ms.connect(DB)
 
     print("model : %s" % MODEL)
@@ -109,17 +100,20 @@ def cmd_build():
     try:
         print("per-token KV: %.1f KiB (q8_0)\n" % (eng.bytes_per_token() / 1024.0))
 
-        for name, label, text in MEMORIES:
-            sid, created = ms.put_source(con, name, label, text)
+        sources = ms.indexable_sources(con)
+        if not sources:
+            con.close()
+            die("the registry has no indexable source (text_kind=human_memory, "
+                "is_excerpt=0): nothing to index")
+        for name, label, _text in sources:
             rec = ms.build_block(eng, con, ms.get_source(con, name), BLOCKS)
-            print("  %-8s %-6s %3d tokens  %7.1f KiB  %s%s"
-                  % (name, label, rec["n_tokens"], rec["n_bytes"] / 1024.0, rec["path"],
-                     "" if created else "  (source unchanged)"))
+            print("  %-8s %-6s %3d tokens  %7.1f KiB  %s"
+                  % (name, label, rec["n_tokens"], rec["n_bytes"] / 1024.0, rec["path"]))
     finally:
         eng.close()
 
     con.close()
-    print("\nindexed %d sources + %d blocks in %s" % (len(MEMORIES), len(MEMORIES), DB))
+    print("\nindexed %d sources + %d blocks in %s" % (len(sources), len(sources), DB))
 
 
 # ---------------------------------------------------------------------------

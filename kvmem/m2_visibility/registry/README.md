@@ -137,8 +137,11 @@ DROP TRIGGER 后再改 => 上面三条 API 校验全部抛错。绕得过一层�
 
 `registry/check_m5_gate.py` 做两件机器可查的事：① 打印 `assert_m5_source_allowed` 的调用点；② 扫描「会materialize M5 源文本」的文件，
 要求每个都调用闸门或带 `TODO(stage3)` 标记，否则判 BYPASS。
-当前结论：调用点 1 处（`m4_layer2_link.py:604`）；M5 现在**不读注册表**，所以还没有源选择分支可拦 ——
-Stage 3 必须在 M5 选源处加调用，在此之前 `m5_bridge.py:86` 的 `TODO(stage3)` 是标记点。
+闸门已存在并被**验收脚本**调用（`m4_layer2_link.py:604`）；**生产路径接入点 = 0**，
+`TODO(stage3)` 钉在 `m5_bridge.py:86`；**`bypass=0` 在 1b 期是空真**
+（M5 尚无选源分支），Stage 3 接入后该断言才具备拦截力。
+
+（`check_m5_gate.py` 打印的 `call_site_count` 含定义行与文档行；不要把这个数读成"生产已接入"。）
 
 ### 覆盖率五元组（源侧与可检索是两件事）
 
@@ -166,3 +169,75 @@ role **只作准入闸门**，不得参与任何内容判断。
 
 `chat.db`：`f02763dcd8512e83` -> **`a699fd1e5aaa9adf`**（列变更 + 3 条新源 + 7 条摘录）。
 `profile` / `project` 的 text 与 `source_hash` **未变**：`d3e57f11838e6bf8` / `aa9769adb3cb4493`（len 61 / 45）。
+
+
+## 为什么需要断言（两个真实案例，都发生在 1b 当天）
+
+抽象地说"要有护栏"没有说服力，下面两件事是**断言挡下来的**，不是人看出来的。
+
+**案例 1：默认值朝不安全方向走。**
+1b 第一版把 `migrate_layer1()` 放在**提升之前**执行。于是 `put_source` 新插入的
+`conv_2026-10-25` 行吃了列默认值 `text_kind='human_memory'` —— 那段对话里明明有助手回合。
+后果：`assert_m5_source_allowed('conv_2026-10-25')` **放行**，模型产出被当成可作源的记忆。
+**没有任何字节层面的东西会报错**：hash 自洽、子串成立、I1 通过、`_m5db` 照常重建。
+把它挡下来的是「conv 必须抛 `SourceNotAllowed`」这条断言（C4-g）。
+修法：分类必须在提升**之后**执行，且只处理 `is_excerpt=0` 的行。
+
+> 教训：**列默认值是一种静默决策**。默认成 `human_memory` 等于默认"这行可以当源"，
+> 危险方向上的默认值必须配一条反向断言，否则它会在没人注意的时候生效。
+
+**案例 2：两个 id 命名空间。**
+`m5_bridge.origin_of()` 第一版在**层 2** 里按 `registry_source_id` 反查名字，
+于是 `blk_conv_2026-10-25_01` 的 `text_origin` 变成了 `registry:fact_作息_3@…` ——
+层 2 的 id=3 是 `fact_作息_3`，注册表的 id=3 是 `conv_2026-10-25`。
+名字看着完全合法、sha 也对得上，**只有人会读错，字节不会报警**。
+修法：名字回层 1 查，两侧 hash 比对，不一致写 `stale:` 前缀而不是装作正常。
+（这是 I7 第 4 行「两处各存一半真相必须有不一致断言」的第一次真实兑现。）
+
+
+## Stage 2：chat.py 改读注册表（`MEMORIES` 字面量已删除）
+
+### 变化
+
+| 位置 | 之前 | 现在 |
+|---|---|---|
+| 记忆文本 | `tools/chat.py:58` 的 `MEMORIES` 字面量 | **不存在**（`grep -c MEMORIES tools/chat.py` = 0）|
+| 建块来源 | `for name,label,text in MEMORIES: put_source(...)` | `ms.indexable_sources(con)` -> 读注册表，只读不写 |
+| 选源规则 | 常量决定 | `text_kind='human_memory' AND is_excerpt=0`（对话记录与摘录不建块）|
+| 空库行为 | 建源 | `die("the registry has no indexable source")` 明确拒绝，不静默建索引 |
+
+`put_source` 已不在建块路径上：**写不进来的东西，也就没法悄悄换源**。
+`QUESTIONS` 保留 —— 那是问题，不是记忆文本。
+
+### 纯重构验证（引擎实跑，不是推算）
+
+| 项 | 结果 |
+|---|---|
+| 三问 `answers_sha256` | `852a5e5e6ab70eeb…` / `dacdc1a89ef08165…` / `46272e43287c5ff7…` —— **三条逐字节相同** |
+| 几何 | `cells_total=51`、`positions=4045..4095`、`head_gap_cells=0`、`first_question_pos=4096`（与旧运行一致）|
+| `m2_pass` / `all_hits` | `True` / `[True, True, True]` |
+| 块文件字节 | `profile.kvmem 3251081d12da5678`、`project.kvmem 981a9c776c720686` —— **重建前后相同** |
+| 运行证据 | 旧（冻结）：`chat_lease/run_m2_final.json`；新：`m2/run_m2_after_s2.json`（sha16 `2e1f2be9b5d51a21`）|
+
+### 负向测试：注释/常量已经不是依赖
+
+1. `grep -c MEMORIES tools/chat.py` -> **0**；`git show HEAD~1:tools/chat.py` 里是 2 处（循环 + 计数）。
+2. 把删掉的常量**投毒**回去再建块（`chat.MEMORIES = [("poison","坏","这句话永远不该被索引。")]`）：
+   实测输出 `indexed 2 sources + 2 blocks`、块目录只有 `profile.kvmem` / `project.kvmem`、
+   `rows named poison: 0`、`indexable` 仍是 `[profile, project]`。
+   => 常量即使存在也**没有任何代码路径读它**。
+3. 空库：`indexable_sources` 为空时 `die(...)` 退出，不会建出空索引冒充成功。
+
+### 锚
+
+`chat.db`：`a699fd1e5aaa9adf` -> **`5909b978e31e584a`**。
+变的只有 `memory_block` 的派生状态（`built_at` / 路径重指回 `kvmem/blocks`）；
+`memory_source` **一行都没动**：10 行、`profile d3e57f11838e6bf8/61`、
+`project aa9769adb3cb4493/45`、`conv_2026-10-25 d8c094c1f5fcb8f1/127`、7 条摘录。
+`m4_memory.db fd244c80c0cc974d` / `run_m4_verify.json 857f13c514ad233e` 未变 => **M4 验收仍有效**。
+
+### 残留的真实依赖（不粉饰）
+
+`chat.py` 仍需要注册表**里有**那两行文本才能建块 —— 这是正确的依赖方向（源 -> 派生），
+不是"换了个地方依赖常量"。真正的残留风险是 `indexable_sources` 的过滤条件写错，
+它由 `m4_layer2_link.py` 的 `text_kind` 断言与 `check_m5_gate.py` 的选源扫描共同看住。
