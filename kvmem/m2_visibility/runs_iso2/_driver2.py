@@ -54,6 +54,10 @@ LAYOUTS = {
                                             (3, "habit", "habit"), (4, "habit_p40", "habit_p40", "variant")]},
     "iso_fac_pp18": {"spacing": 64, "segs": [(1, "home", "home"), (2, "project", "project"),
                                             (3, "habit", "habit"), (4, "project_paraphrase18", "project_paraphrase18", "variant")]},
+    # T-G18 single-variable control: iso_fac_pp18 with slot4 replaced by an unrelated
+    # 18-cell true fact (1 BOS + 17 content). Everything else is identical to iso_fac_pp18.
+    "iso_fac_G18":  {"spacing": 64, "segs": [(1, "home", "home"), (2, "project", "project"),
+                                            (3, "habit", "habit"), (4, "blk_G_bos_c18", "blk_G_bos_c18", "variant")]},
 }
 
 

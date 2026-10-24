@@ -24,3 +24,19 @@
    要在结论里写明这条共线，不能宣称已经定位到内容层。）
 
 ## 结果（跑完追加，不覆盖上文）
+### 任务 2 结果（两次跑，2026 观测）
+
+- 命令（workdir D:\llama-mem\kvmem\m2_visibility\runs_t032）：
+  `python -X utf8 _driver3.py --layout iso_fac_hp12 --target home --run-json t032_hp12_r1.json`
+  `python -X utf8 _driver3.py --layout iso_fac_hp12 --target home --run-json t032_hp12_r2.json`
+- rc=0 两次；control_ok=True 两次；ok=False 两次（MISS）。
+- answer 全文（两次逐字符相同，repr）：
+  `'我住在\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_。\n\n根据以上对话，填空最恰当'`
+  answer_len=34 / ask_at 返回 bytes=74 / n_tokens 0->33 / sha16 = **7c2fca5e43c46a3d**。
+- 几何自证：coverage home 4075-4096 21/21、project 4014-4032 18/18、habit 3956-3968 12/12、
+  habit_paraphrase 3892-3904 12/12；start=3892、cells_total=63、span_hi=4096、head_gap_cells=0。
+- **命中预登记的第一个分支**：仍失败 ⇒ 近似重复是通用杀伤，与改写的是哪一块无关
+  （F 臂 project 改写失败、本次 habit 改写也失败）。
+- 附带事实（方向性，不作结论）：slot4 换块后答案文本与 F 臂**不同**
+  （F: 11e20d78a1f18a98 / 本篇: 7c2fca5e43c46a3d），说明 slot4 内容对输出**不是惰性的**。
+- 未分开的共线：本次 slot4 是 12 格（F 臂是 18 格），"哪一块"与"格数"仍未分离。

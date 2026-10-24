@@ -10,3 +10,9 @@ G18.kvmem.bad_bos | 19 | 693ac31d8c2150e7 | unknown | true(implied by 19 cells) 
 Moved into quarantine/ : filler21.kvmem.bad_bos, G18.kvmem.bad_bos (kept as evidence, not deleted).
 Rule learned here: a filename is not provenance. Two files can share a name and hold different
 content, and the engine error text will not tell you which one it could not read.
+--- habit paraphrase dedup (T-032) ---
+habit_para12.kvmem     | 12 | d44b02d91e319497 | (paraphrase of "我的咖啡只喝美式，不加糖。") | true | ALL T-032 arms | AUTHORITATIVE: the only habit paraphrase any product may cite
+habit_paraphrase.kvmem | 12 | 787bef720f65a167 | (a different paraphrase, same fact) | true | none | SUPERSEDED - kept as evidence, never cite
+
+Rule: two blocks can paraphrase the same fact; only one may be named in a product. The other is
+kept so the record shows the choice was deliberate, not an accident of which file was found first.
