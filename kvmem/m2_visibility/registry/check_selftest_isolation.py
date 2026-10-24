@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """证明所有 --selftest 的作用范围真的隔离（纪律 19/25）：跑前摘要 / 跑后摘要 / 差异为空。
 
-覆盖范围 = _before 全部文件（副本 + REGISTER）+ 判据枚举的每一个 M4 对象（含两个 .kvmem 输入盘），
-跑 [check_before_register.py --selftest] 与 [check_m4_untouched_endtoend.py --selftest] 两遍。
-两个都进覆盖，否则那个没被看管的失败输入测试本身就是纪律 19 的对象。
+覆盖范围 = _before 全部文件（副本 + REGISTER）+ 判据枚举的每一个 M4 对象（含两个 .kvmem 输入盘）
+           + 覆盖检查器分类到的每一个 .kvmem（含被豁免的 pos0_A —— 豁免说的是「不作锚」，不是「没人看」），
+跑三个 --selftest：check_before_register / check_m4_untouched_endtoend / check_m4_kvmem_coverage。
+都进覆盖，否则那个没被看管的失败输入测试本身就是纪律 19 的对象。
 
 「我发现改坏了又改回来」只证明我会修；这一段证明的是【不可能改坏】。
 """
@@ -17,16 +18,25 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 M4 = os.path.normpath(os.path.join(HERE, "..", "m4"))
 BEFORE = os.path.join(M4, "_before")
 SELFTESTS = (os.path.join(HERE, "check_before_register.py"),
-             os.path.join(HERE, "check_m4_untouched_endtoend.py"))
+             os.path.join(HERE, "check_m4_untouched_endtoend.py"),
+             os.path.join(HERE, "check_m4_kvmem_coverage.py"))
 
 
 def enumerated_objects():
+    """The judged objects + every .kvmem the coverage checker classifies (so an exempted
+    artifact is watched too -- an exemption is about anchoring, not about being ignored)."""
     sys.path.insert(0, M4)
     spec = importlib.util.spec_from_file_location("mv_iso", os.path.join(M4,
                                                                         "m4_verify_grounded.py"))
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    return [rel for rel, _anchor in mod.M4_UNTOUCHED]
+    rels = [rel for rel, _anchor in mod.M4_UNTOUCHED]
+    sys.path.insert(0, HERE)
+    import check_m4_kvmem_coverage as cov
+    for rel in cov.enumerate_files(cov.CLASSIFY):
+        if rel not in rels:
+            rels.append(rel)
+    return rels
 
 
 def snapshot(extra):

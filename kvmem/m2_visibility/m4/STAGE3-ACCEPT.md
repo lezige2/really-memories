@@ -300,18 +300,20 @@ SELFTEST: PASS -- every failure input was caught
 且**不取自被检对象提供的任何路径**（纪律 25）。
 
     $ python -X utf8 check_selftest_isolation.py
-    scope : 33 file(s) = _before 28 + enumerated M4 objects 5
-    pre   : 33 file(s), digest=5715c8c44d89e7a6
+    scope : 34 file(s) = _before 28 + enumerated M4 objects 6
+    pre   : 34 file(s), digest=81abb458dd02a046
     check_before_register.py       SELFTEST: PASS -- every failure input was caught (exit 0)
     check_m4_untouched_endtoend.py E2E-RED R12: PASS -- the judgement goes red on a changed enumerated object (exit 0)
-    post  : 33 file(s), digest=5715c8c44d89e7a6
+    check_m4_kvmem_coverage.py     SELFTEST: PASS -- every failure input turned it red and named the file (exit 0)
+    post  : 34 file(s), digest=81abb458dd02a046
     diff  : [] (empty)
     ISOLATION: PASS -- the self-checks touched nothing they are testing
 
 四段（跑前摘要 / selftest 结论 / 跑后摘要 / 差异为空）合起来才是完整证据：
-覆盖范围是 `_before` 的 28 个文件 **加上判据枚举的 5 个 M4 对象**（含两个 `.kvmem` 输入盘），
-自检前后**逐字节不变**，摘要 `5715c8c44d89e7a6` 前后同值。
-**两个 selftest 都在覆盖内**（`check_before_register.py` 与 `check_m4_untouched_endtoend.py`）——
+覆盖范围是 `_before` 的 28 个文件、判据枚举的 5 个 M4 对象（含两个 `.kvmem` 输入盘），
+**再加上被豁免的 `pos0_A.kvmem`**（豁免说的是「不作锚」，不是「没人看」），共 34 个，
+自检前后**逐字节不变**，摘要 `81abb458dd02a046` 前后同值。
+**三个 selftest 都在覆盖内**（`check_before_register.py` / `check_m4_untouched_endtoend.py` / `check_m4_kvmem_coverage.py`）——
 否则那个没被看管的失败输入测试本身就是纪律 19 的对象。
 
 顺带补一个失败输入（新加的 `changes` 判据也要能红）：
@@ -322,7 +324,10 @@ SELFTEST: PASS -- every failure input was caught
 否则红。这样「锚变了」不能只靠散文交代。
 
 
-### R12 补：端到端红（F9，单位 R 的最后一块）
+### R12a 补：端到端红（F9 · 机制条）
+
+R12 按纪律 7 拆两条（一个字段不回答两个问题，同 R8a/R8b）：**R12a 机制**（改一个已枚举对象 ⇒ 判据必须红，本节）
+与 **R12b 范围**（清单不得漏掉应被枚举的对象，见 F11 节）。
 
 做法照 R11，两条按纪律 25 收紧：**被改的文件从临时树自己的 `listdir` 里挑**（不拿 `M4_UNTOUCHED` 的路径去定位生产文件），
 **改完断言被改的绝对路径 `startswith(临时目录)`**。判据代码一行未改 —— 测试只把模块常量 `HERE` 指向临时树。
@@ -341,6 +346,42 @@ SELFTEST: PASS -- every failure input was caught
 
 注意这条红走的是 `_stage3_pre.json` 那条锚（块文件的 `block_files`），不是 `_before` 副本那条 ——
 两条锚各被红过一次，才说明「任一锚失效都能被看见」，而不是只有一条通路带电。
+
+
+## R12b / F11 · 清单不得漏掉应被枚举的对象（范围条）
+
+**为什么要这条**：三个人对「`m4/` 下有几个 `.kvmem`」数出 **9 / 3 / 2**，因为**枚举根与名字模式都没写**：
+根 `m2_visibility/` 递归得 9（含 `runs_m14b/` 的 6 个，那不是 m4 的账）；根 `m4/` 递归得 3（两个 `blk_conv*` + `pos0_A`）；再加 `blocks/blk_*.kvmem` 模式得 2。
+**缺的不是锚值（`_stage3_pre.json` 记得很全），是「它在清单上」这件事。**
+补数据时人会去查「还缺什么」；补引用时人只会在下次缺的时候才发现缺过 —— 所以这里让「没上清单」自己变红。
+
+**写死三样**（`check_m4_kvmem_coverage.py`）：
+    ENUM_ROOT       = kvmem/m2_visibility/m4/
+    MUST_BE_ANCHORED= blocks/blk_*.kvmem  +  _ablate/blocks/blk_*.kvmem
+    CLASSIFY        = blocks/*.kvmem      +  _ablate/blocks/*.kvmem
+    EXCLUDED        = [{name, why}]  每项必须有可用理由（长度<40 也算没理由）
+
+匹配用 `os.walk + fnmatch`，**不用 glob** —— glob 若忘记 `recursive=True` 会把 `**` 静默当单层，于是 3 变 2（检测员实测踩到过）。
+
+**三条腿 + 四条失败输入（实测）**
+    $ python -X utf8 check_m4_kvmem_coverage.py
+    enum root : D:/llama-mem/kvmem/m2_visibility/m4
+    patterns  : must-anchor ['blocks/blk_*.kvmem', '_ablate/blocks/blk_*.kvmem'] | classify ['blocks/*.kvmem', '_ablate/blocks/*.kvmem']
+    anchored  : ['_ablate/blocks/blk_conv_noplate_2026-10-25_01.kvmem', 'blocks/blk_conv_2026-10-25_01.kvmem']
+    KVMEY-COVERAGE: PASS
+
+    $ python -X utf8 check_m4_kvmem_coverage.py --selftest
+      drop an anchored entry                 -> red, names=['blocks/blk_conv_2026-10-25_01.kvmem']
+      exempt nothing (pos0_A unclassified)   -> red, names=['blocks/pos0_A.kvmem']
+      exempt a nonexistent file              -> red, names=['blocks/nope.kvmem']
+      exemption with no real reason          -> red, names=['blocks/pos0_A.kvmem']
+    SELFTEST: PASS -- every failure input turned it red and named the file
+
+**`pos0_A.kvmem` 的豁免理由（三句，都可判，三句我自己复算过）**
+- ① 谁读：`m4_pos0_refuse.py:43` 取这个路径做 `eng.save(SEQ, path)`，`:31`/`:36`/`:45` 还把它注册成 lease 与 block（pos0 拒绝用例）；
+- ② 与谁同源：内容 sha16 `73843fc55efd1ab3`、**2194932 B**，与 `runs_m14b/encode_pass2/home.kvmem`、`runs_m14b/aborted_run1_home.kvmem` **逐字节同值** ⇒ 某次 encode 的派生物，不是独立输入；
+- ③ 本步读不读：`_stage3_pre.json` / `run_stage3.py` / `run_m5_grounded.json` 里 `pos0_A` 出现 **0** 次（`grep -c`）⇒ Stage 3 不读它。
+- 按纪律 24，会被正常流程重写的量也不能作锚 —— 三条合起来才是「豁免成立」，而不是「看起来无关」。
 
 ## F10 · 早期 reason 只写时点、未写步骤：把边界写下来，不改旧条目
 
