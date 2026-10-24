@@ -658,6 +658,52 @@ KVSHIM_API int kvshim_ask_at(h, seq, text, pos_start, n_predict, out, cap) {
 - **若只能做 `--targets` 循环**：**该结果不得用于判定顺序假设**，只能作为"提问点后移后 home 是否仍可答"的**位置轴**证据（而那又回到 §8.2 的共线）。
 - **对照臂（这条最重要）**：干净构型里必须同时跑 **前置问答问的是"项目"（已知可答）** 与 **"home"（已知失败）** 两个版本 —— 否则无法区分"先答一题"与"先答对了哪一题"。两条 run，不是一条。
 
+
+## 2.17 队长提案构型的裁定：**可行、干净，但位置要改、臂要三条**（仍写在跑之前）
+
+### 2.17.1 可行性（读源码答，不跑）
+
+`tools/kvshim.cpp:297-306`：
+```c
+KVSHIM_API int kvshim_write_at(h, seq, text, pos_start, add_bos) {
+    const std::vector<llama_token> ids = tokenize(h->vocab, text, add_bos != 0);
+    if (!decode_tokens(h, seq, ids, (llama_pos) pos_start, true)) return -1;   // 任意 pos
+    h->tokens[seq].insert(h->tokens[seq].end(), ids.begin(), ids.end());        // 追加（乱序）
+    return (int) ids.size();
+}
+```
+`decode_tokens`（:55-79）按 `pos0 + off + i` 显式指定每个 token 的位置，**shim 层没有任何连续性/空洞检查**。
+⇒ **可以写到任意位置，且不会触碰 [3828,4096) 的块**。
+
+**关键的一点是"空洞本已存在"**：现有每个布局里 `[67, 最低块 lo)` 整段本来就是空的（prefix 只占 [0,67)），而这些布局能正常作答 ⇒ **往洞里写文本不是新条件**，与"块必须贴住 4096"那条已验证事实（§8.2）**不冲突**（块位置不动）。
+
+三条必须写明的副作用：
+1. `h->tokens[seq]` 变成**非递增** ⇒ `kvshim_save` / `kvshim_n_tokens` / `next_pos` 对该序列**不可信**（本臂不 save、不用 `next_pos`，故无碍，但任何依赖它们的东西都不能用）。
+2. LIVE 的 `cell_scan` 会把前置问答的 cell 一起数进去 ⇒ `cell_count` 变大（69 → 69+n），`coverage` 逐段不变；**凡以 `cell_count` 为锚点的判据都要预先改**。
+3. **gate 的结构锚点必须预先声明**：`SUM == decode_batches_expected = 1 + N_PREDICT`（`_gate.py:9,95`）。多一次 `write_at` decode ⇒ **应为 `2 + N_PREDICT`**，否则 `3a` 直接 RED。（**待验**：取决于前置问答写入时 mask env 是否已激活；无论哪种，都必须**在跑之前**声明锚点。）
+
+### 2.17.2 位置：不能放 3000，应紧贴最低块
+
+放在 3000 ⇒ 距提问点（4096）约 **1100 token**；在这么远的距离上，前置问答对生成几乎无影响 ⇒ **实验欠功率，null 结果不可解释**（"没影响"可能只是"太远了"）。
+⇒ **前置问答占 `[lo_min − n, lo_min)`**，与最低块**紧邻**、距提问点约 **210 token**（`iso_car_back` 的最低块 `lo = 3886`）。
+
+### 2.17.3 两条臂不够，**必须三条**
+
+`project-问答` vs `home-问答` 这一对**同时改了两件事**：①有/无一条已答问答；②先答的是**哪一题**。
+⇒ 缺的基线是「**先问一个不属于任何块的问题**」（记忆里没有的事实）：
+| 臂 | 上下文里多出来的东西 | 用途 |
+|---|---|---|
+| P | 先问 project（已知可答）并作答 | 有前序问答，且答对 |
+| H | 先问 home（已知失败） | 有前序问答，且答错 |
+| N | 先问一条记忆里没有的事实 | **只有"多一条问答"，没有记忆参与** |
+只有当 **N 与"什么都不说"同结局、而 P/H 与之不同**，才能说"前序问答"起作用。**两臂只能得到"P 与 H 不同"，那与顺序无关。**
+
+### 2.17.4 成本与结论
+
+- **不需要新 encode**（块一个都不动）⇒ 是 `write_at` + 现有块；**3 臂 × 1 run = 3 run**。
+- 仍需**驱动小改**：加 `--preamble <text>`（或 `--preamble-target`）与 `--preamble-pos`，写完后照常 ask。
+- **裁定：构型可行且干净，但（a）位置改为 `[lo_min−n, lo_min)`；（b）臂数 3；（c）跑前声明 `SUM` 锚点 `2+N_PREDICT` 与 `cell_count` 新基线。三条缺一，结果不得用于判定顺序假设。**
+
 ## 3 非单调 63/69/70 的正面处理
 
 | 被杀掉的说法 | 依据 |

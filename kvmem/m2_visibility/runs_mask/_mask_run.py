@@ -121,23 +121,20 @@ def worker(argv):
     a = ap.parse_args(argv)
     manifest = P.load_manifest()
     layout = D2.build_layout(a.layout, manifest)
-    names = target_names(ap, a)
-    seg_of = {n: next(s for s in layout["segments"] if s["id"] == n) for n in names}
-    n_asks = len(names)
-    q = P.FULL[seg_of[names[-1]]["block_id"]]["q"]      # single target: unchanged
-    fact = P.FULL[seg_of[names[-1]]["block_id"]]["fact"]
+    seg = next(s for s in layout["segments"] if s["id"] == a.target)
+    q = P.FULL[seg["block_id"]]["q"]
+    fact = P.FULL[seg["block_id"]]["fact"]
     qs = sha8(q)
     child_env = {k: os.environ.get(k) for k in MASK_KEYS}
     t0 = time.time()
-    res = {"schema": "mask_run_v3", "experiment": a.layout, "target": names[-1],
+    res = {"schema": "mask_run_v3", "experiment": a.layout, "target": a.target,
            "debug": bool(a.debug), "q_sha": qs, "question": q,
            "started_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
            "cmdline": sys.argv, "child_env": child_env, "env_source": a.env_source,
-           "asks_expected": n_asks,
-           # one ask = 1 prompt ubatch + N_PREDICT decode ubatches; N asks therefore cost
-           # N*(1+N_PREDICT) ubatches. Recording the product (not the constant) keeps 3a a
-           # real check under multi-ask instead of a premise that silently stopped holding.
-           "decode_batches_expected": n_asks * (1 + P.N_PREDICT),
+           "asks_expected": 1,
+           # one ask = 1 prompt ubatch + N_PREDICT decode ubatches; the "one p1 row per
+           # ubatch" part is an ENGINE gate, so it is recorded as a named premise below.
+           "decode_batches_expected": 1 + P.N_PREDICT,
            "trace_gate": TRACE_GATE,
            "trace_gate_cpp_sha256": (hashlib.sha256(open(CPP, "rb").read()).hexdigest()
                                      if os.path.exists(CPP) else None),
@@ -184,16 +181,13 @@ def worker(argv):
                                   "come from _driver2.LAYOUTS[key] and the probe block manifest"),
             "ask_n_predict": n_pred,
             "ask_n_predict_source": "probe constant, tools/m2_visibility_probe.py:103",
-            "asks_expected": n_asks,
-            "decode_batches_expected_expr": ("asks_expected * (1 + ask_n_predict)"
-                                             if n_asks > 1 else "1 + ask.n_predict"),
-            "decode_batches_expected_source": ("N prompts * (1 prompt ubatch + n_predict decode "
-                                               "ubatches); N = asks_expected"),
-            "SUM": {"expect": n_asks * (1 + n_pred), "expr": "decode_batches_expected",
+            "decode_batches_expected_expr": "1 + ask.n_predict",
+            "decode_batches_expected_source": "1 prompt ubatch + ask.n_predict decode ubatches",
+            "SUM": {"expect": 1 + n_pred, "expr": "decode_batches_expected",
                     "source": "engine prints one [MASKDBG-SUM] per ubatch, gate: " + TRACE_GATE},
-            "SUM2": {"expect": n_asks * (1 + n_pred), "expr": "SUM",
+            "SUM2": {"expect": 1 + n_pred, "expr": "SUM",
                      "source": "engine prints one [MASKDBG-SUM2] per traced p1 row (same gate)"},
-            "blk": {"expect": n_seg * n_asks * (1 + n_pred), "expr": "n_segments * SUM",
+            "blk": {"expect": n_seg * (1 + n_pred), "expr": "n_segments * SUM",
                     "source": "engine prints one [MASKDBG] per (p1 row, segment)"},
             "OK": {"expect": n_seg, "expr": "n_segments",
                    "source": "this driver prints one [MASKDBG-OK] per segment after the ask"},
@@ -207,32 +201,13 @@ def worker(argv):
                              "positions_max": positions[-1] if positions else None,
                              "coverage": P.coverage(positions, layout),
                              "overlaps": P.overlaps(layout)}
-        # One ask per target, strictly in the given order. Each ask continues the LIVE
-        # conversation, so the second question is asked AFTER the first one was answered --
-        # that is the variable under test, not an implementation detail.
-        seq = []
-        for nm in names:
-            seg_i = seg_of[nm]
-            q_i = P.FULL[seg_i["block_id"]]["q"]
-            fact_i = P.FULL[seg_i["block_id"]]["fact"]
-            n_bytes_i, ans_i = D2.ask_native(eng, P.LIVE, q_i, P.CHAT, P.N_PREDICT)
-            rec = {"kvshim_ask_at_return_bytes": n_bytes_i, "answer": ans_i.strip(),
-                   "answer_sha256": hashlib.sha256(ans_i.encode("utf-8")).hexdigest(),
-                   "expected": fact_i,
-                   "n_predict": P.N_PREDICT,
-                   "n_predict_source": "probe constant (tools/m2_visibility_probe.py:103)",
-                   "ok": bool(P.fact_ok(fact_i, ans_i))}
-            seq.append({"target": nm, "question": q_i, "ask_index": len(seq), "ask": rec})
-        res["ask"] = seq[-1]["ask"]                      # single target: unchanged
-        n_bytes, ans = (seq[-1]["ask"]["kvshim_ask_at_return_bytes"],
-                        seq[-1]["ask"]["answer"])
-        asha = seq[-1]["ask"]["answer_sha256"]
-        fact = seq[-1]["ask"]["expected"]
-        if n_asks > 1:
-            res["ask_sequence"] = seq
-            res["ask_sequence_source"] = ("one entry per --targets element, in the given order; "
-                                          "res.ask is the LAST one; each entry carries its own "
-                                          "answer / answer_sha256 / expected / ok")
+        n_bytes, ans = D2.ask_native(eng, P.LIVE, q, P.CHAT, P.N_PREDICT)
+        asha = hashlib.sha256(ans.encode("utf-8")).hexdigest()
+        res["ask"] = {"kvshim_ask_at_return_bytes": n_bytes, "answer": ans.strip(),
+                      "answer_sha256": asha, "expected": fact,
+                      "n_predict": P.N_PREDICT,
+                      "n_predict_source": "probe constant (tools/m2_visibility_probe.py:103)",
+                      "ok": bool(P.fact_ok(fact, ans))}
         # T-009: generation-side observables. ask.answer / ask.answer_sha256 stay the ONLY
         # copy of the text and its hash -- a second readable copy is a second thing to rot.
         # What is added here are derived scalars, each recomputable from ask.* alone.
@@ -252,8 +227,8 @@ def worker(argv):
             sys.stderr.flush()
         res["elapsed_s"] = round(time.time() - t0, 2)
         P._write_json(a.run_json, res)
-        print("%s/%s ok=%s bytes=%d ans_sha=%s" % (a.layout, "/".join(names),
-              res["ask"]["ok"], n_bytes, asha[:8]))
+        print("%s/%s ok=%s bytes=%d ans_sha=%s" % (a.layout, a.target, res["ask"]["ok"],
+              n_bytes, asha[:8]))
         return 0
     except Exception as exc:                                   # noqa: BLE001
         res["error"] = "%s: %s" % (type(exc).__name__, exc)

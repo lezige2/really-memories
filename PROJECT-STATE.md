@@ -452,9 +452,13 @@ generate(h, seq, pos0 + ids.size(), n_predict);                        // 之后
 
 | 走法 | 后果 |
 |---|---|
-| 同位置连问（pos 固定 4096） | 第二次解码在第一次问答残迹之上 ⇒ **踩踏**，结局不可解释 |
+| 同位置连问（pos 固定 4096） | **实测不是踩踏，是硬失败**：第二次 ask 返回 `bytes_rc=-1`，答案为空（`answer_sha256=e3b0c442…` = 空串），trace 一条 `SUM` 都没有——引擎在已占用位置上直接 decode 失败。结局不可解释 |
 | 改 `pos_start=-1`（`next_pos`） | 提问点后移，目标块不再贴 4096 ⇒ **顺序与位置完全混淆** |
 | 每次 reset 再问 | 与单问逐位相同 ⇒ 顺序不可能有影响，**实验空洞** |
+
+实测现场（`runs_mask/t027_order_habit_then_home.*`，产物保留、标注**不可作为结果**）：
+`--targets habit,home` 下 `[0] habit` 正常返回（ok=False），`[1] home` **`bytes_rc=-1`、答案长度 0**；
+trace 只有一次 ask 的量，门禁按 `2×(1+N_PREDICT)` 比得 25 ⇒ **RED 是口径不适用，不是布局缺陷**。
 
 ⇒ **"提问顺序"这个变量在当前夹具上无法零成本检验**：干净构型要求把前置问答写进**块之前的上下文**，
 即用 `kvshim_write_at`（`tools/kvshim.cpp:296-307`，"opens a chat above the memory window"）在 ~3000 位置直接写文本，
