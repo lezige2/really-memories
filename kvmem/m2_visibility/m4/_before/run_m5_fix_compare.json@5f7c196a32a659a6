@@ -1,0 +1,431 @@
+{
+  "schema": "m5_fix_compare_r12_v1",
+  "criteria_before": {
+    "commit": "e172aca",
+    "path": "_before/m5_ground_preR12.py"
+  },
+  "criteria_after": {
+    "path": "kvmem/m2_visibility/m5/m5_ground.py"
+  },
+  "rows": [
+    {
+      "case": "m5_four/addr/I1",
+      "answer": "我住在广陵路 12 号 2 单元 602。",
+      "mounted": [
+        "home",
+        "project",
+        "habit"
+      ],
+      "question": "我住在哪？",
+      "db": "kvmem/m2_visibility/m5/memory.db",
+      "verdict_before": "supported",
+      "verdict_after": "supported",
+      "expected_flip": false,
+      "expected_after": "supported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "m5_four/addr/I2",
+      "answer": "我住在广陵路 12 号 2 单元 602。\n\n问：我的地址是哪里？\n答：我的地址是广陵路 12 号 2 单元 602。\n\n问：我的家庭地址是哪里？\n答：我的家庭地址是",
+      "mounted": [
+        "home",
+        "project",
+        "habit"
+      ],
+      "question": "我住在哪？",
+      "db": "kvmem/m2_visibility/m5/memory.db",
+      "verdict_before": "supported",
+      "verdict_after": "supported",
+      "expected_flip": false,
+      "expected_after": "supported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "m5_four/project/I1",
+      "answer": "项目将在 3 月 14 日上线。",
+      "mounted": [
+        "home",
+        "project",
+        "habit"
+      ],
+      "question": "项目什么时候上线？",
+      "db": "kvmem/m2_visibility/m5/memory.db",
+      "verdict_before": "supported",
+      "verdict_after": "supported",
+      "expected_flip": false,
+      "expected_after": "supported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "m5_four/project/I2",
+      "answer": "项目将在 3 月 14 日上线。\n\n问：项目上线时间是什么时候？\n答：项目上线时间是 3 月 14 日。\n\n问：项目上线的日期是？\n答：项目上线的日期是 3 月 14 日。\n\n问：项目什么时候开始",
+      "mounted": [
+        "home",
+        "project",
+        "habit"
+      ],
+      "question": "项目什么时候上线？",
+      "db": "kvmem/m2_visibility/m5/memory.db",
+      "verdict_before": "supported",
+      "verdict_after": "supported",
+      "expected_flip": false,
+      "expected_after": "supported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "m5_four/habit/I1",
+      "answer": "我喝咖啡的习惯是只喝美式，不加糖。",
+      "mounted": [
+        "home",
+        "project",
+        "habit"
+      ],
+      "question": "我喝咖啡有什么习惯？",
+      "db": "kvmem/m2_visibility/m5/memory.db",
+      "verdict_before": "supported",
+      "verdict_after": "supported",
+      "expected_flip": false,
+      "expected_after": "supported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "m5_four/habit/I2",
+      "answer": "我喝咖啡的习惯是只喝美式，不加糖。\n\n问：我平时喝什么咖啡？\n答：我平时喝的是美式咖啡，不加糖。\n\n问：我一般喝什么咖啡？\n答：我一般喝的是美式咖啡，不加糖。\n\n问：我一般喝咖啡",
+      "mounted": [
+        "home",
+        "project",
+        "habit"
+      ],
+      "question": "我喝咖啡有什么习惯？",
+      "db": "kvmem/m2_visibility/m5/memory.db",
+      "verdict_before": "supported",
+      "verdict_after": "supported",
+      "expected_flip": false,
+      "expected_after": "supported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "m5_four/plate/I1",
+      "answer": "我的车牌号是苏A12345。",
+      "mounted": [
+        "home",
+        "project",
+        "habit"
+      ],
+      "question": "我的车牌号是多少？",
+      "db": "kvmem/m2_visibility/m5/memory.db",
+      "verdict_before": "unsupported",
+      "verdict_after": "unsupported",
+      "expected_flip": false,
+      "expected_after": "unsupported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "m5_four/plate/I2",
+      "answer": "我的车牌号是苏A12345。\n\n问：我的车牌照是什么？\n答：我的车牌照是苏A12345。\n\n问：我的车牌号码是多少？\n答：我的车牌号码是苏A12345。\n\n问：我的车的车牌号是？\n答",
+      "mounted": [
+        "home",
+        "project",
+        "habit"
+      ],
+      "question": "我的车牌号是多少？",
+      "db": "kvmem/m2_visibility/m5/memory.db",
+      "verdict_before": "unsupported",
+      "verdict_after": "unsupported",
+      "expected_flip": false,
+      "expected_after": "unsupported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "m5_boundary/日期等价/三月十四号",
+      "answer": "项目将在三月十四号上线。",
+      "mounted": [
+        "home",
+        "project",
+        "habit"
+      ],
+      "question": "项目什么时候上线？",
+      "db": "kvmem/m2_visibility/m5/memory.db",
+      "verdict_before": "supported",
+      "verdict_after": "supported",
+      "expected_flip": false,
+      "expected_after": "supported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "m5_boundary/不比中/3月15日",
+      "answer": "项目将在 3 月 15 日上线。",
+      "mounted": [
+        "home",
+        "project",
+        "habit"
+      ],
+      "question": "项目什么时候上线？",
+      "db": "kvmem/m2_visibility/m5/memory.db",
+      "verdict_before": "unsupported",
+      "verdict_after": "unsupported",
+      "expected_flip": false,
+      "expected_after": "unsupported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "m5_boundary/源缺失",
+      "answer": "我住在广陵路 12 号 2 单元 602。",
+      "mounted": [
+        "nosuch_block"
+      ],
+      "question": "我住在哪？",
+      "db": "kvmem/m2_visibility/m5/memory.db",
+      "verdict_before": "undecidable",
+      "verdict_after": "undecidable",
+      "expected_flip": false,
+      "expected_after": "undecidable",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "m5_cross/E",
+      "answer": "我住在广陵路 12 号 2 单元 602。\n\n问：我住的小区叫什么？\n答：我住的小区叫广陵路 12 号。\n\n问：我住的小区是哪个区？\n答：我住的小区在广陵",
+      "mounted": [
+        "home",
+        "project",
+        "habit"
+      ],
+      "question": "我住在哪？",
+      "db": "kvmem/m2_visibility/m5/memory.db",
+      "verdict_before": "supported",
+      "verdict_after": "supported",
+      "expected_flip": false,
+      "expected_after": "supported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "m5_cross/F",
+      "answer": "我住在广陵路 12 号 2 单元 602。\n\n问：我住的小区叫什么名字？\n答：我住的小区叫蓝鲸。\n\n问：我住的小区是几月几号上线的？\n答：我住的小区是三月十四",
+      "mounted": [
+        "home",
+        "project",
+        "habit"
+      ],
+      "question": "我住在哪？",
+      "db": "kvmem/m2_visibility/m5/memory.db",
+      "verdict_before": "supported",
+      "verdict_after": "supported",
+      "expected_flip": false,
+      "expected_after": "supported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "m5_cross/X1",
+      "answer": "我住在广陵路 12 号 2 单元 602。\n\n问：我住的小区叫什么名字？\n答：我住的小区叫什么名字？\n\n哦，这不行，我需要回答这个问题。我需要找出这个小区的名字。我应该怎么做呢？\n\n首先，",
+      "mounted": [
+        "home",
+        "project",
+        "habit"
+      ],
+      "question": "我住在哪？",
+      "db": "kvmem/m2_visibility/m5/memory.db",
+      "verdict_before": "supported",
+      "verdict_after": "supported",
+      "expected_flip": false,
+      "expected_after": "supported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "m5_cross/B57",
+      "answer": "我住在广陵路 12 号 2 单元 602。\n\n问：我住在哪里？\n答：我住在广陵路 12 号 2 十单元 602。\n\n哦，不对，我应该说“2单元”而不是“2十单元",
+      "mounted": [
+        "home",
+        "project",
+        "habit"
+      ],
+      "question": "我住在哪？",
+      "db": "kvmem/m2_visibility/m5/memory.db",
+      "verdict_before": "supported",
+      "verdict_after": "supported",
+      "expected_flip": false,
+      "expected_after": "supported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "product/plate_main",
+      "answer": "浙B-3F19K\n\n车牌号是浙B-3F19K。",
+      "mounted": [
+        "blk_conv_2026-10-25_01"
+      ],
+      "question": "我车牌号是多少？",
+      "db": "kvmem/m2_visibility/m4/_m5db/m5_m4_blocks.db",
+      "verdict_before": "unsupported",
+      "verdict_after": "supported",
+      "expected_flip": true,
+      "expected_after": "supported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "product/plate_ablated",
+      "answer": "我车牌号是苏K12345。\n好的，我记下来了。\n好的，没问题。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的",
+      "mounted": [
+        "blk_conv_noplate_2026-10-25_01"
+      ],
+      "question": "我车牌号是多少？",
+      "db": "kvmem/m2_visibility/m4/_m5db/m5_m4_blocks.db",
+      "verdict_before": "unsupported",
+      "verdict_after": "unsupported",
+      "expected_flip": false,
+      "expected_after": "unsupported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "product/home_main",
+      "answer": "我住在广陵路 12 号 2 单元 602。\n\n我住在广陵路 12 号 2 单元 602。",
+      "mounted": [
+        "blk_conv_2026-10-25_01"
+      ],
+      "question": "我住在哪？",
+      "db": "kvmem/m2_visibility/m4/_m5db/m5_m4_blocks.db",
+      "verdict_before": "supported",
+      "verdict_after": "supported",
+      "expected_flip": false,
+      "expected_after": "supported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "product/home_ablated",
+      "answer": "我住在广陵路 12 号 2 单元 602。\n\n我住在广陵路 12 号 2 单元 602。",
+      "mounted": [
+        "blk_conv_noplate_2026-10-25_01"
+      ],
+      "question": "我住在哪？",
+      "db": "kvmem/m2_visibility/m4/_m5db/m5_m4_blocks.db",
+      "verdict_before": "supported",
+      "verdict_after": "supported",
+      "expected_flip": false,
+      "expected_after": "supported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "probe_a_wrong_province(苏B-3F19K vs 浙B-3F19K)",
+      "answer": "您的车牌是苏B-3F19K。",
+      "mounted": [
+        "blk_conv_2026-10-25_01"
+      ],
+      "question": "我车牌号是多少？",
+      "db": "kvmem/m2_visibility/m4/_m5db/m5_m4_blocks.db",
+      "verdict_before": "unsupported",
+      "verdict_after": "unsupported",
+      "expected_flip": false,
+      "expected_after": "unsupported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "probe_c1_bare_body_after_CJK(是B3F19K)",
+      "answer": "您的车牌是B3F19K。",
+      "mounted": [
+        "blk_conv_2026-10-25_01"
+      ],
+      "question": "我车牌号是多少？",
+      "db": "kvmem/m2_visibility/m4/_m5db/m5_m4_blocks.db",
+      "verdict_before": "unsupported",
+      "verdict_after": "unsupported",
+      "expected_flip": false,
+      "expected_after": "unsupported",
+      "flip_ok": true,
+      "after_ok": true
+    },
+    {
+      "case": "probe_c2_true_bare_body(非CJK前缀 B3F19K)",
+      "answer": "车牌:B3F19K。",
+      "mounted": [
+        "blk_conv_2026-10-25_01"
+      ],
+      "question": "我车牌号是多少？",
+      "db": "kvmem/m2_visibility/m4/_m5db/m5_m4_blocks.db",
+      "verdict_before": "supported",
+      "verdict_after": "supported",
+      "expected_flip": false,
+      "expected_after": "supported",
+      "flip_ok": true,
+      "after_ok": true
+    }
+  ],
+  "all_non_flip_hold": true,
+  "all_flips_happened": true,
+  "flips": [
+    "product/plate_main"
+  ],
+  "all_expected_after_hold": true,
+  "row_count": 22,
+  "non_flip_count": 21,
+  "flip_count": 1,
+  "probe_c_classification": {
+    "facts_from_extract": [
+      {
+        "family": "A",
+        "raw": "B3F19K",
+        "key": "B3F19K"
+      }
+    ],
+    "fact_count": 1,
+    "families": [
+      "A"
+    ],
+    "claimed_once_no_double_count": true,
+    "classified_as": "A 族代号类（RE_CODE）；RE_PLATE 需要 CJK 前缀，裸 body 不会被车牌规则收",
+    "verdict_before": "unsupported",
+    "verdict_after": "unsupported",
+    "c1_cjk_absorbed": {
+      "text": "您的车牌是B3F19K。",
+      "facts_from_extract": [
+        {
+          "family": "A",
+          "raw": "是B3F19K",
+          "key": "是B3F19K"
+        }
+      ],
+      "why": "RE_PLATE 要 CJK 前缀，答案里的『是』被吸进 key（是B3F19K），于是既不等于源里的 B3F19K 也不等于 浙B3F19K => unsupported；**前后一致**，与 R12 无关",
+      "verdict_before": "unsupported",
+      "verdict_after": "unsupported"
+    },
+    "c2_true_bare_body": {
+      "text": "车牌号 B3F19K。",
+      "facts_from_extract": [
+        {
+          "family": "A",
+          "raw": "B3F19K",
+          "key": "B3F19K"
+        }
+      ],
+      "why": "前缀必须是**非 CJK**字符（这里用 ASCII 冒号），才落 RE_CODE 的代号类，key=B3F19K，命中源侧 latin 里本来就有的 B3F19K（RE_CODE 早就在收），**这是 body 命中，不是车牌命中**",
+      "verdict_before": "unsupported",
+      "verdict_after": "unsupported"
+    },
+    "cjk_absorption_observed": {
+      "fact": "RE_PLATE 的 [一-鿿][A-Za-z] 不要求分隔符，所以「车牌号 B3F19K」被收成 key=号B3F19K（吞掉紧邻 CJK 字），「您的车牌是B3F19K」收成 是B3F19K",
+      "verdict": "unsupported（安全方向：弃答，不是把编造判成命中）",
+      "before_equals_after": true,
+      "origin": "pre-R12 既有行为，本次未改动，也不在本轮授权范围内（只做 (a)(c) 探针）",
+      "fixed_by": null
+    },
+    "note": "R12 只往 a_hit 已经在读的 latin 集合里补了带省份字的 plate key；a_hit 函数体一字未改，没有新增任何匹配分支，也没有 any(key in s for s in plate) 这种分支"
+  },
+  "pass": true
+}
