@@ -111,6 +111,32 @@ def _model_of(block_id):
         return "unknown"
 
 
+def a_family_symmetry(texts):
+    """Extraction-side symmetry: the SAME text read by the answer-side extractor and by the
+    source-side profile must agree on A-family keys. Nothing here relaxes matching -- it only
+    proves the two harvesters produce the same shape."""
+    prof = G.source_profile(texts)
+    answer_side = {}
+    for t in texts:
+        for f in G.extract(t):
+            if f["family"] == "A":
+                answer_side[f["key"]] = f["raw"]
+    hit = {k: G.a_hit(k, prof) for k in answer_side}
+    plate = set(prof["plate"])
+    return {
+        "answer_side_A_keys": answer_side,
+        "source_side_plate": sorted(plate),
+        "source_side_latin": sorted(prof["latin"]),
+        "plate_shaped_equal": set(answer_side) == plate,
+        "only_in_answer_side": sorted(set(answer_side) - plate),
+        "only_in_source_side": sorted(plate - set(answer_side)),
+        "hit_map": hit,
+        "all_source_A_keys_hittable": all(hit.values()),
+        "assertion": "plate_shaped_equal and all_source_A_keys_hittable",
+        "verdict": bool(set(answer_side) == plate and all(hit.values())),
+    }
+
+
 def ground(display_text, mount_record, question, db=DB_PATH):
     """Call the frozen validator and turn its report into the product record.
 
@@ -146,6 +172,9 @@ def ground(display_text, mount_record, question, db=DB_PATH):
         "undecidable_items": rep["undecidable_items"],
         "multiset_note": rep["multiset_note"],
         "source_problems": rep["source_problems"],
+        "input_origin": mount_record.get("input_origin",
+                                         "answer-path generation (real engine, own pid)"),
+        "synthetic": bool(mount_record.get("synthetic", False)),
         "display_policy": ("unsupported -> template only; m5_rewritten kept verbatim"
                            if verdict == "unsupported" else "verdict kept display verbatim"),
         "template": template,

@@ -60,9 +60,17 @@ def resolve_mounts(con, q, mode, k=3):
         R.build_index(con, verbose=False)
     if mode == "all":
         rows = list(con.execute("SELECT block_id, path, cells FROM block ORDER BY block_id"))
+        probe = R.search(con, q, k=k)
         return ([{"block_id": r[0], "path": r[1], "cells": r[2]} for r in rows],
                 {"mount_mode": "all-blocks",
-                 "why": "product policy for a small memory: mount every block it holds"})
+                 "why": "product policy for a small memory: mount every block it holds",
+                 "retrieval_probe": {"query": q, "hits": len(probe),
+                                     "top_score": (round(probe[0].get("score", 0), 4)
+                                                   if probe else None),
+                                     "top_source_id": (probe[0].get("source_id")
+                                                       if probe else None),
+                                     "note": "routing WOULD have failed here; that is the "
+                                             "measured reason this case mounts by policy"}})
     hits = R.search(con, q, k=k)
     if not hits:
         return [], {"mount_mode": "routed", "reason": "no retrieval hit", "hits": 0}
@@ -73,10 +81,14 @@ def resolve_mounts(con, q, mode, k=3):
         return [], {"mount_mode": "routed", "reason": "hit has no block", "source_id": sid}
     br = con.execute("SELECT path, cells FROM block WHERE block_id=?", (r[0],)).fetchone()
     return ([{"block_id": r[0], "path": br[0], "cells": br[1]}],
-            {"mount_mode": "routed", "routed_by": {"source_id": sid,
-                                                   "unit_text": top.get("name"),
-                                                   "score": round(top.get("score", 0), 3)
-                                                   if isinstance(top, dict) else None}})
+            {"mount_mode": "routed",
+             "retrieval_probe": {"query": q, "hits": len(hits),
+                                 "top_score": (round(hits[0].get("score", 0), 4)
+                                               if isinstance(hits[0], dict) else None)},
+             "routed_by": {"source_id": sid,
+                           "unit_text": top.get("name"),
+                           "score": round(top.get("score", 0), 3)
+                           if isinstance(top, dict) else None}})
 
 
 def main():

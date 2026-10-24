@@ -235,7 +235,10 @@ def source_profile(texts):
         for m in RE_NUM.finditer(prep(t)):
             k = str(int(float(m.group(0)))) if "." in m.group(0) else str(int(m.group(0)))
             nums[k] = max(nums[k], 1)
-    return {"blob": blob, "latin": latin, "plate": plate, "nums": nums,
+    # Matching stays entirely inside the untouched a_hit: plate keys are merged into the
+    # one set it already reads. prof["plate"] is kept beside it purely as the audit bucket
+    # for the extraction-side symmetry self-check (see a_family_symmetry()).
+    return {"blob": blob, "latin": latin | plate, "plate": plate, "nums": nums,
             "dates": dates, "props": props}
 
 
@@ -261,9 +264,6 @@ def p_hit(key, prof):
 
 
 def a_hit(key, prof):
-    plate = prof.get("plate") or ()
-    if key in plate or any(key in s for s in plate):
-        return True
     return key in prof["latin"] or any(key in s for s in prof["latin"])
 
 

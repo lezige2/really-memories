@@ -444,3 +444,72 @@ cd kvmem/m2_visibility/m4 && python -u -X utf8 m4_verify_grounded.py     # 四�
 | 消融块 | `A:苏K12345` hit=False | **unsupported** | `记忆里没有记录车牌号。` |
 | 主块 | `N:13900001111` hit=False（幻觉手机号） | **unsupported** | `记忆里没有记录手机号。` |
 修复只让**「源文本里真实存在的那个车牌」**能命中；换成另一个车牌、或换到没有车牌的块，仍然弃答。
+
+### 19.10 R12 定稿：只动抽取侧 + (a)(c) 探针 + 交付锚点
+
+**① R12 最终形状（`a_hit` 一字未改）**：`source_profile` 对源文本跑 `RE_PLATE`，
+把带省份字的 key 补进 **`latin` 这个 `a_hit` 本来就在读的集合**（`prof["plate"]` 另存一份只作审计桶），
+于是匹配逻辑完全不动。`git diff e172aca -- kvmem/m2_visibility/m5/m5_ground.py` 只有 3 个 hunk，
+全在 `source_profile` 内；`def a_hit` 未出现（脚本里 `shape.touches_def_a_hit=false`、
+`a_hit_body_identical_to_pre=true`，`alnum_key` 两处调用点 == `extract` 的 A 族抽取 + `source_profile` 的 plate 抽取）。
+> 来源交代：`f63097b` 里那份 `m5_ground.py` 改动是被 `git add -A` 扫进去的（lead 已声明），
+> 里面那版曾在 `a_hit` 里加过 plate 分支；**本提交把它改成抽取侧方案，`a_hit` 已回滚到与 `e172aca` 逐字节相同**。
+
+**② (a) 省份错、身体对 ⇒ unsupported（省份字判别位还在）**
+| 答案 | 源里的车牌 | 判据 key | verdict_before | verdict_after |
+|---|---|---|---|---|
+| `您的车牌是苏B-3F19K。` | `浙B-3F19K`（主块） | `苏B3F19K` ∉ {`B3F19K`, `浙B3F19K`} | unsupported | **unsupported** |
+双向包含若被采用，这里会变成 `supported`（把编造当命中）；现在没有这条例外。
+
+**③ (c) 裸 body 归属：A 族代号类，且只算一次**
+| 写法 | extract 结果 | 归类 | 命中机制 | before | after |
+|---|---|---|---|---|---|
+| `您的车牌是B3F19K。` | key=`是B3F19K`（`RE_PLATE` 吞紧邻 CJK 字） | 车牌类 | 两侧都没有这个 key | unsupported | unsupported |
+| `车牌:B3F19K。`（前缀非 CJK） | key=`B3F19K`，1 条 | **代号类（RE_CODE）** | 源侧 `latin` 早有 `B3F19K`（`RE_CODE` 收的） | supported | supported |
+- **不两边各算一次**：`RE_PLATE` 需要 CJK 前缀，裸 body 只会被 `RE_CODE` 收，`extract` 的 masking 保证 1 条（`claimed_once=true`）。
+- **不算 R12 的新命中面**：`a_hit` 里从来没有 `any(key in s for s in plate)` 这种分支（那是被否掉的草稿），
+  R12 只是往它已经在读的 `latin` 里补了带省份字的 key。
+- **顺带记一条既有行为**（本轮不授权修）：`RE_PLATE` 不要求分隔符，所以「是B3F19K」「号B3F19K」会把紧邻 CJK 字吞进 key，
+  结果判 unsupported —— 方向是安全侧（弃答），且 before == after，与 R12 无关。
+
+**④ 机器可判的 D 表**：`run_m5_fix_compare.json`（`m5_fix_compare.py` 产出）
+| 键 | 值 |
+|---|---|
+| `row_count` / `non_flip_count` / `flip_count` | 22 / 21 / 1 |
+| `flips` | `["product/plate_main"]` |
+| `all_non_flip_hold` | true（20 条非预期翻转全部 before == after） |
+| `all_flips_happened` | true |
+| `all_expected_after_hold` | true（22/22 after 等于期望） |
+| `pass` | true |
+覆盖：M5 原四例 I1+I2（8）、三边界（3）、交叉检验 E/F/X1/B57（4）、产品四例（4）、(a)(1)、(c1)(c2)(2)。
+
+**⑤ R13 口径（写死，别再混用）**
+- **检索单元数 = `SELECT COUNT(DISTINCT unit_id) FROM memory`** → **4**；`SELECT unit_id, COUNT(*) FROM memory GROUP BY unit_id ORDER BY unit_id` → `[(2,1),(3,2),(4,1),(5,2)]`（fanout [1,2,1,2]）。
+- `SELECT COUNT(*) FROM memory_source` → **5**，其中 `SELECT id,name,label FROM memory_source WHERE name LIKE 'conv%'` → `[(1,'conv_2026-10-25','对话')]` 是**段级行，不是检索单元**。
+- 两个数差 1 是**定义差**，不是数据不一致。
+
+**⑥ 本轮交付锚点（重跑即失效）**
+| artifact | path | sha256[:16] | mtime |
+|---|---|---|---|
+| 判据文件（主角，**在改动清单里**） | `kvmem/m2_visibility/m5/m5_ground.py` | `86b7c501ab9904aa` | 03:51:46 |
+| 桥 | `m4/m5_bridge.py` | `706c00d0345fe3c2` | 03:52:12 |
+| 作答路径 | `m4/m4_answer_grounded.py` | `9213bbeb41e97b9c` | 03:52:12 |
+| 消融块构建 | `m4/m4_ablate.py` | `172b5fa39eed84cd` | 03:37:27 |
+| 验收编排 | `m4/m4_verify_grounded.py` | `43cb14d1f0ffcd0a` | 03:53:31 |
+| 前后对照 | `m4/m5_fix_compare.py` | `0e9e60882c8f55ba` | 03:55:54 |
+| 验收 json | `m4/run_m5_grounded.json` | `5cd106eead0c9bac` | 03:54:30 |
+| 对照 json | `m4/run_m5_fix_compare.json` | `5f7c196a32a659a6` | 03:55:54 |
+| 消融 json | `m4/_ablate/run_ablate.json` | `8d0998c0014dde03` | 03:38:01 |
+| 消融库 | `m4/_ablate/m4_memory_noplate.db` | `c44abc2547aad560` | 03:38:01 |
+| M5 文本副本 | `m4/_m5db/m5_m4_blocks.db` | `59095fde11fbb39d` | 03:53:32 |
+| 消融块 | `m4/_ablate/blocks/blk_conv_noplate_2026-10-25_01.kvmem` | `e3bfec41d1f059e7` | 03:38:00 |
+| M5 证据 | `m5/evidence_m5.json` | `0f57f4357452a865` | 03:48:20 |
+
+**M4 三产物未重跑**（本轮没有执行 `m4_verify.py` / `m4_write.py`）：
+`run_m4_verify.json = bdf392e8f9a672a7｜m4_memory.db = 817a66e45a4e3594｜run_m4_write.json = 6408d8e2ecdf6ee5`，
+与你独立重算的三个锚点一致。
+
+**本轮未改动的文件清单**：`tools/` 全部、`kvmem/m2_visibility/m3/` 全部、`m4/` 既有脚本
+（`m4_write.py / m4_extract.py / m4_store.py / m4_display.py / m4_newproc.py / m4_verify.py / m4_crosscheck.py / m4_pos0_refuse.py / _test_*.py / _probe_*.py`）、
+`m4/blocks/blk_conv_2026-10-25_01.kvmem`（`81127d24fd64b96b`）、`m5/memory.db`、`m5/test_m5.py`、`m5/build_memory_db.py`。
+改动清单只有：`m5/m5_ground.py`（R12，抽取侧一处）+ `m4/` 下 5 个新文件 + `m4/README.md`（本文）。
