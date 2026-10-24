@@ -1,0 +1,76 @@
+# ===== 模型 / 权重 =====
+*.gguf
+*.ggml
+*.bin
+*.safetensors
+*.onnx
+downloads/
+
+# ===== 记忆块（不可上传）=====
+*.kvmem
+*.kvmem.*
+
+# ===== 编译产物 =====
+build/
+build-*/
+build-cpu/
+build-vulkan/
+bin/
+vulkan-sdk/
+*.dll
+*.exe
+*.a
+*.o
+*.obj
+*.lib
+*.so
+*.dylib
+*.pdb
+*.ilk
+*.exp
+CMakeCache.txt
+CMakeFiles/
+
+# ===== 测试数据与日志 =====
+runs_*/
+_*/ 
+*.log
+*.bak
+*.before-final.bak
+*.round*.bak
+*.err
+*.tmp
+*.pyc
+__pycache__/
+
+# ===== JSON（日志/运行产物）=====
+*.json
+# 如需保留配置样本，请在提交时用 git add -f
+# 例：!tools/sample-config.json
+
+# ===== 密钥 / 本地配置 =====
+.env
+.env.*
+config.json
+*.key
+*.pem
+secrets.*
+
+# ===== 嵌套仓库：llama.cpp 自身是 git 仓库，补丁以 patch 形式备份 =====
+llama.cpp/
+llama.cpp-upstream/
+
+# ===== 其它 =====
+*.zip
+*.7z
+*.tar
+*.tar.gz
+.DS_Store
+Thumbs.db
+
+# ===== 数据库（运行产物，可能含记忆正文）=====
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
