@@ -438,6 +438,30 @@ answer = "我住在\_\_\_\_\_\_。\n\nA. 广陵路 12 号 2 单元 602"    ok = 
 | 3 | **home 永远是四块里最长的**（21 vs 18/12/19） | 块库没有"home 内容 + 12 cells"的块 | 需造块（本库 cell 数与文本长度绑定） |
 
 ⇒ 顺序实验若仍败，正确表述是"**排除了提问顺序**"，**不是**"排除了所有共线"。
+
+**7.6.10 引擎事实：`ask_at` 追加且**不回卷** ⇒ 一次 run 只能问一个问题**
+
+`tools/kvshim.cpp:317-337`（本人逐行核过）：
+```c
+const llama_pos pos0 = (pos_start < 0) ? next_pos(h, seq) : (llama_pos) pos_start;
+decode_tokens(h, seq, ids, pos0, true);
+h->tokens[seq].insert(h->tokens[seq].end(), ids.begin(), ids.end());   // 追加，不回收
+generate(h, seq, pos0 + ids.size(), n_predict);                        // 之后没有任何 seq_rm
+```
+⇒ **问题 token 被追加进序列，生成后不回卷。** 因此"同一 run 里先问 A 再问 B"三种走法全部不可用：
+
+| 走法 | 后果 |
+|---|---|
+| 同位置连问（pos 固定 4096） | 第二次解码在第一次问答残迹之上 ⇒ **踩踏**，结局不可解释 |
+| 改 `pos_start=-1`（`next_pos`） | 提问点后移，目标块不再贴 4096 ⇒ **顺序与位置完全混淆** |
+| 每次 reset 再问 | 与单问逐位相同 ⇒ 顺序不可能有影响，**实验空洞** |
+
+⇒ **"提问顺序"这个变量在当前夹具上无法零成本检验**：干净构型要求把前置问答写进**块之前的上下文**，
+即用 `kvshim_write_at`（`tools/kvshim.cpp:296-307`，"opens a chat above the memory window"）在 ~3000 位置直接写文本，
+**块与提问点一个不动**。这一步待可行性裁定，未做。
+
+另：控制臂 `run_control` 每次 ask 前 `reset` 并重写同一段文本（`probe.py:496-533`）⇒ 每次提问状态逐位相同，
+`gate_order` 的先后对结果无影响——**这正好解释控制臂为何从不出现顺序效应**。
 ## §8 文档史与失真清单（防坑，价值最高）
 
 旧四篇：`README.md`（19:31，自称入口）、`STATUS-REPORT.md`（19:05，技术全量）、`README-HANDOFF-2.md`（15:49，交接二轮）、`README-HANDOFF.md`（13:32，交接一轮）。四篇已归档至 `docs/legacy-2026-10-24/`，**仅作史料**。
