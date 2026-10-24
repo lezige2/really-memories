@@ -215,6 +215,14 @@ def source_profile(texts):
                 latin.add(alnum_key(m.group(0)))
         for m in RE_LATIN.finditer(p):
             latin.add(m.group(0).upper())
+    # R12: the source side must yield the SAME plate key shape as the answer side.
+    # RE_PLATE keeps the province character (浙B3F19K) while RE_CODE alone drops it
+    # (B3F19K), so a correct plate answer could never match its own source. Separate
+    # bucket on purpose: a plate key must never widen the P or N families.
+    plate = set()
+    for t in texts:
+        for m in RE_PLATE.finditer(prep(t)):
+            plate.add(alnum_key(m.group(0)))
     nums, dates, props = Counter(), set(), set()
     for t in texts:
         for f in extract(t, source_latin=latin):
@@ -227,7 +235,8 @@ def source_profile(texts):
         for m in RE_NUM.finditer(prep(t)):
             k = str(int(float(m.group(0)))) if "." in m.group(0) else str(int(m.group(0)))
             nums[k] = max(nums[k], 1)
-    return {"blob": blob, "latin": latin, "nums": nums, "dates": dates, "props": props}
+    return {"blob": blob, "latin": latin, "plate": plate, "nums": nums,
+            "dates": dates, "props": props}
 
 
 def date_hit(key, prof):
@@ -252,6 +261,9 @@ def p_hit(key, prof):
 
 
 def a_hit(key, prof):
+    plate = prof.get("plate") or ()
+    if key in plate or any(key in s for s in plate):
+        return True
     return key in prof["latin"] or any(key in s for s in prof["latin"])
 
 
