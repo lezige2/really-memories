@@ -445,3 +445,61 @@ provenance `_stage3_pre.json @ 9500f1c7c59c118f`）。**跨轴比较会得出「
 ① **它不决定豁免** —— 豁免由「路径声明 + schema 观测」两个独立信号共同决定，不一致即抛；
 ② **下游由 D3-1 的 CHECK 兜住** —— `CHECK (text_origin IS NOT NULL AND ((text_origin LIKE 'declared_synthetic:%') = (synthetic = 1)))`，
 误触发会产生前缀与旗标不一致的行，落库当场被拒。**它不是第二个豁免入口。**
+
+## Stage 3 step 2：闸门接入生产路径，删 `TODO(stage3)`
+
+严格模式 `python check_m5_gate.py --stage3`，三层各自机器判：
+
+| 层 | 判据 | 实测输出 |
+|---|---|---|
+| ① AST（**绑返回点**，不绑函数名）| 每个"返回被准入源清单"的函数体内必须有闸门调用 | `select_m5_source returns a source list; gate at m5_bridge.py:209` |
+| ② 可达性 | 该函数从 `ensure_db` 可达（`ensure_db` 的 `REG_DB` 检查只作可达性用）| `OK [m5_bridge.py:248]` |
+| ③ **运行时拒绝（权威）** | 注册库不可用 ⇒ 进程必须拒绝 | `OK -> OriginError` |
+| ④ `no_todo_stage3` | 标记清零 | `True (count=0)` |
+
+**先红后绿**（通 2：新增断言必须有能让它失败的输入）：删 `TODO(stage3)` **之前**跑严格模式得到
+`stage3 no_todo_stage3: False (count=1)` ⇒ `FAIL`；删掉之后 `True (count=0)` ⇒ `PASS`。
+不是"写了就绿"，是"同一份脚本先后给出两个不同的答案"。
+
+### 一个被证伪的注释（纪律十一）
+
+`origin_of` 里曾写着"Unreachable by construction"。检测员用 P10 构造证伪：
+`registry_source_id` 列在 + 该行 `registry_source_id IS NULL` + 名字不在层 1 ⇒ 可达。
+更糟的是**那是常态**（新建 layer-2 行还没链接），却被报成"不变量破裂"——下一个人会以为"这不该发生"。
+现在：
+- `select_m5_source` 对这种状态**显式拒绝**，文案写真实条件 + 正确动作（`run m4_layer2_link.py --apply`）；
+- `origin_of` 的注释删掉不可达主张，错误文案只说该状态是什么；
+- 探针 `P10a`（经 `select_m5_source`）与 `P10b`（直接调 `origin_of`）各驱动一次，`ok=True`。
+- 阳性对照：`m4_layer2_link` 这根针在"缺链接"语义里出现（C1 / P10a / P10b），在"声明有误"里**不出现**（C2）。
+
+> **纪律十一**：注释里的可判事实主张（"此分支不可达""该列一定存在"）要么有探针，要么删掉 ——
+> 注释是唯一没有运行时的断言。
+
+### 当刻锚（Step 2 重跑后新锚）
+
+| 项 | 值 |
+|---|---|
+| `_m5db` **内容哈希** | `76df01317bfaf3e7`（**五次重建同值**）|
+| `_m5db` **文件 sha16** | `200ed6b2f1af0363`（每次重写都变）|
+| `run_m5_grounded.json` | `d13df1e987ee509c` |
+| `run_m5_fix_compare.json` | `5f7c196a32a659a6`（未变）|
+| `run_check_m5_gate.json` | `6405bc137a235b49` |
+| `run_registry_check.json` | `6923269ba0a40f70` |
+| 块文件 | `81127d24` / `e3bfec41`，`profile.kvmem 3251081d12da5678`、`project.kvmem 981a9c776c720686`，mtime 均 `04:25:52` |
+
+**失锚窗口**：(a) 旧锚失效 = `f13d242`（换源当刻，`_m5db` 四处变更）；(b) 新锚建立 = 本段提交（Step 2 重跑完成）。
+
+### `_before/` 的价值：接住 git 里没有的态
+
+`m5_bridge.py` 今晚变了 6 次；`_before/` 覆盖 4 个态，其中 `1a057b0f` / `99a0595` / `b01ab594` **从未进过 git**
+（未提交的中间态在磁盘上只活一次）。反向缺口是 6 个早期 git 态从未进 `_before/` —— 它们全部来自规矩生效之前，
+**不回填**：回填只能写"事后回填"，而"运行前预防"与"事后回填"在文件名上看起来一模一样。
+
+### 口径：#16 与 #8 分开记
+
+| 项 | 主张强度 | 证据强度 |
+|---|---|---|
+| #16 十一行 | 期望来源已从"结果本身"改为**独立重建的 before 侧** ⇒ 主张更强 | **不变**：R 9 / C 2 |
+| #8 七条探针期望 | — | `A -> R`（逐行比过代码字面量 `m4_verify_grounded.py:223`，零不符）|
+
+**主张强度与证据强度是两个量，不一起涨。**

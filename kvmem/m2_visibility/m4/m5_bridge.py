@@ -82,11 +82,19 @@ def origin_of(reg, src, sid, text, block_id):
         return "declared_synthetic:%s@%s" % (
             block_id, hashlib.sha256(text.encode("utf-8")).hexdigest()[:16])
     if not row or row[0] is None or not row[1]:
-        return "m4.memory_source.text (unlinked: run m4_layer2_link.py --apply)"
+        # No reachability claim here: select_m5_source rejects this state before calling us,
+        # but a direct caller can still arrive, and a probe (run_stage3.py P10b) drives it.
+        raise ms.OriginError(
+            "origin_of: layer-2 row %r has no registry link (registry_source_id IS NULL): "
+            "an unlinked text cannot be a source -- run m4_layer2_link.py --apply"
+            % (sid,))
     l1 = reg.execute("SELECT name, source_hash FROM memory_source WHERE id=?",
                      (row[0],)).fetchone() if reg else None
     if not l1:
-        return "m4.memory_source.text (unlinked: registry id %r not in layer 1)" % (row[0],)
+        raise ms.OriginError(
+            "origin_of: layer-2 row %r points at registry id %r which is not in layer 1: "
+            "the link dangles, so the text has no authoritative source -- re-link it"
+            % (sid, row[0]))
     if l1[1] != row[1]:
         return "stale:layer2@%s!=registry@%s" % (row[1][:16], l1[1][:16])
     return "registry:%s@%s" % (l1[0], l1[1][:16])
@@ -95,10 +103,10 @@ def origin_of(reg, src, sid, text, block_id):
 def register_block(con, block_id, text, path, cells, model, origin, synthetic=False):
     """One row per real block file; sha is measured from disk at registration time.
 
-    TODO(stage3): when M5 selects its own sources from the registry, every source admitted
-    here must first pass tools/memory_source.assert_m5_source_allowed(name). Today the M5
-    text copy is built from the M4 db, so the gate is not on this path yet -- this marker is
-    what tools/../registry/check_m5_gate.py looks for.
+    The gate is ON this path now: select_m5_source() admits a source only after
+    tools/memory_source.assert_m5_source_allowed() and returns the origin string it built,
+    so a block cannot reach this function without having passed it. This function re-checks
+    that the origin prefix and the synthetic flag agree before writing.
     """
     if ms.origin_is_synthetic(origin) != bool(synthetic):
         # the DB CHECK enforces the same rule; failing here names the CALLER instead of
@@ -151,6 +159,7 @@ def select_m5_source(regcon, src_l2, sid, block_id, declared_synthetic_db=False)
                                  % (sid, block_id))
         name, text = row
         rid = None
+        has_registry_col = False
     else:
         row = src_l2.execute(
             "SELECT name, text, registry_source_id FROM memory_source WHERE id=?",
@@ -160,6 +169,7 @@ def select_m5_source(regcon, src_l2, sid, block_id, declared_synthetic_db=False)
                                  "refusing to register a block with no source"
                                  % (sid, block_id))
         name, text, rid = row
+        has_registry_col = True
     if rid is None:
         if regcon.execute("SELECT 1 FROM memory_source WHERE name=?", (name,)).fetchone():
             # ONE message can only point at ONE correct action, so these are two errors.
@@ -171,6 +181,14 @@ def select_m5_source(regcon, src_l2, sid, block_id, declared_synthetic_db=False)
             raise ms.OriginError(
                 "layer-2 row %r exists in layer 1 but is not linked: run "
                 "m4_layer2_link.py --apply to link it (this IS a linking problem)" % name)
+        if has_registry_col:
+            # A NORMAL workflow step, not a broken invariant: a freshly created layer-2 row
+            # has no registry link yet and its name is not in layer 1 either. The correct
+            # action is to link it, so the message says that and nothing else.
+            raise ms.OriginError(
+                "layer-2 row %r has no registry link (registry_source_id IS NULL) and its "
+                "name is not in layer 1: a new unlinked row must be linked before it can be "
+                "a source -- run m4_layer2_link.py --apply" % name)
         return {"text": text, "names": [], "synthetic": True, "mode": "synthetic",
                 "origin": origin_of(regcon, src_l2, sid, text, block_id)}
     c = regcon.execute(

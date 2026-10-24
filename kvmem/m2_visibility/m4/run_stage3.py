@@ -146,6 +146,9 @@ def main():
 
     # ---------- 5. (乙) evidence for every new constraint ----------
     ev = {}
+    # needle literal copied FROM THE PRODUCT, not from any message: m5_bridge.py:183
+    # ("m4_layer2_link.py --apply to link it"). Positive control: case 1 must contain it.
+    NEEDLE = "m4_layer2_link"                                      # m5_bridge.py:183
     tmp = os.path.join(tempfile.gettempdir(), "_stage3_blocks.db")
     if os.path.exists(tmp):
         os.remove(tmp)
@@ -323,11 +326,13 @@ def main():
     ev["C_one_message_one_action"] = {
         "C1_column_present_unlinked": probes["C1_column_present_unlinked"],
         "C1_ok": (probes["C1_column_present_unlinked"]["raised"] == "OriginError"
-                  and has("C1_column_present_unlinked", "m4_layer2_link.py --apply")),
+                  and has("C1_column_present_unlinked", NEEDLE)),
+        "C1_positive_control": ("the same needle fires here: case 1 MUST contain "
+                                "m4_layer2_link, proving the needle is alive"),
         "C2_missing_column_declared_true": probes["C2_missing_column_declared_true"],
         "C2_ok": (probes["C2_missing_column_declared_true"]["raised"] == "OriginError"
                   and has("C2_missing_column_declared_true", "DECLARED an ablation copy")
-                  and not has("C2_missing_column_declared_true", "m4_layer2_link")),
+                  and not has("C2_missing_column_declared_true", NEEDLE)),
         "C3_missing_column_declared_false": probes["C3_missing_column_declared_false"],
         "C3_ok": (probes["C3_missing_column_declared_false"]["raised"] == "OriginError"
                   and has("C3_missing_column_declared_false", "SCHEMA ACCIDENT")),
@@ -351,18 +356,59 @@ def main():
     c4 = err(BR.select_m5_source, reg, c4con, c4sid, "probe_block", True)
     c4con.close()
     os.remove(c4p)
+    # needle literal copied FROM THE PRODUCT, not from any message: m5_bridge.py:183
+    # ("m4_layer2_link.py --apply to link it"). Positive control: case 1 must contain it.
     c4msg = c4.get("message") or ""
     ev["C4_real_main_db_column_renamed_declared_true"] = {
         "how": "copy of the real main db, column renamed, declared as an ablation copy",
         "raised": c4,
         "says_declaration_is_wrong": "DECLARED an ablation copy" in c4msg,
-        "contains_m2_link_action": ("m2_layer2_link" in c4msg) or ("m2_link" in c4msg),
+        "needle": NEEDLE, "needle_source": "m5_bridge.py:183",
+        "contains_linking_action": NEEDLE in c4msg,
         "ok": (c4.get("raised") == "OriginError" and "DECLARED an ablation copy" in c4msg
-               and ("m2_layer2_link" not in c4msg) and ("m2_link" not in c4msg)),}
+               and (NEEDLE not in c4msg)),}
 
     ev["C_one_message_one_action"]["ok"] = (
         ev["C_one_message_one_action"]["ok"]
         and ev["C4_real_main_db_column_renamed_declared_true"]["ok"])
+
+    # ---------- 5d. P10: the "normal but unfinished" state must say what it IS ----------
+    p10 = os.path.join(tempfile.gettempdir(), "_p10_unlinked.db")
+    if os.path.exists(p10):
+        os.remove(p10)
+    shutil.copy(os.path.join(HERE, "m4_memory.db"), p10)
+    p10con = sqlite3.connect(p10)
+    p10con.execute("INSERT INTO memory_source (name, label, text, registry_source_id) "
+                   "VALUES (?,?,?,NULL)", ("conv_2026-12-01", "unlinked probe", "x"))
+    p10con.commit()
+    p10sid = p10con.execute("SELECT id FROM memory_source WHERE name=?",
+                            ("conv_2026-12-01",)).fetchone()[0]
+    p10a = err(BR.select_m5_source, reg, p10con, p10sid, "probe_block")
+    p10b = err(BR.origin_of, reg, p10con, p10sid, "x", "probe_block")
+    p10con.close()
+    os.remove(p10)
+    a_msg = p10a.get("message") or ""
+    b_msg = p10b.get("message") or ""
+    ev["P10_normal_unfinished_state"] = {
+        "how": "real main-db copy + a row with registry_source_id NULL whose name is not in layer 1",
+        "P10a_select": p10a,
+        "P10b_origin_of": p10b,
+        "P10a_says_unlinked_and_names_action": ("no registry link" in a_msg
+                                               and NEEDLE in a_msg),
+        "P10a_does_not_claim_invariant_break": ("invariant" not in a_msg.lower()),
+        "P10b_raises_with_link_action": (p10b.get("raised") == "OriginError"
+                                        and NEEDLE in b_msg),
+        "P10b_claims_no_unreachability": ("unreachable" not in b_msg.lower()),
+        "declaration_error_has_no_link_needle": (NEEDLE not in
+                                                 (ev["C_one_message_one_action"]
+                                                  ["C2_missing_column_declared_true"]
+                                                  .get("message") or "")),}
+    ev["P10_normal_unfinished_state"]["ok"] = all([
+        ev["P10_normal_unfinished_state"]["P10a_says_unlinked_and_names_action"],
+        ev["P10_normal_unfinished_state"]["P10a_does_not_claim_invariant_break"],
+        ev["P10_normal_unfinished_state"]["P10b_raises_with_link_action"],
+        ev["P10_normal_unfinished_state"]["P10b_claims_no_unreachability"],
+        ev["P10_normal_unfinished_state"]["declaration_error_has_no_link_needle"]])
     res["evidence"] = ev
     res["constraints_ok"] = all(v.get("ok") is True for v in ev.values() if isinstance(v, dict))
 
@@ -392,12 +438,15 @@ def main():
     res["status"] = {
         "S3-1_joined_not_substring": "通过" if ev["6_joined_not_in_container"]["ok"] else "未通过",
         "A_fail_closed_registry": "通过" if ev["A_fail_closed_registry"]["ok"] else "未通过",
+        "P10_normal_unfinished_state": "通过" if ev["P10_normal_unfinished_state"]["ok"] else "未通过",
         "C_one_message_one_action": "通过" if ev["C_one_message_one_action"]["ok"] else "未通过",
         "B_schema_evidence_not_exception": "通过" if (ev["B_i_ablation_exemption_by_schema"]["ok"] and ev["B_ii_schema_accident_not_exemption"]["ok"]) else "未通过",
         "S3-2_origin_parse_verify": "通过" if all(ev[k]["ok"] for k in
                                      ("3_strict_64hex", "4_line_order", "5_cross_lock_8")) else "未通过",
-        "S3-3_gate_wired_in_production_path": "按计划未到",
-        "S3-4_no_todo_stage3": "按计划未到",
+        # Step 2: both criteria are now machine-checked by check_m5_gate.py --stage3
+        # (layer1 AST bound to the return point, layer2 reachability, layer3 runtime refusal).
+        "S3-3_gate_wired_in_production_path": ("通过" if res["gate_call_sites"] else "未通过"),
+        "S3-4_no_todo_stage3": ("通过" if res["todo_stage3_present"] == 0 else "未通过"),
         "M5_product_usable": "失锚（待重跑）",
         "lost_keys_empty": "通过" if res["lost_keys"] == [] else "未通过",
         "row_sets_unchanged": "通过" if res["row_sets"]["ok"] else "未通过",

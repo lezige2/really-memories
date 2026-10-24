@@ -77,7 +77,7 @@ def main():
     by = {c["case"]: c for c in cur["cases"]}
     rows = []
 
-    def add(kind, key, block, question, answer, expected, basis):
+    def add(kind, key, block, question, answer, expected, basis, expected_source):
         n = len(rows) + 1
         b = verdict(db_before, answer, block, question)
         a = verdict(BR.DB_PATH, answer, block, question)
@@ -85,6 +85,8 @@ def main():
         rows.append({"row": n, "key": key, "kind": kind, "block": block,
                      "verdict_axis": "source_text",
                      "grade": "C" if unchanged_input else "R",
+                     "expected_source": expected_source,
+                     "expected_from_tested_artifact": False,
                      "question": question, "answer": answer[:40],
                      "expected_verdict": expected, "expected_basis": basis,
                      "before_stage3": b, "after_stage3": a,
@@ -92,16 +94,25 @@ def main():
                      "matches_expected": (a["verdict"] == expected
                                           and b["verdict"] == expected)})
 
+    # The 4 product rows: the expectation is the FROZEN CRITERION (the verdict must not move
+    # when only the source text changes) evaluated on the REBUILT BEFORE SIDE -- never the
+    # run's own verdict field, which would make matches_expected a tautology.
     for case, q, block in (("plate_main", Q_PLATE, MAIN),
                            ("plate_ablated", Q_PLATE, ABL),
                            ("home_main", Q_HOME, MAIN),
                            ("home_ablated", Q_HOME, ABL)):
         c = by[case]
+        before_v = verdict(db_before, c["display_pre_grounding"], block, c["question"])
         add("product_case", case, block, c["question"], c["display_pre_grounding"],
-            c["verdict"], "run_m5_grounded.json cases[%s].verdict" % case)
+            before_v["verdict"],
+            "frozen criterion: the verdict must not move when only the source text changes; "
+            "expectation = rebuilt before side (%s), not run_m5_grounded.json[*].verdict"
+            % before_v["verdict"],
+            "rebuilt_before_side")
     for label, text, expected in PROBES:
         add("probe", label, MAIN, Q_PLATE, text, expected,
-            "m4_verify_grounded.py PROBES expected_after literal")
+            "code literal: m4_verify_grounded.py:223 expected_after (script 9247e3fa, pre-Stage3)",
+            "code_literal")
 
     rg = os.path.join(HERE, "run_m5_grounded.json")
     run_at = (cur.get("at") or cur.get("run_at")
@@ -125,6 +136,11 @@ def main():
                             "back-dating",
            "same_code_both_sides": "both sides use the CURRENT m5_ground/m5_bridge; only the "
                                    "source_text differs",
+           "expected_sources": {
+               "product_case": "rebuilt before side (frozen criterion: verdict must not move)",
+               "probe": "code literal in m4_verify_grounded.py:223 (pre-Stage3)",
+               "forbidden": "run_m5_grounded.json[*].verdict -- using it makes the check a "
+                            "tautology (discipline 10)"},
            "before_provenance": {"file": "_stage3_pre.json", "sha16": sha16(PRE),
                                  "synthetic_derivation": "absent in the snapshot; derived from the origin prefix (declared_synthetic: => 1)",
                                  "note": "reconstruction, NOT a pre-registration"},

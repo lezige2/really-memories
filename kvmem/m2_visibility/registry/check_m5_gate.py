@@ -48,6 +48,89 @@ def grep_gate():
     return hits
 
 
+
+
+def stage3_strict():
+    """Stage 3 strict mode: three layers, each machine-checked.
+
+    Layer 1 BINDS THE RETURN POINT, not a function name: the gate must be called inside the
+    body of the function that returns the admitted source list. Renaming the function or
+    moving the loop cannot satisfy this; a refactor that leaves a return without a gate is
+    exactly what it looks for.
+    Layer 2 proves reachability from the public entry point.
+    Layer 3 is AUTHORITATIVE: make the registry unavailable and the process must refuse.
+    """
+    import ast
+    res = {"schema": "m5_gate_stage3_v1"}
+    bridge = os.path.join(ROOT, "kvmem/m2_visibility/m4/m5_bridge.py")
+    src = io.open(bridge, encoding="utf-8").read()
+    tree = ast.parse(src)
+
+    def returns_source_dict(fn):
+        for n in ast.walk(fn):
+            if isinstance(n, ast.Return) and isinstance(n.value, ast.Dict):
+                keys = [k.value for k in n.value.keys if isinstance(k, ast.Constant)]
+                if "text" in keys:
+                    return True
+        return False
+
+    rp = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.FunctionDef) or not returns_source_dict(node):
+            continue
+        gates = sorted(n.lineno for n in ast.walk(node)
+                       if isinstance(n, ast.Call)
+                       and getattr(n.func, "attr", "") == GATE)
+        rp.append({"function": node.name, "def_line": node.lineno,
+                   "gate_lines": gates,
+                   "file_line": "m5_bridge.py:%d" % (gates[0] if gates else node.lineno)})
+    res["source_returning_functions"] = rp
+    res["layer1_ast"] = {
+        "ok": bool(rp) and all(f["gate_lines"] for f in rp),
+        "rule": "every function that returns an admitted source list must call the gate",
+        "ungated": [f["function"] for f in rp if not f["gate_lines"]]}
+
+    entry = [n for n in ast.walk(tree)
+             if isinstance(n, ast.FunctionDef) and n.name == "ensure_db"]
+    names = sorted(f["function"] for f in rp)
+    reach = []
+    for fn in entry:
+        for n in ast.walk(fn):
+            if isinstance(n, ast.Call) and getattr(n.func, "id", "") in names:
+                reach.append({"call": n.func.id, "line": n.lineno,
+                              "file_line": "m5_bridge.py:%d" % n.lineno})
+    res["reachability"] = {"entry": "ensure_db", "calls": reach, "ok": bool(reach),
+                           "note": "ensure_db keeps its own REG_DB existence check; that check is now only a REACHABILITY witness -- layer 3 is the authority"}
+
+    sys.path.insert(0, os.path.join(ROOT, "kvmem", "m2_visibility", "m4"))
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    sys.path.insert(0, os.path.join(ROOT, "kvmem", "m2_visibility", "m5"))
+    import tempfile
+    import m5_bridge as BR
+    saved = BR.REG_DB
+    verdict = {}
+    try:
+        BR.REG_DB = os.path.join(tempfile.gettempdir(), "_stage3_no_registry.db")
+        try:
+            BR.ensure_db(os.path.join(tempfile.gettempdir(), "_stage3_probe.db"))
+            verdict = {"raised": None}
+        except Exception as e:                                    # noqa: BLE001
+            verdict = {"raised": type(e).__name__, "message": str(e)[:200]}
+    finally:
+        BR.REG_DB = saved
+    res["runtime_refusal"] = {
+        "how": "REG_DB pointed at a missing path, then ensure_db()",
+        "result": verdict,
+        "ok": verdict.get("raised") in ("OriginError", "AssertionError"),
+        "authority": "layer 3 -- no static argument can prove the absence of a bypass return"}
+
+    res["todo_stage3_count"] = src.count(TODO)
+    res["no_todo_stage3"] = res["todo_stage3_count"] == 0
+    res["pass"] = all([res["layer1_ast"]["ok"], res["reachability"]["ok"],
+                       res["runtime_refusal"]["ok"], res["no_todo_stage3"]])
+    return res
+
+
 def main():
     res = {"schema": "m5_gate_check_v1", "gate": GATE}
     res["call_sites"] = grep_gate()
@@ -108,6 +191,10 @@ def main():
                  "by hope."),
     }
     res["pass"] = (res["verdict"]["has_call_site"] and res["verdict"]["no_bypass"])
+    stage3 = "--stage3" in sys.argv
+    if stage3:
+        res["stage3"] = stage3_strict()
+        res["pass"] = res["pass"] and res["stage3"]["pass"]
     out = os.path.join(HERE, "run_check_m5_gate.json")
     json.dump(res, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     print("call sites of %s: %d" % (GATE, res["call_site_count"]))
@@ -121,6 +208,20 @@ def main():
                  "OK" if r["ok"] else "BYPASS"))
     print("out of scope (not an M5 source path): %d" % len(res["out_of_scope"]))
     print("m5 dir scanned:", ", ".join(os.path.basename(p) for p in res["m5_files_scanned"]))
+    if stage3:
+        st = res["stage3"]
+        print("stage3 layer1 (AST, bound to the return point): %s"
+              % ("OK" if st["layer1_ast"]["ok"] else "FAIL"))
+        for f in st["source_returning_functions"]:
+            print("  %s returns a source list; gate at %s" % (f["function"], f["file_line"]))
+        print("stage3 layer2 (reachability from ensure_db): %s %s"
+              % ("OK" if st["reachability"]["ok"] else "FAIL",
+                 [c["file_line"] for c in st["reachability"]["calls"]]))
+        print("stage3 layer3 (runtime refusal, authoritative): %s -> %s"
+              % ("OK" if st["runtime_refusal"]["ok"] else "FAIL",
+                 st["runtime_refusal"]["result"].get("raised")))
+        print("stage3 no_todo_stage3: %s (count=%d)"
+              % (st["no_todo_stage3"], st["todo_stage3_count"]))
     print("PASS" if res["pass"] else "FAIL")
     return 0 if res["pass"] else 1
 
