@@ -146,4 +146,6 @@ bash verify.sh
 
 ## 许可
 
-未定。引擎补丁基于 [llama.cpp](https://github.com/ggml-org/llama.cpp)（MIT）。
+**MIT**，见 [LICENSE](LICENSE)。Copyright (c) 2026 lezige2。
+
+引擎补丁基于 [llama.cpp](https://github.com/ggml-org/llama.cpp)（亦为 MIT）。

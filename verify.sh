@@ -3,6 +3,9 @@
 # 用法：bash verify.sh        期望最后一行 ALL PASS，退出码 0
 # 任一断言失败 → 退出码非 0，并打印是哪一支
 set -u
+# 凡有管道就必须开 pipefail：否则 cmd | tail; echo $? 取到的是末支的退出码，
+# 连“真值 127”经过管道都会变成 0（实测）。约定拦不住，机制能。
+set -o pipefail
 cd "$(dirname "$0")"
 RM=kvmem/m2_visibility/runs_mask
 PY="python -X utf8"
