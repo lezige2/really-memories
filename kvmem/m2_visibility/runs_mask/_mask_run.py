@@ -214,22 +214,7 @@ def worker(argv):
                     print("[preamble] %s = %s" % (k, checks[k]))
                 raise SystemExit("preamble [%d,%d) does not fit below room_end=%d"
                                  % (start, end, room_end))
-            n_written = int(eng.write_at(P.LIVE, pre_text, start, add_bos=False))
-            if n_written != n_pre_tokens:
-                raise SystemExit("preamble measured %d tokens, write_at reported %d"
-                                 % (n_pre_tokens, n_written))
-            c_after, pos_after = P.cell_scan(eng, P.LIVE)
-            if pos_after != list(range(start, start + n_written)):
-                raise SystemExit("preamble cells are not the expected contiguous range")
-            res["preamble"] = {"text": pre_text, "n_tokens": n_written, "start": start,
-                               "end": start + n_written,
-                               "sha256": hashlib.sha256(pre_text.encode("utf-8")).hexdigest(),
-                               "written_via": "kvshim_write_at(seq=live, text, pos, add_bos=0)",
-                               "written_before_blocks": True,
-                               "cells_after_write": c_after,
-                               "note": ("written on an empty live sequence before the blocks "
-                                        "are shared in, so it attended to nothing; the blocks "
-                                        "come from files and never saw these tokens")}
+
         placed = P.load_and_place(eng, layout)
         P.share_layout(eng, layout, placed)
         # spacing must describe THIS layout: a product that states its own geometry wrong is
@@ -266,6 +251,29 @@ def worker(argv):
                    "source": "this driver prints one [MASKDBG-OK] per segment after the ask"},
         }
         eng.reset(P.LIVE)
+        if pre_spec is not None:
+            # T1 position: after the LAST reset(LIVE) and before the blocks are shared in.
+            # Above the reset the write is wiped; below the share the engine refuses to create
+            # a cell underneath existing blocks. The interval itself is computed above.
+            n_written = int(eng.write_at(P.LIVE, pre_text, start, add_bos=False))
+            c_after, pos_after = P.cell_scan(eng, P.LIVE)
+            pre_cells = [p for p in pos_after if start <= p < end]
+            res["preamble"] = {"text": pre_text, "start": start, "end": end,
+                               "n_tokens_measured": n_pre_tokens,
+                               "write_at_rc": n_written,
+                               "sha256": hashlib.sha256(pre_text.encode("utf-8")).hexdigest(),
+                               "written_via": "kvshim_write_at(seq=live, text, pos, add_bos=0)",
+                               "written_between_last_reset_and_share": True,
+                               "cells_after_write": c_after,
+                               "applied": pre_cells == list(range(start, end)),
+                               "note": ("written after the last reset(live) and before the "
+                                        "blocks are shared in, so it attended to nothing; the "
+                                        "blocks come from files and never saw these tokens")}
+            if n_written < 0 or n_written != n_pre_tokens or not res["preamble"]["applied"]:
+                print("[preamble] write_at_rc=%s measured=%d start=%d end=%d cells_after=%d got=%s"
+                      % (n_written, n_pre_tokens, start, end, c_after, pre_cells[:4]))
+                P._write_json(a.run_json, res)
+                raise SystemExit("preamble is not applied on the live sequence")
         P.share_layout(eng, layout, placed)
         raw = P.raw_pos_max(eng, P.LIVE)
         cnt, positions = P.cell_scan(eng, P.LIVE)
@@ -276,6 +284,32 @@ def worker(argv):
                              "positions_max": positions[-1] if positions else None,
                              "coverage": P.coverage(positions, layout),
                              "overlaps": P.overlaps(layout)}
+        if pre_spec is not None:
+            # T1 as CODE, not as a report line: four independent checks, each printing its
+            # own measured value before refusing to produce a result.
+            pre_want = list(range(start, end))
+            pre_got = [p for p in positions if start <= p < end]
+            raw_expect = max(s["pos_hi"] for s in layout["segments"]) - 1
+            cnt_expect = res["cell_layer"]["cell_count_expected"]
+            cov_bad = sorted(k for k, v in res["cell_layer"]["coverage"].items()
+                             if v["covered"] != v["cells"])
+            checks_t1 = {"preamble_cells_equal_range": pre_got == pre_want,
+                         "cell_count_equals_expected": cnt == cnt_expect,
+                         "coverage_complete": not cov_bad,
+                         "raw_pos_max_equals_top": raw == raw_expect}
+            res["t1_assertions"] = {"checks": checks_t1,
+                                    "preamble_cells_got": pre_got[:6],
+                                    "preamble_cells_want": pre_want[:6],
+                                    "cell_count": cnt, "cell_count_expected": cnt_expect,
+                                    "coverage_incomplete_segments": cov_bad,
+                                    "raw_pos_max": raw, "raw_pos_max_expected": raw_expect}
+            res["cell_count_at_ask"] = cnt
+            if not all(checks_t1.values()):
+                print("[t1] checks=%s" % checks_t1)
+                print("[t1] cell_count=%d expect=%d positions_min=%s raw_pos_max=%s expect=%s"
+                      % (cnt, cnt_expect, positions[0] if positions else None, raw, raw_expect))
+                P._write_json(a.run_json, res)
+                raise SystemExit("T1 assertions failed: no result is produced")
         n_bytes, ans = D2.ask_native(eng, P.LIVE, q, P.CHAT, P.N_PREDICT)
         asha = hashlib.sha256(ans.encode("utf-8")).hexdigest()
         res["ask"] = {"kvshim_ask_at_return_bytes": n_bytes, "answer": ans.strip(),
