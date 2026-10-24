@@ -198,6 +198,15 @@ def main():
     if hint:
         print(" ", hint)
     print("  OVERALL:", "GREEN" if overall else "RED", " (%s)" % expr)
+    # Machine-readable verdict, fixed shape: the human-readable line above changes wording
+    # whenever the item set changes ("4 项 AND" -> "5 项 AND"), so a parser that matches on it
+    # silently mis-reads. These two lines never change shape; keys and order are frozen.
+    # rc is computed FIRST and VERDICT is derived from it, so the two can never disagree.
+    rc = 0 if overall else (7 if driver_bug else 6)
+    print("VERDICT=%s" % ("GREEN" if rc == 0 else "RED"))
+    print("DIMS=%s" % " ".join("%s:%s" % (it["item"], it["status"]) for it in items))
+    if (rc == 0) != overall:
+        sys.stderr.write("WARN: VERDICT 与 overall 不一致，以 rc 为准\n")
 
     if a.write_rows:
         # _gate_rows keeps its original name and shape (the 25 trace rows written by
@@ -214,9 +223,7 @@ def main():
         with open(a.run_json, "w", encoding="utf-8") as fh:
             json.dump(d, fh, ensure_ascii=False, indent=1)
         print("  _gate_four written into", a.run_json)
-    if overall:
-        return 0
-    return 7 if driver_bug else 6
+    return rc
 
 
 if __name__ == "__main__":

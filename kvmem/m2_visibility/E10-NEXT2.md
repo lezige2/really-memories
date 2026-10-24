@@ -213,6 +213,123 @@
 
 ---
 
+---
+
+## 2.8 三条假设的裁决：`H_last` 已被零成本证伪，`H-A`（距离）吸收它
+
+### 2.8.1 先把"第四块到底是什么"按现存产物全部摆出（按"它重复了哪一槽"分类）
+
+| layout | 四块（slot1…slot4） | 第四块重复了 | 第四块 cells | home 结局 |
+|---|---|---|---|---|
+| `iso_dup4` | home, project, habit, **project2** | **slot2** | 18 | **pass**（13✓/0✗，§1.8 口径；含 `uns*` 为 16✓/0✗） |
+| `axA_c_home` | home, project, habit, **c_home** | **slot1**（home 的压缩版，5 cells，text "广陵路。"） | **5** | **pass**（2✓/0✗） |
+| `I13_bhome31` | home, project, habit, **b_home** | **slot1**（home 的加长版） | **31** | **pass**（2✓/0✗） |
+| `iso_dup_p3` | home, habit, project, **project2** | slot3 | 18 | fail（0✓/3✗） |
+| `iso_habit_bot` | home, project, habit, **habit2** | slot3 | 12 | fail（0✓/5✗） |
+| `I13_bhabit20` | home, project, habit, **b_habit** | slot3 | **20** | fail（0✓/2✗） |
+| `iso_car_back` / `order_rev` / `gap32` / `gap256` / `iso_base` / `car_mid` / `m2_fwd` | 第四块是**新内容**（car 或 project 移位） | 无 | 18–19 | fail |
+| `iso_no_car` / `b3` | **三块，无第四块** | —— | —— | pass |
+
+**读法：重复 slot1 或 slot2 ⇒ 通过（三个布局、三种 cells：5 / 18 / 31）；重复 slot3 ⇒ 失败（三种 cells：12 / 18 / 20）；新内容 ⇒ 失败。**
+
+### 2.8.2 对 `H_last` 的裁决：**在你看的 5 个布局上 5/5，在全库上被证伪**
+
+`H_last`："第四块必须是 **slot2** 那一块的副本"。它预测下面两条**必须 fail**：
+
+| 反例 | 布局 | `H_last` 预测 | 实测 |
+|---|---|---|---|
+| `axA_c_home`（`runs_iso3/axA_c_home_home_r1/r2`） | 第四块 = `c_home`（**slot1** 的 5-cells 压缩副本） | fail | **pass 2✓/0✗** |
+| `I13_bhome31`（`runs_iso3/I13_bhome31_home_r1/r2`） | 第四块 = `b_home`（**slot1** 的 31-cells 加长副本） | fail | **pass 2✓/0✗** |
+
+⇒ **`H_last` 死了**，而且死因不是"多了一个例外"，是**它把 slot1 副本误归成失败**：两个反例的第四块都**不是** slot2 的副本，home 却都通过。
+⇒ 更省的说法：**"第四块重复的是 slot1 或 slot2（即距 home ≤64 的块）⇒ 通过；重复 slot3 ⇒ 失败；新内容 ⇒ 失败"** —— 这就是 **H-A（距离）**，它把 `H_last` 当特例吸收掉，且**对 cells 不敏感**（5 / 18 / 31 都能通过）。
+
+### 2.8.3 另两条竞争假设
+
+- **`H_neighbor`（紧邻 home 下方那块的内容决定成败）**：**零成本已被证伪两次** —— `iso_habit_bot` 的 slot2 是 project（预测 pass）实测 fail；`iso_car_back` 的 slot2 也是 project，实测 fail。
+- **`H_adjacent`（两份副本相邻在 slot3&4 ⇒ fail，隔开在 slot2&4 ⇒ pass）**：在有副本的三条布局上与 `H_last` **预测完全相同**，因此**被同一组反例一起打死**（`axA_c_home`/`I13_bhome31` 的副本在 slot1&…，既不相邻也不是 slot2，仍 pass）；并且它**解释不了 car_back**（那里没有副本）。
+
+**简洁性排序（假设数 / 需要额外假设的个数）**：`H-A`（1 条规则，0 个例外）> `H_last`（1 条规则 + 对 slot1 副本 2 个例外）> `H_adjacent`（1 条规则 + 对 car_back 1 个例外）> `H_neighbor`（已被证伪）。
+
+### 2.8.4 一条必须写下的共线性（否则 `H-A` 会被过度解读）
+
+在本布局族里，**"第几槽"与"哪个块的副本"完全绑定**（slot1=home、slot2=project、slot3=habit、slot4=car），所以 **`H-A`（距离）与"只有 home/project 的副本有用"（内容类别说）至今仍完全共线，无法分开**。
+能分开它们的布局只有一种：**让 habit 的副本出现在 slot2（距离 64）** —— 见 §2.9 的 `iso_dup_p2`。
+
+### 2.9 `iso_dup_p2` 的六格模板（它劈开的不是 `H_last`，而是 `H-A` 与"内容类别说"）
+
+**布局**：`iso_dup_p2 = [(1,home,home), (2,habit,habit), (3,project,project), (4,habit2,habit)]`
+几何：`home 4075-4096(21)`、`habit 4020-4032(12)`、`project 3950-3968(18)`、`habit2 3886-3898(12)`；总 cells **63**、`head_gap = 0`。
+
+**先说清它劈不开谁**：第四块是 slot2 的副本 ⇒ **`H_last` 与 `H-A` 都预测 pass**，`iso_dup_p2` **不能**分开这两条。所幸 `H_last` 已被 §2.8.2 零成本打死，**不需要再花 run 去分它**。
+
+1. **观测量**：`ask.ok`、`ask.answer`（判断 pass/fail）+ `cloze_marker` + `cell_count=63`。
+2. **判红**：**fail** ⇒ `H-A`（距离）也死 ⇒ 剩下"只有 home/project 的副本有效"的内容类别说，且必须解释 habit 副本为何无效。
+3. **判绿**：**pass** ⇒ `H-A` 存活、"内容类别说"死 ⇒ **"距离 ≤64 的副本才有效"成为唯一与全部 11 个四块布局相容的规则**。
+4. **成本**：`LAYOUTS` 加一键（授权）+ **3 run**（21 秒）；零新块文件；解释负担 = §2.8 表加一行。
+5. **零成本可行性**：**否**（现库无"habit 在 slot2 且被重复"的布局）。
+6. **长度控制**：**不控** —— 63 ≠ `iso_dup4` 的 69。但**长度这条轴已被多重否证**：**总** cells：通过的布局有 51（`no_car`）/ 56（`axA_c_home`）/ 69（`dup4`）/ 82（`I13_bhome31`）；失败的布局有 63（`habit_bot`）/ **69（`dup_p3`）**/ 70（`car_back`）/ 71（`I13_bhabit20`）—— **69 两边都有、63 与 71 都比 69 小却都败** ⇒ **cells 既不充分也不必要**，故本实验的长度差**不足以反转判读**；它仍然只能**证伪**，不能单独**证实**"距离是因果"。
+
+**预登记结果表（跑前写死）**：
+
+| `iso_dup_p2` | H-A 距离 | 内容类别说 | H_last | H_neighbor |
+|---|---|---|---|---|
+| pass | 存活 | **死** | 存活 | 死 |
+| fail | **死** | 存活 | **死** | 死 |
+
+**注**：`iso_topgap`（§2.7，1 run）与本实验互不依赖；两者若结论冲突，须停手复算，不许择一采信。
+
+---
+
+## 2.10 结果回填：`iso_dup_p2` 与 `iso_topgap` 都回来了，两条纯单变量说**同时死**
+
+### 2.10.1 `iso_dup_p2`（habit 副本落在 slot2、距离 64）：**fail ×3，答案逐字节相同**
+
+`t017_w1/w2/w3_dup_p2`：`ask.ok=False`、`cell_count=63`、`coverage` home[4075,4096]/habit[4020,4032]/project[3950,3968]/habit2[3892,3904]、`head_gap=0`、trace `SUM=25 blk=100`、门禁 GREEN。【实测】
+
+⇒ **`H-A`（纯距离：副本源距 home ≤64 即通过）被判红。**
+
+### 2.10.2 但 **`H-C`（纯内容类别）也已经死了** —— 这一条我在 §2.9 的映射里写漏了
+
+我在 §2.9 写"`dup_p2` fail ⇒ 只剩内容类别说"。**这句是错的**：`iso_dup_p3` 的第四块是 **project 的副本**（内容类别恰是"有效"的那一类），`cell_count=69`，却 **fail ×3**。
+⇒ **内容类别单独也不能解释结局。**
+
+**两条纯单变量说同时死**：
+
+| 单变量 | 预测 | 反例 |
+|---|---|---|
+| 纯距离（≤64 即通过） | `dup_p2`（源距 64）应 pass | 实测 **fail** |
+| 纯内容（home/project 副本即通过） | `dup_p3`（project 副本）应 pass | 实测 **fail** |
+
+### 2.10.3 目前唯一还站着的表述：一条**两条件合取**（它是描述，不是机制）
+
+> 第四块**既是 home 或 project 的副本**、**且该事实原本就位于 slot1 或 slot2**，home 才不被拖坏。
+
+六个可判布局全中：
+
+| layout | 复制的事实 | 该事实原槽 | 合取预测 | 实测 |
+|---|---|---|---|---|
+| `iso_dup4` | project | slot2 | pass | pass |
+| `axA_c_home` | home（5 cells 压缩） | slot1 | pass | pass |
+| `I13_bhome31` | home（31 cells 加长） | slot1 | pass | pass |
+| `iso_dup_p3` | project | **slot3** | fail | fail |
+| `iso_habit_bot` / `I13_bhabit20` | habit | slot3 | fail | fail |
+| `iso_dup_p2` | **habit** | slot2 | fail | fail |
+
+**必须同时写下的三条保留**：
+1. **两条件、六个点、零次独立外验证** —— 这是**拟合**。再往它上面加一次"预测"并跑一条只会涨拟合度、不涨可信度。
+2. **`spacing` 是唯一能把"距离"与"槽位"拆开的旋钮**（`iso_gap32`/`iso_gap256` 的产物在盘上缺 `spacing`/`span` 字段，**位置不可复核**，因此这条旋钮目前**无可用的既成位置证据**）。
+3. 该合取**不与任何机制对齐**：它同时要求"内容对"和"位置对"，而这两者在本族里都是人工摆出来的，不是自然共变。
+
+### 2.10.4 建议：**停止在本夹具上继续拟合**，留下两个"机制可见"的事实
+
+本轮真正被**证实**（不是拟合）的只有两件，且它们都不依赖那条合取：
+
+- **顶部空洞 ⇒ 记忆不生效**：`iso_topgap`（`t018_v1`，`head_gap=64`、`cell_count=70`）`answer=""`（len 0）、**引擎 `SUM=0 SUM2=0 blk=0`（零 trace）**、门禁 `rc=6 RED`。配合 X 的 `head_gap=196` 同形态 ⇒ **`head_gap>0` 时记忆根本没被铺进去**，第一轮的 **P4「空答」应降级为夹具现象**（仍与"缺 home"共线，未分开）。
+- **单块可答**：`iso_home_only`/`iso_habit_only` 在 `--no-control` 下均 **TRUE** ⇒ 没有任何块"坏了"，失败是布局层面的。
+
+**下一步若要继续，必须满足一条纪律**：新实验的预测**不得能从 §2.10.3 那条合取推出**（否则只是再拟合一次）；且应优先做能被引擎侧证据（trace/位置）验证的实验，而不是又一个"pass/fail"计数。
+
 ## 3 非单调 63/69/70 的正面处理
 
 | 被杀掉的说法 | 依据 |
