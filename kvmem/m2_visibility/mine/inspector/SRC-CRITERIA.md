@@ -247,3 +247,55 @@ lead 加严④：逐键前后对照之外，还要标出**每个消失的 key �
 所以 ④ 这条要求对当前语料**已经满足，且是零丢失**，不是"将来要小心"。
 对**将来**的语料，④ 的可判形式定为：交付必须给出 `lost_keys = {key: (line_index, role)}` 映射（为空也要显式给空表），
 并且**任何一个 lost key 的 role 是 user 时，必须停下**——那是"该有的被漏掉了"，不是"该少的"；只有 role=assistant 的丢失才是 R15-a 的预期效果。
+
+### 11.2 I8 · 保护性字段的默认值必须等于拒绝态（冻结：2026-10-25，由 1b 缺陷 1 导出）
+
+- **规则**：任何决定"是否放行"的字段，其 SQL 默认值必须等于**拒绝态**，而不是宽松态。
+- **本例**：`text_kind` 默认值曾是 `human_memory`（放行态）⇒ 忘记写该列的行会被 M5 当合法源。应改为 `conversation`（拒绝态）+ `CHECK (text_kind IN ('human_memory','conversation'))`。
+- **可判形式**：一条**只用老列**的 INSERT（不写 text_kind）⇒ 读回必须是拒绝态。这条测试必须存在，否则"改好了"无法验收。
+- **推广**：凡"漏写即放行"的字段都是同类缺陷。它比"写错"更危险，因为没有字节层报错，只有在事后被断言抓住（本例正是这样被抓住的）。
+
+### 11.3 附记：1b 的静态扫描器值得保留
+
+`registry/check_m5_gate.py` 扫 `m5 / m4 / tools` 三个面，对凡是出现 `chat.db|memory_source|registry_source_id|probe_text|get_source` 的文件，
+要求该行**要么带闸门调用、要么带 `TODO(stage3)` 标记**（跳过注释行与 def 行、跳过 `_before/_test/_ablate/_m5db`）。
+这是"无旁路"的**可执行**形式，比 grep 数调用点强：它在 Stage 3 新增读源代码时会直接报出来。
+但它只证明"每个读源点都被标记过"，**不证明闸门真的会拦** —— 所以 C4-g 的实测（conv 抛错）不能省。
+
+### 11.4 I8-b · 相邻那一列：默认值方向 + **闸门根本没读它** + 强相关的正确形式（冻结：2026-10-25）
+
+**lead 指出的第二处**：`contains_model_turns INTEGER NOT NULL DEFAULT 0` —— 漏写得到「不含模型回合」，同一条病。
+我核了建表 sql：**CHECK 为 False**（`text_kind` 与 `contains_model_turns` 都没有 CHECK），与我先前实测一致。
+
+**我另发现一件更要紧的**（比默认值更直接）：`assert_m5_source_allowed` 的实现**只判 `text_kind`**：
+```
+if kind != "human_memory": raise SourceNotAllowed(...)   # turns 只被拼进报错文案
+```
+⇒ 一行 `text_kind=human_memory` + `contains_model_turns=1` 会**通过闸门**。也就是说这一列目前是**装饰性的**，
+它被写进返回值、写进报错消息，却**没有任何一处用它做决定**。这属于 I7「两处各存一半真相」——现在是"一存一存却互不校验"。
+
+**lead 给的二选一我都不取，理由如下（这是我与 lead 唯一的判断分歧，请裁决时看理由）**
+
+- **不取 (A) 纯派生（把该列删掉、由 `text_kind` 推）**：因为 `conversation ⇒ contains_model_turns=1` **不成立**。
+  一份纯人类发言的会话记录，`text_kind=conversation` 而 `contains_model_turns=0` 是**合法事实**；
+  强行派生会让这一类被错标成"含模型回合" —— 对闸门而言是安全方向（都要排除），但它把这个字段变成永远的真值替身，
+  以后再有人拿它做别的事（比如报告里"这段对话是否含模型发言"）就会得到假值。**用一个假字段换掉两个可能不一致的字段，不是修好。**
+- **不取 (B) 双向 CHECK（`conversation ⇒ turns=1`）**：同上，会禁止一行合法数据。
+- **取 (C)：方向一，默认值翻向拒绝态，闸门三条件并列。** 三条一起，才能同时满足"单一真相""fail-closed""不放行假人类记忆"：
+
+**I8-b 条文**
+
+1. **默认值各自 fail-closed**：`text_kind DEFAULT 'conversation'`；`contains_model_turns DEFAULT 1`。
+   （漏写 ⇒ `conversation` / `1` = 双重拒绝态；而今天的默认是 `human_memory` / `0` = 双重放行态，两个方向全错。）
+2. **只加逻辑成立的那个方向约束**：`CHECK (NOT (text_kind = 'human_memory' AND contains_model_turns = 1))`。
+   即「含模型回合的文本，绝不能被声明为人类记忆」——这一条是我们真正要防的；反方向（纯人类会话 turns=0）必须允许。
+3. **闸门必须并列判三项**：`text_kind == 'human_memory'` **且** `contains_model_turns == 0` **且**（若 `is_excerpt=1`）`derived_from` 非空且逐字子串成立。
+   任一项不满足 ⇒ `SourceNotAllowed`。当前实现只判第 1 项，**必须补齐后两项**。
+4. **可判证据三条**（缺一不算关闭）：
+   - (i) 只用老列的 INSERT（不写这两列）⇒ 读回 `conversation` / `1`；
+   - (ii) 人造一行 `human_memory` + `1` ⇒ **被 CHECK 拒**（若实现选触发器/应用层，则必须在该路径上被拒并给出异常类型）；
+   - (iii) 人造一行 `human_memory` + `1`（绕过 CHECK 直接改副本库）⇒ **闸门必须抛 `SourceNotAllowed`** ——
+     这条证明"闸门读了这个列"，比任何默认值都更能说明它不再是装饰。
+
+**若执行者坚持 (A)**：那也只能从**角色声明**派生（`assistant_lines` 非空 ⇒ 1），不能从 `text_kind` 派生；
+并且必须同时给出「纯人类会话」这条反例的往返测试（`conversation` + `0` 仍可如实表达）。否则我不接受 (A)。
