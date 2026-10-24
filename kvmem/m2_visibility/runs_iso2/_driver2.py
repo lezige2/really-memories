@@ -43,6 +43,8 @@ LAYOUTS = {
                                             (3, "project", "project"), (4, "habit2", "habit")]},
     "iso_topgap":   {"spacing": 64, "segs": [(2, "home", "home"), (3, "project", "project"),
                                             (4, "habit", "habit"), (5, "car", "car")]},
+    "iso_dup4_s128": {"spacing": 128, "segs": [(1, "home", "home"), (2, "project", "project"),
+                                              (3, "habit", "habit"), (4, "project2", "project")]},
 }
 
 
