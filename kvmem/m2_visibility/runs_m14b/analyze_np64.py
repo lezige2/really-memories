@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import hashlib, json, os, sys
 D = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, r"D:/llama-mem/kvmem/m2_visibility/runs_t033")
+sys.path.insert(0, r"D:/llama-mem/kvmem/m2_7b/runs_t033")
 sys.path.insert(0, r"D:/llama-mem/tools")
 import _judge_t033 as J
 import m2_visibility_probe as P

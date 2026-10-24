@@ -17,7 +17,7 @@ import argparse, hashlib, json, os, re, sys, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = r"D:/llama-mem"
 sys.path.insert(0, os.path.join(ROOT, "tools"))
-sys.path.insert(0, os.path.join(ROOT, "kvmem", "m2_visibility", "runs_iso2"))
+sys.path.insert(0, os.path.join(ROOT, "kvmem", "m2_visibility", "engine"))
 import m2_visibility_probe as P
 import _driver2 as D2
 

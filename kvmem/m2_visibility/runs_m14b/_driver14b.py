@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""14B four-cell driver = thin wrapper around the untouched runs_iso2/_driver2.py.
+"""14B four-cell driver = thin wrapper around the untouched 7B-era _driver2.py — a byte-identical
+frozen copy now lives at kvmem/m2_visibility/engine/_driver2.py (7B original archived under kvmem/m2_7b/).
 
 Why a wrapper and not a copy: _driver2.py is the 7B archive. This file only sets
 module globals before D2.main() runs, exactly as SPEC-14B-4CELL.md 3.2 prescribes.
@@ -10,8 +11,9 @@ import hashlib, json, os, re, subprocess, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = r"D:/llama-mem"
-ISO2 = os.path.join(ROOT, "kvmem", "m2_visibility", "runs_iso2")
-sys.path.insert(0, ISO2)
+ENGINE = os.path.join(ROOT, "kvmem", "m2_visibility", "engine")
+ISO2_7B = os.path.join(ROOT, "kvmem", "m2_7b", "runs_iso2")
+sys.path.insert(0, ENGINE)
 import _driver2 as D2                                   # noqa: E402
 
 P = D2.P
@@ -54,7 +56,8 @@ D2.LAYOUTS["iso_fac_nb57"] = {"spacing": 64, "segs": [
 
 
 FORBIDDEN = ["DeepSeek-R1-Distill-Qwen-7B", "m2_v1/home.kvmem", "m2_v1/project.kvmem",
-             "m2_v1/habit.kvmem", "runs_iso2/control_texts.json", "runs_iso2\\control_texts.json"]
+             "m2_v1/habit.kvmem", "runs_iso2/control_texts.json", "runs_iso2\\control_texts.json",
+             "m2_7b/", "m2_7b\\"]
 
 
 def forbidden_markers(txt):
@@ -122,7 +125,7 @@ def assert_manifest():
     # 4. control cache must not be the 7B one
     ev["D2.CTRL_CACHE"] = D2.CTRL_CACHE
     if os.path.abspath(D2.CTRL_CACHE) == os.path.abspath(
-            os.path.join(ISO2, "control_texts.json")):
+            os.path.join(ISO2_7B, "control_texts.json")):
         raise SystemExit("STOP: control cache is the 7B file")
     # 5. no 7B artefact path anywhere in the manifest text
     raw = open(MANIFEST14, encoding="utf-8").read()
