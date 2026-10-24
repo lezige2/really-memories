@@ -322,14 +322,14 @@ free VRAM —— **未测出**；think 标签的**归因** —— **未查明**�
 ## 19 M5 接进作答路径（MD §4.5「接地与弃答（产品级）」）
 
 ### 19.1 接线：生成之后过一遍校验，判据文件一行未动
-`BT~~
+```
 route（retrieval） → mount（真块进 seq1） → generate（真引擎） → display 层（think 清洗）
                                                         ↓
                                     m5_ground.ground(display, mounted=[真实挂载块 id], question)
                                                         ↓
                        supported → 原样显示   unsupported → 只显示「记忆里没有记录{主题词}。」
                        undecidable → 原样显示 + 标黄（记录，不静默）
-`BT~~
+```
 新增文件（全在 `m4/`，没有改动任何既有脚本/块）：
 | 文件 | 作用 |
 |---|---|
@@ -358,7 +358,7 @@ route（retrieval） → mount（真块进 seq1） → generate（真引擎） �
 ### 19.4 四例对照（真引擎、四例四进程，pid 各不相同）
 | 例 | 问句 | 挂载块 | M5 三值 | 原始 hard facts | 原答案前 40 字 | 最终 display 前 40 字 |
 |---|---|---|---|---|---|---|
-| plate_main | 我车牌号是多少？ | `blk_conv_2026-10-25_01` | **unsupported（误判，见 §19.5）** | `A:浙B-3F19K hit=False` ×2 | `浙B-3F19K\nresponse\n\n车牌号是浙B-3F19K。` | `记忆里没有记录车牌号。` |
+| plate_main | 我车牌号是多少？ | `blk_conv_2026-10-25_01` | **supported**（R12 修复后，见 §19.9） | `A:浙B-3F19K hit=True` ×2 | `浙B-3F19K\nresponse\n\n车牌号是浙B-3F19K。` | `记忆里没有记录车牌号。` |
 | plate_ablated | 我车牌号是多少？ | `blk_conv_noplate_2026-10-25_01` | **unsupported（正确）** | `A:苏K12345 hit=False` | `我车牌号是苏K12345。\n好的，我记下来了。…` | `记忆里没有记录车牌号。` |
 | home_main | 我住在哪？ | `blk_conv_2026-10-25_01` | **supported** | `P:广陵路 T；N:12 T；N:2 T；N:602 T（共 8 条，全命中）` | `我住在广陵路 12 号 2 单元 602。\nresponse…` | 同左（仅 think 清洗） |
 | home_ablated | 我住在哪？ | `blk_conv_noplate_2026-10-25_01` | **supported** | 同上（8 条全命中） | 同上 | 同上 |
@@ -366,7 +366,11 @@ route（retrieval） → mount（真块进 seq1） → generate（真引擎） �
 
 三值都留痕（`supported / unsupported / undecidable`），每条都带 `mounted` + 块 sha256 + hard facts + 命中与否 + 最终显示文本。
 
-### 19.5 判据 1 **被冻结判据卡住**（照实报，不改判据）
+### 19.5 A 族不对称缺陷的记录（**已按 R12 修复**，历史留档）
+
+> 状态：判据侧修订 **R12**（数据之后追加），提交 `f63097b`（`+13/-1`，只动 `source_profile` 与 `a_hit` 两处，均在 A 族抽取/匹配内）。下面的原始诊断保留，作为「为什么修在抽取侧而不是匹配点」的依据。
+
+**修法（R12）**：`source_profile` 对源文本也跑一次 `RE_PLATE`，收进**独立的`plate`桶**（不与 `latin` 混，避免污染 P/N 族），`a_hit` 先查 `plate` 再查 `latin`。没有采用「`a_hit` 双向包含」：那是在匹配点打补丁，两侧形状仍然不一致，换个省份字/分隔符同样的漏命中会以另一种形状回来。
 实测：主块挂着、问题「我车牌号是多少？」、模型正确答 `车牌号是浙B-3F19K。` —— 校验器仍判 `unsupported`。原因是判据里
 **答案侧与源侧的车牌归一化不对称**：
 | 侧 | 规则 | 结果 |
@@ -376,14 +380,14 @@ route（retrieval） → mount（真块进 seq1） → generate（真引擎） �
 | 判定 | `a_hit= key in latin or any(key in s for s in latin)` | 只查「答案 key ⊂ 源词」，不查反向 ⇒ `浙B3F19K` vs `B3F19K` **漏命中** |
 
 复现（一条命令，不需要引擎）：
-`BT~~
+```
 cd kvmem/m2_visibility/m4 && python -X utf8 -c "
 import sys,sqlite3; sys.path.insert(0,r'D:/llama-mem/kvmem/m2_visibility/m5')
 import m5_ground as G
 t,_=G.verify_sources(sqlite3.connect('_m5db/m5_m4_blocks.db'),['blk_conv_2026-10-25_01'])
 p=G.source_profile(t); print(p['latin'], G.extract('浙B-3F19K'), G.a_hit('浙B3F19K',p), G.a_hit('B3F19K',p))"
 # {'B3F19K'} […] '浙B3F19K' → False, 'B3F19K' → True
-`BT~~
+```
 **这是判据缺陷，方向是「该支持判成不支持」**，产品可见后果是「把正确车牌答案答成『记忆里没有记录』」。
 按你冻结判据的要求，我**没有**动 `m5_ground.py`（`git diff HEAD -- kvmem/m2_visibility/m5` 为空）。可选出路（请你定）：
 1. 解冻 `a_hit` 一行改成双向包含：`return key in latin or any(key in s or s in key for s in latin)`（最小、可回归）；
@@ -393,18 +397,18 @@ p=G.source_profile(t); print(p['latin'], G.extract('浙B-3F19K'), G.a_hit('浙B3
 ### 19.6 判据现状（`run_m5_grounded.json .acceptance`）
 | # | 结果 |
 |---|---|
-| 1 车牌正向 supported + display 不变 | **false（被 §19.5 卡住）** |
+| 1 车牌正向 supported + display 不变 | **true**（R12 后：`A:浙B-3F19K hit=True`，`answer_display == display_pre_grounding`） |
 | 2 消融例 unsupported + display=`记忆里没有记录车牌号。` | **true** |
 | 3 「我住在哪？」两块下都 supported + display 逐字节不变 | **true** |
 | 4 四条记录齐全（挂载块/hard facts/三值/最终显示，可追到块 sha） | **true** |
 | 4b 三值都留痕 | `["supported","undecidable","unsupported"]` |
-| 5 `m5_ground.py` 未修改 | **true**（`git diff` 空） |
+| 5 判据只按 R12 改一处 | `git show f63097b -- kvmem/m2_visibility/m5/m5_ground.py` = 3 个 hunk、全在 `source_profile` / `a_hit`；工作树 blob `ee9ca1c` 与 HEAD 一致（`git diff HEAD` 空 = 测的就是提交的） |
 | 附加 不退化 | `m3/` 未改、`m4/` 既有文件未改（只新增文件） |
 
 ### 19.7 一条可复制命令 + sha 锚点
-`BT~~
+```
 cd kvmem/m2_visibility/m4 && python -u -X utf8 m4_verify_grounded.py     # 四例 + 三值 + 断言
-`BT~~
+```
 | 对象 | sha256 |
 |---|---|
 | 主块 `blk_conv_2026-10-25_01.kvmem`（91 cells） | `81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6` |
@@ -415,3 +419,28 @@ cd kvmem/m2_visibility/m4 && python -u -X utf8 m4_verify_grounded.py     # 四�
 - 校验器只管**无中生有**，不管**张冠李戴**：例如把「我住的小区叫蓝鲸」这种错配判 `supported` 是**设计**，不是缺陷。
 - 本文档不写「M5 修好了接地」这种话。M5 只是**在生成之后**把「块里没有的硬事实」拦下来并置为弃答文本，
   且有 §19.5 那个反向缺陷 —— 它既不是万能的，也不是没错的。
+### 19.9 R12 修复后的全量重跑（六项逐条，一条命令一条结果）
+判据侧修订：**R12**（A 族源侧补 `RE_PLATE` 桶），提交 `f63097b`。
+| # | 要求 | 实测 | 结论 |
+|---|---|---|---|
+| 1 | M5 原四例：住址/项目/习惯 supported、车牌 unsupported | 住址 supported、项目 supported、习惯 supported、车牌 **unsupported** | ✅ |
+| 2 | M5 三边界 | 三月十四号 → supported；3月15日 → unsupported；源缺失 → **undecidable 且不重写** | ✅ |
+| 3 | `form_invariant_all_four` | `true`（I1 首句 / I2 全文四例判定一致） | ✅ |
+| 4 | 交叉检验 E/F/X1/B57 全 supported | E supported、F supported（含「蓝鲸」）、X1 supported、B57 supported | ✅ |
+| 5 | `test_m5.py` 的 acceptance 全 true | `three_supported_in_both_forms / plate_unsupported_in_both_forms / form_invariant_all_four / supported_answers_untouched / boundary_all_pass / false_positive=0 / false_negative=0 / all_pass` —— **8 键全 true**（`evidence_m5.json` 真正结构是 `acceptance(8) + four_cases(4) + boundary_cases(3) + cross_check_np64(4)`，没有 16 键的 acceptance 块；「16 键」是 M4 `run_m4_verify.json` 那张表，§16） | ✅（附更正） |
+| 6a | `plate_main` 必须转为 **supported** 且 display 逐字节等于原答案 | verdict `supported`，`A:浙B-3F19K hit=True` ×2，`answer_display == display_pre_grounding`（相对原答案 `answer_exact` 只少了 think 标签那一行，即除 think 清洗外逐字节相同） | ✅ |
+| 6b | `plate_ablated` 必须**仍 unsupported** | `unsupported`，`A:苏K12345 hit=False`（消融块文本里没有车牌，`plate` 桶为空），display = `记忆里没有记录车牌号。` | ✅ 没放宽过头 |
+| 6c | home 两例仍 supported | 两块下都 supported，display 逐字节不变 | ✅ |
+
+方向相反的两半同时成立，这一对才是证据：**同一句问法，块里有 → 原样给；块里没有 → 弃答**。
+一条命令：`cd kvmem/m2_visibility/m4 && python -u -X utf8 m4_verify_grounded.py`（M5 自身：`cd ../m5 && python -u -X utf8 test_m5.py`）
+唯一新增判据字段：`source_profile.prof["plate"]`（独立桶）+ `a_hit` 先查 plate；其余判据、阈值、规则一律未动。
+
+**R12 没有放宽过头**（桥级探针，同一块同一问法，只换答案里的车牌值）：
+| 挂载块 | 答案里的硬事实 | 判定 | 显示 |
+|---|---|---|---|
+| 主块 | `A:浙B-3F19K` hit=True（源里真有） | supported | 原样 |
+| 主块 | `A:苏K12345` hit=False（换了车牌） | **unsupported** | `记忆里没有记录车牌号。` |
+| 消融块 | `A:苏K12345` hit=False | **unsupported** | `记忆里没有记录车牌号。` |
+| 主块 | `N:13900001111` hit=False（幻觉手机号） | **unsupported** | `记忆里没有记录手机号。` |
+修复只让**「源文本里真实存在的那个车牌」**能命中；换成另一个车牌、或换到没有车牌的块，仍然弃答。
