@@ -143,18 +143,34 @@ def select_m5_source(regcon, src_l2, sid, block_id, declared_synthetic_db=False)
                 "layer-2 db %s has no registry_source_id column: this is a SCHEMA ACCIDENT, "
                 "not an ablation copy. Refusing to turn a missing column into a "
                 "declared_synthetic exemption." % dbpath)
-        name, text = src_l2.execute("SELECT name, text FROM memory_source WHERE id=?",
-                                    (sid,)).fetchone()
+        row = src_l2.execute("SELECT name, text FROM memory_source WHERE id=?",
+                             (sid,)).fetchone()
+        if row is None:
+            raise ms.OriginError("layer-2 memory_source has no row with id=%r (block %r): "
+                                 "refusing to register a block with no source"
+                                 % (sid, block_id))
+        name, text = row
         rid = None
     else:
-        name, text, rid = src_l2.execute(
+        row = src_l2.execute(
             "SELECT name, text, registry_source_id FROM memory_source WHERE id=?",
             (sid,)).fetchone()
+        if row is None:
+            raise ms.OriginError("layer-2 memory_source has no row with id=%r (block %r): "
+                                 "refusing to register a block with no source"
+                                 % (sid, block_id))
+        name, text, rid = row
     if rid is None:
         if regcon.execute("SELECT 1 FROM memory_source WHERE name=?", (name,)).fetchone():
+            # ONE message can only point at ONE correct action, so these are two errors.
+            if declared_synthetic_db:
+                raise ms.OriginError(
+                    "layer-2 db is DECLARED an ablation copy, yet its row %r also exists "
+                    "in layer 1: the declaration itself is wrong -- check the ablate_db "
+                    "path. This is not a linking problem." % name)
             raise ms.OriginError(
-                "layer-2 row %r exists in layer 1 but is not linked: refusing to label it "
-                "declared_synthetic (run m4_layer2_link.py --apply)" % name)
+                "layer-2 row %r exists in layer 1 but is not linked: run "
+                "m4_layer2_link.py --apply to link it (this IS a linking problem)" % name)
         return {"text": text, "names": [], "synthetic": True, "mode": "synthetic",
                 "origin": origin_of(regcon, src_l2, sid, text, block_id)}
     c = regcon.execute(

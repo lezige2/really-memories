@@ -283,6 +283,86 @@ def main():
         "mentions_linking": ("未链接" in msg) or ("link" in msg.lower()),
         "ok": (probe.get("raised") == "OriginError" and "SCHEMA ACCIDENT" in msg
                and ("未链接" not in msg) and ("link" not in msg.lower())),}
+
+    # ---------- 5c. ONE error message, ONE correct action (four constructions) ----------
+    def mkdb(tag, coldefs, name, rid=0):
+        path = os.path.join(tempfile.gettempdir(), "_probe_%s.db" % tag)
+        if os.path.exists(path):
+            os.remove(path)
+        c2 = sqlite3.connect(path)
+        c2.execute("CREATE TABLE memory_source (%s)" % coldefs)
+        if rid == 0:
+            c2.execute("INSERT INTO memory_source (id, name, text) VALUES (1,?,?)",
+                       (name, "x"))
+        else:
+            c2.execute("INSERT INTO memory_source (id, name, text, registry_source_id) "
+                       "VALUES (1,?,?,NULL)", (name, "x"))
+        c2.commit()
+        return c2, path
+
+    name_in_l1 = "conv_2026-10-25"
+    probes = {}
+    for tag, coldefs, decl, rid in (
+            ("C1_column_present_unlinked", "id INTEGER, name TEXT, text TEXT, "
+                                            "registry_source_id INTEGER", False, 1),
+            ("C2_missing_column_declared_true", "id INTEGER, name TEXT, text TEXT", True, 0),
+            ("C3_missing_column_declared_false", "id INTEGER, name TEXT, text TEXT", False, 0)):
+        c2, path = mkdb(tag, coldefs, name_in_l1, rid)
+        probes[tag] = err(BR.select_m5_source, reg, c2, 1, "probe_block", decl)
+        c2.close()
+        os.remove(path)
+
+    c2, path = mkdb("A2_none_registry", "id INTEGER, name TEXT, text TEXT", name_in_l1)
+    probes["A2_regcon_none"] = err(BR.select_m5_source, None, c2, 1, "probe_block")
+    c2.close()
+    os.remove(path)
+
+    def has(k, s):
+        return s in (probes[k].get("message") or "")
+
+    ev["C_one_message_one_action"] = {
+        "C1_column_present_unlinked": probes["C1_column_present_unlinked"],
+        "C1_ok": (probes["C1_column_present_unlinked"]["raised"] == "OriginError"
+                  and has("C1_column_present_unlinked", "m4_layer2_link.py --apply")),
+        "C2_missing_column_declared_true": probes["C2_missing_column_declared_true"],
+        "C2_ok": (probes["C2_missing_column_declared_true"]["raised"] == "OriginError"
+                  and has("C2_missing_column_declared_true", "DECLARED an ablation copy")
+                  and not has("C2_missing_column_declared_true", "m4_layer2_link")),
+        "C3_missing_column_declared_false": probes["C3_missing_column_declared_false"],
+        "C3_ok": (probes["C3_missing_column_declared_false"]["raised"] == "OriginError"
+                  and has("C3_missing_column_declared_false", "SCHEMA ACCIDENT")),
+        "A2_regcon_none": probes["A2_regcon_none"],
+        "A2_ok": probes["A2_regcon_none"]["raised"] == "AssertionError",}
+    ev["C_one_message_one_action"]["ok"] = all([
+        ev["C_one_message_one_action"]["C1_ok"], ev["C_one_message_one_action"]["C2_ok"],
+        ev["C_one_message_one_action"]["C3_ok"], ev["C_one_message_one_action"]["A2_ok"]])
+
+    # C4 (7th probe): the REAL main db with the registry column RENAMED, declared an
+    # ablation copy => case-2 error, and crucially the linking action string is ABSENT.
+    c4p = os.path.join(tempfile.gettempdir(), "_maindb_col_renamed.db")
+    if os.path.exists(c4p):
+        os.remove(c4p)
+    shutil.copy(os.path.join(HERE, "m4_memory.db"), c4p)
+    c4con = sqlite3.connect(c4p)
+    c4con.execute("ALTER TABLE memory_source RENAME COLUMN registry_source_id "
+                  "TO registry_source_id_renamed")
+    c4con.commit()
+    c4sid = c4con.execute("SELECT min(id) FROM memory_source").fetchone()[0]
+    c4 = err(BR.select_m5_source, reg, c4con, c4sid, "probe_block", True)
+    c4con.close()
+    os.remove(c4p)
+    c4msg = c4.get("message") or ""
+    ev["C4_real_main_db_column_renamed_declared_true"] = {
+        "how": "copy of the real main db, column renamed, declared as an ablation copy",
+        "raised": c4,
+        "says_declaration_is_wrong": "DECLARED an ablation copy" in c4msg,
+        "contains_m2_link_action": ("m2_layer2_link" in c4msg) or ("m2_link" in c4msg),
+        "ok": (c4.get("raised") == "OriginError" and "DECLARED an ablation copy" in c4msg
+               and ("m2_layer2_link" not in c4msg) and ("m2_link" not in c4msg)),}
+
+    ev["C_one_message_one_action"]["ok"] = (
+        ev["C_one_message_one_action"]["ok"]
+        and ev["C4_real_main_db_column_renamed_declared_true"]["ok"])
     res["evidence"] = ev
     res["constraints_ok"] = all(v.get("ok") is True for v in ev.values() if isinstance(v, dict))
 
@@ -312,6 +392,7 @@ def main():
     res["status"] = {
         "S3-1_joined_not_substring": "通过" if ev["6_joined_not_in_container"]["ok"] else "未通过",
         "A_fail_closed_registry": "通过" if ev["A_fail_closed_registry"]["ok"] else "未通过",
+        "C_one_message_one_action": "通过" if ev["C_one_message_one_action"]["ok"] else "未通过",
         "B_schema_evidence_not_exception": "通过" if (ev["B_i_ablation_exemption_by_schema"]["ok"] and ev["B_ii_schema_accident_not_exemption"]["ok"]) else "未通过",
         "S3-2_origin_parse_verify": "通过" if all(ev[k]["ok"] for k in
                                      ("3_strict_64hex", "4_line_order", "5_cross_lock_8")) else "未通过",
