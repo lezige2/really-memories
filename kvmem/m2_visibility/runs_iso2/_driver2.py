@@ -144,7 +144,9 @@ def main():
         eng.lib.kvshim_n_tokens.argtypes = [ctypes.c_void_p, ctypes.c_int]
         eng.lib.kvshim_n_tokens.restype = ctypes.c_int
         res["engine"] = {"n_ctx": P.N_CTX, "n_seq": P.N_SEQ, "kv": P.KV, "gpu": P.GPU,
-                         "dll_sha256": manifest["engine"]["dll_sha256"]}
+                         "dll_sha256": P.sha256_file(manifest["engine"]["dll"]),
+                         "dll_sha256_source": "measured",
+                         "dll_sha256_declared": manifest["engine"]["dll_sha256"]}
         for bid, meta in manifest["blocks"]["m2"].items():
             if P.sha256_file(meta["path"]) != meta["sha256"]:
                 raise RuntimeError("pristine block hash changed: %s" % meta["path"])

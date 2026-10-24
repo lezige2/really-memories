@@ -29,7 +29,7 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 import m2_visibility_probe as P      # noqa: E402
 
 T032 = os.path.join(P.WORK_DIR, "runs_t032")
-CTRL_CACHE = os.path.join(T032, "control_texts.json")
+CTRL_CACHE = os.path.join(T032, "control_texts_main32.json")   # never the shared name
 CONTROL_ORDER = ["home", "project", "habit", "car"]
 BOS = 151646
 HEADER, STRIDE = 708, 30480
