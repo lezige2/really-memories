@@ -129,12 +129,20 @@ class RecordingEngine:
         self._leases.detach(dst_seq, lo, hi, site="session_state.drop")
 
     def reset(self, seq, *a, **kw):
-        # NOT gated yet (deferred to task B): record it, so the exposure is countable
-        _append(EVENT_LOG, {"at": time.strftime("%Y-%m-%dT%H:%M:%S"),
-                            "site": "session_state.reset", "kind": "unguarded_reset",
-                            "seq": int(seq), "table_refs": self._leases.referrers(seq),
-                            "cells_before": self._leases.cells_of(seq)})
-        return self._eng.reset(seq, *a, **kw)
+        """Gated: block sequences go through the table (which makes the ONE real call).
+
+        seq 0 is the dialogue and is never a block, so it is a documented exception:
+        it is forwarded and recorded, not gated -- a lease cannot protect the very
+        sequence that holds the references.
+        """
+        seq = int(seq)
+        if seq == 0:
+            _append(EVENT_LOG, {"at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                                "site": "session_state.reset", "kind": "unguarded_reset",
+                                "seq": 0, "reason": "dialogue_seq",
+                                "cells_before": self._leases.cells_of(0)})
+            return self._eng.reset(seq, *a, **kw)
+        return self._leases.reset(seq, site="session_state.reset")
 
     # -- calls that can move a block (logged, not intercepted) --------------
     def _forward_logged(self, name, *a, **kw):
@@ -164,6 +172,7 @@ class GuardedLeases(BlockLeases):
         self.site_prefix = site_prefix
         self.counts = {"reset": 0, "refused": 0, "attached": 0, "detached": 0}
         self.sites = {}
+        self.declared = {}        # seq -> {block, start, end} as the manifest states it
         _LIVE.append(self)
         install_bridge()          # chat.py needs no change: the table is found by identity
 
@@ -196,6 +205,12 @@ class GuardedLeases(BlockLeases):
     def attach(self, block_seq, dst_seq, lo, hi, site=""):
         tag = site or (self.site_prefix + ".attach")
         super().attach(block_seq, dst_seq, lo, hi)
+        want = self.declared.get(int(block_seq))
+        if want and (want["start"], want["end"]) != (int(lo), int(hi)):
+            _append(EVENT_LOG, {"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "site": tag,
+                                "kind": "range_mismatch", "block": want["block"],
+                                "declared": [want["start"], want["end"]],
+                                "attached": [int(lo), int(hi)]})
         self.counts["attached"] += 1
         _append(EVENT_LOG, {"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "site": tag,
                             "kind": "attach", "block_seq": int(block_seq),
@@ -210,8 +225,62 @@ class GuardedLeases(BlockLeases):
                             "dst_seq": int(dst_seq), "lo": int(lo), "hi": int(hi)})
         return block_seq
 
+    @classmethod
+    def from_manifest(cls, eng, path, site_prefix="load"):
+        """Build the table from the manifest the engine is about to restore from.
+
+        seq and [start, end) come from manifest["placement"]["blocks"] -- nothing is
+        guessed. attach() then checks every share against that declaration and logs a
+        range_mismatch if the engine is told a different range.
+        """
+        table = cls(eng, site_prefix=site_prefix)
+        with open(path, encoding="utf-8") as f:
+            man = json.load(f)
+        for b in man.get("placement", {}).get("blocks", []):
+            seq = int(b["slot_id"]) + 1
+            table.register_block(seq, b["block"])
+            table.declared[seq] = {"block": b["block"],
+                                   "start": int(b["start"]), "end": int(b["end"])}
+        _append(EVENT_LOG, {"at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                            "site": site_prefix + ".from_manifest", "kind": "registered",
+                            "blocks": {str(s): d["block"]
+                                       for s, d in table.declared.items()}})
+        return table
+
     def report(self):
         return {"counts": dict(self.counts), "sites": self.sites,
                 "refusals_logged": self.counts["refused"],
                 "all_sites_asserted_empty": all(e["cells_after"] == 0
                                                 for evs in self.sites.values() for e in evs)}
+
+
+
+INTERCEPTED = ("share", "drop", "reset")      # take over the call (table decides)
+OBSERVED = ("load", "load_strict", "repos_local", "save", "write_at")  # forward + log only
+
+
+def proxy_surface(eng, leases):
+    """Self-check: outside INTERCEPTED, the proxy must hand back the engine's own members.
+
+    Compares the underlying function objects (bound methods are re-created per access, so
+    identity of the bound method is not meaningful) and never calls anything.
+    """
+    p = RecordingEngine(eng, leases)
+    same, differ, missing, observed = [], [], [], []
+    for name in dir(eng):
+        if name.startswith("__") or name in INTERCEPTED:
+            continue
+        if name in OBSERVED:
+            observed.append(name)
+            continue
+        try:
+            a = getattr(p, name)
+            b = getattr(eng, name)
+        except AttributeError:
+            missing.append(name)
+            continue
+        fa, fb = getattr(a, "__func__", a), getattr(b, "__func__", b)
+        (same if fa is fb else differ).append(name)
+    return {"intercepted": list(INTERCEPTED), "observed": observed,
+            "passthrough_same": len(same), "unexpected": differ, "missing": missing,
+            "clean": not differ and not missing}

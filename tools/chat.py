@@ -363,6 +363,7 @@ def cmd_load(path=SESSION):
     con = ms.connect(DB)
     eng = KVEngine(MODEL, n_ctx=N_CTX, n_seq=8, gpu=99, kv="q8_0")
     try:
+        leases = GuardedLeases.from_manifest(eng, path)   # block seqs from the manifest
         rep = ss.restore_session(eng, con, path)
         print("=" * 74)
         print("session restored: %s" % path)

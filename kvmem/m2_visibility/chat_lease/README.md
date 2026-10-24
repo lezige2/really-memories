@@ -158,3 +158,60 @@ A 判据 2 已证明「往返之后表仍准确」，但**还不能直接加锁*
    代理会被当成「不是引擎」而走 else 分支——**若要加这种判定，必须先通知**。
 2. `_LIVE` 不主动回收已关闭引擎的表；靠对象身份匹配，不会误命中，但列表会随进程内表数增长。
 3. 桥是按「有表」才生效：没有表时行为与改前**完全一致**（bridge_off 已验证）。
+
+## 7 B：代理接管 reset，把 load 路上的块 reset 堵上（session_state.py 仍一字未改）
+
+### 7.1 改了什么
+| 文件 | 改动 | 行数 |
+|---|---|---|
+| `tools/chat_lease.py` | 代理 `reset` 改为**接管**：块 seq → `leases.reset`（无引用放行／有引用拒绝／留痕／断言 `cells==0`）；`GuardedLeases.from_manifest` 按 manifest 注册块与 [lo,hi) | +78 −6 |
+| `tools/chat.py` | `cmd_load` 里一行：`leases = GuardedLeases.from_manifest(eng, path)` | **+1** |
+| `tools/session_state.py` | **未改**（`git diff --stat` 为空） | 0 |
+
+`restore_session` 内部那次 `eng.reset(块seq)` 因此**自动**走护栏——与 A 同构：代理把调用交给表，表做**唯一一次**真引擎调用
+（`leases.reset` → `BlockLeases.reset` → `self.eng.reset`；代理不再重复调，A 里那个重复 share 的镜像不会再出现）。
+
+### 7.2 代理接管清单（你点名要写清）
+| 类别 | 方法 | 行为 |
+|---|---|---|
+| **接管** | `share`, `drop`, `reset` | 交给表决定（记引用 / 拒绝 / 断言），表打**一次**真调用 |
+| **观察**（只加日志） | `load`, `load_strict`, `repos_local`, `save`, `write_at` | 透传 + 记一条 `engine_call`，行为不变 |
+| **纯透传** | 其余全部（`n_tokens`, `pos_max`, `ask`, `bytes_per_token`, `close` …） | `__getattr__` 直取真引擎 |
+
+**自检**（`chat_lease.proxy_surface(eng, leases)`，遍历 `dir(eng)`，比对底层函数对象，不调用任何东西）：
+`intercepted=['share','drop','reset']，observed=['load','load_strict','repos_local','save','write_at']，
+passthrough_same=17，unexpected=[]，missing=[]，clean=true`。
+这条自检**每次 load_probe 都跑**，将来有人给引擎加方法而代理没跟上，会在这里变成 `unexpected`。
+
+### 7.3 覆盖率重新计数（同一份事件日志，按本次运行切片）
+| 计数 | 改前 | 改后 |
+|---|---|---|
+| 块 seq 的无保护 reset | **2** | **0** |
+| 块 seq 的加锁 reset（`session_state.reset/reset`） | 0 | **2** |
+| 对话 seq 的 reset（标为例外） | 1（未标注） | **1**，`kind=unguarded_reset, reason=dialogue_seq` |
+| 还原过程中的拒绝数 | — | **0** |
+| 声明范围与实际 attach 范围不符 | — | **0**（`range_mismatch`） |
+
+**为什么对话 seq 不需要租约**：租约保护的是**块**的句柄，而 seq 0 正是持有引用的那一方；
+给它加锁等于让「清空对话」和「对话还引用着块」互相否决，没有意义。它被清空时不会让任何块失去句柄，
+只是失去对话状态（这正是 restore 的语义），所以显式记一条例外而不是拒绝。
+
+### 7.4 B 的判据
+| 判据 | 实测（`load_probe.py` → `run_load.json`） |
+|---|---|
+| 1 一次真实还原后故意 reset 仍被引用的块 → 被拒 | **被拒**：`refusing reset(seq 1, block 'profile'): still referenced by dialogue seq(s) [0]`；块 cell **50 → 50 未动**；jsonl 留痕 1 行（`refusals_logged: 1`） |
+| 2 合法还原路径完整跑通、不多报错 | restore 完成：`refused_during_restore: 0`，`resets_during_restore: 2`（两次块 reset 均加锁放行），chat 189 token 还原，三问答案与前一致 |
+| 3 save→load 往返回归 | 五份 run（before / after / bridge_off / b_after / b_off）**六个 sha 全同**；placement 全部相同 |
+| 4 覆盖率 | 块 seq 无保护 reset **2 → 0**；对话 seq 1 次标 `dialogue_seq` |
+| 5 未改 session_state.py | `git diff --stat tools/session_state.py` 空 |
+| 6 单独一次提交 | 见 §7.6 |
+
+### 7.5 风险 2 的量化（`_LIVE` 不回收）
+实测：空表 `≈608 B`；表内 `events` 每条约 `184 B`（一次 save/restore 约 2–6 条）。
+产品四条路径每次调用建 1 张表，**单进程 ≤4 张**（chat / save / load / m1 各一），退出即释放。
+**若将来出现常驻服务循环 save/load**：每轮 +1 张、不回收 ⇒ 1 万轮约 `40 MB`（1 万 × ~4 KB），
+且 `_active_for` 是**线性身份扫描**，1 万张时每次 save/restore 多约 0.1 ms 级开销。
+本轮按你的要求**不修**；补法只需一个 `close()` 里 `_LIVE.remove(self)`（或用 weakref），到时再加。
+
+### 7.6 提交
+单次提交，信息写明「**未改变 reset-then-reload 语义，只把块 seq 的 reset 纳入租约**」。
