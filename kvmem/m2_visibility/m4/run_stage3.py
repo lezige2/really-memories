@@ -224,6 +224,65 @@ def main():
         "joined_in_container": joined in ctext,
         "all_lines_in_container": all(t in ctext for t in joined.split(chr(10))),
         "ok": (joined not in ctext) and all(t in ctext for t in joined.split(chr(10)))}
+
+    # ---------- 5b. the two fail-open gaps: missing input must REFUSE ----------
+    saved_reg = BR.REG_DB
+    try:
+        BR.REG_DB = os.path.join(tempfile.gettempdir(), "_no_such_registry.db")
+        ev["A_fail_closed_registry"] = {
+            "how": "point BR.REG_DB at a path that does not exist, then build",
+            "raised": err(BR.ensure_db, os.path.join(tempfile.gettempdir(), "_ab_probe.db")),
+            "old_behaviour": "regcon=None => every block became declared_synthetic and the gate was skipped for all of them",
+        }
+        ev["A_fail_closed_registry"]["ok"] = (
+            ev["A_fail_closed_registry"]["raised"]["raised"] == "OriginError"
+            and "registry db missing" in (ev["A_fail_closed_registry"]["raised"]["message"] or ""))
+    finally:
+        BR.REG_DB = saved_reg
+
+    # B(i): the real ablation db lacks the column AND is declared an edited copy => exemption
+    abl = os.path.join(HERE, "_ablate", "m4_memory_noplate.db")
+    si = sqlite3.connect(abl)
+    cols_abl = [r[1] for r in si.execute("PRAGMA table_info(memory_source)")]
+    sid_abl = si.execute("SELECT id FROM memory_source WHERE length(text)=113").fetchone()[0]
+    try:
+        sel_abl = BR.select_m5_source(reg, si, sid_abl, "probe_abl",
+                                      declared_synthetic_db=True)
+        bi = {"mode": sel_abl["mode"], "synthetic": sel_abl["synthetic"],
+              "text_len": len(sel_abl["text"]),
+              "origin_prefix": sel_abl["origin"][:26]}
+    except Exception as e:                                        # noqa: BLE001
+        bi = {"raised": type(e).__name__, "message": str(e)[:200]}
+    si.close()
+    ev["B_i_ablation_exemption_by_schema"] = {
+        "how": "real ablation db, declared as an edited copy, schema genuinely has no column",
+        "schema_columns": cols_abl,
+        "result": bi,
+        "ok": bi.get("mode") == "synthetic" and bi.get("text_len") == 113,}
+
+    # B(ii): table present, column absent, NOT declared => schema accident, never an exemption
+    bad = os.path.join(tempfile.gettempdir(), "_schema_accident.db")
+    if os.path.exists(bad):
+        os.remove(bad)
+    b = sqlite3.connect(bad)
+    b.execute("CREATE TABLE memory_source (id INTEGER, name TEXT, text TEXT)")
+    b.execute("INSERT INTO memory_source VALUES (1, 'conv_2026-10-25', 'x')")
+    b.commit()
+    probe = {"raised": None}
+    try:
+        BR.select_m5_source(reg, b, 1, "probe_block")
+    except Exception as e:                                        # noqa: BLE001
+        probe = {"raised": type(e).__name__, "message": str(e)[:400]}
+    b.close()
+    os.remove(bad)
+    msg = probe.get("message") or ""
+    ev["B_ii_schema_accident_not_exemption"] = {
+        "how": "table present, registry column absent, db NOT declared an edited copy",
+        "raised": probe,
+        "says_SCHEMA_ACCIDENT": "SCHEMA ACCIDENT" in msg,
+        "mentions_linking": ("未链接" in msg) or ("link" in msg.lower()),
+        "ok": (probe.get("raised") == "OriginError" and "SCHEMA ACCIDENT" in msg
+               and ("未链接" not in msg) and ("link" not in msg.lower())),}
     res["evidence"] = ev
     res["constraints_ok"] = all(v.get("ok") is True for v in ev.values() if isinstance(v, dict))
 
@@ -252,6 +311,8 @@ def main():
 
     res["status"] = {
         "S3-1_joined_not_substring": "通过" if ev["6_joined_not_in_container"]["ok"] else "未通过",
+        "A_fail_closed_registry": "通过" if ev["A_fail_closed_registry"]["ok"] else "未通过",
+        "B_schema_evidence_not_exception": "通过" if (ev["B_i_ablation_exemption_by_schema"]["ok"] and ev["B_ii_schema_accident_not_exemption"]["ok"]) else "未通过",
         "S3-2_origin_parse_verify": "通过" if all(ev[k]["ok"] for k in
                                      ("3_strict_64hex", "4_line_order", "5_cross_lock_8")) else "未通过",
         "S3-3_gate_wired_in_production_path": "按计划未到",

@@ -368,3 +368,61 @@ SQLite 不能加 CHECK，所以 `registry/migrate_i8.py` 按 `tools/memory_sourc
 
 - **会炸的**（缺函数、缺常量、签名不符）=> 运行验证 + 断言；
 - **安静的**（两键共用一个布尔、检查指向了别人、退役后仍计分）=> 逐项回溯源头的布尔/字段，靠自检脚本，不靠跑。
+
+## Stage 3 step 1：M5 的源改由层 1 的人类摘录组装
+
+改的是「喂给 M5 的源文本」，不是 KV 内存：`kvmem/blocks/profile.kvmem` `3251081d12da5678`、
+`project.kvmem` `981a9c776c720686` 与 mtime `04:25:52` **三项都未变**（基线 `baseline_blocks.json @ 0a63717933055e65`）。
+
+### 选源点只有一处
+- `m4/m5_bridge.py::select_m5_source()` —— 层 2 行有 `registry_source_id` 就回层 1：
+  `conversation` 容器**永不当源**，只取 `memory_source_excerpt` 的 `role='user'` 行按 `line_index` 拼接；
+  `human_memory` 容器原样使用。两条分支都在**返回准入名单之前**调用 `ms.assert_m5_source_allowed`
+  （调用点：`m5_bridge.py:183`、`:194`）。
+- `assert joined not in container_text` 是**守护**：跳过 L2/L6（两条 assistant 行）是**有意的**，
+  "修成连续子串"等于把模型输出拉回源侧。
+
+### 两个量必须分开记（实证，不是洁癖）
+
+| 量 | 值 | 稳定性 |
+|---|---|---|
+| `_m5db` **内容哈希** | `76df01317bfaf3e7` | 四次重建同一个值 |
+| `_m5db` **文件 sha16** | `022a0860` / `7d6e39ce` / `babe0b55` / `c65e77d3` | **每次重写都变** |
+
+内容哈希定义：`sha256(json.dumps([(block_id, sha256=块文件磁盘哈希, source_text), …], ensure_ascii=False))[:16]`，
+`ORDER BY block_id`、默认分隔符、无尾随换行、UTF-8（`m5_bridge.py:133-137`）。
+
+**锚只能证明"曾经是什么"，不能保存"曾经是什么"** => 任何会覆盖已验收产物的运行，先复制到
+`_before/<name>@<sha16>` 并登记 `_before/REGISTER.json`（`source_name`/`source_sha16`/`copy_time`/`copyist`/`reason`，
+`reason` 一律「运行前预防」）。
+
+### 两条 fail-open 判据（已修，证据给的是"入口"而非效果）
+
+| 缺口 | 判据 | 修法 |
+|---|---|---|
+| `regcon=None` 让闸门静默失效 | 注册库不可用 => **必须拒绝** | `ensure_db:201` `if not os.path.exists(REG_DB): raise`（报错含路径与原因）+ `select_m5_source:134` `assert regcon is not None` |
+| `except OperationalError` 太宽 | 豁免与否由 **schema 正面证据** 决定 | 豁免需**两个独立信号同时成立**：路径声明是消融库（`:223`）**且** `PRAGMA table_info` 真没有该列（`:135`）；两者不一致 => 抛 `SCHEMA ACCIDENT`（`:142`），**措辞不含「未链接」**（否则会把人引去跑 `link --apply`，把 schema 事故修成误链接）|
+
+### 登记：`origin_of()` 的 `except sqlite3.OperationalError` 是防御性、**不在判定路径**
+
+保留它是为了在消融库上照样生成 origin 字符串；它**不决定**"是否豁免"（豁免由上面两个信号决定），
+且下游 D3-1 的 CHECK 绑了「前缀 ⇔ `synthetic`」，误触发会被拒。**它不是第二个豁免入口。**
+
+### 轴：同一个字段名在两份产物里指不同的轴
+
+| 轴 | 变化 | plate_main |
+|---|---|---|
+| 代码轴（`e172aca` -> 当前） | R12 修复 | unsupported -> **supported** |
+| 源文本轴（`127` -> `110`，同版代码） | Stage 3 | supported -> **supported** |
+
+`run_m5_grounded.json` 的 `before_after.verdict_before` 是**代码轴**。Stage 3 的 before 侧是
+`PREREG-STAGE3-11ROWS.json`（`verdict_axis: source_text`、`product_kind: reconstruction`、
+provenance `_stage3_pre.json @ 9500f1c7c59c118f`）。**跨轴比较会得出「Stage 3 让 plate_main 从不支持变支持」
+—— 一个看起来像改进的假结论。**
+
+### 11 行裁决：**R 9 / C 2 = 部分已验**（不是"11 行已验"）
+
+| 档 | 行 |
+|---|---|
+| **R**（重算）| `plate_main`、`home_main`、7 条探针 |
+| **C**（构造性覆盖）| `plate_ablated`、`home_ablated`（源文本 113 字符逐字节相同，结论靠"输入未变"的元数据，不是重算）|

@@ -1,0 +1,302 @@
+{
+ "schema": "stage3_11rows_v1",
+ "product_kind": "reconstruction",
+ "verdict_axis": "source_text",
+ "axes_note": "this file is the SOURCE-TEXT axis. run_m5_grounded.json''s before_after.verdict_before is the CODE axis (a pre-R12 module); comparing across axes yields the false finding plate_main: Stage 3 turned unsupported into supported.",
+ "after_side_run": {
+  "file": "run_m5_grounded.json",
+  "sha16": "ea4554dcbdb816f0",
+  "run_time": "2026-10-25T04:56:54",
+  "run_time_source": "file mtime: the run json has no timestamp field"
+ },
+ "authored_after_run": true,
+ "authored_at": "2026-10-25T04:57:15",
+ "authored_after_run_time": true,
+ "why_after_run": "the 4 product rows had no machine expectation before the run; writing one afterwards and calling it pre-registration would be back-dating",
+ "same_code_both_sides": "both sides use the CURRENT m5_ground/m5_bridge; only the source_text differs",
+ "before_provenance": {
+  "file": "_stage3_pre.json",
+  "sha16": "9500f1c7c59c118f",
+  "synthetic_derivation": "absent in the snapshot; derived from the origin prefix (declared_synthetic: => 1)",
+  "note": "reconstruction, NOT a pre-registration"
+ },
+ "rows": [
+  {
+   "row": 1,
+   "key": "plate_main",
+   "kind": "product_case",
+   "block": "blk_conv_2026-10-25_01",
+   "verdict_axis": "source_text",
+   "grade": "R",
+   "question": "我车牌号是多少？",
+   "answer": "浙B-3F19K\n\n车牌号是浙B-3F19K。",
+   "expected_verdict": "supported",
+   "expected_basis": "run_m5_grounded.json cases[plate_main].verdict",
+   "before_stage3": {
+    "verdict": "supported",
+    "reason": "全部硬事实命中",
+    "source_problems": []
+   },
+   "after_stage3": {
+    "verdict": "supported",
+    "reason": "全部硬事实命中",
+    "source_problems": []
+   },
+   "unchanged": true,
+   "matches_expected": true
+  },
+  {
+   "row": 2,
+   "key": "plate_ablated",
+   "kind": "product_case",
+   "block": "blk_conv_noplate_2026-10-25_01",
+   "verdict_axis": "source_text",
+   "grade": "C",
+   "question": "我车牌号是多少？",
+   "answer": "我车牌号是苏K12345。\n好的，我记下来了。\n好的，没问题。\n好的，好的。\n好",
+   "expected_verdict": "unsupported",
+   "expected_basis": "run_m5_grounded.json cases[plate_ablated].verdict",
+   "before_stage3": {
+    "verdict": "unsupported",
+    "reason": "至少一个硬事实未命中，且不属豁免/黑名单",
+    "source_problems": []
+   },
+   "after_stage3": {
+    "verdict": "unsupported",
+    "reason": "至少一个硬事实未命中，且不属豁免/黑名单",
+    "source_problems": []
+   },
+   "unchanged": true,
+   "matches_expected": true
+  },
+  {
+   "row": 3,
+   "key": "home_main",
+   "kind": "product_case",
+   "block": "blk_conv_2026-10-25_01",
+   "verdict_axis": "source_text",
+   "grade": "R",
+   "question": "我住在哪？",
+   "answer": "我住在广陵路 12 号 2 单元 602。\n\n我住在广陵路 12 号 2 单元 ",
+   "expected_verdict": "supported",
+   "expected_basis": "run_m5_grounded.json cases[home_main].verdict",
+   "before_stage3": {
+    "verdict": "supported",
+    "reason": "全部硬事实命中",
+    "source_problems": []
+   },
+   "after_stage3": {
+    "verdict": "supported",
+    "reason": "全部硬事实命中",
+    "source_problems": []
+   },
+   "unchanged": true,
+   "matches_expected": true
+  },
+  {
+   "row": 4,
+   "key": "home_ablated",
+   "kind": "product_case",
+   "block": "blk_conv_noplate_2026-10-25_01",
+   "verdict_axis": "source_text",
+   "grade": "C",
+   "question": "我住在哪？",
+   "answer": "我住在广陵路 12 号 2 单元 602。\n\n我住在广陵路 12 号 2 单元 ",
+   "expected_verdict": "supported",
+   "expected_basis": "run_m5_grounded.json cases[home_ablated].verdict",
+   "before_stage3": {
+    "verdict": "supported",
+    "reason": "全部硬事实命中",
+    "source_problems": []
+   },
+   "after_stage3": {
+    "verdict": "supported",
+    "reason": "全部硬事实命中",
+    "source_problems": []
+   },
+   "unchanged": true,
+   "matches_expected": true
+  },
+  {
+   "row": 5,
+   "key": "a_wrong_province",
+   "kind": "probe",
+   "block": "blk_conv_2026-10-25_01",
+   "verdict_axis": "source_text",
+   "grade": "R",
+   "question": "我车牌号是多少？",
+   "answer": "您的车牌是苏B-3F19K。",
+   "expected_verdict": "unsupported",
+   "expected_basis": "m4_verify_grounded.py PROBES expected_after literal",
+   "before_stage3": {
+    "verdict": "unsupported",
+    "reason": "至少一个硬事实未命中，且不属豁免/黑名单",
+    "source_problems": []
+   },
+   "after_stage3": {
+    "verdict": "unsupported",
+    "reason": "至少一个硬事实未命中，且不属豁免/黑名单",
+    "source_problems": []
+   },
+   "unchanged": true,
+   "matches_expected": true
+  },
+  {
+   "row": 6,
+   "key": "b1",
+   "kind": "probe",
+   "block": "blk_conv_2026-10-25_01",
+   "verdict_axis": "source_text",
+   "grade": "R",
+   "question": "我车牌号是多少？",
+   "answer": "您的车牌是浙B-3F19K。",
+   "expected_verdict": "supported",
+   "expected_basis": "m4_verify_grounded.py PROBES expected_after literal",
+   "before_stage3": {
+    "verdict": "supported",
+    "reason": "全部硬事实命中",
+    "source_problems": []
+   },
+   "after_stage3": {
+    "verdict": "supported",
+    "reason": "全部硬事实命中",
+    "source_problems": []
+   },
+   "unchanged": true,
+   "matches_expected": true
+  },
+  {
+   "row": 7,
+   "key": "b2",
+   "kind": "probe",
+   "block": "blk_conv_2026-10-25_01",
+   "verdict_axis": "source_text",
+   "grade": "R",
+   "question": "我车牌号是多少？",
+   "answer": "您的车牌是浙B 3F19K。",
+   "expected_verdict": "supported",
+   "expected_basis": "m4_verify_grounded.py PROBES expected_after literal",
+   "before_stage3": {
+    "verdict": "supported",
+    "reason": "全部硬事实命中",
+    "source_problems": []
+   },
+   "after_stage3": {
+    "verdict": "supported",
+    "reason": "全部硬事实命中",
+    "source_problems": []
+   },
+   "unchanged": true,
+   "matches_expected": true
+  },
+  {
+   "row": 8,
+   "key": "b3",
+   "kind": "probe",
+   "block": "blk_conv_2026-10-25_01",
+   "verdict_axis": "source_text",
+   "grade": "R",
+   "question": "我车牌号是多少？",
+   "answer": "您的车牌是浙b3f19k。",
+   "expected_verdict": "supported",
+   "expected_basis": "m4_verify_grounded.py PROBES expected_after literal",
+   "before_stage3": {
+    "verdict": "supported",
+    "reason": "全部硬事实命中",
+    "source_problems": []
+   },
+   "after_stage3": {
+    "verdict": "supported",
+    "reason": "全部硬事实命中",
+    "source_problems": []
+   },
+   "unchanged": true,
+   "matches_expected": true
+  },
+  {
+   "row": 9,
+   "key": "b4",
+   "kind": "probe",
+   "block": "blk_conv_2026-10-25_01",
+   "verdict_axis": "source_text",
+   "grade": "R",
+   "question": "我车牌号是多少？",
+   "answer": "您的车牌是浙B3F19K。",
+   "expected_verdict": "supported",
+   "expected_basis": "m4_verify_grounded.py PROBES expected_after literal",
+   "before_stage3": {
+    "verdict": "supported",
+    "reason": "全部硬事实命中",
+    "source_problems": []
+   },
+   "after_stage3": {
+    "verdict": "supported",
+    "reason": "全部硬事实命中",
+    "source_problems": []
+   },
+   "unchanged": true,
+   "matches_expected": true
+  },
+  {
+   "row": 10,
+   "key": "c1_body_after_CJK",
+   "kind": "probe",
+   "block": "blk_conv_2026-10-25_01",
+   "verdict_axis": "source_text",
+   "grade": "R",
+   "question": "我车牌号是多少？",
+   "answer": "您的车牌是B3F19K。",
+   "expected_verdict": "unsupported",
+   "expected_basis": "m4_verify_grounded.py PROBES expected_after literal",
+   "before_stage3": {
+    "verdict": "unsupported",
+    "reason": "至少一个硬事实未命中，且不属豁免/黑名单",
+    "source_problems": []
+   },
+   "after_stage3": {
+    "verdict": "unsupported",
+    "reason": "至少一个硬事实未命中，且不属豁免/黑名单",
+    "source_problems": []
+   },
+   "unchanged": true,
+   "matches_expected": true
+  },
+  {
+   "row": 11,
+   "key": "c2_true_bare_body",
+   "kind": "probe",
+   "block": "blk_conv_2026-10-25_01",
+   "verdict_axis": "source_text",
+   "grade": "R",
+   "question": "我车牌号是多少？",
+   "answer": "车牌:B3F19K。",
+   "expected_verdict": "supported",
+   "expected_basis": "m4_verify_grounded.py PROBES expected_after literal",
+   "before_stage3": {
+    "verdict": "supported",
+    "reason": "全部硬事实命中",
+    "source_problems": []
+   },
+   "after_stage3": {
+    "verdict": "supported",
+    "reason": "全部硬事实命中",
+    "source_problems": []
+   },
+   "unchanged": true,
+   "matches_expected": true
+  }
+ ],
+ "evidence_grades": {
+  "R": "recomputed independently in this script (both sides)",
+  "C": "constructive coverage: the input is byte-identical on both sides, so the result rests on unchanged input metadata, not on a fresh computation"
+ },
+ "summary": {
+  "rows": 11,
+  "R_rows": 9,
+  "C_rows": 2,
+  "unchanged": 11,
+  "all_unchanged": true,
+  "all_match_expected": true,
+  "statement": "source-text axis: 9 rows R (recomputed) + 2 rows C (constructive)"
+ }
+}

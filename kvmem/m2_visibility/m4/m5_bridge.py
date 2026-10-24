@@ -119,7 +119,7 @@ def register_block(con, block_id, text, path, cells, model, origin, synthetic=Fa
 REG_DB = os.path.join(ROOT, "kvmem", "chat.db")
 
 
-def select_m5_source(regcon, src_l2, sid, block_id):
+def select_m5_source(regcon, src_l2, sid, block_id, declared_synthetic_db=False):
     """THE source-selection point: which text is allowed to become an M5 source.
 
     Layer 2 is derived. When its row points back at a registry id, the M5 text must be
@@ -127,21 +127,31 @@ def select_m5_source(regcon, src_l2, sid, block_id):
       * a conversation container is NEVER a source (it carries model turns) -- only its
         declared human excerpts are, joined in line order;
       * a human_memory container is used as-is.
-    Without a registry link (the ablation db) the text is a DECLARED SYNTHETIC source:
+    An edited copy (declared_synthetic_db=True AND no registry column) is a DECLARED
+    SYNTHETIC source:
     admitted only with synthetic=1 and a declared_synthetic: origin.
     """
-    try:
-        name, text, rid = src_l2.execute(
-            "SELECT name, text, registry_source_id FROM memory_source WHERE id=?",
-            (sid,)).fetchone()
-    except sqlite3.OperationalError:
-        # the ablation db has no registry columns: its text is an edited copy, not a source
+    assert regcon is not None, "the gate needs the registry; ensure_db refuses without it"
+    cols = [r[1] for r in src_l2.execute("PRAGMA table_info(memory_source)")]
+    if "registry_source_id" not in cols:
+        # An exemption needs POSITIVE evidence, and a missing column alone is not it: the
+        # same absence appears when someone renames a column or drops a table. So the caller
+        # must have DECLARED this db an edited copy as well.
+        if not declared_synthetic_db:
+            dbpath = [r[2] for r in src_l2.execute("PRAGMA database_list")][0]
+            raise ms.OriginError(
+                "layer-2 db %s has no registry_source_id column: this is a SCHEMA ACCIDENT, "
+                "not an ablation copy. Refusing to turn a missing column into a "
+                "declared_synthetic exemption." % dbpath)
         name, text = src_l2.execute("SELECT name, text FROM memory_source WHERE id=?",
                                     (sid,)).fetchone()
         rid = None
+    else:
+        name, text, rid = src_l2.execute(
+            "SELECT name, text, registry_source_id FROM memory_source WHERE id=?",
+            (sid,)).fetchone()
     if rid is None:
-        if regcon is not None and regcon.execute(
-                "SELECT 1 FROM memory_source WHERE name=?", (name,)).fetchone():
+        if regcon.execute("SELECT 1 FROM memory_source WHERE name=?", (name,)).fetchone():
             raise ms.OriginError(
                 "layer-2 row %r exists in layer 1 but is not linked: refusing to label it "
                 "declared_synthetic (run m4_layer2_link.py --apply)" % name)
@@ -188,21 +198,29 @@ def select_m5_source(regcon, src_l2, sid, block_id):
 def ensure_db(db=DB_PATH):
     """Build the M5 text copy from the two M4 dbs (main + ablation). Idempotent."""
     os.makedirs(os.path.dirname(db), exist_ok=True)
-    regcon = sqlite3.connect(REG_DB) if os.path.exists(REG_DB) else None
+    if not os.path.exists(REG_DB):
+        # A missing registry is a REFUSED source, never an unwatched one: with regcon=None
+        # every block falls into the declared_synthetic branch and skips the gate entirely.
+        # A missing gate input is not permission to have no gate (same family as I8).
+        raise ms.OriginError(
+            "registry db missing at %s: refusing to build an M5 source without the gate"
+            % REG_DB)
+    regcon = sqlite3.connect(REG_DB)
     if os.path.exists(db):
         os.remove(db)
     out = sqlite3.connect(db)
     out.executescript(SCHEMA)
     reg = []
-    for m4db in (os.path.join(HERE, "m4_memory.db"),
-                 os.path.join(HERE, "_ablate", "m4_memory_noplate.db")):
+    ablate_db = os.path.join(HERE, "_ablate", "m4_memory_noplate.db")
+    for m4db in (os.path.join(HERE, "m4_memory.db"), ablate_db):
         if not os.path.exists(m4db):
             continue
         src = sqlite3.connect(m4db)
         try:
             for bid, sid, path, cells in src.execute(
                     "SELECT block_id, source_id, path, cells FROM block"):
-                sel = select_m5_source(regcon, src, sid, bid)
+                sel = select_m5_source(regcon, src, sid, bid,
+                                         declared_synthetic_db=(m4db == ablate_db))
                 model = json.load(open(os.path.join(HERE, "_ablate", "run_ablate.json"),
                                        encoding="utf-8"))["save"]["path"] if False else None
                 reg.append(register_block(out, bid, sel["text"], path, cells,
@@ -210,8 +228,7 @@ def ensure_db(db=DB_PATH):
                                           synthetic=sel["synthetic"]))
         finally:
             src.close()
-    if regcon is not None:
-        regcon.close()
+    regcon.close()
     out.execute("INSERT OR REPLACE INTO meta VALUES (?,?)",
                 ("built_at", __import__("time").strftime("%Y-%m-%dT%H:%M:%S")))
     out.commit()
