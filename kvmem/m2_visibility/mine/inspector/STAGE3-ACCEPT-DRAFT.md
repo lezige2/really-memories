@@ -9,7 +9,7 @@
 | 2 | origin 往返逐字节（139 字符；16/16 形态 91） | `parse_origin(format_origin(x)) == x` 自跑 + 长度 | R | 待验 |
 | 3 | `source_text_len` 127->110（与 `profile_blob_len` 114->99 分开记） | 读库两列，分别报 | R | 待验 |
 | 4 | ⑧ origin 拼接段 sha256 == 块 `source_text` sha256 | 自算拼接段 sha，与块正文 sha 比 | R | 待验 |
-| 5 | 闸门在**返回点**函数体内 + 可达 + 运行时拒绝 | AST `file:line` + 置空注册库令其拒绝 | R | 待验 |
+| 5 | 闸门在**返回点**函数体内 + 可达 + 运行时拒绝 | AST `file:line` + **6 个运行探针**（`GATE-AB-PROBES.md`）| R | **已验（A/B 探针 6/6）** |
 | 6 | `no_todo_stage3 == 0` | grep `TODO(stage3)` 全库计数 | R | 按计划未到 |
 | 7 | 单一解析实现（`format_origin`/`parse_origin` 相邻，记录两处 `file:line`） | 读源码 + grep 是否有第二份实现 | R | 待验 |
 | 8 | 11 行预登记（独立产物 + 自身锚 + `authored_after_run` + 落盘时刻晚于 run） | 逐行比 case 名/期望；核时刻 | R | 待验 |
@@ -36,3 +36,4 @@
 **未验 / 缺口（先记，不藏）**
 - 空 db 上的行为：**未验**（历史投毒测试因常量已删而退役，见 Stage 2 收尾）。
 - 两条 ablated 行：**C 级**，非重算（`ground(db=消融库)` 因该库无 `blocks` 表走不通）。
+| 18 | 报错拆分（必修）：误声明组合须抛**情形 2** 新错误，且文案不含 `m2_link --apply` | 第 7 个探针：主库副本列改名 + 声明为消融库 | R | 待验 |
