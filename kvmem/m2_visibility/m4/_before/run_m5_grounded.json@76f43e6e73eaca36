@@ -1,0 +1,1279 @@
+{
+  "schema": "m5_in_m4_answer_path_r12_v2",
+  "m5_db": {
+    "db": "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\_m5db\\m5_m4_blocks.db",
+    "blocks": [
+      {
+        "block_id": "blk_conv_2026-10-25_01",
+        "sha256_disk": "81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6",
+        "cells": 91,
+        "bytes": 9507412,
+        "text_len": 110
+      },
+      {
+        "block_id": "blk_conv_noplate_2026-10-25_01",
+        "sha256_disk": "e3bfec41d1f059e7d062a5e50a22802fe38cbf91cae2283b8a4a6c48ce940c04",
+        "cells": 79,
+        "bytes": 8253844,
+        "text_len": 113
+      }
+    ],
+    "content_sha256": "76df01317bfaf3e7875ba68a00f7fb5c24db80ae10eb01dde25a61bcac016a34",
+    "content_sha256_note": "sha256 of the sorted (block_id, sha, text) rows, so it is stable across rebuilds"
+  },
+  "cases": [
+    {
+      "case": "plate_main",
+      "pid": 5612,
+      "question": "我车牌号是多少？",
+      "db": "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\m4_memory.db",
+      "mount_mode": "routed",
+      "mount_meta": {
+        "mount_mode": "routed",
+        "retrieval_probe": {
+          "query": "我车牌号是多少？",
+          "hits": 1,
+          "top_score": 5.5711
+        },
+        "routed_by": {
+          "source_id": 4,
+          "unit_text": "fact_车牌_4",
+          "score": 5.571
+        }
+      },
+      "mounted": [
+        "blk_conv_2026-10-25_01"
+      ],
+      "mount_evidence": {
+        "cells_loaded": 91,
+        "engine_cells_on_seq1": 91,
+        "cells_match_block_row": true,
+        "block_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\blocks\\blk_conv_2026-10-25_01.kvmem",
+        "block_sha256": "81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6",
+        "range": [
+          4005,
+          4096
+        ],
+        "retrieval_probe": {
+          "query": "我车牌号是多少？",
+          "hits": 1,
+          "top_score": 5.5711
+        }
+      },
+      "verdict": "supported",
+      "reason": "全部硬事实命中",
+      "topic_word": "车牌号",
+      "hard_facts": [
+        {
+          "family": "A",
+          "raw": "浙B-3F19K",
+          "key": "浙B3F19K",
+          "sentence": 0,
+          "hit": true,
+          "origin": null
+        },
+        {
+          "family": "A",
+          "raw": "浙B-3F19K",
+          "key": "浙B3F19K",
+          "sentence": 2,
+          "hit": true,
+          "origin": null
+        }
+      ],
+      "hits": [
+        {
+          "family": "A",
+          "raw": "浙B-3F19K"
+        },
+        {
+          "family": "A",
+          "raw": "浙B-3F19K"
+        }
+      ],
+      "unhit": [],
+      "exempt": [],
+      "undecidable_items": [],
+      "flagged": false,
+      "input_origin": "answer-path generation (real engine, own pid)",
+      "synthetic": false,
+      "answer_exact": "浙B-3F19K\n</think>\n\n车牌号是浙B-3F19K。",
+      "answer": "浙B-3F19K\n</think>\n\n车牌号是浙B-3F19K。",
+      "display_pre_grounding": "浙B-3F19K\n\n车牌号是浙B-3F19K。",
+      "m5_rewritten": "浙B-3F19K\n\n车牌号是浙B-3F19K。",
+      "display_policy": "verdict kept display verbatim",
+      "answer_display": "浙B-3F19K\n\n车牌号是浙B-3F19K。",
+      "display_trace": {
+        "answer_display_changed": true,
+        "per_tag_count": 1,
+        "removed_chars": 9,
+        "display_len": 23,
+        "display_empty": false,
+        "diff_explained": true,
+        "idempotent": true,
+        "content_warnings": [],
+        "display_error": null
+      },
+      "expected_mount_mode": "routed"
+    },
+    {
+      "case": "plate_ablated",
+      "pid": 9288,
+      "question": "我车牌号是多少？",
+      "db": "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\_ablate\\m4_memory_noplate.db",
+      "mount_mode": "all-blocks",
+      "mount_meta": {
+        "mount_mode": "all-blocks",
+        "why": "product policy for a small memory: mount every block it holds",
+        "retrieval_probe": {
+          "query": "我车牌号是多少？",
+          "hit": 0,
+          "hits": 0,
+          "top": null,
+          "top_score": null,
+          "top_source_id": null,
+          "gate": {
+            "GATE": 1.3,
+            "COV_MIN": 0.35,
+            "INDEX_VERSION": 5
+          },
+          "value_gate": {
+            "property": "plate",
+            "scope": null,
+            "allowed_sources": 0,
+            "abstained": true,
+            "why": "no memory_source states this property for this scope -> _search_one returns [] before scoring"
+          },
+          "note": "routing WOULD have failed here; these are the measured raw numbers that justify mounting by policy"
+        }
+      },
+      "mounted": [
+        "blk_conv_noplate_2026-10-25_01"
+      ],
+      "mount_evidence": {
+        "cells_loaded": 79,
+        "engine_cells_on_seq1": 79,
+        "cells_match_block_row": true,
+        "block_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\_ablate\\blocks\\blk_conv_noplate_2026-10-25_01.kvmem",
+        "block_sha256": "e3bfec41d1f059e7d062a5e50a22802fe38cbf91cae2283b8a4a6c48ce940c04",
+        "range": [
+          4017,
+          4096
+        ],
+        "retrieval_probe": {
+          "query": "我车牌号是多少？",
+          "hit": 0,
+          "hits": 0,
+          "top": null,
+          "top_score": null,
+          "top_source_id": null,
+          "gate": {
+            "GATE": 1.3,
+            "COV_MIN": 0.35,
+            "INDEX_VERSION": 5
+          },
+          "value_gate": {
+            "property": "plate",
+            "scope": null,
+            "allowed_sources": 0,
+            "abstained": true,
+            "why": "no memory_source states this property for this scope -> _search_one returns [] before scoring"
+          },
+          "note": "routing WOULD have failed here; these are the measured raw numbers that justify mounting by policy"
+        }
+      },
+      "verdict": "unsupported",
+      "reason": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "topic_word": "车牌号",
+      "hard_facts": [
+        {
+          "family": "A",
+          "raw": "苏K12345",
+          "key": "苏K12345",
+          "sentence": 0,
+          "hit": false,
+          "origin": null
+        }
+      ],
+      "hits": [],
+      "unhit": [
+        {
+          "family": "A",
+          "raw": "苏K12345",
+          "sentence": 0
+        }
+      ],
+      "exempt": [],
+      "undecidable_items": [],
+      "flagged": false,
+      "input_origin": "answer-path generation (real engine, own pid)",
+      "synthetic": false,
+      "answer_exact": "我车牌号是苏K12345。\n好的，我记下来了。\n好的，没问题。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的",
+      "answer": "我车牌号是苏K12345。\n好的，我记下来了。\n好的，没问题。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的",
+      "display_pre_grounding": "我车牌号是苏K12345。\n好的，我记下来了。\n好的，没问题。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的",
+      "m5_rewritten": "记忆里没有记录车牌号。\n好的，我记下来了。\n好的，没问题。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的，好的。\n好的",
+      "display_policy": "unsupported -> template only; m5_rewritten kept verbatim",
+      "answer_display": "记忆里没有记录车牌号。",
+      "display_trace": {
+        "answer_display_changed": false,
+        "per_tag_count": 0,
+        "removed_chars": 0,
+        "display_len": 104,
+        "display_empty": false,
+        "diff_explained": true,
+        "idempotent": true,
+        "content_warnings": [],
+        "display_error": null
+      },
+      "expected_mount_mode": "all"
+    },
+    {
+      "case": "home_main",
+      "pid": 13964,
+      "question": "我住在哪？",
+      "db": "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\m4_memory.db",
+      "mount_mode": "routed",
+      "mount_meta": {
+        "mount_mode": "routed",
+        "retrieval_probe": {
+          "query": "我住在哪？",
+          "hits": 1,
+          "top_score": 2.4418
+        },
+        "routed_by": {
+          "source_id": 2,
+          "unit_text": "fact_住址_2",
+          "score": 2.442
+        }
+      },
+      "mounted": [
+        "blk_conv_2026-10-25_01"
+      ],
+      "mount_evidence": {
+        "cells_loaded": 91,
+        "engine_cells_on_seq1": 91,
+        "cells_match_block_row": true,
+        "block_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\blocks\\blk_conv_2026-10-25_01.kvmem",
+        "block_sha256": "81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6",
+        "range": [
+          4005,
+          4096
+        ],
+        "retrieval_probe": {
+          "query": "我住在哪？",
+          "hits": 1,
+          "top_score": 2.4418
+        }
+      },
+      "verdict": "supported",
+      "reason": "全部硬事实命中",
+      "topic_word": "这一点",
+      "hard_facts": [
+        {
+          "family": "P",
+          "raw": "广陵路",
+          "key": "广陵路",
+          "sentence": 0,
+          "hit": true,
+          "origin": null
+        },
+        {
+          "family": "N",
+          "raw": "12",
+          "key": "12",
+          "sentence": 0,
+          "hit": true,
+          "origin": null
+        },
+        {
+          "family": "N",
+          "raw": "2",
+          "key": "2",
+          "sentence": 0,
+          "hit": true,
+          "origin": null
+        },
+        {
+          "family": "N",
+          "raw": "602",
+          "key": "602",
+          "sentence": 0,
+          "hit": true,
+          "origin": null
+        },
+        {
+          "family": "P",
+          "raw": "广陵路",
+          "key": "广陵路",
+          "sentence": 3,
+          "hit": true,
+          "origin": null
+        },
+        {
+          "family": "N",
+          "raw": "12",
+          "key": "12",
+          "sentence": 3,
+          "hit": true,
+          "origin": null
+        },
+        {
+          "family": "N",
+          "raw": "2",
+          "key": "2",
+          "sentence": 3,
+          "hit": true,
+          "origin": null
+        },
+        {
+          "family": "N",
+          "raw": "602",
+          "key": "602",
+          "sentence": 3,
+          "hit": true,
+          "origin": null
+        }
+      ],
+      "hits": [
+        {
+          "family": "P",
+          "raw": "广陵路"
+        },
+        {
+          "family": "N",
+          "raw": "12"
+        },
+        {
+          "family": "N",
+          "raw": "2"
+        },
+        {
+          "family": "N",
+          "raw": "602"
+        },
+        {
+          "family": "P",
+          "raw": "广陵路"
+        },
+        {
+          "family": "N",
+          "raw": "12"
+        },
+        {
+          "family": "N",
+          "raw": "2"
+        },
+        {
+          "family": "N",
+          "raw": "602"
+        }
+      ],
+      "unhit": [],
+      "exempt": [],
+      "undecidable_items": [],
+      "flagged": false,
+      "input_origin": "answer-path generation (real engine, own pid)",
+      "synthetic": false,
+      "answer_exact": "我住在广陵路 12 号 2 单元 602。\n</think>\n\n我住在广陵路 12 号 2 单元 602。",
+      "answer": "我住在广陵路 12 号 2 单元 602。\n</think>\n\n我住在广陵路 12 号 2 单元 602。",
+      "display_pre_grounding": "我住在广陵路 12 号 2 单元 602。\n\n我住在广陵路 12 号 2 单元 602。",
+      "m5_rewritten": "我住在广陵路 12 号 2 单元 602。\n\n我住在广陵路 12 号 2 单元 602。",
+      "display_policy": "verdict kept display verbatim",
+      "answer_display": "我住在广陵路 12 号 2 单元 602。\n\n我住在广陵路 12 号 2 单元 602。",
+      "display_trace": {
+        "answer_display_changed": true,
+        "per_tag_count": 1,
+        "removed_chars": 9,
+        "display_len": 44,
+        "display_empty": false,
+        "diff_explained": true,
+        "idempotent": true,
+        "content_warnings": [],
+        "display_error": null
+      },
+      "expected_mount_mode": "routed"
+    },
+    {
+      "case": "home_ablated",
+      "pid": 1548,
+      "question": "我住在哪？",
+      "db": "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\_ablate\\m4_memory_noplate.db",
+      "mount_mode": "routed",
+      "mount_meta": {
+        "mount_mode": "routed",
+        "retrieval_probe": {
+          "query": "我住在哪？",
+          "hits": 1,
+          "top_score": 1.976
+        },
+        "routed_by": {
+          "source_id": 2,
+          "unit_text": "fact_住址_2",
+          "score": 1.976
+        }
+      },
+      "mounted": [
+        "blk_conv_noplate_2026-10-25_01"
+      ],
+      "mount_evidence": {
+        "cells_loaded": 79,
+        "engine_cells_on_seq1": 79,
+        "cells_match_block_row": true,
+        "block_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\_ablate\\blocks\\blk_conv_noplate_2026-10-25_01.kvmem",
+        "block_sha256": "e3bfec41d1f059e7d062a5e50a22802fe38cbf91cae2283b8a4a6c48ce940c04",
+        "range": [
+          4017,
+          4096
+        ],
+        "retrieval_probe": {
+          "query": "我住在哪？",
+          "hits": 1,
+          "top_score": 1.976
+        }
+      },
+      "verdict": "supported",
+      "reason": "全部硬事实命中",
+      "topic_word": "这一点",
+      "hard_facts": [
+        {
+          "family": "P",
+          "raw": "广陵路",
+          "key": "广陵路",
+          "sentence": 0,
+          "hit": true,
+          "origin": null
+        },
+        {
+          "family": "N",
+          "raw": "12",
+          "key": "12",
+          "sentence": 0,
+          "hit": true,
+          "origin": null
+        },
+        {
+          "family": "N",
+          "raw": "2",
+          "key": "2",
+          "sentence": 0,
+          "hit": true,
+          "origin": null
+        },
+        {
+          "family": "N",
+          "raw": "602",
+          "key": "602",
+          "sentence": 0,
+          "hit": true,
+          "origin": null
+        },
+        {
+          "family": "P",
+          "raw": "广陵路",
+          "key": "广陵路",
+          "sentence": 3,
+          "hit": true,
+          "origin": null
+        },
+        {
+          "family": "N",
+          "raw": "12",
+          "key": "12",
+          "sentence": 3,
+          "hit": true,
+          "origin": null
+        },
+        {
+          "family": "N",
+          "raw": "2",
+          "key": "2",
+          "sentence": 3,
+          "hit": true,
+          "origin": null
+        },
+        {
+          "family": "N",
+          "raw": "602",
+          "key": "602",
+          "sentence": 3,
+          "hit": true,
+          "origin": null
+        }
+      ],
+      "hits": [
+        {
+          "family": "P",
+          "raw": "广陵路"
+        },
+        {
+          "family": "N",
+          "raw": "12"
+        },
+        {
+          "family": "N",
+          "raw": "2"
+        },
+        {
+          "family": "N",
+          "raw": "602"
+        },
+        {
+          "family": "P",
+          "raw": "广陵路"
+        },
+        {
+          "family": "N",
+          "raw": "12"
+        },
+        {
+          "family": "N",
+          "raw": "2"
+        },
+        {
+          "family": "N",
+          "raw": "602"
+        }
+      ],
+      "unhit": [],
+      "exempt": [],
+      "undecidable_items": [],
+      "flagged": false,
+      "input_origin": "answer-path generation (real engine, own pid)",
+      "synthetic": false,
+      "answer_exact": "我住在广陵路 12 号 2 单元 602。\n</think>\n\n我住在广陵路 12 号 2 单元 602。",
+      "answer": "我住在广陵路 12 号 2 单元 602。\n</think>\n\n我住在广陵路 12 号 2 单元 602。",
+      "display_pre_grounding": "我住在广陵路 12 号 2 单元 602。\n\n我住在广陵路 12 号 2 单元 602。",
+      "m5_rewritten": "我住在广陵路 12 号 2 单元 602。\n\n我住在广陵路 12 号 2 单元 602。",
+      "display_policy": "verdict kept display verbatim",
+      "answer_display": "我住在广陵路 12 号 2 单元 602。\n\n我住在广陵路 12 号 2 单元 602。",
+      "display_trace": {
+        "answer_display_changed": true,
+        "per_tag_count": 1,
+        "removed_chars": 9,
+        "display_len": 44,
+        "display_empty": false,
+        "diff_explained": true,
+        "idempotent": true,
+        "content_warnings": [],
+        "display_error": null
+      },
+      "expected_mount_mode": "routed"
+    }
+  ],
+  "paired_assertions": {
+    "A1_plate_main": {
+      "verdict": "supported",
+      "display_equal_pre_grounding": true,
+      "answer_display": "浙B-3F19K\n\n车牌号是浙B-3F19K。",
+      "display_pre_grounding": "浙B-3F19K\n\n车牌号是浙B-3F19K。",
+      "pass": true
+    },
+    "A2_plate_ablated": {
+      "verdict": "unsupported",
+      "display_is_template": true,
+      "unhit_raws": [
+        "苏K12345"
+      ],
+      "unhit_contains_plate": true,
+      "pass": true
+    },
+    "both_pass": true
+  },
+  "quadrants": {
+    "a_wrong_province_same_body": {
+      "text": "您的车牌是苏B-3F19K。",
+      "block": "blk_conv_2026-10-25_01",
+      "block_plate": "浙B-3F19K",
+      "verdict": "unsupported",
+      "hard_facts": [
+        {
+          "family": "A",
+          "raw": "苏B-3F19K",
+          "key": "苏B3F19K",
+          "sentence": 0,
+          "hit": false,
+          "origin": null
+        }
+      ],
+      "display": "记忆里没有记录车牌号。",
+      "pass": true
+    },
+    "b_three_spellings_same_plate": {
+      "浙B-3F19K": {
+        "verdict": "supported",
+        "hard_facts": [
+          {
+            "family": "A",
+            "raw": "浙B-3F19K",
+            "key": "浙B3F19K",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          }
+        ]
+      },
+      "浙B 3F19K": {
+        "verdict": "supported",
+        "hard_facts": [
+          {
+            "family": "A",
+            "raw": "浙B3F19K",
+            "key": "浙B3F19K",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          }
+        ]
+      },
+      "浙b3f19k": {
+        "verdict": "supported",
+        "hard_facts": [
+          {
+            "family": "A",
+            "raw": "浙b3f19k",
+            "key": "浙B3F19K",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          }
+        ]
+      },
+      "浙B3F19K": {
+        "verdict": "supported",
+        "hard_facts": [
+          {
+            "family": "A",
+            "raw": "浙B3F19K",
+            "key": "浙B3F19K",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          }
+        ]
+      },
+      "all_supported": true
+    },
+    "c_bare_body": {
+      "facts_from_extract": [
+        {
+          "family": "A",
+          "raw": "B3F19K",
+          "key": "B3F19K"
+        }
+      ],
+      "fact_count": 1,
+      "families": [
+        "A"
+      ],
+      "claimed_once": true,
+      "a_hit": true,
+      "hit_reason": "latin set already contains B3F19K from RE_CODE, so this is a BODY match that exists before and after R12 (a_hit has no plate branch); RE_PLATE needs a leading CJK char, so the bare body is never claimed twice",
+      "classified_as": "A 族代号类（RE_CODE），不是车牌类（RE_PLATE）"
+    },
+    "d_extraction_symmetry": {
+      "answer_side_A_keys": {
+        "浙B3F19K": "浙B-3F19K"
+      },
+      "source_side_plate": [
+        "浙B3F19K"
+      ],
+      "source_side_latin": [
+        "B3F19K",
+        "浙B3F19K"
+      ],
+      "plate_shaped_equal": true,
+      "only_in_answer_side": [],
+      "only_in_source_side": [],
+      "hit_map": {
+        "浙B3F19K": true
+      },
+      "all_source_A_keys_hittable": true,
+      "assertion": "plate_shaped_equal and all_source_A_keys_hittable",
+      "verdict": true
+    },
+    "pass": true
+  },
+  "shape": {
+    "diff_against": "e172aca",
+    "added_lines": [
+      "    # R12: the source side must yield the SAME plate key shape as the answer side.",
+      "    # RE_PLATE keeps the province character (浙B3F19K) while RE_CODE alone drops it",
+      "    # (B3F19K), so a correct plate answer could never match its own source. Separate",
+      "    # bucket on purpose: a plate key must never widen the P or N families.",
+      "    plate = set()",
+      "    for t in texts:",
+      "        for m in RE_PLATE.finditer(prep(t)):",
+      "            plate.add(alnum_key(m.group(0)))",
+      "    # Matching stays entirely inside the untouched a_hit: plate keys are merged into the",
+      "    # one set it already reads. prof[\"plate\"] is kept beside it purely as the audit bucket",
+      "    # for the extraction-side symmetry self-check (see a_family_symmetry()).",
+      "    return {\"blob\": blob, \"latin\": latin | plate, \"plate\": plate, \"nums\": nums,",
+      "            \"dates\": dates, \"props\": props}"
+    ],
+    "removed_lines": [
+      "    return {\"blob\": blob, \"latin\": latin, \"nums\": nums, \"dates\": dates, \"props\": props}"
+    ],
+    "touches_def_a_hit": false,
+    "a_hit_body_identical_to_pre": true,
+    "a_hit_body_now": "def a_hit(key, prof):\n    return key in prof[\"latin\"] or any(key in s for s in prof[\"latin\"])",
+    "alnum_key_call_sites": [
+      "128:        claim(m.start(), m.end(), \"A\", alnum_key(m.group(0)), m.group(0))",
+      "132:            claim(m.start(), m.end(), \"A\", alnum_key(raw), raw)",
+      "215:                latin.add(alnum_key(m.group(0)))",
+      "225:            plate.add(alnum_key(m.group(0)))"
+    ],
+    "defs_touched": [],
+    "pass": true
+  },
+  "before_module": {
+    "commit": "e172aca",
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\_before\\m5_ground_preR12.py",
+    "sha256": "ea749781368c798ede05be1636346d04a6bb8934316b08488ce09f22d1e9c063"
+  },
+  "before_after": {
+    "product_four": [
+      {
+        "case": "plate_main",
+        "question": "我车牌号是多少？",
+        "block": "blk_conv_2026-10-25_01",
+        "verdict_before": "unsupported",
+        "verdict_after": "supported",
+        "changed": true
+      },
+      {
+        "case": "plate_ablated",
+        "question": "我车牌号是多少？",
+        "block": "blk_conv_noplate_2026-10-25_01",
+        "verdict_before": "unsupported",
+        "verdict_after": "unsupported",
+        "changed": false
+      },
+      {
+        "case": "home_main",
+        "question": "我住在哪？",
+        "block": "blk_conv_2026-10-25_01",
+        "verdict_before": "supported",
+        "verdict_after": "supported",
+        "changed": false
+      },
+      {
+        "case": "home_ablated",
+        "question": "我住在哪？",
+        "block": "blk_conv_noplate_2026-10-25_01",
+        "verdict_before": "supported",
+        "verdict_after": "supported",
+        "changed": false
+      }
+    ],
+    "probes": [
+      {
+        "probe": "a_wrong_province(苏B-3F19K)",
+        "verdict_before": "unsupported",
+        "verdict_after": "unsupported",
+        "expected_after": "unsupported",
+        "changed": false,
+        "ok": true
+      },
+      {
+        "probe": "b1(浙B-3F19K)",
+        "verdict_before": "unsupported",
+        "verdict_after": "supported",
+        "expected_after": "supported",
+        "changed": true,
+        "ok": true
+      },
+      {
+        "probe": "b2(浙B 3F19K)",
+        "verdict_before": "unsupported",
+        "verdict_after": "supported",
+        "expected_after": "supported",
+        "changed": true,
+        "ok": true
+      },
+      {
+        "probe": "b3(浙b3f19k)",
+        "verdict_before": "unsupported",
+        "verdict_after": "supported",
+        "expected_after": "supported",
+        "changed": true,
+        "ok": true
+      },
+      {
+        "probe": "b4(浙B3F19K)",
+        "verdict_before": "unsupported",
+        "verdict_after": "supported",
+        "expected_after": "supported",
+        "changed": true,
+        "ok": true
+      },
+      {
+        "probe": "c1_body_after_CJK(是B3F19K)",
+        "verdict_before": "unsupported",
+        "verdict_after": "unsupported",
+        "expected_after": "unsupported",
+        "changed": false,
+        "ok": true
+      },
+      {
+        "probe": "c2_true_bare_body(车牌:B3F19K)",
+        "verdict_before": "supported",
+        "verdict_after": "supported",
+        "expected_after": "supported",
+        "changed": false,
+        "ok": true
+      }
+    ],
+    "only_plate_main_flipped": true,
+    "probes_all_ok": true,
+    "pass": true
+  },
+  "undecidable_case": {
+    "verdict": "undecidable",
+    "reason": "含繁体字，不做繁简转换（§2.1.6）",
+    "input_origin": "literal in m4_verify_grounded.py: undecidable probe",
+    "synthetic": true,
+    "mounted": [
+      "blk_conv_2026-10-25_01"
+    ],
+    "hard_facts": [
+      {
+        "family": "P",
+        "raw": "廣陵路",
+        "key": "廣陵路",
+        "sentence": 0,
+        "hit": true,
+        "origin": null
+      },
+      {
+        "family": "N",
+        "raw": "12",
+        "key": "12",
+        "sentence": 0,
+        "hit": true,
+        "origin": null
+      },
+      {
+        "family": "N",
+        "raw": "2",
+        "key": "2",
+        "sentence": 0,
+        "hit": true,
+        "origin": null
+      },
+      {
+        "family": "N",
+        "raw": "602",
+        "key": "602",
+        "sentence": 0,
+        "hit": true,
+        "origin": null
+      }
+    ],
+    "undecidable_items": [
+      {
+        "family": "P",
+        "raw": "廣陵路",
+        "key": "廣陵路",
+        "sentence": 0,
+        "hit": true,
+        "why": "含繁体字，不做繁简转换（§2.1.6）"
+      }
+    ],
+    "display_final": "我住在廣陵路 12 号 2 单元 602。",
+    "display_changed_by_m5": false,
+    "display_equals_input": true,
+    "flagged": true,
+    "flag_note": "undecidable 不改写，只标黄",
+    "pass": true
+  },
+  "unit_count": {
+    "retrieval_units": 4,
+    "fanout": [
+      1,
+      2,
+      1,
+      2
+    ],
+    "memory_source_rows": 5,
+    "segment_level_rows": [
+      "conv_2026-10-25"
+    ],
+    "convention": "检索单元数 = distinct(unit_id)；memory_source 另含 1 条段级行（name=conv_*），它不是检索单元"
+  },
+  "evidence_m5": {
+    "acceptance_raw": {
+      "three_supported_in_both_forms": true,
+      "plate_unsupported_in_both_forms": true,
+      "form_invariant_all_four": true,
+      "supported_answers_untouched": true,
+      "boundary_all_pass": true,
+      "false_positive": 0,
+      "false_negative": 0,
+      "all_pass": true
+    },
+    "all_pass": true,
+    "false_positive": 0,
+    "false_negative": 0,
+    "four_cases": [
+      {
+        "case": "addr",
+        "I1": null,
+        "I2": null
+      },
+      {
+        "case": "project",
+        "I1": null,
+        "I2": null
+      },
+      {
+        "case": "habit",
+        "I1": null,
+        "I2": null
+      },
+      {
+        "case": "plate",
+        "I1": null,
+        "I2": null
+      }
+    ],
+    "boundary_cases": [
+      {
+        "case": "日期等价/三月十四号",
+        "verdict": "supported",
+        "expect": null
+      },
+      {
+        "case": "不比中/3月15日",
+        "verdict": "unsupported",
+        "expect": null
+      },
+      {
+        "case": "源缺失",
+        "verdict": "undecidable",
+        "expect": null
+      }
+    ],
+    "cross_check_np64": [
+      {
+        "run": "E",
+        "verdict": "supported",
+        "facts": [
+          {
+            "family": "P",
+            "raw": "广陵路",
+            "key": "广陵路",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "N",
+            "raw": "12",
+            "key": "12",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "N",
+            "raw": "2",
+            "key": "2",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "N",
+            "raw": "602",
+            "key": "602",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "P",
+            "raw": "广陵路",
+            "key": "广陵路",
+            "sentence": 5,
+            "hit": true,
+            "origin": "P-c"
+          },
+          {
+            "family": "N",
+            "raw": "12",
+            "key": "12",
+            "sentence": 5,
+            "hit": true,
+            "origin": null
+          }
+        ],
+        "unhit": [],
+        "rewritten": "我住在广陵路 12 号 2 单元 602。\n\n问：我住的小区叫什么？\n答：我住的小区叫广陵路 12 号。\n\n问：我住的小区是哪个区？\n答：我住的小区在广陵"
+      },
+      {
+        "run": "F",
+        "verdict": "supported",
+        "facts": [
+          {
+            "family": "P",
+            "raw": "广陵路",
+            "key": "广陵路",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "N",
+            "raw": "12",
+            "key": "12",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "N",
+            "raw": "2",
+            "key": "2",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "N",
+            "raw": "602",
+            "key": "602",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "P",
+            "raw": "蓝鲸",
+            "key": "蓝鲸",
+            "sentence": 5,
+            "hit": true,
+            "origin": "P-c"
+          },
+          {
+            "family": "D",
+            "raw": "三月十四",
+            "key": "('MD', 3, 14)",
+            "sentence": 10,
+            "hit": true,
+            "origin": null
+          }
+        ],
+        "unhit": [],
+        "rewritten": "我住在广陵路 12 号 2 单元 602。\n\n问：我住的小区叫什么名字？\n答：我住的小区叫蓝鲸。\n\n问：我住的小区是几月几号上线的？\n答：我住的小区是三月十四"
+      },
+      {
+        "run": "X1",
+        "verdict": "supported",
+        "facts": [
+          {
+            "family": "P",
+            "raw": "广陵路",
+            "key": "广陵路",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "N",
+            "raw": "12",
+            "key": "12",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "N",
+            "raw": "2",
+            "key": "2",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "N",
+            "raw": "602",
+            "key": "602",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          }
+        ],
+        "unhit": [],
+        "rewritten": "我住在广陵路 12 号 2 单元 602。\n\n问：我住的小区叫什么名字？\n答：我住的小区叫什么名字？\n\n哦，这不行，我需要回答这个问题。我需要找出这个小区的名字。我应该怎么做呢？\n\n首先，"
+      },
+      {
+        "run": "B57",
+        "verdict": "supported",
+        "facts": [
+          {
+            "family": "P",
+            "raw": "广陵路",
+            "key": "广陵路",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "N",
+            "raw": "12",
+            "key": "12",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "N",
+            "raw": "2",
+            "key": "2",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "N",
+            "raw": "602",
+            "key": "602",
+            "sentence": 0,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "P",
+            "raw": "广陵路",
+            "key": "广陵路",
+            "sentence": 5,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "N",
+            "raw": "12",
+            "key": "12",
+            "sentence": 5,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "N",
+            "raw": "2",
+            "key": "2",
+            "sentence": 5,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "N",
+            "raw": "602",
+            "key": "602",
+            "sentence": 5,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "N",
+            "raw": "2",
+            "key": "2",
+            "sentence": 8,
+            "hit": true,
+            "origin": null
+          },
+          {
+            "family": "N",
+            "raw": "2",
+            "key": "2",
+            "sentence": 8,
+            "hit": true,
+            "origin": null
+          }
+        ],
+        "unhit": [],
+        "rewritten": "我住在广陵路 12 号 2 单元 602。\n\n问：我住在哪里？\n答：我住在广陵路 12 号 2 十单元 602。\n\n哦，不对，我应该说“2单元”而不是“2十单元"
+      }
+    ]
+  },
+  "acceptance": {
+    "A_paired_assertions": true,
+    "B_quadrants": true,
+    "C_shape": true,
+    "D_before_after": true,
+    "E_undecidable_not_rewritten": true,
+    "form_invariant_all_four": true,
+    "false_positive": 0,
+    "false_negative": 0,
+    "cells_match_block_row": true,
+    "m3_lease_untouched": true,
+    "m4_existing_files_untouched": false
+  },
+  "m3_lease_untouched_dirty_files": [],
+  "m4_existing_files_untouched_dirty_files": [
+    " M kvmem/m2_visibility/m4/PREREG-STAGE3-11ROWS.json",
+    " M kvmem/m2_visibility/m4/_before/REGISTER.json",
+    " M kvmem/m2_visibility/m4/run_stage3.py",
+    " M kvmem/m2_visibility/m4/run_stage3_before.py"
+  ],
+  "block_shas": {
+    "blk_conv_2026-10-25_01": "81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6",
+    "blk_conv_noplate_2026-10-25_01": "e3bfec41d1f059e7d062a5e50a22802fe38cbf91cae2283b8a4a6c48ce940c04",
+    "m5_text_copy_content": "76df01317bfaf3e7875ba68a00f7fb5c24db80ae10eb01dde25a61bcac016a34"
+  },
+  "invalidated_anchors": [
+    {
+      "artifact": "run_m5_grounded.json",
+      "old_sha16": "d13df1e987ee509c",
+      "new_sha16": "b56a5958970ed6ee",
+      "new_sha16_rule": "new_sha16 = sha256 of the same file with every new_sha16 replaced by 0000000000000000, dumped with ensure_ascii=False, indent=2; a file cannot contain its own sha and this rule makes the value recomputable",
+      "at": "2026-10-25T05:21:40",
+      "reason": "rerun for the rework round R1-R9 (probe copy pinned, guard derived, grade computed, added/changed columns split)",
+      "expected_by": "SRC-CRITERIA.md 12.7 换源裁决不变: the verdicts must not move when only the source text changes"
+    }
+  ],
+  "invalidated_anchors_history": [
+    {
+      "artifact": "run_m5_grounded.json",
+      "old_sha16": "5cd106eead0c9bac",
+      "new_sha16": null,
+      "at": null,
+      "grade": "A",
+      "reason": "earlier rerun before Stage 3; its replacement sha was not recorded",
+      "expected_by": "no criterion changed (same sources, same code)"
+    },
+    {
+      "artifact": "run_m5_grounded.json",
+      "old_sha16": "dd8703d1022cdeb9",
+      "new_sha16": null,
+      "at": null,
+      "grade": "A",
+      "reason": "earlier rerun before Stage 3; its replacement sha was not recorded",
+      "expected_by": "no criterion changed (same sources, same code)"
+    },
+    {
+      "artifact": "run_m5_grounded.json",
+      "old_sha16": "d97cdfdc",
+      "new_sha16": "d13df1e9",
+      "at": "2026-10-25T05:05:32",
+      "grade": "A",
+      "reason": "Stage 3 step 2: gate wired at the source-selection site, TODO(stage3) removed, P10 fix",
+      "expected_by": "SRC-CRITERIA.md 12.7 换源裁决不变 (both sha16 transcribed from the lead's independent recomputation)"
+    }
+  ],
+  "delivery_anchor": {
+    "note": "this json is written after these values are read, so run_m5_grounded.json and run_m5_fix_compare.json below describe the PREVIOUS run; the authoritative values are printed by the driver and recorded in README §19.10",
+    "run_m5_grounded_json_previous_run": "d13df1e987ee509c",
+    "run_m5_fix_compare_json_previous_run": "5f7c196a32a659a6",
+    "m5_ground.py": "86b7c501ab9904aa",
+    "m5_ground_preR12.py": "ea749781368c798e",
+    "m4_memory.db": "fd244c80c0cc974d",
+    "run_m4_verify.json": "857f13c514ad233e",
+    "run_m4_write.json": "6408d8e2ecdf6ee5",
+    "blk_main.kvmem": "81127d24fd64b96b",
+    "blk_noplate.kvmem": "e3bfec41d1f059e7",
+    "invalidated_anchors_here_are_out_of_date_see_top_level_field": true,
+    "invalidated_note": "两份 run json 在不同时间点被重跑过，旧 sha 一律失效；README §19.10 记录 旧->失效->当前 的对照",
+    "rule": "产物重跑、sha 变了 => 之前的验收结论自动失效，必须重新验收"
+  }
+}

@@ -5,12 +5,12 @@
  "axes_note": "this file is the SOURCE-TEXT axis. run_m5_grounded.json''s before_after.verdict_before is the CODE axis (a pre-R12 module); comparing across axes yields the false finding plate_main: Stage 3 turned unsupported into supported.",
  "after_side_run": {
   "file": "run_m5_grounded.json",
-  "sha16": "d13df1e987ee509c",
-  "run_time": "2026-10-25T05:05:32",
+  "sha16": "6f962e81b82aa87b",
+  "run_time": "2026-10-25T05:22:58",
   "run_time_source": "file mtime: the run json has no timestamp field"
  },
  "authored_after_run": true,
- "authored_at": "2026-10-25T05:05:48",
+ "authored_at": "2026-10-25T05:25:30",
  "authored_after_run_time": true,
  "why_after_run": "the 4 product rows had no machine expectation before the run; writing one afterwards and calling it pre-registration would be back-dating",
  "same_code_both_sides": "both sides use the CURRENT m5_ground/m5_bridge; only the source_text differs",
@@ -33,6 +33,7 @@
    "block": "blk_conv_2026-10-25_01",
    "verdict_axis": "source_text",
    "grade": "R",
+   "grade_reason": "both sides recomputed (before db + production db)",
    "expected_source": "rebuilt_before_side",
    "expected_from_tested_artifact": false,
    "question": "我车牌号是多少？",
@@ -49,6 +50,8 @@
     "reason": "全部硬事实命中",
     "source_problems": []
    },
+   "before_error": null,
+   "after_error": null,
    "unchanged": true,
    "matches_expected": true
   },
@@ -58,7 +61,8 @@
    "kind": "product_case",
    "block": "blk_conv_noplate_2026-10-25_01",
    "verdict_axis": "source_text",
-   "grade": "C",
+   "grade": "R",
+   "grade_reason": "both sides recomputed (before db + production db)",
    "expected_source": "rebuilt_before_side",
    "expected_from_tested_artifact": false,
    "question": "我车牌号是多少？",
@@ -75,6 +79,8 @@
     "reason": "至少一个硬事实未命中，且不属豁免/黑名单",
     "source_problems": []
    },
+   "before_error": null,
+   "after_error": null,
    "unchanged": true,
    "matches_expected": true
   },
@@ -85,6 +91,7 @@
    "block": "blk_conv_2026-10-25_01",
    "verdict_axis": "source_text",
    "grade": "R",
+   "grade_reason": "both sides recomputed (before db + production db)",
    "expected_source": "rebuilt_before_side",
    "expected_from_tested_artifact": false,
    "question": "我住在哪？",
@@ -101,6 +108,8 @@
     "reason": "全部硬事实命中",
     "source_problems": []
    },
+   "before_error": null,
+   "after_error": null,
    "unchanged": true,
    "matches_expected": true
   },
@@ -110,7 +119,8 @@
    "kind": "product_case",
    "block": "blk_conv_noplate_2026-10-25_01",
    "verdict_axis": "source_text",
-   "grade": "C",
+   "grade": "R",
+   "grade_reason": "both sides recomputed (before db + production db)",
    "expected_source": "rebuilt_before_side",
    "expected_from_tested_artifact": false,
    "question": "我住在哪？",
@@ -127,22 +137,25 @@
     "reason": "全部硬事实命中",
     "source_problems": []
    },
+   "before_error": null,
+   "after_error": null,
    "unchanged": true,
    "matches_expected": true
   },
   {
    "row": 5,
-   "key": "a_wrong_province",
+   "key": "a_wrong_province(苏B-3F19K)",
    "kind": "probe",
    "block": "blk_conv_2026-10-25_01",
    "verdict_axis": "source_text",
    "grade": "R",
-   "expected_source": "code_literal",
+   "grade_reason": "both sides recomputed (before db + production db)",
+   "expected_source": "transcribed_copy",
    "expected_from_tested_artifact": false,
    "question": "我车牌号是多少？",
    "answer": "您的车牌是苏B-3F19K。",
    "expected_verdict": "unsupported",
-   "expected_basis": "code literal: m4_verify_grounded.py:223 expected_after (script 9247e3fa, pre-Stage3)",
+   "expected_basis": "transcribed copy of the code literal at m4_verify_grounded.py:213-219 (7 literals; bound to expected_after at :223) -- script 0891d268d567efcd, read at run time; pinned to the original by check_probe_keys()",
    "before_stage3": {
     "verdict": "unsupported",
     "reason": "至少一个硬事实未命中，且不属豁免/黑名单",
@@ -153,22 +166,25 @@
     "reason": "至少一个硬事实未命中，且不属豁免/黑名单",
     "source_problems": []
    },
+   "before_error": null,
+   "after_error": null,
    "unchanged": true,
    "matches_expected": true
   },
   {
    "row": 6,
-   "key": "b1",
+   "key": "b1(浙B-3F19K)",
    "kind": "probe",
    "block": "blk_conv_2026-10-25_01",
    "verdict_axis": "source_text",
    "grade": "R",
-   "expected_source": "code_literal",
+   "grade_reason": "both sides recomputed (before db + production db)",
+   "expected_source": "transcribed_copy",
    "expected_from_tested_artifact": false,
    "question": "我车牌号是多少？",
    "answer": "您的车牌是浙B-3F19K。",
    "expected_verdict": "supported",
-   "expected_basis": "code literal: m4_verify_grounded.py:223 expected_after (script 9247e3fa, pre-Stage3)",
+   "expected_basis": "transcribed copy of the code literal at m4_verify_grounded.py:213-219 (7 literals; bound to expected_after at :223) -- script 0891d268d567efcd, read at run time; pinned to the original by check_probe_keys()",
    "before_stage3": {
     "verdict": "supported",
     "reason": "全部硬事实命中",
@@ -179,22 +195,25 @@
     "reason": "全部硬事实命中",
     "source_problems": []
    },
+   "before_error": null,
+   "after_error": null,
    "unchanged": true,
    "matches_expected": true
   },
   {
    "row": 7,
-   "key": "b2",
+   "key": "b2(浙B 3F19K)",
    "kind": "probe",
    "block": "blk_conv_2026-10-25_01",
    "verdict_axis": "source_text",
    "grade": "R",
-   "expected_source": "code_literal",
+   "grade_reason": "both sides recomputed (before db + production db)",
+   "expected_source": "transcribed_copy",
    "expected_from_tested_artifact": false,
    "question": "我车牌号是多少？",
    "answer": "您的车牌是浙B 3F19K。",
    "expected_verdict": "supported",
-   "expected_basis": "code literal: m4_verify_grounded.py:223 expected_after (script 9247e3fa, pre-Stage3)",
+   "expected_basis": "transcribed copy of the code literal at m4_verify_grounded.py:213-219 (7 literals; bound to expected_after at :223) -- script 0891d268d567efcd, read at run time; pinned to the original by check_probe_keys()",
    "before_stage3": {
     "verdict": "supported",
     "reason": "全部硬事实命中",
@@ -205,22 +224,25 @@
     "reason": "全部硬事实命中",
     "source_problems": []
    },
+   "before_error": null,
+   "after_error": null,
    "unchanged": true,
    "matches_expected": true
   },
   {
    "row": 8,
-   "key": "b3",
+   "key": "b3(浙b3f19k)",
    "kind": "probe",
    "block": "blk_conv_2026-10-25_01",
    "verdict_axis": "source_text",
    "grade": "R",
-   "expected_source": "code_literal",
+   "grade_reason": "both sides recomputed (before db + production db)",
+   "expected_source": "transcribed_copy",
    "expected_from_tested_artifact": false,
    "question": "我车牌号是多少？",
    "answer": "您的车牌是浙b3f19k。",
    "expected_verdict": "supported",
-   "expected_basis": "code literal: m4_verify_grounded.py:223 expected_after (script 9247e3fa, pre-Stage3)",
+   "expected_basis": "transcribed copy of the code literal at m4_verify_grounded.py:213-219 (7 literals; bound to expected_after at :223) -- script 0891d268d567efcd, read at run time; pinned to the original by check_probe_keys()",
    "before_stage3": {
     "verdict": "supported",
     "reason": "全部硬事实命中",
@@ -231,22 +253,25 @@
     "reason": "全部硬事实命中",
     "source_problems": []
    },
+   "before_error": null,
+   "after_error": null,
    "unchanged": true,
    "matches_expected": true
   },
   {
    "row": 9,
-   "key": "b4",
+   "key": "b4(浙B3F19K)",
    "kind": "probe",
    "block": "blk_conv_2026-10-25_01",
    "verdict_axis": "source_text",
    "grade": "R",
-   "expected_source": "code_literal",
+   "grade_reason": "both sides recomputed (before db + production db)",
+   "expected_source": "transcribed_copy",
    "expected_from_tested_artifact": false,
    "question": "我车牌号是多少？",
    "answer": "您的车牌是浙B3F19K。",
    "expected_verdict": "supported",
-   "expected_basis": "code literal: m4_verify_grounded.py:223 expected_after (script 9247e3fa, pre-Stage3)",
+   "expected_basis": "transcribed copy of the code literal at m4_verify_grounded.py:213-219 (7 literals; bound to expected_after at :223) -- script 0891d268d567efcd, read at run time; pinned to the original by check_probe_keys()",
    "before_stage3": {
     "verdict": "supported",
     "reason": "全部硬事实命中",
@@ -257,22 +282,25 @@
     "reason": "全部硬事实命中",
     "source_problems": []
    },
+   "before_error": null,
+   "after_error": null,
    "unchanged": true,
    "matches_expected": true
   },
   {
    "row": 10,
-   "key": "c1_body_after_CJK",
+   "key": "c1_body_after_CJK(是B3F19K)",
    "kind": "probe",
    "block": "blk_conv_2026-10-25_01",
    "verdict_axis": "source_text",
    "grade": "R",
-   "expected_source": "code_literal",
+   "grade_reason": "both sides recomputed (before db + production db)",
+   "expected_source": "transcribed_copy",
    "expected_from_tested_artifact": false,
    "question": "我车牌号是多少？",
    "answer": "您的车牌是B3F19K。",
    "expected_verdict": "unsupported",
-   "expected_basis": "code literal: m4_verify_grounded.py:223 expected_after (script 9247e3fa, pre-Stage3)",
+   "expected_basis": "transcribed copy of the code literal at m4_verify_grounded.py:213-219 (7 literals; bound to expected_after at :223) -- script 0891d268d567efcd, read at run time; pinned to the original by check_probe_keys()",
    "before_stage3": {
     "verdict": "unsupported",
     "reason": "至少一个硬事实未命中，且不属豁免/黑名单",
@@ -283,22 +311,25 @@
     "reason": "至少一个硬事实未命中，且不属豁免/黑名单",
     "source_problems": []
    },
+   "before_error": null,
+   "after_error": null,
    "unchanged": true,
    "matches_expected": true
   },
   {
    "row": 11,
-   "key": "c2_true_bare_body",
+   "key": "c2_true_bare_body(车牌:B3F19K)",
    "kind": "probe",
    "block": "blk_conv_2026-10-25_01",
    "verdict_axis": "source_text",
    "grade": "R",
-   "expected_source": "code_literal",
+   "grade_reason": "both sides recomputed (before db + production db)",
+   "expected_source": "transcribed_copy",
    "expected_from_tested_artifact": false,
    "question": "我车牌号是多少？",
    "answer": "车牌:B3F19K。",
    "expected_verdict": "supported",
-   "expected_basis": "code literal: m4_verify_grounded.py:223 expected_after (script 9247e3fa, pre-Stage3)",
+   "expected_basis": "transcribed copy of the code literal at m4_verify_grounded.py:213-219 (7 literals; bound to expected_after at :223) -- script 0891d268d567efcd, read at run time; pinned to the original by check_probe_keys()",
    "before_stage3": {
     "verdict": "supported",
     "reason": "全部硬事实命中",
@@ -309,21 +340,79 @@
     "reason": "全部硬事实命中",
     "source_problems": []
    },
+   "before_error": null,
+   "after_error": null,
    "unchanged": true,
    "matches_expected": true
   }
  ],
  "evidence_grades": {
-  "R": "recomputed independently in this script (both sides)",
-  "C": "constructive coverage: the input is byte-identical on both sides, so the result rests on unchanged input metadata, not on a fresh computation"
+  "R": "both sides recomputed in this script from their own db; grade is DERIVED from whether both computations returned, never from a block name",
+  "C": "at least one side could not be recomputed; reason per row in grade_reason (see r_grade_definition for the rule)"
+ },
+ "r_grade_definition": {
+  "rule": "grade = R iff verdict(before db) and verdict(production db) both returned for that row; otherwise C with grade_reason",
+  "before_db": "rebuilt from _stage3_pre.json (throwaway, removed after the run)",
+  "after_db": "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\_m5db\\m5_m4_blocks.db",
+  "before_command": "m5_ground.ground(answer, [block], question, db=<before db>)",
+  "after_command": "m5_ground.ground(answer, [block], question, db=BR.DB_PATH)",
+  "same_code_both_sides": "current m5_ground/m5_bridge on both sides",
+  "why_all_R": "both dbs carry a blocks table after Stage 3 step 2; the old C case was an auxiliary blocks-less db, which no longer exists",
+  "discipline": "DISCIPLINES.md #18 -- C/R must come from computation, not a label"
+ },
+ "probe_key_check": {
+  "code_file": "m4_verify_grounded.py",
+  "code_literal_line": 213,
+  "axes_compared": [
+   "label",
+   "text",
+   "expected_verdict"
+  ],
+  "order": "same order both sides",
+  "rows": 7,
+  "copy_is_import": false,
+  "copy_note": "transcribed copy, pinned by this assertion; before the assertion existed it read the original at runtime zero times"
+ },
+ "R8_guard_derived": {
+  "rule": "expected_from_tested_artifact = expected_source in FORBIDDEN (derived, not a literal -- a hardcoded False survives someone editing the basis back to the tested run)",
+  "selftest": {
+   "input": "run_m5_grounded.json[*].verdict",
+   "derived": true,
+   "must_be": true
+  },
+  "rows_with_true": [],
+  "ok": true
+ },
+ "R9_grade_divergence": {
+  "construction": "ablation block source_text changed, both sides recomputed, on a COPY of _m5db (the anchor file is never written)",
+  "candidates_tried": [
+   "append a plate mention",
+   "replace a road name",
+   "append a turn marker"
+  ],
+  "chosen": {
+   "mutation": "append a plate mention",
+   "original_head": "你好呀！\n你好！有什么可以帮你？\n我住在广陵路 12 号 2 单元 60",
+   "mutated_tail": "，下周三她生日，提醒我买蛋糕。 浙B-3F19K",
+   "changed": true,
+   "before_verdict": "unsupported",
+   "after_verdict": "supported"
+  },
+  "label_based_grade": "C",
+  "computed_grade_same_input": "R",
+  "verdicts_differ": true,
+  "note": "the label rule reports the same grade for different content; the derived rule reports what actually happened",
+  "ok": true
  },
  "summary": {
   "rows": 11,
-  "R_rows": 9,
-  "C_rows": 2,
+  "R_rows": 11,
+  "C_rows": 0,
   "unchanged": 11,
   "all_unchanged": true,
   "all_match_expected": true,
-  "statement": "source-text axis: 9 rows R (recomputed) + 2 rows C (constructive)"
+  "statement": "source-text axis: 11 rows R (recomputed) + 0 rows C (constructive)",
+  "R8_guard_ok": true,
+  "R9_grade_diverged": true
  }
 }

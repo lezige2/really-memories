@@ -15,6 +15,8 @@ import io, json, os, re, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
 GATE = "assert_m5_source_allowed"
+# R6: an exemption return must SAY it is one, in the value it returns.
+EXEMPT_RETURN_MODE = "synthetic"
 TODO = "TODO(stage3)"
 # files that could ever read a registry source on the way into M5
 SURFACES = ["kvmem/m2_visibility/m5", "kvmem/m2_visibility/m4", "tools"]
@@ -75,6 +77,7 @@ def stage3_strict():
         return False
 
     rp = []
+    returns = []
     for node in ast.walk(tree):
         if not isinstance(node, ast.FunctionDef) or not returns_source_dict(node):
             continue
@@ -84,11 +87,40 @@ def stage3_strict():
         rp.append({"function": node.name, "def_line": node.lineno,
                    "gate_lines": gates,
                    "file_line": "m5_bridge.py:%d" % (gates[0] if gates else node.lineno)})
+        # R6: classify EVERY data return, not just "the function calls the gate". A return
+        # that comes before the gate is either exempt BY A STRUCTURAL PROPERTY it declares, or
+        # it is a bypass. "The function contains a gate call" would let such a return pass.
+        for ret in ast.walk(node):
+            if not isinstance(ret, ast.Return) or not isinstance(ret.value, ast.Dict):
+                continue
+            keys = [k for k in ret.value.keys if isinstance(k, ast.Constant)]
+            if "text" not in [k.value for k in keys]:
+                continue
+            mode = None
+            for k, v in zip(ret.value.keys, ret.value.values):
+                if (isinstance(k, ast.Constant) and k.value == "mode"
+                        and isinstance(v, ast.Constant)):
+                    mode = v.value
+            gated = any(gl < ret.lineno for gl in gates)
+            exempt = mode == EXEMPT_RETURN_MODE
+            returns.append({"function": node.name,
+                            "file_line": "m5_bridge.py:%d" % ret.lineno,
+                            "line": ret.lineno, "mode": mode,
+                            "after_gate": gated, "whitelisted_exempt": exempt,
+                            "ok": gated or exempt})
     res["source_returning_functions"] = rp
+    res["data_returns"] = returns
     res["layer1_ast"] = {
-        "ok": bool(rp) and all(f["gate_lines"] for f in rp),
-        "rule": "every function that returns an admitted source list must call the gate",
-        "ungated": [f["function"] for f in rp if not f["gate_lines"]]}
+        "ok": bool(rp) and bool(returns) and all(r["ok"] for r in returns)
+              and bool(rp) and all(f["gate_lines"] for f in rp),
+        "rule": "every data return is either AFTER the gate, or declares mode=%r and is "
+                "therefore an explicit exemption" % EXEMPT_RETURN_MODE,
+        "whitelist": "structural: the returned dict itself says mode=%r -- not a line number, "
+                     "which would go stale the moment the function is edited" % EXEMPT_RETURN_MODE,
+        "counts": {"data_returns": len(returns),
+                   "after_gate": sum(1 for r in returns if r["after_gate"]),
+                   "exempt": sum(1 for r in returns if r["whitelisted_exempt"])},
+        "ungated": [r["file_line"] for r in returns if not r["ok"]]}
 
     entry = [n for n in ast.walk(tree)
              if isinstance(n, ast.FunctionDef) and n.name == "ensure_db"]
@@ -214,6 +246,11 @@ def main():
               % ("OK" if st["layer1_ast"]["ok"] else "FAIL"))
         for f in st["source_returning_functions"]:
             print("  %s returns a source list; gate at %s" % (f["function"], f["file_line"]))
+        for r in st["data_returns"]:
+            print("  %s mode=%-10s %s"
+                  % (r["file_line"], r["mode"],
+                     "after gate" if r["after_gate"]
+                     else ("DECLARED EXEMPTION" if r["whitelisted_exempt"] else "BYPASS")))
         print("stage3 layer2 (reachability from ensure_db): %s %s"
               % ("OK" if st["reachability"]["ok"] else "FAIL",
                  [c["file_line"] for c in st["reachability"]["calls"]]))

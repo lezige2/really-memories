@@ -6,6 +6,7 @@ Writes run_stage3.json next to this file (untracked evidence, like the other run
 
 It does NOT rebuild any kvmem block file: the KV block content is not the source text.
 """
+import ast
 import hashlib
 import json
 import os
@@ -109,6 +110,20 @@ def main():
                               "per_block": per_block,
                               "ok": (sorted(changed) == ["source_text", "text_origin"]
                                      and sorted(added_cols) == ["synthetic"])}
+    # R4: added and changed are two DIFFERENT facts, stated separately. "the changed columns
+    # are those two" holds only on the COMMON columns -- the table also grew one.
+    old_cols = list(pre["rows"][sorted(pre["rows"])[0]])
+    res["column_changes"] = {
+        "columns_before": len(old_cols), "columns_after": len(cols),
+        "added": sorted(added_cols), "removed": sorted(set(old_cols) - set(cols)),
+        "changed_on_common_columns": sorted(changed),
+        "statement": "%d -> %d columns: ADDED %s; on the COMMON columns only %s changed"
+                     % (len(old_cols), len(cols), sorted(added_cols), sorted(changed)),
+        "why_split": "a table that grew a column is not the same fact as a column whose "
+                     "values changed; merging them hides the schema change",
+        "ok": (len(old_cols) == 12 and len(cols) == 13
+               and sorted(added_cols) == ["synthetic"]
+               and sorted(set(old_cols) - set(cols)) == [])}
     res["block_files_unchanged"] = {
         bid: {"sha_match": res["blocks"][bid]["block_file"]["sha16"] == pre["block_files"][bid]["sha16"],
               "bytes_match": res["blocks"][bid]["block_file"]["bytes"] == pre["block_files"][bid]["bytes"],
@@ -413,11 +428,57 @@ def main():
     res["constraints_ok"] = all(v.get("ok") is True for v in ev.values() if isinstance(v, dict))
 
     # ---------- 6. gate call site + 139-char round-trip ----------
-    src = open(os.path.join(HERE, "m5_bridge.py"), encoding="utf-8").read().split(chr(10))
-    res["gate_call_sites"] = [{"file": "m5_bridge.py", "line": i + 1, "text": l.strip()}
-                              for i, l in enumerate(src)
-                              if "assert_m5_source_allowed(" in l and l.strip().startswith("ms.")]
-    res["todo_stage3_present"] = sum(1 for l in src if "TODO(stage3)" in l)
+    # R5: an explicit list is fine only if its OMISSIONS can turn into a failure. The list
+    # is asserted complete against every file that actually calls the gate.
+    # Declared list of every file that calls the gate in this tree (AST-verified below).
+    # It is explicit on purpose: the completeness assertion turns a forgotten file into a
+    # FAILURE, rather than into silence.
+    GATE_FILES = ["check_registry.py", "m4_layer2_link.py", "m5_bridge.py",
+                  "migrate_i8.py"]
+    callers = {}
+    for d in (HERE, os.path.join(HERE, "..", "m5"), os.path.join(HERE, "..", "registry")):
+        for fn in sorted(os.listdir(d)):
+            if not fn.endswith(".py"):
+                continue
+            path = os.path.join(d, fn)
+            try:
+                tree_ = ast.parse(open(path, encoding="utf-8").read())
+            except SyntaxError:
+                continue
+            hits = []
+            for node in ast.walk(tree_):
+                if not isinstance(node, ast.Call):
+                    continue
+                f_ = node.func
+                name = getattr(f_, "attr", None) or getattr(f_, "id", None)
+                if name == "assert_m5_source_allowed":
+                    hits.append(node.lineno)
+            if hits:
+                callers[fn] = sorted(hits)
+    uncovered = sorted(set(callers) - set(GATE_FILES))
+    res["scan_list"] = {"declared": GATE_FILES,
+                        "gate_callers_found": {k: callers[k] for k in sorted(callers)},
+                        "uncovered": uncovered, "ok": not uncovered,
+                        "detection": "AST Call nodes (prose mentions and docstrings do not "
+                                     "count as call sites)",
+                        "rule": "a gate caller that is not in the declared list makes the "
+                                "criterion FAIL instead of being silently unscanned"}
+    search_dirs = (HERE, os.path.join(HERE, "..", "m5"), os.path.join(HERE, "..", "registry"))
+    src_files = {}
+    for fn in GATE_FILES:
+        for d in search_dirs:
+            p = os.path.join(d, fn)
+            if os.path.exists(p):
+                src_files[fn] = open(p, encoding="utf-8").read().split(chr(10))
+                break
+    res["gate_call_sites"] = [{"file": fn, "line": i + 1, "text": l.strip()}
+                              for fn in GATE_FILES
+                              for i, l in enumerate(src_files.get(fn, []))
+                              if "assert_m5_source_allowed(" in l
+                              and (l.strip().startswith("ms.") or " ms." in l)]
+    res["todo_stage3_present"] = sum(1 for fn in GATE_FILES
+                                     for l in src_files.get(fn, [])
+                                     if "TODO(stage3)" in l)
     tdb = os.path.join(tempfile.gettempdir(), "_origin_rt.db")
     if os.path.exists(tdb):
         os.remove(tdb)
@@ -435,6 +496,26 @@ def main():
     reg.close()
     con.close()
 
+    # A status string is a judgement and must be COMPUTED. This one used to be a hardcoded
+    # "失锚（待重跑）", i.e. a placeholder that could never turn green.
+    gj = json.load(open(os.path.join(HERE, "run_m5_grounded.json"), encoding="utf-8"))
+    frozen = {"plate_main": "supported", "plate_ablated": "unsupported",
+              "home_main": "supported", "home_ablated": "supported"}
+    got = dict((c["case"], c["verdict"]) for c in gj["cases"])
+    acc = gj["acceptance"]
+    used = {k: acc[k] for k in ("false_positive", "false_negative",
+                               "cells_match_block_row", "m3_lease_untouched")}
+    res["m5_product_usability"] = {
+        "run_json_sha16": sha16_file(os.path.join(HERE, "run_m5_grounded.json")),
+        "verdicts": got, "frozen": frozen, "verdicts_match": got == frozen,
+        "acceptance_used": used,
+        "excluded": {"m4_existing_files_untouched": acc["m4_existing_files_untouched"]},
+        "excluded_reason": "that field checks whether the evidence SCRIPTS are uncommitted "
+                           "dirty in git; it says nothing about whether the product answers",
+        "rule": "通过 iff the four verdicts equal the frozen set AND zero false positives / "
+                "negatives AND cells match the block row AND the m3 lease is untouched",
+        "ok": (got == frozen and used["false_positive"] == 0 and used["false_negative"] == 0
+               and used["cells_match_block_row"] and used["m3_lease_untouched"])}
     res["status"] = {
         "S3-1_joined_not_substring": "通过" if ev["6_joined_not_in_container"]["ok"] else "未通过",
         "A_fail_closed_registry": "通过" if ev["A_fail_closed_registry"]["ok"] else "未通过",
@@ -446,11 +527,13 @@ def main():
         # Step 2: both criteria are now machine-checked by check_m5_gate.py --stage3
         # (layer1 AST bound to the return point, layer2 reachability, layer3 runtime refusal).
         "S3-3_gate_wired_in_production_path": ("通过" if res["gate_call_sites"] else "未通过"),
-        "S3-4_no_todo_stage3": ("通过" if res["todo_stage3_present"] == 0 else "未通过"),
-        "M5_product_usable": "失锚（待重跑）",
+        "S3-4_no_todo_stage3": ("通过" if (res["todo_stage3_present"] == 0
+                                          and res["scan_list"]["ok"]) else "未通过"),
+        "M5_product_usable": ("通过" if res["m5_product_usability"]["ok"] else "未通过"),
         "lost_keys_empty": "通过" if res["lost_keys"] == [] else "未通过",
         "row_sets_unchanged": "通过" if res["row_sets"]["ok"] else "未通过",
-        "changed_columns_exact": "通过" if res["changed_columns"]["ok"] else "未通过",  # changed={source_text,text_origin}, added={synthetic}
+        "changed_columns_exact": "通过" if res["changed_columns"]["ok"] else "未通过",
+        "R4_added_vs_changed_split": "通过" if res["column_changes"]["ok"] else "未通过",  # changed={source_text,text_origin}, added={synthetic}
         "block_files_unchanged": "通过" if all(v["sha_match"] and v["bytes_match"] and v["mtime_match"]
                                             for v in res["block_files_unchanged"].values()) else "未通过",}
     json.dump(res, open(os.path.join(HERE, "run_stage3.json"), "w", encoding="utf-8"),

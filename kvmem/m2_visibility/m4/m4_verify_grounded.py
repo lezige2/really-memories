@@ -7,7 +7,7 @@ A paired assertions | B four quadrants | C shape of the criteria-file change
 D before/after by really running the pre-R12 module | E undecidable kept verbatim
 Every conclusion carries artifact sha256 (short 16 hex), see .delivery_anchor.
 """
-import hashlib, importlib.util, json, os, sqlite3, subprocess, sys
+import hashlib, importlib.util, io, json, os, sqlite3, subprocess, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = r"D:/llama-mem"
@@ -316,6 +316,36 @@ def main():
         if os.path.exists(os.path.join(HERE, "run_m5_grounded.json")) else None
     cmp_sha = sha_file(os.path.join(HERE, "run_m5_fix_compare.json"), 16) \
         if os.path.exists(os.path.join(HERE, "run_m5_fix_compare.json")) else None
+    # R3: which anchors this run invalidates -- five fields each.
+    run_path = os.path.join(HERE, "run_m5_grounded.json")
+    prev = sha_file(run_path, 16) if os.path.exists(run_path) else None
+    res["invalidated_anchors"] = []
+    if prev:
+        res["invalidated_anchors"].append({
+            "artifact": "run_m5_grounded.json",
+            "old_sha16": prev,
+            "new_sha16": None,
+            "new_sha16_rule": ZERO_RULE,
+            "at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+            "reason": "rerun for the rework round R1-R9 (probe copy pinned, guard derived, "
+                      "grade computed, added/changed columns split)",
+            "expected_by": "SRC-CRITERIA.md 12.7 换源裁决不变: the verdicts must not move "
+                           "when only the source text changes"})
+    res["invalidated_anchors_history"] = [
+        {"artifact": "run_m5_grounded.json", "old_sha16": "5cd106eead0c9bac",
+         "new_sha16": None, "at": None, "grade": "A",
+         "reason": "earlier rerun before Stage 3; its replacement sha was not recorded",
+         "expected_by": "no criterion changed (same sources, same code)"},
+        {"artifact": "run_m5_grounded.json", "old_sha16": "dd8703d1022cdeb9",
+         "new_sha16": None, "at": None, "grade": "A",
+         "reason": "earlier rerun before Stage 3; its replacement sha was not recorded",
+         "expected_by": "no criterion changed (same sources, same code)"},
+        {"artifact": "run_m5_grounded.json", "old_sha16": "d97cdfdc",
+         "new_sha16": "d13df1e9", "at": "2026-10-25T05:05:32", "grade": "A",
+         "reason": "Stage 3 step 2: gate wired at the source-selection site, TODO(stage3) "
+                   "removed, P10 fix",
+         "expected_by": "SRC-CRITERIA.md 12.7 换源裁决不变 (both sha16 transcribed from the "
+                        "lead's independent recomputation)"}]
     res["delivery_anchor"] = {
         "note": "this json is written after these values are read, so run_m5_grounded.json "
                 "and run_m5_fix_compare.json below describe the PREVIOUS run; the authoritative "
@@ -334,19 +364,39 @@ def main():
                                                 MAIN + ".kvmem"), 16),
         "blk_noplate.kvmem": sha_file(os.path.join(HERE, "_ablate", "blocks",
                                                    "blk_conv_noplate_2026-10-25_01.kvmem"), 16),
-        "invalidated_anchors": ["5cd106eead0c9bac", "dd8703d1022cdeb9"],
+        "invalidated_anchors_here_are_out_of_date_see_top_level_field": True,
         "invalidated_note": "两份 run json 在不同时间点被重跑过，旧 sha 一律失效；"
                             "README §19.10 记录 旧->失效->当前 的对照",
         "rule": "产物重跑、sha 变了 => 之前的验收结论自动失效，必须重新验收",
     }
-    json.dump(res, open(os.path.join(HERE, "run_m5_grounded.json"), "w", encoding="utf-8"),
-              ensure_ascii=False, indent=2)
+    write_with_self_anchor(os.path.join(HERE, "run_m5_grounded.json"), res)
     print(json.dumps(res["paired_assertions"], ensure_ascii=False, indent=1))
     print(json.dumps(res["acceptance"], ensure_ascii=False, indent=1))
     print(json.dumps(res["before_after"], ensure_ascii=False, indent=1))
     print(json.dumps(res["quadrants"], ensure_ascii=False, indent=1))
     print(json.dumps(res["delivery_anchor"], ensure_ascii=False, indent=1))
     print("[RUN] wrote run_m5_grounded.json")
+
+
+ZERO_RULE = ("new_sha16 = sha256 of the same file with every new_sha16 replaced by "
+             "0000000000000000, dumped with ensure_ascii=False, indent=2; a file cannot "
+             "contain its own sha and this rule makes the value recomputable")
+
+
+def write_with_self_anchor(path, obj):
+    """Write obj, filling each new_sha16 per ZERO_RULE."""
+    def render():
+        buf = io.StringIO()
+        json.dump(obj, buf, ensure_ascii=False, indent=2)
+        return buf.getvalue()
+    for e in obj.get("invalidated_anchors", []):
+        if e.get("new_sha16_rule") == ZERO_RULE:
+            e["new_sha16"] = "0" * 16          # the placeholder the rule names
+    sh = hashlib.sha256(render().encode("utf-8")).hexdigest()[:16]
+    for e in obj.get("invalidated_anchors", []):
+        if e.get("new_sha16_rule") == ZERO_RULE:
+            e["new_sha16"] = sh
+    open(path, "w", encoding="utf-8").write(render())
 
 
 if __name__ == "__main__":
