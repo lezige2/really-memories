@@ -155,6 +155,23 @@ class KVEngine:
             n = self.lib.kvshim_ask_at(self.h, seq, t, pos, n_predict, buf, 8192)
         return "" if n < 0 else buf.value.decode("utf-8", "replace")
 
+    def ask_at_topk(self, seq, text, pos, k=5, n_predict=24, cap=8192):
+        """First generated step top-k distribution (additive shim export)."""
+        probs = (ctypes.c_float * k)()
+        toks = (ctypes.c_int * k)()
+        buf = ctypes.create_string_buffer(cap)
+        t = turn(text).encode("utf-8")
+        f = self.lib.kvshim_ask_at_topk
+        f.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_int,
+                      ctypes.c_int, ctypes.c_int, ctypes.POINTER(ctypes.c_float),
+                      ctypes.POINTER(ctypes.c_int), ctypes.c_char_p, ctypes.c_int]
+        f.restype = ctypes.c_int
+        n = f(ctypes.c_void_p(self.h), seq, t, pos, n_predict, k, probs, toks,
+              buf, cap)
+        return {"rc": n,
+                "answer": "" if n < 0 else buf.value.decode("utf-8", "replace"),
+                "topk": [{"token": int(toks[i]), "prob": float(probs[i])} for i in range(k)]}
+
     def save(self, seq, path):
         return self.lib.kvshim_save(self.h, seq, path.encode("utf-8"))
 

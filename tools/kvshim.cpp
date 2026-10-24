@@ -28,6 +28,7 @@
 #include "llama.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdio>
 #include <cstring>
 #include <string>
@@ -327,6 +328,65 @@ KVSHIM_API int kvshim_ask_at(kvshim * h, int seq, const char * text, int pos_sta
     }
     h->tokens[seq].insert(h->tokens[seq].end(), ids.begin(), ids.end());
 
+    llama_pos gen = pos0 + (llama_pos) ids.size();
+    const std::string ans = generate(h, seq, gen, n_predict);
+    const int n = (int) std::min<size_t>(ans.size(), (size_t) cap - 1);
+    memcpy(out, ans.data(), (size_t) n);
+    out[n] = '\0';
+    return n;
+}
+
+// Same prompt path as kvshim_ask_at, plus the FIRST generated step top-k distribution.
+// Purely additive: nothing above changes, and when this function is not called the shim
+// behaves exactly as before. Probabilities are a full-vocabulary softmax, top-k picked by
+// a stable insertion sort (ties keep the lower token id first).
+static void topk_probs(const float * logits, int n_vocab, int k, int * out_tok, float * out_prob) {
+    float mx = logits[0];
+    for (int t = 1; t < n_vocab; t++) {
+        if (logits[t] > mx) { mx = logits[t]; }
+    }
+    double z = 0.0;
+    for (int t = 0; t < n_vocab; t++) {
+        z += std::exp((double) (logits[t] - mx));
+    }
+    for (int i = 0; i < k; i++) { out_tok[i] = -1; out_prob[i] = 0.0f; }
+    if (z <= 0.0) { return; }
+    for (int t = 0; t < n_vocab; t++) {
+        const float p = (float) (std::exp((double) (logits[t] - mx)) / z);
+        if (p <= out_prob[k - 1]) { continue; }
+        for (int i = 0; i < k; i++) {
+            if (p > out_prob[i]) {
+                for (int j = k - 1; j > i; j--) { out_prob[j] = out_prob[j - 1]; out_tok[j] = out_tok[j - 1]; }
+                out_prob[i] = p;
+                out_tok[i]  = t;
+                break;
+            }
+        }
+    }
+}
+
+KVSHIM_API int kvshim_ask_at_topk(kvshim * h, int seq, const char * text, int pos_start,
+                                  int n_predict, int k, float * out_prob, int * out_tok,
+                                  char * out, int cap) {
+    if (!h || !out_prob || !out_tok || !out || cap <= 0) {
+        return -1;
+    }
+    if (k < 1) { k = 1; }
+    if (k > 64) { k = 64; }
+    const std::vector<llama_token> ids = tokenize(h->vocab, text, false);
+    if (ids.empty()) {
+        return -1;
+    }
+    const llama_pos pos0 = (pos_start < 0) ? next_pos(h, seq) : (llama_pos) pos_start;
+    if (!decode_tokens(h, seq, ids, pos0, true)) {
+        return -1;
+    }
+    h->tokens[seq].insert(h->tokens[seq].end(), ids.begin(), ids.end());
+    const float * logits = llama_get_logits_ith(h->ctx, -1);
+    if (!logits) {
+        return -1;
+    }
+    topk_probs(logits, llama_vocab_n_tokens(h->vocab), k, out_tok, out_prob);
     llama_pos gen = pos0 + (llama_pos) ids.size();
     const std::string ans = generate(h, seq, gen, n_predict);
     const int n = (int) std::min<size_t>(ans.size(), (size_t) cap - 1);

@@ -44,3 +44,20 @@ let a build from a different machine slip through as noise, so the rule is:
    (an earlier note here quoted 5a66fa4b... which came from a window shifted by 2 bytes:
     the number matched the shipped pair but the window was wrong and is not used any more).
 script: patches/norm_dll.py (prints the fields and the byte count it cleared).
+NORMALIZATION RULE v2 (supersedes the fixed-offset rule above)
+
+The second build stamp does NOT live at a fixed offset: it sat at 47838724 in the
+49,952,768-byte DLL and at 47,840,260 in the 49,954,304-byte build that adds
+kvshim_ask_at_topk. A hardcoded offset therefore misses it on any size change.
+
+rule now implemented in patches/norm_dll.py:
+  1. read the 32-bit COFF TimeDateStamp at 0x80;
+  2. clear it;
+  3. find every later occurrence of the same 32-bit value and clear those too;
+  4. print the stamp, the offsets cleared and the byte count -- a normalization that cannot
+     say what it cleared is not evidence.
+
+verified: two rebuilds of the current source differ in exactly 2 bytes (0x80 and the moved
+second stamp) and hash to 168f8e9c4f2fb360 once cleared, so the build is deterministic.
+The shipped 849e7281c74a5288 baseline stays on record; it is NOT expected to match after a
+source change -- behaviour (answer sha 7ec1430d..., ABLDBG counts) is the judge.
