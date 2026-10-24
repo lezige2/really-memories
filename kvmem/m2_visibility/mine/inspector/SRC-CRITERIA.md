@@ -299,3 +299,110 @@ if kind != "human_memory": raise SourceNotAllowed(...)   # turns 只被拼进报
 
 **若执行者坚持 (A)**：那也只能从**角色声明**派生（`assistant_lines` 非空 ⇒ 1），不能从 `text_kind` 派生；
 并且必须同时给出「纯人类会话」这条反例的往返测试（`conversation` + `0` 仍可如实表达）。否则我不接受 (A)。
+
+## 12 Stage 3 判据冻结（2026-10-25；冻结后任何改动都算判据变更，须重审）
+
+依据：lead 批准的方案 v2 + lead 的三条收紧 + S3-1..S3-8 + 我 MC 的实测。
+凡标注「我实测」的，都是我自己跑出来的原值，不是转述。
+
+### 12.0 D3-0 · 两个长度是**两个量**，禁止互相比较
+
+- 标签固定为 `source_text_len` 与 `profile_blob_len`；一句话里只许出现其一。
+- 禁止写法：「从 127 变成 99」（跨量拼接会把两条独立事实说成一次回归）。
+- 我实测（`source_profile([text])`，注意**必须传列表**）：`source_text_len` 127 -> 110；`profile_blob_len` 114 -> 99。
+- 我实测五族 keys：latin 2/2、plate 1/1（浙B3F19K）、nums 5/5（12,19,2,3,602）、dates 0/0、props 2/2（广陵路,豆豆）；lost=[]、gained=[]。
+
+**附一条自纠（我的第六个同类错误，记入纪律第五条）**：我第一次调用 `source_profile(cont)` 时传了字符串而不是列表，
+函数内部 `for t in texts` 于是**逐字符**遍历，得到 latin 0/0、plate 0/0、props 0/0 的废数；SAME 结论侥幸成立，但数字全错。
+=> 纪律第五条：**参数形态也属于「原值」**。报告计数/集合时，必须连调用形态一起给出，否则等于没给。
+
+### 12.1 S3-1 · 追溯改为行级（我实测支持）
+
+- 我实测：`joined in container` = **False**；7 行逐行 `in container` = **True**（行号 1,3,4,5,7,8,9）。
+- 因此追溯单位 = `(line_index, line_sha256)`，7 对全命中；「源文本是容器逐字子串」这句话**只对单行成立**。
+- **Stage 3 内必须存在一条期望负向断言**：`assert joined not in container_text`，并注明「跳过 L2/L6 是有意的；
+  将来谁把它修成连续子串，等于把两条 assistant 行拉回源侧」。没有这条，下一个人会当 bug 修掉。
+- 禁止：偏移定位（用 index/位置描述行）、拿 joined 的 sha 去比容器 sha。
+
+### 12.2 S3-2 · origin 解析器唯一实现 + 语法冻结（含 lead 收紧一、二）
+
+**语法**（三段，两处 `@`、一处 `#`）：
+`<kind>:<container>@<container_sha16>#<L 行号表>@<joined_sha256>`
+
+- **唯一实现**：`format_origin()` 与 `parse_origin()` 必须是同一文件里**相邻的**一对，writer 只准调 format，reader 只准调 parse；
+  禁止「写时格式化、读时正则」两套。冻结时把两者的 `file:line` 记进验收。
+- **重组段只接受 64 hex，拒绝 16**（这类 origin 形态是全新的，没有 legacy 需要兼容；接受 16 等于「任意 16 字符前缀相同即过」）。
+  容器段仍是 16（它只是版本标识，强度由块侧 sha 与行 sha 兜底）。
+- **行集顺序敏感**：比序列不比集合。必须同时满足 ① 升序 ② 互异 ③ 全在容器行号范围内 ④ `joined.split(换行)` 长度 == len(行号表)
+  ⑤ 第 i 段与容器第 idx 行**逐字节**相等 ⑥ 每段 sha256 与 `memory_source_excerpt.line_sha256` 相等。
+- 反解还必须：⑦ 用容器 sha16 校验容器未变（R15-e，不符抛 `Stale`）；⑧ origin 的 joined 段 == 该块 `source_text` 的 sha256。
+  第 ⑧ 条是我加的：否则 origin 可以指向一串和实际入块文本不同的东西，而两边都「自洽」。
+- **负向三测**：`L5`->`L6` 改动（正则能匹配、校验必须失败）、行号顺序打乱（L9..L1）必须拒且报错指明**行集/顺序**不符、
+  joined 段写 16 hex 必须拒。
+- **触底实测**：我算得 `origin(16/64)` = **139 字符**（`origin(16/16)` 只有 91），与 lead 同值。
+  必须有一条「完整落库、读回**逐字节**相等」的实测（不许 START 前缀、不许取前 300 —— 今晚已经出过一次截断）。
+
+### 12.3 S3-3 · 闸门位置可 AST 定位
+
+- 用 AST 定位 `ensure_db()` 函数体，闸门必须在**选源函数返回之前**；生产路径接入点 >= 1 且打印 `file:line`。
+- `check_m5_gate.py` 里 TODO 允许名单必须清零（见 S3-4），否则「标记覆盖」会一直遮住「未接入」。
+
+### 12.4 S3-4 · `no_todo_stage3` = 0
+
+- 全树 `TODO(stage3)` 计数 **0**；`m5_bridge.py:86` 真删，且**它的说明文字要搬进注释/文档**，不是丢掉。
+
+### 12.5 S3-5 · `synthetic` 绑死前缀 —— 但 lead 给的 CHECK 有一个 NULL 洞（我实测）
+
+我实测 SQLite 行为（表带 `CHECK ((origin LIKE 声明合成前缀) = (synthetic = 1))`）：
+
+    PASS (None, 0)      <- origin 为 NULL 放行
+    PASS (None, 1)      <- origin 为 NULL 放行
+    PASS (registry:x, 0)
+    PASS (declared_synthetic:y, 1)
+    REJECT (declared_synthetic:y, 0)
+    REJECT (registry:x, 1)
+
+⇒ **CHECK 表达式求值为 NULL 时视为通过**。origin 为 NULL 的行会同时绕过 D3-1 与「非空」要求（若非空只写在应用层）。
+必须写成：`CHECK (origin IS NOT NULL AND ((origin LIKE 声明合成前缀) = (synthetic = 1)))`，另加 `CHECK (synthetic IN (0,1))`。
+并加负向：**origin 为 NULL 必须被 CHECK 拒**（当前形式会放行）。
+`plate_main.synthetic=0`、`plate_ablated.synthetic=1`（我实测 noplate 块现状：`source_text_len` 113、sha16 93332bde804698bc）。
+
+### 12.6 S3-6 · 预登记表与两张空表
+
+- 11 行预登记逐行相等（不是「大体一致」）；`lost_keys` 与 `gained_keys` **两张表都必须显式给出**，五族全列，空就写空。
+- 只报 lost 不报 gained，会漏掉 R12 那类「切源后多出一个命中」的失败模式。
+- M5 自带回归 `false_negative=0` 必须复跑并给原值。
+- 基线（我实测，容器 vs joined）：五族全 SAME、lost/gained 均空 ⇒ 「切源后裁决不变」在 key 层已成立。
+
+### 12.7 S3-7 · 两个哈希分开记；M5 必须重锚
+
+- `_m5db` 的**文件 sha** 与**内容哈希**分别记录，内容哈希必须附四要素（序列化方式、列集合、顺序、编码），否则不可复算（`876deaa3` 的教训）。
+- `run_m5_grounded.json` 一变 ⇒ **M5「通过」必须重新锚定**，结论以我的重算为准。
+- 现状（我实测）：`blk_conv_2026-10-25_01.source_text` 目前是**容器全文**（`source_text_len` 127、sha16 d8c094c1f5fcb8f1、`== container` 为 True），
+  Stage 3 要把它换成 joined（`source_text_len` 110、sha256 2b3b6662b883d117f885cb1f5e995b673b1fb8175c226ebd86be92e8c41fade4）
+  ⇒ 块 `source_text`、`text_origin`、`_m5db` 文件 sha、内容哈希**四处都会变**。
+
+### 12.8 S3-8 · 「chat.db 不变」是可证伪声明
+
+- 跑完必须复算并给原值：`kvmem/chat.db` sha16、`memory_source` 行数（现 10）、`memory_source_excerpt` 行数（现 7）。
+- 若有变化，必须给 `(old, new, reason, time)` 追加记录，不许只说「没变」。
+- 已知前情：`chat.db` 曾因另一阶段写盘从 5909b978 漂到 6d2ff37a，**内容未变**；文件级漂移与内容漂移必须分开写。
+
+### 12.9 D3-3 · 账本自检（Stage 2 遗留，Stage 3 前必须关）
+
+- 自检必须按**来源表达式文本**去重，**不得按取值去重**（判据全为 true 时，按取值去重会把每一项都判成重复）。
+- 必须同时打印 `key_count` 与 `independent_count`，两者不等即失败。
+- **负向测试**：注入一个别名（形如 `99_alias`: 复用已有来源）⇒ 自检必须失败。没有这条负向，自检本身未经验证（I7：每个断言都要证明它会响）。
+- 我今天实跑（证明可构造，且给出当下原值）：条目 **12**、独立来源 **11**、唯一重复组
+  `no_second_copy_of_memory_text -> [8_fidelity, 13_no_second_copy_of_memory_text]`。
+
+### 12.10 I7 新增两行（Stage 3 交付前不得「待建」）
+
+- **行 6**：块上的 `text_origin`（声称的行集）vs 库里的 `memory_source_excerpt`（登记的行集）。
+  断言：把 origin 反解出的行序列与 excerpt 表中该容器的行序列**按序逐项**比对，不一致即 raise。
+- **行 7**：`synthetic` 列 vs origin 前缀。DB 层由 12.5 的 CHECK 承接，**应用层另需一条同样的断言**（双保险；单靠 CHECK 会在 origin 为 NULL 时被绕过）。
+
+### 12.11 冻结之外的既有约束（复述，避免被骗）
+
+- 不得重调 GATE 1.30 / COV_MIN 0.35；三值结论不合并成命中率；不新增 7B<>14B 数字对照；交付只取首句。
+- 任何「通过」都必须带 `file = sha256 前 16`；重跑改 sha 即作废旧结论。
