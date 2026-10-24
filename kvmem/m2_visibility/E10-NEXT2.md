@@ -393,6 +393,82 @@ iso_base/car_back/gap32/gap256/order_rev/m2_fwd/topgap/micro  …新内容  no  
 
 **留一条观察，不当候选**（按"不要写新假设"）：`axA` 全族（第四块 5 cells）home 全部 `ok=True`（`c_home`/`c_project`/`c_car` plain；`c_habit` cloze）⇒ 存在"第四块极小时无论如何都不拖坏 home"的迹象；但它与"尺寸"共线、只此一族，**记录在案，不作假设**。
 
+
+## 2.13 最小因子块库（方案，不造块、不跑 run）
+
+> 今晚真正的教训不是"假设总被打死"，而是**我们在一个内容与长度绑死的块库上，反复试图分离内容与长度**。
+
+### 2.13.1 先查清：现有 `b_*` / `c_*` 到底是怎么造出来的（现取，不是推测）
+
+| 变体 | 造法 | cells 由什么决定 | 它同时改了什么 |
+|---|---|---|---|
+| `b_home=31` / `b_project=28` / `b_habit=20` | **原文本 + 追加填充语**：`P.build_exact_text(eng, fact_text, target_n)`，填充单元见 `tools/m2_visibility_probe.py:129-133`（"另外，还有一些和问题无关的日常记录。"/"今天天气一般。"…） | **目标 token 数（`target_n`）**，由 `eng.write` 实测校验 | ① 事实文本**保持不变**、仍在块首；② 块尾多出**与问题无关的填充语**；③ blocks 字节数、`kvshim n_tokens` 随之变 |
+| `c_home=5` / `c_car=5` … | **压缩**：只保留事实核心词（`fixtures.json:55` 起 `"text": "广陵路。"` / `"项目蓝鲸。"`），`source: "created for micro arm"` | 同上（目标 5） | **事实被剥离上下文** ⇒ `c_*` **不是"同一内容的短版本"，是另一段内容** ⇒ **`c_*` 不能用于 cells 因子** |
+
+**造块是可做、且已有脚本的**：`runs_iso4/_build_blocks.py:23-51` 的 `make(eng, base, target_n, out_path)` 就是完整实现——`open_engine()` → `measure` → `build_exact_text` → `eng.write(SCRATCH,…)` → `eng.save(SCRATCH, path)`，**不需要改引擎**。`_source` 段还把 `m2` 的原始 cells 一起记下来。
+（`probe.py:135` 的注释 "3-segment variant: 31 + 28 + 20 = 79 cells" 正是 `b_*` 那一组，说明 `b_*` 走的同一条路径。）
+
+### 2.13.2 设计约束（决定了档位怎么选）
+
+1. **只准向上填充，不准截断**：`build_exact_text` 在 `prefix > target` 时直接抛异常（`probe.py:226`），而截断会切掉事实（`home` 原生 21，截到 18 会掉 "602"）⇒ **共同档位必须 ≥ 21**。
+2. **填充语全库统一**：所有新块的填充语必须用**同一份 `FILLER_UNITS`**，否则"cells 变了"与"填充语变了"又绑死。
+3. **档位选 28 与 40**：28 = 现有 `b_project` 的 cells（**可复用、零成本**），40 = 28+12，足够拉开；两者都 ≥21 ⇒ 三种内容都能"纯填充"到达，**无需截断**。
+
+### 2.13.3 因子表（内容 × cells）
+
+| 内容 \ cells | 12/18/21（原生，参考） | **28** | **40** |
+|---|---|---|---|
+| home | 21（`m2.home`，free） | **新块** `home_p28` | **新块** `home_p40` |
+| project | 18（`m2.project`，free） | `b_project`（**已有**） | **新块** `project_p40` |
+| habit | 12（`m2.habit`，free） | **新块** `habit_p28` | **新块** `habit_p40` |
+
+- **维度一（内容固定、cells 变）**：任一列×18/21/12 → 28 → 40，共三档。
+- **维度二（cells 固定、内容变）**：在 28 行与 40 行各覆盖 home/project/habit。
+- **原生块天然是同内容的小档**（12/18/21），所以"小档"不用造。
+
+### 2.13.4 六格：成本 / 步骤（造块具体是哪几步、在哪跑、能不能用现有脚本）
+
+1. **观测量**：`strict` 标签（`raw_ok=True and form=="plain"`，见 §8.6 口径）+ `form` + `cell_count` + trace。
+2. **判红/判绿**：见 2.13.6 的预登记表。
+3. **成本（可执行步骤，逐步）**：
+   - **S1 加条目**：在 `runs_iso4/_build_blocks.py::main()` 里复制 `make()` 调用，填 `(base_text, target_n, out_path)`；`base_text` 用 `P.FULL["home"|"project"|"habit"]["text"]`。**现有脚本可直接用，不改签名。**
+   - **S2 跑**：`cd /d/llama-mem/kvmem/m2_visibility && python -X utf8 runs_iso4/_build_blocks.py`（需 Vulkan 引擎 + `kvshim_vk.dll 849e7281`；每块一次 encode+save，约 5–10 s）。
+   - **S3 校验（现有脚本缺这一步，必须补）**：`eng.write` 返回 == `target_n`；`save` 后 `os.path.getsize>0`；**再 `eng.load` 回来 `measure` 一次 == `target_n`**（roundtrip），否则"造出来的块"与"写进去的 cells"可能不一致。
+   - **S4 登记**：把 path/cells/sha256/text 写进 `fixtures.json` 的 `blocks.variant`（照 `c_*` 条目的字段）。
+   - **S5 接布局**：在 `runs_iso3/_driver3.py` 的 `lay()` 里加布局键指向新块（每键一行）。
+   - **S6 跑实验**：3 run/布局 → `_strict_label.py` → `_gate.py`（`VERDICT=`/`DIMS=` 两行）。
+   - **每步在哪跑**：S1/S3 在 `runs_iso4/`，S4 在 `kvmem/m2_visibility/`，S5 在 `runs_iso3/`，S6 在 `runs_mask/`（工作目录见 §7）。
+4. **最少几个新 `.kvmem`**：
+   - **判决最小集 = 3 个**：`project_p40`、`habit_p28`、`habit_p40` —— 因为 (project,28)=fail 与 (habit,20)=fail 已实测，(project,18)=pass 已实测，缺的正是这三格。
+   - **完整 2×3 = 5 个**：再加 `home_p28`、`home_p40`（用来验"内容"这一维在 **home** 上的行为，而不是只靠 project/habit）。
+5. **零成本可行性**：**否**（造块必须过一次引擎 encode+save）。
+6. **边界/副作用（必须写在设计里）**：填充语是"与问题无关的日常记录"，它**本身带语义** ⇒ 大 cells 块 = 事实 + 更多无关内容 ⇒ **"cells 效应"与"无关内容干扰量"在本设计里仍然共线**；能消掉的是"内容 × 长度"这一对，消不掉"长度 × 无关内容量"。**这条不消除，只标注。**
+
+### 2.13.5 现有数据已经钉住的两格（造块前必须先认）
+
+| 4th 块 | 内容 | cells | strict 结局 |
+|---|---|---|---|
+| `project2`（`iso_dup4`） | project | 18 | **pass 29/29** |
+| `b_project`（`I13_b_proj28`） | project | **28** | **fail 0/2** |
+| `b_habit`（`I13_b_habit20`） | habit | 20 | fail 0/2 |
+| `c_car`（`axA_c_car`） | car | 5 | **pass 2/2**（strict 后仍 pass） |
+| `c_habit`（`axA_c_habit`） | habit | 5 | **待定**（raw pass、form=quiz ⇒ strict 剥夺） |
+
+⇒ **同为 project：18 过、28 败**；⇒ **同为 5 cells：car 过，habit 待定（不是"过"）**。
+**队长那条"5 cells 上内容无关"要改一个字**：`c_habit` 在 strict 下是"待定"，因此"5 cells 上内容无关"目前只有 **1 个干净的过**（car），**不能算两个**。
+
+### 2.13.6 第一个判决实验（预测写死）
+
+**布局**：`[home, project, habit, X]`，`X ∈ {project_p40, habit_p28, habit_p40}`，每个 1 run（本库确定性已被 ≥5 组同臂重复验证；若出现"非空且 form=quiz"则按 §2.7.5 升级到 n=3）。
+
+| 假设 | 预测 | 若被数据支持 |
+|---|---|---|
+| **纯内容说** | project@40 **pass**、habit@28 **fail**、habit@40 **fail** | 结局只随内容走 ⇒ 长度无关（与 T-020 一致） |
+| **纯长度说** | 三者**全 fail**（28/40 都 > 18） | 结局只随 cells 走 ⇒ 内容无关 |
+| **交互** | (project,40) pass 而 (habit,28) fail 且 (habit,40)… 不呈单调 | 需要补 `home_p28/home_p40` 走完整 2×3 |
+
+**注意**：这三条预测**不依赖任何已被打死的假设**；`project@18 pass` 与 `project@28 fail` 是既有硬事实，所以"纯长度说"若成立，(project,40) 必须 fail —— **这是本轮第一次能在"内容 vs 长度"上给出方向相反的预测**。
+
 ## 3 非单调 63/69/70 的正面处理
 
 | 被杀掉的说法 | 依据 |

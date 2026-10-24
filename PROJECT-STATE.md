@@ -355,7 +355,12 @@ answer = "我住在\_\_\_\_\_\_。\n\nA. 广陵路 12 号 2 单元 602"    ok = 
 全库仅 2 条被剥夺，均为 `axA_c_habit_home_r1|r2`；27 个 layout 中只有 `axA_c_habit` 由 2 变 0。
 **七个关键对照布局（`iso_dup4`/`iso_dup_p3`/`iso_dup_p2`/`iso_habit_bot`/`iso_dup4_s128`/`iso_car_back`/`iso_no_car`）raw 与 strict 完全同数，无一翻号。**
 ⇒ 判据确有脏点，但**触达面是 2 条记录，本轮没有任何结论因此改变**。
-⇒ 连带影响一条：那 2 条曾被用作 `H_last` 的反例，strict 下转为"待定"；`H_last` 之死因此只依赖 `iso_dup4` / `iso_dup4_s128` 两族。**"axA 不再能当 pass 证据" ≠ "H_last 活过来"。**
+⇒ 连带影响（**此处我先前写错过一次，已按检测员的纠正改写**）：被剥夺的 2 条是 `axA_c_habit_home_r1|r2`，
+它们曾是 `H_last` 与"两条件合取"的反例之一，strict 下转为"待定"。但两者各有独立反例且未被剥夺：
+`H_last` —— `axA_c_home` 与 `I13_b_home31`（第四块是 slot1 副本，raw=2 / strict=2）；
+两条件合取 —— `I13_b_proj28`（应 pass 实 fail）与 `axA_c_car`（应 fail 实 pass）。
+⇒ **两条判死均完好。**
+**另须记死**：`iso_dup4` / `iso_dup4_s128` 是 **pass 案例，支持而非判死**——不得当作反例引用（执行者曾如此误述，已纠正）。
 
 **7.6.3 已判死（均有反例在盘，不许以"另加条款"救活）**
 
