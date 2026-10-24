@@ -89,6 +89,9 @@ def row_run(tag, jsonpath, logpath):
             "dll_sha256_manifest": d["engine"]["dll_sha256"],
             "loaded_paths": [s["file"] for s in
                              D2.build_layout(lay["key"], P.load_manifest())["segments"]],
+            "dll_json": d["engine"]["dll_sha256"],
+            "dll_source": d["engine"].get("dll_sha256_source"),
+            "dll_declared": d["engine"].get("dll_sha256_declared"),
             "dll_measured": dll_of(os.path.basename(jsonpath))}
 
 
@@ -214,11 +217,9 @@ def main():
             % (r["tag"], "PASS" if ok else "**FAIL**", r["home_span"], r["ask_pos"],
                r["head_gap_cells"], r["slot4_span"], r["cells_on_live"], r["overlaps"]))
     say()
-    say("DLL sha256：run json 里记的是 %s（照抄 fixtures.json，不是实测）。"
-        % tb(rows[0]["dll_sha256_manifest"]))
-    say("本地实测 %s = %s（与 fixtures.json 记录%s）。"
-        % (tb("sha256(tools/kvshim_vk.dll)"), tb(sha(DLL)),
-           "一致" if sha(DLL) == rows[0]["dll_sha256_manifest"] else "**不一致**"))
+    say("DLL sha256：本地实测 %s = %s；run json 的 %s 字段来源 = %s。"
+        % (tb("sha256(tools/kvshim_vk.dll)"), tb(sha(DLL)), tb("engine.dll_sha256"),
+           tb(rows[0]["dll_source"])))
     say()
     say("跑的时候实测（每次跑前后各测一次，只收前后一致的跑）：")
     say()
@@ -258,9 +259,13 @@ def main():
     say("   （当时机器上有三个 5–7 GB 的 python.exe 不是我起的）。这些跑直接作废重试，未计入。")
     say("3. %s 与历史产物不一致（%s vs %s…），gate 行号也从 2031 挪到 2080。"
         % (tb("trace_gate_cpp_sha256"), tb(sha(CPP)), GATE_OLD))
-    say("4. %s 里记的 %s（%s）与实测 DLL 不符；run json 里的 dll_sha256 是照抄这份记录，"
-        % (tb("fixtures.json"), tb("engine.dll_sha256"), rows[0]["dll_sha256_manifest"]))
-    say("   不是实测，所以本报告另列每次跑前后实测的 DLL sha。")
+    say("4. %s 里声明的 %s = %s，与盘上 DLL 实测值不符；"
+        % (tb("fixtures.json"), tb("engine.dll_sha256"), rows[0]["dll_declared"]))
+    say("   我接手时 _driver2.py 是把这份声明照抄进 run json（第一组跑就是这样）。"
+        "23:53:25 另一个会话把它改成实测")
+    say("   （现在 run json 同时有 dll_sha256_source=measured 与 dll_sha256_declared），"
+        "与我的判断一致；这不是我改的，我新增的 iso_fac_G18 构型仍在。")
+    say("   另外：有一个 commit（43be127）把 runs_g18/REPORT.md 一起提交了，**不是我提交的**。")
     say("5. 我自己第一版的“确定性”检查写错了：拿**不同序列**两次 save 的 sha 比对，报了 FAIL。"
         "查下来两个文件只差 header 里 18 个字节")
     say("   （偏移 100,112,…,316，值是序列号 2/3/12 字节一拍），payload 全同；同序列重跑逐字节相同。"
@@ -278,7 +283,7 @@ def main():
             % (tag, tb(s), a["ok"], d["control_ok"],
                "PASS" if s.startswith(REG_ANCHOR) else "**FAIL**"))
     say()
-    say("## 预登记判读（PREREG.md，跑前写定，未改一个字节）")
+    say("## 预登记判读（PREREG.md）")
     say()
     g18_all_fail = all(not r["ok"] for r in g18)
     g18_all_ok = all(r["ok"] for r in g18)
@@ -292,6 +297,9 @@ def main():
     else:
         verdict = "**不确定**（两次方向不一致）—— 原样上报，不判通过也不判失败"
     say(verdict)
+    say()
+    say("（PREREG.md 的判读条款跑前写定、跑后未改；跑之前只动过一处**事实前提**：")
+    say("原文写的 trace_gate 期望值 1f140a9b… 改成本机实测 c0b1fd4a…，并注明不一致。）")
     say()
     say("实测：G18 两次 ok=%s；pp18 两次 ok=%s。G18 的答案是模板空洞 \"我住在____\"，"
         "home 的事实「广陵路」一次也没出现；pp18 同样只是空洞。"
