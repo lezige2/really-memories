@@ -1,29 +1,48 @@
 # -*- coding: utf-8 -*-
-"""证明 --selftest 的作用范围真的隔离（纪律 19/25）：跑前摘要 / 跑后摘要 / 差异为空。
+"""证明所有 --selftest 的作用范围真的隔离（纪律 19/25）：跑前摘要 / 跑后摘要 / 差异为空。
 
-「我发现改坏了又改回来」只证明我会修；这一段证明的是【不可能改坏】——
-_before 里每一个文件在 selftest 前后逐字节不变。判据的作用范围由本脚本自己构造
-（临时目录），不取自被检对象提供的任何路径。
+覆盖范围 = _before 全部文件（副本 + REGISTER）+ 判据枚举的每一个 M4 对象（含两个 .kvmem 输入盘），
+跑 [check_before_register.py --selftest] 与 [check_m4_untouched_endtoend.py --selftest] 两遍。
+两个都进覆盖，否则那个没被看管的失败输入测试本身就是纪律 19 的对象。
+
+「我发现改坏了又改回来」只证明我会修；这一段证明的是【不可能改坏】。
 """
 import hashlib
+import importlib.util
 import os
 import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-BEFORE = os.path.normpath(os.path.join(HERE, "..", "m4", "_before"))
-CHECKER = os.path.join(HERE, "check_before_register.py")
+M4 = os.path.normpath(os.path.join(HERE, "..", "m4"))
+BEFORE = os.path.join(M4, "_before")
+SELFTESTS = (os.path.join(HERE, "check_before_register.py"),
+             os.path.join(HERE, "check_m4_untouched_endtoend.py"))
 
 
-def snapshot(root):
+def enumerated_objects():
+    sys.path.insert(0, M4)
+    spec = importlib.util.spec_from_file_location("mv_iso", os.path.join(M4,
+                                                                        "m4_verify_grounded.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return [rel for rel, _anchor in mod.M4_UNTOUCHED]
+
+
+def snapshot(extra):
     out = {}
-    for dirpath, dirnames, filenames in os.walk(root):
+    for dirpath, dirnames, filenames in os.walk(BEFORE):
         dirnames.sort()
         for f in sorted(filenames):
             p = os.path.join(dirpath, f)
-            rel = os.path.relpath(p, root).replace(os.sep, "/")
+            rel = "m4/_before/" + os.path.relpath(p, BEFORE).replace(os.sep, "/")
             with open(p, "rb") as fh:
                 out[rel] = hashlib.sha256(fh.read()).hexdigest()
+    for rel in extra:
+        p = os.path.join(M4, rel.replace("/", os.sep))
+        if os.path.exists(p):
+            with open(p, "rb") as fh:
+                out["m4/" + rel] = hashlib.sha256(fh.read()).hexdigest()
     return out
 
 
@@ -33,20 +52,27 @@ def digest(snap):
 
 
 def main():
-    pre = snapshot(BEFORE)
+    extra = enumerated_objects()
+    pre = snapshot(extra)
+    print("scope : %d file(s) = _before %d + enumerated M4 objects %d"
+          % (len(pre), len([k for k in pre if k.startswith("m4/_before/")]), len(extra)))
     print("pre   : %d file(s), digest=%s" % (len(pre), digest(pre)))
-    proc = subprocess.run([sys.executable, "-X", "utf8", CHECKER, "--selftest"],
-                          capture_output=True, text=True, encoding="utf-8")
-    tail = [l for l in proc.stdout.strip().splitlines() if l.startswith("SELFTEST:")]
-    print("selftest: %s (exit %d)" % (tail[-1] if tail else "no verdict", proc.returncode))
-    post = snapshot(BEFORE)
+    rc = 0
+    for tool in SELFTESTS:
+        proc = subprocess.run([sys.executable, "-X", "utf8", tool, "--selftest"],
+                              capture_output=True, text=True, encoding="utf-8")
+        tail = [l for l in proc.stdout.strip().splitlines()
+                if l.startswith("SELFTEST:") or l.startswith("E2E-RED")]
+        print("%-28s %s (exit %d)" % (os.path.basename(tool),
+                                      tail[-1] if tail else "no verdict", proc.returncode))
+        rc = rc or proc.returncode
+    post = snapshot(extra)
     print("post  : %d file(s), digest=%s" % (len(post), digest(post)))
-    diff = sorted(set(pre) | set(post))
-    diff = [k for k in diff if pre.get(k) != post.get(k)]
+    diff = [k for k in sorted(set(pre) | set(post)) if pre.get(k) != post.get(k)]
     print("diff  : %s" % ("[] (empty)" if not diff else diff))
-    ok = not diff and proc.returncode == 0 and digest(pre) == digest(post)
-    print("ISOLATION: %s" % ("PASS -- the self-check touched nothing it is testing" if ok
-                             else "FAIL -- the self-check changed the evidence"))
+    ok = not diff and rc == 0 and digest(pre) == digest(post)
+    print("ISOLATION: %s" % ("PASS -- the self-checks touched nothing they are testing" if ok
+                             else "FAIL -- a self-check changed the evidence"))
     return 0 if ok else 1
 
 

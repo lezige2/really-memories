@@ -29,6 +29,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -38,7 +39,10 @@ DEFAULT_DIR = os.path.normpath(os.path.join(HERE, "..", "m4", "_before"))
 REGISTER = "REGISTER.json"
 HEX = "0123456789abcdef"
 KEYS = ("register", "missing_copy", "not_a_file", "sha_mismatch", "unregistered",
-        "unexpected", "changes")
+        "unexpected", "changes", "step_id")
+
+# discipline 16 (revised in 8ce55a9): a reason must name the STEP, not just the moment
+STEP_RE = re.compile("R" + chr(92) + "d+|Step|Stage|S3-|阶段")
 REQUIRED_FIELDS = ("copyist", "copy_time", "reason")
 
 
@@ -110,6 +114,18 @@ def check(before_dir):
                                              "content_is": actual,
                                              "register_says": e.get("source_sha16")})
 
+    legacy = set(reg.get("legacy_reason_without_step", []))
+    for base, e in registered.items():
+        if base in legacy:
+            continue
+        if not STEP_RE.search(e.get("reason") or ""):
+            problems["step_id"].append(
+                "entry %s: reason names no step (%r)" % (base, (e.get("reason") or "")[:40]))
+    for name in legacy:
+        if name not in registered:
+            problems["step_id"].append(
+                "legacy_reason_without_step names a copy with no registration: %r" % name)
+
     for f in on_disk:
         if is_copy_name(f) and f not in registered:
             problems["unregistered"].append(f)
@@ -164,7 +180,7 @@ def selftest(template_dir):
     """
     results = []
     for scenario in ("delete a copy", "flip one byte", "clear a reason",
-                     "corrupt a changes entry"):
+                     "corrupt a changes entry", "reason names no step"):
         tmp = tempfile.mkdtemp(prefix="_br_selftest_")
         dst = os.path.join(tmp, "_before")
         try:
@@ -189,6 +205,12 @@ def selftest(template_dir):
             elif scenario == "flip one byte":
                 with open(target, "ab") as fh:
                     fh.write(b" ")
+            elif scenario == "reason names no step":
+                for e in reg["entries"]:
+                    if STEP_RE.search(e.get("reason") or ""):
+                        e["reason"] = "运行前预防"
+                        break
+                json.dump(reg, open(regp, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
             elif scenario == "corrupt a changes entry":
                 reg["entries"][0]["reason"] = "kept"
                 if reg.get("changes"):

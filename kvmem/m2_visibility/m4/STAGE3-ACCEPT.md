@@ -300,14 +300,19 @@ SELFTEST: PASS -- every failure input was caught
 且**不取自被检对象提供的任何路径**（纪律 25）。
 
     $ python -X utf8 check_selftest_isolation.py
-    pre   : 28 file(s), digest=0c235ad3713d79bb
-    selftest: SELFTEST: PASS -- every failure input was caught (exit 0)
-    post  : 28 file(s), digest=0c235ad3713d79bb
+    scope : 33 file(s) = _before 28 + enumerated M4 objects 5
+    pre   : 33 file(s), digest=5715c8c44d89e7a6
+    check_before_register.py       SELFTEST: PASS -- every failure input was caught (exit 0)
+    check_m4_untouched_endtoend.py E2E-RED R12: PASS -- the judgement goes red on a changed enumerated object (exit 0)
+    post  : 33 file(s), digest=5715c8c44d89e7a6
     diff  : [] (empty)
-    ISOLATION: PASS -- the self-check touched nothing it is testing
+    ISOLATION: PASS -- the self-checks touched nothing they are testing
 
 四段（跑前摘要 / selftest 结论 / 跑后摘要 / 差异为空）合起来才是完整证据：
-`_before` 里 27 份副本 + `REGISTER.json` 在自检前后**逐字节不变**，摘要 `0c235ad3713d79bb` 前后同值。
+覆盖范围是 `_before` 的 28 个文件 **加上判据枚举的 5 个 M4 对象**（含两个 `.kvmem` 输入盘），
+自检前后**逐字节不变**，摘要 `5715c8c44d89e7a6` 前后同值。
+**两个 selftest 都在覆盖内**（`check_before_register.py` 与 `check_m4_untouched_endtoend.py`）——
+否则那个没被看管的失败输入测试本身就是纪律 19 的对象。
 
 顺带补一个失败输入（新加的 `changes` 判据也要能红）：
 
@@ -315,6 +320,42 @@ SELFTEST: PASS -- every failure input was caught
 
 `changes` 判据（`check_before_register.py:139-155`）：每条「锚位移」登记必须指向一份**仍然存在、且内容仍等于 `from`** 的旧副本，
 否则红。这样「锚变了」不能只靠散文交代。
+
+
+### R12 补：端到端红（F9，单位 R 的最后一块）
+
+做法照 R11，两条按纪律 25 收紧：**被改的文件从临时树自己的 `listdir` 里挑**（不拿 `M4_UNTOUCHED` 的路径去定位生产文件），
+**改完断言被改的绝对路径 `startswith(临时目录)`**。判据代码一行未改 —— 测试只把模块常量 `HERE` 指向临时树。
+
+    $ python -X utf8 check_m4_untouched_endtoend.py --selftest
+    control (temp copy, untouched): ok = True, objects = 5
+    picked from temp listdir    : _ablate/blocks/blk_conv_noplate_2026-10-25_01.kvmem
+    mutating                    : $TMP/m4/_ablate/blocks/blk_conv_noplate_2026-10-25_01.kvmem
+    after one appended byte      : ok = False
+    failures                     : ['_ablate/blocks/blk_conv_noplate_2026-10-25_01.kvmem']
+    detail                       : {"anchor": "_stage3_pre.json block_files", "current_sha16": "00965dcf508e90ce",
+                                    "expected_sha16": "e3bfec41d1f059e7", "ok": false}
+    mutated path inside $TMP     : True
+    production tree after test   : ok = True (untouched)
+    E2E-RED R12: PASS -- the judgement goes red on a changed enumerated object
+
+注意这条红走的是 `_stage3_pre.json` 那条锚（块文件的 `block_files`），不是 `_before` 副本那条 ——
+两条锚各被红过一次，才说明「任一锚失效都能被看见」，而不是只有一条通路带电。
+
+## F10 · 早期 reason 只写时点、未写步骤：把边界写下来，不改旧条目
+
+`REGISTER.json` 新增两条（旧条目的 `reason` **一个字节都没改**，历史事实）：
+
+    "legacy_reason_without_step": [ ...12 条... ]
+    "register_notes": [{ "text": "早期条目 reason 只写时点未写步骤；其「按计划变」判定另需 diff 佐证",
+                         "why": "纪律 16 修订（8ce55a9）之后才要求 reason 指名步骤。历史登记的 reason 是既成事实，
+                                 不改写；把这条边界写下来，比给旧条目补一个好看的 reason 重要。" }]
+
+并且这条规则**从此由机器执行**（`check_before_register.py` 的 `step_id` 判据）：非 legacy 条目的
+`reason` 必须命中 `R\d+ / Step / Stage / S3- / 阶段`，legacy 清单里的名字必须都真实存在。
+失败输入：
+
+    reason names no step -> caught: {'step_id': 1}
 
 ## 一个被移位的锚：按「按计划变」登记
 
