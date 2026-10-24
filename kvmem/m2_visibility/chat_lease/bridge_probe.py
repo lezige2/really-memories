@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
-"""Bridge evidence: does the lease table see session_state's own share/drop?
+"""Bridge evidence (A) rerun under the strict rules.
 
-One engine, one table, one real save_session -> restore_session round trip.
+  python -X utf8 bridge_probe.py  -> run_bridge.json
 
-  python -X utf8 bridge_probe.py
+Same process on purpose: it shows both sides of the wire --
+  * save_session is recorded (drop/share reach the table),
+  * restore_session WITHOUT detaching is now REFUSED (the hazard this guard exists for),
+  * after the legal detach, restore succeeds and referrers still match,
+  * a deliberate reset of a referenced block is refused; detach->reset is allowed.
 """
-import json, os, sys, time
+import json, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = r"D:/llama-mem"
@@ -20,7 +24,6 @@ PATH = os.path.join(ROOT, "kvmem", "sessions", "bridge.json")
 
 
 def place(eng, leases, rows):
-    """Same geometry as chat._place_slots, but through THIS table (no second table)."""
     blocks = []
     for i, row in enumerate(rows, start=1):
         leases.register_block(i, row[1])
@@ -37,83 +40,90 @@ def place(eng, leases, rows):
     return blocks
 
 
-def snapshot(eng, leases, mounted_names, rows):
-    """Per-seq view: what the table believes vs what the engine and the manifest show."""
+def per_seq(eng, leases, mounted):
     out = []
-    for name, row in rows.items():
-        seq = [b for b in mounted_names if b["block"] == name]
-        want_refs = [0] if seq else []
-        out.append({"block": name, "seq": seq[0]["slot_id"] + 1 if seq else None,
-                    "expect_referrers": want_refs,
-                    "table_referrers": leases.referrers(seq[0]["slot_id"] + 1) if seq else None,
-                    "engine_cells": eng.n_tokens(seq[0]["slot_id"] + 1) if seq else None,
-                    "match": (sorted(leases.referrers(seq[0]["slot_id"] + 1)) == want_refs)
-                    if seq else True})
+    for b in mounted:
+        seq = b["slot_id"] + 1
+        out.append({"block": b["block"], "seq": seq, "expect_referrers": [0],
+                    "table_referrers": leases.referrers(seq),
+                    "engine_cells": eng.n_tokens(seq),
+                    "match": leases.referrers(seq) == [0]})
     return out
 
 
-res = {"schema": "chat_lease_bridge_v1", "pid": os.getpid(), "path": PATH}
+res = {"schema": "chat_lease_bridge_v2", "pid": os.getpid(), "path": PATH,
+       "strict": CL.STRICT, "bridge_env": os.environ.get("CHAT_LEASE_BRIDGE", "1")}
 con = ms.connect(chat.DB)
 rows_list = [r for r in ms.block_rows(con) if r[5] is not None][:2]
-rows = {r[1]: r for r in rows_list}
 eng = KVEngine(chat.MODEL, n_ctx=chat.N_CTX, n_seq=8, gpu=99, kv="q8_0")
 try:
-    leases = CL.GuardedLeases(eng, site_prefix="bridge")   # installs the bridge
-    res["bridge_installed"] = bool(getattr(ss.save_session, "_lease_bridge", False))
+    leases = CL.GuardedLeases(eng, site_prefix="bridge")
+    res["bridged"] = CL.assert_bridged()
     blocks = place(eng, leases, rows_list)
-    # one question so the chat sequence owns cells (save writes a real chat state)
     eng.ask(0, chat.QUESTIONS[0], n_predict=16, pos=chat.CHAT_START)
-    res["chat_cells_before_save"] = eng.n_tokens(0)
-
     man = ss.save_session(eng, con, PATH, blocks, anchor=chat.CHAT_START,
                           slot_capacity=chat.SLOT)
     mounted = man["placement"]["blocks"]
-    res["after_save"] = {"manifest_mounted": [b["block"] for b in mounted],
-                         "per_seq": snapshot(eng, leases, mounted, rows),
-                         "table": leases.status()}
+    res["after_save"] = {"mounted": [b["block"] for b in mounted],
+                         "per_seq": per_seq(eng, leases, mounted)}
     res["after_save"]["all_match"] = all(b["match"] for b in res["after_save"]["per_seq"])
 
+    try:
+        ss.restore_session(eng, con, PATH)
+        res["restore_without_detach"] = {"refused": False, "error": "NO EXCEPTION"}
+    except CL.LeaseError as exc:
+        res["restore_without_detach"] = {"refused": True, "message": str(exc)}
+
+    for b in mounted:
+        leases.detach(0, b["start"], b["end"], site="bridge.detach_all")
     rep = ss.restore_session(eng, con, PATH)
-    mounted2 = rep["blocks"]
-    res["after_restore"] = {"report_blocks": [b["block"] for b in mounted2],
+    res["after_restore"] = {"blocks": [b["block"] for b in rep["blocks"]],
                             "chat_n_tokens": rep["chat_n_tokens"],
-                            "per_seq": snapshot(eng, leases, mounted2, rows),
-                            "table": leases.status()}
+                            "per_seq": per_seq(eng, leases, rep["blocks"])}
     res["after_restore"]["all_match"] = all(b["match"] for b in res["after_restore"]["per_seq"])
 
-    victim = mounted2[0]
+    proxy = CL.make_proxy(eng, leases)
+    victim = rep["blocks"][0]
     seq = victim["slot_id"] + 1
-    before_cells = eng.n_tokens(seq)
+    before = eng.n_tokens(seq)
     try:
-        leases.reset(seq, site="bridge.reset_while_attached")
-        res["after_roundtrip_refusal"] = {"refused": False,
-                                          "error": "NO EXCEPTION -- table was out of sync"}
+        proxy.reset(seq)
+        res["deliberate_reset"] = {"refused": False, "error": "NO EXCEPTION"}
     except CL.LeaseError as exc:
-        res["after_roundtrip_refusal"] = {"refused": True, "message": str(exc),
-                                          "cells_after": eng.n_tokens(seq),
-                                          "cells_unchanged": eng.n_tokens(seq) == before_cells,
-                                          "block": victim["block"]}
-    leases.detach(0, victim["start"], victim["end"], site="bridge.detach")
-    leases.reset(seq, site="bridge.reset_after_detach")
+        res["deliberate_reset"] = {"refused": True, "message": str(exc),
+                                   "cells_before": before, "cells_after": eng.n_tokens(seq),
+                                   "cells_unchanged": eng.n_tokens(seq) == before}
+    leases.detach(0, victim["start"], victim["end"], site="bridge.legal.detach")
+    leases.reset(seq, site="bridge.legal.reset")
     res["legal_order"] = {"cells_after_reset": eng.n_tokens(seq),
                           "referrers": leases.referrers(seq)}
+    res["surface"] = CL.surface(eng, leases)
     res["report"] = leases.report()
 finally:
     eng.close()
     con.close()
 
-res["events"] = {}
-for line in (open(CL.EVENT_LOG, encoding="utf-8") if os.path.exists(CL.EVENT_LOG) else []):
-    r = json.loads(line)
-    k = "%s/%s" % (r["site"], r["kind"])
-    res["events"][k] = res["events"].get(k, 0) + 1
+rows = CL.read_log()
+res["log"] = CL.run_log()
+res["coverage"] = {
+    "bridge_active_calls": sum(1 for r in rows if r["kind"] == "bridge.active"),
+    "bridge_inactive_calls": sum(1 for r in rows if r["kind"] == "bridge.inactive"),
+    "refusals": sum(1 for r in rows if r["kind"] == "refused"),
+    "unguarded_unregistered": sum(1 for r in rows if r["kind"] == "unguarded_reset"
+                                  and r.get("reason") == "unregistered_seq"),
+    "range_mismatch": sum(1 for r in rows if r["kind"] == "range_mismatch"),
+}
 res["ok"] = bool(res["after_save"]["all_match"] and res["after_restore"]["all_match"]
-                 and res["after_roundtrip_refusal"].get("refused")
-                 and res["after_roundtrip_refusal"].get("cells_unchanged")
-                 and res["legal_order"]["cells_after_reset"] == 0)
+                 and res["restore_without_detach"]["refused"]
+                 and res["deliberate_reset"]["refused"]
+                 and res["deliberate_reset"]["cells_unchanged"]
+                 and res["legal_order"]["cells_after_reset"] == 0
+                 and res["surface"]["clean"]
+                 and res["coverage"]["range_mismatch"] == 0)
 json.dump(res, open(os.path.join(HERE, "run_bridge.json"), "w", encoding="utf-8"),
           ensure_ascii=False, indent=2)
-print(json.dumps({k: res[k] for k in ("bridge_installed", "after_save", "after_restore",
-                                      "after_roundtrip_refusal", "legal_order", "ok")},
-                 ensure_ascii=False, indent=1)[:3000])
+print(json.dumps({k: res[k] for k in ("bridged", "after_save", "restore_without_detach",
+                                      "after_restore", "deliberate_reset", "legal_order",
+                                      "coverage", "log", "ok")},
+                 ensure_ascii=False, indent=1)[:2400])
 print("[RUN] wrote run_bridge.json")

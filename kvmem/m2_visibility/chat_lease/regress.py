@@ -29,6 +29,21 @@ def sha(s):
     return hashlib.sha256(s.encode("utf-8")).hexdigest()
 
 
+def _log_info(path):
+    """sha256, line count and per-site counts of this run's event log."""
+    if not os.path.exists(path):
+        return {"sha256": None, "lines": 0, "sites": {}, "kinds": {}}
+    blob = open(path, "rb").read()
+    import collections
+    rows = [json.loads(l) for l in blob.decode("utf-8").splitlines() if l.strip()]
+    sites = collections.Counter((r.get("site"), r.get("kind")) for r in rows)
+    kinds = collections.Counter(r.get("kind") for r in rows)
+    return {"sha256": hashlib.sha256(blob).hexdigest(), "lines": blob.count(b"\n"),
+            "sites": {"%s/%s" % (k[0] or "?", k[1]): v
+                      for k, v in sorted(sites.items(), key=lambda kv: str(kv[0]))},
+            "kinds": dict(kinds)}
+
+
 def _pairs(stdout):
     """问/答 pairs in order, cleaned exactly like the product does."""
     out, q = [], None
@@ -45,10 +60,10 @@ def _pairs(stdout):
     return out
 
 
-def run(cmd, cwd=ROOT, timeout=1800):
+def run(cmd, cwd=ROOT, timeout=1800, env=None):
     t0 = time.time()
     p = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True,
-                       encoding="utf-8", errors="replace", timeout=timeout)
+                       encoding="utf-8", errors="replace", timeout=timeout, env=env)
     return {"cmd": " ".join(cmd), "rc": p.returncode, "seconds": round(time.time() - t0, 1),
             "stdout_tail": (p.stdout or "")[-3000:], "stderr_tail": (p.stderr or "")[-1500:],
             "stdout_sha16": sha(p.stdout or "")[:16], "pairs": _pairs(p.stdout or "")}
@@ -66,10 +81,20 @@ def main():
            "started_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
            "chat_py_sha16": sha(open(os.path.join(TOOLS, "chat.py"), encoding="utf-8").read())[:16],
            "lease_module_present": os.path.exists(os.path.join(TOOLS, "chat_lease.py"))}
-    res["chat"] = run([PY, "-X", "utf8", os.path.join(TOOLS, "chat.py")])
-    res["m1"] = run([PY, "-X", "utf8", os.path.join(TOOLS, "chat.py"), "m1"])
+    # one event log for the whole run (never in git): path + sha256 go into the run json
+    logs = os.path.join(HERE, "logs")
+    os.makedirs(logs, exist_ok=True)
+    stamp = time.strftime("%Y%m%dT%H%M%S")
+    ev = os.path.join(logs, "events_%s_%s.jsonl" % (a.label, stamp))
+    env = dict(os.environ)
+    env["CHAT_LEASE_EVENTS"] = ev
+    env["CHAT_LEASE_REFUSALS"] = os.path.join(logs, "refusals_%s_%s.jsonl" % (a.label, stamp))
+    res["log"] = {"events": ev, "refusals": env["CHAT_LEASE_REFUSALS"]}
+    res["chat"] = run([PY, "-X", "utf8", os.path.join(TOOLS, "chat.py")], env=env)
+    res["m1"] = run([PY, "-X", "utf8", os.path.join(TOOLS, "chat.py"), "m1"], env=env)
     # the 4th site: _place_slots() is only reached through "save"
-    res["save"] = run([PY, "-X", "utf8", os.path.join(TOOLS, "chat.py"), "save"])
+    res["save"] = run([PY, "-X", "utf8", os.path.join(TOOLS, "chat.py"), "save"], env=env)
+    res["log"].update(_log_info(ev))
     sess = os.path.join(ROOT, "kvmem", "sessions", "live.json")
     if os.path.exists(sess):
         blob = open(sess, encoding="utf-8").read()
@@ -99,6 +124,10 @@ def main():
                                                  len(res[k]["pairs"])))
             for pr in res[k]["pairs"]:
                 print("   %-28s %s %s" % (pr["q"][:26], pr["sha16"], pr["answer"][:40]))
+    print("log %s (%d lines, sha %s)" % (res["log"]["events"], res["log"]["lines"],
+                                         (res["log"]["sha256"] or "")[:16]))
+    for k, v in res["log"]["sites"].items():
+        print("   %-40s %d" % (k, v))
     print("[RUN] wrote", a.out)
     return 0
 

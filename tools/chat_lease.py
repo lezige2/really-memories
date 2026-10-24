@@ -1,33 +1,30 @@
 # -*- coding: utf-8 -*-
-"""chat.py -> M3 lease adapter.  M3's last open item: the guard wired into the product path.
+"""M3 lease guard, wired into the product path, plus the session_state bridge.
 
-Direction (frozen by the reviewer, 2026-10-25)
-----------------------------------------------
-Every `eng.reset` in chat.py goes through `GuardedLeases.reset`, which
+Two jobs, one table:
 
-  * refuses while the block seq is still referenced by a dialogue seq (M3 §5), and
-  * asserts `cells_of(seq) == 0` immediately after the reset.
+1. `GuardedLeases` -- every destructive reset goes through it: it refuses while the block
+   seq is still referenced, asserts `cells_of(seq) == 0` afterwards (the `safe_reset_all` trap
+   leaves the block uncleared and `load_into` then stacks on stale cells), and logs both the
+   reset and every refusal. `safe_reset_all` is never used in a placement path.
 
-The second rule is the important one. `safe_reset_all(seqs)` is FORBIDDEN in the placement
-path: it computes `skip = set(skip) | set(self.blocks)`, so every registered block seq is skipped,
-the block is NOT cleared, and the following `load_into` piles new cells on top of the old ones --
-position drifts and the cell count grows with no error at all. That is the mirror image of the
-`reset_all` trap M3 §6 recorded, and it is why each site asserts emptiness instead of trusting
-the call.
+2. `RecordingEngine` -- a pass-through proxy handed to `session_state.save_session/
+   restore_session` so the table can see their own share/drop/reset without editing that
+   file. It is a DYNAMIC SUBCLASS of the real engine's class, so `isinstance(proxy, KVEngine)`
+   stays true (a `type(eng) is KVEngine` comparison would still fail; `surface_check.py` greps
+   the codebase for that pattern and fails if one ever appears).
 
-Every refusal is appended to `kvmem/lease_refusals.jsonl` and re-raised: a refusal is never
-swallowed (an unlogged refusal is exactly how the guard would become "ready but unwired" again).
-
-Known limitation, by design: `tools/session_state.py` manages its own share/drop inside
-`save_session` / `restore_session` (it is out of scope for this change), so the table is not
-synchronised across those calls. No `reset` follows them in the same process, so the table
-cannot produce a false refusal there.
+Logs are per run and never committed: `init_run(label)` opens
+`kvmem/lease_logs/events_<label>_<stamp>.jsonl` and the run json records its path + sha256
+(`run_log()`). Nothing here changes reset-then-reload semantics.
 """
 from __future__ import annotations
 
 import functools
+import hashlib
 import json
 import os
+import re
 import sys
 import time
 
@@ -38,11 +35,62 @@ if _M3 not in sys.path:
 
 from m3_lease import BlockLeases, LeaseError                      # noqa: E402,F401
 
-REFUSAL_LOG = os.environ.get("CHAT_LEASE_REFUSALS", os.path.join(_ROOT, "kvmem", "lease_refusals.jsonl"))
-EVENT_LOG = os.environ.get("CHAT_LEASE_EVENTS", os.path.join(_ROOT, "kvmem", "lease_events.jsonl"))
+# -- per-run event logs -------------------------------------------------------
+LOG_DIR = os.environ.get("CHAT_LEASE_LOG_DIR", os.path.join(_ROOT, "kvmem", "lease_logs"))
+EVENT_LOG = os.environ.get("CHAT_LEASE_EVENTS", "")
+REFUSAL_LOG = os.environ.get("CHAT_LEASE_REFUSALS", "")
+_RUN = {}
+
+# STRICT: an unregistered non-zero seq is refused instead of silently forwarded.
+# Rationale: `BlockLeases.reset` only refuses REGISTERED blocks, so a block seq missing from
+# the table would reset silently -- the same failure shape as the bug this guard exists for.
+STRICT = os.environ.get("CHAT_LEASE_STRICT", "1") != "0"
+
+
+def init_run(label="run", force=False):
+    """Open this run's log files (never in git). Idempotent unless force."""
+    global EVENT_LOG, REFUSAL_LOG, _RUN
+    if _RUN and not force:
+        return _RUN
+    if os.environ.get("CHAT_LEASE_EVENTS") and not force:
+        EVENT_LOG = os.environ["CHAT_LEASE_EVENTS"]
+        REFUSAL_LOG = os.environ.get("CHAT_LEASE_REFUSALS") or EVENT_LOG
+        _RUN = {"label": label, "events": EVENT_LOG, "refusals": REFUSAL_LOG}
+        return _RUN
+    safe = re.sub(r"[^A-Za-z0-9_.-]+", "_", label).strip("_") or "run"
+    stamp = time.strftime("%Y%m%dT%H%M%S")
+    try:
+        os.makedirs(LOG_DIR, exist_ok=True)
+    except OSError:
+        pass
+    EVENT_LOG = os.path.join(LOG_DIR, "events_%s_%s.jsonl" % (safe, stamp))
+    REFUSAL_LOG = os.path.join(LOG_DIR, "refusals_%s_%s.jsonl" % (safe, stamp))
+    _RUN = {"label": label, "events": EVENT_LOG, "refusals": REFUSAL_LOG}
+    return _RUN
+
+
+def run_log():
+    """Path, sha256 and line count of this run's event log (for the run json)."""
+    info = dict(_RUN) if _RUN else init_run("default")
+    info["lines"] = 0
+    info["sha256"] = None
+    if os.path.exists(info["events"]):
+        blob = open(info["events"], "rb").read()
+        info["sha256"] = hashlib.sha256(blob).hexdigest()
+        info["lines"] = blob.count(b"\n")
+    return info
+
+
+def read_log(path=None):
+    p = path or run_log()["events"]
+    if not os.path.exists(p):
+        return []
+    return [json.loads(l) for l in open(p, encoding="utf-8") if l.strip()]
 
 
 def _append(path, rec):
+    if not path:
+        return
     try:
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "a", encoding="utf-8") as f:
@@ -51,8 +99,10 @@ def _append(path, rec):
         pass                                                   # logging never breaks the run
 
 
-_LIVE = []          # live tables, in creation order (identity-matched against the engine)
-_BRIDGED = False    # session_state.save_session/restore_session installed exactly once
+# -- registry + bridge --------------------------------------------------------
+_LIVE = []          # live tables, creation order (identity-matched against the engine)
+_BRIDGED = False    # session_state.save_session/restore_session installed once
+_PROXY_CACHE = {}
 
 
 def _active_for(eng):
@@ -63,15 +113,18 @@ def _active_for(eng):
     return None
 
 
-def install_bridge(force=False):
-    """Let the table see session_state's own share/drop WITHOUT editing that file.
+def _stamp(kind, **kw):
+    rec = {"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "kind": kind}
+    rec.update(kw)
+    return rec
 
-    session_state.save_session does drop->save->share and restore_session does
-    reset->load_strict->repos->share on its own. It edits no file here: the two
-    module functions are wrapped once, keyed by engine identity, and the engine
-    argument is swapped for a RecordingEngine only when a live table is bound to it.
-    Any other caller (tests, probes, another engine) gets the real object back, so
-    behaviour is unchanged when no table is active.
+
+def install_bridge(force=False):
+    """Wrap session_state.save_session/restore_session once; swap in the proxy per call.
+
+    Nothing is edited in session_state.py. A call gets the proxy only when a live table is
+    bound to that exact engine object; otherwise it gets the real engine back (and logs
+    `bridge.inactive`, so "no guard ran" is distinguishable from "the guard allowed it").
     """
     global _BRIDGED
     if _BRIDGED and not force:
@@ -83,11 +136,21 @@ def install_bridge(force=False):
         _BRIDGED = True
         return False
 
-    def wrap(fn, name):
+    def wrap(fn, attr):
         @functools.wraps(fn)
         def inner(eng, *a, **kw):
+            if getattr(ss, attr, None) is not inner:
+                raise RuntimeError(
+                    "lease bridge for session_state.%s was replaced/removed after install; "
+                    "re-run chat_lease.install_bridge(force=True) before continuing" % attr)
             table = _active_for(eng)
-            return fn(RecordingEngine(eng, table) if table else eng, *a, **kw)
+            if table is None:
+                _append(EVENT_LOG, _stamp("bridge.inactive", call=attr,
+                                          engine=type(eng).__name__))
+                return fn(eng, *a, **kw)
+            _append(EVENT_LOG, _stamp("bridge.active", call=attr,
+                                      engine=type(eng).__name__))
+            return fn(make_proxy(eng, table), *a, **kw)
         inner._lease_bridge = True
         inner._lease_original = fn
         return inner
@@ -95,61 +158,91 @@ def install_bridge(force=False):
     ss.save_session = wrap(ss.save_session, "save_session")
     ss.restore_session = wrap(ss.restore_session, "restore_session")
     _BRIDGED = True
-    _append(EVENT_LOG, {"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "site": "bridge",
-                        "kind": "bridge.installed"})
+    _append(EVENT_LOG, _stamp("bridge.installed"))
     return True
 
 
+def assert_bridged(module=None):
+    """Assert both entry points are still ours (catches from-import aliasing and rebinds)."""
+    import session_state as ss
+    mod = module or ss
+    bad = [n for n in ("save_session", "restore_session")
+           if not getattr(getattr(mod, n, None), "_lease_bridge", False)]
+    if bad:
+        raise RuntimeError("lease bridge missing on: %s -- a 'from session_state import %s' "
+                           "alias captured the original before install_bridge() ran"
+                           % (", ".join(bad), bad[0]))
+    return True
+
+
+# -- the proxy ----------------------------------------------------------------
+INTERCEPTED = ("share", "drop", "reset")      # take over the call (table decides)
+OBSERVED = ("load", "load_strict", "repos_local", "save", "write_at")  # forward + log only
+DUNDERS_WE_DO_NOT_SUPPORT = ("__len__", "__iter__", "__next__", "__call__", "__getitem__",
+                             "__setitem__", "__contains__", "__enter__", "__exit__",
+                             "__copy__", "__deepcopy__", "__reduce__", "__getstate__")
+
+
 class RecordingEngine:
-    """Pass-through proxy: mirrors share/drop into the table, forwards everything else.
+    """Pass-through proxy: mirrors share/drop/reset into the table, forwards the rest.
 
-    Only share/drop change *references*. Everything else is forwarded untouched; the
-    handful of calls that can MOVE a block (reset, load_strict/load, repos_local, save,
-    write_at) are logged so a future reordering shows up in the event log instead of
-    silently invalidating the recorded (dst, lo, hi) ranges.
-
-    attach()/detach() already perform the real eng.share/eng.drop on the real engine, so
-    this proxy must NOT repeat them -- the table owns the call, the proxy only routes.
+    attach()/detach()/reset() already perform the real engine call on the real engine, so
+    this proxy must NOT repeat them; it only routes. Anything it does not implement falls
+    through `__getattr__` to the engine; attribute WRITES fall through `__setattr__` too.
     """
 
     def __init__(self, eng, leases):
-        self._eng = eng
-        self._leases = leases
+        object.__setattr__(self, "_eng", eng)
+        object.__setattr__(self, "_leases", leases)
 
     def __getattr__(self, name):
-        return getattr(self._eng, name)
+        return getattr(object.__getattribute__(self, "_eng"), name)
 
-    # -- references (recorded) ---------------------------------------------
+    def __setattr__(self, name, value):
+        if name in ("_eng", "_leases"):
+            object.__setattr__(self, name, value)
+        else:
+            setattr(object.__getattribute__(self, "_eng"), name, value)
+
+    # -- references and destruction (recorded / gated) ---------------------
     def share(self, block_seq, dst_seq, lo, hi):
-        if int(block_seq) not in self._leases.blocks:
-            self._leases.register_block(int(block_seq), "seq%d@session_state" % int(block_seq))
-        self._leases.attach(block_seq, dst_seq, lo, hi, site="session_state.share")
+        leases = object.__getattribute__(self, "_leases")
+        if int(block_seq) not in leases.blocks:
+            leases.register_block(int(block_seq), "seq%d@session_state" % int(block_seq))
+        leases.attach(block_seq, dst_seq, lo, hi, site="session_state.share")
 
     def drop(self, dst_seq, lo, hi):
-        self._leases.detach(dst_seq, lo, hi, site="session_state.drop")
+        object.__getattribute__(self, "_leases").detach(dst_seq, lo, hi,
+                                                        site="session_state.drop")
 
     def reset(self, seq, *a, **kw):
-        """Gated: block sequences go through the table (which makes the ONE real call).
-
-        seq 0 is the dialogue and is never a block, so it is a documented exception:
-        it is forwarded and recorded, not gated -- a lease cannot protect the very
-        sequence that holds the references.
-        """
+        """seq 0 is the dialogue (documented exception); anything else is gated."""
+        leases = object.__getattribute__(self, "_leases")
+        eng = object.__getattribute__(self, "_eng")
         seq = int(seq)
         if seq == 0:
-            _append(EVENT_LOG, {"at": time.strftime("%Y-%m-%dT%H:%M:%S"),
-                                "site": "session_state.reset", "kind": "unguarded_reset",
-                                "seq": 0, "reason": "dialogue_seq",
-                                "cells_before": self._leases.cells_of(0)})
-            return self._eng.reset(seq, *a, **kw)
-        return self._leases.reset(seq, site="session_state.reset")
+            _append(EVENT_LOG, _stamp("unguarded_reset", site="session_state.reset",
+                                      seq=0, reason="dialogue_seq",
+                                      cells_before=leases.cells_of(0)))
+            return eng.reset(seq, *a, **kw)
+        if seq not in leases.blocks:
+            _append(EVENT_LOG, _stamp("unguarded_reset", site="session_state.reset",
+                                      seq=seq, reason="unregistered_seq",
+                                      cells_before=leases.cells_of(seq)))
+            if STRICT:
+                raise LeaseError(
+                    "refusing reset(seq %d): not a registered block, so no lease can cover "
+                    "it. Register it (register_block/from_manifest) or detach and force it. "
+                    "Set CHAT_LEASE_STRICT=0 to downgrade this to a logged pass-through."
+                    % seq)
+            return eng.reset(seq, *a, **kw)
+        return leases.reset(seq, site="session_state.reset")
 
     # -- calls that can move a block (logged, not intercepted) --------------
     def _forward_logged(self, name, *a, **kw):
-        _append(EVENT_LOG, {"at": time.strftime("%Y-%m-%dT%H:%M:%S"),
-                            "site": "session_state." + name, "kind": "engine_call",
-                            "seq": int(a[0]) if a and isinstance(a[0], int) else None})
-        return getattr(self._eng, name)(*a, **kw)
+        _append(EVENT_LOG, _stamp("engine_call", site="session_state." + name,
+                                  seq=int(a[0]) if a and isinstance(a[0], int) else None))
+        return getattr(object.__getattribute__(self, "_eng"), name)(*a, **kw)
 
     def repos_local(self, *a, **kw):
         return self._forward_logged("repos_local", *a, **kw)
@@ -164,6 +257,28 @@ class RecordingEngine:
         return self._forward_logged("save", *a, **kw)
 
 
+def proxy_class(eng):
+    """RecordingEngine + the real engine's class, so isinstance() keeps working."""
+    base = type(eng)
+    cls = _PROXY_CACHE.get(base)
+    if cls is None:
+        try:
+            cls = type("RecordingEngine_%s" % base.__name__, (RecordingEngine, base), {})
+        except TypeError:                                      # not subclassable (extension type)
+            cls = RecordingEngine
+        _PROXY_CACHE[base] = cls
+    return cls
+
+
+def make_proxy(eng, leases):
+    cls = proxy_class(eng)
+    obj = cls.__new__(cls)
+    object.__setattr__(obj, "_eng", eng)
+    object.__setattr__(obj, "_leases", leases)
+    return obj
+
+
+# -- the table ----------------------------------------------------------------
 class GuardedLeases(BlockLeases):
     """BlockLeases + a post-reset emptiness assertion + refusal logging."""
 
@@ -172,58 +287,10 @@ class GuardedLeases(BlockLeases):
         self.site_prefix = site_prefix
         self.counts = {"reset": 0, "refused": 0, "attached": 0, "detached": 0}
         self.sites = {}
-        self.declared = {}        # seq -> {block, start, end} as the manifest states it
+        self.declared = {}        # seq -> {block, start, end} exactly as the manifest says
         _LIVE.append(self)
+        init_run("%s_p%d" % (site_prefix or "lease", os.getpid()))
         install_bridge()          # chat.py needs no change: the table is found by identity
-
-    # -- the gated reset ---------------------------------------------------
-    def reset(self, seq, force=False, site=""):
-        tag = site or (self.site_prefix + ".reset")
-        try:
-            super().reset(seq, force=force)
-        except LeaseError as exc:
-            self.counts["refused"] += 1
-            rec = {"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "site": tag, "seq": int(seq),
-                   "kind": "refused", "message": str(exc),
-                   "referrers": self.referrers(seq)}
-            _append(REFUSAL_LOG, rec)
-            _append(EVENT_LOG, rec)
-            raise                                              # never swallowed
-        cells = self.cells_of(seq)
-        self.counts["reset"] += 1
-        self.sites.setdefault(tag, []).append({"seq": int(seq), "cells_after": cells})
-        rec = {"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "site": tag, "seq": int(seq),
-               "kind": "reset", "cells_after": cells}
-        _append(EVENT_LOG, rec)
-        if cells != 0:
-            raise LeaseError(
-                "reset(seq %d) at %s left %d cells -- the block was NOT cleared "
-                "(safe_reset_all trap: load_into would stack on stale cells)" % (int(seq), tag, cells))
-        return True
-
-    # -- attach / detach keep the table honest -----------------------------
-    def attach(self, block_seq, dst_seq, lo, hi, site=""):
-        tag = site or (self.site_prefix + ".attach")
-        super().attach(block_seq, dst_seq, lo, hi)
-        want = self.declared.get(int(block_seq))
-        if want and (want["start"], want["end"]) != (int(lo), int(hi)):
-            _append(EVENT_LOG, {"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "site": tag,
-                                "kind": "range_mismatch", "block": want["block"],
-                                "declared": [want["start"], want["end"]],
-                                "attached": [int(lo), int(hi)]})
-        self.counts["attached"] += 1
-        _append(EVENT_LOG, {"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "site": tag,
-                            "kind": "attach", "block_seq": int(block_seq),
-                            "dst_seq": int(dst_seq), "lo": int(lo), "hi": int(hi)})
-
-    def detach(self, dst_seq, lo, hi, site=""):
-        tag = site or (self.site_prefix + ".detach")
-        block_seq = super().detach(dst_seq, lo, hi)
-        self.counts["detached"] += 1
-        _append(EVENT_LOG, {"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "site": tag,
-                            "kind": "detach", "block_seq": block_seq,
-                            "dst_seq": int(dst_seq), "lo": int(lo), "hi": int(hi)})
-        return block_seq
 
     @classmethod
     def from_manifest(cls, eng, path, site_prefix="load"):
@@ -241,11 +308,53 @@ class GuardedLeases(BlockLeases):
             table.register_block(seq, b["block"])
             table.declared[seq] = {"block": b["block"],
                                    "start": int(b["start"]), "end": int(b["end"])}
-        _append(EVENT_LOG, {"at": time.strftime("%Y-%m-%dT%H:%M:%S"),
-                            "site": site_prefix + ".from_manifest", "kind": "registered",
-                            "blocks": {str(s): d["block"]
-                                       for s, d in table.declared.items()}})
+        _append(EVENT_LOG, _stamp("registered", site=site_prefix + ".from_manifest",
+                                  blocks={str(s): d["block"] for s, d in table.declared.items()}))
         return table
+
+    # -- the gated reset ---------------------------------------------------
+    def reset(self, seq, force=False, site=""):
+        tag = site or (self.site_prefix + ".reset")
+        try:
+            super().reset(seq, force=force)
+        except LeaseError as exc:
+            self.counts["refused"] += 1
+            rec = _stamp("refused", site=tag, seq=int(seq), message=str(exc),
+                         referrers=self.referrers(seq))
+            _append(REFUSAL_LOG, rec)
+            _append(EVENT_LOG, rec)
+            raise                                              # never swallowed
+        cells = self.cells_of(seq)
+        self.counts["reset"] += 1
+        self.sites.setdefault(tag, []).append({"seq": int(seq), "cells_after": cells})
+        _append(EVENT_LOG, _stamp("reset", site=tag, seq=int(seq), cells_after=cells))
+        if cells != 0:
+            raise LeaseError(
+                "reset(seq %d) at %s left %d cells -- the block was NOT cleared "
+                "(safe_reset_all trap: load_into would stack on stale cells)"
+                % (int(seq), tag, cells))
+        return True
+
+    # -- attach / detach keep the table honest -----------------------------
+    def attach(self, block_seq, dst_seq, lo, hi, site=""):
+        tag = site or (self.site_prefix + ".attach")
+        super().attach(block_seq, dst_seq, lo, hi)
+        want = self.declared.get(int(block_seq))
+        if want and (want["start"], want["end"]) != (int(lo), int(hi)):
+            _append(EVENT_LOG, _stamp("range_mismatch", site=tag, block=want["block"],
+                                      declared=[want["start"], want["end"]],
+                                      attached=[int(lo), int(hi)]))
+        self.counts["attached"] += 1
+        _append(EVENT_LOG, _stamp("attach", site=tag, block_seq=int(block_seq),
+                                  dst_seq=int(dst_seq), lo=int(lo), hi=int(hi)))
+
+    def detach(self, dst_seq, lo, hi, site=""):
+        tag = site or (self.site_prefix + ".detach")
+        block_seq = super().detach(dst_seq, lo, hi)
+        self.counts["detached"] += 1
+        _append(EVENT_LOG, _stamp("detach", site=tag, block_seq=block_seq,
+                                  dst_seq=int(dst_seq), lo=int(lo), hi=int(hi)))
+        return block_seq
 
     def report(self):
         return {"counts": dict(self.counts), "sites": self.sites,
@@ -254,33 +363,86 @@ class GuardedLeases(BlockLeases):
                                                 for evs in self.sites.values() for e in evs)}
 
 
+# -- derived self-check (never hand-listed) -----------------------------------
+def _defines(base, name):
+    """True only if the class hierarchy itself defines name (object/metaclass excluded).
 
-INTERCEPTED = ("share", "drop", "reset")      # take over the call (table decides)
-OBSERVED = ("load", "load_strict", "repos_local", "save", "write_at")  # forward + log only
-
-
-def proxy_surface(eng, leases):
-    """Self-check: outside INTERCEPTED, the proxy must hand back the engine's own members.
-
-    Compares the underlying function objects (bound methods are re-created per access, so
-    identity of the bound method is not meaningful) and never calls anything.
+    hasattr(cls, "__call__") is True for every class via the metaclass, and __reduce__/
+    __getstate__ come from object -- neither is a protocol the proxy could break.
     """
-    p = RecordingEngine(eng, leases)
-    same, differ, missing, observed = [], [], [], []
-    for name in dir(eng):
-        if name.startswith("__") or name in INTERCEPTED:
+    for k in base.__mro__:
+        if k is object:
+            break
+        if name in k.__dict__:
+            return True
+    return False
+
+
+def surface(eng, leases):
+    """Classify every name of the real engine's class by what the proxy does with it.
+
+    Derived from dir(type(eng)) and the proxy class itself, so a new engine method shows up
+    as 'passthrough' automatically and anything the proxy shadows by accident shows up as
+    'shadowed' instead of being silently forgotten.
+    """
+    base = type(eng)
+    cls = proxy_class(eng)
+    p = make_proxy(eng, leases)
+    rows = {"intercepted": [], "observed": [], "passthrough": [], "shadowed": [],
+            "missing": [], "dunders_not_supported": []}
+    for name in sorted(set(dir(base))):
+        if name.startswith("__") and name.endswith("__"):
+            continue
+        if name in INTERCEPTED:
+            rows["intercepted"].append(name)
             continue
         if name in OBSERVED:
-            observed.append(name)
+            rows["observed"].append(name)
             continue
         try:
-            a = getattr(p, name)
-            b = getattr(eng, name)
+            a, b = getattr(p, name), getattr(eng, name)
         except AttributeError:
-            missing.append(name)
+            rows["missing"].append(name)
             continue
         fa, fb = getattr(a, "__func__", a), getattr(b, "__func__", b)
-        (same if fa is fb else differ).append(name)
-    return {"intercepted": list(INTERCEPTED), "observed": observed,
-            "passthrough_same": len(same), "unexpected": differ, "missing": missing,
-            "clean": not differ and not missing}
+        (rows["passthrough"] if fa is fb else rows["shadowed"]).append(name)
+    rows["dunders_not_supported"] = [n for n in DUNDERS_WE_DO_NOT_SUPPORT
+                                     if _defines(base, n)]
+    rows["isinstance_ok"] = isinstance(p, base)
+    rows["proxy_class"] = cls.__name__
+    rows["base_class"] = base.__name__
+    rows["clean"] = not rows["shadowed"] and not rows["missing"]
+    return rows
+
+
+def forwarding_truth(eng, leases, cases=None):
+    """Deliberate bad calls must raise the ENGINE's exception, not the proxy's.
+
+    Compares (type name, message) for each case against the real engine.
+    """
+    p = make_proxy(eng, leases)
+    cases = cases or [("n_tokens", ("not-an-int",), {}),
+                      ("pos_max", ("not-an-int",), {}),
+                      ("bytes_per_token", (1, 2, 3), {})]
+    out = []
+    for name, a, kw in cases:
+        got = []
+        for target in (eng, p):
+            try:
+                getattr(target, name)(*a, **kw)
+                got.append(("no-exception", ""))
+            except BaseException as exc:                       # noqa: BLE001 - comparing
+                got.append((type(exc).__name__, str(exc)))
+        out.append({"method": name, "engine": got[0], "proxy": got[1],
+                    "same": got[0] == got[1]})
+    return out
+
+
+def setattr_forwarding(eng, leases, marker="_lease_probe_marker"):
+    """An attribute written on the proxy must land on the engine (gap that used to exist)."""
+    p = make_proxy(eng, leases)
+    setattr(p, marker, 42)
+    landed = getattr(eng, marker, None) == 42 and marker not in p.__dict__
+    if hasattr(eng, marker):
+        delattr(eng, marker)
+    return {"marker": marker, "landed_on_engine": bool(landed)}

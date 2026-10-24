@@ -6,7 +6,7 @@
 
 Two real processes (`chat.py save` then `chat.py load`), same as a user would run.
 """
-import hashlib, json, os, re, subprocess, sys
+import hashlib, json, os, re, subprocess, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = r"D:/llama-mem"
@@ -37,9 +37,9 @@ def pairs(out):
     return res
 
 
-def run(args):
+def run(args, env=None):
     p = subprocess.run([PY, "-X", "utf8"] + args, cwd=ROOT, capture_output=True, text=True,
-                       encoding="utf-8", errors="replace")
+                       encoding="utf-8", errors="replace", env=env)
     return {"rc": p.returncode, "pairs": pairs(p.stdout or ""),
             "tail": (p.stdout or "")[-1200:], "err": (p.stderr or "")[-600:]}
 
@@ -49,10 +49,26 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--label", required=True)
     a = ap.parse_args()
-    res = {"schema": "chat_lease_roundtrip_v1", "label": a.label,
-           "bridge_env": os.environ.get("CHAT_LEASE_BRIDGE", "1"),
-           "save": run([os.path.join(TOOLS, "chat.py"), "save"]),
-           "load": run([os.path.join(TOOLS, "chat.py"), "load"])}
+    logs = os.path.join(HERE, "logs")
+    os.makedirs(logs, exist_ok=True)
+    stamp = time.strftime("%Y%m%dT%H%M%S")
+    ev = os.path.join(logs, "events_rt_%s_%s.jsonl" % (a.label, stamp))
+    env = dict(os.environ)
+    env["CHAT_LEASE_EVENTS"] = ev
+    env["CHAT_LEASE_REFUSALS"] = os.path.join(logs, "refusals_rt_%s_%s.jsonl" % (a.label, stamp))
+    res = {"schema": "chat_lease_roundtrip_v2", "label": a.label,
+           "bridge_env": env.get("CHAT_LEASE_BRIDGE", "1"),
+           "save": run([os.path.join(TOOLS, "chat.py"), "save"], env=env),
+           "load": run([os.path.join(TOOLS, "chat.py"), "load"], env=env)}
+    res["log"] = {"events": ev, "refusals": env["CHAT_LEASE_REFUSALS"]}
+    if os.path.exists(ev):
+        blob = open(ev, "rb").read()
+        res["log"]["sha256"] = hashlib.sha256(blob).hexdigest()
+        res["log"]["lines"] = blob.count(b"\n")
+        import collections
+        kinds = collections.Counter(json.loads(l)["kind"] for l in
+                                    blob.decode("utf-8").splitlines() if l.strip())
+        res["log"]["kinds"] = dict(kinds)
     man = os.path.join(ROOT, "kvmem", "sessions", "live.json")
     if os.path.exists(man):
         blob = open(man, encoding="utf-8").read()
