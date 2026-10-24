@@ -7,6 +7,12 @@
 
 > 判"某说存活/死亡"时，必须把**同表的全部反例**逐条代进该假说，
 > 而不是只拿最新一条 run 去撞。（本轮我连续两次把"剩哪一个"读窄：先"只剩内容说"、再"只剩结构说"。）
+>
+> **产物自述与几何冲突时，先看几何。** 实例：`evidence/t020/` 的 `layout.spacing=64` 与 coverage 反算 128 冲突；
+> 判 spacing 只认能与 `coverage` 对上的那个数，并把冲突本身写进报告。
+>
+> **报 pass/fail 必须并报 `form`。** `ok` 是子串匹配 expected，填空题把答案列进选项也会判 ok；
+> `ok=True 且 cloze` 一律单列"待定"，不计入 pass（复算见 `kvmem/m2_visibility/_strict_label.py` 的 `strict` 列）。
 
 ## 改动（修复本身）
 

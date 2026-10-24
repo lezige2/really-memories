@@ -327,8 +327,8 @@
 
 | # | 结论 | 证据 | 它不能证伪什么 |
 |---|---|---|---|
-| 1 | 记忆**完整存在且可见**（21/21、18/18、12/12、18/18；trace `SUM=25 blk=100`） | `evidence/t010/t010_b_dup4_home.*` | 只否定"没写进去/被 mask 掉"，不涉及读取 |
-| 2 | **顶部空洞 ⇒ 引擎零 trace、记忆不生效**（`head_gap>0` 7/7 空答且 `SUM=0`） | `evidence/t018/` | 与"不贴提问点"共线未分开；只说明**没有生成**，不能说明**劣化生成** |
+| 1 | 记忆**完整存在且可见**（`coverage[*]`: home 21/21、project 18/18、habit 12/12、project2 18/18；`_assert_trace.py` 输出 `SUM=25 SUM2=25 blk=100 OK=4`） | `evidence/t010/t010_b_dup4_home.*` | 只否定"没写进去/被 mask 掉"，不涉及读取 |
+| 2 | **顶部空洞 ⇒ 记忆不生效**：`head_gap>0` **空答 7/7**（8 条记录：`ask` 路径 4、`answers[]` 路径 4），**零 trace 1/7**（仅 `t018` 有 log 可查：`MASKDBG=4` 全是驱动自打，引擎 0 行） | `evidence/t018/` | 与"不贴提问点"共线未分开；只说明**没有生成**，不能说明**劣化生成**。零 trace 的验证范围仅 1/7，**不得写成 7/7** |
 | 3 | **单块可答**（`iso_home_only`/home、`iso_habit_only`/habit 均 TRUE，形态 plain） | `evidence/t014/` | 两条均为 `C:inert`（跳过控制臂）产物，**不得与有控制臂的 run 混入同一计数** |
 
 第 2 条使**第一轮 P4「project 空答」降级为夹具现象**——原先把"测试框架没铺满"当成了模型失败。
@@ -348,6 +348,14 @@ answer = "我住在\_\_\_\_\_\_。\n\nA. 广陵路 12 号 2 单元 602"    ok = 
 1. 凡报 pass/fail **必须并报 `form`**（`empty` / `quiz` / `plain`），三列并列，不许只报一个 `ok`；
 2. **`ok=True 且 form=quiz` 单列"待定"，不得计入 pass**；
 3. 同一 run 在 `ask` 与 `answers[]` 两条路径上结论若不一致，**必须两条路径同时报**。
+
+**strict 重算结果（`_strict_label.py` 36466e90a305e81f / 153 行，只读产物、零 run）**：
+扫 8 个 `runs*` 根、263 条记录 / 233 文件；同时带两条路径的文件为 **0**（不存在跨路径重复计数）。
+`ask` 路径 55 条：raw True 27 ⇒ strict 27（**0 条被剥夺**）；`answers[]` 路径 208 条：raw True 114 ⇒ strict 112（**剥夺 2 条**）。
+全库仅 2 条被剥夺，均为 `axA_c_habit_home_r1|r2`；27 个 layout 中只有 `axA_c_habit` 由 2 变 0。
+**七个关键对照布局（`iso_dup4`/`iso_dup_p3`/`iso_dup_p2`/`iso_habit_bot`/`iso_dup4_s128`/`iso_car_back`/`iso_no_car`）raw 与 strict 完全同数，无一翻号。**
+⇒ 判据确有脏点，但**触达面是 2 条记录，本轮没有任何结论因此改变**。
+⇒ 连带影响一条：那 2 条曾被用作 `H_last` 的反例，strict 下转为"待定"；`H_last` 之死因此只依赖 `iso_dup4` / `iso_dup4_s128` 两族。**"axA 不再能当 pass 证据" ≠ "H_last 活过来"。**
 
 **7.6.3 已判死（均有反例在盘，不许以"另加条款"救活）**
 

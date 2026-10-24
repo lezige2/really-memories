@@ -518,7 +518,8 @@ grep -n 'prefix already' ../../tools/m2_visibility_probe.py
 
 ### 8.2 顶部空洞 ⇒ 引擎侧**零 trace**、记忆不生效（本轮唯一带引擎证据的新结论）
 
-- **结论**：`head_gap_cells > 0` 的 7 份产物**全部** `answer` 为空串，且引擎侧 `SUM=0 SUM2=0 blk=0`；`head_gap_cells = 0` 的 124 份是正常臂（有 trace、有答案）。
+- **结论（数字已按双路径重算，见 §8.6）**：`head_gap_cells > 0` 共 **7 份产物 / 8 条记录**（`ask` 路径 4 条、`answers[]` 路径 4 条），**全部 `answer` 为空串**（form=empty）；`head_gap_cells = 0` 的 124 份是正常臂。
+  **零 trace 只在 `t018_v1_topgap` 这一份上被验证**（`MASKDBG` 仅 4 行、全是驱动自打的 OK 行；`SUM=0 SUM2=0 blk=0` 由 `_assert_trace.py` 给出）；其余 6 份**只有空答、没有 log 可查 trace** ⇒ 只能说"空答 7/7、零 trace 1/7"。
 - **证据**：`evidence/t018/t018_v1_topgap.json`（`head_gap_cells=64`、`cell_count=70`、`ask.answer=""`、`SUM=0`、门禁 `rc=6 RED`）；另 6 份 `iso_no_home` 全族（`head_gap=64`）空答。
 - **复算**：`grep -c MASKDBG t018_v1_topgap.log`（引擎侧 0 行，仅驱动自打的 4 行）。
 - **它能证伪什么**：**第一轮 P4「空答」的归因**。`iso_no_home` 的 project 0✓/7✗ **不是模型答不出，而是记忆没被铺进 KV 就没有可判读的上下文**。
@@ -546,4 +547,31 @@ grep -n 'prefix already' ../../tools/m2_visibility_probe.py
 - **本轮实例**：`t020_s1/s2/s3_dup4s128.json` 自述 64、实为 128。几何反推：`4096 − project.pos_hi(3968) = 128`；验算 `habit: 4096−2×128−12 = 3828` ✔、`project2: 4096−3×128−18 = 3694` ✔。**三份原样保留**（它们是"错字段长什么样"的样本），引用时以几何 128 为准。
 - **回归证明结论不依赖该字段**：修复后重跑 `t021_r1`（spacing 64）与 `t021_r2`（spacing 128），`answer_sha256` 与前次**逐字相同**（`7ec1430d…` / `e6a0807c…`）。
 - **口径**：**几何自证优先于产物自述**；凡引用 `layout.spacing`，必须附一条由 `coverage` 反推的验算式。此前的 944 份产物该字段未被污染（全为 64）。
+
+### 8.6 审计：§8 三条**是否依赖 `ok` 标签**（队长点名要核）
+
+**结论：三条都不依赖 `ok`。** 但审计过程改正了 §8.2 的两处数字，逐条如下【实测，命令见下】。
+
+| # | 结论所依赖的字段 | 是否用 `ok` | 审计结论 |
+|---|---|---|---|
+| 1 | `cell_layer.coverage[*].cells` 与 `.covered`（21/21、18/18、12/12、18/18）+ log 的 154 行 `MASKDBG` | **否** | **成立**。原文"trace `SUM=25 blk=100`"不是 log 里的字面量，是 `_assert_trace.py` 的输出 ⇒ 引用时应写成"`_assert_trace.py` 输出 SUM=25 SUM2=25 blk=100 OK=4"。 |
+| 2 | `ask.answer == ""` / `answers[].answer == ""`（字符串事实）+ 零 trace | **否** | **成立**，但两处数字要改：① 7 份产物 = **8 条记录**（`ask` 4 + `answers[]` 4），按新纪律须分路径报；② **零 trace 只在 `t018_v1` 一份上验证过**（`MASKDBG=4`，全是驱动自打的 OK 行），其余 6 份无 log ⇒ 只能报"空答 7/7、零 trace 1/7"。 |
+| 3 | X/Y 的 `ask.answer` 原文是 **plain** 且**含** `expected`（`"我住在广陵路 12 号 2 单元 602…"` 含"广陵路"；`"我只喝美式咖啡…"` 含"美式"） | **否**（`ok=True` 只是伴随事实） | **成立**。判据是"散文里出现期望事实"，不是选项列表里的命中。 |
+
+**复算命令（一条即可复现上表）**：
+```
+cd kvmem/m2_visibility && python -X utf8 - <<'PY'
+import json,glob,re,os
+def form(t):
+    t=t or ''
+    return 'empty' if t.strip()=='' else ('quiz' if re.search(r'_{2,}|\\_|\\boxed',t) else 'plain')
+d=json.load(open('runs_mask/t010_b_dup4_home.json')); print(d['cell_layer']['coverage'])
+for f in glob.glob('runs*/*.json'):
+    L=json.load(open(f))['layout']
+    if (L.get('head_gap_cells') or 0)>0: print(f, L['head_gap_cells'])
+PY
+```
+
+**若某条真的依赖 `ok`，处置写死**：该条**立即降级为"待定"**，并从 §8 移出 —— 本轮**没有触发**这一条。
+
 
