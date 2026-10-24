@@ -14,8 +14,11 @@ Every item reads ONE class; no cross-class total is ever computed.
                              (degenerate runs are self-consistent, so this is auxiliary only)
      3c  conflict            if 3a fails while 3b passes -> ask the DRIVER first, not the engine
   4 same-source              rows are written into THIS json; the log is pinned by sha256
+  5 C   control arm          control_ok true -> pass | false -> fail |
+                             None + control_skipped -> INERT (named in the verdict line) |
+                             None without control_skipped, or the key missing -> fail
 
-Exit 0 only when all four items pass; otherwise 6.
+Exit 0 only when every voting item passes; otherwise 6 (7 when a NEW run lacks worker_counts).
 """
 import argparse, hashlib, json, os, re, sys
 
@@ -138,6 +141,28 @@ def main():
             not diffs,
             "独立路径对账：log 文件 vs 驱动对子进程 stderr 的 tee 计数")
 
+    # C) control arm -- the four trace items say nothing about whether it RAN, so a product
+    #    that skipped it must be distinguishable from one that passed it. Three states, same
+    #    vocabulary as 3b: pass / fail / inert (inert = legitimately skipped, named reason).
+    if "control_ok" not in d:
+        row("C", "控制臂 control_ok 存在", "control_ok 键缺失", False,
+            "老产物或半成品：没有 control_ok，不能把它当\"跳过\"")
+    elif d["control_ok"] is True:
+        if "control_skipped" in d:
+            row("C", "control_ok is true 且无 control_skipped",
+                "true 但同时写了 control_skipped", False,
+                "自相矛盾：既说通过又说跳过，无法判断哪句是真的")
+        else:
+            row("C", "control_ok is true", "true", True, "控制臂实跑并通过")
+    elif d["control_ok"] is False:
+        row("C", "control_ok is true", "false", False, "CONTROL GATE FAILED")
+    elif "control_skipped" in d:
+        row("C", "control_ok is true", "None + control_skipped", True,
+            str(d["control_skipped"]), status="inert")
+    else:
+        row("C", "control_ok is true", "None 但无 control_skipped", False,
+            "缺必填字段：既没跑通过也没说明为什么跳过")
+
     # 3c) conflict hint -- not an extra item, printed only
     hint = ""
     if not items[2]["pass"] and items[3]["pass"]:
@@ -147,9 +172,17 @@ def main():
     # never go red. Counting it in the AND would mean "four-item gate" is really 3 + 1 always
     # green -- exactly the defect we keep rejecting. It stays printed, it does not vote.
     live = [it for it in items if it["status"] != "inert"]
-    inert_n = len(items) - len(live)
+    inerts = [it for it in items if it["status"] == "inert"]
     overall = all(it["pass"] for it in live)
-    expr = ("%d 项 AND + 3b INERT（不计入）" % len(live)) if inert_n else "%d 项 AND" % len(live)
+    # A dimension that did not vote must be visible IN THE VERDICT LINE: a bare "GREEN"
+    # would let a caller read "everything checked" out of a product where one axis was absent.
+    parts = ["%d 项 AND" % len(live)]
+    for it in inerts:
+        if it["item"] == "3b":
+            parts.append("3b INERT（不计入）")
+        else:
+            parts.append("%s INERT（不计入）: %s" % (it["item"], it["note"][:60]))
+    expr = " + ".join(parts)
     print("=== gate on %s / %s ===" % (a.log, a.run_json))
     for it in items:
         tag = {"pass": "GREEN", "fail": "RED  ", "inert": "INERT"}[it["status"]]
@@ -157,8 +190,11 @@ def main():
         tail = ("   <- %s" % it["note"]) if it["status"] == "fail" and it["note"] else ""
         print("  %-3s %-5s expect=%s | actual=%s%s" % (it["item"], tag, it["expect"],
                                                        it["actual"], tail))
-    if inert_n:
-        print("  门禁 %d/4 实测，3b INERT：该产物无独立计数（冻结产物，早于 tee）" % len(live))
+    for it in inerts:
+        if it["item"] == "3b":
+            print("  门禁 %d 项实测，3b INERT：该产物无独立计数（冻结产物，早于 tee）" % len(live))
+        else:
+            print("  门禁 %d 项实测，%s INERT：%s" % (len(live), it["item"], it["note"]))
     if hint:
         print(" ", hint)
     print("  OVERALL:", "GREEN" if overall else "RED", " (%s)" % expr)

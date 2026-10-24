@@ -37,6 +37,8 @@ LAYOUTS = {
                                             (3, "habit", "habit"), (4, "project", "project")]},
     "iso_home_only": {"spacing": 64, "segs": [(1, "home", "home")]},
     "iso_habit_only": {"spacing": 64, "segs": [(1, "habit", "habit")]},
+    "iso_dup_p3":   {"spacing": 64, "segs": [(1, "home", "home"), (2, "habit", "habit"),
+                                            (3, "project", "project"), (4, "project2", "project")]},
 }
 
 

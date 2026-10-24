@@ -39,6 +39,9 @@ def add_args(ap):
     ap.add_argument("--mask-seq", type=int, default=None)
     ap.add_argument("--worker", action="store_true")
     ap.add_argument("--env-source", default="inherited")
+    # escape hatch for layouts whose target_n cannot hold the fixed control prefix;
+    # it skips the control arm and says so in the json -- never silently.
+    ap.add_argument("--no-control", action="store_true")
 
 
 def windows_for(layout):
@@ -75,6 +78,8 @@ def launcher(argv):
         cmd.append("--debug")
     if a.mask_seq is not None:
         cmd += ["--mask-seq", str(a.mask_seq)]
+    if a.no_control:
+        cmd.append("--no-control")      # must reach the worker: the control arm runs THERE
     print("[launcher] child env overrides: %s" % json.dumps(overridden, ensure_ascii=False))
     # The engine writes [MASKDBG*] to the child's stderr. We tee that stream and count it
     # HERE, on the live pipe -- an independent path from reading the log file afterwards.
@@ -140,13 +145,18 @@ def worker(argv):
             if P.sha256_file(meta["path"]) != meta["sha256"]:
                 raise RuntimeError("pristine block hash changed: %s" % meta["path"])
         P.reset_all(eng)
-        ctexts = D2.get_control(eng, a.layout, layout)
-        okc, ctrl = P.run_control(eng, layout, a.layout, ctexts, P.FULL, D2.CONTROL_ORDER)
-        res["control_ok"] = bool(okc)
-        if not okc:
-            res["failure"] = "CONTROL GATE FAILED"
-            P._write_json(a.run_json, res)
-            return 3
+        if a.no_control:
+            res["control_ok"] = None
+            res["control_skipped"] = ("layout has fewer than 4 segments; fixed 67-token "
+                                      "control prefix cannot fit target_n")
+        else:
+            ctexts = D2.get_control(eng, a.layout, layout)
+            okc, ctrl = P.run_control(eng, layout, a.layout, ctexts, P.FULL, D2.CONTROL_ORDER)
+            res["control_ok"] = bool(okc)
+            if not okc:
+                res["failure"] = "CONTROL GATE FAILED"
+                P._write_json(a.run_json, res)
+                return 3
         P.reset_all(eng)
         placed = P.load_and_place(eng, layout)
         P.share_layout(eng, layout, placed)
