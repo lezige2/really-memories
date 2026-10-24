@@ -195,3 +195,26 @@ C 去 assistant 轮 82 tok → has_tag=**True**。
 7. **rc 断言 + 回滚演练**：每次 ask 后断言 rc>0 且答案非空；提交必须可 revert，revert 后重跑第 2 条回归仍一致。
 
 **结论一句话**：:444/:449 可以直接接；:176/:284 只能接 leases.reset，接 safe_reset_all 等于没清位。
+
+## 10 增补（2026-10-25 03:0x）：M4 产物在我验收之后被重跑，三处 §4 缺陷已闭环；并把验收锚到 sha
+
+**先说清版本问题**：`run_m4_verify.json` 现在是 02:59:13 / 13906 B，`m4_memory.db` 是 02:57:20 / 86016 B —— **都在我写本报告之后**。
+所以我 §0 里「acceptance 9/9」是对**当时那版**（11157 B）的统计；**现版是 16 键、全 true**：
+`1_one_block` … `10_type_and_resolved` + `position0_pass_and_refuse` / `display_never_decides` / `raw_answer_preserved` / `display_trace_fields` / `gates_untouched` / `all_pass`。
+lead 的「16 键」纠正成立，我的 9/9 不成立（我只读了前九项就下了全量结论 —— 同类错误，记在案）。
+
+**三处 §4 缺陷按现版 DB 逐条复核，均已闭环**：
+1. **`memory.type` 不再是 None**：fact / fact / constraint / fact / identity / plan（6 行全有值）；
+2. **R7 的指代字段已落地**：新增 `resolved` 与 `resolved_to` 两列；mem 3「别在那个时候给我推消息」= `resolved: in_sentence` / `resolved_to: 每天早上七点半出门`，其余五行 `no_reference`；
+3. **R9 的单元去重已落地**：`unit_id` 由 6 条降为 **5 个单元**（fanout：unit2→1、unit3→2、unit4→1、unit5→2），原先 unit3=unit4、unit6=unit7 的重复文本对消失。
+   对应 acceptance 的 `9_units_deduped_by_text=true`。
+
+**仍未解决的一处（我无法从 DB 判）**：§3-① 那个实用缺口 —— `anchored_time` 是否进入可检索文本。
+这个 DB 里**没有 unit 表**（tables: memory_source / block / memory / source_block / review / facet / term / doc / attr / value_kind / index_meta），
+我只能看到 `unit_id` 与 fanout，看不到单元文本本身。所以「问 2026-10-28 有什么安排能否命中」这一条，我**判不了**，需执行者给单元文本清单。
+
+**一条流程要求（比这一版更重要）**：验收结论必须**锚到 artifact sha**，否则重跑一次就换掉了被验收的东西。本轮锚点：
+`run_m4_verify.json` = bdf392e8f9a672a7
+ ｜ `m4_memory.db` = 817a66e45a4e3594
+ ｜ `run_m4_write.json` = 6408d8e2ecdf6ee5。
+今后凡「验收通过」的结论，都要带这一行；产物一旦重跑，sha 变了就自动失效，需要重新验收而不是默认沿用。
