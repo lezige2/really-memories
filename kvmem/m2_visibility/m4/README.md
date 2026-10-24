@@ -491,19 +491,23 @@ cd kvmem/m2_visibility/m4 && python -u -X utf8 m4_verify_grounded.py     # 四�
 **⑥ 本轮交付锚点（重跑即失效）**
 | artifact | path | sha256[:16] | mtime |
 |---|---|---|---|
-| 判据文件（主角，**在改动清单里**） | `kvmem/m2_visibility/m5/m5_ground.py` | `86b7c501ab9904aa` | 03:51:46 |
-| 桥 | `m4/m5_bridge.py` | `706c00d0345fe3c2` | 03:52:12 |
-| 作答路径 | `m4/m4_answer_grounded.py` | `9213bbeb41e97b9c` | 03:52:12 |
-| 消融块构建 | `m4/m4_ablate.py` | `172b5fa39eed84cd` | 03:37:27 |
-| 验收编排 | `m4/m4_verify_grounded.py` | `43cb14d1f0ffcd0a` | 03:53:31 |
-| 前后对照 | `m4/m5_fix_compare.py` | `0e9e60882c8f55ba` | 03:55:54 |
-| 验收 json | `m4/run_m5_grounded.json` | `5cd106eead0c9bac` | 03:54:30 |
-| 对照 json | `m4/run_m5_fix_compare.json` | `5f7c196a32a659a6` | 03:55:54 |
-| 消融 json | `m4/_ablate/run_ablate.json` | `8d0998c0014dde03` | 03:38:01 |
-| 消融库 | `m4/_ablate/m4_memory_noplate.db` | `c44abc2547aad560` | 03:38:01 |
-| M5 文本副本 | `m4/_m5db/m5_m4_blocks.db` | `59095fde11fbb39d` | 03:53:32 |
-| 消融块 | `m4/_ablate/blocks/blk_conv_noplate_2026-10-25_01.kvmem` | `e3bfec41d1f059e7` | 03:38:00 |
-| M5 证据 | `m5/evidence_m5.json` | `0f57f4357452a865` | 03:48:20 |
+| 判据文件（主角，在改动清单里） | `kvmem/m2_visibility/m5/m5_ground.py` | `86b7c501ab9904aa` | 03:51:46 |
+| 桥 | `kvmem/m2_visibility/m4/m5_bridge.py` | `706c00d0345fe3c2` | 03:52:12 |
+| 作答路径 | `kvmem/m2_visibility/m4/m4_answer_grounded.py` | `9213bbeb41e97b9c` | 03:52:12 |
+| 消融块构建 | `kvmem/m2_visibility/m4/m4_ablate.py` | `172b5fa39eed84cd` | 03:37:27 |
+| 验收编排 | `kvmem/m2_visibility/m4/m4_verify_grounded.py` | `8e754405b7bbe67d` | 03:57:09 |
+| 前后对照 | `kvmem/m2_visibility/m4/m5_fix_compare.py` | `0e9e60882c8f55ba` | 03:55:54 |
+| 验收 json | `kvmem/m2_visibility/m4/run_m5_grounded.json` | `dd8703d1022cdeb9` | 03:58:05 |
+| 对照 json | `kvmem/m2_visibility/m4/run_m5_fix_compare.json` | `5f7c196a32a659a6` | 03:58:05 |
+| 消融 json | `kvmem/m2_visibility/m4/_ablate/run_ablate.json` | `8d0998c0014dde03` | 03:38:01 |
+| 消融库 | `kvmem/m2_visibility/m4/_ablate/m4_memory_noplate.db` | `c44abc2547aad560` | 03:38:01 |
+| M5 文本副本 | `kvmem/m2_visibility/m4/_m5db/m5_m4_blocks.db` | `980d30fdb69f6f0b` | 03:57:09 |
+| 消融块 | `kvmem/m2_visibility/m4/_ablate/blocks/blk_conv_noplate_2026-10-25_01.kvmem` | `e3bfec41d1f059e7` | 03:38:00 |
+| M5 证据 | `kvmem/m2_visibility/m5/evidence_m5.json` | `0f57f4357452a865` | 03:48:20 |
+| M4 验收 json（未重跑） | `kvmem/m2_visibility/m4/run_m4_verify.json` | `bdf392e8f9a672a7` | 02:59:13 |
+| M4 库（未重跑） | `kvmem/m2_visibility/m4/m4_memory.db` | `817a66e45a4e3594` | 02:57:20 |
+| M4 写入 json（未重跑） | `kvmem/m2_visibility/m4/run_m4_write.json` | `6408d8e2ecdf6ee5` | 02:56:53 |
+| 主块（未改） | `kvmem/m2_visibility/m4/blocks/blk_conv_2026-10-25_01.kvmem` | `81127d24fd64b96b` | 02:56:44 |
 
 **M4 三产物未重跑**（本轮没有执行 `m4_verify.py` / `m4_write.py`）：
 `run_m4_verify.json = bdf392e8f9a672a7｜m4_memory.db = 817a66e45a4e3594｜run_m4_write.json = 6408d8e2ecdf6ee5`，

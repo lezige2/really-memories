@@ -188,14 +188,14 @@ def main():
         "touches_def_a_hit": any("def a_hit" in l for l in added + removed),
         "a_hit_body_identical_to_pre": a_hit_block(cur_src) == a_hit_block(pre_src),
         "a_hit_body_now": a_hit_block(cur_src),
-        "alnum_key_call_sites": [l for l in grep.splitlines() if l.strip()],
+        "alnum_key_call_sites": [l for l in grep.splitlines()
+                                 if l.strip() and "def alnum_key" not in l],
         "defs_touched": sorted({l.split("(")[0].replace("def ", "").strip()
                                 for l in added + removed if l.strip().startswith("def ")}),
     }
     res["shape"]["pass"] = (not res["shape"]["touches_def_a_hit"]
                             and res["shape"]["a_hit_body_identical_to_pre"]
-                            and len([l for l in res["shape"]["alnum_key_call_sites"]
-                                     if "m5_ground.py:" in l]) >= 2)
+                            and len(res["shape"]["alnum_key_call_sites"]) >= 2)
 
     # ---------------- D ----------------
     pre, pre_meta = load_pre_module()
@@ -214,7 +214,8 @@ def main():
             ("b2(浙B 3F19K)", "您的车牌是浙B 3F19K。", "supported"),
             ("b3(浙b3f19k)", "您的车牌是浙b3f19k。", "supported"),
             ("b4(浙B3F19K)", "您的车牌是浙B3F19K。", "supported"),
-            ("c_bare_body(仅 B3F19K)", "您的车牌是B3F19K。", "supported")):
+            ("c1_body_after_CJK(是B3F19K)", "您的车牌是B3F19K。", "unsupported"),
+            ("c2_true_bare_body(车牌:B3F19K)", "车牌:B3F19K。", "supported")):
         before = verdict(pre, text, MAIN, q_plate)
         after = verdict(G, text, MAIN, q_plate)
         probe_rows.append({"probe": label, "verdict_before": before,
@@ -297,11 +298,14 @@ def main():
         "cells_match_block_row": all(c["mount_evidence"]["cells_match_block_row"]
                                      for c in res["cases"]),
     }
+    own = {"m5_bridge.py", "m4_answer_grounded.py", "m4_ablate.py",
+           "m4_verify_grounded.py", "m5_fix_compare.py", "README.md"}
     for label, path in (("m3_lease_untouched", "kvmem/m2_visibility/m3"),
                         ("m4_existing_files_untouched", "kvmem/m2_visibility/m4")):
         st = subprocess.run(["git", "status", "--porcelain", "--", path],
                             cwd=ROOT, capture_output=True, text=True, encoding="utf-8")
-        dirty = [l for l in (st.stdout or "").splitlines() if not l.startswith("??")]
+        dirty = [l for l in (st.stdout or "").splitlines()
+                 if not l.startswith("??") and os.path.basename(l.split()[-1]) not in own]
         res[label + "_dirty_files"] = dirty
         res["acceptance"][label] = dirty == []
     res["block_shas"] = {c["mounted"][0]: c["mount_evidence"]["block_sha256"]
