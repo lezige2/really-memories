@@ -66,7 +66,21 @@ CREATE TABLE IF NOT EXISTS memory_source (
     label         TEXT    NOT NULL,
     text          TEXT    NOT NULL,
     source_hash   TEXT    NOT NULL,
-    created_at    TEXT    NOT NULL
+    created_at    TEXT    NOT NULL,
+    -- I8: a DEFAULT is a silent decision. Both of these default to the REFUSAL state, so a
+    -- row that forgets to declare what it is lands on the wrong side of the M5 gate rather
+    -- than being silently admitted as human memory.
+    text_kind            TEXT    NOT NULL DEFAULT 'conversation'
+                         CHECK (text_kind IN ('human_memory', 'conversation')),
+    contains_model_turns INTEGER NOT NULL DEFAULT 1
+                         CHECK (contains_model_turns IN (0, 1)),
+    is_excerpt           INTEGER NOT NULL DEFAULT 0
+                         CHECK (is_excerpt IN (0, 1)),
+    derived_from         TEXT,
+    -- a human memory may not carry model turns; a conversation may (an all-user transcript
+    -- is a conversation with 0 turns, which is safe and must stay expressible)
+    CHECK (NOT (text_kind = 'human_memory' AND contains_model_turns = 1)),
+    CHECK (is_excerpt = 0 OR derived_from IS NOT NULL)
 );
 
 CREATE INDEX IF NOT EXISTS memory_source_lookup
@@ -204,6 +218,31 @@ def _verify_row(row):
         raise SourceHashMismatch(name, sid, sh, computed)
 
 
+class SourceNotAllowed(Exception):
+    """A source that carries model turns may never become an M5 grounding source."""
+
+
+def assert_m5_source_allowed(con, name):
+    """R15: M5 sources accept human memory with no model turns -- nothing else.
+
+    Both columns are checked: text_kind alone would pass a row that declares 'human_memory'
+    but still carries turns, and that is exactly the pair-of-half-truths this gate exists to
+    stop.
+    """
+    rows = list(con.execute("SELECT id, text_kind, contains_model_turns FROM memory_source "
+                            "WHERE name=? ORDER BY id DESC", (name,)))
+    if not rows:
+        raise ValueError("no registry row named %r" % (name,))
+    sid, kind, turns = rows[0]
+    if kind != "human_memory" or turns != 0:
+        raise SourceNotAllowed(
+            "source %r (id=%r) is text_kind=%r, contains_model_turns=%r: it may serve as "
+            "text_origin provenance, never as an M5 grounding source (a model turn would be "
+            "treated as 'the source says so')." % (name, sid, kind, turns))
+    return {"name": name, "registry_source_id": sid, "text_kind": kind,
+            "contains_model_turns": turns}
+
+
 def assert_unique_texts(con):
     """I1: one canonical row per text -- scoped by (text_kind, is_excerpt).
 
@@ -270,7 +309,7 @@ def indexable_sources(con):
     cols = set(r[1] for r in con.execute("PRAGMA table_info(memory_source)"))
     layered = {"text_kind", "is_excerpt", "derived_from"} <= cols
     sql = ("SELECT name, label, text FROM memory_source WHERE text_kind='human_memory' "
-           "AND is_excerpt=0 ORDER BY id") if layered else \
+           "AND contains_model_turns=0 AND is_excerpt=0 ORDER BY id") if layered else \
           ("SELECT name, label, text FROM memory_source ORDER BY id")
     return [tuple(r) for r in con.execute(sql)]
 

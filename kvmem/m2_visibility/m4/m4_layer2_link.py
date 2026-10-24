@@ -43,8 +43,7 @@ EXCERPTS = {
 }
 
 
-class SourceNotAllowed(Exception):
-    """A source that carries model turns may never be used as an M5 grounding source."""
+SourceNotAllowed = ms.SourceNotAllowed
 
 
 class Unlinkable(Exception):
@@ -189,7 +188,9 @@ def assert_text_kind_valid(con1):
             bad.append("%s: text_kind=%r" % (r["name"], r["text_kind"]))
         if r["contains_model_turns"] not in (0, 1):
             bad.append("%s: contains_model_turns=%r" % (r["name"], r["contains_model_turns"]))
-        if r["text_kind"] == "conversation" and r["contains_model_turns"] != 1:
+        if r["text_kind"] == "human_memory" and r["contains_model_turns"] != 0:
+            bad.append("%s: human_memory must carry contains_model_turns=0" % r["name"])
+        if r["text_kind"] == "conversation" and r["contains_model_turns"] not in (0, 1):
             bad.append("%s: conversation must carry contains_model_turns=1" % r["name"])
     if bad:
         raise ValueError("invalid text_kind rows: %s" % "; ".join(bad))
@@ -199,19 +200,12 @@ def assert_text_kind_valid(con1):
 
 
 def assert_m5_source_allowed(con1, name):
-    """R15 candidate: M5 sources accept human memory only."""
-    rows = list(con1.execute("SELECT id,text_kind,contains_model_turns FROM memory_source "
-                             "WHERE name=? ORDER BY id DESC", (name,)))
-    if not rows:
-        raise ValueError("no registry row named %r" % (name,))
-    sid, kind, turns = rows[0]
-    if kind != "human_memory":
-        raise SourceNotAllowed(
-            "source %r (id=%r) is text_kind=%r, contains_model_turns=%r: it may serve as "
-            "text_origin provenance, never as an M5 grounding source (a model turn would "
-            "be treated as 'the source says so')." % (name, sid, kind, turns))
-    return {"name": name, "registry_source_id": sid, "text_kind": kind,
-            "contains_model_turns": turns}
+    """Named entry point for the link checks; the rule itself lives in the registry module.
+
+    The gate lives in tools/memory_source.py so Stage 3 can import it without importing this
+    harness, and so there is exactly one definition of "may this source ground an M5 block".
+    """
+    return ms.assert_m5_source_allowed(con1, name)
 
 
 DECL_SCHEMA = """

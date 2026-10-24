@@ -55,14 +55,16 @@ def must_raise(label, fn, types):
             "ok": False, "why": "validation must fail closed, not return a value"}
 
 
-def chat_memories():
-    """chat.py's current constants, read as source (no import, no side effects)."""
-    tree = ast.parse(open(CHAT_PY, encoding="utf-8").read())
-    for node in tree.body:
-        if isinstance(node, ast.Assign) and any(
-                isinstance(t, ast.Name) and t.id == "MEMORIES" for t in node.targets):
-            return [(n, lbl, txt) for n, lbl, txt in ast.literal_eval(node.value)]
-    raise SystemExit("MEMORIES not found in %s" % CHAT_PY)
+def chat_memory_literal():
+    """Does chat.py still carry a copy of the memory text? Read as source, never imported."""
+    src = open(CHAT_PY, encoding="utf-8").read()
+    tree = ast.parse(src)
+    consts = [n for n in tree.body
+              if isinstance(n, ast.Assign)
+              and any(isinstance(t, ast.Name) and t.id == "MEMORIES" for t in n.targets)]
+    return {"memories_constant_present": bool(consts),
+            "reads_indexable_sources": "ms.indexable_sources(" in src,
+            "writes_sources_in_build": "ms.put_source(" in src}
 
 
 def main():
@@ -172,25 +174,19 @@ def main():
         "checks": nt, "all_fail_closed": all(c["ok"] for c in nt)}
     c3.close()
 
-    # ---------- 6. fidelity: registry vs chat.py constants ----------
-    mem = chat_memories()
-    by_name = {r[1]: r for r in rows}
-    fid = []
-    for nm, lbl, txt in mem:
-        rr = by_name.get(nm)
-        fid.append({"name": nm, "label_ok": bool(rr) and rr[2] == lbl,
-                    "chars_const": len(txt), "chars_db": len(rr[3]) if rr else None,
-                    "sha16_const": sha16(txt),
-                    "sha16_db_stored": rr[4][:16] if rr else None,
-                    "sha16_db_computed": sha16(rr[3]) if rr else None,
-                    "byte_identical": bool(rr) and rr[3] == txt})
-    res["fidelity_vs_chat_py_constants"] = {
-        "how": "ast.literal_eval on tools/chat.py (no import, no execution)",
-        "rows": fid,
-        "ok": all(f["byte_identical"] for f in fid) and len(fid) <= len(rows),
-        "note": "the registry may hold MORE rows than MEMORIES (Stage 1b promoted the M4 "
-                "conversation transcript as a source); every MEMORIES entry must still be "
-                "byte-identical, and extra rows must declare their text_kind"}
+    # ---------- 6. there is no second copy of the memory text (Stage 2) ----------
+    lit = chat_memory_literal()
+    res["no_second_copy_of_memory_text"] = {
+        "how": "source scan of tools/chat.py (no import, no execution)",
+        **lit,
+        "registry_texts": [{"name": r[1], "chars": len(r[3]), "sha16": sha16(r[3])}
+                           for r in rows],
+        "ok": (not lit["memories_constant_present"]
+               and lit["reads_indexable_sources"]
+               and not lit["writes_sources_in_build"]),
+        "note": "Stage 2 deleted the literal: the builder reads kvmem/chat.db::memory_source "
+                "through ms.indexable_sources and no longer writes sources while building. "
+                "An ok here means the text exists in exactly one place."}
     con.close()
 
     # ---------- 7. missing entry is explicit, not "" ----------
@@ -225,6 +221,55 @@ def main():
     }
     res["db_sha16_after"] = sha_file16(DB)
     res["db_untouched"] = res["db_sha16_before"] == res["db_sha16_after"]
+    # --- standing regressions (no writes to the live db) --------------------------
+    kc = sqlite3.connect(DB)
+    kinds = {r[0]: (r[1], r[2]) for r in kc.execute(
+        "SELECT name, text_kind, contains_model_turns FROM memory_source ORDER BY id")}
+    conv = [n for n, (k, _t) in kinds.items() if k == "conversation"]
+    gate = {"conversation_names": conv}
+    gate["conversation_rejected"] = bool(conv)
+    gate["detail"] = []
+    for n in conv:
+        try:
+            ms.assert_m5_source_allowed(kc, n)
+            gate["conversation_rejected"] = False
+            gate["detail"].append({"name": n, "raised": None})
+        except ms.SourceNotAllowed as e:
+            gate["detail"].append({"name": n, "raised": "SourceNotAllowed",
+                                   "message": str(e)[:160]})
+    kc.close()
+    # I8: an undeclared insert must land on the refusal side (on a COPY, never the live db)
+    import shutil, tempfile
+    tmp = os.path.join(tempfile.gettempdir(), "i8_standing_probe.db")
+    shutil.copyfile(DB, tmp)
+    probe = {"text_kind": None, "contains_model_turns": None,
+             "gate_raised": None, "ok": False}
+    c2 = sqlite3.connect(tmp)
+    try:
+        txt = "探针：未声明类别的一行。"
+        c2.execute("INSERT INTO memory_source (tenant,scope,mode,name,label,text,source_hash,"
+                   "created_at) VALUES ('default','private','chat','i8_standing',?,?,?,?)",
+                   ("probe", txt, ms.sha256_text(txt), "2026-10-25T00:00:00"))
+        c2.commit()
+        probe["text_kind"], probe["contains_model_turns"] = c2.execute(
+            "SELECT text_kind, contains_model_turns FROM memory_source "
+            "WHERE name='i8_standing'").fetchone()
+        try:
+            ms.assert_m5_source_allowed(c2, "i8_standing")
+        except ms.SourceNotAllowed:
+            probe["gate_raised"] = "SourceNotAllowed"
+        probe["ok"] = (probe["text_kind"] == "conversation"
+                       and probe["contains_model_turns"] == 1
+                       and probe["gate_raised"] == "SourceNotAllowed")
+    finally:
+        c2.close()
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
+    res["gate_regression"] = gate
+    res["i8_undeclared_insert"] = probe
+
     res["acceptance"] = {
         "1_hashes_self_consistent": res["all_stored_hashes_self_consistent"],
         "2_tamper_raises": res["negative_test_tampered_copy"]["all_fail_closed"],
@@ -233,9 +278,14 @@ def main():
         "5_idempotent": res["put_idempotent"]["ok"],
         "6_refuses_implicit_revision": res["put_refuses_implicit_revision"]["ok"],
         "7_refuses_empty": res["put_refuses_empty_text"]["ok"],
-        "8_fidelity": res["fidelity_vs_chat_py_constants"]["ok"],
+        "8_fidelity": res["no_second_copy_of_memory_text"]["ok"],
         "9_db_untouched": res["db_untouched"],
         "10_trigger_layer": res["trigger_layer_holds"]["ok"],
+        # standing regression: a conversation row must never be admitted as an M5 source. This
+        # is the assertion that caught the migrate-before-promote defect; it stays for good.
+        "11_gate_rejects_conversation": res["gate_regression"]["conversation_rejected"],
+        "12_undeclared_insert_fails_closed": res["i8_undeclared_insert"]["ok"],
+        "13_no_second_copy_of_memory_text": res["no_second_copy_of_memory_text"]["ok"],
     }
     res["pass"] = all(res["acceptance"].values())
     json.dump(res, open(os.path.join(HERE, "run_registry_check.json"), "w",
@@ -251,6 +301,11 @@ def main():
     for c in res["negative_test_tampered_copy"]["checks"]:
         print("  tamper -> %-42s %s" % (c["check"], c.get("raised") or c.get("problems")))
     print()
+    for d in res["gate_regression"]["detail"]:
+        print("  gate: %-20s -> %s" % (d["name"], d.get("raised")))
+    pr = res["i8_undeclared_insert"]
+    print("  i8 undeclared insert -> text_kind=%r turns=%r gate=%s"
+          % (pr["text_kind"], pr["contains_model_turns"], pr["gate_raised"]))
     print(json.dumps(res["acceptance"], ensure_ascii=False, indent=1))
     print("PASS" if res["pass"] else "FAIL")
 

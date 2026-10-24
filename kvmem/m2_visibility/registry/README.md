@@ -241,3 +241,71 @@ role **只作准入闸门**，不得参与任何内容判断。
 `chat.py` 仍需要注册表**里有**那两行文本才能建块 —— 这是正确的依赖方向（源 -> 派生），
 不是"换了个地方依赖常量"。真正的残留风险是 `indexable_sources` 的过滤条件写错，
 它由 `m4_layer2_link.py` 的 `text_kind` 断言与 `check_m5_gate.py` 的选源扫描共同看住。
+
+
+## I8：默认值必须朝**拒绝**方向，且闸门必须读这个列
+
+### 冻结点
+
+| 项 | 现在 |
+|---|---|
+| `text_kind` | `TEXT NOT NULL DEFAULT 'conversation'` + `CHECK (text_kind IN ('human_memory','conversation'))` |
+| `contains_model_turns` | `INTEGER NOT NULL DEFAULT 1` + `CHECK (contains_model_turns IN (0,1))` |
+| 唯一成立的关联约束 | `CHECK (NOT (text_kind = 'human_memory' AND contains_model_turns = 1))` |
+| 闸门 | 三项并列：`text_kind=='human_memory' AND contains_model_turns==0`，且（摘录时）`derived_from` 非空 + 逐字子串成立 |
+
+**(A) 派生、(B) 双向 CHECK 都被代码事实否掉了**：`conversation` 与「含模型回合」不是同一个谓词 ——
+一份**纯人类发言**的会话记录是 `conversation` + `0` 的合法事实。从 `text_kind` 派生会把它错标成「含模型回合」。
+反方向的 CHECK（`conversation ⇒ turns=1`）会**禁止一行合法数据**。所以只留 `human_memory ⇒ turns=0` 这一个方向。
+
+### 修之前它确实是装饰性的
+
+旧闸门：
+`if kind != "human_memory": raise ...` —— `turns` 只出现在报错文案和返回值里，**没有任何一处用它做决定**。
+后果：写入、展示、却从不校验。比默认值方向更严重。
+
+### 三条可判证据（原文，`registry/run_i8.json`）
+
+| # | 做法 | 实测 |
+|---|---|---|
+| (i) | 只用老列的 INSERT（不写新列）| 读回 `(11, 'conversation', 1, 0, None)`；闸门抛 `SourceNotAllowed: source 'i8_probe' (id=11) is text_kind='conversation', contains_model_turns=1` |
+| (ii) | 显式 `human_memory` + `1` | `IntegrityError: CHECK constraint failed: NOT (text_kind = 'human_memory' AND contains_model_turns = 1)` |
+| (iii) | **绕过 CHECK**：副本库删掉 CHECK 重建表，把 conv 改成 `human_memory`+`1`，再问闸门 | 行确实成了 `('human_memory', 1)`，闸门仍抛 `SourceNotAllowed: source 'conv_2026-10-25' (id=3) is text_kind='human_memory', contains_model_turns=1` |
+
+**(iii) 是这一轮的关键**：它证明闸门**读了** `contains_model_turns`，而不是只读 `text_kind` 摆样子。
+
+### 落地方式
+
+SQLite 不能加 CHECK，所以 `registry/migrate_i8.py` 按 `tools/memory_source.py::SCHEMA`（唯一 DDL 源）**重建表**：
+读数 -> 建新表 -> 拷 13 列 -> 删旧 -> 改名 -> 重建索引与不可变触发器。
+`run_i8.json` 里 `row_parity_problems=none`（10 行逐列逐字节相同），`trigger_present=True`。
+
+### 常驻回归项（不再是"这一轮验过"）
+
+`check_registry.py` 有 13 个验收键，其中这三个是长期驻留：
+
+| 键 | 断言 |
+|---|---|
+| `11_gate_rejects_conversation` | 每个 `text_kind='conversation'` 的行必须抛 `SourceNotAllowed`（抓出缺陷 1 的就是这条）|
+| `12_undeclared_insert_fails_closed` | 副本上不写新列 INSERT => 读回 `conversation/1` 且闸门抛错 |
+| `13_no_second_copy_of_memory_text` | `tools/chat.py` 无 `MEMORIES` 字面量、走 `ms.indexable_sources`、建块路径不写源 |
+
+## 纪律：**任何哈希必须附定义**
+
+与「计数必须附原值」并列。定义要写清四件事：**对什么序列化、哪些列、什么顺序、什么编码**。
+一个「定义未知、不可复算」的哈希不是锚，是死数字。
+
+### 现存唯一一个"派生内容哈希"及其定义
+
+`_m5db` 的 `content_sha256 = 876deaa3a4b7ad1d4a01f49e2a451b0c577b3feb6aaf86f03920fe2e98e07edf`：
+
+* 取 `blocks` 表的 **三列** `(block_id, sha256, source_text)`（`sha256` 是块文件磁盘哈希）；
+* **按 block_id 排序**（`ORDER BY block_id`）；
+* `json.dumps(rows, ensure_ascii=False)` —— Python 默认分隔符（`", "` / `": "`），元组序列化成 JSON 数组，无尾随换行；
+* 编码 `UTF-8`，再取 `sha256`。
+
+复算命令（任何人可重跑，结果必须相同）：
+
+`python -X utf8 -c "import json,sqlite3,hashlib; con=sqlite3.connect('kvmem/m2_visibility/m4/_m5db/m5_m4_blocks.db'); rows=list(con.execute('SELECT block_id, sha256, source_text FROM blocks ORDER BY block_id')); print(hashlib.sha256(json.dumps(rows, ensure_ascii=False).encode('utf-8')).hexdigest())"`
+
+实测输出前 16 位 `876deaa3a4b7ad1d`，与记录一致；代码位置 `m5_bridge.py:133-137`。
