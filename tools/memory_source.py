@@ -48,7 +48,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 
-MODEL = r"D:\models\DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf"
+MODEL = r"D:\models\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf"
 DB = os.path.join(ROOT, "kvmem", "chat.db")
 BLOCKS = os.path.join(ROOT, "kvmem", "blocks")
 

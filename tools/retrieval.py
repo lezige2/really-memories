@@ -292,11 +292,12 @@ def _search_one(con, query, k=3, mode="facet", n_docs=1, avg_len=1.0, explain=Fa
             continue           # topically related, but cannot supply the asked value
         if used_fallback:
             hits = len(doc_terms.get(sid, ()))
-            # Two rare characters is the normal bar. But when the value gate already left
-            # only a couple of admissible blocks, that bar is redundant: one rare match
-            # plus the gate is enough, and demanding two loses "我几点睡觉" -> sleep.
-            need = 1 if (allowed is not None and len(allowed) <= 2) else 2
-            if hits < need or cov.get(sid, 0.0) < COV_MIN:
+            # M18-3（改对象：例外=「属性闸门已判定」，不是「命中 1 个罕见字」）：
+            # 属性闸门（①）已经判「这块能答这类属性」时，回退的词法条数/覆盖率不再当
+            # 第二道准入 —— 与 M18-1 在 `s > 0` 处的理由同源（LEDGER L270）。
+            # 值闸路径（无属性问题，如「公积金/余额」）保持 2 个罕见字的下限 ⇒ A8 转绿。
+            prop_gated = bool(want_prop) and allowed is not None and sid in allowed
+            if not prop_gated and (hits < 2 or cov.get(sid, 0.0) < COV_MIN):
                 continue
         s = base.get(sid, 0.0)
         sig = {"bm25": round(s, 3)}
@@ -320,7 +321,10 @@ def _search_one(con, query, k=3, mode="facet", n_docs=1, avg_len=1.0, explain=Fa
                 s += 3.0
                 sig["kind"] = name
         sig["cov"] = round(cov.get(sid, 0.0), 2)
-        if s > 0:
+        # M18-1 放松：属性闸门（①）已把块收窄到 allowed，词法分数不该再当第二道准入。
+        # 「我的地址是什么」的 allowed 含正确的 5 号块，但二元组（地址/住址）在块里不重叠，
+        # 旧代码 s>0 直接把它挡在候选之外 —— 这就是 legacy §8.2 第 1 条的复现点。
+        if s > 0 or (want_prop and allowed is not None and sid in allowed):
             sig["score"] = round(s, 3)
             out.append({"source_id": sid, "name": name, "score": s, "signals": sig})
 
@@ -337,12 +341,23 @@ def _search_one(con, query, k=3, mode="facet", n_docs=1, avg_len=1.0, explain=Fa
         return []
     top = out[0]["score"]
     keep = [r for r in out if r["score"] >= max(top * REL_CUT, ABS_CUT)]
+    if not keep:
+        # M18-4 修一致性（放松，仅让覆盖率路径可达）：走到这里说明 _passes(out[0]) 已为真
+        # （绝对证据或 cov≥COV_MIN 的「可解释覆盖」），而 `ABS_CUT` 只是**排序截断**的下限，
+        # 不是第二道准入。旧代码会把「cov 过、分低」的唯一候选删光 = 该答不答的假红。
+        # 注：M18-1 的属性保底（`if not keep and want_prop`）是它的真子集，这里一并覆盖。
+        keep = out[:1]
     return keep[:k]
 
 
 def _passes(best):
-    """Absolute evidence, or explanatory coverage."""
-    return best["score"] >= GATE or best["signals"].get("cov", 0.0) >= COV_MIN
+    """Absolute evidence, or explanatory coverage, or a property anchor.
+
+    M18-1 放松：`prop` 命中意味着 ① 已证明「这块能答这类属性」，legacy L270 已裁
+    「属性一旦确定块，词法覆盖率不该再当裁判」。
+    """
+    return (best["score"] >= GATE or best["signals"].get("cov", 0.0) >= COV_MIN
+            or bool(best["signals"].get("prop")))
 
 
 def main():

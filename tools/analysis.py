@@ -136,8 +136,13 @@ PROPERTIES = [
     ("displacement", ("排量",), r"\d(?:\.\d)?\s*[lLtT](?![a-zA-Z])|\d{3,4}\s*(?:cc|毫升)",
      None, None),
     ("area", ("面积", "多大平"), r"\d+(?:\.\d+)?\s*(?:平|平米|平方米|㎡)", None, None),
-    ("height", ("身高",), r"\d{2,3}\s*(?:cm|厘米)|1[.．]\d{2}\s*米", None, None),
-    ("birthday", ("生日",), r"\d{1,2}\s*月\s*\d{1,2}|\d{4}\s*[-/年]\s*\d{1,2}", None, None),
+    # M18-2 补漏：只写「身高 176」（无单位）的块也该被判 height；裸数字必须紧贴「身高」
+    ("height", ("身高",), r"\d{2,3}\s*(?:cm|厘米)|1[.．]\d{2}\s*米|身高\s{0,2}\d{2,3}",
+     None, None),
+    # M18-2 补漏：相对日期（下周三 / 本周六）也是生日写法，此前只认绝对日期
+    ("birthday", ("生日",),
+     r"\d{1,2}\s*月\s*\d{1,2}|\d{4}\s*[-/年]\s*\d{1,2}"
+     r"|(?:这|下|本)(?:周|星期)[一二三四五六日天]", None, None),
     ("blood_pressure", ("血压",), r"\d{2,3}\s*/\s*\d{2,3}|\d{2,3}\s*mmHg", None, None),
     ("plate", ("车牌",), r"[\u4e00-\u9fa5][A-Za-z][-\s]?[A-Za-z0-9]{4,6}", None, None),
     ("card_number", ("卡号",), r"\d(?:[ \-]?\d){11,18}", None, None),
@@ -147,8 +152,10 @@ PROPERTIES = [
      r"[A-Za-z]{1,2}[-\s]\d{1,5}|\d{1,5}\s*号", ("工位",), None),
     ("spot_id", ("车位号", "车位编号"),
      r"[A-Za-z]{1,2}[-\s]\d{1,5}|\d{1,5}\s*号", ("车位",), None),
+    # M18-2 收紧：address 原先 scs=None（无锚 ⇒ 默认放行），profile 的「工号/会议室/B栋302」
+    # 因此被误判成 address。锚点收窄到「住/地址/家」，值模式保留。
     ("address", ("住哪", "住在哪", "住址", "地址"),
-     r"(?:路|街|号|楼|室|新村|小区|里|栋|园)", None, None),
+     r"(?:路|街|号|楼|室|新村|小区|里|栋|园)", ("住", "地址", "家"), None),
 ]
 
 PROP_NAMES = frozenset(pn for pn, _w, _v, _sc, _k in PROPERTIES)
@@ -206,7 +213,9 @@ def property_holds(text, prop, scope=None):
     if not anchors and scs:
         anchors = [n for n in scs if n in t]
     if not anchors:
-        return not scs and not scope
+        # M18-2 收紧：原先「无锚 ⇒ True」等于对未锚定的通用模式（生日/颜色/身高）无条件放行，
+        # 「合同 12月15日到期」被当成生日即由此而来。属性词必须在正文里出现。
+        return False
     hits = [m.start() for a in anchors for m in re.finditer(re.escape(a), t)]
     return any(abs(v - h) <= 5 for v in pos for h in hits)
 
