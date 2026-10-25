@@ -1,0 +1,153 @@
+{
+ "schema": "m7_vram_ramp_v1",
+ "task": "M7-VRAM-RAMP 14B Vulkan 专用显存爬坡 32/36/40",
+ "at": "2026-10-26T04:05:33",
+ "started": "2026-10-26T04:05:10",
+ "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+ "model_bytes": 8988110240,
+ "geometry": {
+  "n_ctx": 8192,
+  "n_seq": 8,
+  "kv": "q8_0",
+  "chat_start": 4096,
+  "blocks": 48,
+  "embd": 5120,
+  "heads": 40,
+  "kv_heads": 8,
+  "ff": 13824,
+  "head_dim": 128
+ },
+ "gpu": {
+  "name": "AMD Radeon RX 6750 GRE 10GB",
+  "driver": "32.0.21045.1000"
+ },
+ "dll": {
+  "vulkan": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+  "vulkan_sha16": "9edbafa150700614",
+  "vulkan_bytes": 50007552,
+  "cpu": "D:\\llama-mem\\tools\\kvshim.dll",
+  "cpu_sha16": "3e29ae9eadc1dfc0",
+  "cpu_bytes": 8106496
+ },
+ "env": {
+  "n_gpu_layers_tiers": [
+   32,
+   36,
+   40
+  ],
+  "sampling_interval_ms": 100,
+  "gate_gib": 8.6,
+  "target_gib": 8.0,
+  "KVSHIM_THREADS": null
+ },
+ "baseline_gib": 0.427,
+ "tiers": [
+  {
+   "schema": "m7_vram_tier_v1",
+   "n_gpu_layers": 32,
+   "load_s": 3.394,
+   "prefill_n": 65,
+   "prefill_s": 1.21,
+   "prefill_tok_s": 53.72,
+   "decode_tokens": 16,
+   "decode_s": 2.092,
+   "decode_tok_s": 7.65,
+   "process_ws_mb": 8604.6,
+   "vulkan_imported": true,
+   "dll": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+   "dll_sha16": "9edbafa150700614",
+   "gpu": 32,
+   "n_ctx": 8192,
+   "n_seq": 8,
+   "kv": "q8_0",
+   "child_pid": 5748,
+   "answer_head": "你好！很高兴见到你。有什么我可以帮助你的吗？\n</think>\n\n你好！",
+   "ok": true,
+   "vram_peak_gib": 6.705,
+   "baseline_gib": 0.427,
+   "sampler": {
+    "samples": 56,
+    "stderr_tail": [],
+    "stdout_tail": [
+     "{\"peak_bytes\":7199461376,\"samples\":56}"
+    ]
+   },
+   "rc": 0,
+   "timed_out": false,
+   "child_stderr_tail": []
+  },
+  {
+   "schema": "m7_vram_tier_v1",
+   "n_gpu_layers": 36,
+   "load_s": 3.655,
+   "prefill_n": 65,
+   "prefill_s": 0.924,
+   "prefill_tok_s": 70.37,
+   "decode_tokens": 16,
+   "decode_s": 1.775,
+   "decode_tok_s": 9.01,
+   "process_ws_mb": 8537.2,
+   "vulkan_imported": true,
+   "dll": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+   "dll_sha16": "9edbafa150700614",
+   "gpu": 36,
+   "n_ctx": 8192,
+   "n_seq": 8,
+   "kv": "q8_0",
+   "child_pid": 5328,
+   "answer_head": "你好！很高兴见到你。有什么我可以帮助你的吗？\n</think>\n\n你好！",
+   "ok": true,
+   "vram_peak_gib": 7.3724,
+   "baseline_gib": 0.427,
+   "sampler": {
+    "samples": 55,
+    "stderr_tail": [],
+    "stdout_tail": [
+     "{\"peak_bytes\":7916072960,\"samples\":55}"
+    ]
+   },
+   "rc": 0,
+   "timed_out": false,
+   "child_stderr_tail": []
+  },
+  {
+   "schema": "m7_vram_tier_v1",
+   "n_gpu_layers": 40,
+   "load_s": 3.937,
+   "prefill_n": 65,
+   "prefill_s": 0.696,
+   "prefill_tok_s": 93.39,
+   "decode_tokens": 16,
+   "decode_s": 1.526,
+   "decode_tok_s": 10.48,
+   "process_ws_mb": 8469.7,
+   "vulkan_imported": true,
+   "dll": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+   "dll_sha16": "9edbafa150700614",
+   "gpu": 40,
+   "n_ctx": 8192,
+   "n_seq": 8,
+   "kv": "q8_0",
+   "child_pid": 2276,
+   "answer_head": "你好！很高兴见到你。有什么我可以帮助你的吗？\n</think>\n\n你好！",
+   "ok": true,
+   "vram_peak_gib": 8.0416,
+   "baseline_gib": 0.427,
+   "sampler": {
+    "samples": 53,
+    "stderr_tail": [],
+    "stdout_tail": [
+     "{\"peak_bytes\":8634654720,\"samples\":53}"
+    ]
+   },
+   "rc": 0,
+   "timed_out": false,
+   "child_stderr_tail": []
+  }
+ ],
+ "aborted": false,
+ "abort_at": null,
+ "conclusion_max_layers_le_8_0": 36,
+ "boundary": "本测量只回答显存占用，不构成任何 GPU 正确性结论；E3-GPU 仍为 未做。GPU DLL provenance 与 CPU 臂分离（GPU=9edbafa1 ↔ 旧源码 51eb2adb）。",
+ "no_self_sha": true
+}

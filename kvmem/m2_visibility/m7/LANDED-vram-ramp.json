@@ -1,0 +1,126 @@
+{
+ "schema": "landed_vram_ramp_v1",
+ "task": "M7-VRAM-RAMP 14B Vulkan 显存爬坡 32/36/40",
+ "at": "2026-10-26T04:05:49",
+ "executor": "executor",
+ "artifact": {
+  "path": "kvmem/m2_visibility/m7/out/M7-VRAM-RAMP.json",
+  "sha16": "7953bba770f5b3f9",
+  "bytes": 3751
+ },
+ "dll": {
+  "vulkan": {
+   "path": "tools/kvshim_vk.dll",
+   "sha16": "9edbafa150700614",
+   "bytes": 50007552
+  },
+  "cpu": {
+   "path": "tools/kvshim.dll",
+   "sha16": "3e29ae9eadc1dfc0",
+   "bytes": 8106496
+  },
+  "vulkan_unchanged_sha16": "9edbafa150700614",
+  "cpu_unchanged_sha16": "3e29ae9eadc1dfc0",
+  "note": "GPU DLL 绝不重建；本次未改 C++/DLL"
+ },
+ "model": {
+  "path": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+  "bytes": 8988110240
+ },
+ "tiers": [
+  {
+   "n_gpu_layers": 32,
+   "vram_peak_gib": 6.705,
+   "baseline_gib": 0.427,
+   "load_s": 3.394,
+   "prefill_tok_s": 53.72,
+   "decode_tok_s": 7.65,
+   "process_ws_mb": 8604.6,
+   "vulkan_imported": true,
+   "ok": true
+  },
+  {
+   "n_gpu_layers": 36,
+   "vram_peak_gib": 7.3724,
+   "baseline_gib": 0.427,
+   "load_s": 3.655,
+   "prefill_tok_s": 70.37,
+   "decode_tok_s": 9.01,
+   "process_ws_mb": 8537.2,
+   "vulkan_imported": true,
+   "ok": true
+  },
+  {
+   "n_gpu_layers": 40,
+   "vram_peak_gib": 8.0416,
+   "baseline_gib": 0.427,
+   "load_s": 3.937,
+   "prefill_tok_s": 93.39,
+   "decode_tok_s": 10.48,
+   "process_ws_mb": 8469.7,
+   "vulkan_imported": true,
+   "ok": true
+  }
+ ],
+ "baseline_gib": 0.427,
+ "aborted": false,
+ "abort_at": null,
+ "conclusion": {
+  "max_n_gpu_layers_le_8_0": 36,
+  "sentence": "在 ≤8.0 GiB 约束下可用的最大 n_gpu_layers = 36；40 层实测 8.0416 GiB，超过 8.0，故不作为 ≤8.0 操作点（不外推）。",
+  "gate_8_6_hit": false
+ },
+ "boundary": "本测量只回答显存占用，不构成任何 GPU 正确性结论（E3-GPU 仍为 未做）；GPU DLL provenance 与 CPU 臂分离（GPU=9edbafa1 ↔ 旧源码 51eb2adb）。",
+ "host_safety": {
+  "bsod_incidents": 3,
+  "bugchecks": [
+   "0xA",
+   "0xA",
+   "0x44"
+  ],
+  "note": "本轮 GPU 只做有界显存测量；无 kill/taskkill/Stop-Process；未触发蓝屏"
+ },
+ "files": [
+  {
+   "path": "kvmem/m2_visibility/m7/out/M7-VRAM-RAMP.json",
+   "sha16": "7953bba770f5b3f9",
+   "bytes": 3751
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out/_vram_ramp.py",
+   "sha16": "5e806e500214d558",
+   "bytes": 9658
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out/_vram_sampler.ps1",
+   "sha16": "0765d8e4a2e3e484",
+   "bytes": 451
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out/_vram_ramp.log",
+   "sha16": "a010acaf8ad7954c",
+   "bytes": 618
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out\\_vram_tier_32.json",
+   "sha16": "0a947a0a721af631",
+   "bytes": 530
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out\\_vram_tier_36.json",
+   "sha16": "e590db0152af6485",
+   "bytes": 531
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out\\_vram_tier_40.json",
+   "sha16": "aa75c45194bdf034",
+   "bytes": 532
+  }
+ ],
+ "unchanged": [
+  "kvmem/m2_visibility/m7/out/M7-E3-CPU-ATOMIC.json",
+  "kvmem/m2_visibility/m7/out/M7-E3-CPU-TAIL.json",
+  "kvmem/m2_visibility/m7/out/M7-E3-CPU-EVENTS.jsonl"
+ ],
+ "no_self_sha": true
+}
