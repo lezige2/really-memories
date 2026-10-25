@@ -1,0 +1,135 @@
+{
+ "schema": "s1_corrections_v1",
+ "spec": "docs/_work/M2-FULL-S1-SPEC-lead.md@ae2d88ad5ecc25d3",
+ "at": "2026-10-25T22:11:09",
+ "why": "inspector 终审 INSPECTOR-S1B-REVIEW.md@058d29dca281ea47 列出的非读数层补正（F1/F2/F4/F5；F3 在台账 module_shas）；按不可回改规则，不改任何已产出读数文件本体，只出本补正 + 台账 addendum",
+ "original_products": {
+  "S1-real.json": {
+   "path": "kvmem/m2_visibility/m2_planner/out/S1-real.json",
+   "sha16": "3df8d70bec1c5b94",
+   "bytes": 17854
+  },
+  "S1-real-smoke.json": {
+   "path": "kvmem/m2_visibility/m2_planner/out/S1-real-smoke.json",
+   "sha16": "a067294a524e42c3",
+   "bytes": 10034
+  },
+  "S1-real-default-regression.json": {
+   "path": "kvmem/m2_visibility/m2_planner/out/S1-real-default-regression.json",
+   "sha16": "39aa2505d74724a4",
+   "bytes": 4063
+  }
+ },
+ "F1_db_copy_correction": {
+  "applies_to": "out/S1-real-default-regression.json",
+  "original_claim": {
+   "db_copy": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\chat_lease\\tmp_db\\chat@237d8e1f.db",
+    "sha16": "237d8e1f5de9a382"
+   }
+  },
+  "corrected": {
+   "sha16_before": "237d8e1f5de9a382",
+   "sha16_after": "2d3bae59168b6ed1",
+   "derived_rebuilt_by": "cmd_m1 → R.build_index(chat.py:521)（无条件重建派生索引）",
+   "why_bytes_differ": "temp 副本的派生表 attr/value_kind 被重建；证据面 8 张表逐行相同（inspector 逐表逐行复核）",
+   "readings_unaffected": true,
+   "readings_unaffected_evidence": "inspector 对 5 个 DB 状态跑 _selection + _two_selection_texts：每题 selection (name,score) 逐字段相同，A/B 选择文本逐字符相同（A 16 字 / B 43 字），真机 selection_hits A=conv_2026-10-25#L3 / B=project 与 dry 一致 ⇒ 派生索引状态不改变 S1 选块/读数"
+  },
+  "originals_immutable": true,
+  "authority": "本补正字段；原产品 db_copy 是跑前值，不得当跑后值引用"
+ },
+ "F2_notes_static_text_error": {
+  "flag": true,
+  "applies_to": [
+   "out/S1-real.json",
+   "out/S1-real-smoke.json"
+  ],
+  "field": "run.notes",
+  "error_kind": "static_text",
+  "error_note": "notes 是 dry-run 口径的静态文案（把 real 才判的三条写成'未做'），real 臂 checks 为 true；文案无判据效力，以 checks 与事实层为准",
+  "per_item": [
+   {
+    "key": "S1-01",
+    "notes_text": "未做（S1-b 真机事实命中）",
+    "actual_checks": true,
+    "evidence": {
+     "fact_layer.A.own_hit_rounds": 10,
+     "fact_layer.A.rounds": 10,
+     "fact_layer.B.own_hit_rounds_norm": 10,
+     "fact_layer.B.literal_hit_last": false
+    },
+    "judgement": "通过"
+   },
+   {
+    "key": "S1-02b",
+    "notes_text": "未做（S1-b 文本层；去空白后判，见 ②b）",
+    "actual_checks": true,
+    "evidence": {
+     "cross.a_to_b": {
+      "ok": true,
+      "a_contains_fact_b": false
+     },
+     "cross.b_to_a": {
+      "ok": true,
+      "b_contains_fact_a": false
+     }
+    },
+    "judgement": "通过"
+   },
+   {
+    "key": "S1-05",
+    "notes_text": "未做（sha_stable 仅 S1-b；dry-run 记 not_done）",
+    "actual_checks": true,
+    "evidence": {
+     "sha_stable.status": "done",
+     "sha_stable.unchanged": true,
+     "sha_stable.checked_n": 7
+    },
+    "judgement": "通过"
+   }
+  ],
+  "correct_four_state": {
+   "S1-01": "通过",
+   "S1-02b": "通过",
+   "S1-05": "通过"
+  },
+  "dry_run_context": "notes 文本对 dry-run 是正确口径（dry 时 S1-01/02b/05 确为'未做'，见 S1-dryrun.json checks），错在 real 臂沿用了同一静态文案",
+  "originals_immutable": true
+ },
+ "F3_module_shas": {
+  "correction": "台账 module_shas 由 10 条扩到 14 条（并入判据床与 3 个驱动/落账脚本）",
+  "added": [
+   "kvmem/m2_visibility/chat_lease/_test_two_session.py",
+   "kvmem/m2_visibility/chat_lease/_land_s1.py",
+   "kvmem/m2_visibility/chat_lease/_run_s1_real.py",
+   "kvmem/m2_visibility/chat_lease/_run_m1_regression.py"
+  ],
+  "note": "判据床/驱动/落账脚本也是冻结面（0 漂移集合必须覆盖判据本身）"
+ },
+ "F4_frozen_numbers_text_correction": {
+  "field": "frozen_numbers.geometry",
+  "old_text": "A home [4075,4096) chat_start_A=4096; B project [4096+n_chat_A, +18) chat_start_B=+18",
+  "new_text": "A home [4075,4096) chat_start_A=4096; B project [4096+n_chat_A, 4096+n_chat_A+18) chat_start_B=4096+n_chat_A+18（+18 中 18=project cells，不是常数偏移；换块 cells 时随之变）",
+  "spec_lines_added": 132,
+  "note": "真机/干跑/产品读数与正确公式一致（A 536 ⇒ B 4650=4096+536+18；dry 670 ⇒ B 4784），原文本只是台账笔误"
+ },
+ "F5_red_proof_R5_polarity": {
+  "red_proof": "R5",
+  "red_kind": "case(M_CAP_refuses)",
+  "expect_red": [],
+  "fail_cases": [
+   "M_CAP_refuses"
+  ],
+  "n_pass": "11/12",
+  "note": "主臂 CAP=未触发绿（10 轮 536/580 ≤ 1024，按设计不触发）；红的判可性来自 16 轮 case 级对照（refused=true, reason=chat_len_cap, over 1072>1024）；R5 删 CAP 校验后同输入 refused=false、B 跑满 16 轮 ⇒ case 级红足够证明守门，主产物不该红"
+ },
+ "four_state_corrected": {
+  "S1-01": "通过（真机：A 字面 10/10、B 去空白 10/10；以 checks.S1-01 + fact_layer 为准）",
+  "S1-02b": "通过（真机：A 不含 3月14、B 不含 广陵路，2/2；以 checks.S1-02b + cross 为准）",
+  "S1-05": "通过（真机：sha_stable done/unchanged=True，7 文件；以 run.sha_stable 为准）",
+  "note": "run.notes 的'未做'是静态文案错误，不参与判决；其余条目不涉及本轮补正"
+ },
+ "no_product_modified": true,
+ "script_sha16": "bff31b15f4a5b2b8"
+}

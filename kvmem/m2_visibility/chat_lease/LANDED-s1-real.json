@@ -1,0 +1,1279 @@
+{
+ "schema": "landed_s1_real_v1",
+ "batch_id": "m2full-s1-b-real-v6",
+ "task": "task-31 · S1-b（14B 真机臂，v6 口径）",
+ "owner": "executor",
+ "at": "2026-10-25T22:52:33",
+ "why": "v5 在真机上被两处硬矛盾证伪（几何留空位 decode 拒绝 / attach hi 非排他），lead 裁 v6（游标顺延几何、hi=排他、②a 降级+②c、②b 去空白、P-1 拆两半、cap_ok 未跑记 not_run）；本台账落 S1-b 真机两采样 + v6 dry 回归 + 默认路径现状。",
+ "frozen_spec": "docs/_work/M2-FULL-S1-SPEC-lead.md@ae2d88ad5ecc25d3",
+ "spec": {
+  "path": "docs/_work/M2-FULL-S1-SPEC-lead.md",
+  "sha16": "ae2d88ad5ecc25d3",
+  "bytes": 16437,
+  "lines": 132
+ },
+ "before_copies": {
+  "chat_v5": {
+   "path": "kvmem/m2_visibility/chat_lease/_before/chat.py@b9010e9c2a3c6a13",
+   "sha16": "b9010e9c2a3c6a13",
+   "bytes": 65789
+  },
+  "chat_v4": {
+   "path": "kvmem/m2_visibility/chat_lease/_before/chat.py@cb70be52eef253fa",
+   "sha16": "cb70be52eef253fa",
+   "bytes": 34319
+  },
+  "land_v5": {
+   "path": "kvmem/m2_visibility/chat_lease/_before/_land_s1.py@e11e69f8f8ffe6f2.py",
+   "sha16": "e11e69f8f8ffe6f2",
+   "bytes": 16318
+  },
+  "note": "v6 改了 tools/chat.py（S1 块 + DB 环境变量），故留 v5(chat) 与 v5(land) 副本；v5 判据床 _test_two_session.py@5a52ab3c72ae2f44 已按 v6 重写，未留 v5 副本（inspector 复核记录在 docs/_work/INSPECTOR-S1A-REVIEW.md §2）"
+ },
+ "change": {
+  "chat_py": {
+   "old_sha16": "b9010e9c2a3c6a13",
+   "old_bytes": 65789,
+   "new_sha16": "22081c411c64fbe7",
+   "new_bytes": 75310,
+   "line_stats": {
+    "crlf": 1427,
+    "lone_lf": 0,
+    "lone_cr": 0,
+    "ends_with_newline": false
+   },
+   "note": "v6：几何/attach hi/③公式/cap_ok/②a+②c/②b 去空白/P-1 拆半/S1-03 默认红/DB 可用 CHAT_DB 覆盖；默认分支未改"
+  }
+ },
+ "frozen_numbers": {
+  "N_ROUNDS": 10,
+  "CHAT_LEN_CAP": 1024,
+  "CHAT_START": 4096,
+  "N_SEQ": 8,
+  "seqs": {
+   "A": 0,
+   "B": 7
+  },
+  "pool": 3,
+  "mounted_blocks": 2,
+  "geometry": "A home [4075,4096) chat_start_A=4096; B project [4096+n_chat_A, 4096+n_chat_A+18) chat_start_B=4096+n_chat_A+18（+18 的 18=project cells，不是常数偏移；换块 cells 时随之变）",
+  "attach_hi": "exclusive"
+ },
+ "products": {
+  "real_s1": {
+   "path": "kvmem/m2_visibility/m2_planner/out/S1-real.json",
+   "sha16": "3df8d70bec1c5b94",
+   "bytes": 17854
+  },
+  "real_s2": {
+   "path": "kvmem/m2_visibility/m2_planner/out/S1-real-2.json",
+   "sha16": "39b7f9dee736d86b",
+   "bytes": 17854
+  },
+  "real_smoke": {
+   "path": "kvmem/m2_visibility/m2_planner/out/S1-real-smoke.json",
+   "sha16": "a067294a524e42c3",
+   "bytes": 10034
+  },
+  "default_regression": {
+   "path": "kvmem/m2_visibility/m2_planner/out/S1-real-default-regression.json",
+   "sha16": "39aa2505d74724a4",
+   "bytes": 4063
+  },
+  "dry_s1": {
+   "path": "kvmem/m2_visibility/m2_planner/out/S1-dryrun.json",
+   "sha16": "f2ae36b3ab740214",
+   "bytes": 6091
+  },
+  "dry_s2": {
+   "path": "kvmem/m2_visibility/m2_planner/out/S1-dryrun-2.json",
+   "sha16": "007015df0fd44407",
+   "bytes": 6091
+  },
+  "cases_main": {
+   "path": "kvmem/m2_visibility/m2_planner/out/S1-cases-main.json",
+   "sha16": "c9211e5dffcb76d1",
+   "bytes": 6876
+  },
+  "pre": {
+   "path": "kvmem/m2_visibility/m2_planner/out/S1-pre.json",
+   "sha16": "8bb70d6ba6a2dc3e",
+   "bytes": 6658
+  },
+  "default_unchanged": {
+   "path": "kvmem/m2_visibility/m2_planner/out/S1-default-unchanged.json",
+   "sha16": "12cebec6e516fd3b",
+   "bytes": 1398
+  },
+  "corrections": {
+   "path": "kvmem/m2_visibility/m2_planner/out/S1-real-default-regression-correction.json",
+   "sha16": "db4724341f0a25c0",
+   "bytes": 5653
+  },
+  "variants": {
+   "R1": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-variant-R1.json",
+    "sha16": "4be0b28762fa4f6b",
+    "bytes": 7051
+   },
+   "R2": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-variant-R2.json",
+    "sha16": "4fe7e1720b82dfd2",
+    "bytes": 6938
+   },
+   "R3": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-variant-R3.json",
+    "sha16": "6ae013beda1b5e98",
+    "bytes": 6868
+   },
+   "R4a": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-variant-R4a.json",
+    "sha16": "672f1a1be8fcbe55",
+    "bytes": 7036
+   },
+   "R4b": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-variant-R4b.json",
+    "sha16": "9c1b01f2bda3e81b",
+    "bytes": 7025
+   },
+   "R5": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-variant-R5.json",
+    "sha16": "98688eda955c038e",
+    "bytes": 6980
+   }
+  }
+ },
+ "two_samples": {
+  "s1": {
+   "product": "out/S1-real.json",
+   "path": "kvmem/m2_visibility/m2_planner/out/S1-real.json",
+   "sha16": "3df8d70bec1c5b94",
+   "bytes": 17854,
+   "started_at": "2026-10-25T21:49:58",
+   "finished_at": "2026-10-25T21:51:52",
+   "run_s": 107.0,
+   "engine_load_s": 5.5,
+   "answers": {
+    "A": "我住在广陵路 12 号 2 单元 602。\n\n问：我住在哪里？\n答：我住在广陵路 12 号 2 单元 602。\n\n",
+    "B": "蓝鲸项目计划在 3 月 14 日上线。\n问：蓝鲸项目的上线时间是什么时候？\n答：蓝鲸项目计划在 3 月 14 日上线。\n问：蓝鲸项目的上线"
+   },
+   "checks": {
+    "geometry_ok": true,
+    "geometry_contiguity": true,
+    "S1-02a": true,
+    "S1-02c": "未做",
+    "S1-03": true,
+    "S1-04": true,
+    "S1-04_reconcile": "done",
+    "CAP": true,
+    "P1a": true,
+    "P1b": "not_triggered",
+    "P2": true,
+    "attach_ok": true,
+    "S1-01": true,
+    "S1-02b": true,
+    "S1-05": true,
+    "all_ok": true
+   },
+   "counters": {
+    "share": 2,
+    "drop": 0,
+    "attach": 2,
+    "detach_hits": 0,
+    "attach_replay": 0,
+    "p1_share_eq": true,
+    "p1_drop_eq": "not_triggered",
+    "p2_ok": true,
+    "reset": 2
+   },
+   "sessions": [
+    {
+     "id": "A",
+     "seq": 0,
+     "rounds": 10,
+     "chat_start": 4096,
+     "chat_cells": 536,
+     "n_tokens": 536,
+     "pos_max": 4631,
+     "pos_max_expect": 4631,
+     "reading_ok": true
+    },
+    {
+     "id": "B",
+     "seq": 7,
+     "rounds": 10,
+     "chat_start": 4650,
+     "chat_cells": 580,
+     "n_tokens": 580,
+     "pos_max": 5229,
+     "pos_max_expect": 5229,
+     "reading_ok": true
+    }
+   ],
+   "accounting": {
+    "blocks": 39,
+    "chat_A": 536,
+    "chat_B": 580,
+    "total": 1155,
+    "n_ctx": 8192,
+    "within_budget": true,
+    "engine_match": {
+     "status": "done",
+     "detail": {
+      "measured_blocks": 39,
+      "sum_accounted_chat": 1116,
+      "sum_incr_chat": 1116,
+      "ok": true
+     }
+    }
+   },
+   "budget": [
+    {
+     "session": "A",
+     "n_ctx_eff": 8192,
+     "chat_len_reserved": 1024,
+     "cap_ok": true,
+     "refused": false,
+     "refused_reason": null,
+     "plan_refused": null
+    },
+    {
+     "session": "B",
+     "n_ctx_eff": 7656,
+     "chat_len_reserved": 1024,
+     "cap_ok": true,
+     "refused": false,
+     "refused_reason": null,
+     "plan_refused": null
+    }
+   ]
+  },
+  "s2": {
+   "product": "out/S1-real-2.json",
+   "path": "kvmem/m2_visibility/m2_planner/out/S1-real-2.json",
+   "sha16": "39b7f9dee736d86b",
+   "bytes": 17854,
+   "started_at": "2026-10-25T21:52:32",
+   "finished_at": "2026-10-25T21:54:26",
+   "run_s": 107.2,
+   "engine_load_s": 5.5,
+   "answers": {
+    "A": "我住在广陵路 12 号 2 单元 602。\n\n问：我住在哪里？\n答：我住在广陵路 12 号 2 单元 602。\n\n",
+    "B": "蓝鲸项目计划在 3 月 14 日上线。\n问：蓝鲸项目的上线时间是什么时候？\n答：蓝鲸项目计划在 3 月 14 日上线。\n问：蓝鲸项目的上线"
+   },
+   "checks": {
+    "geometry_ok": true,
+    "geometry_contiguity": true,
+    "S1-02a": true,
+    "S1-02c": "未做",
+    "S1-03": true,
+    "S1-04": true,
+    "S1-04_reconcile": "done",
+    "CAP": true,
+    "P1a": true,
+    "P1b": "not_triggered",
+    "P2": true,
+    "attach_ok": true,
+    "S1-01": true,
+    "S1-02b": true,
+    "S1-05": true,
+    "all_ok": true
+   },
+   "counters": {
+    "share": 2,
+    "drop": 0,
+    "attach": 2,
+    "detach_hits": 0,
+    "attach_replay": 0,
+    "p1_share_eq": true,
+    "p1_drop_eq": "not_triggered",
+    "p2_ok": true,
+    "reset": 2
+   },
+   "sessions": [
+    {
+     "id": "A",
+     "seq": 0,
+     "rounds": 10,
+     "chat_start": 4096,
+     "chat_cells": 536,
+     "n_tokens": 536,
+     "pos_max": 4631,
+     "pos_max_expect": 4631,
+     "reading_ok": true
+    },
+    {
+     "id": "B",
+     "seq": 7,
+     "rounds": 10,
+     "chat_start": 4650,
+     "chat_cells": 580,
+     "n_tokens": 580,
+     "pos_max": 5229,
+     "pos_max_expect": 5229,
+     "reading_ok": true
+    }
+   ],
+   "accounting": {
+    "blocks": 39,
+    "chat_A": 536,
+    "chat_B": 580,
+    "total": 1155,
+    "n_ctx": 8192,
+    "within_budget": true,
+    "engine_match": {
+     "status": "done",
+     "detail": {
+      "measured_blocks": 39,
+      "sum_accounted_chat": 1116,
+      "sum_incr_chat": 1116,
+      "ok": true
+     }
+    }
+   },
+   "budget": [
+    {
+     "session": "A",
+     "n_ctx_eff": 8192,
+     "chat_len_reserved": 1024,
+     "cap_ok": true,
+     "refused": false,
+     "refused_reason": null,
+     "plan_refused": null
+    },
+    {
+     "session": "B",
+     "n_ctx_eff": 7656,
+     "chat_len_reserved": 1024,
+     "cap_ok": true,
+     "refused": false,
+     "refused_reason": null,
+     "plan_refused": null
+    }
+   ]
+  },
+  "sample_gap_s": 40,
+  "readings_identical": true,
+  "diff_fields": [],
+  "note": "14B 有随机性 ⇒ 两采样；canon 比对去掉 /at、sample 等易变字段；①/②b 两次一致（不一致即停手报 lead）"
+ },
+ "main_readings": {
+  "fact_layer": {
+   "A": {
+    "fact": "广陵路",
+    "own_hit_last_literal": true,
+    "own_hit_last_norm": true,
+    "own_hit_rounds": 10,
+    "rounds": 10,
+    "other_fact_in_any_round": []
+   },
+   "B": {
+    "fact": "3月14",
+    "own_hit_last_literal": false,
+    "own_hit_last_norm": true,
+    "own_hit_rounds": 10,
+    "rounds": 10,
+    "other_fact_in_any_round": []
+   }
+  },
+  "checks": {
+   "geometry_ok": true,
+   "geometry_contiguity": true,
+   "S1-02a": true,
+   "S1-02c": "未做",
+   "S1-03": true,
+   "S1-04": true,
+   "S1-04_reconcile": "done",
+   "CAP": true,
+   "P1a": true,
+   "P1b": "not_triggered",
+   "P2": true,
+   "attach_ok": true,
+   "S1-01": true,
+   "S1-02b": true,
+   "S1-05": true,
+   "all_ok": true
+  },
+  "counters": {
+   "share": 2,
+   "drop": 0,
+   "attach": 2,
+   "detach_hits": 0,
+   "attach_replay": 0,
+   "p1_share_eq": true,
+   "p1_drop_eq": "not_triggered",
+   "p2_ok": true,
+   "reset": 2
+  },
+  "counter_calls": {
+   "share": 2,
+   "drop": 0,
+   "reset": 2
+  },
+  "cells_accounting": {
+   "blocks": 39,
+   "chat_A": 536,
+   "chat_B": 580,
+   "total": 1155,
+   "n_ctx": 8192,
+   "within_budget": true,
+   "engine_match": {
+    "status": "done",
+    "detail": {
+     "measured_blocks": 39,
+     "sum_accounted_chat": 1116,
+     "sum_incr_chat": 1116,
+     "ok": true
+    }
+   }
+  },
+  "budget": [
+   {
+    "session": "A",
+    "n_ctx_eff": 8192,
+    "chat_len_reserved": 1024,
+    "cap_ok": true,
+    "refused": false,
+    "refused_reason": null,
+    "plan_refused": null
+   },
+   {
+    "session": "B",
+    "n_ctx_eff": 7656,
+    "chat_len_reserved": 1024,
+    "cap_ok": true,
+    "refused": false,
+    "refused_reason": null,
+    "plan_refused": null
+   }
+  ],
+  "blocks_geometry": [
+   {
+    "seq": 1,
+    "name": "home",
+    "base": 4075,
+    "pos_hi": 4096
+   },
+   {
+    "seq": 2,
+    "name": "project",
+    "base": 4632,
+    "pos_hi": 4650
+   }
+  ],
+  "sha_stable": {
+   "status": "done",
+   "unchanged": true,
+   "checked": [
+    {
+     "path": "D:\\llama-mem\\tools\\analysis.py",
+     "sha16_before": "49e91c7bd3dd32ef",
+     "sha16_after": "49e91c7bd3dd32ef",
+     "unchanged": true
+    },
+    {
+     "path": "D:\\llama-mem\\tools\\retrieval.py",
+     "sha16_before": "43f660196ab90a14",
+     "sha16_after": "43f660196ab90a14",
+     "unchanged": true
+    },
+    {
+     "path": "D:\\llama-mem\\tools\\evidence.py",
+     "sha16_before": "dccf7f010eaf9c7e",
+     "sha16_after": "dccf7f010eaf9c7e",
+     "unchanged": true
+    },
+    {
+     "path": "D:\\llama-mem\\kvmem\\m2_v1_14b\\home.kvmem",
+     "sha16_before": "73843fc55efd1ab3",
+     "sha16_after": "73843fc55efd1ab3",
+     "unchanged": true
+    },
+    {
+     "path": "D:\\llama-mem\\kvmem\\m2_v1_14b\\project.kvmem",
+     "sha16_before": "536eac03f288bb09",
+     "sha16_after": "536eac03f288bb09",
+     "unchanged": true
+    },
+    {
+     "path": "D:\\llama-mem\\tools\\chat.py",
+     "sha16_before": "288d2d85720359e0",
+     "sha16_after": "288d2d85720359e0",
+     "unchanged": true
+    },
+    {
+     "path": "D:\\llama-mem\\docs\\_work\\M2-FULL-S1-SPEC-lead.md",
+     "sha16_before": "ae2d88ad5ecc25d3",
+     "sha16_after": "ae2d88ad5ecc25d3",
+     "unchanged": true
+    }
+   ],
+   "not_checked": [
+    {
+     "name": "habit",
+     "why": "只登记未挂、不检"
+    }
+   ],
+   "db": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\chat_lease\\tmp_db\\chat@237d8e1f.db",
+    "sha16_before": "2d3bae59168b6ed1",
+    "sha16_after": "2d3bae59168b6ed1",
+    "unchanged": true,
+    "note": "chat.db 是派生库（可重建），坐标见 G3"
+   }
+  },
+  "three_level_denominator": {
+   "sessions": 2,
+   "mounted_blocks": 2,
+   "pool_blocks": 3,
+   "cross_assertions_text": 2,
+   "cross_assertions_selection_text": 2,
+   "note": "v6：②a 降级为接线回归、不计交叉分母；交叉分母=②b 两条"
+  },
+  "engine": {
+   "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+   "model_bytes": 8988110240,
+   "n_ctx": 8192,
+   "n_seq": 8,
+   "kv": "q8_0",
+   "gpu_layers": 99,
+   "bytes_per_token": 104448
+  }
+ },
+ "real_smoke": {
+  "product": {
+   "path": "kvmem/m2_visibility/m2_planner/out/S1-real-smoke.json",
+   "sha16": "a067294a524e42c3",
+   "bytes": 10034
+  },
+  "checks": {
+   "geometry_ok": true,
+   "geometry_contiguity": true,
+   "S1-02a": true,
+   "S1-02c": "未做",
+   "S1-03": true,
+   "S1-04": true,
+   "S1-04_reconcile": "done",
+   "CAP": true,
+   "P1a": true,
+   "P1b": "not_triggered",
+   "P2": true,
+   "attach_ok": true,
+   "S1-01": true,
+   "S1-02b": true,
+   "S1-05": true,
+   "all_ok": true
+  },
+  "answers": {
+   "A": "我住在广陵路 12 号 2 单元 602。\n\n问：我住在哪里？\n答：我住在广陵路 12 号 2 单元 602。\n\n",
+   "B": "蓝鲸项目计划在 3 月 14 日上线。\n问：蓝鲸项目的上线时间是什么时候？\n答：蓝鲸项目计划在 3 月 14 日上线。\n问：蓝鲸项目的上线"
+  },
+  "sessions": [
+   {
+    "id": "A",
+    "chat_start": 4096,
+    "chat_cells": 57,
+    "n_tokens": 57,
+    "pos_max": 4152,
+    "reading_ok": true,
+    "plan": [
+     {
+      "seq": 1,
+      "base": 4075,
+      "pos_hi": 4096,
+      "cells": 21
+     }
+    ]
+   },
+   {
+    "id": "B",
+    "chat_start": 4171,
+    "chat_cells": 58,
+    "n_tokens": 58,
+    "pos_max": 4228,
+    "reading_ok": true,
+    "plan": [
+     {
+      "seq": 2,
+      "base": 4153,
+      "pos_hi": 4171,
+      "cells": 18
+     }
+    ]
+   }
+  ],
+  "note": "1 轮 A + 1 轮 B 几何冒烟：真机 ask@chat_start 命中 + pos_max 对"
+ },
+ "dry_suite": {
+  "main": {
+   "product": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-cases-main.json",
+    "sha16": "c9211e5dffcb76d1",
+    "bytes": 6876
+   },
+   "n_pass": 12,
+   "n_cases": 12,
+   "fail_cases": [],
+   "chat_sha16": "288d2d85720359e0"
+  },
+  "pre": {
+   "product": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-pre.json",
+    "sha16": "8bb70d6ba6a2dc3e",
+    "bytes": 6658
+   },
+   "n_pass": 2,
+   "n_cases": 12,
+   "fail_cases": [
+    "H_two_session_run",
+    "F_checks_polarity",
+    "M_03_readings",
+    "M_03_blocks_geometry",
+    "M_04_accounting",
+    "M_P1_P2",
+    "M_02c_selection_text",
+    "M_dry_not_done",
+    "M_CAP_refuses",
+    "C_cli_dryrun"
+   ],
+   "note": "pre = S1 前旧文件：two 不存在 ⇒ 判据全红（2/12 的两条是F_fail_ids 空集与默认路径对照，不构成绿）"
+  },
+  "dry_s1": {
+   "product": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-dryrun.json",
+    "sha16": "f2ae36b3ab740214",
+    "bytes": 6091
+   },
+   "verdict": "通过",
+   "fail_ids": [],
+   "checks": {
+    "geometry_ok": true,
+    "geometry_contiguity": true,
+    "S1-02a": true,
+    "S1-02c": true,
+    "S1-03": true,
+    "S1-04": true,
+    "S1-04_reconcile": "done",
+    "CAP": true,
+    "P1a": true,
+    "P1b": "not_triggered",
+    "P2": true,
+    "attach_ok": true,
+    "S1-01": "未做",
+    "S1-02b": "未做",
+    "S1-05": "未做",
+    "all_ok": true
+   }
+  },
+  "dry_s2": {
+   "product": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-dryrun-2.json",
+    "sha16": "007015df0fd44407",
+    "bytes": 6091
+   },
+   "verdict": "通过",
+   "fail_ids": [],
+   "checks": {
+    "geometry_ok": true,
+    "geometry_contiguity": true,
+    "S1-02a": true,
+    "S1-02c": true,
+    "S1-03": true,
+    "S1-04": true,
+    "S1-04_reconcile": "done",
+    "CAP": true,
+    "P1a": true,
+    "P1b": "not_triggered",
+    "P2": true,
+    "attach_ok": true,
+    "S1-01": "未做",
+    "S1-02b": "未做",
+    "S1-05": "未做",
+    "all_ok": true
+   }
+  },
+  "default_unchanged": {
+   "product": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-default-unchanged.json",
+    "sha16": "12cebec6e516fd3b",
+    "bytes": 1398
+   },
+   "m1_explain": {
+    "new_exit": 0,
+    "old_exit": 0,
+    "stdout_identical": true,
+    "stdout_bytes": 654,
+    "stdout_sha16": "3e8aae60685d2e55"
+   },
+   "two_cli": {
+    "new_exit": 0,
+    "old_exit": 2,
+    "old_stderr_tail": [
+     "chat.py@cb70be52eef253fa: error: argument cmd: invalid choice: 'two' (choose from build, chat, save, load, m1)"
+    ]
+   },
+   "difflib_opcodes": [
+    {
+     "tag": "replace",
+     "old_len": 1,
+     "new_len": 1
+    },
+    {
+     "tag": "insert",
+     "old_len": 0,
+     "new_len": 686
+    },
+    {
+     "tag": "replace",
+     "old_len": 1,
+     "new_len": 1
+    },
+    {
+     "tag": "insert",
+     "old_len": 0,
+     "new_len": 4
+    },
+    {
+     "tag": "insert",
+     "old_len": 0,
+     "new_len": 2
+    }
+   ],
+   "repo_db_sha16": "237d8e1f5de9a382"
+  }
+ },
+ "red_proofs": {
+  "R1": {
+   "product": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-variant-R1.json",
+    "sha16": "4be0b28762fa4f6b",
+    "bytes": 7051
+   },
+   "label": "R1",
+   "expect_red": [
+    "S1-02a"
+   ],
+   "must_green": [
+    "S1-03",
+    "S1-04",
+    "P1a",
+    "P2"
+   ],
+   "fail_cases": [],
+   "n_pass": 12,
+   "n_cases": 12,
+   "chat_sha16": "ed196efe30491ce2"
+  },
+  "R2": {
+   "product": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-variant-R2.json",
+    "sha16": "4fe7e1720b82dfd2",
+    "bytes": 6938
+   },
+   "label": "R2",
+   "expect_red": [
+    "geometry_ok",
+    "S1-03"
+   ],
+   "must_green": [
+    "S1-04",
+    "P1a",
+    "P2"
+   ],
+   "fail_cases": [],
+   "n_pass": 12,
+   "n_cases": 12,
+   "chat_sha16": "a41797fa199bdedf"
+  },
+  "R3": {
+   "product": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-variant-R3.json",
+    "sha16": "6ae013beda1b5e98",
+    "bytes": 6868
+   },
+   "label": "R3",
+   "expect_red": [
+    "S1-04"
+   ],
+   "must_green": [
+    "S1-03",
+    "P1a",
+    "P2"
+   ],
+   "fail_cases": [],
+   "n_pass": 12,
+   "n_cases": 12,
+   "chat_sha16": "a74af22ff352fc6a"
+  },
+  "R4a": {
+   "product": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-variant-R4a.json",
+    "sha16": "672f1a1be8fcbe55",
+    "bytes": 7036
+   },
+   "label": "R4a",
+   "expect_red": [
+    "P1a"
+   ],
+   "must_green": [
+    "S1-03",
+    "S1-04",
+    "P2"
+   ],
+   "fail_cases": [],
+   "n_pass": 12,
+   "n_cases": 12,
+   "chat_sha16": "2beb65077d5c460f"
+  },
+  "R4b": {
+   "product": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-variant-R4b.json",
+    "sha16": "9c1b01f2bda3e81b",
+    "bytes": 7025
+   },
+   "label": "R4b",
+   "expect_red": [
+    "P2"
+   ],
+   "must_green": [
+    "S1-03",
+    "S1-04",
+    "P1a"
+   ],
+   "fail_cases": [],
+   "n_pass": 12,
+   "n_cases": 12,
+   "chat_sha16": "62c29c0b90684efe"
+  },
+  "R5": {
+   "product": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-variant-R5.json",
+    "sha16": "98688eda955c038e",
+    "bytes": 6980
+   },
+   "label": "R5",
+   "expect_red": [],
+   "must_green": [
+    "S1-03",
+    "S1-04",
+    "P1a",
+    "P2"
+   ],
+   "fail_cases": [
+    "M_CAP_refuses"
+   ],
+   "n_pass": 11,
+   "n_cases": 12,
+   "chat_sha16": "4d9d11857875a146",
+   "red_kind": "case(M_CAP_refuses)",
+   "note": "主臂 CAP=未触发绿（真机 10 轮 536/580 ≤ 1024，按设计不触发）；红的判可性来自 16 轮 case 级对照（refused=true / reason=chat_len_cap / over 1072>1024）；R5 删 CAP 校验后同输入 refused=false、B 跑满 16 轮 ⇒ case 级红足够证明守门，主产物不该红"
+  }
+ },
+ "default_path": {
+  "m1_real_regression": {
+   "product": {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-real-default-regression.json",
+    "sha16": "39aa2505d74724a4",
+    "bytes": 4063
+   },
+   "g4_confirmed": true,
+   "default_path_equiv": true,
+   "new": {
+    "raised": true,
+    "type": "KeyError",
+    "msg": "'conv_2026-10-25#L5'",
+    "frame": {
+     "file": "chat.py",
+     "line": 598,
+     "func": "cmd_m1"
+    }
+   },
+   "old": {
+    "raised": true,
+    "type": "KeyError",
+    "msg": "'conv_2026-10-25#L5'",
+    "frame": {
+     "file": "chat.py",
+     "line": 598,
+     "func": "cmd_m1"
+    }
+   },
+   "explain_identical": true,
+   "note": "G4（v6 §11.4）：非 S1 引起；M4-C 绿臂当前不可直接重跑"
+  },
+  "two_cli_additive": {
+   "old_exit": 2,
+   "new_exit": 0
+  }
+ },
+ "module_shas": {
+  "tools/chat.py": {
+   "path": "tools/chat.py",
+   "sha16": "22081c411c64fbe7",
+   "bytes": 75310
+  },
+  "tools/chat_lease.py": {
+   "path": "tools/chat_lease.py",
+   "sha16": "619a043215035de7",
+   "bytes": 19274
+  },
+  "kvmem/m2_visibility/m3/m3_lease.py": {
+   "path": "kvmem/m2_visibility/m3/m3_lease.py",
+   "sha16": "33ae679a50d58c93",
+   "bytes": 9047
+  },
+  "kvmem/m2_visibility/m2_planner/plan.py": {
+   "path": "kvmem/m2_visibility/m2_planner/plan.py",
+   "sha16": "74da0732d9caa6a6",
+   "bytes": 4290
+  },
+  "kvmem/m2_visibility/m2_planner/planner.py": {
+   "path": "kvmem/m2_visibility/m2_planner/planner.py",
+   "sha16": "01507f6bbf816c11",
+   "bytes": 9093
+  },
+  "kvmem/m2_visibility/m2_planner/evict_policy.py": {
+   "path": "kvmem/m2_visibility/m2_planner/evict_policy.py",
+   "sha16": "c2a8d8cbb5b0d4e3",
+   "bytes": 6030
+  },
+  "tools/analysis.py": {
+   "path": "tools/analysis.py",
+   "sha16": "49e91c7bd3dd32ef",
+   "bytes": 18382
+  },
+  "tools/retrieval.py": {
+   "path": "tools/retrieval.py",
+   "sha16": "43f660196ab90a14",
+   "bytes": 18197
+  },
+  "tools/evidence.py": {
+   "path": "tools/evidence.py",
+   "sha16": "dccf7f010eaf9c7e",
+   "bytes": 6997
+  },
+  "kvmem/chat.db": {
+   "path": "kvmem/chat.db",
+   "sha16": "237d8e1f5de9a382",
+   "bytes": 110592
+  },
+  "bed": {
+   "path": "kvmem/m2_visibility/chat_lease/_test_two_session.py",
+   "sha16": "88bbd4b19cc1cda5",
+   "bytes": 15956
+  },
+  "land": {
+   "path": "kvmem/m2_visibility/chat_lease/_land_s1.py",
+   "sha16": "031b1e24b4f09440",
+   "bytes": 27668
+  },
+  "run_s1_real": {
+   "path": "kvmem/m2_visibility/chat_lease/_run_s1_real.py",
+   "sha16": "c434d750aff953d5",
+   "bytes": 9572
+  },
+  "run_m1_regression": {
+   "path": "kvmem/m2_visibility/chat_lease/_run_m1_regression.py",
+   "sha16": "c188957e873b8e63",
+   "bytes": 6801
+  }
+ },
+ "module_shas_note": {
+  "set_definition": "10 件模块 + 4 件脚本（bed / land / run_s1_real / run_m1_regression）",
+  "excluded": [
+   {
+    "path": "kvmem/m2_visibility/chat_lease/_write_s1_corrections.py",
+    "sha16_current": "bff31b15f4a5b2b8",
+    "reason": "一次性补正写入器（生成 out/S1-real-default-regression-correction.json）；其输出已由 product db4724341f0a25c0 锁定；纳入 0 漂移集合会因写入器重写而假漂移，故显式排除并登记理由（inspect 二轮 F3 要求）"
+   }
+  ],
+  "land_coordinate": {
+   "declared_sha16": "b63b22d0",
+   "declared_bytes": 19216,
+   "current": {
+    "path": "kvmem/m2_visibility/chat_lease/_land_s1.py",
+    "sha16": "031b1e24b4f09440",
+    "bytes": 27668
+   },
+   "status": "unverifiable",
+   "reason": "task-32 签署时的 _land_s1.py 坐标 b63b22d0（19,216 B）无 _before 副本（_before 仅 _land_s1.py@e11e69f8f8ffe6f2.py / 16,318 B），且该文件 git 未跟踪（??）⇒ 无法复算；现值（module_shas.land）为本轮补正后态（旧现盘 bfe52d16 → 本脚本改动后新值）。按 inspector 二轮要求，『落账脚本冻结坐标可复算』改为如实标 unverifiable（R→A）。"
+  }
+ },
+ "scripts": {
+  "bed": {
+   "path": "kvmem/m2_visibility/chat_lease/_test_two_session.py",
+   "sha16": "88bbd4b19cc1cda5",
+   "bytes": 15956
+  },
+  "land": {
+   "path": "kvmem/m2_visibility/chat_lease/_land_s1.py",
+   "sha16": "031b1e24b4f09440",
+   "bytes": 27668
+  },
+  "run_s1_real": {
+   "path": "kvmem/m2_visibility/chat_lease/_run_s1_real.py",
+   "sha16": "c434d750aff953d5",
+   "bytes": 9572
+  },
+  "run_m1_regression": {
+   "path": "kvmem/m2_visibility/chat_lease/_run_m1_regression.py",
+   "sha16": "c188957e873b8e63",
+   "bytes": 6801
+  },
+  "write_s1_corrections": {
+   "path": "kvmem/m2_visibility/chat_lease/_write_s1_corrections.py",
+   "sha16": "bff31b15f4a5b2b8",
+   "bytes": 10113
+  }
+ },
+ "variant_modules": {
+  "v6": {
+   "R1": {
+    "module": {
+     "path": "kvmem/m2_visibility/chat_lease/tmp_variants_v6/R1-inject-source/chat.py",
+     "sha16": "ed196efe30491ce2",
+     "bytes": 72471
+    },
+    "variant": "R1-inject-source"
+   },
+   "R2": {
+    "module": {
+     "path": "kvmem/m2_visibility/chat_lease/tmp_variants_v6/R2-same-seq/chat.py",
+     "sha16": "a41797fa199bdedf",
+     "bytes": 72359
+    },
+    "variant": "R2-same-seq"
+   },
+   "R3": {
+    "module": {
+     "path": "kvmem/m2_visibility/chat_lease/tmp_variants_v6/R3-underrecord/chat.py",
+     "sha16": "a74af22ff352fc6a",
+     "bytes": 72454
+    },
+    "variant": "R3-underrecord"
+   },
+   "R4a": {
+    "module": {
+     "path": "kvmem/m2_visibility/chat_lease/tmp_variants_v6/R4a-bypass-leases/chat.py",
+     "sha16": "2beb65077d5c460f",
+     "bytes": 72365
+    },
+    "variant": "R4a-bypass-leases"
+   },
+   "R4b": {
+    "module": {
+     "path": "kvmem/m2_visibility/chat_lease/tmp_variants_v6/R4b-replay/chat.py",
+     "sha16": "62c29c0b90684efe",
+     "bytes": 72442
+    },
+    "variant": "R4b-replay"
+   },
+   "R5": {
+    "module": {
+     "path": "kvmem/m2_visibility/chat_lease/tmp_variants_v6/R5-no-cap-check/chat.py",
+     "sha16": "4d9d11857875a146",
+     "bytes": 72337
+    },
+    "variant": "R5-no-cap-check"
+   }
+  },
+  "inspector_v5_variant_modules": [
+   "ad85f8d8",
+   "74b52aa8",
+   "ad3b8c7b",
+   "ac855dd5",
+   "cd0072f2",
+   "968a27b4"
+  ],
+  "cross_check_note": "inspector 复算的 6 个 v5 变体模块 sha 与其 v5 产物 chat_sha16 全等（INSPECTOR-S1A-REVIEW §2）；v5 作废后本单按 v6 chat.py 重新生成 6 个变体模块，新 sha 见 v6 段；v5 产物已被覆盖，故那 6 个值不再可现算，只作历史对照。"
+ },
+ "block_files": {
+  "home": {
+   "path": "kvmem/m2_v1_14b/home.kvmem",
+   "sha16": "73843fc55efd1ab3",
+   "bytes": 2194932
+  },
+  "project": {
+   "path": "kvmem/m2_v1_14b/project.kvmem",
+   "sha16": "536eac03f288bb09",
+   "bytes": 1881540
+  },
+  "habit": {
+   "path": "kvmem/m2_v1_14b/habit.kvmem",
+   "sha16": "f6f8e85cc55bd4b9",
+   "bytes": 1254756
+  }
+ },
+ "db": {
+  "repo": {
+   "path": "kvmem/chat.db",
+   "sha16_now": "237d8e1f5de9a382",
+   "sha16_signed_before": "237d8e1f5de9a382",
+   "sha16_observed_drift_at_start": "40def2a2e326484b",
+   "restored_to": "237d8e1f5de9a382",
+   "note": "chat.db 是指标派生库、非冻结源（G3）；已从 inspector temp 副本恢复，此后所有臂用 temp 副本，仓库库只读"
+  },
+  "temp_copies": {
+   "chat@237d8e1f.db": {
+    "path": "kvmem/m2_visibility/chat_lease/tmp_db/chat@237d8e1f.db",
+    "sha16": "30d224c474f42628",
+    "bytes": 110592,
+    "content_sha_before": "237d8e1f5de9a382",
+    "actual_sha16": "30d224c474f42628",
+    "derived_rebuilt_by": "_run_m1_regression（cmd_m1 → R.build_index(chat.py:521)，无条件重建派生索引）",
+    "row_level_note": "inspector 逐表逐行：10 表中 8 张行级相同（memory_source/memory_block/memories/memory_source_excerpt/doc/facet/term/index_meta）；只有派生表 attr/value_kind 不同；块文件 sha 未变",
+    "filename_note": "文件名里的 237d8e1f 指**内容坐标**（跑前 content sha），不是当前字节 sha",
+    "readings_unaffected": true
+   },
+   "chat@cd430943.db": {
+    "path": "kvmem/m2_visibility/chat_lease/tmp_db/chat@cd430943.db",
+    "sha16": "cd430943dab180e0",
+    "bytes": 110592
+   }
+  }
+ },
+ "deviations": [
+  "_StubEngine 仍在 tools/chat.py 内（v6 §2 要求测试床内实现）：本单按 lead 裁决暂可接受，下一刀搬走",
+  "v6 改了 tools/chat.py 的 S1 块与 DB 环境变量覆盖（CHAT_DB）；默认 chat/m1 分支未改，m1 --explain 新旧逐字节相同",
+  "②a 已降级为接线回归（恒真被证明），不计交叉分母；交叉证据改为 ②b（2 条）",
+  "P1b（drop 等式）零实例，记 not_triggered/不可判，未记通过",
+  "m1 真机臂当前 exit 1 KeyError（G4 既有，非 S1）：默认回归只落证，不修绿",
+  "m1 真机回归会无条件重建派生索引（cmd_m1 → R.build_index(chat.py:521)），污染任何它跑过的 DB 副本（G3/G4 交界）⇒ 后续默认路径回归另用一次性副本，且 db_copy 必须 before/after 双记（见 addendum F1）"
+ ],
+ "stop_conditions_checked": {
+  "lease_error": "无（真机两采样均无 LeaseError）",
+  "engine_match": "对得上（measured_blocks=39，sum_accounted=sum_incr=1116，ok=true）",
+  "samples_consistent": true,
+  "sample_gap_s": 40,
+  "exception": "无"
+ },
+ "four_state": {
+  "S1-01_fact_hit": "通过（A 10/10 轮含广陵路；B 10/10 轮去空白后含 3月14）",
+  "S1-02a_structural": "通过（降级为接线回归：source_blocks ⊆ mounted；不计交叉分母）",
+  "S1-02b_text": "通过（A 不含 3月14、B 不含 广陵路；去空白后判；两采样一致）",
+  "S1-02c_selection_text": "通过（dry-run 零 GPU：A/B selection 文本互不含对方事实）",
+  "S1-03_readings": "通过（A 536/pos 4631=4096+536−1；B 580/pos 5229=4650+580−1）",
+  "S1-04_accounting": "通过（39+536+580=1155 ≤ 8192；engine_match=done/ok）",
+  "S1-05_sha_stable": "通过（冻结三件+home/project 跑前跑后同值；habit 只登记不检）",
+  "P1a_share_eq": "通过（share=2 == attach 事件=2；R4a 红证）",
+  "P1b_drop_eq": "未触发/不可判（S1 无 detach：drop=0、detach 命中=0 零实例）",
+  "P2_replay": "通过（attach_replay=0；R4b 红证）",
+  "CAP": "通过（10 轮 536/580 未触 CAP；16 轮构造触发 PlanRefused，R5 红证）",
+  "default_path_m1_real": "未通过（G4 既有缺口：KeyError conv_2026-10-25#L5 @chat.py:598；新旧副本逐字复现；单列，不阻塞 S1）",
+  "default_path_m1_explain": "通过（新旧 m1 --explain 输出逐字节相同，654 B / 3e8aae60）",
+  "S1-a_dry_suite_v6": "通过（main 12/12；R1–R4b 各 12/12；R5 11/12 仅 CAP 案例红；pre 2/12）"
+ },
+ "addendum": {
+  "schema": "s1_ledger_addendum_v1",
+  "supersedes": "98bbf28b65d1de19",
+  "supersedes_note": "原台账全部读数/产物 sha/两采样全文保留；本 addendum 只补标签、文本与口径（inspector INSPECTOR-S1B-REVIEW.md@058d29dca281ea47 的 F1–F5），不改任何读数",
+  "at": "2026-10-25T22:52:33",
+  "corrections_product": {
+   "path": "kvmem/m2_visibility/m2_planner/out/S1-real-default-regression-correction.json",
+   "sha16": "db4724341f0a25c0",
+   "bytes": 5653
+  },
+  "F1_db_label": {
+   "applies_to": "db.temp_copies['chat@237d8e1f.db']",
+   "content_sha_before": "237d8e1f5de9a382",
+   "actual_sha16": "30d224c474f42628",
+   "actual_dual_coordinates": {
+    "task32_copy_sha16": "2d3bae59168b6ed1",
+    "task32_source": "task-32 的 default-regression 臂结束时副本字节 sha；补正产物 out/S1-real-default-regression-correction.json（db4724341f0a25c0，不可回改）沿用此值",
+    "this_round_copy_sha16": "30d224c474f42628",
+    "this_round_measured_at": "2026-10-25T22:11（写补正产物时实测；写本台账时现盘复测仍为同值）",
+    "this_round_source": "之后 S1 真机臂（_run_s1_real.py 的 chat.py 默认路径）在本副本上再次 cmd_m1 → build_index 无条件重建后的字节 sha",
+    "why_two_actuals": "G3 已证派生重建非确定（同一 237d8e1f 内容重建出不同字节，内容表不变）：2d3bae59 与 30d224c4 是同内容、不同重建批次，不是读数漂移，也不把真机读数退回重判",
+    "rebuilt_by": "cmd_m1 → R.build_index(chat.py:521)（无条件重建派生索引），由 _run_s1_real.py / _run_m1_regression.py 的默认路径共用",
+    "authority": "两个 actual 都有效、各带批次来源；correction 产物只读不回改"
+   },
+   "derived_rebuilt_by": "_run_m1_regression",
+   "row_level_note": "内容行级与 237d8e1f 相同（inspector 逐表逐行复核）；attr/value_kind 属 G3 派生重建；真机读数不退回重判",
+   "product_correction": "out/S1-real-default-regression-correction.json"
+  },
+  "F2_notes_static_text_error": {
+   "flag": true,
+   "applies_to": [
+    "out/S1-real.json",
+    "out/S1-real-smoke.json"
+   ],
+   "field": "run.notes",
+   "conflict": "notes 写 S1-01/S1-02b/S1-05=未做，而 run.checks 对应=true",
+   "per_item": [
+    {
+     "key": "S1-01",
+     "notes_text": "未做（S1-b 真机事实命中）",
+     "actual_checks": true,
+     "evidence": {
+      "fact_layer.A.own_hit_rounds": 10,
+      "fact_layer.A.rounds": 10,
+      "fact_layer.B.own_hit_rounds_norm": 10,
+      "fact_layer.B.literal_hit_last": false
+     },
+     "judgement": "通过"
+    },
+    {
+     "key": "S1-02b",
+     "notes_text": "未做（S1-b 文本层；去空白后判，见 ②b）",
+     "actual_checks": true,
+     "evidence": {
+      "cross.a_to_b": {
+       "ok": true,
+       "a_contains_fact_b": false
+      },
+      "cross.b_to_a": {
+       "ok": true,
+       "b_contains_fact_a": false
+      }
+     },
+     "judgement": "通过"
+    },
+    {
+     "key": "S1-05",
+     "notes_text": "未做（sha_stable 仅 S1-b；dry-run 记 not_done）",
+     "actual_checks": true,
+     "evidence": {
+      "sha_stable.status": "done",
+      "sha_stable.unchanged": true,
+      "sha_stable.checked_n": 7
+     },
+     "judgement": "通过"
+    }
+   ],
+   "correct_four_state": {
+    "S1-01": "通过",
+    "S1-02b": "通过",
+    "S1-05": "通过"
+   },
+   "authority": "以 checks 与 fact_layer / run.sha_stable 为准；原产物不回改"
+  },
+  "F3_module_shas": {
+   "before_n": 10,
+   "after_n": 14,
+   "added": [
+    "_test_two_session.py",
+    "_land_s1.py",
+    "_run_s1_real.py",
+    "_run_m1_regression.py"
+   ],
+   "note": "判据床/驱动/落账脚本也是冻结面（0 漂移集合必须覆盖判据本身）"
+  },
+  "F4_frozen_numbers_text": {
+   "fixed_geometry": "A home [4075,4096) chat_start_A=4096; B project [4096+n_chat_A, 4096+n_chat_A+18) chat_start_B=4096+n_chat_A+18（18=project cells；换块 cells 随之变）",
+   "spec_lines_added": 132
+  },
+  "F5_red_proof_R5": {
+   "red_kind": "case(M_CAP_refuses)",
+   "expect_red": [],
+   "fail_cases": [
+    "M_CAP_refuses"
+   ],
+   "note": "主臂 CAP=未触发绿（真机 10 轮 536/580 ≤ 1024，按设计不触发）；红的判可性来自 16 轮 case 级对照（refused=true / reason=chat_len_cap / over 1072>1024）；R5 删 CAP 校验后同输入 refused=false、B 跑满 16 轮 ⇒ case 级红足够证明守门，主产物不该红"
+  },
+  "original_readings_intact": true
+ },
+ "verdict": "通过（S1-b 真机层，v6；P1b 未触发不可判；默认路径 m1 真机为 G4 既有缺口，单列）",
+ "verdict_addendum": "读数层判决不变（通过）；F1–F5 为标签/文本/口径补正，不改读数、不重跑 14B",
+ "next": "lead 复核后签 S1；M4-C 绿臂须先修 G4（selection→块行过滤/补块行）；_StubEngine 搬入测试床单列一刀",
+ "no_self_sha": true
+}

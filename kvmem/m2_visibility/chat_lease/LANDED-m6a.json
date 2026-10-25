@@ -1,0 +1,228 @@
+{
+ "schema": "landed_m6a_v1",
+ "task": "task-37 M6a 可达性红证（只判不修）",
+ "at": "2026-10-25T23:21:07",
+ "product": {
+  "path": "kvmem/m2_visibility/m6/out/M6A-REACHABILITY.json",
+  "sha16": "76eb3f56061ce35c",
+  "bytes": 40850
+ },
+ "probe": {
+  "path": "kvmem/m2_visibility/m6/out/M6A-PROBE.json",
+  "sha16": "ac27641c8f2d136f",
+  "bytes": 3710
+ },
+ "scripts": {
+  "_probe_m6a.py": {
+   "path": "kvmem/m2_visibility/m6/_probe_m6a.py",
+   "sha16": "62a060067c6183fe",
+   "bytes": 8916
+  },
+  "_build_m6a.py": {
+   "path": "kvmem/m2_visibility/m6/_build_m6a.py",
+   "sha16": "5e716555ad39e0eb",
+   "bytes": 36558
+  }
+ },
+ "code_change": {
+  "changed": false,
+  "note": "不改 llama.cpp / 不 rebuild / 不动冻结三件；只新增 m6 目录下的只读探针与汇总脚本"
+ },
+ "four_state": {
+  "I1": "未接上",
+  "I2": "可达（未修）",
+  "I3": "未接上",
+  "I4": "未接上"
+ },
+ "corrections": [
+  {
+   "id": "C1-S1-target",
+   "field": "I1.construction.static_proof[1]",
+   "old": "S1 目标 [4075,4096)/[4650,4668)",
+   "new": "S1 目标 home [4075,4096)、project [4632,4650)（cells 21/18）",
+   "basis": "kvmem/m2_visibility/m2_planner/out/S1-real.json run.blocks：home base=4075/pos_hi=4096、project base=4632/pos_hi=4650"
+  },
+  {
+   "id": "C2-line-separation",
+   "field": "I1.construction.static_proof[0]",
+   "old": "把 m1/blocks 线的 DB 50/36 + pos_max_after 49/35 与 S1 混为一段",
+   "new": "分两条线：m1/夹具线（memory_source.py:347 ⇒ LANDED-g4d loads 50/49、36/35）与 S1/14B 线（make_blocks_14b.py:131 ⇒ blocks_14b_pass1.json cells 21/18、pos_max_in_seq 20/17；dll_smoke_14b.json 21/20）",
+   "basis": "LANDED-g4d.json arms.site1_base.loads；blocks_14b_pass1.json blocks[]；dll_smoke_14b.json"
+  },
+  {
+   "id": "C3-negative-delta",
+   "field": "I1.why_unreachable",
+   "old": "product 路径没有负 delta",
+   "new": "product 路径没有负值下溢（负 delta 存在：chat.py:353 对称自测、m4_write.py:232 回拉到 0）",
+   "basis": "tools/chat.py:352-353；kvmem/m2_visibility/m4/m4_write.py:232 `POS0-(ASK_ANCHOR-moved)`"
+  },
+  {
+   "id": "C4-line-232",
+   "field": "I1.construction.static_proof[2]",
+   "old": "m4_write.py:231",
+   "new": "m4_write.py:232",
+   "basis": "现盘 kvmem/m2_visibility/m4/m4_write.py:232 为 `eng.repos_local(BLOCK_SEQ, POS0 - (ASK_ANCHOR - moved))`；231 是 `leases.detach(LIVE, lo, hi)`"
+  },
+  {
+   "id": "C5-comment-evidence",
+   "field": "I1.evidence",
+   "old": "tools/chat.py:241（该行是注释 `Every block is saved at positions 0..n-1`，不是可执行证据）",
+   "new": "tools/memory_source.py:347（`eng.write_at(seq,text,0)` 可执行）+ chat.py:286/290 的 `delta=target-base`/`moved==n` 断言；chat.py:241 只作注释、不再当证据",
+   "basis": "tools/memory_source.py:346-347；tools/chat.py:286,290"
+  },
+  {
+   "id": "C6-66-semantics",
+   "field": "I1.call_sites",
+   "old": "66 条 = 全体 repos_local 调用点（且暗示自动校验）",
+   "new": "66 条 = I1 53 + I2 5 + I3 5 + I4 3，不是全树调用点；补 inspector 独立扫到的 15 个 live 调用点后共 81 条，并新增 call_sites_validation（bad=0 自检，bad>0 脚本 exit 6）",
+   "basis": "inspector INSPECTOR-M6A-REVIEW.md §2.4：accept_m2_real:128/331、planner:116、m3 三处、m4 七处、_t030_r1:67、insert_probe3:51"
+  },
+  {
+   "id": "C7-I3-product-scope",
+   "field": "I3.construction.argument[2] / I3.why_unreachable",
+   "old": "product 全用 repos_local",
+   "new": "限定为 chat.py/S1/m1 的 python product；C++ tools/kvmem_persist.cpp:497 直接调 llama_memory_seq_add(...,-n_discard)，是 seq_add 反例但不是 python repos_local",
+   "basis": "tools/kvmem_persist.cpp:497；I3 判定未接上不变"
+  },
+  {
+   "id": "C8-attach-lines",
+   "field": "I2.s1_status / I2.call_sites",
+   "old": "chat.py:637→640、:1021→1027",
+   "new": "chat.py:637→639、:1021→1025",
+   "basis": "现盘 tools/chat.py:639 `leases.attach(seq,0,lo,end,...)`；:1025 `leases.attach(seq,dst,base,pos_hi)`"
+  }
+ ],
+ "call_sites_validation": {
+  "n_sites": 81,
+  "n_bad": 0,
+  "by_kind": {
+   "repos_local": 68,
+   "share": 2,
+   "attach": 3,
+   "pos_add": 2,
+   "seq_add": 3,
+   "assert": 1,
+   "preflight": 1,
+   "calc": 1
+  },
+  "method": "每条 file:line 重读现盘：行必须存在，且该 kind 的关键 token 必须在该行原文；bad>0 ⇒ 本脚本 exit 6，不产出",
+  "bad_rows": []
+ },
+ "supersedes": {
+  "artifact": {
+   "sha16": "be9d0a83431f47ac",
+   "bytes": 29483
+  },
+  "ledger": {
+   "sha16": "91c3d7db66ab2d17",
+   "bytes": 3283
+  },
+  "before_copies": [
+   "kvmem/m2_visibility/m6/out/_before/M6A-REACHABILITY@be9d0a83431f47ac.json",
+   "kvmem/m2_visibility/m6/out/_before/LANDED-m6a@91c3d7db66ab2d17.json"
+  ]
+ },
+ "per_item_evidence": {
+  "I1": [
+   "tools/memory_source.py:347",
+   "tools/chat.py:286",
+   "tools/chat.py:290",
+   "tools/chat.py:352-353",
+   "tools/chat.py:394",
+   "tools/chat.py:637",
+   "tools/chat.py:1021",
+   "kvmem/m2_visibility/m4/m4_write.py:232",
+   "kvmem/m2_visibility/m2_planner/out/S1-real.json",
+   "kvmem/m2_visibility/runs_m14b/blocks_14b_pass1.json",
+   "kvmem/m2_visibility/runs_m14b/dll_smoke_14b.json",
+   "kvmem/m2_visibility/chat_lease/LANDED-g4d.json",
+   "llama.cpp/src/llama-kv-cells.h:481-501"
+  ],
+  "I2": [
+   "tools/kvslots.py:240",
+   "tools/chat_lease.py:339",
+   "tools/chat.py:834",
+   "llama.cpp/src/llama-kv-cache.cpp:505-511",
+   "kvmem/m2_visibility/m6/out/M6A-PROBE.json"
+  ],
+  "I3": [
+   "llama.cpp/src/llama-kv-cells.h:448-501",
+   "llama.cpp/src/llama-kv-cache.cpp:86",
+   ":137",
+   ":511",
+   ":553",
+   ":927",
+   "tools/kvshim.cpp:162",
+   "tools/chat.py:286/394/637/1021",
+   "tools/kvmem_persist.cpp:497"
+  ],
+  "I4": [
+   "kvmem/m2_visibility/runs_m14b/loadC_ngl99_v.log:78",
+   ":82",
+   ":1560",
+   ":1561",
+   "llama.cpp/src/llama-kv-cache.cpp:622",
+   ":778",
+   ":346-352",
+   ":860",
+   ":868"
+  ]
+ },
+ "discipline": {
+  "engine_changed": false,
+  "rebuild": false,
+  "signed_dirs_written": false,
+  "llama_cpp_numstat_after": {
+   "insertions": 600,
+   "deletions": 0,
+   "files": 6
+  },
+  "frozen_three_sha16": {
+   "analysis.py": "49e91c7bd3dd32ef",
+   "retrieval.py": "43f660196ab90a14",
+   "evidence.py": "dccf7f010eaf9c7e"
+  },
+  "repo_db_sha16": "237d8e1f5de9a382",
+  "blocks": {
+   "profile": {
+    "path": "kvmem/blocks/profile.kvmem",
+    "sha16": "3b046c8ee3fb3b53",
+    "bytes": 5224388
+   },
+   "project": {
+    "path": "kvmem/blocks/project.kvmem",
+    "sha16": "55fade361c7cb3dc",
+    "bytes": 3761892
+   }
+  },
+  "model": {
+   "path": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+   "bytes": 8988110240
+  }
+ },
+ "stop_conditions_checked": {
+  "needed_engine_change_or_rebuild": false,
+  "wrote_14b_readings_to_signed_dir": false,
+  "I1_reachable_and_S1_hit": false
+ },
+ "regressions": {
+  "freeze_check": {
+   "exit": 0,
+   "first_line": "SELECTION LAYER: FROZEN (3 files, 3 thresholds, versions {'INDEX_VERSION': 5, 'ANALYSIS_VERSION': 4})",
+   "status": "FROZEN"
+  },
+  "verify_sh": {
+   "exit": 0,
+   "last_line": "ALL PASS (12 项)"
+  },
+  "git_status_m6_entries": [
+   "?? kvmem/m2_visibility/m6/"
+  ]
+ },
+ "gaps": {
+  "I2_no_product_run": "I2 只有探针（两 seq 共享后 move）与静态顺序论证；真并发臂未跑（要新块/新挂载组合，属 M6a-fix 后的回归臂）",
+  "I1_probe_is_artificial": "探针的 -1000 是旁证，不进 I1 四态；I1 判 未接上",
+  "call_sites_scope": "66 条是 I1 53 + I2 5 + I3 5 + I4 3，不是全树调用点；本轮补 inspector 独立扫到的 15 个 live 调用点后共 81 条，并由 call_sites_validation 逐行重读现盘自动校验 bad=0（bad>0 脚本 exit 6 不产出）"
+ },
+ "no_self_sha": true
+}

@@ -1,0 +1,278 @@
+{
+  "schema": "m4c4_observation_v1",
+  "site": 3,
+  "mode": "deleted",
+  "observation_arm": true,
+  "die_bypassed": true,
+  "expected_red": true,
+  "is_red": true,
+  "run_id": "1b599550",
+  "batch_id": "b10",
+  "tag": "b10-m4c4-deleted",
+  "variant_sha16": "0c149c11f3d8a0d0",
+  "chat_py_sha16": "cb70be52eef253fa",
+  "deleted_line": "                    leases.reset(seq, site=\"m1.unmount.after_detach\")",
+  "deleted_line_no": 562,
+  "src_line_count": 700,
+  "variant_line_count": 700,
+  "want_sequence": [
+    [],
+    [
+      "profile",
+      "project"
+    ],
+    [
+      "profile"
+    ],
+    []
+  ],
+  "selection_per_turn": [
+    {
+      "turn": 1,
+      "q": "我的车牌号是多少？",
+      "want": []
+    },
+    {
+      "turn": 2,
+      "q": "我的工号和项目代号分别是什么？",
+      "want": [
+        "profile",
+        "project"
+      ]
+    },
+    {
+      "turn": 3,
+      "q": "我的猫叫什么？项目什么时候上线？",
+      "want": [
+        "profile"
+      ]
+    },
+    {
+      "turn": 4,
+      "q": "例会订在哪个会议室？项目负责人是谁？",
+      "want": []
+    }
+  ],
+  "covers_declared": [
+    "site3.m4c4"
+  ],
+  "covers_observed": [
+    "site3.m4c4"
+  ],
+  "coverage_ok": true,
+  "fixture_file_used": "D:\\llama-mem\\kvmem\\m4c_leases\\run_m4c4.py",
+  "fixture_from_env": false,
+  "sampled_at": "2026-10-25T09:26:55Z",
+  "harness_sha16_now": "4fef084ccee39a45:12d3f37c4a7e0b45:f181518b11bee8a7",
+  "orphan_turn": [
+    {
+      "orphan": 0,
+      "chat_n": 0,
+      "mounted_seqs": [
+        1,
+        2
+      ],
+      "orphan_cells": [
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "turn": 2,
+      "want": [
+        "profile",
+        "project"
+      ],
+      "sum_matches": true,
+      "mounted_matches_want": true
+    },
+    {
+      "orphan": 36,
+      "chat_n": 63,
+      "mounted_seqs": [
+        1
+      ],
+      "orphan_cells": [
+        [
+          2,
+          36
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "turn": 3,
+      "want": [
+        "profile"
+      ],
+      "sum_matches": true,
+      "mounted_matches_want": true
+    },
+    {
+      "orphan": 86,
+      "chat_n": 108,
+      "mounted_seqs": [],
+      "orphan_cells": [
+        [
+          1,
+          50
+        ],
+        [
+          2,
+          36
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "turn": 4,
+      "want": [],
+      "sum_matches": true,
+      "mounted_matches_want": true
+    }
+  ],
+  "chat_n_sequence": [
+    0,
+    63,
+    108
+  ],
+  "die_events": [
+    {
+      "role": "exhibit",
+      "turn": 3,
+      "site": null,
+      "message": "M4-C 范围断言红 @m1.unmount: 调用流 hits=[]（0 条） != dropped=[2]（1 条）"
+    },
+    {
+      "role": "exhibit",
+      "turn": 3,
+      "site": null,
+      "message": "M4-C 承重断言红 @m1.unmount.after_detach (reset 之后): cells_of(seq 2) = 36, expected 0"
+    },
+    {
+      "role": "exhibit",
+      "turn": 3,
+      "site": null,
+      "message": "M4-C 漏清断言红 @m1.turn_end: orphan=36（不在 mounted 里的 seq 仍持 cell：[(2, 36), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0)]），chat_n=63"
+    },
+    {
+      "role": "exhibit",
+      "turn": 4,
+      "site": null,
+      "message": "M4-C 范围断言红 @m1.unmount: 调用流 hits=[]（0 条） != dropped=[1]（1 条）"
+    },
+    {
+      "role": "exhibit",
+      "turn": 4,
+      "site": null,
+      "message": "M4-C 承重断言红 @m1.unmount.after_detach (reset 之后): cells_of(seq 1) = 50, expected 0"
+    },
+    {
+      "role": "exhibit",
+      "turn": 4,
+      "site": null,
+      "message": "M4-C 漏清断言红 @m1.turn_end: orphan=86（不在 mounted 里的 seq 仍持 cell：[(1, 50), (2, 36), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0)]），chat_n=108"
+    }
+  ],
+  "engine_after": {
+    "0": [
+      141,
+      4236
+    ],
+    "1": [
+      50,
+      4095
+    ],
+    "2": [
+      36,
+      4031
+    ],
+    "3": [
+      0,
+      -1
+    ],
+    "4": [
+      0,
+      -1
+    ],
+    "5": [
+      0,
+      -1
+    ],
+    "6": [
+      0,
+      -1
+    ],
+    "7": [
+      0,
+      -1
+    ]
+  },
+  "max_orphan": 86,
+  "orphan_leak": true,
+  "stdout_sha16": "30bf58d9e80b5c68",
+  "stdout_exhibit_lines": 3,
+  "instrument": null,
+  "instrument_hits": [],
+  "error": null,
+  "evidence_problems": [],
+  "exit": 0,
+  "harness_sha16": "4fef084ccee39a45:12d3f37c4a7e0b45:f181518b11bee8a7",
+  "selfevidence": {
+    "subject": true,
+    "version": true,
+    "verdict": true
+  },
+  "identity_cross_check": "ok",
+  "verdict_rule": "0 观测完成且形态与预登记一致；1 引擎报错或形态不符；5 证据缺/形状违反（仪器坏）；2 用法；3 台账不符"
+}

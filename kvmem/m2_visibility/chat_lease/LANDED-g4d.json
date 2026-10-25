@@ -1,0 +1,552 @@
+{
+ "schema": "landed_g4d_v1",
+ "task": "task-36 G4d",
+ "at": "2026-10-25T22:57:10",
+ "product": {
+  "path": "kvmem/m2_visibility/chat_lease/out/M4C-fixture-rerun.json",
+  "sha16": "bdafbe8e1a0bdb6c",
+  "bytes": 11822
+ },
+ "batch": {
+  "batch_id": "g4d",
+  "ledger": {
+   "path": "kvmem/m4c_leases/out/LANDED-g4d.json",
+   "sha16": "6768a11c7528610a",
+   "bytes": 1333
+  },
+  "note": "chat.py=22081c41 下新批台账（旧 b09/b10 与现盘不符，verify_landed 会 exit 3）"
+ },
+ "chat_py": {
+  "path": "tools/chat.py",
+  "sha16": "22081c411c64fbe7",
+  "bytes": 75310
+ },
+ "spec": {
+  "path": "docs/_work/M2-FULL-S1-SPEC-lead.md",
+  "sha16": "ae2d88ad5ecc25d3",
+  "bytes": 16437,
+  "lines": 132
+ },
+ "repo_db": {
+  "path": "kvmem/chat.db",
+  "sha16": "237d8e1f5de9a382",
+  "bytes": 110592
+ },
+ "block_files": {
+  "home": {
+   "path": "kvmem/m2_v1_14b/home.kvmem",
+   "sha16": "73843fc55efd1ab3",
+   "bytes": 2194932
+  },
+  "project": {
+   "path": "kvmem/m2_v1_14b/project.kvmem",
+   "sha16": "536eac03f288bb09",
+   "bytes": 1881540
+  },
+  "habit": {
+   "path": "kvmem/m2_v1_14b/habit.kvmem",
+   "sha16": "f6f8e85cc55bd4b9",
+   "bytes": 1254756
+  }
+ },
+ "frozen_three": {
+  "analysis.py": {
+   "path": "tools/analysis.py",
+   "sha16": "49e91c7bd3dd32ef",
+   "bytes": 18382
+  },
+  "retrieval.py": {
+   "path": "tools/retrieval.py",
+   "sha16": "43f660196ab90a14",
+   "bytes": 18197
+  },
+  "evidence.py": {
+   "path": "tools/evidence.py",
+   "sha16": "dccf7f010eaf9c7e",
+   "bytes": 6997
+  }
+ },
+ "code_change": {
+  "changed": false,
+  "note": "本单未改代码；chat.py 保持 22081c41（task-35 G4a-2/G4a-3 后态）"
+ },
+ "needles": {
+  "site1_place_fresh": {
+   "needle": "leases.reset(i, site=\"chat.place.fresh\")",
+   "line_nos": [
+    270
+   ],
+   "hit_count": 1,
+   "unique": true
+  },
+  "site3_unmount_after_detach": {
+   "needle": "leases.reset(seq, site=\"m1.unmount.after_detach\")",
+   "line_nos": [
+    594
+   ],
+   "hit_count": 1,
+   "unique": true
+  },
+  "site4_mount_before_load": {
+   "needle": "leases.reset(seq, site=\"m1.mount.before_load\")",
+   "line_nos": [
+    630
+   ],
+   "hit_count": 1,
+   "unique": true
+  }
+ },
+ "arms": {
+  "site1_base": {
+   "arm": "site1-base",
+   "product": {
+    "path": "kvmem/m4c_leases/out/M4C-DELETE-SITE1-base-g4d-base-3f8df8d4.json",
+    "sha16": "87f060bdd5ee98a9",
+    "bytes": 3806
+   },
+   "observed": {
+    "mode": "base",
+    "exit": 0,
+    "is_red": false,
+    "expected_red": false,
+    "die_kind": null,
+    "assertions_status": "checked",
+    "coverage_ok": true,
+    "covers_declared": [
+     "site1"
+    ],
+    "covers_observed": [
+     "site1"
+    ],
+    "attaches_done": 2,
+    "attach_events_ok": true,
+    "attaches_expected_min": 1,
+    "asserts_ran": 2,
+    "identity": null,
+    "selfev": null,
+    "hits": null
+   },
+   "loads": [
+    {
+     "seq": 1,
+     "name": "profile",
+     "n_returned": 50,
+     "n_tokens_after": 50,
+     "pos_max_after": 49
+    },
+    {
+     "seq": 2,
+     "name": "project",
+     "n_returned": 36,
+     "n_tokens_after": 36,
+     "pos_max_after": 35
+    }
+   ],
+   "orphans": [],
+   "db_copy": {
+    "name": "chat@g4d-site1base.db",
+    "sha16": "237d8e1f5de9a382",
+    "bytes": 110592
+   },
+   "signed_product": {
+    "path": "kvmem/m4c_leases/out/M4C-DELETE-SITE1-base-b09-base-e6463aa2.json",
+    "sha16": "12950f6a3fd0226f",
+    "bytes": 3806
+   },
+   "diff_fields": {},
+   "readings_match": true,
+   "lineage": {
+    "deleted_line_no": null,
+    "src_line_count": null,
+    "variant_line_count": null,
+    "variant_sha16": "22081c411c64fbe7"
+   },
+   "die": null
+  },
+  "site3_green": {
+   "arm": "site3-green",
+   "product": {
+    "path": "kvmem/m4c_leases/out/M4C-SITE3-green-g4d-s3green-5cc5bf16.json",
+    "sha16": "960af172aac124cc",
+    "bytes": 7781
+   },
+   "observed": {
+    "mode": "green",
+    "exit": 0,
+    "is_red": false,
+    "expected_red": false,
+    "die_kind": null,
+    "assertions_status": "checked",
+    "coverage_ok": true,
+    "covers_declared": [
+     "site3"
+    ],
+    "covers_observed": [
+     "site3"
+    ],
+    "attaches_done": null,
+    "attach_events_ok": null,
+    "attaches_expected_min": null,
+    "asserts_ran": 2,
+    "identity": null,
+    "selfev": null,
+    "hits": null
+   },
+   "loads": null,
+   "orphans": [
+    {
+     "eval_point": "after_mount_loop",
+     "orphan": 0,
+     "chat_n": 0,
+     "status": "checked"
+    },
+    {
+     "eval_point": "after_mount_loop",
+     "orphan": 0,
+     "chat_n": 63,
+     "status": "checked"
+    },
+    {
+     "eval_point": "after_mount_loop",
+     "orphan": 0,
+     "chat_n": 108,
+     "status": "checked"
+    }
+   ],
+   "db_copy": {
+    "name": "chat@g4d-s3green.db",
+    "sha16": "f26774e392dfce6e",
+    "bytes": 110592
+   },
+   "signed_product": {
+    "path": "kvmem/m4c_leases/out/M4C-SITE3-green-b09-green-b11f1875.json",
+    "sha16": "f3f6ce7fe5f04040",
+    "bytes": 7781
+   },
+   "diff_fields": {},
+   "readings_match": true,
+   "lineage": {
+    "deleted_line_no": null,
+    "src_line_count": null,
+    "variant_line_count": null,
+    "variant_sha16": "22081c411c64fbe7"
+   },
+   "die": null
+  },
+  "site3_red": {
+   "arm": "site3-red(deleted unmount.after_detach)",
+   "product": {
+    "path": "kvmem/m4c_leases/out/M4C-SITE3-red-g4d-s3red-042af7ff.json",
+    "sha16": "f05e1de9b2188b94",
+    "bytes": 5752
+   },
+   "observed": {
+    "mode": "red",
+    "exit": 1,
+    "is_red": true,
+    "expected_red": true,
+    "die_kind": "assertion",
+    "assertions_status": "assertion_failed",
+    "coverage_ok": true,
+    "covers_declared": [
+     "site3"
+    ],
+    "covers_observed": [
+     "site3"
+    ],
+    "attaches_done": null,
+    "attach_events_ok": null,
+    "attaches_expected_min": null,
+    "asserts_ran": 2,
+    "identity": null,
+    "selfev": null,
+    "hits": null
+   },
+   "loads": null,
+   "orphans": [
+    {
+     "eval_point": "after_mount_loop",
+     "orphan": 0,
+     "chat_n": 0,
+     "status": "checked"
+    }
+   ],
+   "db_copy": {
+    "name": "chat@g4d-s3red.db",
+    "sha16": "ae7d48340a9a76e1",
+    "bytes": 110592
+   },
+   "signed_product": {
+    "path": "kvmem/m4c_leases/out/M4C-SITE3-red-b09-red-1b6187f9.json",
+    "sha16": "dd46774cae873989",
+    "bytes": 5750
+   },
+   "diff_fields": {},
+   "readings_match": true,
+   "lineage": {
+    "deleted_line_no": 594,
+    "src_line_count": 1428,
+    "variant_line_count": 1428,
+    "variant_sha16": "22b978ced778986e"
+   },
+   "die": {
+    "id": "die",
+    "site": null,
+    "status": "assertion_failed",
+    "kind": "assertion",
+    "message": "M4-C 范围断言红 @m1.unmount: 调用流 hits=[]（0 条） != dropped=[2]（1 条）",
+    "role": "event"
+   }
+  },
+  "site4_base": {
+   "arm": "site4-base(字面 needle 的对照)",
+   "product": {
+    "path": "kvmem/m4c_leases/out/M4C-DELETE-SITE4-base-g4d-s4base-8745a808.json",
+    "sha16": "e697accdc1c783f6",
+    "bytes": 6278
+   },
+   "observed": {
+    "mode": "base",
+    "exit": 0,
+    "is_red": false,
+    "expected_red": false,
+    "die_kind": null,
+    "assertions_status": "checked",
+    "coverage_ok": false,
+    "covers_declared": [
+     "site4"
+    ],
+    "covers_observed": [
+     "site3"
+    ],
+    "attaches_done": 3,
+    "attach_events_ok": true,
+    "attaches_expected_min": 1,
+    "asserts_ran": 2,
+    "identity": null,
+    "selfev": null,
+    "hits": null
+   },
+   "loads": [
+    {
+     "seq": 1,
+     "name": "profile",
+     "n_returned": 50,
+     "n_tokens_after": 50,
+     "pos_max_after": 49
+    },
+    {
+     "seq": 2,
+     "name": "project",
+     "n_returned": 36,
+     "n_tokens_after": 36,
+     "pos_max_after": 35
+    },
+    {
+     "seq": 1,
+     "name": "profile",
+     "n_returned": 50,
+     "n_tokens_after": 50,
+     "pos_max_after": 49
+    }
+   ],
+   "orphans": [
+    {
+     "eval_point": "after_mount_loop",
+     "orphan": 0,
+     "chat_n": 0,
+     "status": "checked"
+    },
+    {
+     "eval_point": "after_mount_loop",
+     "orphan": 0,
+     "chat_n": 63,
+     "status": "checked"
+    },
+    {
+     "eval_point": "after_mount_loop",
+     "orphan": 0,
+     "chat_n": 108,
+     "status": "checked"
+    }
+   ],
+   "db_copy": {
+    "name": "chat@g4d-site4base.db",
+    "sha16": "203d61cfb767988f",
+    "bytes": 110592
+   },
+   "signed_product": null,
+   "diff_fields": null,
+   "readings_match": null,
+   "lineage": {
+    "deleted_line_no": null,
+    "src_line_count": null,
+    "variant_line_count": null,
+    "variant_sha16": "22081c411c64fbe7"
+   },
+   "die": null
+  },
+  "site4_deleted": {
+   "arm": "site4-deleted(删 m1.mount.before_load)",
+   "product": {
+    "path": "kvmem/m4c_leases/out/M4C-DELETE-SITE4-deleted-g4d-s4del-4ddab022.json",
+    "sha16": "b91108ce4419306e",
+    "bytes": 6350
+   },
+   "observed": {
+    "mode": "deleted",
+    "exit": 0,
+    "is_red": false,
+    "expected_red": false,
+    "die_kind": null,
+    "assertions_status": "checked",
+    "coverage_ok": false,
+    "covers_declared": [
+     "site4"
+    ],
+    "covers_observed": [
+     "site3"
+    ],
+    "attaches_done": 3,
+    "attach_events_ok": true,
+    "attaches_expected_min": 1,
+    "asserts_ran": 2,
+    "identity": null,
+    "selfev": null,
+    "hits": null
+   },
+   "loads": [
+    {
+     "seq": 1,
+     "name": "profile",
+     "n_returned": 50,
+     "n_tokens_after": 50,
+     "pos_max_after": 49
+    },
+    {
+     "seq": 2,
+     "name": "project",
+     "n_returned": 36,
+     "n_tokens_after": 36,
+     "pos_max_after": 35
+    },
+    {
+     "seq": 1,
+     "name": "profile",
+     "n_returned": 50,
+     "n_tokens_after": 50,
+     "pos_max_after": 49
+    }
+   ],
+   "orphans": [
+    {
+     "eval_point": "after_mount_loop",
+     "orphan": 0,
+     "chat_n": 0,
+     "status": "checked"
+    },
+    {
+     "eval_point": "after_mount_loop",
+     "orphan": 0,
+     "chat_n": 63,
+     "status": "checked"
+    },
+    {
+     "eval_point": "after_mount_loop",
+     "orphan": 0,
+     "chat_n": 108,
+     "status": "checked"
+    }
+   ],
+   "db_copy": {
+    "name": "chat@g4d-site4del.db",
+    "sha16": "e995404e78fec0e5",
+    "bytes": 110592
+   },
+   "signed_product": null,
+   "diff_fields": null,
+   "readings_match": null,
+   "lineage": {
+    "deleted_line_no": 630,
+    "src_line_count": 1428,
+    "variant_line_count": 1428,
+    "variant_sha16": "011f8bf02fed52ad"
+   },
+   "die": null
+  }
+ },
+ "site4_no_effect": {
+  "loads_identical": true,
+  "orphans_identical": true,
+  "assertions_status_identical": true,
+  "no_red": true
+ },
+ "conclusion": {
+  "base_一致": true,
+  "承重红臂_site3_仍红": true,
+  "site3_red_die_same_as_signed": true,
+  "site3_green_readings_match": true,
+  "site4_字面红臂无观测效果": true,
+  "回归链": "恢复：base 读数与 §2 逐项同（仅 chat_py_sha16 随修复变）；承重红臂（site3 删 unmount.after_detach）仍红且 die 文案同签名；green 全 0。字面 site4 红臂无效与 CLOSURE §site4『判据作废/被 site3 掩码』一致。"
+ },
+ "stop_item": {
+  "asked": "task-36 字面要求『删 m1.mount.before_load ⇒ orphan 36→86 / green 0』",
+  "observed": "site4-deleted：loads/orphan/assertions 与 base 逐项相同，无 die、无红；orphan 读数为 0/0/0；而 green 臂（site3-green）也是 0/0/0。『orphan 36→86』在 DELETE 产品里无落点（该读数属 CLOSURE §site3 的 M4-C-4 测量臂，不是 before_load needle）。",
+  "action": "停手报 lead：不调断言、不改夹具期望；请裁『红臂』是否指 site3 承重臂（已实测仍红）而非 site4 字面 needle。",
+  "orphan_36_86_scope": {
+   "verdict": "未做（沿用 b10 历史读数，未重跑）",
+   "why_not_this_task": "G4d 的 DELETE red/green 两臂 orphan 全 0/0/0；36→86 不在 G4d 重跑范围",
+   "belongs_to": "M4C-CLOSURE-lead.md §4.3 的 M4-C-4 测量臂（b10：m4c4/M4C4-deleted 4ada6cec / green 08a197d2）",
+   "rerun_this_round": false,
+   "inspector_recheck": "inspector 复算一致，但本轮未重跑，不把 b10 写成本轮读数",
+   "non_blocking": "G4d 复验的是『删了必须红（die）』，不是『36→86 复现』",
+   "if_wanted": "要补跑该臂另单报 lead"
+  }
+ },
+ "db_copies": {
+  "note": "m1 臂会无条件 rebuild 派生索引（G3 记法）：副本 before/after 不同属预期；仓库 chat.db 未变",
+  "repo": {
+   "path": "kvmem/chat.db",
+   "sha16": "237d8e1f5de9a382",
+   "bytes": 110592
+  },
+  "copies": {
+   "site1_base": {
+    "sha16": "237d8e1f5de9a382"
+   },
+   "site3_green": {
+    "sha16": "f26774e392dfce6e"
+   },
+   "site3_red": {
+    "sha16": "ae7d48340a9a76e1"
+   },
+   "site4_base": {
+    "sha16": "203d61cfb767988f"
+   },
+   "site4_deleted": {
+    "sha16": "e995404e78fec0e5"
+   }
+  }
+ },
+ "gaps": {
+  "index_meta_docs": "index_meta.docs='2' 与 doc 10 行不一致（旧构建器遗留、M1.8 缺口、非 KeyError 直接原因）；本单不修，继续登记",
+  "site4_coverage": "site4 臂 covers_declared=['site4'] 但 cmd_m1 只产 site3 crit ⇒ coverage_not_met（结构性，非本单引入）",
+  "orphan_expectation": "『orphan 36→86』属 CLOSURE §site3 的 M4-C-4 测量臂，不在 DELETE 产品读数里；本单如实报 observed=0/0/0。本轮未重跑（rerun_this_round=false）；36→86 属 M4C-CLOSURE-lead.md §4.3 的 M4-C-4 测量臂（b10 4ada6cec / green 08a197d2），沿用历史读数"
+ },
+ "regressions": {
+  "freeze_check": {
+   "exit": 0,
+   "first_line": "SELECTION LAYER: FROZEN (3 files, 3 thresholds, versions {'INDEX_VERSION': 5, 'ANALYSIS_VERSION': 4})",
+   "status": "FROZEN"
+  }
+ },
+ "four_state": {
+  "base（site1）": "通过（与 §2 逐项同；chat_py sha 随修复变，属预期）",
+  "承重红臂（site3 unmount.after_detach）": "通过（is_red true / assertion_failed / die 文案同签名）",
+  "green 臂（site3）": "通过（readings 与签名同；orphan 0/0/0）",
+  "字面 site4 红臂": "未通过（删 before_load 无观测效果；CLOSURE 已判 site4 判据作废）",
+  "site4 臂 coverage": "未接上（covers_declared site4 vs observed site3 ⇒ coverage_not_met，属夹具结构性，非本单引入）",
+  "36→86（M4-C-4 测量臂）": "未做（沿用 b10 历史读数，未重跑；见 stop_item.orphan_36_86_scope）"
+ },
+ "no_self_sha": true
+}

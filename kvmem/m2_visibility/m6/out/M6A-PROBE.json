@@ -1,0 +1,177 @@
+{
+ "schema": "m6a_probe_v1",
+ "at": "2026-10-25T23:01:41",
+ "engine": {
+  "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+  "model_bytes": 8988110240,
+  "n_ctx": 8192,
+  "n_seq": 8,
+  "gpu": 99,
+  "kv": "q8_0",
+  "unified": "kvshim.cpp:162 cp.kv_unified = true（单 pool，seq_cp 共享）"
+ },
+ "blocks": {
+  "profile": {
+   "path": "kvmem/blocks/profile.kvmem",
+   "sha16": "3b046c8ee3fb3b53",
+   "bytes": 5224388,
+   "db_n_tokens": 50
+  },
+  "project": {
+   "path": "kvmem/blocks/project.kvmem",
+   "sha16": "55fade361c7cb3dc",
+   "bytes": 3761892,
+   "db_n_tokens": 36
+  }
+ },
+ "geometry_from_log": {
+  "log": "kvmem/m2_visibility/runs_m14b/loadC_ngl99_v.log",
+  "lines": {
+   "n_rot": 78,
+   "n_embd_head_k": 82,
+   "n_rot_k": 1560,
+   "n_embd_head_k_all": 1560
+  },
+  "values": {
+   "n_rot": 128,
+   "n_embd_head_k": 128,
+   "n_rot_k": 128,
+   "n_embd_head_k_all": 128,
+   "kv_type": "q8_0"
+  }
+ },
+ "steps": [
+  {
+   "step": "A load(profile->seq1)",
+   "exhibit": {
+    "1": {
+     "n_tokens": 50,
+     "pos_max_raw": 49,
+     "n_cells": 50,
+     "pos_range": [
+      0,
+      49
+     ]
+    },
+    "2": {
+     "n_tokens": 0,
+     "pos_max_raw": -1,
+     "n_cells": 0,
+     "pos_range": []
+    }
+   },
+   "ret": 50,
+   "note": "块文件按 0..n-1 落位（DB memory_block.n_tokens=50）；这就是 product 路径 delta 恒正的来源"
+  },
+  {
+   "step": "B share(seq1->seq2)",
+   "exhibit": {
+    "1": {
+     "n_tokens": 50,
+     "pos_max_raw": 49,
+     "n_cells": 50,
+     "pos_range": [
+      0,
+      49
+     ]
+    },
+    "2": {
+     "n_tokens": 0,
+     "pos_max_raw": 49,
+     "n_cells": 50,
+     "pos_range": [
+      0,
+      49
+     ]
+    }
+   },
+   "note": "seq_cp：cell 同属 seq1/seq2，无 refcount；tokens[] 不变 ⇒ 必须看 raw cells 才看得见"
+  },
+  {
+   "step": "C repos_local(seq1,+100)",
+   "exhibit": {
+    "1": {
+     "n_tokens": 50,
+     "pos_max_raw": 149,
+     "n_cells": 50,
+     "pos_range": [
+      100,
+      149
+     ]
+    },
+    "2": {
+     "n_tokens": 0,
+     "pos_max_raw": 149,
+     "n_cells": 50,
+     "pos_range": [
+      100,
+      149
+     ]
+    }
+   },
+   "ret": 50,
+   "note": "I2：只移动 seq1，seq2 的 cells 位置区间跟着 +100"
+  },
+  {
+   "step": "D repos_local(seq1,-1000)",
+   "exhibit": {
+    "1": {
+     "n_tokens": 50,
+     "pos_max_raw": -1,
+     "n_cells": 0,
+     "pos_range": []
+    },
+    "2": {
+     "n_tokens": 0,
+     "pos_max_raw": -1,
+     "n_cells": 0,
+     "pos_range": []
+    }
+   },
+   "ret": 50,
+   "note": "I1 旁证：下溢 ⇒ pos_move 里 seq[i].reset()+used.erase(i)；返回值仍=idx 数（不报失败），tokens[] 也仍 50（双重静默）"
+  },
+  {
+   "step": "E load,+50,share,-50",
+   "exhibit": {
+    "1": {
+     "n_tokens": 50,
+     "pos_max_raw": 49,
+     "n_cells": 50,
+     "pos_range": [
+      0,
+      49
+     ]
+    },
+    "2": {
+     "n_tokens": 0,
+     "pos_max_raw": 49,
+     "n_cells": 50,
+     "pos_range": [
+      0,
+      49
+     ]
+    }
+   },
+   "ret": {
+    "plus50": 50,
+    "minus50": 50
+   },
+   "note": "负 delta 但不下溢 ⇒ 位置回到 0..49，seq2 仍在；边界=位置不得 <0"
+  }
+ ],
+ "conclusions": {
+  "load_matches_db": true,
+  "share_adds_cells_not_tokens": true,
+  "I2_shared_move_observed": true,
+  "I1_underflow_observed": true,
+  "I1_other_seq_refs_lost_together": true,
+  "I1_return_still_reports_cells": true,
+  "I1_tokens_vector_unchanged": true,
+  "safe_negative_no_underflow": true,
+  "artificial_note": "本探针是'若这样用会怎样'的旁证：负 delta 由脚本直接传，product 路径（S1/m1）当前不会传负值；不进 I1 四态判定"
+ },
+ "no_engine_change": true,
+ "no_signed_dir_write": true,
+ "no_self_sha": true
+}

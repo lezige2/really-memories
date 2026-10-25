@@ -1,0 +1,903 @@
+{
+ "schema": "m6a_reachability_v1",
+ "task": "task-37 M6a：引擎四条不变量可达性红证（只判不修）",
+ "at": "2026-10-25T23:02:49",
+ "spec": {
+  "path": "docs/_work/M2-FULL-S1-SPEC-lead.md",
+  "sha16": "ae2d88ad5ecc25d3",
+  "bytes": 16437
+ },
+ "probe": {
+  "path": "kvmem/m2_visibility/m6/out/M6A-PROBE.json",
+  "sha16": "ac27641c8f2d136f",
+  "bytes": 3710
+ },
+ "geometry": {
+  "log": "kvmem/m2_visibility/runs_m14b/loadC_ngl99_v.log",
+  "lines": {
+   "n_rot": 78,
+   "n_embd_head_k": 82,
+   "n_rot_k": 1560,
+   "n_embd_head_k_all": 1560
+  },
+  "values": {
+   "n_rot": 128,
+   "n_embd_head_k": 128,
+   "n_rot_k": 128,
+   "n_embd_head_k_all": 128,
+   "kv_type": "q8_0"
+  }
+ },
+ "items": [
+  {
+   "id": "I1",
+   "claim": "负 delta 使 pos_move 在 pos[i]<0 时 seq[i].reset()+used.erase(i)，静默回收 cell（含其它 seq 的引用），而 seq_repos_local 仍返回 moved=N",
+   "call_sites": [
+    {
+     "file": "tools/chat.py",
+     "line": 286,
+     "call": "repos_local",
+     "expr": "eng.repos_local(i, delta), delta = target - base",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "cmd_chat 装载路径；delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）；base=pos_max-n+1=0（memory_source.py:347 在 0 编码）",
+     "live": true
+    },
+    {
+     "file": "tools/chat.py",
+     "line": 352,
+     "call": "repos_local",
+     "expr": "eng.repos_local(1, +64)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "cmd_chat 自检：成对 ±：先 +后 -，位置不会 <0 ⇒ 不下溢",
+     "live": true
+    },
+    {
+     "file": "tools/chat.py",
+     "line": 353,
+     "call": "repos_local",
+     "expr": "eng.repos_local(1, -64)",
+     "may_be_negative": true,
+     "underflow_possible": false,
+     "note": "cmd_chat 自检：成对 ±：先 +后 -，位置不会 <0 ⇒ 不下溢",
+     "live": true
+    },
+    {
+     "file": "tools/chat.py",
+     "line": 394,
+     "call": "repos_local",
+     "expr": "eng.repos_local(i, lo - base)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "_place_slots；base=0，lo=end-n>=4096-128-n>0 ⇒ 恒正",
+     "live": true
+    },
+    {
+     "file": "tools/chat.py",
+     "line": 637,
+     "call": "repos_local",
+     "expr": "eng.repos_local(seq, lo - base)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "cmd_m1 挂载前移动；reset+load 后 base=0，lo>0 ⇒ 恒正；attach 在 :640（移动之后）",
+     "live": true
+    },
+    {
+     "file": "tools/chat.py",
+     "line": 1021,
+     "call": "repos_local",
+     "expr": "engine.repos_local(seq, base - cur)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "cmd_m1 循环挂载；cur=pos_max+1-n=0，base>0 ⇒ 恒正",
+     "live": true
+    },
+    {
+     "file": "tools/chat.py",
+     "line": 847,
+     "call": "repos_local",
+     "expr": "self._eng.repos_local(seq, delta)",
+     "may_be_negative": null,
+     "underflow_possible": null,
+     "note": "GuardedLeases 转发层：delta 由调用方给（上方 4 个 product 调用均为正）",
+     "live": true
+    },
+    {
+     "file": "tools/session_state.py",
+     "line": 362,
+     "call": "repos_local",
+     "expr": "eng.repos_local(seq, b[\"start\"] - base)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "恢复路径；start>0、base=0 ⇒ 恒正",
+     "live": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m4/m4_write.py",
+     "line": 207,
+     "call": "repos_local",
+     "expr": "eng.repos_local(BLOCK_SEQ, ASK_ANCHOR - moved - base)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "泄漏/隔离臂的装载移动；base=pos_max-n+1=0，目标 ASK_ANCHOR>0 ⇒ 恒正（工具臂）",
+     "live": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m4/m4_write.py",
+     "line": 232,
+     "call": "repos_local",
+     "expr": "eng.repos_local(BLOCK_SEQ, POS0 - (ASK_ANCHOR - moved))",
+     "may_be_negative": true,
+     "underflow_possible": false,
+     "note": "可为负但目标 >=0 ⇒ 不下溢（目标 POS0=0，回拉不越界）",
+     "live": true
+    },
+    {
+     "file": "tools/m2_v1.py",
+     "line": 205,
+     "call": "repos_local",
+     "expr": "eng.repos_local(6, 2600 - t0)",
+     "may_be_negative": true,
+     "underflow_possible": false,
+     "note": "t0=3000 ⇒ -400；目标 2600 仍 >0 ⇒ 不下溢（工具臂，非 product）",
+     "live": true
+    },
+    {
+     "file": "tools/m2_v1.py",
+     "line": 109,
+     "call": "repos_local",
+     "expr": "eng.repos_local(slot, target - base)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/m2_v1.py",
+     "line": 198,
+     "call": "repos_local",
+     "expr": "eng.repos_local(6, t0 - (pos_max-n+1))",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/m2_v1.py",
+     "line": 204,
+     "call": "repos_local",
+     "expr": "eng.repos_local(6, t0 - (pos_max-n+1))",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/m2_v1.py",
+     "line": 208,
+     "call": "repos_local",
+     "expr": "eng.repos_local(6, t0 - (pos_max-n+1))",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/m2_visibility_probe.py",
+     "line": 452,
+     "call": "repos_local",
+     "expr": "eng.repos_local(slot, target - base)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/m2_probe_cells.py",
+     "line": 63,
+     "call": "repos_local",
+     "expr": "eng.repos_local(i, tgt - (pos_max-n+1))",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/m2_probe_segments.py",
+     "line": 46,
+     "call": "repos_local",
+     "expr": "eng.repos_local(slot, tgt - (pos_max-n+1))",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/m2_probe_segments.py",
+     "line": 91,
+     "call": "repos_local",
+     "expr": "eng.repos_local(3, tgt - (pos_max-n+1))",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/hole_matrix.py",
+     "line": 80,
+     "call": "repos_local",
+     "expr": "eng.repos_local(seq, target - base)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/hole_probe.py",
+     "line": 40,
+     "call": "repos_local",
+     "expr": "eng.repos_local(seq, target - base)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/states_demo.py",
+     "line": 61,
+     "call": "repos_local",
+     "expr": "eng.repos_local(seq, lo - base)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/variance_check.py",
+     "line": 73,
+     "call": "repos_local",
+     "expr": "eng.repos_local(i, lo - base)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/p0_1a_check.py",
+     "line": 81,
+     "call": "repos_local",
+     "expr": "eng.repos_local(SCRATCH, +64)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "自检 +64",
+     "live": true
+    },
+    {
+     "file": "tools/p0_1a_check.py",
+     "line": 143,
+     "call": "repos_local",
+     "expr": "eng.repos_local(SCRATCH, target)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/p0_2_check.py",
+     "line": 125,
+     "call": "repos_local",
+     "expr": "eng.repos_local(SCRATCH, +64)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "自检 +64",
+     "live": true
+    },
+    {
+     "file": "tools/p0_2_check.py",
+     "line": 139,
+     "call": "repos_local",
+     "expr": "eng.repos_local(i, lo - base)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/p0_4b_right.py",
+     "line": 74,
+     "call": "repos_local",
+     "expr": "eng.repos_local(seq, target - base)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/diag_place.py",
+     "line": 50,
+     "call": "repos_local",
+     "expr": "eng.repos_local(1, t1)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/diag_place.py",
+     "line": 68,
+     "call": "repos_local",
+     "expr": "eng.repos_local(1, +t1)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "自检 +t1",
+     "live": true
+    },
+    {
+     "file": "tools/diag_place.py",
+     "line": 69,
+     "call": "repos_local",
+     "expr": "eng.repos_local(1, -t1)",
+     "may_be_negative": true,
+     "underflow_possible": false,
+     "note": "自检 -t1：成对 ±：先 +后 -，位置不会 <0 ⇒ 不下溢",
+     "live": true
+    },
+    {
+     "file": "tools/diag_place.py",
+     "line": 111,
+     "call": "repos_local",
+     "expr": "eng.repos_local(1, t1)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/diag_place.py",
+     "line": 120,
+     "call": "repos_local",
+     "expr": "eng.repos_local(1, t1)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/diag_place.py",
+     "line": 126,
+     "call": "repos_local",
+     "expr": "eng.repos_local(2, t2)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/diag_place.py",
+     "line": 149,
+     "call": "repos_local",
+     "expr": "eng.repos_local(1, (CHAT - 50) - 0)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/diag_place.py",
+     "line": 167,
+     "call": "repos_local",
+     "expr": "eng.repos_local(1, t1)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/diag_place.py",
+     "line": 168,
+     "call": "repos_local",
+     "expr": "eng.repos_local(2, t2)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/kv_audit.py",
+     "line": 111,
+     "call": "repos_local",
+     "expr": "eng.repos_local(1, +a.step)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "自检 +step",
+     "live": true
+    },
+    {
+     "file": "tools/kv_audit.py",
+     "line": 112,
+     "call": "repos_local",
+     "expr": "eng.repos_local(1, -a.step)",
+     "may_be_negative": true,
+     "underflow_possible": false,
+     "note": "自检 -step：成对 ±：先 +后 -，位置不会 <0 ⇒ 不下溢",
+     "live": true
+    },
+    {
+     "file": "tools/kv_audit.py",
+     "line": 131,
+     "call": "repos_local",
+     "expr": "eng.repos_local(1, CHAT - n)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/kv_audit.py",
+     "line": 163,
+     "call": "repos_local",
+     "expr": "eng.repos_local(1, CHAT - n)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "tools/kvdrift.py",
+     "line": 114,
+     "call": "repos_local",
+     "expr": "eng.repos_local(blk, args.shift)",
+     "may_be_negative": true,
+     "underflow_possible": true,
+     "note": "任意整数（工具臂 CLI），可为负且可下溢 ⇒ 只有工具臂能造出 I1（--shift 默认 +1000，可传负值）",
+     "live": true
+    },
+    {
+     "file": "tools/kvdrift.py",
+     "line": 133,
+     "call": "repos_local",
+     "expr": "eng.repos_local(blk, args.shift)",
+     "may_be_negative": true,
+     "underflow_possible": true,
+     "note": "任意整数（工具臂 CLI），可为负且可下溢 ⇒ 只有工具臂能造出 I1",
+     "live": true
+    },
+    {
+     "file": "kvmem/m2_visibility/chat_lease/bridge_probe.py",
+     "line": 35,
+     "call": "repos_local",
+     "expr": "eng.repos_local(i, lo - base)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "kvmem/m2_visibility/chat_lease/refusal_probe.py",
+     "line": 32,
+     "call": "repos_local",
+     "expr": "eng.repos_local(BLOCK_SEQ, lo - base)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m14b_e10_probe/insert_localize.py",
+     "line": 63,
+     "call": "repos_local",
+     "expr": "eng.repos_local(P.LIVE, +N, P.CHAT, chat_hi)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "自检 +N",
+     "live": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m14b_e10_probe/insert_localize.py",
+     "line": 69,
+     "call": "repos_local",
+     "expr": "eng.repos_local(7, P.CHAT - (pos_max-n+1))",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m14b_e10_probe/insert_probe.py",
+     "line": 75,
+     "call": "repos_local",
+     "expr": "eng.repos_local(P.LIVE, +n_new, P.CHAT, chat_hi)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "自检 +n_new",
+     "live": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m14b_e10_probe/insert_probe.py",
+     "line": 80,
+     "call": "repos_local",
+     "expr": "eng.repos_local(7, P.CHAT - base0)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m14b_e10_probe/insert_probe2.py",
+     "line": 56,
+     "call": "repos_local",
+     "expr": "eng.repos_local(P.LIVE, +N, P.CHAT, chat_hi)",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "自检 +N",
+     "live": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m14b_e10_probe/insert_probe2.py",
+     "line": 60,
+     "call": "repos_local",
+     "expr": "eng.repos_local(7, P.CHAT - (pos_max-n+1))",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m14b_e10_probe/insert_probe3.py",
+     "line": 159,
+     "call": "repos_local",
+     "expr": "eng.repos_local(7, P.CHAT - (pos_max-n+1))",
+     "may_be_negative": false,
+     "underflow_possible": false,
+     "note": "delta 恒正（块按 0..n-1 保存/载入，目标在 4096 以下不远处）",
+     "live": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m6/_probe_m6a.py",
+     "line": 110,
+     "call": "repos_local",
+     "expr": "eng.repos_local(1, +100 / -1000 / -50)",
+     "may_be_negative": true,
+     "underflow_possible": true,
+     "note": "本单只读探针：-1000 造下溢（旁证）；不进 I1 四态",
+     "live": true
+    }
+   ],
+   "construction": {
+    "static_proof": [
+     "块由 tools/memory_source.py:347 `eng.write_at(seq, text, 0)` 在位置 0 编码，save 保留 0..n-1；DB memory_block.n_tokens=50/36 且 product loads pos_max_after=49/35 是同一事实的产物侧读数",
+     "product 装载路径先 reset+load（base=pos_max+1-n=0），再把块移到目标：chat.py:286/394/637/1021 的 delta = target - base = target > 0；S1 目标 [4075,4096)/[4650,4668)，m1 目标 = CHAT_START-i*SLOT-n，均 >0",
+     "唯一可能为负的 product 式子是 m4_write.py:231 / m2_v1.py:205 的回拉，但目标 >=0 ⇒ 不下溢；kvdrift.py:114/133 的 args.shift 是工具臂 CLI"
+    ],
+    "probe_artifact": "M6A-PROBE.json steps D（旁证：-1000 ⇒ seq1/seq2 cells 都变 0，返回仍 50，tokens[] 仍 50）"
+   },
+   "observed": {
+    "1": {
+     "n_tokens": 50,
+     "pos_max_raw": -1,
+     "n_cells": 0,
+     "pos_range": []
+    },
+    "2": {
+     "n_tokens": 0,
+     "pos_max_raw": -1,
+     "n_cells": 0,
+     "pos_range": []
+    }
+   },
+   "four_state": "未接上",
+   "why_unreachable": "product 路径没有负 delta：块恒按 0..n-1 保存（memory_source.py:347），装载后 base=0，所有目标 >0 ⇒ delta>0；负 delta 只出现在自测工具臂（kvdrift --shift / diag_place 对称回拉），且工具臂的负值也不下溢",
+   "future_risk": "若将来出现'保存位置高于目标'的块文件（手工 .kvmem / 换编码基线），product 路径会第一次传负 delta ⇒ 静默回收",
+   "evidence": [
+    "tools/memory_source.py:347",
+    "tools/chat.py:241",
+    "tools/chat.py:286",
+    "tools/chat.py:394",
+    "tools/chat.py:637",
+    "tools/chat.py:1021",
+    "llama.cpp/src/llama-kv-cells.h:481-501"
+   ],
+   "can_run_now": true
+  },
+  {
+   "id": "I2",
+   "claim": "seq_cp 同 stream 只加 cell 引用（无 refcount）；块挂给对话后 cell 属于两个 seq，任一方 repos_local 会改掉另一方看到的位置语义",
+   "call_sites": [
+    {
+     "file": "tools/chat.py",
+     "line": 834,
+     "call": "share",
+     "expr": "GuardedLeases.share -> self._eng.share(*a, **kw)",
+     "may_be_negative": null,
+     "underflow_possible": null,
+     "note": "share = seq_cp：同 stream 只加 cell 引用（kvslots.py:240；kvshim seq_cp）",
+     "live": true
+    },
+    {
+     "file": "tools/chat.py",
+     "line": 640,
+     "call": "attach",
+     "expr": "leases.attach(seq, 0, lo, end, site=\"m1.attach\")",
+     "may_be_negative": null,
+     "underflow_possible": null,
+     "note": "m1 挂载：移动（:637）在 attach（:640）之前 ⇒ 移动时该块还没有第二个 referrer",
+     "live": true
+    },
+    {
+     "file": "tools/chat.py",
+     "line": 1027,
+     "call": "attach",
+     "expr": "leases.attach(seq, dst, base, pos_hi)",
+     "may_be_negative": null,
+     "underflow_possible": null,
+     "note": "S1 cmd_chat 挂载：repos_local（:1021）在 attach 之前 ⇒ 同一顺序",
+     "live": true
+    },
+    {
+     "file": "tools/chat_lease.py",
+     "line": 339,
+     "call": "attach",
+     "expr": "def attach(block_seq, dst_seq, lo, hi)",
+     "may_be_negative": null,
+     "underflow_possible": null,
+     "note": "GuardedLeases.attach：登记共享区间并调 share",
+     "live": true
+    },
+    {
+     "file": "tools/kvslots.py",
+     "line": 240,
+     "call": "share",
+     "expr": "def share(src, dst, p0, p1) -> kvshim_seq_cp",
+     "may_be_negative": null,
+     "underflow_possible": null,
+     "note": "共享机制本体：只加引用、不加 tokens、无 refcount",
+     "live": true
+    }
+   ],
+   "construction": {
+    "probe": "M6A-PROBE.json steps A-C：load(profile->seq1) 50 cells @[0,49] → share(1->2) seq2 也是 50 cells（tokens[] 仍 0，必须看 raw cells）→ repos_local(1,+100) 后 seq1/seq2 都是 [100,149]"
+   },
+   "observed": {
+    "share": {
+     "1": {
+      "n_tokens": 50,
+      "pos_max_raw": 49,
+      "n_cells": 50,
+      "pos_range": [
+       0,
+       49
+      ]
+     },
+     "2": {
+      "n_tokens": 0,
+      "pos_max_raw": 49,
+      "n_cells": 50,
+      "pos_range": [
+       0,
+       49
+      ]
+     }
+    },
+    "move": {
+     "1": {
+      "n_tokens": 50,
+      "pos_max_raw": 149,
+      "n_cells": 50,
+      "pos_range": [
+       100,
+       149
+      ]
+     },
+     "2": {
+      "n_tokens": 0,
+      "pos_max_raw": 149,
+      "n_cells": 50,
+      "pos_range": [
+       100,
+       149
+      ]
+     }
+    }
+   },
+   "four_state": "可达（未修）",
+   "s1_status": "S1 未触发：S1 是 home→A、project→B 两块互不共享；且两处都是先 repos_local 后 attach（chat.py:637→640、:1021→1027），移动时没有第二个 referrer",
+   "real_concurrency_failure": "真并发（同一块同时挂两个对话）时，一方 move 会让另一方的位置窗口静默平移：attach 记账仍是旧区间、K 在旧位置被旋转，生成不会报错，只是喂错位置的记忆（最坏：读到别的 token）",
+   "evidence": [
+    "tools/kvslots.py:240",
+    "tools/chat_lease.py:339",
+    "tools/chat.py:834",
+    "llama.cpp/src/llama-kv-cache.cpp:505-511",
+    "kvmem/m2_visibility/m6/out/M6A-PROBE.json"
+   ],
+   "can_run_now": true
+  },
+  {
+   "id": "I3",
+   "claim": "pos_add 置 shift[]/has_shift，pos_move 不置也不清；若同一批 cell 先 add 后 move，残留 pending shift 会在下一次 decode 再旋转一次（二次旋转）",
+   "call_sites": [
+    {
+     "file": "llama.cpp/src/llama-kv-cache.cpp",
+     "line": 927,
+     "call": "pos_add",
+     "expr": "seq_add(): cells.pos_add(i, shift)",
+     "may_be_negative": null,
+     "underflow_possible": null,
+     "note": "seq_add 是 pending whole-tensor K-shift 的唯一入口（置 shift[]/has_shift）",
+     "live": true
+    },
+    {
+     "file": "llama.cpp/src/llama-kv-cache.cpp",
+     "line": 553,
+     "call": "pos_add",
+     "expr": "seq_cp() 跨 stream 分支: v_cells[s1].pos_add(i, shift)",
+     "may_be_negative": null,
+     "underflow_possible": null,
+     "note": "只在 n_stream>1（非 unified）可达；现盘 kv_unified=true ⇒ n_stream=1 ⇒ 该分支不可达",
+     "live": true
+    },
+    {
+     "file": "tools/kvdrift.py",
+     "line": 135,
+     "call": "seq_add",
+     "expr": "eng.repos(blk, args.shift) (= seq_add)",
+     "may_be_negative": null,
+     "underflow_possible": null,
+     "note": "工具臂：唯一走 seq_add 的 python 调用点（--local 之外）",
+     "live": true
+    },
+    {
+     "file": "tools/diag_place.py",
+     "line": 82,
+     "call": "seq_add",
+     "expr": "eng.repos(1, t1) (= seq_add)",
+     "may_be_negative": null,
+     "underflow_possible": null,
+     "note": "工具臂：seq_add + 随后的 flush decode（专门测 pending shift）",
+     "live": true
+    },
+    {
+     "file": "tools/kvslots.py",
+     "line": 518,
+     "call": "seq_add",
+     "expr": "eng.repos(s_mov, BASE) (= seq_add) demo",
+     "may_be_negative": null,
+     "underflow_possible": null,
+     "note": "kvslots 自演示（模块 __main__）",
+     "live": true
+    }
+   ],
+   "construction": {
+    "static_only": true,
+    "argument": [
+     "engine 里 pos_add 只有两处：seq_add（cpp:927）与 seq_cp 的跨 stream 分支（cpp:553）",
+     "现盘 kv_unified=true（tools/kvshim.cpp:162）⇒ n_stream=1（llama-kv-cache.cpp:86/137）⇒ 跨 stream 分支不可达；同 stream seq_cp 走 cells.seq_add(i,dst)（cpp:511），不碰 pos_add",
+     "python 侧唯一走 seq_add 的调用点是工具臂 kvdrift.py:135 / diag_place.py:82 （及 kvslots 自演示:518）；product 路径（chat.py 4 处）只用 repos_local",
+     "因此现盘不存在'先 pos_add 后 pos_move 同一批 cell'的路径：product 在同一进程里从不调用 seq_add"
+    ]
+   },
+   "observed": null,
+   "four_state": "未接上",
+   "why_unreachable": "product 只用 seq_repos_local（自转 K、不记 shift）；seq_add 只在工具臂出现，且工具臂不随后调用 repos_local 同一批 cell",
+   "evidence": [
+    "llama.cpp/src/llama-kv-cells.h:448-501",
+    "llama.cpp/src/llama-kv-cache.cpp:86",
+    ":137",
+    ":511",
+    ":553",
+    ":927",
+    "tools/kvshim.cpp:162",
+    "tools/chat.py:286/394/637/1021"
+   ],
+   "can_run_now": false
+  },
+  {
+   "id": "I4",
+   "claim": "seq_repos_local 的 preflight 只查 n_rot_k!=0 && n_rot!=n_embd_head_k，不查 n_rot（fwht 传入的尺寸）是否 2 的幂；llama_kv_fwht 里 GGML_ASSERT 会 abort 进程",
+   "call_sites": [
+    {
+     "file": "llama.cpp/src/llama-kv-cache.cpp",
+     "line": 622,
+     "call": "assert",
+     "expr": "GGML_ASSERT(n>0 && (n&(n-1))==0) in llama_kv_fwht",
+     "may_be_negative": null,
+     "underflow_possible": null,
+     "note": "n 为 hparams.n_rot(il)（:860/:868 调用点），非 n_rot_k",
+     "live": true
+    },
+    {
+     "file": "llama.cpp/src/llama-kv-cache.cpp",
+     "line": 778,
+     "call": "preflight",
+     "expr": "preflight: n_rot_k!=0 && n_rot!=n_embd_head_k ⇒ return 0",
+     "may_be_negative": null,
+     "underflow_possible": null,
+     "note": "只拒绝 partial-rotary，不检查 n_rot 的幂次",
+     "live": true
+    },
+    {
+     "file": "llama.cpp/src/llama-kv-cache.cpp",
+     "line": 346,
+     "call": "calc",
+     "expr": "n_rot_k=64; while(n_embd_head_k_all%(2*n_rot_k)==0) n_rot_k*=2",
+     "may_be_negative": null,
+     "underflow_possible": null,
+     "note": "n_rot_k 恒为 2 的幂；但 fwht 用的是 n_rot（可能 != n_rot_k）",
+     "live": true
+    }
+   ],
+   "construction": {
+    "observed_14b": {
+     "n_rot": 128,
+     "n_embd_head_k": 128,
+     "n_rot_k": 128,
+     "n_embd_head_k_all": 128,
+     "kv_type": "q8_0",
+     "log": "kvmem/m2_visibility/runs_m14b/loadC_ngl99_v.log:78,82,1560"
+    },
+    "pow2": true,
+    "verdict": "128=2^7 ⇒ fwht(128) 安全；14B 不触发（未接上）"
+   },
+   "observed": null,
+   "four_state": "未接上",
+   "why_unreachable": "14B Qwen 的 n_rot=n_embd_head_k=128 且是 2 的幂；preflight 的n_rot==n_embd_head_k 条件成立 ⇒ 不 abort",
+   "future_risk_models": "head_dim 是 64 的倍数但不是 2 的幂且 K 量化：192/320/384/448 （attn_rot_k 成立、n_rot_k 停在 64、use_hadamard=true、fwht(n_rot=192/…) 触发 GGML_ASSERT）；partial-rotary（n_rot != head_dim）反而被 preflight 安全拒绝",
+   "evidence": [
+    "kvmem/m2_visibility/runs_m14b/loadC_ngl99_v.log:78",
+    ":82",
+    ":1560",
+    ":1561",
+    "llama.cpp/src/llama-kv-cache.cpp:622",
+    ":778",
+    ":346-352",
+    ":860",
+    ":868"
+   ],
+   "can_run_now": false
+  }
+ ],
+ "four_state_table": {
+  "I1": "未接上",
+  "I2": "可达（未修）",
+  "I3": "未接上",
+  "I4": "未接上"
+ },
+ "discipline": {
+  "engine_changed": false,
+  "rebuild": false,
+  "signed_dirs_written": false,
+  "llama_cpp_numstat_after": {
+   "insertions": 600,
+   "deletions": 0,
+   "files": 6
+  },
+  "frozen_three_sha16": {
+   "analysis.py": "49e91c7bd3dd32ef",
+   "retrieval.py": "43f660196ab90a14",
+   "evidence.py": "dccf7f010eaf9c7e"
+  },
+  "repo_db_sha16": "237d8e1f5de9a382",
+  "blocks": {
+   "profile": {
+    "path": "kvmem/blocks/profile.kvmem",
+    "sha16": "3b046c8ee3fb3b53",
+    "bytes": 5224388
+   },
+   "project": {
+    "path": "kvmem/blocks/project.kvmem",
+    "sha16": "55fade361c7cb3dc",
+    "bytes": 3761892
+   }
+  },
+  "model": {
+   "path": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+   "bytes": 8988110240
+  }
+ },
+ "stop_conditions_checked": {
+  "needed_engine_change_or_rebuild": false,
+  "wrote_14b_readings_to_signed_dir": false,
+  "I1_reachable_and_S1_hit": false
+ },
+ "no_self_sha": true
+}

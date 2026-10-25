@@ -1,0 +1,132 @@
+{
+ "schema": "landed_m6a_v1",
+ "task": "task-37 M6a 可达性红证（只判不修）",
+ "at": "2026-10-25T23:02:49",
+ "product": {
+  "path": "kvmem/m2_visibility/m6/out/M6A-REACHABILITY.json",
+  "sha16": "be9d0a83431f47ac",
+  "bytes": 29483
+ },
+ "probe": {
+  "path": "kvmem/m2_visibility/m6/out/M6A-PROBE.json",
+  "sha16": "ac27641c8f2d136f",
+  "bytes": 3710
+ },
+ "scripts": {
+  "_probe_m6a.py": {
+   "path": "kvmem/m2_visibility/m6/_probe_m6a.py",
+   "sha16": "62a060067c6183fe",
+   "bytes": 8916
+  },
+  "_build_m6a.py": {
+   "path": "kvmem/m2_visibility/m6/_build_m6a.py",
+   "sha16": "d025ec71d90629e9",
+   "bytes": 24220
+  }
+ },
+ "code_change": {
+  "changed": false,
+  "note": "不改 llama.cpp / 不 rebuild / 不动冻结三件；只新增 m6 目录下的只读探针与汇总脚本"
+ },
+ "four_state": {
+  "I1": "未接上",
+  "I2": "可达（未修）",
+  "I3": "未接上",
+  "I4": "未接上"
+ },
+ "per_item_evidence": {
+  "I1": [
+   "tools/memory_source.py:347",
+   "tools/chat.py:241",
+   "tools/chat.py:286",
+   "tools/chat.py:394",
+   "tools/chat.py:637",
+   "tools/chat.py:1021",
+   "llama.cpp/src/llama-kv-cells.h:481-501"
+  ],
+  "I2": [
+   "tools/kvslots.py:240",
+   "tools/chat_lease.py:339",
+   "tools/chat.py:834",
+   "llama.cpp/src/llama-kv-cache.cpp:505-511",
+   "kvmem/m2_visibility/m6/out/M6A-PROBE.json"
+  ],
+  "I3": [
+   "llama.cpp/src/llama-kv-cells.h:448-501",
+   "llama.cpp/src/llama-kv-cache.cpp:86",
+   ":137",
+   ":511",
+   ":553",
+   ":927",
+   "tools/kvshim.cpp:162",
+   "tools/chat.py:286/394/637/1021"
+  ],
+  "I4": [
+   "kvmem/m2_visibility/runs_m14b/loadC_ngl99_v.log:78",
+   ":82",
+   ":1560",
+   ":1561",
+   "llama.cpp/src/llama-kv-cache.cpp:622",
+   ":778",
+   ":346-352",
+   ":860",
+   ":868"
+  ]
+ },
+ "discipline": {
+  "engine_changed": false,
+  "rebuild": false,
+  "signed_dirs_written": false,
+  "llama_cpp_numstat_after": {
+   "insertions": 600,
+   "deletions": 0,
+   "files": 6
+  },
+  "frozen_three_sha16": {
+   "analysis.py": "49e91c7bd3dd32ef",
+   "retrieval.py": "43f660196ab90a14",
+   "evidence.py": "dccf7f010eaf9c7e"
+  },
+  "repo_db_sha16": "237d8e1f5de9a382",
+  "blocks": {
+   "profile": {
+    "path": "kvmem/blocks/profile.kvmem",
+    "sha16": "3b046c8ee3fb3b53",
+    "bytes": 5224388
+   },
+   "project": {
+    "path": "kvmem/blocks/project.kvmem",
+    "sha16": "55fade361c7cb3dc",
+    "bytes": 3761892
+   }
+  },
+  "model": {
+   "path": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+   "bytes": 8988110240
+  }
+ },
+ "stop_conditions_checked": {
+  "needed_engine_change_or_rebuild": false,
+  "wrote_14b_readings_to_signed_dir": false,
+  "I1_reachable_and_S1_hit": false
+ },
+ "regressions": {
+  "freeze_check": {
+   "exit": 0,
+   "first_line": "SELECTION LAYER: FROZEN (3 files, 3 thresholds, versions {'INDEX_VERSION': 5, 'ANALYSIS_VERSION': 4})",
+   "status": "FROZEN"
+  },
+  "verify_sh": {
+   "exit": 0,
+   "last_line": "ALL PASS (12 项)"
+  },
+  "git_status_m6_entries": [
+   "?? kvmem/m2_visibility/m6/"
+  ]
+ },
+ "gaps": {
+  "I2_no_product_run": "I2 只有探针（两 seq 共享后 move）与静态顺序论证；真并发臂未跑（要新块/新挂载组合，属 M6a-fix 后的回归臂）",
+  "I1_probe_is_artificial": "探针的 -1000 是旁证，不进 I1 四态；I1 判 未接上"
+ },
+ "no_self_sha": true
+}

@@ -1,0 +1,63 @@
+{
+ "schema": "landed_g4_addendum_v1",
+ "supersedes": "7a9d6cea08141fb4",
+ "original": {
+  "path": "kvmem/m2_visibility/chat_lease/LANDED-g4.json",
+  "sha16": "7a9d6cea08141fb4",
+  "bytes": 12182,
+  "untouched": true,
+  "note": "原台账未改写；本补正只追加更正与生效坐标"
+ },
+ "corrections": [
+  {
+   "field": "fix.judge_unchanged",
+   "original_text": "E.decide 仍消费原始 sel（状态判定不变）",
+   "status": "过期（task-33 时态）",
+   "corrected_text": "G4a-2 起 E.decide 入参 = sel_mountable（有 memory_block 行、真可挂载的 selection 子集）；evidence.py 冻结未改，判据逻辑/文案未改",
+   "effective_chat_py_sha16": "1790f3a9b5e6b865",
+   "current_chat_py_sha16": "22081c411c64fbe7",
+   "authority": {
+    "path": "kvmem/m2_visibility/chat_lease/LANDED-g4a2.json",
+    "sha16": "ae44a406c9a0a10c",
+    "bytes": 11005
+   }
+  }
+ ],
+ "unchanged_from_original": [
+  "G4b（执行面）：m1 exit 0 / attaches 2 / skip 事件可见 / sha_stable 不变",
+  "根因数字：memory_source 10 / memory_block 2 / doc 10 / index_meta.docs=2",
+  "M4-C 对照：7/8 一致，loads seq 分配为夹具口径差（G4c 已撤回，夹具臂不读 retrieval 顺序）"
+ ],
+ "pointers": {
+  "g4a2_ledger": {
+   "path": "kvmem/m2_visibility/chat_lease/LANDED-g4a2.json",
+   "sha16": "ae44a406c9a0a10c",
+   "bytes": 11005
+  },
+  "containment": {
+   "path": "kvmem/m2_visibility/chat_lease/out/G4a2-containment.json",
+   "sha16": "b07a46080f671d7d",
+   "bytes": 2457
+  },
+  "explain_addendum": {
+   "path": "kvmem/m2_visibility/chat_lease/out/S1-default-unchanged-explain-v2-addendum.json",
+   "sha16": "2f4917d6b71a176f",
+   "bytes": 1973
+  },
+  "single_point_variant": {
+   "path": "kvmem/m2_visibility/chat_lease/out/G4a2-variant-want2sel.json",
+   "sha16": "9653e1d9f56b223a",
+   "bytes": 8343,
+   "variant_kind": "single-point(want→sel)",
+   "base_sha16": "1790f3a9b5e6b865"
+  },
+  "prefix_regression": {
+   "path": "kvmem/m2_visibility/chat_lease/out/G4a2-red-variant.json",
+   "sha16": "1812796230beb797",
+   "bytes": 7976,
+   "variant_kind": "prefix-regression",
+   "base_sha16": "bb083a1b71165e97"
+  }
+ },
+ "no_self_sha": true
+}

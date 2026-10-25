@@ -1,0 +1,334 @@
+{
+ "schema": "landed_g4a2_v1",
+ "task": "task-35 G4a-2（决策面）+ G4a-3（展示面）",
+ "at": "2026-10-25T22:30:55",
+ "spec": {
+  "path": "docs/_work/M2-FULL-S1-SPEC-lead.md",
+  "sha16": "ae2d88ad5ecc25d3",
+  "bytes": 16437,
+  "lines": 132
+ },
+ "repo_db": {
+  "path": "kvmem/chat.db",
+  "sha16": "237d8e1f5de9a382",
+  "bytes": 110592
+ },
+ "block_files": {
+  "home": {
+   "path": "kvmem/m2_v1_14b/home.kvmem",
+   "sha16": "73843fc55efd1ab3",
+   "bytes": 2194932
+  },
+  "project": {
+   "path": "kvmem/m2_v1_14b/project.kvmem",
+   "sha16": "536eac03f288bb09",
+   "bytes": 1881540
+  },
+  "habit": {
+   "path": "kvmem/m2_v1_14b/habit.kvmem",
+   "sha16": "f6f8e85cc55bd4b9",
+   "bytes": 1254756
+  }
+ },
+ "frozen_three": {
+  "analysis.py": {
+   "path": "tools/analysis.py",
+   "sha16": "49e91c7bd3dd32ef",
+   "bytes": 18382
+  },
+  "retrieval.py": {
+   "path": "tools/retrieval.py",
+   "sha16": "43f660196ab90a14",
+   "bytes": 18197
+  },
+  "evidence.py": {
+   "path": "tools/evidence.py",
+   "sha16": "dccf7f010eaf9c7e",
+   "bytes": 6997
+  }
+ },
+ "chat_py": {
+  "before": {
+   "path": "kvmem/m2_visibility/chat_lease/_before/chat.py@bb083a1b71165e97",
+   "sha16": "bb083a1b71165e97",
+   "bytes": 74256,
+   "note": "task-33 G4b 后态（现盘，先副本再改）"
+  },
+  "after": {
+   "path": "tools/chat.py",
+   "sha16": "22081c411c64fbe7",
+   "bytes": 75310
+  },
+  "diff_hunks": [
+   "@@ -494,11 +494,17 @@（_explain 展示面）",
+   "@@ -528,7 +534,8 @@（sel_mountable）",
+   "@@ -537,8 +544,12 @@（decide 入参）",
+   "@@ -668,6 +679,7 @@（refuse 分支 turns 字段）"
+  ],
+  "changes": [
+   "G4a-2：新增 sel_mountable（有 memory_block 的命中）；E.decide 入参 sel→sel_mountable；want 由 sel_mountable 派生（挂载面不变）",
+   "G4a-2：refuse 分支 turns 补 skipped_no_block 字段（证据一致性）",
+   "G4a-3：_explain 对每条检索行标注 [可挂载]/[无块行→不可挂载]，并另起一行「可挂载集：…（空）」；检索分数/名字未改"
+  ],
+  "not_changed": [
+   "evidence.py（冻结三件，一行未动）",
+   "_selection（two 等共用，未收窄）",
+   "retrieval/analysis（未改）",
+   "chat_lease.py/m3_lease.py/块/DB"
+  ]
+ },
+ "g4a2": {
+  "choice": "decide 入参改为 sel_mountable（有块行的 selection 子集）",
+  "effective_chat_py": "1790f3a9b5e6b865（G4a-2 生效点；现盘 22081c41 含 explain_version 2）",
+  "why_not_evidence": "evidence.py 是冻结三件，不允许改；decide 的 'if selection' 语义本身没错，错在 m1 把'不可挂载的检索命中'当成记忆证据送进去",
+  "why_not_narrow_selection": "_selection 被 two/chat 等共用；收窄它会改检索语义与共享读数，超出本单授权；m1 是唯一把 selection 当'记忆证据'的消费者",
+  "judge_unchanged": "E.decide / evidence.py 的判据逻辑与文案未改；只改送入的集合",
+  "control_q_red_proof": {
+   "construction": "同 DB 副本 + 同 14B + 同 m1 构造，只把 decide 入参换回未过滤 sel",
+   "v2": {
+    "state": "no_evidence",
+    "refuse": true,
+    "ask_count": 0,
+    "reply": "长期记忆里没有这条，当前对话里也没有提到。我不想猜。",
+    "n_selection": 0
+   },
+   "variant": {
+    "chat_py_sha16": "bb083a1b71165e97",
+    "state": "memory_hit",
+    "refuse": false,
+    "ask_count": 1,
+    "n_selection": 1,
+    "answers": [
+     "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少"
+    ]
+   },
+   "prefix_regression": {
+    "product": "out/G4a2-red-variant.json",
+    "base_sha16": "bb083a1b71165e97",
+    "state": "memory_hit",
+    "ask_count": 1
+   },
+   "single_point_want2sel": {
+    "product": "out/G4a2-variant-want2sel.json",
+    "base_sha16": "1790f3a9b5e6b865",
+    "hunks": 1,
+    "state": "memory_hit",
+    "refuse": false,
+    "ask_count": 1,
+    "answers_nonempty": [
+     true
+    ],
+    "red_points": {
+     "control_state_memory_hit": true,
+     "control_refuse_false": true,
+     "control_ask_nonzero": true,
+     "generated_answer_nonempty": true
+    }
+   },
+   "red_points": {
+    "control_state_memory_hit": true,
+    "control_refuse_false": true,
+    "control_ask_nonzero": true,
+    "generated_answer_nonempty": true
+   },
+   "verdict": "v2 = no_evidence + refuse=True + ask=0 + REFUSAL；variant(bb083a1b) = memory_hit + refuse=False + ask=1 + 生成「鲁QXXXX」⇒ 同一构造红/绿可区分，判据有判别力"
+  },
+  "other_questions": [
+   {
+    "q": "我的工号和项目代号分别是什么？",
+    "state": "memory_hit",
+    "refuse": false,
+    "ask_count": 1,
+    "n_selection": 2
+   },
+   {
+    "q": "我的猫叫什么？项目什么时候上线？",
+    "state": "memory_hit",
+    "refuse": false,
+    "ask_count": 1,
+    "n_selection": 2
+   },
+   {
+    "q": "例会订在哪个会议室？项目负责人是谁？",
+    "state": "memory_hit",
+    "refuse": false,
+    "ask_count": 1,
+    "n_selection": 2
+   }
+  ],
+  "mounts": [
+   {
+    "seq": 1,
+    "path": "project.kvmem",
+    "n_tokens": 36,
+    "cells_after": 36
+   },
+   {
+    "seq": 2,
+    "path": "profile.kvmem",
+    "n_tokens": 50,
+    "cells_after": 50
+   }
+  ],
+  "attaches_done": 2,
+  "skip_events": [
+   {
+    "id": "site3.skipped_no_block",
+    "count": 1,
+    "names": [
+     "conv_2026-10-25#L5"
+    ],
+    "source_ids": [
+     7
+    ],
+    "role": "event",
+    "site": null
+   }
+  ],
+  "note": "模型上下文从未被 conv#L5 污染（无块行、从未挂载）；本修纠正的是**执行与状态标签**：'检索命中' 不等于 '记忆证据'。"
+ },
+ "g4a3": {
+  "field": "_explain 输出（m1 --explain / S1-real-default-regression.json 的 stdout）",
+  "old_sha16": "3e8aae60685d2e55",
+  "old_bytes": 872,
+  "old_status": "v1 已作废",
+  "new_sha16": "c4cbad83784e647f",
+  "new_bytes": 1126,
+  "explain_version": 2,
+  "version_line": "explain_version: 2",
+  "annotation_only": true,
+  "stripped_equals_old": true,
+  "reversible_product": "out/G4a2-containment.json（脚本化断言，非一次性结论）",
+  "addendum_product": "out/S1-default-unchanged-explain-v2-addendum.json",
+  "note": "lead 裁：保留 G4a-3、不回退；『explain 逐字节』硬锚改判为可逆性断言 + containment 三条（two 干跑字段同、m1 非 explain 臂除 CONTROL_Q 外同、cmd_chat 零 diff）。去标注后仍逐字节同 3e8aae60 ⇒ 分数/名字一行未变。"
+ },
+ "products": {
+  "v2": {
+   "path": "kvmem/m2_visibility/chat_lease/out/M4C-m1-rerun-v2.json",
+   "sha16": "6c3e3f55289b54e7",
+   "bytes": 7167
+  },
+  "prefix_regression": {
+   "path": "kvmem/m2_visibility/chat_lease/out/G4a2-red-variant.json",
+   "sha16": "1812796230beb797",
+   "bytes": 7976,
+   "variant_kind": "prefix-regression",
+   "base_sha16": "bb083a1b71165e97"
+  },
+  "single_point_variant": {
+   "path": "kvmem/m2_visibility/chat_lease/out/G4a2-variant-want2sel.json",
+   "sha16": "9653e1d9f56b223a",
+   "bytes": 8343,
+   "variant_kind": "single-point(want→sel)",
+   "base_sha16": "1790f3a9b5e6b865",
+   "hunks": 1
+  },
+  "driver": {
+   "path": "kvmem/m2_visibility/chat_lease/_run_m1_g4a2.py",
+   "sha16": "9129e8a4b9ba67af",
+   "bytes": 10522
+  },
+  "containment": {
+   "path": "kvmem/m2_visibility/chat_lease/out/G4a2-containment.json",
+   "sha16": "b07a46080f671d7d",
+   "bytes": 2457
+  },
+  "explain_addendum": {
+   "path": "kvmem/m2_visibility/chat_lease/out/S1-default-unchanged-explain-v2-addendum.json",
+   "sha16": "2f4917d6b71a176f",
+   "bytes": 1973
+  }
+ },
+ "regressions": {
+  "m1_explain": {
+   "old_sha16": "3e8aae60685d2e55",
+   "old_status": "v1 已作废",
+   "new_sha16": "c4cbad83784e647f",
+   "explain_version": 2,
+   "identical": false,
+   "annotation_only": true,
+   "replaced_by": "可逆性断言（out/G4a2-containment.json: explain_v2.reversible） + containment 三条"
+  },
+  "two_dryrun": {
+   "exit": 0,
+   "checks_all_ok": true,
+   "verdict": "通过",
+   "fail_ids": []
+  },
+  "l1": {
+   "n_cases": 11,
+   "fail_cases": [],
+   "exit": 0,
+   "result": "11/11"
+  },
+  "l2": {
+   "n_cases": 5,
+   "fail_cases": [],
+   "exit": 0,
+   "result": "5/5"
+  },
+  "p1": {
+   "n_cases": 5,
+   "fail_cases": [],
+   "exit": 0,
+   "result": "5/5"
+  },
+  "freeze_check": {
+   "exit": 0,
+   "first_line": "SELECTION LAYER: FROZEN (3 files, 3 thresholds, versions {'INDEX_VERSION': 5, 'ANALYSIS_VERSION': 4})",
+   "status": "FROZEN"
+  },
+  "sha_stable": {
+   "before": {
+    "analysis.py": "49e91c7bd3dd32ef",
+    "retrieval.py": "43f660196ab90a14",
+    "evidence.py": "dccf7f010eaf9c7e",
+    "chat.py": "1790f3a9b5e6b865",
+    "spec": "ae2d88ad5ecc25d3",
+    "repo_chat.db": "237d8e1f5de9a382",
+    "block_home": "73843fc55efd1ab3",
+    "block_project": "536eac03f288bb09",
+    "block_habit": "f6f8e85cc55bd4b9"
+   },
+   "after": {
+    "analysis.py": "49e91c7bd3dd32ef",
+    "retrieval.py": "43f660196ab90a14",
+    "evidence.py": "dccf7f010eaf9c7e",
+    "chat.py": "1790f3a9b5e6b865",
+    "spec": "ae2d88ad5ecc25d3",
+    "repo_chat.db": "237d8e1f5de9a382",
+    "block_home": "73843fc55efd1ab3",
+    "block_project": "536eac03f288bb09",
+    "block_habit": "f6f8e85cc55bd4b9"
+   },
+   "unchanged": true,
+   "changed": []
+  }
+ },
+ "gaps": {
+  "index_meta_docs": {
+   "observed": {
+    "memory_source": 10,
+    "memory_block": 2,
+    "doc": 10,
+    "index_meta": {
+     "docs": "2",
+     "version": "5",
+     "analysis": "4"
+    }
+   },
+   "judgement": "旧构建器遗留元数据（build_index 只写 version/analysis）；与 doc 10 行不一致=M1.8 缺口；非 KeyError/G4a 直接原因；本单未修（索引侧另单），已在此登记，不静默留着",
+   "four_state": "未做（索引侧另单）"
+  },
+  "g4c_note": "lead 已撤回 G4c：M4-C base 用 fixed_selection/WANT_SEQ 写死 seq，不读 retrieval 顺序；m1 CLI 按 selection 分数挂 ⇒ 两臂口径差，接受。夹具臂重跑（G4d）属 task-36。",
+  "negative_arm_note": "负例形态变化只发生在 **m1 CLI 臂**（真实检索）：memory_hit 但 0 块 → no_evidence 拒答；**M4-C 夹具臂不受影响**（其 WANT_SEQ 索引 0 = CONTROL_Q 本就是空 selection ⇒ decide([]) 一直走 no_evidence/拒答）。故 M4-C 负例不需要因 G4a-2 重签；G4d 目的是恢复回归链。"
+ },
+ "four_state": {
+  "G4a-2（决策面）": "通过（CONTROL_Q：no_evidence + refuse=True + ask=0；变体回 memory_hit+ask=1）",
+  "G4a-3（展示面）": "通过（检索行标注可挂载性；去标注后 retrieval 读数与旧输出逐字节同）",
+  "explain 回归": "通过（lead 已裁：v1 硬锚 3e8aae60 作废，改可逆性断言 + containment 三条，见 out/G4a2-containment.json）",
+  "index_meta.docs 缺口": "未做（索引侧另单，已登记）"
+ },
+ "next": "lead 复核；task-36（G4d）夹具臂重跑恢复回归链（非负例重签）；索引侧 index_meta 缺口另单；P2（kvslots n<0 折空）另单",
+ "no_self_sha": true
+}

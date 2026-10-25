@@ -1,0 +1,269 @@
+{
+  "schema": "chat_lease_compare_v1",
+  "chat_py_sha16": {
+    "before": "77af15cdef242705",
+    "after": "1ad3ce763f430376",
+    "revert": "77af15cdef242705"
+  },
+  "answers": {
+    "chat": [
+      {
+        "q": "我的工号和项目代号分别是什么？",
+        "before": "a00bb4242856f338",
+        "after": "a00bb4242856f338",
+        "revert": "a00bb4242856f338",
+        "identical": true
+      },
+      {
+        "q": "我的猫叫什么？项目什么时候上线？",
+        "before": "6c4721a84a1b042e",
+        "after": "6c4721a84a1b042e",
+        "revert": "6c4721a84a1b042e",
+        "identical": true
+      },
+      {
+        "q": "例会订在哪个会议室？项目负责人是谁？",
+        "before": "3602523c10af608e",
+        "after": "3602523c10af608e",
+        "revert": "3602523c10af608e",
+        "identical": true
+      },
+      {
+        "q": "我的车牌号是多少？",
+        "before": "1f1f35a5131266b6",
+        "after": "1f1f35a5131266b6",
+        "revert": "1f1f35a5131266b6",
+        "identical": true
+      }
+    ],
+    "m1": [
+      {
+        "q": "我的车牌号是多少？",
+        "before": "f6b41bf93a10889b",
+        "after": "f6b41bf93a10889b",
+        "revert": "f6b41bf93a10889b",
+        "identical": true
+      },
+      {
+        "q": "我的工号和项目代号分别是什么？",
+        "before": "a00bb4242856f338",
+        "after": "a00bb4242856f338",
+        "revert": "a00bb4242856f338",
+        "identical": true
+      },
+      {
+        "q": "我的猫叫什么？项目什么时候上线？",
+        "before": "6c4721a84a1b042e",
+        "after": "6c4721a84a1b042e",
+        "revert": "6c4721a84a1b042e",
+        "identical": true
+      },
+      {
+        "q": "例会订在哪个会议室？项目负责人是谁？",
+        "before": "3602523c10af608e",
+        "after": "3602523c10af608e",
+        "revert": "3602523c10af608e",
+        "identical": true
+      }
+    ],
+    "save": [
+      {
+        "q": "我的工号和项目代号分别是什么？",
+        "before": "6c2a04dad8e6b769",
+        "after": "6c2a04dad8e6b769",
+        "revert": "6c2a04dad8e6b769",
+        "identical": true
+      },
+      {
+        "q": "我的猫叫什么？项目什么时候上线？",
+        "before": "b9a2bf2a1056c433",
+        "after": "b9a2bf2a1056c433",
+        "revert": "b9a2bf2a1056c433",
+        "identical": true
+      },
+      {
+        "q": "例会订在哪个会议室？项目负责人是谁？",
+        "before": "3602523c10af608e",
+        "after": "3602523c10af608e",
+        "revert": "3602523c10af608e",
+        "identical": true
+      }
+    ]
+  },
+  "m2": {
+    "cells_before": 51,
+    "cells_after": 51,
+    "answers_sha256_before": [
+      "852a5e5e6ab70eeb8f36a7b763d37394afb756691783878245df14398c72a5ff",
+      "dacdc1a89ef081656377c335826016da28a6c255b22d4155b4026e48e4cbb02d",
+      "46272e43287c5ff7d1d2406d4356fc0419ed077ad3db92ae2b980c3e91dbb8f5"
+    ],
+    "answers_sha256_after": [
+      "852a5e5e6ab70eeb8f36a7b763d37394afb756691783878245df14398c72a5ff",
+      "dacdc1a89ef081656377c335826016da28a6c255b22d4155b4026e48e4cbb02d",
+      "46272e43287c5ff7d1d2406d4356fc0419ed077ad3db92ae2b980c3e91dbb8f5"
+    ],
+    "geometry_identical": true,
+    "all_hits": [
+      true,
+      true,
+      true
+    ]
+  },
+  "static": {
+    "eng.reset(": 0,
+    "eng.share(": 0,
+    "eng.drop(": 0,
+    "safe_reset_all": 0,
+    "leases.reset(": 4
+  },
+  "static_expectation": [
+    {
+      "criterion": "eng.reset(",
+      "expected": 0,
+      "actual": 0,
+      "ok": true,
+      "why": "裸引擎重置绕过租约: 块被清掉但持有计数不减, 释放时机从此不可证"
+    },
+    {
+      "criterion": "eng.share(",
+      "expected": 0,
+      "actual": 0,
+      "ok": true,
+      "why": "共享必须走 leases.share: 裸 eng.share 不增持有计数, 租约账本会漏记一个持有者"
+    },
+    {
+      "criterion": "eng.drop(",
+      "expected": 0,
+      "actual": 0,
+      "ok": true,
+      "why": "丢块必须走租约: 裸 eng.drop 会让 holders / ranges 与本机真实状态脱节"
+    },
+    {
+      "criterion": "safe_reset_all",
+      "expected": 0,
+      "actual": 0,
+      "ok": true,
+      "why": "safe_reset_all 一次清空全部块, 与「只释放自己那一份」的设计正相反"
+    },
+    {
+      "criterion": "leases.reset(",
+      "expected": 4,
+      "actual": 4,
+      "ok": true,
+      "why": "四条写块 / 装载路径各自在动手前释放自己的旧租约: chat.place.fresh / slots.place.fresh / m1.unmount.after_detach / m1.mount.before_load"
+    },
+    {
+      "criterion": "leases.reset( 的 site 名集合",
+      "expected": [
+        "chat.place.fresh",
+        "slots.place.fresh",
+        "m1.unmount.after_detach",
+        "m1.mount.before_load"
+      ],
+      "actual": [
+        "chat.place.fresh",
+        "m1.mount.before_load",
+        "m1.unmount.after_detach",
+        "slots.place.fresh"
+      ],
+      "ok": true,
+      "why": "四处释放点各自具名; 少一个 / 多一个 / 改名都算红（改名会让「四个站」失去指认力）"
+    }
+  ],
+  "static_source": {
+    "path": "D:\\llama-mem\\tools\\chat.py",
+    "sha16": "4c8d73e955c108ff",
+    "sha16_note": "对文件原字节算; 三次 run_*.json 记录的 chat_py_sha16 是历史值, 当前源码已前进",
+    "leases_reset_sites": [
+      "chat.place.fresh",
+      "slots.place.fresh",
+      "m1.unmount.after_detach",
+      "m1.mount.before_load"
+    ]
+  },
+  "refusal": {
+    "refused": true,
+    "cells_unchanged": true,
+    "message": "refusing reset(seq 1, block 'profile'): still referenced by dialogue seq(s) [0]. Detach first (detach-before-save), then reset, then reload from file. Pass force=True only if you accept losing the block handle.",
+    "logged_lines": 1
+  },
+  "return_codes": {
+    "m2_ask_bytes": [
+      193,
+      236,
+      251
+    ],
+    "m2_ask_all_positive": true,
+    "product_answers_non_empty": true
+  },
+  "acceptance": {
+    "judged_current_source": {
+      "sha16": "4c8d73e955c108ff",
+      "path": "D:\\llama-mem\\tools\\chat.py",
+      "checks": {
+        "2_no_bare_reset_and_no_safe_reset_all": {
+          "ok": true,
+          "judged_source": "current:4c8d73e955c108ff",
+          "measures": "对比今天这份 chat.py 的静态结构（它与历史 run 无关）"
+        }
+      }
+    },
+    "judged_historical_runs": {
+      "runs": [
+        {
+          "label": "before",
+          "chat_py_sha16": "77af15cdef242705"
+        },
+        {
+          "label": "after",
+          "chat_py_sha16": "1ad3ce763f430376"
+        },
+        {
+          "label": "revert",
+          "chat_py_sha16": "77af15cdef242705"
+        }
+      ],
+      "checks": {
+        "1_m2_51cell_sha_identical": {
+          "ok": true,
+          "judged_source": "historical:1ad3ce763f430376+77af15cdef242705",
+          "measures": "三次 run_*.json 记录的答案/rc/拒绝证据；判的是当年那几份 chat.py"
+        },
+        "1b_product_answers_identical_3_labels": {
+          "ok": true,
+          "judged_source": "historical:1ad3ce763f430376+77af15cdef242705",
+          "measures": "三次 run_*.json 记录的答案/rc/拒绝证据；判的是当年那几份 chat.py"
+        },
+        "3_refusal_recorded": {
+          "ok": true,
+          "judged_source": "historical:1ad3ce763f430376+77af15cdef242705",
+          "measures": "三次 run_*.json 记录的答案/rc/拒绝证据；判的是当年那几份 chat.py"
+        },
+        "4_refusal_engine_untouched": {
+          "ok": true,
+          "judged_source": "historical:1ad3ce763f430376+77af15cdef242705",
+          "measures": "三次 run_*.json 记录的答案/rc/拒绝证据；判的是当年那几份 chat.py"
+        },
+        "5_revert_still_identical": {
+          "ok": true,
+          "judged_source": "historical:1ad3ce763f430376+77af15cdef242705",
+          "measures": "三次 run_*.json 记录的答案/rc/拒绝证据；判的是当年那几份 chat.py"
+        },
+        "6_rc_zero_every_run": {
+          "ok": true,
+          "judged_source": "historical:1ad3ce763f430376+77af15cdef242705",
+          "measures": "三次 run_*.json 记录的答案/rc/拒绝证据；判的是当年那几份 chat.py"
+        },
+        "7_rc_positive_and_answers_non_empty": {
+          "ok": true,
+          "judged_source": "historical:1ad3ce763f430376+77af15cdef242705",
+          "measures": "三次 run_*.json 记录的答案/rc/拒绝证据；判的是当年那几份 chat.py"
+        }
+      }
+    },
+    "all_pass": true,
+    "all_pass_means": "本布尔仅表示上面两组各自通过。两组判的是不同源码: judged_current_source 判今天这份 (sha16=4c8d73e955c108ff), judged_historical_runs 判三次 run 记录时的那几份 (before=77af15cdef242705 / after=1ad3ce763f430376 / revert=77af15cdef242705)。任一组的通过都不代表另一组, 尤其不表示当前源码也满足历史项 —— 源码前进是正常的。",
+    "known_defect": "改前本表用单个 all_pass 覆盖两组不同源码, 读者会读成「今天这份也满足全部九项」; 台账已为此立 finding。现在的分组是修复后的形态, 历史项仍需重跑才能约束当前源码。"
+  }
+}

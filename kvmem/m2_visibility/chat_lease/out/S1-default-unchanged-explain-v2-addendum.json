@@ -1,0 +1,55 @@
+{
+ "schema": "s1_default_unchanged_explain_v2_addendum_v1",
+ "supersedes_coordinate": {
+  "original_products": [
+   {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-default-unchanged.json",
+    "sha16": "12cebec6e516fd3b",
+    "m1_explain": {
+     "stdout_sha16": "3e8aae60685d2e55",
+     "stdout_bytes": 654,
+     "explain_version": 1,
+     "status": "v1 已作废"
+    }
+   },
+   {
+    "path": "kvmem/m2_visibility/m2_planner/out/S1-real-default-regression.json",
+    "sha16": "39aa2505d74724a4",
+    "m1_explain": {
+     "stdout_sha16": "3e8aae60685d2e55",
+     "stdout_bytes": 872,
+     "explain_version": 1,
+     "status": "v1 已作废"
+    }
+   }
+  ],
+  "original_readings_intact": true,
+  "meaning": "原产物未被改写（sha16 如上）；其 m1_explain 坐标只对 explain_version 1 有效"
+ },
+ "current": {
+  "chat_py_sha16": "22081c411c64fbe7",
+  "explain_version": 2,
+  "bytes": 1126,
+  "sha16": "c4cbad83784e647f",
+  "version_line": "explain_version: 2",
+  "annotation": "检索行尾部 [可挂载]/[无块行→不可挂载] + 每问一行「可挂载集：…」",
+  "reversible": {
+   "stripped_bytes": 872,
+   "stripped_sha16": "3e8aae60685d2e55",
+   "old_anchor_sha16": "3e8aae60685d2e55",
+   "equals_old_anchor": true,
+   "meaning": "去新增标注/可挂载集行后与 v1 硬锚逐字节同 ⇒ 分数与名字一行未变"
+  },
+  "containment_product": {
+   "path": "kvmem/m2_visibility/chat_lease/out/G4a2-containment.json",
+   "sha16": "b07a46080f671d7d"
+  },
+  "containment_evidence": {
+   "cmd_chat_zero_diff": true,
+   "m1_nonexplain_same_except_control_q": true,
+   "two_dryrun_checks_equal": true
+  }
+ },
+ "how_to_verify": "python tools/chat.py m1 --explain（temp DB）→ 取 stdout：sha16=c4cbad83784e647f；去掉首行 explain_version: 2、行尾标注与可挂载集行后 sha16 必为 3e8aae60685d2e55",
+ "note": "explain 从回归硬锚改为『可逆性断言 + containment 三条』；v1 坐标不再作为回归锚。"
+}
