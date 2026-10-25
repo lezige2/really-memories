@@ -189,7 +189,9 @@ python -c "import hashlib;print(hashlib.sha256(open('m3/run_m3_lifecycle_50_v4.j
 # M3 声明一致性（期望 rc=0 与 PREREG-CONSISTENCY: PASS）
 python mine/inspector/check_m3_prereg_consistency.py --run m3/run_m3_lifecycle_50_v4.json
 
-# 纪律账本自检（期望 rows=37 ordered=True）
+# 纪律账本自检：现在【期望 rc=1】，唯一红的是 "DISCIPLINES rows unhandled : [36, 37]"
+# 编号 1..37 有序 / 无缺口 / 无重复 topic 三项均 green
+# 缺的是 SRC-CRITERIA §12.30 映射表里 #36 #37 两行（见未闭 F-D-1）
 python mine/inspector/check_discipline_map.py
 
 # 注入台账（注意: census 目前不连接 declarations，见未闭 F-M3-7）
@@ -230,5 +232,6 @@ F-M3-4  falsified_by 混两种类型（20 个 case id + 5 条散文）；flipped
 F-M3-5  attempt 1 停在第 32 轮 —— 「未完成」，副本在 m3/_interrupted_32of50/
 F-M3-6  attempt 2 的 _c4_rise_window 坐在 checks 里 —— 已闭（attempt 4 移入 evidence_only）
 F-M3-7  census 不把 declarations 按 key 连进来 —— 未闭
+F-D-1   纪律映射缺 #36 #37 两行：check_discipline_map.py rc=1，unhandled=[36,37] —— 已派给检测员
 未测    换输入那一类的稳定性 / 引擎内部池状态 / S3 的端到端可失败性 / 判据的第三份副本
 ```
