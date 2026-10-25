@@ -236,3 +236,23 @@ lead 的「16 键」纠正成立，我的 9/9 不成立（我只读了前九项�
 
 **§4.2 交接稿里那句「新进程检索与作答 pid 均不同」在结论上仍成立，但依据必须换成上面三个数**：`parent_pid=12956`，检索 13288/8860，作答 1920/9944 —— 四个 pid 与 parent 两两不等，`new_process: true` 落在检索侧。**不能再写 `child_of`**，产物里没有这个字段。
 
+
+
+---
+
+## 11 修订记录（lead，2026-10-25；原文 §0–§10 一字未改，逐条在此追加）
+
+> 触发：M4-C 于 2026-10-25 17:40 结项（`docs/_work/M4C-CLOSURE-lead.md` `3309fb25cbd057f9`），九项 acceptance 的挂起条件消失 ⇒ 做验收定稿复算。
+> 复算产物：`kvmem/m2_visibility/m4/run_m4_accept_recompute.json` = `0b865a97ac2a0a99`（九项字面 7/9）；独立复核：`docs/_work/INSPECTOR-M4-ACCEPT.md` = **`96bc3fc64ddff139`**（初版 `cc029fc23dabd488`，§8 追加两条自我更正）。
+> **变更类 × 方向**：只有 **R1 是判据变更**，按 `PROGRESS §13.3` 三选一填 **改对象**；R2–R8 均为记录更正 / 补记 / 撤回误判，**不是判据变更**，方向记「—」（原先误写"改数/改措辞/补记"作方向，已按审计 §8 更正）。
+
+| # | 条目 | 原文 | 修订后 | 变更类 · 方向 | 依据 |
+|---|---|---|---|---|---|
+| R1 | 第 7 项 `memory_source` 行数 | 7 行 | **5 行；fanout 和 = 7** | 判据变更 · **改对象**（读数定义：行数 → 行数 + fanout 和） | R9 去重落地（`UNIQUE(text)` + `fanout`）⇒ unit3=unit4、unit6=unit7 合并：`write.db.sources=5`、`fanout=[1,1,2,1,2]` 和 = 7 |
+| R2 | 第 8 项「新进程检索作答」 | 9/9 | **2/2 检索 + 2/2 作答（另：acceptance 17/17 全真）** | —（非判据变更：误读更正；"9/9" 原意 = 九项验收全过，不是 9 个问答） | `m4_verify.py: QUESTIONS` 恒为 2 问；a4 `search_checks`/`answer_checks` 各 2 条，均 `new_process=true` |
+| R3 | 版本键数 | 16 键 | **17 键**（a4 增 `output_layer_clean`） | —（非判据变更：版本口径更新） | a4 `acceptance` 17/17；16 键版是 `run_m4_verify.json` `857f13c5`；`PROGRESS §6.3/§6.7` 两处同步 |
+| R4 | 锚漂移 | §10 锚 `bdf392e8` / `chat.db` 末条 `5909b978` | 记录：现行锚 **`857f13c5`**（04:18）/ `chat.db` **`237d8e1f`**；`anchors_history.json` **无** `bdf392e8` 条目（全仓 grep = 0） | —（非判据变更：补记） | `INSPECTOR-M4-ACCEPT.md` §2；须补进 `anchors_history.json` 或在本表长期注明 |
+| R5 | 输出层 `after_len` / `display_len` | （审计初版拟记缺陷 G8） | **撤回**：`after_len` 是「标签删除后、空行**未**折叠」的中间量（`outfilter.py:80-99`，注释原文 "the display layer also collapses blank runs -- keep those two apart"），`display_len` 是 stage-2 折叠后（`m4_display.py:55-67`）；45 vs 44 之差 = 标签 8 + 空行合并 1 = 9，与 `removed_chars/delta` 自洽，`assert_diff_explained` 明确允许连续空行合并 ⇒ **不是矛盾** | —（非判据变更：撤回误判；**禁止**据此改 `after_len`） | `INSPECTOR-M4-ACCEPT.md` §8 C1 |
+| R6 | 本文件位置 | 只在备份目录 | 已收回工作区 `kvmem/m2_visibility/mine/inspector/M4-ACCEPT.md`（收回时 sha16 = `c4186107246dd35d`，与本 §11 之前逐字节相同）；`m4/README.md` 亦收回（`3ed45808788c745e`） | —（非判据变更：补记） | 验收判据原文必须在工作区；见 `M4-ACCEPT-lead.md` G-doc |
+| R7 | 「九项」独立性 | 九项并列表述 | **独立性质约 6 族**：③keep 6 ↔ ⑥memory 6 行按构造相等；④91 cells ↔ ⑤重放位置同源；⑧与 B 套 4/5 是同一动作；⑨是锚不是性质 | —（非判据变更：表述更正） | 不得称"9 个独立性质全真"（`INSPECTOR-M4-ACCEPT.md` G6） |
+| R8 | 第 5 项标签「块落位」 | 未区分 | 明确：`[4005,4096)` / `pos_max 4095` 是 **ask 前重放位置**；save 后块在 **`[0,90]`**（DB `block.pos_lo/pos_hi`） | —（非判据变更：表述更正） | 两处读数不同源，引用必须写清是哪一处 |

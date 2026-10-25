@@ -31,11 +31,27 @@ def main(argv):
 
     nps = [(a.get("arm"), a.get("n_predict"), a.get("n_predict_consistent", "<absent>")) for a in arms]
     consistent = [c for _, _, c in nps]
+    # Tri-state, and the target is read from the artifact itself (it declares what it asked the
+    # engine for: top-level n_predict, else engine.n_predict). No literal here: 24 was the old
+    # ruler, 64 is a7's declared value, and neither belongs in the grader.
+    declared = d.get("n_predict")
+    if declared is None:
+        declared = val(d, "engine", "n_predict", default=None)
     if all(c == "<absent>" for c in consistent):
         cell("n_predict", nps, None, "field absent: this artifact predates the n_predict fix")
+    elif declared is None or declared == "<absent>":
+        cell("n_predict", nps, None,
+             "artifact declares no n_predict (top-level or engine.*) = UNVERIFIED")
     else:
-        ok = all(c is not False and np_ == 24 for _, np_, c in nps)
-        cell("n_predict", nps, ok, "null consistency = engine exposes no attribute = UNVERIFIED")
+        mism = [(arm, np_) for arm, np_, _ in nps if np_ != declared]
+        if mism:
+            cell("n_predict", nps, False,
+                 "arm n_predict != declared %s: %s" % (declared, mism))
+        elif any(c is None for c in consistent):
+            cell("n_predict", nps, None,
+                 "declared %s; engine exposes no n_predict attribute = UNVERIFIED" % declared)
+        else:
+            cell("n_predict", nps, True, "consistent with declared %s" % declared)
 
     spans = [(a.get("arm"), a.get("cells_span_matches_attach_range", "<absent>")) for a in arms]
     if all(s == "<absent>" for _, s in spans):
