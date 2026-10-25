@@ -1,0 +1,106 @@
+{
+ "schema": "m4_outfilter_selftest_v1",
+ "aim": "prove the no-control-tag assertion can fail, that the filter is whitelist-only, and that block text is never filtered",
+ "cases": [
+  {
+   "case": "S1",
+   "what": "think-tagged, filter ON",
+   "verdict": "pass",
+   "per_tag": {
+    "think": 1
+   },
+   "before_len": 53,
+   "after_len": 45,
+   "removed_chars": 8,
+   "tag_len": 8,
+   "clean": "我住在广陵路 12 号 2 单元 602。\n\n\n我住在广陵路 12 号 2 单元 602。",
+   "only_tag_removed": true
+  },
+  {
+   "case": "S2",
+   "what": "same text, filter OFF -> must RED",
+   "verdict": "pass",
+   "raised": "ControlTagLeft",
+   "raw_line": "S2 filter disabled: control tag(s) survived the filter: {'think': 1} | head='我住在广陵路 12 号 2 单元 602。\\n</think>\\n\\n我住在广陵路 12 号 2 单元 602。'"
+  },
+  {
+   "case": "S3",
+   "what": "chatml tokens, filter ON",
+   "verdict": "pass",
+   "per_tag": {
+    "response": 1,
+    "im_start": 1
+   },
+   "clean": "你好"
+  },
+  {
+   "case": "S4",
+   "what": "trailing response-class tag",
+   "verdict": "pass",
+   "per_tag": {
+    "response": 1
+   },
+   "clean": "车牌号是浙B-3F19K。"
+  },
+  {
+   "case": "S5",
+   "what": "unknown angle token: reported, not removed",
+   "verdict": "pass",
+   "clean": "<tool_call>我住在广陵路。</tool_call>",
+   "unknown_angle_tokens": [
+    "<tool_call>",
+    "</tool_call>"
+   ],
+   "why": "an unknown token is reported so a human decides; silently stripping template or attacker markup is how content vanishes without a trace"
+  },
+  {
+   "case": "S6",
+   "what": "idempotent second pass",
+   "verdict": "pass",
+   "per_tag": {}
+  },
+  {
+   "case": "S7",
+   "what": "block text with a tag must REFUSE",
+   "verdict": "pass",
+   "raised": "BlockTextWouldChange",
+   "raw_line": "S7 block_text: this text contains a whitelisted control tag, so the output filter would change it; block text must stay verbatim. Refusing."
+  },
+  {
+   "case": "S8",
+   "what": "real captured answer, filtered then asserted",
+   "verdict": "pass",
+   "per_tag": {
+    "think": 1
+   },
+   "before_len": 53,
+   "after_len": 45,
+   "removed_chars": 8,
+   "clean": "我住在广陵路 12 号 2 单元 602。\n\n\n我住在广陵路 12 号 2 单元 602。",
+   "source": "run_m4_write.json lease_chain.answer_while_attached.answer"
+  },
+  {
+   "case": "S9",
+   "what": "counts: tag present but 0 chars -> must RED",
+   "verdict": "pass",
+   "raised": "ConsistencyBroken",
+   "raw_line": "S9 tag counted but no characters: tag_chars_removed=0 with per_tag={'think': 1}: a tag either exists and occupies characters, or neither is true"
+  },
+  {
+   "case": "S10",
+   "what": "counts: delta < tag chars -> must RED",
+   "verdict": "pass",
+   "raised": "ConsistencyBroken",
+   "raw_line": "S10 cross-layer delta smaller than tags: raw_to_delivered_delta=2 < tag_chars_removed=8: removing the tags is part of the raw-to-delivered change, so the total cannot be smaller than its attributable part"
+  }
+ ],
+ "assertion_is_load_bearing": true,
+ "graded_by": "self",
+ "graded_by_note": "this whole artifact is the script grading itself. An external recompute (re-running outfilter on real captures in memory, e.g. from run_m4_verify_a3.json) is the R; this file alone is an S.",
+ "provenance": {
+  "assertion_is_load_bearing": "SELF-ASSESSED by this script (it reads its own S2 case). It is an S, not an R: an R needs an independent recompute that does not read this artifact.",
+  "s9_s10": "these two raise inside check_counts, called from here with bad inputs, so they are failure shapes of the count fields themselves",
+  "sha_stability": "no pid or timestamp in this artifact, so its sha16 is a usable anchor"
+ },
+ "verdict": "OUTFILTER-SELFTEST PASS"
+}

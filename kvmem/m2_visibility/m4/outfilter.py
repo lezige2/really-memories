@@ -109,6 +109,27 @@ def assert_clean(text, where):
     return True
 
 
+class ConsistencyBroken(AssertionError):
+    """Two counts that must agree do not."""
+
+
+# Each of these two numbers has a failure shape, which is what makes it a check rather than a
+# decoration: tag_chars_removed must be > 0 exactly when a tag was found, and a cross-layer delta
+# can never be SMALLER than its attributable part.
+def check_counts(per_tag, tag_chars_removed, raw_to_delivered_delta=None, where="counts"):
+    problems = []
+    if bool(per_tag) != (tag_chars_removed > 0):
+        problems.append("tag_chars_removed=%r with per_tag=%r: a tag either exists and occupies "
+                        "characters, or neither is true" % (tag_chars_removed, per_tag))
+    if raw_to_delivered_delta is not None and raw_to_delivered_delta < tag_chars_removed:
+        problems.append("raw_to_delivered_delta=%r < tag_chars_removed=%r: removing the tags is "
+                        "part of the raw-to-delivered change, so the total cannot be smaller "
+                        "than its attributable part" % (raw_to_delivered_delta, tag_chars_removed))
+    if problems:
+        raise ConsistencyBroken("%s: %s" % (where, " | ".join(problems)))
+    return True
+
+
 def guard_not_block_text(text, where):
     """Block text feeds the M5 ground-truth check verbatim, so it is routed here instead of
     through filter_text: if it ever contained a whitelisted tag, filtering would silently

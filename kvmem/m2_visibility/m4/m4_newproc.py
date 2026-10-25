@@ -65,6 +65,20 @@ def _output_layer(d):
                           "measured_on": "answer (raw, where a tag lives)",
                           "delivered_has_tag": OUT.scan(d["answer_display"])["total"]}
     try:
+        OUT.check_counts(d["output_filter"]["per_tag"],
+                         d["output_filter"]["tag_chars_removed"],
+                         d["output_filter"]["raw_to_delivered_delta"],
+                         "newproc counts")
+        d["output_filter"]["counts_consistent"] = True
+    except OUT.ConsistencyBroken as exc:
+        d["output_filter"]["counts_consistent"] = False
+        d["output_filter"]["counts_inconsistent_raw_line"] = str(exc)
+    d["output_filter"]["provenance"] = {
+        "counts_consistent": "computed by this call (check_counts), not self-reported by a script",
+        "output_layer_clean": "assert_clean on the delivered text; its ability to fail is proven "
+                              "by run_outfilter_selftest.py S2 (filter off -> raises)",
+    }
+    try:
         OUT.assert_clean(d["answer_display"], "newproc answer_display")
         d["output_filter"]["assertion"] = "pass"
         d["output_layer_clean"] = True

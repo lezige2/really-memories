@@ -24,10 +24,10 @@ import argparse, re, sys
 DEFAULT_CRIT = "D:/llama-mem/kvmem/m2_visibility/mine/inspector/SRC-CRITERIA.md"
 DEFAULT_DISC = "D:/llama-mem/kvmem/m2_visibility/mine/lead/DISCIPLINES.md"
 
-LEAD_ONLY = {
-    4: ("ledger item-to-criterion traceability; the M4/M5 acceptance ledgers live on the "
-        "registry side and my criteria cite their resulting booleans, not this rule"),
-}
+# 2026-10-25: #4 曾是豁免项（当时账本项与判据的对应关系只在 registry 侧）。侧车建成后
+# 它有了自己的判据化写法，豁免随之作废 —— 「豁免」与「已映射」不能同时成立，检查器会报
+# `exempt numbers also mapped`。留空是正确状态，不是遗漏。
+LEAD_ONLY = {}
 
 DIGITS = "\u4e00\u4e8c\u4e09\u56db\u4e94\u516d\u4e03\u516b\u4e5d"      # 一..九
 TEN = "\u5341"
