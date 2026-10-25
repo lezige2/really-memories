@@ -1,7 +1,7 @@
 {
  "schema": "landed_m6b_b2a_v2",
  "task": "task-38 M6b B2a（save 非原子）红证：block 臂 + 产品 chat 臂",
- "at": "2026-10-25T23:45:02",
+ "at": "2026-10-25T23:48:59",
  "artifacts": {
   "block": {
    "path": "kvmem/m2_visibility/m6b/out/M6B-B2A-RED.json",
@@ -10,8 +10,8 @@
   },
   "chat": {
    "path": "kvmem/m2_visibility/m6b/out/M6B-B2A-CHAT-RED.json",
-   "sha16": "dce1f205c41d47c1",
-   "bytes": 5356
+   "sha16": "8aca9868cdeae5e1",
+   "bytes": 6867
   }
  },
  "code_sha16": {
@@ -51,8 +51,8 @@
   "chat": {
    "artifact": {
     "path": "kvmem/m2_visibility/m6b/out/M6B-B2A-CHAT-RED.json",
-    "sha16": "dce1f205c41d47c1",
-    "bytes": 5356
+    "sha16": "8aca9868cdeae5e1",
+    "bytes": 6867
    },
    "before_sha": "124019803eb3e73cb71a1315553238d4b8a149d6d5b444040c4ee9c7b95ad616",
    "after_sha": "3113f8c523749b6a53aa01a58f07e7eecb575fbe909058b358574f637c90190a",
@@ -227,6 +227,38 @@
    "deviation_from_prereg"
   ],
   "generated_with_script_sha16": "2b73a648e1a371d9",
-  "note": "读数仍由 _run_m6b_b2.py（2b73a648）产生；本步只补 inspector 要求的标注"
- }
+  "note": "读数仍由 _run_m6b_b2.py（2b73a648）产生；本步只补 inspector 要求的标注",
+  "pointer_sync": {
+   "old": {
+    "path": "kvmem/m2_visibility/m6b/out/M6B-B2A-CHAT-RED.json",
+    "sha16": "dce1f205c41d47c1",
+    "bytes": 5356
+   },
+   "arm_old": {
+    "path": "kvmem/m2_visibility/m6b/out/M6B-B2A-CHAT-RED.json",
+    "sha16": "dce1f205c41d47c1",
+    "bytes": 5356
+   },
+   "new": {
+    "path": "kvmem/m2_visibility/m6b/out/M6B-B2A-CHAT-RED.json",
+    "sha16": "8aca9868cdeae5e1",
+    "bytes": 6867
+   },
+   "note": "补字段后漏改指针，本次一并同步；读数未变"
+  }
+ },
+ "corrections": [
+  {
+   "what": "chat artifact 指针",
+   "old": "dce1f205/5356",
+   "new": "8aca9868/6867",
+   "why": "补 4 字段后重出，指针未同步（inspector 审计 §7.9）"
+  },
+  {
+   "what": "chat 臂结构化字段缺失",
+   "old": "仅 setup.source_seq_data 一句文字",
+   "new": "chat_arm/synthetic_state/block_not_detached/load_rc/deviation_from_prereg 五字段",
+   "why": "原产物无法审计该臂的合成态边界"
+  }
+ ]
 }
