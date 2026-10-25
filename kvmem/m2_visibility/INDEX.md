@@ -115,20 +115,43 @@ DLL        tools/kvshim_vk.dll  9edbafa150700614  50,007,552 B
 
 ---
 
-## 5 清理记录
+## 5 清理记录（**每一件都删前验过**，没有一件是按「看着像旧的」删的）
 
-**已删**（可再生成、非唯一观测）：根目录 4 个临时脚本 `_p3.py _p4.py _p5.py _patch_m3f.py`、2 个 0 字节日志。
+### 5.1 已删
+| 文件 | 依据 |
+|---|---|
+| 根目录 `_p3.py _p4.py _p5.py _patch_m3f.py` | 我自己的临时脚本 |
+| `m3/_m50.stdout.txt` `_m50_v3.stdout.txt` | 0 字节，零信息 |
+| `m3/_m50v2/v4.stdout.txt` `_redA.stdout.txt` `_unit.stdout.txt` | 4 行摘要，内容在对应 run json 与 M3-ACCEPT §2 |
+| `m3/_answers.txt` | 30 行转储 = run json 的 `rounds[*].answer` |
+| `m3/run_m3_lifecycle_50.json` | 与 `_interrupted_32of50/` 同名副本**逐字节相同** `sha16 295b06ebecb89985` / 36091 B |
+| `m3/run_m3_progress.log` `m3/run_m3_stdout.log` | 旧 `run_m3_50` 的 stdout，其 json 在 |
+| `m3/__pycache__/` | 编译缓存 |
 
-**保留但标「未完成」**（交付者清单确认它们是唯一观测）：
+### 5.2 保留：唯一观测（删了就没了）
 ```
-m3/run_m3_lifecycle_50.json          rounds_done=30  32 轮中断现场
-m3/run_m3_lifecycle_50_v3.json       rounds_done=10  attempt 3 断在 10 轮
-m3/run_m3_lifecycle_progress.log     v4 的逐轮行级流水（json 里没有这些行）
-m3/run_m3_50.json + run_m3_50_INVALID.json   I 判据被发现那轮的对照对
+m3/_interrupted_32of50/run_m3_lifecycle_50.json          rounds_done=30（落盘滞后）
+m3/_interrupted_32of50/run_m3_lifecycle_progress.log     221 行，末行 [round 32/50] => attempt 1 停在第 32 轮的唯一证据
+m3/run_m3_lifecycle_progress.log                         334 行，末行 [done] code=0 -> …_v4.json => v4 的逐轮行级流水
+m3/run_m3_lifecycle_50_v3.json                            attempt 3，rounds_done=10
+m3/run_m3_50.json + run_m3_50_INVALID.json                I 判据被发现那轮的对照对
+```
+**注意两份 progress.log 同名不同目录、装的是两次不同的跑**：
+```
+m3/run_m3_lifecycle_progress.log                      334 行  sha16 701e7b5c74ea64a7   = v4
+m3/_interrupted_32of50/run_m3_lifecycle_progress.log  221 行  sha16 13475f0f34145871   = attempt 1
+首行都是 [abort] dll sha mismatch None —— 只看首行分不出来，必须看末行
 ```
 **保留（有引用，不许当「已取代」删）**：`m3/_driver_m3.py` —— `m3/README.md:29` 与 `:183` 指着它。
 
-**待清理（下一轮一次做完，避免中途有人还在读）**：`__pycache__/`、纯 stdout 转录、0 字节日志。
+### 5.3 这次清理抓到的一个险情（记下来，因为下次还会遇到）
+两位交代对同一件事给了不同说法：
+```
+执行者: run_m3_lifecycle_progress.log 是 v4 的逐轮流水
+检测员: run_m3_lifecycle_progress.log 末行是 [round 32/50]，是 attempt 1 的唯一证据
+```
+**两个都对 —— 因为它们是两个文件。** 我差点据此判「执行者误标」，并把它写进索引。
+**教训：同名 + 不同目录，不是同一个文件；引用一份「日志」时必须带目录。**
 
 ---
 
