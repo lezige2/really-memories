@@ -18,7 +18,7 @@
 | 6 | M3 接入 chat.py（租约） | **部分实现** | `chat_lease/run_compare.json` = fd6333a45034e662 ⚠**不在仓库** | A |
 | 7 | M4 写入固化 | **已实现·未验收** | `run_m4_verify_a4.json` = 59edbd82d4b9ae44 | **R** |
 | 8 | M4-A 输出层过滤 | **已实现** | `run_m4_verify_a4.json` = 59edbd82d4b9ae44 · `run_m4_outfilter_selftest.json` = a85ec0df2bfa3cd3 | **R** |
-| 9 | M4-B 车牌句消融 | **未证** | `run_m4_ablate_plate_a3.json` = 06a7dac53b399174 | A |
+| 9 | M4-B 车牌句消融 | **已判出（带混淆）** | `run_m4_ablate_plate_a5.json` = cf4a86340d54221a | A |
 | 10 | M4-C leases 真调用 | **未开始** | 无 | 无 |
 | 11 | M5 接地校验 | **部分实现** | `run_m5_grounded.json` = 007cb08b8f117ec5 · `run_m5_fix_compare.json` = 9eab963bdf977241 | A |
 | 12 | `.kvmem` 落盘 + SQLite 指针 | **部分实现** | `blk_conv_2026-10-25_01.kvmem` = 81127d24fd64b96b · `m4_memory.db` = fd244c80c0cc974d ⚠**均不在仓库** | **R** |
@@ -80,6 +80,43 @@
 未验收  A 绿 / B 未证 / C 未开始 —— 三项没全绿，这一行就不能算验收通过
 ```
 **⚠ 不要引用旧的 `m4_memory.db` sha**：本文件先前见过的 `817a66e45a4e3594` **已被后续重跑覆盖**，磁盘现值是 `fd244c80c0cc974d`。**这就是「锚随重跑失效」的实例。**
+
+---
+
+### 1.5 M4-B 车牌句消融 —— 判出结论，但带一处必须一起引的混淆
+```
+锚  run_m4_ablate_plate_a5.json = cf4a86340d54221a   rc=0   verdict = memory_carried_by_that_sentence
+
+product_block_control     cells=91 range=[4005,4096) bytes=52  plate=True  '浙B-3F19K…你的车牌号是浙B-3F19K。'
+reencoded_with_sentence   cells=91 range=[4005,4096) bytes=52  plate=True  '浙B-3F19K…你的车牌号是浙B-3F19K。'
+ablated_without_sentence  cells=79 range=[4017,4096) bytes=316 plate=False '您的车牌号是苏A12345。…'
+
+重编块的 sha256 与产品块逐字节相同 = 81127d24fd64b96b
+强度 A（不给 R，理由见下）
+```
+**arm3 那个 `苏A12345` 是编造出来的，不是从块里读的**：块正文 9 行（`m4/m4_ablate.py:31-40`）逐行核过，
+既不含 `苏A12345`，问题里也没有。而且它是 **M2 就记录过的同一次编造**（`m2/make_readme.py:126`：
+「控制文本没有泄漏进这次会话：编造出来的是 苏A12345」）。
+**⇒ 判决因此不只是「差一个字符串」，而是有机制：删掉那一句后模型不再检索，改为编造，且编造的是它此前就编过的同一个假车牌。**
+
+**⚠ 混淆（引用时必须一起引）**：arm2 与 arm3 之间**变了两个东西** —— 内容少了那句，**且**块从 91 个 cell 变 79、
+贴附区间从 `[4005,4096)` 移到 `[4017,4096)`。**删内容必然改长度，这是消融法自带的。**
+要分离须补一条**等长对照**：把那句换成同样 14 字节的无关车牌句，cells 仍 91、区间仍 `[4005,4096)`，只有内容变。
+
+**⚠ 强度只记 A**：a5 那一轮 `n_predict` 与顶层记录不一致（顶层 24 / `engine.n_predict` 64），
+子进程把该参数丢了。**答不答得出车牌不受此影响，但任何长度类读数作废。**
+
+**这一格三轮才成立，每一轮的死因都不是「结论」，是「不可解释」**：
+```
+attempt 2  三条臂 pos_asked 全是 0（问在位置 0，块在 [4005,4096)）=> 块没进上下文，三条臂答案逐字节相同
+           encode 返回 -1（是引擎拒绝脏 seq，不是「0 个 token」）
+attempt 3  pos_asked 修好；arm1 仍答错，arm2/arm3 的 ask_bytes = -1
+attempt 4  只拆进程隔离（--no-repos）：-1 消失（三条臂都 261 B）=> 臂间污染被证实
+           arm1 仍答错 => 与污染无关，落在「块位置」这组
+attempt 5  开 reposition：对照臂与重编臂都答出 浙B-3F19K => 候选 A（位置未搬）被证实
+```
+**⇒ 这五轮里最值钱的不是结论，是 arm1 这个对照**：若只做「产品块 vs 删句块」两条臂，
+attempt 2/3/4 每一次都会写出一句「删掉那句话答不出了 ⇒ 车牌由它承载」—— 而那是假的。
 
 ---
 
