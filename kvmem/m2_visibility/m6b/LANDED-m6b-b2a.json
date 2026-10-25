@@ -1,7 +1,7 @@
 {
  "schema": "landed_m6b_b2a_v2",
  "task": "task-38 M6b B2a（save 非原子）红证：block 臂 + 产品 chat 臂",
- "at": "2026-10-25T23:37:58",
+ "at": "2026-10-25T23:45:02",
  "artifacts": {
   "block": {
    "path": "kvmem/m2_visibility/m6b/out/M6B-B2A-RED.json",
@@ -79,6 +79,22 @@
     "source_sha256": "124019803eb3e73cb71a1315553238d4b8a149d6d5b444040c4ee9c7b95ad616",
     "source_bytes": 5761428,
     "source_mtime": "2026-10-25T03:33:14"
+   },
+   "chat_arm": "synthetic_state",
+   "synthetic_state": {
+    "source_seq_data": "profile 载入 seq0 作为新写入内容（合成状态，非真实对话 token）",
+    "old_content": "真实 kvmem/sessions/live.chat.kvmem 副本",
+    "note": "只为命中 session_state.py:229 eng.save(0, chat_file) 的 wb 直写截断路径；新写入内容是合成的，old 文件是真的。"
+   },
+   "block_not_detached": true,
+   "block_not_detached_note": "产品 save_session 在 session_state.py:227 先 drop 块再 save(0,·)；本构造没有块可 drop，未做 detach ⇒ 标边界。不改变'wb 打开即截断'的危害，只说明 seq0 内容来源与产品不同。",
+   "load_rc": "not_judged",
+   "deviation_from_prereg": {
+    "where": "P1 构造",
+    "prereg": "chatA→chatB 两次新写",
+    "actual": "真实 live.chat.kvmem 作 old、profile 作新写",
+    "why": "真实 chat 作 old 才能证明'不可重建的既有文件被毁'；比预登记构造更强",
+    "impact": "不改变判据四项，不改变四态"
    }
   }
  },
@@ -185,5 +201,32 @@
   "B2b_half_file_load": "本单一律不判（另单）",
   "B3_concurrency": "不在本单"
  },
- "no_self_sha": true
+ "no_self_sha": true,
+ "deviations": [
+  {
+   "where": "P1 构造",
+   "prereg": "chatA→chatB 两次新写",
+   "actual": "真实 live.chat.kvmem 作 old、profile 作新写",
+   "why": "真实 chat 作 old 才能证明'不可重建的既有文件被毁'；比预登记构造更强",
+   "impact": "不改变判据四项，不改变四态"
+  }
+ ],
+ "metadata_augmentation": {
+  "script": {
+   "path": "kvmem/m2_visibility/m6b/_augment_m6b_b2a.py",
+   "sha16": "5216755f94fbacd0",
+   "bytes": 4666
+  },
+  "readings_changed": false,
+  "fields_added": [
+   "chat_arm",
+   "synthetic_state",
+   "block_not_detached",
+   "block_not_detached_note",
+   "load_rc",
+   "deviation_from_prereg"
+  ],
+  "generated_with_script_sha16": "2b73a648e1a371d9",
+  "note": "读数仍由 _run_m6b_b2.py（2b73a648）产生；本步只补 inspector 要求的标注"
+ }
 }
