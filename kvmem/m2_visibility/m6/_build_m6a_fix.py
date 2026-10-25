@@ -167,6 +167,7 @@ def main():
                             "不存在可被静默绕过的 move 路径（本身 fail-closed）",
         "noncallable_or_assign_error": "repos_local 存在但不可调用 / 实例赋值失败 ⇒ 构造期 raise，"
                                        "文案带 engine 类型、属性、文件名与函数名",
+        "variant_of": "BlockLeases(same_table)",
         "disable": "唯一关闭方式：构造参数 move_guard=False（变体/测试显式传；product 不传）",
         "env_seam": "无：m3_lease.py 不读任何环境变量（旧 env 缝已删，grep=0）",
         "arms_guard": {name: arms[name]["guard"] for name in ("RED", "GREEN", "VARIANT")},
