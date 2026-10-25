@@ -196,3 +196,39 @@ python mine/inspector/check_m3_injection.py --mode census --artifacts m3/run_m3_
 不说「S3 与 C2 都验了」         -> 说「C2 是 S3_cells 的别名，两条算一条」
 不说「会话结束导致进程死」      -> 说「成因未定，两个候选未做判别实验」
 ```
+
+
+---
+
+## 9 更正表（2026-10-25 追加，检测员逐条复核后）
+
+> **原文与正文一字未改。** 本表按纪律 34 的规矩记：原 X → 改为 Y，因为 Z。
+> 被更正的四处都是我（lead）的读数错误，不是产物错误 —— 产物里的数十次重算都对，错在我抄进文档时。
+
+| # | 位置 | 原写法 | 改为 | 为什么 | 方向 |
+|---|---|---|---|---|---|
+| 1 | §2⑤ | 「逐轮 29 个标量中只有 round 与 secs 变化」 | **32 个键 = 30 标量 + 2 列表**（`attach_errors` / `invalid_reasons`）；30 个标量里只有 `round` 与 `secs` 变 ⇒ **28 个恒定** | §0 里我写的就是 28，§2⑤ 写 29，两处自相矛盾 | 改数字（往下，不虚报） |
+| 2 | §2⑤ | 「valid 50 / `invalid_rounds` []」 | v4 **没有** `rounds_valid` / `invalid_rounds` 两个顶键（那是 v2 的形状）；数值由 `rounds[*].valid` 与 `rounds[*].invalid_reasons` **派生** = 50/50 有效、无无效轮 | 数值对、字段名不成立 —— 这是「引用一个不存在的字段」 | 改字段名 |
+| 3 | §2② | 「15/15 T」 | 该产物 `checks` 有 **19 个键**：15 条 judged 全 T，另 3 条 `_rejected_*`（其中 2 条 False，**故意留的旧写法证据**）与 1 条注解键 `_c4_rise_window`。**「15/15」只在 judged 口径下成立** | 同一份产物里还有 4 个非 judged 键，不写口径会被读成「19 项全 T」 | 补口径 |
+| 4 | §3 | 「相隔约 40 分钟」 | v2 finished 09:16:18、v4 started 09:25:18 ⇒ **相隔约 9 分钟**（v2 started 09:11:44） | 我把「两次都跑了约 4-5 分钟」当成了两次之间的间隔 | 改数字 |
+| 5 | §4 F-M3-2 / §0 | 那 8 条「各自被**单因子**打红」 | 「各自被**一次单元注入**打红；**单因子由 case 自报，产物未留注入前后输入对**」 | 检测员能核到的是「每条都在某 case 的 `expected_flipped` 里、该 case `flipped` 非空、`pass:true`」（20/20）；**但产物没有 `control_inputs` / `injected_inputs`，所以「单因子」这四个字在现有产物里不可复算** | **收紧** |
+| 6 | §7 第 183 行 | census 命令不带 `--declarations` / `--unit-falsifiers`；§4 表 F-M3-7 写「未闭」 | 见下方正确命令；**F-M3-7 已闭**（`rc=0`，declarations 按 criterion key 连进每一行） | 旧命令现在会自己报「no --declarations given」并 `rc=1` —— **文档里一条会失败的指令** | 补齐 |
+
+**第 6 条的正确命令**：
+```bash
+B=m3
+python mine/inspector/check_m3_injection.py --mode census \
+  --run $B/run_m3_lifecycle_50_v4.json \
+  --declarations $B/run_m3_criterion_declarations.json \
+  --unit-falsifiers $B/run_m3_unit_falsifiers.json
+# 期望 rc=0  INJECTION/CENSUS: PASS
+# judged 15 / alias 1 / restates 1 / distinct 13 ; e2e=T 5 / unit-only 8 / not_falsifiable 8 ; N+M+K = 13
+```
+
+### 9.1 更正不改变的那三条（写下来是为了防止有人以为整篇要重读）
+```
+8 个锚  8/8 逐字节一致（检测员重算，含块文件 81127d24 / 9507412 B）
+五行分层 13 distinct / 5 e2e / 8 unit-only / 8 端到端不可失败 / I3+I4 端到端红 —— 全部成立
+I3 由 redB path[2] i3_fires=true 承载；I4 由 redA round 38 invalid_reasons 承载 —— 都成立
+```
+**⇒ 四处改的是我抄错的数与字段名，没有一处动到结论。这正是「结论对、读数错」的形态，而它比读数错更危险：读的人不会去查一个看起来是绿的数。**
