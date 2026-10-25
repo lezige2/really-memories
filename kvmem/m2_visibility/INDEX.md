@@ -10,7 +10,7 @@
 
 | 你要做的事 | 读这一份 |
 |---|---|
-| **接手继续干活** | `HANDOFF-2026-10-25-M3DONE.md` ← 唯一权威交接 |
+| **接手继续干活** | 仓库根 `HANDOFF.md` ← **唯一权威交接**（已提到根目录）|
 | 看 M3 怎么验收的 | `m3/M3-ACCEPT.md`（lead 定稿） |
 | 看 M3 的判据从哪来 | `mine/inspector/M3-PREREG.md`（冻结 259 行） |
 | 看纪律 38 条 | `mine/lead/DISCIPLINES.md` |
@@ -34,7 +34,7 @@
 
 另有两组「同主题、有代际」的：
 ```
-HANDOFF.md（14B 之前，已被取代）  ->  HANDOFF-2026-10-25-M3DONE.md（当前）
+archive/HANDOFF-2026-10-24-superseded.md（14B 之前，已归档）  ->  仓库根 HANDOFF.md（当前）
 STAGE3-ACCEPT-DRAFT.md（草案）    ->  mine/inspector/STAGE3-ACCEPT.md（定稿）
 ```
 **未移动、未删除**：它们是各自时点的交付凭据，移动会破坏旧文档之间的相对引用。
@@ -46,8 +46,8 @@ STAGE3-ACCEPT-DRAFT.md（草案）    ->  mine/inspector/STAGE3-ACCEPT.md（定�
 ### 3.1 交接与状态（根目录）
 | 文件 | 行数 | 状态 |
 |---|---|---|
-| `HANDOFF-2026-10-25-M3DONE.md` | 255 | **唯一权威交接** |
-| `HANDOFF.md` | 260 | 已被取代（14B 之前），保留作历史 |
+| ~~`HANDOFF-2026-10-25-M3DONE.md`~~ | 255 | **已移到仓库根并改名 `HANDOFF.md`** |
+| `archive/HANDOFF-2026-10-24-superseded.md` | 260 | 已归档（14B 之前），保留作历史 |
 | `NIGHT-REPORT.md` | 125 | 夜间报告（过程记录） |
 | `ISOLATION-REPORT.md` | 267 | M2 变量隔离过程报告 |
 | `7B-MOVED.md` | 6 | 7B 产物已迁出（一句话说明） |
