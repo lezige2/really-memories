@@ -30,6 +30,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <string>
 #include <vector>
@@ -42,6 +43,7 @@ struct kvshim {
     const llama_vocab * vocab = nullptr;
 
     int n_seq = 0;
+    int n_threads = 0;
     bool q8   = false;
 
     // The per-seq token list has to be kept: llama_state_seq_save_file() writes it
@@ -163,9 +165,19 @@ KVSHIM_API kvshim * kvshim_open(const char * model_path, int n_ctx, int n_seq,
     cp.type_k     = h->q8 ? GGML_TYPE_Q8_0 : GGML_TYPE_F16;
     cp.type_v     = h->q8 ? GGML_TYPE_Q8_0 : GGML_TYPE_F16;
     cp.flash_attn_type = h->q8 ? LLAMA_FLASH_ATTN_TYPE_ENABLED : LLAMA_FLASH_ATTN_TYPE_AUTO;
-    cp.n_threads       = 8;
-    cp.n_threads_batch = 8;
+    // KVSHIM_THREADS: 1..12 overrides the historical 8; unset/invalid keeps 8.
+    int n_threads = 8;
+    if (const char * ts = getenv("KVSHIM_THREADS")) {
+        char * end = nullptr;
+        long v = strtol(ts, &end, 10);
+        if (end != ts && *end == '\0' && v >= 1 && v <= 12) {
+            n_threads = (int) v;
+        }
+    }
+    cp.n_threads       = n_threads;
+    cp.n_threads_batch = n_threads;
 
+    h->n_threads = n_threads;
     h->ctx = llama_init_from_model(h->model, cp);
     if (!h->ctx) {
         llama_model_free(h->model);
@@ -174,6 +186,10 @@ KVSHIM_API kvshim * kvshim_open(const char * model_path, int n_ctx, int n_seq,
     }
     h->tokens.resize((size_t) n_seq);
     return h;
+}
+
+KVSHIM_API int kvshim_threads(kvshim * h) {
+    return h ? h->n_threads : 0;
 }
 
 KVSHIM_API void kvshim_close(kvshim * h) {

@@ -42,6 +42,35 @@ class LayoutMismatch(Exception):
     """The manifest does not describe a layout we can honour. Never generate on a guess."""
 
 
+def _emit_unvalidated(manifest_path, manifest, chat_state, chat_path, actual_bytes,
+                      n_tokens):
+    """Old manifest without chat.bytes: loading is allowed, but never silently.
+
+    One JSONL object on stderr, fields fixed by INSPECTOR-M7-CRITERIA (m7_f2_event_v1).
+    chat_lease is intentionally not imported (it imports this module); nothing is ever
+    written back to the old manifest (`wrote_manifest` is part of the event).
+    """
+    try:
+        sys.stderr.write(json.dumps({
+            "schema": "m7_f2_event_v1",
+            "event": "chat_unvalidated",
+            "unvalidated": True,
+            "manifest": manifest_path,
+            "manifest_sha16": hashlib.sha256(open(manifest_path, "rb").read()).hexdigest()[:16],
+            "manifest_version": manifest.get("version"),
+            "chat_state": chat_state,
+            "chat_path": chat_path,
+            "actual_bytes": actual_bytes,
+            "expected_bytes": None,
+            "reason": "missing_chat_bytes",
+            "n_tokens": n_tokens,
+            "wrote_manifest": False,
+        }, ensure_ascii=False) + "\n")
+        sys.stderr.flush()
+    except Exception:                                        # noqa: BLE001
+        pass
+
+
 REQUIRED = {
     "top": ("version", "saved_at", "tenant", "scope", "kv_type", "state_version",
             "model", "chat", "layout", "placement"),
@@ -226,12 +255,19 @@ def save_session(eng, con, path, blocks, anchor, slot_capacity=None,
     for b in blocks:
         eng.drop(0, b["lo"], b["hi"])
     try:
-        if chat_n and eng.save(0, chat_file) <= 0:
-            raise RuntimeError("saving the chat sequence produced no bytes")
+        chat_bytes = None
+        if chat_n:
+            if eng.save(0, chat_file) <= 0:
+                raise RuntimeError("saving the chat sequence produced no bytes")
+            chat_bytes = os.stat(chat_file).st_size
         placement["blocks"] = resolved
         for pb, b in zip(placement["blocks"], blocks):
             pb["block_sha256"] = (_sha256_file(b["path"]) if b.get("path")
                                   and os.path.exists(b["path"]) else None)
+        chat_entry = {"state": os.path.basename(chat_file) if chat_n else None,
+                      "n_tokens": chat_n, "start": anchor, "end": chat_end}
+        if chat_bytes is not None:
+            chat_entry["bytes"] = chat_bytes       # size of the file just renamed in
         manifest = {
             "version": MANIFEST_VERSION,
             "saved_at": datetime.now().isoformat(timespec="seconds"),
@@ -240,8 +276,7 @@ def save_session(eng, con, path, blocks, anchor, slot_capacity=None,
             "kv_type": kv_type,
             "state_version": ms.STATE_VERSION,
             "model": ms.model_fp(model_path),
-            "chat": {"state": os.path.basename(chat_file) if chat_n else None,
-                     "n_tokens": chat_n, "start": anchor, "end": chat_end},
+            "chat": chat_entry,
             "layout": layout,
             "placement": placement,
             # audit only: what retrieval picked and which index version picked it.
@@ -321,12 +356,38 @@ def restore_session(eng, con, path, kv_type="q8_0", model_path=ms.MODEL):
     scratch = max([b["slot_id"] for b in resolved] + [0]) + 1
     report = {"shifts": 0, "rebuilt": [], "blocks": [], "layout_problems": []}
 
-    eng.reset(0)
+    # Size gate BEFORE reset: a rejected tail-extra must not clear seq 0, so the
+    # caller can still inspect n_tokens/pos_max after the refusal (and a bad file
+    # cannot be mistaken for "loaded but empty").
+    chat_path = None
+    unvalidated_chat_bytes = False
     if m["chat"]["state"]:
         chat_path = root + ".chat.kvmem"     # same construction as save, not join()
         if os.path.basename(chat_path) != m["chat"]["state"]:
             raise LayoutMismatch("manifest names chat state %r, expected %r"
                                  % (m["chat"]["state"], os.path.basename(chat_path)))
+        declared = m["chat"].get("bytes")
+        if declared is None:
+            unvalidated_chat_bytes = True
+            try:
+                actual_old = os.stat(chat_path).st_size
+            except OSError:
+                actual_old = None
+            _emit_unvalidated(path, m, m["chat"]["state"], chat_path, actual_old,
+                              m["chat"]["n_tokens"])
+        else:
+            try:
+                actual = os.stat(chat_path).st_size
+            except OSError as e:
+                raise LayoutMismatch("chat state file unreadable (%s): %s"
+                                     % (chat_path, e))
+            if actual != declared:
+                raise LayoutMismatch(
+                    "chat state file is %d bytes, manifest says %d (%s) -- "
+                    "refusing before reset" % (actual, declared, chat_path))
+
+    eng.reset(0)
+    if m["chat"]["state"]:
         n = eng.load_strict(0, chat_path)
         if n != m["chat"]["n_tokens"]:
             raise LayoutMismatch("chat token count %d != manifest %d"
@@ -334,6 +395,8 @@ def restore_session(eng, con, path, kv_type="q8_0", model_path=ms.MODEL):
         if eng.pos_max(0) + 1 != m["chat"]["end"]:
             raise LayoutMismatch("chat window ends at %d, manifest says %d"
                                  % (eng.pos_max(0) + 1, m["chat"]["end"]))
+        report["chat_bytes_verified"] = declared is not None
+        report["unvalidated_chat_bytes"] = unvalidated_chat_bytes
 
     for i, b in enumerate(resolved):
         row = by_name.get(b["block"])

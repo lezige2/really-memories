@@ -39,6 +39,7 @@ import ctypes
 import os
 import sys
 import time
+import uuid
 
 # The DLL links libgcc/libstdc++ statically, but ggml-cpu may still pull in libomp.
 _LLVM_BIN = (r"C:\Users\lezige\AppData\Local\Microsoft\WinGet\Packages"
@@ -220,7 +221,51 @@ class KVEngine:
         return None if n < 0 else buf.value.decode("utf-8", "replace")
 
     def save(self, seq, path):
-        return self.lib.kvshim_save(self.h, seq, path.encode("utf-8"))
+        """Atomic save: write a sibling temp file, fsync it, rename over `path`.
+
+        Failure contract: the destination is never left truncated.  If anything
+        fails after the shim write, the temp file is removed and the OLD file at
+        `path` stays in place (fail-closed); the caller sees an exception, not a
+        half-written state file.  A successful save still returns the byte count.
+        """
+        tmp = path + ".tmp-%d-%s" % (os.getpid(), uuid.uuid4().hex[:8])
+        try:
+            nb = self.lib.kvshim_save(self.h, seq, tmp.encode("utf-8"))
+            if nb <= 0:
+                return nb                     # keep the old contract: no replace
+            with open(tmp, "rb+") as f:
+                os.fsync(f.fileno())          # data on disk before the name flips
+            st = os.stat(tmp)
+            if st.st_size != nb:              # short write / disk full: keep OLD target
+                os.remove(tmp)
+                raise OSError("short write saving %s: shim reported %d bytes, "
+                              "tmp has %d (old target kept)" % (path, nb, st.st_size))
+            try:
+                os.replace(tmp, path)
+            except OSError as e:
+                raise OSError("atomic save failed for %s (old file kept): %s"
+                              % (path, e))
+            st = os.stat(path)
+            if st.st_size != nb:              # pure sanity: never remove a complete target
+                raise OSError("post-replace sanity failed for %s: file has %d, "
+                              "shim reported %d" % (path, st.st_size, nb))
+            # Directory fsync is a POSIX durability knob; Windows has no equivalent
+            # for directories.  Best effort only -- never fail the save for it.
+            try:
+                dfd = os.open(os.path.dirname(os.path.abspath(path)) or ".", os.O_RDONLY)
+                try:
+                    os.fsync(dfd)
+                finally:
+                    os.close(dfd)
+            except OSError:
+                pass
+            return nb
+        finally:
+            try:
+                if os.path.exists(tmp):
+                    os.remove(tmp)
+            except OSError:
+                pass
 
     def load(self, seq, path):
         return self.lib.kvshim_load(self.h, seq, path.encode("utf-8"))
