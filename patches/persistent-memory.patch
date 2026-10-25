@@ -65,7 +65,7 @@ index ca84fc4..7aac176 100644
          llama_memory_t mem,
            llama_seq_id seq_id) {
 diff --git a/src/llama-kv-cache.cpp b/src/llama-kv-cache.cpp
-index 6f0e3f7..6e2bcdc 100644
+index 6f0e3f7..1dc9b4f 100644
 --- a/src/llama-kv-cache.cpp
 +++ b/src/llama-kv-cache.cpp
 @@ -8,6 +8,8 @@
@@ -380,10 +380,66 @@ index 6f0e3f7..6e2bcdc 100644
  void llama_kv_cache::seq_add(llama_seq_id seq_id, llama_pos p0, llama_pos p1, llama_pos shift) {
      // TODO: refactor [TAG_KV_CACHE_SHARE_CELLS]
      if (other) {
-@@ -1718,6 +2016,99 @@ static void set_input_kq_mask_impl(const args_set_input_kq_mask & args, T * data
+@@ -1599,6 +1897,35 @@ static void set_input_kq_mask_impl(const args_set_input_kq_mask & args, T * data
+         seq_pos_min[seq_id] = std::min(seq_pos_min[seq_id], ubatch->pos[i]);
+     }
+ 
++    // [MASKBIAS] optional diagnostic: add a constant bias to the allowed mask cells whose REAL
++    // position lies in [lo, hi]. Inactive unless LLAMA_KV_MASK_BIAS="lo:hi:b" is set, so with
++    // the variable unset nothing below changes behaviour. Only cells whose value is exactly
++    // mask_keep are touched; cells written with mask_drop never are, and positions come from
++    // cells.pos_get (a row index is not a position).
++    int64_t bias_lo      = 0;
++    int64_t bias_hi      = -1;
++    double  bias_bval    = 0.0;
++    T       bias_add     = llama_cast<T>(0.0f);
++    bool    bias_on      = false;
++    int64_t bias_touched = 0;
++    {
++        const char * mbias = getenv("LLAMA_KV_MASK_BIAS");
++        if (mbias != nullptr && mbias[0] != '\0') {
++            int    lo = 0;
++            int    hi = -1;
++            double b  = 0.0;
++            if (sscanf(mbias, "%d:%d:%lf", &lo, &hi, &b) == 3) {
++                bias_lo   = lo;
++                bias_hi   = hi;
++                bias_bval = b;
++                bias_add  = llama_cast<T>((float) b);
++                bias_on   = true;
++            } else {
++                fprintf(stderr, "[MASKBIAS] malformed LLAMA_KV_MASK_BIAS=%s (want lo:hi:b), ignored\n", mbias);
++            }
++        }
++    }
++
+     for (uint32_t s = 0; s < n_stream; ++s) {
+         // bookkeeping of the KQ mask cells that could change for other tokens of the same sequence
+         std::unordered_map<llama_seq_id, uint32_t>              seq_srct;
+@@ -1718,8 +2045,172 @@ static void set_input_kq_mask_impl(const args_set_input_kq_mask & args, T * data
  skip:
                  data[idst + j] = mask_drop;
              }
++
++            // [MASKBIAS] bump this row. mask_keep is 0.0f in every supported mask type, so
++            // "allowed cell + b" is exactly llama_cast<T>(b). Applying it after the row is
++            // written also covers a row copied from a previous token of the same sequence.
++            if (bias_on && !alibi) {
++                for (int64_t j2 = 0; j2 < n_kv; ++j2) {
++                    if (cells.is_empty(j2)) {
++                        continue;
++                    }
++                    if (data[idst + j2] != mask_keep) {
++                        continue;
++                    }
++                    const llama_pos p2 = cells.pos_get(j2);
++                    if (p2 < bias_lo || p2 > bias_hi) {
++                        continue;
++                    }
++                    data[idst + j2] = bias_add;
++                    ++bias_touched;
++                }
++            }
 +
 +            // [MASKDBG] optional mask trace -- inactive unless LLAMA_KV_MASK_DEBUG=1
 +            // diagnostics only: no control flow, threshold or mask value is altered
@@ -435,6 +491,50 @@ index 6f0e3f7..6e2bcdc 100644
 +                                mlay, mq, (int) seq_id, (int) p1,
 +                                (long long) cell_n, (long long) cell_drop,
 +                                (long long) first_pos, (long long) last_pos);
++                        // [MASKDBG-WIN] observed cell runs vs the windows we declared: data vs data.
++                        // A declared window is only confirmed when a contiguous run of real cells
++                        // (taken from cells.pos_get, independent of the env string) equals it.
++                        {
++                            int64_t win_lo[8], win_hi[8];
++                            int nwin = 0;
++                            const char * mw2 = getenv("LLAMA_KV_MASK_WINDOWS");
++                            if (mw2 != nullptr) {
++                                char b2[512];
++                                snprintf(b2, sizeof(b2), "%s", mw2);
++                                for (char * tk = strtok(b2, ","); tk != nullptr && nwin < 8; tk = strtok(nullptr, ",")) {
++                                    char * c1 = strchr(tk, ':');
++                                    if (c1 == nullptr) { continue; }
++                                    *c1 = '\0';
++                                    char * c2 = strchr(c1 + 1, ':');
++                                    if (c2 == nullptr) { continue; }
++                                    *c2 = '\0';
++                                    win_lo[nwin] = atoll(c1 + 1);
++                                    win_hi[nwin] = atoll(c2 + 1);
++                                    ++nwin;
++                                }
++                            }
++                            std::vector<llama_pos> ps;
++                            ps.reserve((size_t) n_kv);
++                            for (int64_t j3 = 0; j3 < n_kv; ++j3) {
++                                if (!cells.is_empty(j3)) { ps.push_back(cells.pos_get(j3)); }
++                            }
++                            std::sort(ps.begin(), ps.end());
++                            int run = 0;
++                            size_t i3 = 0;
++                            while (i3 < ps.size() && run < 12) {
++                                size_t j3 = i3;
++                                while (j3 + 1 < ps.size() && ps[j3 + 1] == ps[j3] + 1) { ++j3; }
++                                int match = -1;
++                                for (int w = 0; w < nwin; ++w) {
++                                    if (win_lo[w] == (int64_t) ps[i3] && win_hi[w] == (int64_t) ps[j3]) { match = w; break; }
++                                }
++                                fprintf(stderr, "[MASKDBG-WIN] seq=%d p1=%d run=%d lo=%d hi=%d cells=%zu declared_idx=%d match=%d\n",
++                                        (int) seq_id, (int) p1, run, (int) ps[i3], (int) ps[j3],
++                                        j3 - i3 + 1, match, match >= 0 ? 1 : 0);
++                                ++run;
++                                i3 = j3 + 1;
++                            }
++                        }
 +                        const char * mwin = getenv("LLAMA_KV_MASK_WINDOWS");
 +                        if (mwin != nullptr) {
 +                            char mbuf[512];
@@ -479,7 +579,16 @@ index 6f0e3f7..6e2bcdc 100644
 +            }
          }
      }
++
++    if (bias_on) {
++        fprintf(stderr, "[MASKBIAS] lo=%lld hi=%lld b=%g n_cells_touched=%lld type=%s\n",
++                (long long) bias_lo, (long long) bias_hi, bias_bval,
++                (long long) bias_touched, sizeof(T) == 2 ? "f16" : "f32");
++        fflush(stderr);
++    }
  }
+ 
+ template<typename T, bool causal, bool swa, bool is_2d>
 diff --git a/src/llama-kv-cache.h b/src/llama-kv-cache.h
 index 9bfb8f2..fe22717 100644
 --- a/src/llama-kv-cache.h

@@ -7,7 +7,7 @@ set -u
 # 连“真值 127”经过管道都会变成 0（实测）。约定拦不住，机制能。
 set -o pipefail
 cd "$(dirname "$0")"
-RM=kvmem/m2_visibility/runs_mask
+RM=kvmem/m2_7b/runs_mask   # 2026-10-25: 该目录已随 7B/14B 分离搬到 m2_7b/，本行原先指向旧路径
 PY="python -X utf8"
 fail=0
 n=0

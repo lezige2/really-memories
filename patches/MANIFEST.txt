@@ -84,3 +84,18 @@ verified: two rebuilds of the current source differ in exactly 2 bytes (0x80 and
 second stamp) and hash to 168f8e9c4f2fb360 once cleared, so the build is deterministic.
 The shipped 849e7281c74a5288 baseline stays on record; it is NOT expected to match after a
 source change -- behaviour (answer sha 7ec1430d..., ABLDBG counts) is the judge.
+
+--- 2026-10-25 · 补丁归档出现 100 行漂移（未判定归属，先记不先修） ---
+实测（两项各自独立算，不是抄的）:
+  patches/archive/persistent-memory-500-20261025.patch   +500 / -0   6 文件   <- 41068fc 时的归档
+  llama.cpp 工作区 git diff --numstat 合计                +600 / -0   6 文件   <- 今天实测
+  逐文件比对，只有一处不同:
+    src/llama-kv-cache.cpp   归档 +391   实时 +491   差 +100
+    其余 5 个文件 +20/+17/+13/+31/+28 完全一致
+所以: 有 100 行引擎代码只存在于工作区，不在任何归档里 —— 一旦该目录丢失就没了。
+处置（本次）:
+  patches/persistent-memory.patch 已换成实时快照（+600），旧的 +500 移到 patches/archive/，两份都在，没有覆盖。
+verif.sh 里的 500 断言【保持为红】，不改绿:
+  那 100 行由哪次改动加的、是否在冻结期内授权、今晚所有锚是不是由含这 100 行的引擎产出的 —— 三项都未判定。
+  在判定前把断言改成 600 等于用现状去改判据。按本文件 RULE 0，写死的 500 本身就是缺陷（字面量，不是关系），
+  但把缺陷修成另一个字面量不是修法；正确的修法是比较关系（实时 == 归档），那是另一件要单独做的事。
