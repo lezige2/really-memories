@@ -89,7 +89,10 @@ judged distinct claims 13 条（15 - 2 重名: C2 是 S3_cells 的别名; C5 复
 
 **三个未闭（下一个会话第一件活）**：
 ```
-M4-A  </think 泄漏：write 2 处、verify 6 处（口径待统一）。处置三条：
+M4-A  </think 泄漏：口径已定，两个数都要报，禁止写单个数字：
+      机械次数 = 承载字段数 = 8（write 2 + verify 6）
+      语义次数 = 不同答案串数 = 2（53 字 / 32 字；副本判定用内容相等，不看路径名）
+      处置三条：
       白名单过滤控制标签（不许改块正文）/ 命中必须计数进 run json / 加一条会失败的断言
 M4-B  缺消融：同一布局下把车牌句从 block_text 删掉再问一次。
       现在缺它 ⇒ 接地只能写「支持性观察」，不能写「对照」
@@ -106,7 +109,16 @@ C 对话 user-only  82 tok  has_tag=True
 ```
 **带不带 assistant 轮都出标签，散文不出** ⇒ 对话形式是嫌疑。
 **但 A 与 B 同时差在形式、长度、内容三处** ⇒ 「对话式 ⇒ 出标签」目前只是支持性观察（纪律 31）。
-要单因子，得补一个「散文形式但约 91 token」的 D 例。**这个判断已交检测员裁定，未回。**
+**检测员的裁定比我更狠，而且是对的：B 的 `rc=230` 说明它的续写行为都变了（答案自己续成 Q&A 连发）——**
+**B 连「散文形式」这个自变量都保持不住，它换掉的是生成模式。所以现在是「三例共变」，一个变量都没分离。**
+
+要单因子，必须补**两例**（判据跑之前定死）：
+```
+D: 与 A 同内容、同长度（~91 token），只去掉角色标记   —— 唯一差异 = 形式
+E: 与 B 同形式，但加长到 ~91 token                    —— 唯一差异 = 长度
+D 仍出标签 => 形式不是成因，改看 E；D 不出标签 => 形式被支持；E 出标签 => 成因偏向长度
+```
+**只补 D 不补 E，会把「形式 vs 长度」永久留在未分离状态。**
 
 ### 4.4 已冻结、不许动的
 ```
@@ -142,6 +154,7 @@ R14 RE_PLATE 省份词表      C5 四份字节不同的并行副本（tools/diag
 不说「会话结束导致进程死」     -> 说「成因未定，两个候选未做判别实验」
 不说「M2 全部通过」/「M5 修好了接地」/「11 行已验」/「14B 证实」
 消融只能说「一例同布局消融对照（单例，非统计）」
+不说「think 出现 6 次」        -> 说「承载字段 8 / 不同答案串 2」（6 是不对称去重切出来的第三种切片）
 四词纪律: 未检验 / 实验无效 / 未测出·欠功率 / 无效应
 四态词表: 通过 / 未通过 / 按计划未到 / 失锚（待重跑）  +「未完成（中断）」另立
 证据强度: R 重算 / C 构造性覆盖 / A 锚定转录 / S 仅自述
@@ -194,8 +207,12 @@ python mine/inspector/check_m3_prereg_consistency.py --run m3/run_m3_lifecycle_5
 # 缺的是 SRC-CRITERIA §12.30 映射表里 #36 #37 两行（见未闭 F-D-1）
 python mine/inspector/check_discipline_map.py
 
-# 注入台账（注意: census 目前不连接 declarations，见未闭 F-M3-7）
-python mine/inspector/check_m3_injection.py --mode census --artifacts m3/run_m3_lifecycle_50_v4.json
+# 分层普查（F-M3-7 已闭：declarations 按 criterion key 连进每一行；期望 rc=0 + INJECTION/CENSUS: PASS）
+B=m3
+python mine/inspector/check_m3_injection.py --mode census \
+  --run $B/run_m3_lifecycle_50_v4.json \
+  --declarations $B/run_m3_criterion_declarations.json \
+  --unit-falsifiers $B/run_m3_unit_falsifiers.json
 ```
 
 ---
@@ -231,7 +248,8 @@ F-M3-3  I5/I6 端到端未覆盖 —— 判 U
 F-M3-4  falsified_by 混两种类型（20 个 case id + 5 条散文）；flipped 列只装 judged 判据
 F-M3-5  attempt 1 停在第 32 轮 —— 「未完成」，副本在 m3/_interrupted_32of50/
 F-M3-6  attempt 2 的 _c4_rise_window 坐在 checks 里 —— 已闭（attempt 4 移入 evidence_only）
-F-M3-7  census 不把 declarations 按 key 连进来 —— 未闭
+F-M3-7  census 不连 declarations —— 已闭（rc=0；并加了断言 N+M+K 必须等于 distinct claims，
+        产物自报 tally 与普查重算六个量逐个相等，不等就红并提示「先查读的是哪份文件」）
 F-D-1   纪律映射缺 #36 #37 两行：check_discipline_map.py rc=1，unhandled=[36,37] —— 已派给检测员
 未测    换输入那一类的稳定性 / 引擎内部池状态 / S3 的端到端可失败性 / 判据的第三份副本
 ```
