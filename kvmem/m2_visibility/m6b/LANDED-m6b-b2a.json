@@ -1,0 +1,66 @@
+{
+ "schema": "landed_m6b_b2a_v1",
+ "task": "task-38 M6b B2a 红证",
+ "at": "2026-10-25T23:33:25",
+ "artifact": {
+  "path": "kvmem/m2_visibility/m6b/out/M6B-B2A-RED.json",
+  "sha16": "45bb5339fc052cb7",
+  "bytes": 5014
+ },
+ "script": {
+  "path": "kvmem/m2_visibility/m6b/_run_m6b_b2.py",
+  "sha16": "35597abcd572b6f3",
+  "bytes": 16973
+ },
+ "verdict": {
+  "B2a_red": true,
+  "rule": "红 = existed 且 size_after<final_size 且 sha_after≠sha_old；本单不判 load（B2b 另单）"
+ },
+ "readings": {
+  "before_sha": "55fade361c7cb3dc4e4088560bb4c590cbef1c9ed25965cd8a241479cd528456",
+  "after_sha": "825c73aaa135255d3aed7929ffac00f7980d132f66d1e91033fef443e9e279ef",
+  "size_before": 3761892,
+  "size_after": 218496,
+  "final_size": 5224388,
+  "existed": true,
+  "truncated": true,
+  "kill_point": {
+   "method": "watcher 线程忙轮询目标 size；见 size < old_size（wb 截断窗口）⇒ 写 killinfo 后 os._exit(137)（等价 OOM/进程死，不是真 OOM）",
+   "watcher_fired": true,
+   "observed_size": 4,
+   "attempt": 1,
+   "elapsed_in_attempt_ms": 1.16,
+   "parent_min_size_seen": 0,
+   "parent_min_size_at_ms": 5923.05,
+   "parent_killed": false,
+   "child_exit_code": 137,
+   "child_attempts": [],
+   "child_error": null
+  }
+ },
+ "static": {
+  "bad": 0,
+  "kvshim_save_span": [
+   561,
+   568
+  ],
+  "atomicity_atom_hits_in_save": {
+   "lock": 0,
+   "temp": 0,
+   "rename": 0,
+   "replace": 0,
+   "fsync": 0,
+   "FlushFile": 0
+  }
+ },
+ "four_state": {
+  "B2a": "可达（已证：红）"
+ },
+ "discipline": {
+  "engine_changed": false,
+  "rebuild": false,
+  "real_blocks_written": false,
+  "sessions_written": false
+ },
+ "no_self_sha": true
+}

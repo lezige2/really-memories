@@ -1,0 +1,171 @@
+{
+ "schema": "m6b_b2a_red_v1",
+ "task": "task-38 M6b B2a（save 非原子）红证：只判 B2a，不判 B2b",
+ "at": "2026-10-25T23:33:25",
+ "assertion": "目标路径 P 上已有合法 .kvmem；save 进程在返回前终止 ⇒ P 的旧内容不可恢复，最终留下 0 ≤ size < old_size 的文件",
+ "setup": {
+  "tmp_root": "kvmem/m2_visibility/m6b/out/tmp",
+  "target_preloaded_from": "kvmem/blocks/project.kvmem（只读复制）",
+  "source_seq_data": "kvmem/blocks/profile.kvmem load 到 seq1（只读）",
+  "engine": {
+   "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+   "n_ctx": 8192,
+   "n_seq": 8,
+   "gpu_layers": 99,
+   "dll": "kvshim_vk.dll（产品 DLL；save-only，不 decode）"
+  },
+  "note": "所有写都落 m6b/out/tmp/；不碰 kvmem/blocks、kvmem/sessions、不写已签产物"
+ },
+ "before": {
+  "sha256": "55fade361c7cb3dc4e4088560bb4c590cbef1c9ed25965cd8a241479cd528456",
+  "bytes": 3761892,
+  "existed": true,
+  "path": "kvmem/m2_visibility/m6b/out/tmp/target.kvmem"
+ },
+ "after": {
+  "sha256": "825c73aaa135255d3aed7929ffac00f7980d132f66d1e91033fef443e9e279ef",
+  "sha16": "825c73aaa135255d",
+  "bytes": 218496,
+  "exists": true
+ },
+ "final_ref": {
+  "path": "kvmem/m2_visibility/m6b/out/tmp/final_ref.kvmem",
+  "sha256": "3b046c8ee3fb3b53d67d349e965941384b53deb8415279fcd46dabc6608266b4",
+  "sha16": "3b046c8ee3fb3b53",
+  "bytes": 5224388,
+  "save_ms": 34.1
+ },
+ "before_sha": "55fade361c7cb3dc4e4088560bb4c590cbef1c9ed25965cd8a241479cd528456",
+ "before_sha16": "55fade361c7cb3dc",
+ "after_sha": "825c73aaa135255d3aed7929ffac00f7980d132f66d1e91033fef443e9e279ef",
+ "after_sha16": "825c73aaa135255d",
+ "size_before": 3761892,
+ "size_after": 218496,
+ "final_size": 5224388,
+ "existed": true,
+ "truncated": true,
+ "readings": {
+  "existed": true,
+  "truncated": true,
+  "size_after_lt_final": true,
+  "sha_after_ne_before": true
+ },
+ "kill_point": {
+  "method": "watcher 线程忙轮询目标 size；见 size < old_size（wb 截断窗口）⇒ 写 killinfo 后 os._exit(137)（等价 OOM/进程死，不是真 OOM）",
+  "watcher_fired": true,
+  "observed_size": 4,
+  "attempt": 1,
+  "elapsed_in_attempt_ms": 1.16,
+  "parent_min_size_seen": 0,
+  "parent_min_size_at_ms": 5923.05,
+  "parent_killed": false,
+  "child_exit_code": 137,
+  "child_attempts": [],
+  "child_error": null
+ },
+ "verdict": {
+  "B2a_red": true,
+  "rule": "红 = existed 且 size_after<final_size 且 sha_after≠sha_old；本单不判 load（B2b 另单）"
+ },
+ "static": {
+  "sites": [
+   {
+    "file": "tools/kvshim.cpp",
+    "line": 561,
+    "note": "kvshim_save 入口",
+    "line_text": "KVSHIM_API long long kvshim_save(kvshim * h, int seq, const char * path) {",
+    "token": "kvshim_save",
+    "token_ok": true,
+    "bad": false
+   },
+   {
+    "file": "tools/kvshim.cpp",
+    "line": 565,
+    "note": "直接调 save_file，无 temp/rename/fsync",
+    "line_text": "const size_t n = llama_state_seq_save_file(h->ctx, path, (llama_seq_id) seq,",
+    "token": "llama_state_seq_save_file",
+    "token_ok": true,
+    "bad": false
+   },
+   {
+    "file": "llama.cpp/src/llama-context.cpp",
+    "line": 3609,
+    "note": "llama_file(filepath, \"wb\") —— 打开即截断",
+    "line_text": "llama_file file(filepath, \"wb\");",
+    "token": "\"wb\"",
+    "token_ok": true,
+    "bad": false
+   },
+   {
+    "file": "tools/memory_source.py",
+    "line": 349,
+    "note": "产品直写最终块路径",
+    "line_text": "path = os.path.join(blocks_dir, name + \".kvmem\")",
+    "token": "os.path.join(blocks_dir",
+    "token_ok": true,
+    "bad": false
+   },
+   {
+    "file": "tools/memory_source.py",
+    "line": 350,
+    "note": "块 save 无 temp/rename",
+    "line_text": "nb = eng.save(seq, path)",
+    "token": "eng.save",
+    "token_ok": true,
+    "bad": false
+   },
+   {
+    "file": "tools/session_state.py",
+    "line": 229,
+    "note": "chat 状态直写最终路径",
+    "line_text": "if chat_n and eng.save(0, chat_file) <= 0:",
+    "token": "eng.save",
+    "token_ok": true,
+    "bad": false
+   },
+   {
+    "file": "tools/session_state.py",
+    "line": 251,
+    "note": "同函数 manifest 反而 tmp",
+    "line_text": "tmp = path + \".tmp\"",
+    "token": "path + \".tmp\"",
+    "token_ok": true,
+    "bad": false
+   },
+   {
+    "file": "tools/session_state.py",
+    "line": 254,
+    "note": "manifest 原子替换",
+    "line_text": "os.replace(tmp, path)          # atomic: a truncated manifest never appears",
+    "token": "os.replace",
+    "token_ok": true,
+    "bad": false
+   }
+  ],
+  "bad": 0,
+  "kvshim_save_span": [
+   561,
+   568
+  ],
+  "atomicity_atom_hits_in_save": {
+   "lock": 0,
+   "temp": 0,
+   "rename": 0,
+   "replace": 0,
+   "fsync": 0,
+   "FlushFile": 0
+  },
+  "no_atomicity_atom": true
+ },
+ "not_judged": {
+  "B2b_half_file_load": "本单一律不判（另单）",
+  "B3_concurrency": "不在本单"
+ },
+ "discipline": {
+  "engine_changed": false,
+  "rebuild": false,
+  "real_blocks_written": false,
+  "sessions_written": false
+ },
+ "no_self_sha": true
+}
