@@ -43,13 +43,27 @@ def _output_layer(d):
     same assertion with the filter disabled and it goes red. Raw evidence in d["answer"] is
     never touched by this function.
     """
+    # Two stages, deliberately kept apart: counts are measured on the RAW answer, because that is
+    # where a tag lives; the assertion is applied to the DELIVERED text, because that is what a
+    # user reads. Measuring the counts on the delivered text (already normalised by m4_display)
+    # reported per_tag={} and removed_chars=0 while the raw answer still carried a tag -- a green
+    # count over an empty measurement. That happened in run_m4_verify_a2.json, attempt 2.
+    raw = d.get("answer") or ""
+    measured = OUT.filter_text(raw)
     f = OUT.filter_text(d.get("answer_display") or "")
     d["answer_display"] = f["text"]
-    d["answer_display_changed"] = d["answer_display"] != (d.get("answer") or "")
-    d["output_filter"] = {"per_tag": f["per_tag"], "total": f["total"],
-                          "before_len": f["before_len"], "after_len": f["after_len"],
-                          "removed_chars": f["removed_chars"],
-                          "unknown_angle_tokens": f["unknown_angle_tokens"]}
+    d["answer_display_changed"] = d["answer_display"] != raw
+    d["output_filter"] = {"per_tag": measured["per_tag"], "total": measured["total"],
+                          "before_len": measured["before_len"],
+                          "after_len": measured["after_len"],
+                          # attributable to the filter: the tags' own characters
+                          "tag_chars_removed": measured["tag_chars_removed"],
+                          # NOT attributable: the display layer collapses blank runs too, so this
+                          # delta mixes two causes. Named for what it measures, not for a cause.
+                          "raw_to_delivered_delta": len(raw) - len(d["answer_display"]),
+                          "unknown_angle_tokens": measured["unknown_angle_tokens"],
+                          "measured_on": "answer (raw, where a tag lives)",
+                          "delivered_has_tag": OUT.scan(d["answer_display"])["total"]}
     try:
         OUT.assert_clean(d["answer_display"], "newproc answer_display")
         d["output_filter"]["assertion"] = "pass"

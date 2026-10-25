@@ -3,7 +3,7 @@
 
   python -u -X utf8 m4_verify.py
 """
-import io, json, os, re, sqlite3, subprocess, sys, tempfile, time
+import argparse, io, json, os, re, sqlite3, subprocess, sys, tempfile, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = r"D:/llama-mem"
@@ -97,8 +97,15 @@ def scenario_multi_value():
             "ok": len(rows) == 2 and len(live) == 1 and len(sup) == 1}
 
 
-def main():
-    res = {"schema": "m4_verify_v1", "parent_pid": os.getpid(),
+def main(argv=None):
+    # --out default is a NEW name on purpose (discipline 35): this driver used to write
+    # run_m4_verify.json unconditionally, so any rerun would silently overwrite a finished
+    # artifact. Nothing is overwritten now unless the caller names the old file explicitly.
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--out", default="run_m4_verify_a2.json")
+    ap.add_argument("--attempt", type=int, default=2)
+    a = ap.parse_args(argv)
+    res = {"schema": "m4_verify_v1", "attempt": a.attempt, "parent_pid": os.getpid(),
            "started_at": time.strftime("%Y-%m-%dT%H:%M:%S"), "db": DB,
            "questions": QUESTIONS}
 
@@ -146,6 +153,8 @@ def main():
                        "raw_has_tag": "<" "/think" ">" in (d.get("answer") or ""),
                        "raw_kept_unchanged": d.get("answer_exact", "").strip()
                                              == (d.get("answer") or ""),
+                       "output_filter": d.get("output_filter"),
+                       "output_layer_clean": d.get("output_layer_clean"),
                        "per_tag_count": d.get("per_tag_count"),
                        "removed_chars": d.get("removed_chars"),
                        "display_len": d.get("display_len"),
@@ -156,6 +165,37 @@ def main():
                        "pid": d.get("pid"), "child_of": os.getpid(),
                        "new_process": bool(d.get("pid")) and d.get("pid") != os.getpid(),
                        "retrieval_routed": bool(d.get("routed_by"))})
+    # M4-A counts, reported at two levels on purpose: a single number is exactly what was
+    # reported wrong before (6 fields is a field count, 2 distinct strings is a content count).
+    res["output_filter_counts"] = {
+        "mechanical_carrying_fields": sum(1 for c in checks if c.get("output_filter")),
+        "mechanical_fields_with_a_tag_hit": sum(
+            1 for c in checks if (c.get("output_filter") or {}).get("total")),
+        "semantic_distinct_answer_strings": len(set(c.get("answer") or "" for c in checks)),
+        "semantic_distinct_raw_strings_carrying_a_tag": len(
+            set(c.get("answer") or "" for c in checks
+                if (c.get("output_filter") or {}).get("total"))),
+        "measured_on": "answer (raw) -- the delivered text is already normalised by m4_display, "
+                       "so counting there reports zero hits while the raw answer still has one",
+        # each count carries the question it answers: three numbers without their questions is
+        # how "6 fields" gets read as "6 tags"
+        "answers_question": {
+            "mechanical_carrying_fields": "how many answer-bearing fields did this run write",
+            "mechanical_fields_with_a_tag_hit": "how many of those fields actually carried a tag",
+            "semantic_distinct_answer_strings": "how many distinct answer strings exist",
+            "semantic_distinct_raw_strings_carrying_a_tag": "how many distinct raw strings carried a tag",
+            "tag_chars_removed": "characters removed by the tag filter (attributable)",
+            "raw_to_delivered_delta": "raw length minus delivered length (filter + display collapse)",
+        },
+        "per_field": [{"q": c["q"], "per_tag": (c.get("output_filter") or {}).get("per_tag"),
+                       "tag_chars_removed": (c.get("output_filter") or {}).get("tag_chars_removed"),
+                       "raw_to_delivered_delta": (c.get("output_filter") or {}).get(
+                           "raw_to_delivered_delta"),
+                       "delivered_has_tag": (c.get("output_filter") or {}).get("delivered_has_tag"),
+                       "before_len": (c.get("output_filter") or {}).get("before_len"),
+                       "after_len": (c.get("output_filter") or {}).get("after_len"),
+                       "assertion": (c.get("output_filter") or {}).get("assertion")}
+                      for c in checks]}
     res["answer_checks"] = checks
     res["search_checks"] = [{"q": b["argv"][-1], "hits": ((b.get("json") or {}).get("hits") or []),
                              "pid": (b.get("json") or {}).get("pid"),
@@ -181,6 +221,9 @@ def main():
             (res["position0"].get("json") or {}).get("pass", {}).get("ok")
             and (res["position0"].get("json") or {}).get("refuse", {}).get("both_guards_refuse")),
     }
+    # M4-A: the answer we hand out must be tag-free, and the assertion must be able to fail
+    # (run_outfilter_selftest.py S2 proves it does when the filter is off)
+    acc["output_layer_clean"] = all(c.get("output_layer_clean") for c in checks)
     acc["display_never_decides"] = all(c["hit"] == (c["want_verbatim"] in c["answer"])
                                         for c in checks) and all(not c["display_has_tag"]
                                                                  for c in checks)
@@ -200,7 +243,10 @@ def main():
     res["acceptance"] = acc
     res["gates"] = GATES
     res["finished_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
-    out = os.path.join(HERE, "run_m4_verify.json")
+    out = a.out if os.path.isabs(a.out) else os.path.join(HERE, a.out)
+    if os.path.exists(out) and a.attempt <= 2 and os.path.basename(out) == "run_m4_verify.json":
+        raise SystemExit("refusing to overwrite the finished run_m4_verify.json; "
+                         "pass --out with a new name")
     json.dump(res, io.open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     print(json.dumps(acc, ensure_ascii=False, indent=1))
     for c in checks:

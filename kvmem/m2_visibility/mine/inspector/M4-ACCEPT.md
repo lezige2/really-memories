@@ -10,12 +10,12 @@ schema m4_verify_v1 / m4_write_v1 ｜ dll 9edbafa1… ｜ 块 blk_conv_2026-10-2
 | acceptance 9 项 | 我核的依据 | 结果 |
 |---|---|---|
 | 1 一块 | blocks 长度 1，cells 91 | 成立 |
-| 2 记忆带 span | 6 条 memory 行，每条 evidence_span 均在原文中逐字存在 | 成立 |
-| 3 save+插入 | save.bytes 与 sha 有值；DB 6 行 = keeps 6 | 成立 |
-| 4 新进程检索 | 检索 pid **17204 / 9688**（与父进程 14892 不同） | 成立 |
-| 5 新进程作答 | 作答 pid **11460 / 9008**，child_of 14892，hit=true | 成立（但见 §1 污染） |
+| 2 记忆带 span | `write.judge.memories[*].evidence_span` 6 条，逐条在 `block_text`（127 字）里逐字存在，且每条 value 是其 span 的逐字子串（**注意：`verify.stored` 的 6 行里没有 evidence_span 字段，该断言只能在 judge 侧核**） | 成立 |
+| 3 save+插入 | `write.save` bytes=9,507,412 与 sha 有值（与磁盘复算一致）；`write.db` memories 6 = keeps 6 = rows 6 | 成立 |
+| 4 新进程检索 | 检索 pid **13288 / 8860**，均带 `new_process: true`；两者与 `verify.parent_pid = 12956` 都不同 | 成立（pid 数字见 §6 更正） |
+| 5 新进程作答 | 作答 pid **1920 / 9944**（`answers[i].json.pid`），与 parent_pid 12956 不同；命中依据是 `search_checks[i].hits` 非空（score 2.442 / 5.571）——**产物里没有 `child_of`、也没有 `hit` 字段，原写法作废** | 成立（但见 §1 污染） |
 | 6 多值保留旧值 | live=1、superseded=1、old_value_kept=true | 成立 |
-| 7 相对时间锚定 | mem 6 anchored_time=**2026-10-28**（与我冻结的期望一致） | 成立 |
+| 7 相对时间锚定 | 6 行里**只有「计划」一行** anchored_time=**2026-10-28**，其余 5 行为 None（与我冻结的期望一致） | 成立（原写法读作六行都有，见 §6） |
 | 8 去重不新增 | rows 6、distinct_keys 6、no_new_row=true | 成立 |
 | position0 | pass：扫描覆盖恰好 [0,21)；refuse：两道 guard 均 ok=false 并给出理由 | 成立（有真拒绝） |
 
@@ -40,7 +40,7 @@ step5 rc=93、hit=true（成功侧）；step7 复原到 position 0，块 91 cell
 **判定：这是 M4 的产物缺陷（用户可见污染），不是"命中就算过"的小事。** 三条理由：
 1. 它**确定性复现**：3 次独立生成（run_m4_write step5 一次、run_m4_verify 两次）全部出现，不是采样噪声；
 2. 它**不是块正文带来的**：block_text 里我用子串查过，没有 think / 没有尖括号；块正文干净（这符合 block_text_policy 的逐字规定）；
-3. 它**跨实验可对照**：M2 三个 run json + M3 的 50 轮答案里，`think` 出现次数**全为 0**；M4 两个 json 里是 **6 次**（write 2 + verify 4）。
+3. 它**跨实验可对照**：M2 三个 run json + M3 的 50 轮答案里，`think` 出现次数**全为 0**；M4 两个 json 里是 **8 个字段承载**（write 2 + verify 6），但只是 **2 个不同答案串**（53 字 / 32 字；verify 里 `answer_exact` 与 `answer_checks/*` 逐字节等同于 `answers/*`）。**原写「6 次」作废**：那是保留 `answer_exact` 重复、剔掉 `answer_checks` 副本的不对称去重（纪律 38）。
    这说明它不是"这个模型天生会吐的标签"。
 
 **但我不判它的成因**（证据不足，见下）。三个候选未排除：
@@ -48,7 +48,7 @@ step5 rc=93、hit=true（成功侧）；step7 复原到 position 0，块 91 cell
 (b) 块从 position 0 被**重放到** [4005,4096)（M2/M3 是直接加载到最终位置，没有这段重放路径）；
 (c) 无 chat 模板拼接 + 对话式正文的交互。
 执行者已经写了 `_probe_think.py`（A 对话 / B 散文 / C 去掉 assistant 的三例对照），方向对；
-**但 `evidence_think_tag.json` 现在是 0 字节**（02:47，未产出）——我按"未完成"记，不作为证据，也**没有并发跑它**
+**`evidence_think_tag.json`：02:47 观测为 0 字节（未产出，当时按「未完成」记，不作为证据，也没有并发跑它）；02:48:06 重读为 1,210 B，三例齐全（A=True / B=False / C=True）**——按纪律 37，两个读数都留着
 （两个引擎同时加载会争 VRAM，毁掉他正在跑的那次结果）。
 
 **处置要求（三条，缺一不可）**：
@@ -106,7 +106,7 @@ M4 里它更明显，因为 block 是对话式正文。处置：交付层取首�
    这暴露**我判据内部冲突**（§7 要求相对时间锚定 vs §9 要求 value 逐字），已裁决并写进 §14 R7：value 逐字保留 + 增加 resolved 字段，不许只存原文。
 3. **rc=-1 + 空串是静默失败面**：lease step0 里块在 [0,91)、ask 在 4096 时返回 rc=-1 与空答案，**不抛异常**。
    这与 M3 的"源 seq 静默失效"是同一类问题。要求：ask 之后必须断言 rc > 0 且答案非空，否则记 error（不能把空答案当正常输出）。
-4. **`_probe_think.py` 已存在但 `evidence_think_tag.json` 为 0 字节**（02:47）。按"未完成"记；我没有并发跑它（GPU 争用会污染他的结果）。
+4. **`_probe_think.py` 已存在；`evidence_think_tag.json` 02:47 观测为 0 字节、02:48:06 重读为 1,210 B 三例齐全**。当时按「未完成」记并放弃并发跑（GPU 争用会污染他的结果）——见 §6 更正。
 
 ## 5 chat.py 接入 BlockLeases 的验收条件（在你三条之外补六条）
 
@@ -218,3 +218,21 @@ lead 的「16 键」纠正成立，我的 9/9 不成立（我只读了前九项�
  ｜ `m4_memory.db` = 817a66e45a4e3594
  ｜ `run_m4_write.json` = 6408d8e2ecdf6ee5。
 今后凡「验收通过」的结论，都要带这一行；产物一旦重跑，sha 变了就自动失效，需要重新验收而不是默认沿用。
+
+---
+
+## 6 更正记录（2026-10-25，本文件仍是活稿，未交付验收）
+
+复核对象：`m4/run_m4_write.json` / `run_m4_verify.json` / `evidence_think_tag.json`。逐项按「实际读数 = 结论 / 不等」重核，五处不等，全部按「原 X → 改为 Y，因为 Z」登记：
+
+| 位置 | 原写法 | 改为 | 因为（现场读数） | 方向 |
+|---|---|---|---|---|
+| §0 第 4 项 | 检索 pid 17204 / 9688，父进程 14892 | 13288 / 8860，`parent_pid=12956` | `verify.search_checks[i].pid` = 13288 / 8860，各带 `new_process: true`；`verify.parent_pid` = 12956。**17204 是 17104 的误抄**（17104 是 `evidence_think_tag.json` 的探针 pid，不是检索进程） | 改读数（结论不变：四个 pid 与 parent 都不同） |
+| §0 第 5 项 | 作答 pid 11460 / 9008，child_of 14892，hit=true | 1920 / 9944；删去 `child_of` 与 `hit` | `answers[i].json.pid` = 1920 / 9944；产物**没有** `child_of` 字段，**也没有** `hit` 字段（命中依据是 `search_checks[i].hits` 非空） | 收紧（删掉不可核的字段名） |
+| §0 第 2 项 | 6 条 memory 行每条 evidence_span 逐字存在 | 同结论，注明只在 `write.judge.memories[*]` 侧核 | `verify.stored` 的 6 行**没有** `evidence_span` 字段；6 条 span 全部逐字命中 `block_text`（127 字），且每条 value ⊂ 其 span | 收紧（补出处） |
+| §0 第 7 项 | mem 6 anchored_time=2026-10-28 | 6 行里只有「计划」一行是 2026-10-28，其余 5 行 None | `verify.stored[*].anchored_time` 逐行读数 | 收紧（原写法读作六行都有） |
+| §1 第 3 条 | M4 两个 json 里是 6 次（write 2 + verify 4） | 机械 8 个字段（write 2 + verify 6）／语义 2 个不同答案串（53 字 / 32 字） | 逐字段扫描 + 逐字节相等判定：`answer_exact` 与同层 `answer` 相同，`answer_checks/0,1` 与 `answers/0,1` 相同 | 改口径（纪律 38：不对称去重作废） |
+| §1 与 §4.4 | `evidence_think_tag.json` 是 0 字节（02:47，未产出） | 02:47 观测为 0 字节；02:48:06 重读为 1,210 B、三例齐全（A=True / B=False / C=True） | 重读文件本身 | 补齐（纪律 37：两个读数都留） |
+
+**§4.2 交接稿里那句「新进程检索与作答 pid 均不同」在结论上仍成立，但依据必须换成上面三个数**：`parent_pid=12956`，检索 13288/8860，作答 1920/9944 —— 四个 pid 与 parent 两两不等，`new_process: true` 落在检索侧。**不能再写 `child_of`**，产物里没有这个字段。
+

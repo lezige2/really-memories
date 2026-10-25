@@ -89,9 +89,14 @@ def filter_text(text, enabled=None):
                 "unknown_angle_tokens": before["unknown_angle_tokens"]}
     spans = [m.span() for m in ANY_RX.finditer(raw)]
     clean = ANY_RX.sub("", raw)
+    # tag_chars_removed is ATTRIBUTABLE: exactly the characters of the matched tags, which is
+    # the only thing this filter removes. A raw-to-delivered delta is not attributable here,
+    # because the display layer also collapses blank runs -- keep those two apart.
+    tag_chars = sum(b - a for a, b in spans)
     return {"text": clean, "filter_enabled": True, "per_tag": before["per_tag"],
             "total": before["total"], "before_len": len(raw), "after_len": len(clean),
-            "removed_chars": len(raw) - len(clean), "removed_spans": spans,
+            "tag_chars_removed": tag_chars, "removed_chars": tag_chars,
+            "removed_spans": spans,
             "unknown_angle_tokens": before["unknown_angle_tokens"]}
 
 
