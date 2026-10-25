@@ -1,0 +1,24 @@
+baseline all true: True | baseline no reason: True
+U-S1         S1_pos_max_detach_equal                            flipped=['S1_pos_max_detach_equal'] OK
+U-S2         S2_pos_max_within_bound                            flipped=['S2_pos_max_within_bound', 'S3_pos_at_attach_equals_attach_pos_hi_minus_1'] OK
+U-S3pos      S3_pos_at_attach_equals_attach_pos_hi_minus_1      flipped=['S3_pos_at_attach_equals_attach_pos_hi_minus_1'] OK
+U-S3cells    S3_cells_attach_minus_before_equals_moved          flipped=['C2_cells_attach_minus_before_equals_moved', 'S3_cells_attach_minus_before_equals_moved'] OK
+U-T1         T1_needle_in_every_answer                          flipped=['T1_needle_in_every_answer', 'T2_answers_identical_to_round1'] OK
+U-T2         T2_answers_identical_to_round1                     flipped=['T2_answers_identical_to_round1'] OK
+U-C1         C1_cells_detach_equal                              flipped=['C1_cells_detach_equal'] OK
+U-C3         C3_block_cells_moved                               flipped=['C3_block_cells_moved'] OK
+U-C4         C4_no_3_round_non_decreasing_rise                  flipped=['C1_cells_detach_equal', 'C4_no_3_round_non_decreasing_rise', 'C5_last_equals_first'] OK
+U-C5         C5_last_equals_first                               flipped=['C1_cells_detach_equal', 'C5_last_equals_first'] OK
+U-L1         L1_holders_zero                                    flipped=['L1_holders_zero'] OK
+U-L2         L2_ranges_zero                                     flipped=['L2_ranges_zero'] OK
+U-L3         L3_any_leased_false                                flipped=['L3_any_leased_false'] OK
+U-L4         L4_reset_clears_tokens                             flipped=['L4_reset_clears_tokens'] OK
+U-I1-empty   I1                                                 flipped=['T1_needle_in_every_answer', 'T2_answers_identical_to_round1'] OK
+U-I1-needle  I1                                                 flipped=['T1_needle_in_every_answer', 'T2_answers_identical_to_round1'] OK
+U-I2         I2                                                 flipped=[] OK
+U-I4         I4                                                 flipped=[] OK
+U-I5         I5                                                 flipped=['S3_pos_at_attach_equals_attach_pos_hi_minus_1'] OK
+U-I6         I6                                                 flipped=[] OK
+never falsified: []
+not falsifiable alone: ['C2_cells_attach_minus_before_equals_moved', 'C4_no_3_round_non_decreasing_rise', 'C5_last_equals_first', 'S2_pos_max_within_bound', 'S3_cells_attach_minus_before_equals_moved', 'T1_needle_in_every_answer']
+UNIT-FALSIFIERS PASS -- every judged criterion except the restatements has a single-factor red
