@@ -1,0 +1,589 @@
+{
+ "schema": "m6a_i2_summary_v1",
+ "task": "task-38 M6a-fix I2：共享 cell 移动 fail-closed 守卫（红→绿→变体）",
+ "at": "2026-10-25T23:29:58",
+ "code": {
+  "old": {
+   "path": "kvmem/m2_visibility/m3/_before/m3_lease.py@33ae679a50d58c93",
+   "sha16": "33ae679a50d58c93",
+   "bytes": 9047,
+   "sha16_verified_against": "LANDED-l2.json"
+  },
+  "new": {
+   "path": "kvmem/m2_visibility/m3/m3_lease.py",
+   "sha16": "6298a838f87b074f",
+   "bytes": 15187
+  },
+  "diff": {
+   "insertions": 107,
+   "deletions": 2,
+   "hunks": 4
+  },
+  "files_unchanged": {
+   "tools/chat.py": "22081c411c64fbe7",
+   "tools/chat_lease.py": "619a043215035de7",
+   "freeze_analysis.py": "49e91c7bd3dd32ef",
+   "freeze_retrieval.py": "43f660196ab90a14",
+   "freeze_evidence.py": "dccf7f010eaf9c7e"
+  }
+ },
+ "construction": {
+  "block": "kvmem/blocks/profile.kvmem（50 cells，DB memory_block=50）",
+  "seqs": {
+   "block": 3,
+   "dialogue_A": 0,
+   "dialogue_B": 7
+  },
+  "steps": [
+   "load(profile->3)",
+   "attach(3->0,[0,50))",
+   "attach(3->7,[0,50))",
+   "eng.repos_local(3,+100)"
+  ]
+ },
+ "arms": {
+  "RED": {
+   "artifact": {
+    "path": "kvmem/m2_visibility/m6/out/M6A-I2-RED.json",
+    "sha16": "6cda299d36ae6d43",
+    "bytes": 4294
+   },
+   "code_sha16": {
+    "m3_lease.py": "33ae679a50d58c93",
+    "chat.py": "22081c411c64fbe7",
+    "chat_lease.py": "619a043215035de7"
+   },
+   "guard": null,
+   "outcome": {
+    "refused": false,
+    "moved": 50,
+    "exception": null,
+    "before": {
+     "seq0": {
+      "n_cells": 50,
+      "pos_range": [
+       0,
+       49
+      ],
+      "pos_max_raw": 49
+     },
+     "seq7": {
+      "n_cells": 50,
+      "pos_range": [
+       0,
+       49
+      ],
+      "pos_max_raw": 49
+     },
+     "block_seq3": {
+      "n_cells": 50,
+      "pos_range": [
+       0,
+       49
+      ],
+      "pos_max_raw": 49
+     },
+     "n_tokens_block_seq3": 50
+    },
+    "after": {
+     "seq0": {
+      "n_cells": 50,
+      "pos_range": [
+       100,
+       149
+      ],
+      "pos_max_raw": 149
+     },
+     "seq7": {
+      "n_cells": 50,
+      "pos_range": [
+       100,
+       149
+      ],
+      "pos_max_raw": 149
+     },
+     "block_seq3": {
+      "n_cells": 50,
+      "pos_range": [
+       100,
+       149
+      ],
+      "pos_max_raw": 149
+     },
+     "n_tokens_block_seq3": 50
+    },
+    "move_refusals": [],
+    "rec_shape": {
+     "silent_move": true,
+     "refused_with_reason": false,
+     "both_unchanged": false
+    },
+    "expected_shape": "silent_move",
+    "pass": true
+   }
+  },
+  "GREEN": {
+   "artifact": {
+    "path": "kvmem/m2_visibility/m6/out/M6A-I2-GREEN.json",
+    "sha16": "94e2edeebf68819f",
+    "bytes": 8305
+   },
+   "code_sha16": {
+    "m3_lease.py": "6298a838f87b074f",
+    "chat.py": "22081c411c64fbe7",
+    "chat_lease.py": "619a043215035de7"
+   },
+   "guard": {
+    "ctor": "GuardedLeases(default move_guard=True)",
+    "move_guard_ctor": true,
+    "guard_installed": true,
+    "guard_install_note": null
+   },
+   "outcome": {
+    "refused": true,
+    "moved": null,
+    "exception": {
+     "type": "LeaseError",
+     "msg": "refusing repos_local(block seq 3 'profile', delta +100, p0=0, p1=-1): still referenced by dialogue seq(s) [0, 7] via attach range(s) [[0, 0, 50], [7, 0, 50]]. Moving shared cells would silently shift every referrer's position window (M6a I2). Detach first, or move before attaching. (Guard is fail-closed; only the variant arm constructs the table with move_guard=False.)",
+     "traceback_tail": "m3_lease.LeaseError: refusing repos_local(block seq 3 'profile', delta +100, p0=0, p1=-1): still referenced by dialogue seq(s) [0, 7] via attach range(s) [[0, 0, 50], [7, 0, 50]]. Moving shared cells would silently shift every referrer's position window (M6a I2). Detach first, or move before attaching. (Guard is fail-closed; only the variant arm constructs the table with move_guard=False.)"
+    },
+    "before": {
+     "seq0": {
+      "n_cells": 50,
+      "pos_range": [
+       0,
+       49
+      ],
+      "pos_max_raw": 49
+     },
+     "seq7": {
+      "n_cells": 50,
+      "pos_range": [
+       0,
+       49
+      ],
+      "pos_max_raw": 49
+     },
+     "block_seq3": {
+      "n_cells": 50,
+      "pos_range": [
+       0,
+       49
+      ],
+      "pos_max_raw": 49
+     },
+     "n_tokens_block_seq3": 50
+    },
+    "after": {
+     "seq0": {
+      "n_cells": 50,
+      "pos_range": [
+       0,
+       49
+      ],
+      "pos_max_raw": 49
+     },
+     "seq7": {
+      "n_cells": 50,
+      "pos_range": [
+       0,
+       49
+      ],
+      "pos_max_raw": 49
+     },
+     "block_seq3": {
+      "n_cells": 50,
+      "pos_range": [
+       0,
+       49
+      ],
+      "pos_max_raw": 49
+     },
+     "n_tokens_block_seq3": 50
+    },
+    "move_refusals": [
+     {
+      "seq": 3,
+      "delta": 100,
+      "p0": 0,
+      "p1": -1,
+      "block": "profile",
+      "referrers": [
+       0,
+       7
+      ],
+      "ranges": [
+       [
+        0,
+        0,
+        50
+       ],
+       [
+        7,
+        0,
+        50
+       ]
+      ],
+      "reason": "refusing repos_local(block seq 3 'profile', delta +100, p0=0, p1=-1): still referenced by dialogue seq(s) [0, 7] via attach range(s) [[0, 0, 50], [7, 0, 50]]. Moving shared cells would silently shift every referrer's position window (M6a I2). Detach first, or move before attaching. (Guard is fail-closed; only the variant arm constructs the table with move_guard=False.)"
+     }
+    ],
+    "rec_shape": {
+     "silent_move": false,
+     "refused_with_reason": true,
+     "both_unchanged": true
+    },
+    "guard_selftest": true,
+    "expected_shape": "refused_with_reason",
+    "pass": true
+   }
+  },
+  "VARIANT": {
+   "artifact": {
+    "path": "kvmem/m2_visibility/m6/out/M6A-I2-VARIANT.json",
+    "sha16": "cd5cd64020e2c53f",
+    "bytes": 4607
+   },
+   "code_sha16": {
+    "m3_lease.py": "6298a838f87b074f",
+    "chat.py": "22081c411c64fbe7",
+    "chat_lease.py": "619a043215035de7"
+   },
+   "guard": {
+    "ctor": "BlockLeases(move_guard=False)",
+    "move_guard_ctor": false,
+    "guard_installed": false,
+    "guard_install_note": null
+   },
+   "outcome": {
+    "refused": false,
+    "moved": 50,
+    "exception": null,
+    "before": {
+     "seq0": {
+      "n_cells": 50,
+      "pos_range": [
+       0,
+       49
+      ],
+      "pos_max_raw": 49
+     },
+     "seq7": {
+      "n_cells": 50,
+      "pos_range": [
+       0,
+       49
+      ],
+      "pos_max_raw": 49
+     },
+     "block_seq3": {
+      "n_cells": 50,
+      "pos_range": [
+       0,
+       49
+      ],
+      "pos_max_raw": 49
+     },
+     "n_tokens_block_seq3": 50
+    },
+    "after": {
+     "seq0": {
+      "n_cells": 50,
+      "pos_range": [
+       100,
+       149
+      ],
+      "pos_max_raw": 149
+     },
+     "seq7": {
+      "n_cells": 50,
+      "pos_range": [
+       100,
+       149
+      ],
+      "pos_max_raw": 149
+     },
+     "block_seq3": {
+      "n_cells": 50,
+      "pos_range": [
+       100,
+       149
+      ],
+      "pos_max_raw": 149
+     },
+     "n_tokens_block_seq3": 50
+    },
+    "move_refusals": [],
+    "rec_shape": {
+     "silent_move": true,
+     "refused_with_reason": false,
+     "both_unchanged": false
+    },
+    "guard_selftest": true,
+    "expected_shape": "silent_move",
+    "pass": true
+   }
+  }
+ },
+ "before_copy": {
+  "path": "kvmem/m2_visibility/m3/_before/m3_lease.py@33ae679a50d58c93",
+  "bytes": 9047,
+  "sha16": "33ae679a50d58c93",
+  "before_reconstructed": true,
+  "reconstruction_method": "改前字节没有先拷贝（_before/ 被 _*/ 忽略、施工前未落盘）：按本单补丁反向剥离重建 —— 去掉 BlockLeases.__init__ 里的 guard 块（move_guard/guard_installed/guard_install_note、move_refusals、_guard_engine_move 调用）、check_move/_guard_engine_move/状态字段、functools 导入；只剥本单补丁，不多剥/少剥；最终 sha256[:16] 必须等于权威坐标（实测见 verification）",
+  "authoritative_source": {
+   "file": "kvmem/m2_visibility/m3/LANDED-l2.json",
+   "field": "files.m3_lease.py.sha16",
+   "value": "33ae679a50d58c93",
+   "bytes": 9047
+  },
+  "verification": {
+   "command": "python -X utf8 -c <sha256 one-liner over _before/m3_lease.py@33ae...>",
+   "stdout": "33ae679a50d58c93",
+   "exit": 0,
+   "matches_authority": true,
+   "matches_declared_old": true,
+   "grep_MOVE_GUARD_count": "0"
+  }
+ },
+ "guard": {
+  "install": "BlockLeases.__init__ 构造期在实例上包 eng.repos_local；装不上 ⇒ raise LeaseError（fail-closed，不是静默 unguarded）",
+  "missing_move_api": "engine 无 repos_local ⇒ guard_installed=False + move_guard_not_applicable 事件；product 调它会 AttributeError，不存在可被静默绕过的 move 路径（本身 fail-closed）",
+  "noncallable_or_assign_error": "repos_local 存在但不可调用 / 实例赋值失败 ⇒ 构造期 raise，文案带 engine 类型、属性、文件名与函数名",
+  "disable": "唯一关闭方式：构造参数 move_guard=False（变体/测试显式传；product 不传）",
+  "env_seam": "无：m3_lease.py 不读任何环境变量（旧 env 缝已删，grep=0）",
+  "arms_guard": {
+   "RED": null,
+   "GREEN": {
+    "ctor": "GuardedLeases(default move_guard=True)",
+    "move_guard_ctor": true,
+    "guard_installed": true,
+    "guard_install_note": null
+   },
+   "VARIANT": {
+    "ctor": "BlockLeases(move_guard=False)",
+    "move_guard_ctor": false,
+    "guard_installed": false,
+    "guard_install_note": null
+   }
+  },
+  "selftest": {
+   "green_guard_installed_true": true,
+   "variant_move_guard_ctor_false": true,
+   "variant_not_installed": true,
+   "variant_selftest_true": true,
+   "note": "probe 的 checks 里带断言：真实 engine 建 GuardedLeases 后 guard_installed 必须 True，否则该 arm 红"
+  }
+ },
+ "zero_behavior_change": {
+  "m1_explain_byte_identical": true,
+  "two_dry_stdout_semantic_identical": true,
+  "two_dry_all_ok_before_after": [
+   true,
+   true
+  ],
+  "two_dry_json_top_level_diff_keys": [
+   "at"
+  ],
+  "two_dry_json_diff_is_only_timestamp": true,
+  "s1_dry_json_diff_keys": [
+   "at",
+   "label"
+  ],
+  "s1_dry_json_diff_is_only_at_label": true,
+  "s1_dry_pass": [
+   12,
+   0,
+   12,
+   0
+  ],
+  "l1_11_11": true,
+  "l2_5_5": true,
+  "p1_5_5": true,
+  "suites": {
+   "two-dry": {
+    "before": {
+     "path": "kvmem/m2_visibility/m6/out/_before/two-dry.stdout",
+     "sha16": "31d9a4650e6a1991",
+     "bytes": 1104
+    },
+    "after": {
+     "path": "kvmem/m2_visibility/m6/out/_after/two-dry.stdout",
+     "sha16": "f38076345cc1295f",
+     "bytes": 1103
+    },
+    "stdout_byte_identical": false,
+    "stdout_semantic_identical": true
+   },
+   "m1-explain": {
+    "before": {
+     "path": "kvmem/m2_visibility/m6/out/_before/m1-explain.stdout",
+     "sha16": "e17ccbbb2b061c0e",
+     "bytes": 1146
+    },
+    "after": {
+     "path": "kvmem/m2_visibility/m6/out/_after/m1-explain.stdout",
+     "sha16": "e17ccbbb2b061c0e",
+     "bytes": 1146
+    },
+    "stdout_byte_identical": true,
+    "stdout_semantic_identical": true
+   },
+   "l1a": {
+    "before": {
+     "path": "kvmem/m2_visibility/m6/out/_before/l1a.stdout",
+     "sha16": "2a0c0fcf33c0ed00",
+     "bytes": 1273
+    },
+    "after": {
+     "path": "kvmem/m2_visibility/m6/out/_after/l1a.stdout",
+     "sha16": "2a0c0fcf33c0ed00",
+     "bytes": 1273
+    },
+    "stdout_byte_identical": true,
+    "stdout_semantic_identical": true
+   },
+   "l1b": {
+    "before": {
+     "path": "kvmem/m2_visibility/m6/out/_before/l1b.stdout",
+     "sha16": "4f611d9cc7dd9e4d",
+     "bytes": 1437
+    },
+    "after": {
+     "path": "kvmem/m2_visibility/m6/out/_after/l1b.stdout",
+     "sha16": "df67fc8696436157",
+     "bytes": 1437
+    },
+    "stdout_byte_identical": false,
+    "stdout_semantic_identical": true
+   },
+   "l2": {
+    "before": {
+     "path": "kvmem/m2_visibility/m6/out/_before/l2.stdout",
+     "sha16": "23f996c578501c00",
+     "bytes": 1072
+    },
+    "after": {
+     "path": "kvmem/m2_visibility/m6/out/_after/l2.stdout",
+     "sha16": "fd7bf8b31f0f4e26",
+     "bytes": 1072
+    },
+    "stdout_byte_identical": false,
+    "stdout_semantic_identical": true
+   },
+   "p1": {
+    "before": {
+     "path": "kvmem/m2_visibility/m6/out/_before/p1.stdout",
+     "sha16": "ae9da710a4f88cb1",
+     "bytes": 634
+    },
+    "after": {
+     "path": "kvmem/m2_visibility/m6/out/_after/p1.stdout",
+     "sha16": "bde2dc00d84979e6",
+     "bytes": 634
+    },
+    "stdout_byte_identical": false,
+    "stdout_semantic_identical": true
+   },
+   "s1-bed": {
+    "before": {
+     "path": "kvmem/m2_visibility/m6/out/_before/s1-bed.stdout",
+     "sha16": "0f378d845f8d74c8",
+     "bytes": 88
+    },
+    "after": {
+     "path": "kvmem/m2_visibility/m6/out/_after/s1-bed.stdout",
+     "sha16": "59326e923e4cbd4c",
+     "bytes": 86
+    },
+    "stdout_byte_identical": false,
+    "stdout_semantic_identical": true
+   }
+  }
+ },
+ "static_no_trigger": {
+  "claim": "product 路径从不移动『已 attach 的块 seq』：所有 move 都在 attach 之前",
+  "sites": [
+   {
+    "file": "tools/chat.py",
+    "move": 286,
+    "attach": 310,
+    "order": "cmd_chat 装载：先 load→repos_local(286)，全部放好后统一 attach(310)"
+   },
+   {
+    "file": "tools/chat.py",
+    "move": 394,
+    "attach": 397,
+    "order": "_place_slots：move(394) 紧接 attach(397)，块刚 load 无 referrer"
+   },
+   {
+    "file": "tools/chat.py",
+    "move": 637,
+    "attach": 639,
+    "order": "cmd_m1 每轮：detach 旧→reset→load→move(637)→attach(639)"
+   },
+   {
+    "file": "tools/chat.py",
+    "move": 1021,
+    "attach": 1025,
+    "order": "S1 two_session_run：move(1021) 在 attach(1025) 之前；A/B 块按 mount 分给不同 dst（home→seq0、project→seq7），块首次挂载前才 move"
+   },
+   {
+    "file": "tools/session_state.py",
+    "move": 362,
+    "attach": 370,
+    "order": "restore：load_strict→move(362)→share(370)"
+   },
+   {
+    "file": "kvmem/m2_visibility/m4/m4_write.py",
+    "move": 232,
+    "detach": 231,
+    "order": "先 detach(231) 再回拉 move(232) ⇒ holders 为空"
+   }
+  ],
+  "guard_off_paths": [
+   "delta==0",
+   "seq 不是已注册块",
+   "该块 holders 为空",
+   "构造参数 move_guard=False（只给变体/测试显式传）"
+  ]
+ },
+ "discipline": {
+  "engine_changed": false,
+  "rebuild": false,
+  "llama_cpp_numstat": {
+   "insertions": 600,
+   "deletions": 0
+  },
+  "repo_db_sha16": "237d8e1f5de9a382",
+  "git_status_mine": [
+   " M kvmem/m2_visibility/m3/m3_lease.py",
+   " M kvmem/m2_visibility/m6/_build_m6a_fix.py",
+   " M kvmem/m2_visibility/m6/_run_m6a_i2.py",
+   "A  kvmem/m2_visibility/m6/out/M6A-PROBE.json",
+   "A  kvmem/m2_visibility/m6/out/M6A-REACHABILITY.json",
+   "A  kvmem/m2_visibility/m6/out/_before/LANDED-m6a@91c3d7db66ab2d17.json",
+   "A  kvmem/m2_visibility/m6/out/_before/M6A-REACHABILITY@be9d0a83431f47ac.json",
+   "A  kvmem/m2_visibility/m6/out/_before/_build_m6a@d025ec71d90629e9.py"
+  ]
+ },
+ "freeze_check": {
+  "exit": 0,
+  "first_line": "SELECTION LAYER: FROZEN (3 files, 3 thresholds, versions {'INDEX_VERSION': 5, 'ANALYSIS_VERSION': 4})",
+  "status": "FROZEN"
+ },
+ "verify_sh": {
+  "exit": 0,
+  "last_line": "ALL PASS (12 项)"
+ },
+ "four_state": {
+  "I2-fix": "通过"
+ },
+ "four_state_scope": "自证：红/绿/变体 + 零行为变化；复核对 lead/inspector",
+ "honesty": {
+  "before_reconstructed": true,
+  "before_copy_provenance": "改前字节未先复制（施工前 _before 未落盘），由现盘反向剥离本单补丁重建；sha16 与 LANDED-l2.json 的权威坐标 33ae679a50d58c93 逐字节一致（见 before_copy.verification 的实测命令与 stdout）",
+  "reconstruction_not_a_copy": "不要把它当'改前拷贝'引用：它是反向重建，声明与校验都在 before_copy 段；若两者不一致应以 LANDED-l2.json 为准",
+  "real_arms_not_rerun": "m1/two 真机臂与 S1 真机臂未重跑（会产新读数）；零行为变化按 lead 指定的 explain/dry-run/S1 干跑四项对照",
+  "suites_provenance": "L1/L2/P1/S1 干跑与 m1/two 输出在终版上重跑后写入 _after/；逐字节对照见 zero_behavior_change.suites"
+ }
+}

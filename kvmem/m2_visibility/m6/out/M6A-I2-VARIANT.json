@@ -1,0 +1,279 @@
+{
+ "schema": "m6a_i2_arm_v1",
+ "arm": "variant",
+ "at": "2026-10-25T23:29:55",
+ "engine": {
+  "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+  "n_ctx": 8192,
+  "n_seq": 8,
+  "kv": "q8_0",
+  "dll_sha16": "9edbafa150700614"
+ },
+ "block": {
+  "path": "kvmem/blocks/profile.kvmem",
+  "sha16": "3b046c8ee3fb3b53",
+  "bytes": 5224388,
+  "block_seq": 3,
+  "dst": [
+   0,
+   7
+  ]
+ },
+ "code_sha16": {
+  "m3_lease.py": "6298a838f87b074f",
+  "chat.py": "22081c411c64fbe7",
+  "chat_lease.py": "619a043215035de7"
+ },
+ "guard": {
+  "ctor": "BlockLeases(move_guard=False)",
+  "move_guard_ctor": false,
+  "guard_installed": false,
+  "guard_install_note": null
+ },
+ "steps": [
+  {
+   "step": "load(profile->seq3)",
+   "ret": 50,
+   "after": {
+    "seq0": {
+     "n_cells": 0,
+     "pos_range": [],
+     "pos_max_raw": -1
+    },
+    "seq7": {
+     "n_cells": 0,
+     "pos_range": [],
+     "pos_max_raw": -1
+    },
+    "block_seq3": {
+     "n_cells": 50,
+     "pos_range": [
+      0,
+      49
+     ],
+     "pos_max_raw": 49
+    },
+    "n_tokens_block_seq3": 50
+   }
+  },
+  {
+   "step": "attach(seq3->seq0,[0,50))",
+   "after": {
+    "seq0": {
+     "n_cells": 50,
+     "pos_range": [
+      0,
+      49
+     ],
+     "pos_max_raw": 49
+    },
+    "seq7": {
+     "n_cells": 0,
+     "pos_range": [],
+     "pos_max_raw": -1
+    },
+    "block_seq3": {
+     "n_cells": 50,
+     "pos_range": [
+      0,
+      49
+     ],
+     "pos_max_raw": 49
+    },
+    "n_tokens_block_seq3": 50
+   }
+  },
+  {
+   "step": "attach(seq3->seq7,[0,50))",
+   "after": {
+    "seq0": {
+     "n_cells": 50,
+     "pos_range": [
+      0,
+      49
+     ],
+     "pos_max_raw": 49
+    },
+    "seq7": {
+     "n_cells": 50,
+     "pos_range": [
+      0,
+      49
+     ],
+     "pos_max_raw": 49
+    },
+    "block_seq3": {
+     "n_cells": 50,
+     "pos_range": [
+      0,
+      49
+     ],
+     "pos_max_raw": 49
+    },
+    "n_tokens_block_seq3": 50
+   },
+   "holders": [
+    0,
+    7
+   ]
+  },
+  {
+   "step": "repos_local(seq3,+100)",
+   "before": {
+    "seq0": {
+     "n_cells": 50,
+     "pos_range": [
+      0,
+      49
+     ],
+     "pos_max_raw": 49
+    },
+    "seq7": {
+     "n_cells": 50,
+     "pos_range": [
+      0,
+      49
+     ],
+     "pos_max_raw": 49
+    },
+    "block_seq3": {
+     "n_cells": 50,
+     "pos_range": [
+      0,
+      49
+     ],
+     "pos_max_raw": 49
+    },
+    "n_tokens_block_seq3": 50
+   },
+   "after": {
+    "seq0": {
+     "n_cells": 50,
+     "pos_range": [
+      100,
+      149
+     ],
+     "pos_max_raw": 149
+    },
+    "seq7": {
+     "n_cells": 50,
+     "pos_range": [
+      100,
+      149
+     ],
+     "pos_max_raw": 149
+    },
+    "block_seq3": {
+     "n_cells": 50,
+     "pos_range": [
+      100,
+      149
+     ],
+     "pos_max_raw": 149
+    },
+    "n_tokens_block_seq3": 50
+   },
+   "refused": false,
+   "moved": 50,
+   "exception": null,
+   "move_refusals": [],
+   "guard": {
+    "ctor": "BlockLeases(move_guard=False)",
+    "move_guard_ctor": false,
+    "guard_installed": false,
+    "guard_install_note": null
+   },
+   "table_status": {
+    "blocks": {
+     "profile": {
+      "seq": 3,
+      "referrers": [
+       0,
+       7
+      ]
+     }
+    },
+    "any_leased": true,
+    "move_refusals": [],
+    "move_guard": false,
+    "guard_installed": false,
+    "guard_install_note": null
+   }
+  }
+ ],
+ "outcome": {
+  "refused": false,
+  "moved": 50,
+  "exception": null,
+  "before": {
+   "seq0": {
+    "n_cells": 50,
+    "pos_range": [
+     0,
+     49
+    ],
+    "pos_max_raw": 49
+   },
+   "seq7": {
+    "n_cells": 50,
+    "pos_range": [
+     0,
+     49
+    ],
+    "pos_max_raw": 49
+   },
+   "block_seq3": {
+    "n_cells": 50,
+    "pos_range": [
+     0,
+     49
+    ],
+    "pos_max_raw": 49
+   },
+   "n_tokens_block_seq3": 50
+  },
+  "after": {
+   "seq0": {
+    "n_cells": 50,
+    "pos_range": [
+     100,
+     149
+    ],
+    "pos_max_raw": 149
+   },
+   "seq7": {
+    "n_cells": 50,
+    "pos_range": [
+     100,
+     149
+    ],
+    "pos_max_raw": 149
+   },
+   "block_seq3": {
+    "n_cells": 50,
+    "pos_range": [
+     100,
+     149
+    ],
+    "pos_max_raw": 149
+   },
+   "n_tokens_block_seq3": 50
+  },
+  "move_refusals": [],
+  "rec_shape": {
+   "silent_move": true,
+   "refused_with_reason": false,
+   "both_unchanged": false
+  },
+  "guard_selftest": true,
+  "expected_shape": "silent_move",
+  "pass": true
+ },
+ "event_log": {
+  "label": "default",
+  "events": "D:\\llama-mem\\kvmem\\m2_visibility\\m6\\out\\_logs\\lease\\events_default_20261025T232956.jsonl",
+  "refusals": "D:\\llama-mem\\kvmem\\m2_visibility\\m6\\out\\_logs\\lease\\refusals_default_20261025T232956.jsonl",
+  "lines": 0,
+  "sha256": null
+ }
+}
