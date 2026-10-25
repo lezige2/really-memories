@@ -1,12 +1,14 @@
 {
  "schema": "m6b_b2a_red_v1",
+ "arm": "block",
  "task": "task-38 M6b B2a（save 非原子）红证：只判 B2a，不判 B2b",
- "at": "2026-10-25T23:33:25",
+ "at": "2026-10-25T23:37:58",
  "assertion": "目标路径 P 上已有合法 .kvmem；save 进程在返回前终止 ⇒ P 的旧内容不可恢复，最终留下 0 ≤ size < old_size 的文件",
  "setup": {
   "tmp_root": "kvmem/m2_visibility/m6b/out/tmp",
   "target_preloaded_from": "kvmem/blocks/project.kvmem（只读复制）",
   "source_seq_data": "kvmem/blocks/profile.kvmem load 到 seq1（只读）",
+  "chat_origin": null,
   "engine": {
    "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
    "n_ctx": 8192,
@@ -23,9 +25,9 @@
   "path": "kvmem/m2_visibility/m6b/out/tmp/target.kvmem"
  },
  "after": {
-  "sha256": "825c73aaa135255d3aed7929ffac00f7980d132f66d1e91033fef443e9e279ef",
-  "sha16": "825c73aaa135255d",
-  "bytes": 218496,
+  "sha256": "42b84450cf56f8555ecd4687f208e29f5bcf792f832933a62bf0cef1371e6e65",
+  "sha16": "42b84450cf56f855",
+  "bytes": 381732,
   "exists": true
  },
  "final_ref": {
@@ -33,14 +35,14 @@
   "sha256": "3b046c8ee3fb3b53d67d349e965941384b53deb8415279fcd46dabc6608266b4",
   "sha16": "3b046c8ee3fb3b53",
   "bytes": 5224388,
-  "save_ms": 34.1
+  "save_ms": 31.7
  },
  "before_sha": "55fade361c7cb3dc4e4088560bb4c590cbef1c9ed25965cd8a241479cd528456",
  "before_sha16": "55fade361c7cb3dc",
- "after_sha": "825c73aaa135255d3aed7929ffac00f7980d132f66d1e91033fef443e9e279ef",
- "after_sha16": "825c73aaa135255d",
+ "after_sha": "42b84450cf56f8555ecd4687f208e29f5bcf792f832933a62bf0cef1371e6e65",
+ "after_sha16": "42b84450cf56f855",
  "size_before": 3761892,
- "size_after": 218496,
+ "size_after": 381732,
  "final_size": 5224388,
  "existed": true,
  "truncated": true,
@@ -53,11 +55,11 @@
  "kill_point": {
   "method": "watcher 线程忙轮询目标 size；见 size < old_size（wb 截断窗口）⇒ 写 killinfo 后 os._exit(137)（等价 OOM/进程死，不是真 OOM）",
   "watcher_fired": true,
-  "observed_size": 4,
+  "observed_size": 272,
   "attempt": 1,
-  "elapsed_in_attempt_ms": 1.16,
+  "elapsed_in_attempt_ms": 1.15,
   "parent_min_size_seen": 0,
-  "parent_min_size_at_ms": 5923.05,
+  "parent_min_size_at_ms": 5759.93,
   "parent_killed": false,
   "child_exit_code": 137,
   "child_attempts": [],

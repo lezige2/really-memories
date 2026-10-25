@@ -1,7 +1,7 @@
 {
  "schema": "m6a_i2_summary_v1",
  "task": "task-38 M6a-fix I2：共享 cell 移动 fail-closed 守卫（红→绿→变体）",
- "at": "2026-10-25T23:29:58",
+ "at": "2026-10-25T23:38:56",
  "code": {
   "old": {
    "path": "kvmem/m2_visibility/m3/_before/m3_lease.py@33ae679a50d58c93",
@@ -349,6 +349,7 @@
   "install": "BlockLeases.__init__ 构造期在实例上包 eng.repos_local；装不上 ⇒ raise LeaseError（fail-closed，不是静默 unguarded）",
   "missing_move_api": "engine 无 repos_local ⇒ guard_installed=False + move_guard_not_applicable 事件；product 调它会 AttributeError，不存在可被静默绕过的 move 路径（本身 fail-closed）",
   "noncallable_or_assign_error": "repos_local 存在但不可调用 / 实例赋值失败 ⇒ 构造期 raise，文案带 engine 类型、属性、文件名与函数名",
+  "variant_of": "BlockLeases(same_table)",
   "disable": "唯一关闭方式：构造参数 move_guard=False（变体/测试显式传；product 不传）",
   "env_seam": "无：m3_lease.py 不读任何环境变量（旧 env 缝已删，grep=0）",
   "arms_guard": {
@@ -556,14 +557,10 @@
   },
   "repo_db_sha16": "237d8e1f5de9a382",
   "git_status_mine": [
-   " M kvmem/m2_visibility/m3/m3_lease.py",
    " M kvmem/m2_visibility/m6/_build_m6a_fix.py",
-   " M kvmem/m2_visibility/m6/_run_m6a_i2.py",
-   "A  kvmem/m2_visibility/m6/out/M6A-PROBE.json",
-   "A  kvmem/m2_visibility/m6/out/M6A-REACHABILITY.json",
-   "A  kvmem/m2_visibility/m6/out/_before/LANDED-m6a@91c3d7db66ab2d17.json",
-   "A  kvmem/m2_visibility/m6/out/_before/M6A-REACHABILITY@be9d0a83431f47ac.json",
-   "A  kvmem/m2_visibility/m6/out/_before/_build_m6a@d025ec71d90629e9.py"
+   " M kvmem/m2_visibility/m6b/LANDED-m6b-b2a.json",
+   " M kvmem/m2_visibility/m6b/_run_m6b_b2.py",
+   " M kvmem/m2_visibility/m6b/out/M6B-B2A-RED.json"
   ]
  },
  "freeze_check": {

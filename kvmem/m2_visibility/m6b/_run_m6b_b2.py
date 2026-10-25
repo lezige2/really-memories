@@ -37,6 +37,12 @@ TMP = os.path.join(OUT, "tmp")
 BLOCKS = os.path.join(ROOT, "kvmem", "blocks")
 PROFILE = os.path.join(BLOCKS, "profile.kvmem")
 PROJECT = os.path.join(BLOCKS, "project.kvmem")
+SESSIONS = os.path.join(ROOT, "kvmem", "sessions")
+CHAT_ART = os.path.join(OUT, "M6B-B2A-CHAT-RED.json")
+BLOCK_ART = os.path.join(OUT, "M6B-B2A-RED.json")
+SESSIONS = os.path.join(ROOT, "kvmem", "sessions")
+CHAT_ART = os.path.join(OUT, "M6B-B2A-CHAT-RED.json")
+BLOCK_ART = os.path.join(OUT, "M6B-B2A-RED.json")
 MODEL = r"D:\models\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf"
 TOOLS = os.path.join(ROOT, "tools")
 M6B_ART = os.path.join(OUT, "M6B-B2A-RED.json")
@@ -106,6 +112,8 @@ def child_main(args):
     import chat as C                                            # noqa: E402
 
     target, ref, killinfo = args.target, args.ref, args.killinfo
+    arm = args.arm
+    seq = 0 if arm == "chat" else 1
     old_size = os.path.getsize(target)
     info = {"child_pid": os.getpid(), "old_size": old_size,
             "attempts": [], "normal_save": None, "completed_save": False}
@@ -114,11 +122,14 @@ def child_main(args):
         eng = C.KVEngine(MODEL, n_ctx=C.N_CTX, n_seq=C.N_SEQ, gpu=99, kv="q8_0")
         info["engine_load_ms"] = round((time.time() - t0) * 1000, 1)
         info["gpu_dll"] = os.path.basename(eng.lib._name) if hasattr(eng.lib, "_name") else "?"
-        n = int(eng.load(1, PROFILE))
+        n = int(eng.load(seq, PROFILE))
         info["load_profile_n"] = n
+        info["arm"] = arm
+        info["seq"] = seq
         t0 = time.time()
-        nb = int(eng.save(1, ref))
-        info["normal_save"] = {"seq": 1, "path": os.path.relpath(ref, ROOT).replace("\\", "/"),
+        nb = int(eng.save(seq, ref))
+        info["normal_save"] = {"seq": seq, "arm": arm,
+                               "path": os.path.relpath(ref, ROOT).replace("\\", "/"),
                                "returned": nb, "bytes": os.path.getsize(ref),
                                "sha256": sha256(ref), "ms": round((time.time() - t0) * 1000, 1)}
         info["completed_save"] = True
@@ -154,7 +165,7 @@ def child_main(args):
             attempt_t0 = time.time()
             th = threading.Thread(target=watcher, args=(attempt,), daemon=True)
             th.start()
-            nb = int(eng.save(1, target))
+            nb = int(eng.save(seq, target))
             attempt_t0 = time.time()
             th.join(timeout=0)
             size = os.path.getsize(target)
@@ -176,21 +187,43 @@ def child_main(args):
 
 # ---------------------------------------------------------------- parent
 
+def newest_chat_file():
+    rows = []
+    for name in os.listdir(SESSIONS):
+        if name.endswith(".chat.kvmem"):
+            p = os.path.join(SESSIONS, name)
+            rows.append((os.path.getmtime(p), p))
+    if not rows:
+        raise RuntimeError("no .chat.kvmem under %s" % SESSIONS)
+    return max(rows)[1]
+
+
 def p0(args):
+    arm = args.arm
     os.makedirs(TMP, exist_ok=True)
     os.makedirs(os.path.join(OUT, "_logs"), exist_ok=True)
     target = os.path.join(TMP, "target.kvmem")
-    ref = os.path.join(TMP, "final_ref.kvmem")
+    ref = os.path.join(TMP, ("final_ref_chat.kvmem" if arm == "chat" else "final_ref.kvmem"))
     killinfo = os.path.join(TMP, "killinfo.json")
     child_info = os.path.join(TMP, "child_info.json")
     for p in (target, ref, killinfo, child_info):
         if os.path.exists(p):
             os.remove(p)
-    shutil.copyfile(PROJECT, target)
+    if arm == "chat":
+        src_chat = newest_chat_file()
+        shutil.copyfile(src_chat, target)
+        chat_origin = {"source": os.path.relpath(src_chat, ROOT).replace("\\", "/"),
+                       "source_sha256": sha256(src_chat),
+                       "source_bytes": os.path.getsize(src_chat),
+                       "source_mtime": time.strftime("%Y-%m-%dT%H:%M:%S",
+                                                     time.localtime(os.path.getmtime(src_chat)))}
+    else:
+        shutil.copyfile(PROJECT, target)
+        chat_origin = None
     before = {"sha256": sha256(target), "bytes": os.path.getsize(target),
               "existed": os.path.isfile(target)}
 
-    cmd = [PY, "-X", "utf8", os.path.abspath(__file__), "--mode", "child",
+    cmd = [PY, "-X", "utf8", os.path.abspath(__file__), "--mode", "child", "--arm", arm,
            "--target", target, "--ref", ref, "--killinfo", killinfo,
            "--child-info", child_info, "--max-attempts", str(args.max_attempts)]
     log = open(os.path.join(OUT, "_logs", "b2a_child.log"), "w", encoding="utf-8")
@@ -230,14 +263,21 @@ def p0(args):
     truncated = after_size < before["bytes"]
     artifact = {
         "schema": "m6b_b2a_red_v1",
+        "arm": arm,
         "task": "task-38 M6b B2a（save 非原子）红证：只判 B2a，不判 B2b",
         "at": time.strftime("%Y-%m-%dT%H:%M:%S"),
         "assertion": "目标路径 P 上已有合法 .kvmem；save 进程在返回前终止 ⇒ P 的旧内容不可恢复，"
                      "最终留下 0 ≤ size < old_size 的文件",
         "setup": {
             "tmp_root": os.path.relpath(TMP, ROOT).replace("\\", "/"),
-            "target_preloaded_from": "kvmem/blocks/project.kvmem（只读复制）",
-            "source_seq_data": "kvmem/blocks/profile.kvmem load 到 seq1（只读）",
+            "target_preloaded_from": (("真实 chat 文件副本: %s" % chat_origin["source"])
+                                      if chat_origin else
+                                      "kvmem/blocks/project.kvmem（只读复制）"),
+            "source_seq_data": ("kvmem/blocks/profile.kvmem load 到 seq0（合成 chat 状态；"
+                                "调用形态 = session_state.py:229 eng.save(0, chat_file)）"
+                                if arm == "chat" else
+                                "kvmem/blocks/profile.kvmem load 到 seq1（只读）"),
+            "chat_origin": chat_origin,
             "engine": {"model": MODEL, "n_ctx": 8192, "n_seq": 8, "gpu_layers": 99,
                        "dll": "kvshim_vk.dll（产品 DLL；save-only，不 decode）"},
             "note": "所有写都落 m6b/out/tmp/；不碰 kvmem/blocks、kvmem/sessions、不写已签产物",
@@ -292,43 +332,68 @@ def p0(args):
         "no_self_sha": True,
     }
     assert artifact["static"]["bad"] == 0, artifact["static"]["bad"]
-    with open(M6B_ART, "w", encoding="utf-8", newline="\n") as fh:
+    art_path = CHAT_ART if arm == "chat" else BLOCK_ART
+    with open(art_path, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(artifact, fh, ensure_ascii=False, indent=1)
+    return 0 if artifact["verdict"]["B2a_red"] else 4
+
+
+def ledger_main(args):
+    """从 block/chat 两份读数重建台账（arms 两条；四态措辞按 inspector 口径）。"""
+    paths = {"block": BLOCK_ART, "chat": CHAT_ART}
+    arts = {}
+    for arm, path in paths.items():
+        if not os.path.isfile(path):
+            raise RuntimeError("missing artifact for arm %s: %s" % (arm, path))
+        arts[arm] = json.load(open(path, encoding="utf-8"))
+    script = os.path.abspath(__file__)
+    code = {"path": os.path.relpath(script, ROOT).replace("\\", "/"),
+            "sha16": sha16(script), "bytes": os.path.getsize(script)}
     ledger = {
-        "schema": "landed_m6b_b2a_v1",
-        "task": "task-38 M6b B2a 红证",
-        "at": artifact["at"],
-        "artifact": ent(M6B_ART),
-        "script": ent(os.path.abspath(__file__)),
-        "verdict": artifact["verdict"],
-        "readings": {"before_sha": before["sha256"], "after_sha": after_sha,
-                     "size_before": before["bytes"], "size_after": after_size,
-                     "final_size": final_size, "existed": before["existed"],
-                     "truncated": truncated,
-                     "kill_point": artifact["kill_point"]},
-        "static": {"bad": artifact["static"]["bad"],
-                   "kvshim_save_span": artifact["static"]["kvshim_save_span"],
-                   "atomicity_atom_hits_in_save": artifact["static"]["atomicity_atom_hits_in_save"]},
-        "four_state": {"B2a": "可达（已证：红）" if artifact["verdict"]["B2a_red"] else "未做/部分"},
-        "discipline": artifact["discipline"],
+        "schema": "landed_m6b_b2a_v2",
+        "task": "task-38 M6b B2a（save 非原子）红证：block 臂 + 产品 chat 臂",
+        "at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "artifacts": {arm: ent(p) for arm, p in paths.items()},
+        "code_sha16": code,
+        "arms": {arm: {"artifact": ent(paths[arm]),
+                       "before_sha": arts[arm]["before_sha"],
+                       "after_sha": arts[arm]["after_sha"],
+                       "size_before": arts[arm]["size_before"],
+                       "size_after": arts[arm]["size_after"],
+                       "final_size": arts[arm]["final_size"],
+                       "existed": arts[arm]["existed"],
+                       "truncated": arts[arm]["truncated"],
+                       "kill_point": arts[arm]["kill_point"],
+                       "chat_origin": arts[arm]["setup"].get("chat_origin")}
+                 for arm in paths},
+        "four_state": {"B2a": "可达（未修；红证已复现）"},
+        "fix_candidate": "temp+rename 或 fsync+rename（未实施，单独立项）",
+        "static": {"bad": arts["block"]["static"]["bad"],
+                   "kvshim_save_span": arts["block"]["static"]["kvshim_save_span"],
+                   "atomicity_atom_hits_in_save":
+                       arts["block"]["static"]["atomicity_atom_hits_in_save"],
+                   "sites": arts["block"]["static"]["sites"]},
+        "discipline": {"engine_changed": False, "rebuild": False,
+                       "real_blocks_written": False, "sessions_written": False},
+        "not_judged": arts["block"]["not_judged"],
         "no_self_sha": True,
     }
     with open(LEDGER, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(ledger, fh, ensure_ascii=False, indent=1)
-    print("artifact:", M6B_ART, os.path.getsize(M6B_ART), sha16(M6B_ART))
-    print("ledger:  ", LEDGER, os.path.getsize(LEDGER), sha16(LEDGER))
-    print("before:", before["bytes"], before["sha256"][:16],
-          "| after:", after_size, after_sha[:16],
-          "| final:", final_size, "| existed:", before["existed"], "| truncated:", truncated)
-    print("kill_point:", json.dumps(artifact["kill_point"], ensure_ascii=False))
-    print("B2a_red:", artifact["verdict"]["B2a_red"])
-    return 0 if artifact["verdict"]["B2a_red"] else 4
+    print("ledger:", LEDGER, os.path.getsize(LEDGER), sha16(LEDGER))
+    for arm, path in paths.items():
+        print(" %-5s artifact=%s sha16=%s before=%d after=%d final=%d existed=%s truncated=%s"
+              % (arm, os.path.basename(path), sha16(path), arts[arm]["size_before"],
+                 arts[arm]["size_after"], arts[arm]["final_size"], arts[arm]["existed"],
+                 arts[arm]["truncated"]))
+    return 0 if all(a["truncated"] and a["existed"] for a in arts.values()) else 4
 
 
 def main():
-    global OUT, TMP, M6B_ART, LEDGER
+    global OUT, TMP, M6B_ART, LEDGER, CHAT_ART, BLOCK_ART
     ap = argparse.ArgumentParser()
-    ap.add_argument("--mode", required=True, choices=["p0", "child"])
+    ap.add_argument("--mode", required=True, choices=["p0", "chat", "child", "ledger"])
+    ap.add_argument("--arm", default=None, choices=["block", "chat"])
     ap.add_argument("--blocks", default=BLOCKS)
     ap.add_argument("--out", default=OUT)
     ap.add_argument("--target")
@@ -338,10 +403,16 @@ def main():
     ap.add_argument("--max-attempts", type=int, default=3)
     args = ap.parse_args()
     if args.mode == "child":
+        args.arm = args.arm or "block"
         return child_main(args)
     OUT = os.path.abspath(args.out)
     TMP = os.path.join(OUT, "tmp")
     M6B_ART = os.path.join(OUT, "M6B-B2A-RED.json")
+    CHAT_ART = os.path.join(OUT, "M6B-B2A-CHAT-RED.json")
+    BLOCK_ART = os.path.join(OUT, "M6B-B2A-RED.json")
+    if args.mode == "ledger":
+        return ledger_main(args)
+    args.arm = args.arm or ("chat" if args.mode == "chat" else "block")
     return p0(args)
 
 

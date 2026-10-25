@@ -1,43 +1,91 @@
 {
- "schema": "landed_m6b_b2a_v1",
- "task": "task-38 M6b B2a 红证",
- "at": "2026-10-25T23:33:25",
- "artifact": {
-  "path": "kvmem/m2_visibility/m6b/out/M6B-B2A-RED.json",
-  "sha16": "45bb5339fc052cb7",
-  "bytes": 5014
- },
- "script": {
-  "path": "kvmem/m2_visibility/m6b/_run_m6b_b2.py",
-  "sha16": "35597abcd572b6f3",
-  "bytes": 16973
- },
- "verdict": {
-  "B2a_red": true,
-  "rule": "红 = existed 且 size_after<final_size 且 sha_after≠sha_old；本单不判 load（B2b 另单）"
- },
- "readings": {
-  "before_sha": "55fade361c7cb3dc4e4088560bb4c590cbef1c9ed25965cd8a241479cd528456",
-  "after_sha": "825c73aaa135255d3aed7929ffac00f7980d132f66d1e91033fef443e9e279ef",
-  "size_before": 3761892,
-  "size_after": 218496,
-  "final_size": 5224388,
-  "existed": true,
-  "truncated": true,
-  "kill_point": {
-   "method": "watcher 线程忙轮询目标 size；见 size < old_size（wb 截断窗口）⇒ 写 killinfo 后 os._exit(137)（等价 OOM/进程死，不是真 OOM）",
-   "watcher_fired": true,
-   "observed_size": 4,
-   "attempt": 1,
-   "elapsed_in_attempt_ms": 1.16,
-   "parent_min_size_seen": 0,
-   "parent_min_size_at_ms": 5923.05,
-   "parent_killed": false,
-   "child_exit_code": 137,
-   "child_attempts": [],
-   "child_error": null
+ "schema": "landed_m6b_b2a_v2",
+ "task": "task-38 M6b B2a（save 非原子）红证：block 臂 + 产品 chat 臂",
+ "at": "2026-10-25T23:37:58",
+ "artifacts": {
+  "block": {
+   "path": "kvmem/m2_visibility/m6b/out/M6B-B2A-RED.json",
+   "sha16": "d96c561ac8ed3ee7",
+   "bytes": 5056
+  },
+  "chat": {
+   "path": "kvmem/m2_visibility/m6b/out/M6B-B2A-CHAT-RED.json",
+   "sha16": "dce1f205c41d47c1",
+   "bytes": 5356
   }
  },
+ "code_sha16": {
+  "path": "kvmem/m2_visibility/m6b/_run_m6b_b2.py",
+  "sha16": "2b73a648e1a371d9",
+  "bytes": 20532
+ },
+ "arms": {
+  "block": {
+   "artifact": {
+    "path": "kvmem/m2_visibility/m6b/out/M6B-B2A-RED.json",
+    "sha16": "d96c561ac8ed3ee7",
+    "bytes": 5056
+   },
+   "before_sha": "55fade361c7cb3dc4e4088560bb4c590cbef1c9ed25965cd8a241479cd528456",
+   "after_sha": "42b84450cf56f8555ecd4687f208e29f5bcf792f832933a62bf0cef1371e6e65",
+   "size_before": 3761892,
+   "size_after": 381732,
+   "final_size": 5224388,
+   "existed": true,
+   "truncated": true,
+   "kill_point": {
+    "method": "watcher 线程忙轮询目标 size；见 size < old_size（wb 截断窗口）⇒ 写 killinfo 后 os._exit(137)（等价 OOM/进程死，不是真 OOM）",
+    "watcher_fired": true,
+    "observed_size": 272,
+    "attempt": 1,
+    "elapsed_in_attempt_ms": 1.15,
+    "parent_min_size_seen": 0,
+    "parent_min_size_at_ms": 5759.93,
+    "parent_killed": false,
+    "child_exit_code": 137,
+    "child_attempts": [],
+    "child_error": null
+   },
+   "chat_origin": null
+  },
+  "chat": {
+   "artifact": {
+    "path": "kvmem/m2_visibility/m6b/out/M6B-B2A-CHAT-RED.json",
+    "sha16": "dce1f205c41d47c1",
+    "bytes": 5356
+   },
+   "before_sha": "124019803eb3e73cb71a1315553238d4b8a149d6d5b444040c4ee9c7b95ad616",
+   "after_sha": "3113f8c523749b6a53aa01a58f07e7eecb575fbe909058b358574f637c90190a",
+   "size_before": 5761428,
+   "size_after": 1361148,
+   "final_size": 5224388,
+   "existed": true,
+   "truncated": true,
+   "kill_point": {
+    "method": "watcher 线程忙轮询目标 size；见 size < old_size（wb 截断窗口）⇒ 写 killinfo 后 os._exit(137)（等价 OOM/进程死，不是真 OOM）",
+    "watcher_fired": true,
+    "observed_size": 3761892,
+    "attempt": 1,
+    "elapsed_in_attempt_ms": 1.09,
+    "parent_min_size_seen": 0,
+    "parent_min_size_at_ms": 6419.48,
+    "parent_killed": false,
+    "child_exit_code": 137,
+    "child_attempts": [],
+    "child_error": null
+   },
+   "chat_origin": {
+    "source": "kvmem/sessions/live.chat.kvmem",
+    "source_sha256": "124019803eb3e73cb71a1315553238d4b8a149d6d5b444040c4ee9c7b95ad616",
+    "source_bytes": 5761428,
+    "source_mtime": "2026-10-25T03:33:14"
+   }
+  }
+ },
+ "four_state": {
+  "B2a": "可达（未修；红证已复现）"
+ },
+ "fix_candidate": "temp+rename 或 fsync+rename（未实施，单独立项）",
  "static": {
   "bad": 0,
   "kvshim_save_span": [
@@ -51,16 +99,91 @@
    "replace": 0,
    "fsync": 0,
    "FlushFile": 0
-  }
- },
- "four_state": {
-  "B2a": "可达（已证：红）"
+  },
+  "sites": [
+   {
+    "file": "tools/kvshim.cpp",
+    "line": 561,
+    "note": "kvshim_save 入口",
+    "line_text": "KVSHIM_API long long kvshim_save(kvshim * h, int seq, const char * path) {",
+    "token": "kvshim_save",
+    "token_ok": true,
+    "bad": false
+   },
+   {
+    "file": "tools/kvshim.cpp",
+    "line": 565,
+    "note": "直接调 save_file，无 temp/rename/fsync",
+    "line_text": "const size_t n = llama_state_seq_save_file(h->ctx, path, (llama_seq_id) seq,",
+    "token": "llama_state_seq_save_file",
+    "token_ok": true,
+    "bad": false
+   },
+   {
+    "file": "llama.cpp/src/llama-context.cpp",
+    "line": 3609,
+    "note": "llama_file(filepath, \"wb\") —— 打开即截断",
+    "line_text": "llama_file file(filepath, \"wb\");",
+    "token": "\"wb\"",
+    "token_ok": true,
+    "bad": false
+   },
+   {
+    "file": "tools/memory_source.py",
+    "line": 349,
+    "note": "产品直写最终块路径",
+    "line_text": "path = os.path.join(blocks_dir, name + \".kvmem\")",
+    "token": "os.path.join(blocks_dir",
+    "token_ok": true,
+    "bad": false
+   },
+   {
+    "file": "tools/memory_source.py",
+    "line": 350,
+    "note": "块 save 无 temp/rename",
+    "line_text": "nb = eng.save(seq, path)",
+    "token": "eng.save",
+    "token_ok": true,
+    "bad": false
+   },
+   {
+    "file": "tools/session_state.py",
+    "line": 229,
+    "note": "chat 状态直写最终路径",
+    "line_text": "if chat_n and eng.save(0, chat_file) <= 0:",
+    "token": "eng.save",
+    "token_ok": true,
+    "bad": false
+   },
+   {
+    "file": "tools/session_state.py",
+    "line": 251,
+    "note": "同函数 manifest 反而 tmp",
+    "line_text": "tmp = path + \".tmp\"",
+    "token": "path + \".tmp\"",
+    "token_ok": true,
+    "bad": false
+   },
+   {
+    "file": "tools/session_state.py",
+    "line": 254,
+    "note": "manifest 原子替换",
+    "line_text": "os.replace(tmp, path)          # atomic: a truncated manifest never appears",
+    "token": "os.replace",
+    "token_ok": true,
+    "bad": false
+   }
+  ]
  },
  "discipline": {
   "engine_changed": false,
   "rebuild": false,
   "real_blocks_written": false,
   "sessions_written": false
+ },
+ "not_judged": {
+  "B2b_half_file_load": "本单一律不判（另单）",
+  "B3_concurrency": "不在本单"
  },
  "no_self_sha": true
 }
