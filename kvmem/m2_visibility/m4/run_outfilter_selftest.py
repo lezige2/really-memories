@@ -109,7 +109,38 @@ def main():
     else:
         case("S8", "real captured answer", "skip", detail="no captured answer found")
 
+    # S9/S10: the two counts that were accused of being decoration now each have a failure shape,
+    # so make them fail here on purpose. If either cannot be made to raise, it is decoration.
+    try:
+        F.check_counts({"think": 1}, 0, 9, "S9 tag counted but no characters")
+        case("S9", "counts: tag present but 0 chars -> must RED", "fail",
+             detail="check_counts accepted a tag with no character count")
+    except F.ConsistencyBroken as exc:
+        case("S9", "counts: tag present but 0 chars -> must RED", "pass",
+             raised=type(exc).__name__, raw_line=str(exc))
+    try:
+        F.check_counts({"think": 1}, 8, 2, "S10 cross-layer delta smaller than tags")
+        case("S10", "counts: delta < tag chars -> must RED", "fail",
+             detail="check_counts accepted a cross-layer delta smaller than its attributable part")
+    except F.ConsistencyBroken as exc:
+        case("S10", "counts: delta < tag chars -> must RED", "pass",
+             raised=type(exc).__name__, raw_line=str(exc))
+    ok_checks = ("assertion_is_load_bearing", F.check_counts({"think": 1}, 8, 9, "S11 live counts"))
+
     res["assertion_is_load_bearing"] = any(c["case"] == "S2" and c["verdict"] == "pass" for c in res["cases"])
+    # who graded this artifact: a boolean with no grader named is read as externally computed
+    res["graded_by"] = "self"
+    res["graded_by_note"] = ("this whole artifact is the script grading itself. An external "
+                             "recompute (re-running outfilter on real captures in memory, e.g. "
+                             "from run_m4_verify_a3.json) is the R; this file alone is an S.")
+    res["provenance"] = {
+        "assertion_is_load_bearing": "SELF-ASSESSED by this script (it reads its own S2 case). "
+                                     "It is an S, not an R: an R needs an independent recompute "
+                                     "that does not read this artifact.",
+        "s9_s10": "these two raise inside check_counts, called from here with bad inputs, so they "
+                  "are failure shapes of the count fields themselves",
+        "sha_stability": "no pid or timestamp in this artifact, so its sha16 is a usable anchor",
+    }
     res["verdict"] = "OUTFILTER-SELFTEST PASS" if ok else "OUTFILTER-SELFTEST FAIL"
     json.dump(res, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print()
