@@ -323,10 +323,37 @@
    "copy_time": "2026-10-25T23:18:38",
    "copyist": "executor",
    "reason": "M6a 构建脚本改前锚（五条证据回改前；当前 5e716555）"
+  },
+  {
+   "source_name": "kvslots.py",
+   "source_sha16": "71498ea35f9d7cb4",
+   "copy_path": "D:/llama-mem/kvmem/m2_visibility/m7/_before/kvslots.py@71498ea35f9d7cb4",
+   "in_place": false,
+   "copy_time": "2026-10-26T01:26:51",
+   "copyist": "executor",
+   "reason": "M7 F1 改造前预防（原子写；旧行为红对照保留）"
+  },
+  {
+   "source_name": "session_state.py",
+   "source_sha16": "d80b1ce892c2edd9",
+   "copy_path": "D:/llama-mem/kvmem/m2_visibility/m7/_before/session_state.py@d80b1ce892c2edd9",
+   "in_place": false,
+   "copy_time": "2026-10-26T01:26:51",
+   "copyist": "executor",
+   "reason": "M7 F2 改造前预防（chat.bytes + restore 前校验）"
+  },
+  {
+   "source_name": "kvshim.cpp",
+   "source_sha16": "51eb2adbc38461da",
+   "copy_path": "D:/llama-mem/kvmem/m2_visibility/m7/_before/kvshim.cpp@51eb2adbc38461da",
+   "in_place": false,
+   "copy_time": "2026-10-26T02:40:31",
+   "copyist": "executor",
+   "reason": "M7 E3-CPU KVSHIM_THREADS 改前锚（CPU DLL 重建；Vulkan DLL 不重建）"
   }
  ],
  "rule": "any run that overwrites an accepted artifact must first copy it to _before/<name>@<sha16>; an anchor proves what a value WAS, it does not keep it",
- "updated_at": "2026-10-25T23:47:11",
+ "updated_at": "2026-10-26T02:40:31",
  "changes": [
   {
    "copy": "run_m5_fix_compare.json@5f7c196a32a659a6",

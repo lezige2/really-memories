@@ -1,0 +1,64 @@
+{
+ "schema": "m7_cpu_rebuild_v1",
+ "at": "2026-10-26T02:15:28",
+ "task": "M7 E3 CPU 后端：CPU 静态库 + shim 重建",
+ "host_safety": {
+  "bsod_incidents": 3,
+  "bugchecks": [
+   "0xA",
+   "0xA",
+   "0x44"
+  ],
+  "live_kernel": [
+   "141",
+   "141",
+   "144"
+  ],
+  "gpu": "RX 6750 GRE 10GB / 32.0.21045.1000",
+  "policy": "CPU-only build/link; GPU-free evidence; 14B real arm pending FreeRAM gate"
+ },
+ "source_mismatch": {
+  "finding": "build-cpu/CMakeCache.txt 的 llama.cpp_SOURCE_DIR/CMAKE_HOME_DIRECTORY = D:/llama-mem/llama.cpp-upstream（无 M2 补丁，无 llama_memory_seq_repos_local），因此 `cmake --build build-cpu --target llama` 报 no work；旧 build-cpu/src/libllama.a 仍 8,455,560 B/63a85c3a4fc4ca70",
+  "action": "未改 llama.cpp 源码、未动 build-vulkan；用 patched 源 llama.cpp 新建 CPU 树 build-cpu-patched 并只编 llama 目标"
+ },
+ "old_libllama": {
+  "path": "build-cpu/src/libllama.a",
+  "sha16": "63a85c3a4fc4ca70",
+  "bytes": 8455560
+ },
+ "new_libllama": {
+  "path": "build-cpu-patched/src/libllama.a",
+  "sha16": "8068cc48a381ff8c",
+  "bytes": 8622856,
+  "symbol_seq_repos_local": 1
+ },
+ "cmake_configure": "cmake -S llama.cpp -B build-cpu-patched -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DLLAMA_CURL=OFF -DGGML_NATIVE=ON (WinGet llvm-mingw clang; -static -D_WIN32_WINNT=0x0A00)",
+ "cmake_build": {
+  "cmd": "cmake --build build-cpu-patched --target llama --parallel 4",
+  "rc": 0,
+  "output_tail": [
+   "ninja: no work to do."
+  ],
+  "note": "tee 不可用，首次构建日志未落盘；此处为重跑（no work）的 tail，构建本身已 rc=0"
+ },
+ "shim": {
+  "path": "tools/kvshim.dll",
+  "sha16": "e6ac2a2f3e692613",
+  "bytes": 8106496,
+  "link_cmd": "clang++ -std=c++17 -O2 -static -D_WIN32_WINNT=0x0A00 -DWINVER=0x0A00 -I llama.cpp/include -I llama.cpp/ggml/include tools/kvshim.cpp -o tools/kvshim.dll -shared build-cpu-patched/src/libllama.a build-cpu-patched/ggml/src/ggml.a build-cpu-patched/ggml/src/ggml-cpu.a build-cpu-patched/ggml/src/ggml-base.a -pthread <libomp.dll.a> -lpthread ...",
+  "pe_imports": [
+   "KERNEL32.dll",
+   "msvcrt.dll",
+   "libomp.dll",
+   "ADVAPI32.dll"
+  ],
+  "vulkan_imported": false,
+  "note": "objdump -p 导入表无 vulkan-1.dll；strings 中 'vulkan' 仅为内建文本/后端名，不是导入"
+ },
+ "E3_14b": {
+  "status": "未开始（FreeRAM < 11 GiB 硬闸）",
+  "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+  "gpu": 0
+ },
+ "no_self_sha": true
+}

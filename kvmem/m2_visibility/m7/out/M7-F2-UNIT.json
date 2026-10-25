@@ -1,0 +1,299 @@
+{
+ "schema": "m7_f2_unit_v1",
+ "at": "2026-10-26T02:12:03",
+ "task": "M7 F2 产品入口长度闸门（E2，GPU-free）",
+ "host_safety": {
+  "bsod_incidents": 3,
+  "bugchecks": [
+   "0xA",
+   "0xA",
+   "0x44"
+  ],
+  "live_kernel": [
+   "141",
+   "141",
+   "144"
+  ],
+  "gpu": "RX 6750 GRE 10GB / 32.0.21045.1000",
+  "policy": "GPU-free evidence; real-machine 14B arm NOT run (host unstable)"
+ },
+ "device": {
+  "gpu_used": false,
+  "dll_loaded": false,
+  "model_loaded": false,
+  "impl": "FakeEng records calls; real chat copies; real manifests"
+ },
+ "engine_layer_reference": {
+  "source": "kvmem/m2_visibility/m6b/out/M6B-B2B-P4.json",
+  "source_sha16": "47907ef7b88e6c94",
+  "control_full_load_rc": 50,
+  "tail_zero_1kb_load_rc": 50,
+  "tail_random_1kb_load_rc": 50,
+  "n_tokens": 50,
+  "conclusion": "引擎接受 tail-extra（load_rc>0）；故产品入口必须在 reset 前用 bytes 拦截",
+  "why": "P4 已证引擎接受 tail-extra；本轮 GPU 禁令不重跑",
+  "rerun": false
+ },
+ "criteria": "E2: reset_calls==0 + load_calls==0 + sentinel n_tokens=7/pos_max=6 unchanged",
+ "tail_cases": {
+  "zero": {
+   "manifest": "live.json",
+   "chat_bytes_original": 5761428,
+   "chat_bytes_after_tail": 5762452,
+   "exc": "LayoutMismatch: chat state file is 5762452 bytes, manifest says 5761428 (D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\unit_f2\\live.chat.kvmem) -- refusing before reset",
+   "reset_called": false,
+   "load_called": false,
+   "before": {
+    "n_tokens": 7,
+    "pos_max": 6,
+    "reset_calls": 0,
+    "load_calls": 0
+   },
+   "after": {
+    "n_tokens": 7,
+    "pos_max": 6,
+    "reset_calls": 0,
+    "load_calls": 0
+   },
+   "n_tokens_unchanged": true,
+   "pos_max_unchanged": true,
+   "pass": true
+  },
+  "random": {
+   "manifest": "live.json",
+   "chat_bytes_original": 5761428,
+   "chat_bytes_after_tail": 5762452,
+   "exc": "LayoutMismatch: chat state file is 5762452 bytes, manifest says 5761428 (D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\unit_f2\\live.chat.kvmem) -- refusing before reset",
+   "reset_called": false,
+   "load_called": false,
+   "before": {
+    "n_tokens": 7,
+    "pos_max": 6,
+    "reset_calls": 0,
+    "load_calls": 0
+   },
+   "after": {
+    "n_tokens": 7,
+    "pos_max": 6,
+    "reset_calls": 0,
+    "load_calls": 0
+   },
+   "n_tokens_unchanged": true,
+   "pos_max_unchanged": true,
+   "pass": true
+  }
+ },
+ "old_manifests": [
+  {
+   "session": "s",
+   "validate_manifest": "ok",
+   "bytes_field": null,
+   "chat_file_bytes": 6188148,
+   "load_ok": true,
+   "exc": null,
+   "unvalidated_events": 1,
+   "report_unvalidated": true,
+   "chat_n_tokens": 203,
+   "original_manifest_sha16": "e5131f11f314aa6a",
+   "original_manifest_unchanged": true,
+   "events": [
+    {
+     "schema": "m7_f2_event_v1",
+     "event": "chat_unvalidated",
+     "unvalidated": true,
+     "manifest": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\unit_f2\\s.json",
+     "manifest_sha16": "6443053a236a57f7",
+     "manifest_version": 2,
+     "chat_state": "s.chat.kvmem",
+     "chat_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\unit_f2\\s.chat.kvmem",
+     "actual_bytes": 6188148,
+     "expected_bytes": null,
+     "reason": "missing_chat_bytes",
+     "n_tokens": 203,
+     "wrote_manifest": false
+    }
+   ]
+  },
+  {
+   "session": "live",
+   "validate_manifest": "ok",
+   "bytes_field": null,
+   "chat_file_bytes": 5761428,
+   "load_ok": true,
+   "exc": null,
+   "unvalidated_events": 1,
+   "report_unvalidated": true,
+   "chat_n_tokens": 189,
+   "original_manifest_sha16": "4b18d1a8b0e6e74d",
+   "original_manifest_unchanged": true,
+   "events": [
+    {
+     "schema": "m7_f2_event_v1",
+     "event": "chat_unvalidated",
+     "unvalidated": true,
+     "manifest": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\unit_f2\\live.json",
+     "manifest_sha16": "5010f0dadda2943e",
+     "manifest_version": 2,
+     "chat_state": "live.chat.kvmem",
+     "chat_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\unit_f2\\live.chat.kvmem",
+     "actual_bytes": 5761428,
+     "expected_bytes": null,
+     "reason": "missing_chat_bytes",
+     "n_tokens": 189,
+     "wrote_manifest": false
+    }
+   ]
+  },
+  {
+   "session": "s_2",
+   "validate_manifest": "ok",
+   "bytes_field": null,
+   "chat_file_bytes": 11339268,
+   "load_ok": true,
+   "exc": null,
+   "unvalidated_events": 1,
+   "report_unvalidated": true,
+   "chat_n_tokens": 372,
+   "original_manifest_sha16": "459ddca5fde1fede",
+   "original_manifest_unchanged": true,
+   "events": [
+    {
+     "schema": "m7_f2_event_v1",
+     "event": "chat_unvalidated",
+     "unvalidated": true,
+     "manifest": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\unit_f2\\s_2.json",
+     "manifest_sha16": "4e742b13524b5e3b",
+     "manifest_version": 2,
+     "chat_state": "s_2.chat.kvmem",
+     "chat_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\unit_f2\\s_2.chat.kvmem",
+     "actual_bytes": 11339268,
+     "expected_bytes": null,
+     "reason": "missing_chat_bytes",
+     "n_tokens": 372,
+     "wrote_manifest": false
+    }
+   ]
+  },
+  {
+   "session": "bridge",
+   "validate_manifest": "ok",
+   "bytes_field": null,
+   "chat_file_bytes": 945588,
+   "load_ok": true,
+   "exc": null,
+   "unvalidated_events": 1,
+   "report_unvalidated": true,
+   "chat_n_tokens": 31,
+   "original_manifest_sha16": "a25eb506d9a50312",
+   "original_manifest_unchanged": true,
+   "events": [
+    {
+     "schema": "m7_f2_event_v1",
+     "event": "chat_unvalidated",
+     "unvalidated": true,
+     "manifest": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\unit_f2\\bridge.json",
+     "manifest_sha16": "57d70956369eed71",
+     "manifest_version": 2,
+     "chat_state": "bridge.chat.kvmem",
+     "chat_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\unit_f2\\bridge.chat.kvmem",
+     "actual_bytes": 945588,
+     "expected_bytes": null,
+     "reason": "missing_chat_bytes",
+     "n_tokens": 31,
+     "wrote_manifest": false
+    }
+   ]
+  }
+ ],
+ "bad_manifests": [
+  {
+   "session": "bad_head",
+   "validate_manifest": "passed",
+   "exc": "LayoutMismatch: profile: layout renders [4046,4096) but the manifest recorded [4044,4094) -- refusing to guess",
+   "rejected": true,
+   "reset_called": false,
+   "load_called": false,
+   "sentinel": {
+    "n_tokens": 7,
+    "pos_max": 6,
+    "reset_calls": 0,
+    "load_calls": 0
+   },
+   "after": {
+    "n_tokens": 7,
+    "pos_max": 6,
+    "reset_calls": 0,
+    "load_calls": 0
+   }
+  },
+  {
+   "session": "bad_render",
+   "validate_manifest": "passed",
+   "exc": "LayoutMismatch: profile: layout renders [4046,4096) but the manifest recorded [4047,4097) -- refusing to guess",
+   "rejected": true,
+   "reset_called": false,
+   "load_called": false,
+   "sentinel": {
+    "n_tokens": 7,
+    "pos_max": 6,
+    "reset_calls": 0,
+    "load_calls": 0
+   },
+   "after": {
+    "n_tokens": 7,
+    "pos_max": 6,
+    "reset_calls": 0,
+    "load_calls": 0
+   }
+  },
+  {
+   "session": "bad_schema",
+   "validate_manifest": "LayoutMismatch: manifest.layout.slots[] is missing required field(s): capacity",
+   "exc": "LayoutMismatch: manifest.layout.slots[] is missing required field(s): capacity",
+   "rejected": true,
+   "reset_called": false,
+   "load_called": false,
+   "sentinel": {
+    "n_tokens": 7,
+    "pos_max": 6,
+    "reset_calls": 0,
+    "load_calls": 0
+   },
+   "after": {
+    "n_tokens": 7,
+    "pos_max": 6,
+    "reset_calls": 0,
+    "load_calls": 0
+   }
+  }
+ ],
+ "new_format_control": {
+  "chat_bytes": 5761428,
+  "load_ok": true,
+  "exc": null,
+  "chat_bytes_verified": true,
+  "unvalidated_events": 0
+ },
+ "fifth_session": {
+  "path": "kvmem/variance/o1/s.json",
+  "exists": true,
+  "sha16": "004073e84f3eb4bf",
+  "chat_file": "kvmem/variance/o1/s.chat.kvmem",
+  "chat_sha16": "3c729a88eb633c2c",
+  "chat_bytes": 5151828,
+  "status": "unverifiable",
+  "reason": "GPU 禁令：不在本机加载真实引擎；只登记存在性与 sha"
+ },
+ "events_artifact": {
+  "path": "kvmem/m2_visibility/m7/out/M7-F2-EVENTS.jsonl",
+  "lines": 4,
+  "sha16": "16b8c10307deac8b"
+ },
+ "verdict": {
+  "tail_fail_closed_before_reset": true,
+  "four_old_manifests_load_and_unvalidated": true,
+  "bad_three_still_rejected": true,
+  "new_format_verified": true,
+  "F2": "绿：tail 在 reset/load 前 fail-closed，4 老 manifest 兼容且事件可见，bad_* 仍 reject，新格式通过"
+ }
+}

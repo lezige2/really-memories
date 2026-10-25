@@ -1,0 +1,39 @@
+{
+ "schema": "m7_cpu_rebuild_verify_v1",
+ "base_artifact": {
+  "path": "kvmem/m2_visibility/m7/out/M7-CPU-REBUILD.json",
+  "sha16": "f55dfd9a571f1306",
+  "bytes": 2493
+ },
+ "verify_sh": {
+  "rc": 0,
+  "item1_engine_patch": "PASS",
+  "item1_decl": "600/0",
+  "item1_live": "600/0",
+  "item1_snapshot": "600/0",
+  "all_pass": true,
+  "n_items": 12,
+  "last_lines": [
+   "E  日志删 10 行 blk → 3a/3b 同红 (rc=6) PASS",
+   "---",
+   "ALL PASS (12 项)"
+  ]
+ },
+ "at": "2026-10-26T02:19:45",
+ "host_safety": {
+  "bsod_incidents": 3,
+  "bugchecks": [
+   "0xA",
+   "0xA",
+   "0x44"
+  ],
+  "live_kernel": [
+   "141",
+   "141",
+   "144"
+  ],
+  "gpu": "RX 6750 GRE 10GB / 32.0.21045.1000",
+  "policy": "verify.sh only; no model load"
+ },
+ "no_self_sha": true
+}

@@ -1,0 +1,241 @@
+{
+ "schema": "m7_e3_cpu_tail_v1",
+ "at": "2026-10-26T03:07:46",
+ "task": "M7 E3-CPU-F2-14B 长度校验（真实 14B CPU，fixture 由本臂生成）",
+ "host_safety": {
+  "bsod_incidents": 3,
+  "bugchecks": [
+   "0xA",
+   "0xA",
+   "0x44"
+  ],
+  "live_kernel": [
+   "141",
+   "141",
+   "144"
+  ],
+  "gpu": "RX 6750 GRE 10GB / 32.0.21045.1000",
+  "policy": "CPU-only; gpu=0; no kill of GPU process"
+ },
+ "free_ram_mb_before": 13531,
+ "free_ram_gate_mb": 10240,
+ "pagefile_peak_mb": 6940,
+ "identity": {
+  "mode": "f2",
+  "pid": 6124,
+  "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+  "model_bytes": 8988110240,
+  "dll": "D:\\llama-mem\\tools\\kvshim.dll",
+  "gpu": 0,
+  "backend": "cpu",
+  "n_ctx": 8192,
+  "n_seq": 8,
+  "priority_class": "below_normal",
+  "affinity_mask": "0xfff",
+  "threads_env": "6",
+  "threads_default_8": false,
+  "vulkan_loaded": false,
+  "load_s": 13.625,
+  "vulkan_loaded_after_load": false,
+  "free_ram_mb_after_load": 539,
+  "peak_ws_mb_after_load": 13100,
+  "child_pid": 6124,
+  "dll_sha16": "3e29ae9eadc1dfc0",
+  "priority": "below_normal",
+  "affinity": "0xfff",
+  "kvshim_threads_readback": 6,
+  "kvshim_threads_env": "6"
+ },
+ "f2_child_pid": 6124,
+ "con_db_path": "D:\\llama-mem\\kvmem\\chat.db",
+ "con_mode": "ro",
+ "speed": {
+  "decode_tok_per_s": 5.76,
+  "decode_s": 5.552,
+  "decode_tokens": 32,
+  "load_s": 13.625,
+  "chat_bytes": 19744884,
+  "prefill_tok_per_s": 8.64
+ },
+ "fixture": {
+  "manifest": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\control.json",
+  "chat": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\control.chat.kvmem",
+  "chat_bytes": 19744884,
+  "chat_sha16": "78fad7c981b751f3",
+  "manifest_sha16": "37c1ee044d4ab7ac",
+  "manifest_chat_bytes": 19744884,
+  "n_tokens": 189
+ },
+ "S2_normal": {
+  "load_ok": true,
+  "exc": null,
+  "chat_n_tokens": 189,
+  "chat_bytes_verified": true,
+  "events": 0,
+  "reset_calls": 2,
+  "load_calls": 2
+ },
+ "S3_tail": {
+  "manifest": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\f2_14b_tail.json",
+  "chat": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\f2_14b_tail.chat.kvmem",
+  "chat_bytes": 19745908,
+  "manifest_bytes": 19744884,
+  "sentinel_before": {
+   "n_tokens": 7,
+   "pos_max": 6,
+   "reset_calls": 3,
+   "load_calls": 2
+  },
+  "after": {
+   "n_tokens": 7,
+   "pos_max": 6,
+   "reset_calls": 0,
+   "load_calls": 0
+  },
+  "exc": "LayoutMismatch: chat state file is 19745908 bytes, manifest says 19744884 (D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\f2_14b_tail.chat.kvmem) -- refusing before reset",
+  "pass": true
+ },
+ "S4_oldformat": {
+  "load_ok": true,
+  "exc": null,
+  "chat_n_tokens": 189,
+  "report_unvalidated": true,
+  "events": 1,
+  "event_lines": [
+   "{\"schema\": \"m7_f2_event_v1\", \"event\": \"chat_unvalidated\", \"unvalidated\": true, \"manifest\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3cpu\\\\atomic\\\\f2_14b_oldformat.json\", \"manifest_sha16\": \"f052dbe7830c58cd\", \"manifest_version\": 2, \"chat_state\": \"f2_14b_oldformat.chat.kvmem\", \"chat_path\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3cpu\\\\atomic\\\\f2_14b_oldformat.chat.kvmem\", \"actual_bytes\": 19744884, \"expected_bytes\": null, \"reason\": \"missing_chat_bytes\", \"n_tokens\": 189, \"wrote_manifest\": false}"
+  ],
+  "reset_calls": 2,
+  "load_calls": 2,
+  "source_manifest_sha16": "37c1ee044d4ab7ac"
+ },
+ "S4_existing_4": [
+  {
+   "name": "s",
+   "manifest": "D:\\llama-mem\\kvmem\\sessions\\s.json",
+   "sha16": "e5131f11f314aa6a",
+   "status": "未做（几何不兼容：14B 引擎硬拒绝）",
+   "error": "kvshim_load refused ... incompatible state (model, rope, kv type or n_rot_k differs)"
+  },
+  {
+   "name": "live",
+   "manifest": "D:\\llama-mem\\kvmem\\sessions\\live.json",
+   "sha16": "4b18d1a8b0e6e74d",
+   "status": "未做（几何不兼容：14B 引擎硬拒绝）",
+   "error": "kvshim_load refused ... incompatible state (model, rope, kv type or n_rot_k differs)"
+  },
+  {
+   "name": "s_2",
+   "manifest": "D:\\llama-mem\\kvmem\\sessions\\s_2.json",
+   "sha16": "459ddca5fde1fede",
+   "status": "未做（几何不兼容：14B 引擎硬拒绝）",
+   "error": "kvshim_load refused ... incompatible state (model, rope, kv type or n_rot_k differs)"
+  },
+  {
+   "name": "bridge",
+   "manifest": "D:\\llama-mem\\kvmem\\sessions\\bridge.json",
+   "sha16": "a25eb506d9a50312",
+   "status": "未做（几何不兼容：14B 引擎硬拒绝）",
+   "error": "kvshim_load refused ... incompatible state (model, rope, kv type or n_rot_k differs)"
+  }
+ ],
+ "events": {
+  "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\M7-E3-CPU-EVENTS.jsonl",
+  "lines": 1,
+  "sha16": "dc9bed6fcdcd640e"
+ },
+ "sentinel_before": {
+  "n_tokens": 7,
+  "pos_max": 6,
+  "reset_calls": 3,
+  "load_calls": 2
+ },
+ "sentinel_after": {
+  "n_tokens": 7,
+  "pos_max": 6,
+  "reset_calls": 0,
+  "load_calls": 0
+ },
+ "reset_calls": 0,
+ "load_calls": 0,
+ "s2": {
+  "load_ok": true,
+  "exc": null,
+  "chat_n_tokens": 189,
+  "chat_bytes_verified": true,
+  "events": 0,
+  "reset_calls": 2,
+  "load_calls": 2
+ },
+ "s3": {
+  "manifest": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\f2_14b_tail.json",
+  "chat": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\f2_14b_tail.chat.kvmem",
+  "chat_bytes": 19745908,
+  "manifest_bytes": 19744884,
+  "sentinel_before": {
+   "n_tokens": 7,
+   "pos_max": 6,
+   "reset_calls": 3,
+   "load_calls": 2
+  },
+  "after": {
+   "n_tokens": 7,
+   "pos_max": 6,
+   "reset_calls": 0,
+   "load_calls": 0
+  },
+  "exc": "LayoutMismatch: chat state file is 19745908 bytes, manifest says 19744884 (D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\f2_14b_tail.chat.kvmem) -- refusing before reset",
+  "pass": true
+ },
+ "s4_prime": {
+  "load_ok": true,
+  "exc": null,
+  "chat_n_tokens": 189,
+  "report_unvalidated": true,
+  "events": 1,
+  "event_lines": [
+   "{\"schema\": \"m7_f2_event_v1\", \"event\": \"chat_unvalidated\", \"unvalidated\": true, \"manifest\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3cpu\\\\atomic\\\\f2_14b_oldformat.json\", \"manifest_sha16\": \"f052dbe7830c58cd\", \"manifest_version\": 2, \"chat_state\": \"f2_14b_oldformat.chat.kvmem\", \"chat_path\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3cpu\\\\atomic\\\\f2_14b_oldformat.chat.kvmem\", \"actual_bytes\": 19744884, \"expected_bytes\": null, \"reason\": \"missing_chat_bytes\", \"n_tokens\": 189, \"wrote_manifest\": false}"
+  ],
+  "reset_calls": 2,
+  "load_calls": 2,
+  "source_manifest_sha16": "37c1ee044d4ab7ac"
+ },
+ "s4_double_prime": [
+  {
+   "name": "s",
+   "manifest": "D:\\llama-mem\\kvmem\\sessions\\s.json",
+   "sha16": "e5131f11f314aa6a",
+   "status": "未做（几何不兼容：14B 引擎硬拒绝）",
+   "error": "kvshim_load refused ... incompatible state (model, rope, kv type or n_rot_k differs)"
+  },
+  {
+   "name": "live",
+   "manifest": "D:\\llama-mem\\kvmem\\sessions\\live.json",
+   "sha16": "4b18d1a8b0e6e74d",
+   "status": "未做（几何不兼容：14B 引擎硬拒绝）",
+   "error": "kvshim_load refused ... incompatible state (model, rope, kv type or n_rot_k differs)"
+  },
+  {
+   "name": "s_2",
+   "manifest": "D:\\llama-mem\\kvmem\\sessions\\s_2.json",
+   "sha16": "459ddca5fde1fede",
+   "status": "未做（几何不兼容：14B 引擎硬拒绝）",
+   "error": "kvshim_load refused ... incompatible state (model, rope, kv type or n_rot_k differs)"
+  },
+  {
+   "name": "bridge",
+   "manifest": "D:\\llama-mem\\kvmem\\sessions\\bridge.json",
+   "sha16": "a25eb506d9a50312",
+   "status": "未做（几何不兼容：14B 引擎硬拒绝）",
+   "error": "kvshim_load refused ... incompatible state (model, rope, kv type or n_rot_k differs)"
+  }
+ ],
+ "events_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\M7-E3-CPU-EVENTS.jsonl",
+ "events_sha16": "dc9bed6fcdcd640e",
+ "events_lines": 1,
+ "verdict": {
+  "S2_normal": true,
+  "S3_tail": true,
+  "S4_oldformat": true
+ },
+ "no_self_sha": true
+}

@@ -1,0 +1,397 @@
+{
+ "schema": "m7_e3_cpu_atomic_v1",
+ "at": "2026-10-26T03:06:07",
+ "task": "M7 E3-CPU F1 原子写（真实 14B CPU，block 几何）",
+ "host_safety": {
+  "bsod_incidents": 3,
+  "bugchecks": [
+   "0xA",
+   "0xA",
+   "0x44"
+  ],
+  "live_kernel": [
+   "141",
+   "141",
+   "144"
+  ],
+  "gpu": "RX 6750 GRE 10GB / 32.0.21045.1000",
+  "policy": "CPU-only; gpu=0; no kill of GPU process"
+ },
+ "free_ram_mb_before": 13626,
+ "free_ram_gate_mb": 10240,
+ "pagefile_peak_mb": 6940,
+ "parent_vulkan_loaded": false,
+ "threads": {
+  "env": "6",
+  "default_8": false,
+  "process_priority": "below_normal",
+  "affinity_mask": "0xfff"
+ },
+ "control": {
+  "mode": "control",
+  "load_s": 12.548,
+  "prefill_n": 189,
+  "prefill_pos_max": 4284,
+  "prefill_s": 21.874,
+  "prefill_tok_per_s": 8.64,
+  "profile_n_tokens": 50,
+  "profile_lo": 4046,
+  "profile_hi": 4096,
+  "chat_n_tokens": 189,
+  "save_s": 0.08,
+  "chat_file": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\control.chat.kvmem",
+  "chat_bytes": 19744884,
+  "chat_sha16": "78fad7c981b751f3",
+  "manifest": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\control.json",
+  "manifest_sha16": "37c1ee044d4ab7ac",
+  "manifest_chat_bytes": 19744884,
+  "peak_ws_mb": 13428,
+  "free_ram_mb_after": 316,
+  "f2": {
+   "fixture": {
+    "manifest": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\control.json",
+    "chat": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\control.chat.kvmem",
+    "chat_bytes": 19744884,
+    "chat_sha16": "78fad7c981b751f3",
+    "manifest_sha16": "37c1ee044d4ab7ac",
+    "manifest_chat_bytes": 19744884,
+    "n_tokens": 189
+   },
+   "s2_normal": {
+    "load_ok": true,
+    "exc": null,
+    "chat_n_tokens": 189,
+    "chat_bytes_verified": true,
+    "events": 0,
+    "reset_calls": 2,
+    "load_calls": 2
+   },
+   "s3_tail": {
+    "manifest": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\f2_14b_tail.json",
+    "chat": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\f2_14b_tail.chat.kvmem",
+    "chat_bytes": 19745908,
+    "manifest_bytes": 19744884,
+    "sentinel_before": {
+     "n_tokens": 7,
+     "pos_max": 6,
+     "reset_calls": 3,
+     "load_calls": 2
+    },
+    "after": {
+     "n_tokens": 7,
+     "pos_max": 6,
+     "reset_calls": 0,
+     "load_calls": 0
+    },
+    "exc": "LayoutMismatch: chat state file is 19745908 bytes, manifest says 19744884 (D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\f2_14b_tail.chat.kvmem) -- refusing before reset",
+    "pass": true
+   },
+   "s4_oldformat": {
+    "load_ok": true,
+    "exc": null,
+    "chat_n_tokens": 189,
+    "report_unvalidated": true,
+    "events": 1,
+    "event_lines": [
+     "{\"schema\": \"m7_f2_event_v1\", \"event\": \"chat_unvalidated\", \"unvalidated\": true, \"manifest\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3cpu\\\\atomic\\\\f2_14b_oldformat.json\", \"manifest_sha16\": \"f052dbe7830c58cd\", \"manifest_version\": 2, \"chat_state\": \"f2_14b_oldformat.chat.kvmem\", \"chat_path\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3cpu\\\\atomic\\\\f2_14b_oldformat.chat.kvmem\", \"actual_bytes\": 19744884, \"expected_bytes\": null, \"reason\": \"missing_chat_bytes\", \"n_tokens\": 189, \"wrote_manifest\": false}"
+    ],
+    "reset_calls": 2,
+    "load_calls": 2,
+    "source_manifest_sha16": "37c1ee044d4ab7ac"
+   },
+   "s4_existing_4": [
+    {
+     "name": "s",
+     "manifest": "D:\\llama-mem\\kvmem\\sessions\\s.json",
+     "sha16": "e5131f11f314aa6a",
+     "status": "未做（几何不兼容：14B 引擎硬拒绝）",
+     "error": "kvshim_load refused ... incompatible state (model, rope, kv type or n_rot_k differs)"
+    },
+    {
+     "name": "live",
+     "manifest": "D:\\llama-mem\\kvmem\\sessions\\live.json",
+     "sha16": "4b18d1a8b0e6e74d",
+     "status": "未做（几何不兼容：14B 引擎硬拒绝）",
+     "error": "kvshim_load refused ... incompatible state (model, rope, kv type or n_rot_k differs)"
+    },
+    {
+     "name": "s_2",
+     "manifest": "D:\\llama-mem\\kvmem\\sessions\\s_2.json",
+     "sha16": "459ddca5fde1fede",
+     "status": "未做（几何不兼容：14B 引擎硬拒绝）",
+     "error": "kvshim_load refused ... incompatible state (model, rope, kv type or n_rot_k differs)"
+    },
+    {
+     "name": "bridge",
+     "manifest": "D:\\llama-mem\\kvmem\\sessions\\bridge.json",
+     "sha16": "a25eb506d9a50312",
+     "status": "未做（几何不兼容：14B 引擎硬拒绝）",
+     "error": "kvshim_load refused ... incompatible state (model, rope, kv type or n_rot_k differs)"
+    }
+   ],
+   "con_db_path": "D:\\llama-mem\\kvmem\\chat.db",
+   "con_mode": "ro",
+   "speed": {
+    "decode_tok_per_s": 5.89,
+    "decode_s": 5.429,
+    "decode_tokens": 32,
+    "load_s": null,
+    "chat_bytes": 19744884
+   },
+   "events": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\M7-E3-CPU-EVENTS.jsonl",
+    "lines": 1,
+    "sha16": "dc9bed6fcdcd640e"
+   },
+   "verdict": {
+    "S2_normal": true,
+    "S3_tail": true,
+    "S4_oldformat": true
+   }
+  },
+  "identity": {
+   "mode": "control",
+   "pid": 8364,
+   "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+   "model_bytes": 8988110240,
+   "dll": "D:\\llama-mem\\tools\\kvshim.dll",
+   "gpu": 0,
+   "backend": "cpu",
+   "n_ctx": 8192,
+   "n_seq": 8,
+   "priority_class": "below_normal",
+   "affinity_mask": "0xfff",
+   "threads_env": "6",
+   "threads_default_8": false,
+   "vulkan_loaded": false,
+   "load_s": 12.548,
+   "vulkan_loaded_after_load": false,
+   "free_ram_mb_after_load": 529,
+   "peak_ws_mb_after_load": 13100,
+   "child_pid": 8364,
+   "dll_sha16": "3e29ae9eadc1dfc0",
+   "priority": "below_normal",
+   "affinity": "0xfff",
+   "kvshim_threads_readback": 6,
+   "kvshim_threads_env": "6"
+  },
+  "stderr_tail": [],
+  "tmp_clean_after_full": true
+ },
+ "target_before": {
+  "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\atomic_before.kvmem",
+  "sha16": "78fad7c981b751f3",
+  "bytes": 19744884
+ },
+ "green": [
+  {
+   "attempt": 1,
+   "mode": "kill",
+   "before_sha16": "78fad7c981b751f3",
+   "before_bytes": 19744884,
+   "target_sha16": "78fad7c981b751f3",
+   "target_bytes": 19744884,
+   "state": "before",
+   "tmp": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\atomic_before.kvmem.tmp-11468-ad497341",
+    "size": 1432,
+    "pid": 11468
+   },
+   "tmp_existed": true,
+   "tmp_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\atomic_before.kvmem.tmp-11468-ad497341",
+   "tmp_size": 1432,
+   "tmp_pid": 11468,
+   "tmp_pid_matches_child": true,
+   "child_pid": 11468,
+   "target_sha": "78fad7c981b751f3",
+   "seed_sha16": "78fad7c981b751f3",
+   "seed_bytes": 19744884,
+   "seed_assert": true,
+   "tmp_clean_after_full": true,
+   "stale_tmp_cleared": false,
+   "killed_at_ms": 41003.25,
+   "deadline_ms": 41003.25,
+   "deadline_source": "first_observable_side_effect",
+   "save_start_ms": 40758.51,
+   "signal_ms": 41003.25,
+   "exit_ms": 41750.93,
+   "peak_ws_mb_seen": 13252,
+   "stderr_tail": [],
+   "stdout_tail": [
+    "E3META {\"mode\": \"kill\", \"pid\": 11468, \"model\": \"D:\\\\models\\\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf\", \"model_bytes\": 8988110240, \"dll\": \"D:\\\\llama-mem\\\\tools\\\\kvshim.dll\", \"gpu\": 0, \"backend\": \"cpu\", \"n_ctx\": 8192, \"n_seq\": 8, \"priority_class\": \"below_normal\", \"affinity_mask\": \"0xfff\", \"threads_env\": \"6\", \"threads_default_8\": false, \"vulkan_loaded\": false, \"load_s\": 20.778, \"vulkan_loaded_after_load\": false, \"free_ram_mb_after_load\": 524, \"peak_ws_mb_after_load\": 13100, \"child_pid\": 11468, \"dll_sha16\": \"3e29ae9eadc1dfc0\", \"priority\": \"below_normal\", \"affinity\": \"0xfff\", \"kvshim_threads_readback\": 6, \"kvshim_threads_env\": \"6\"}",
+    "E3SAVE_START"
+   ]
+  },
+  {
+   "attempt": 2,
+   "mode": "kill",
+   "before_sha16": "78fad7c981b751f3",
+   "before_bytes": 19744884,
+   "target_sha16": "78fad7c981b751f3",
+   "target_bytes": 19744884,
+   "state": "before",
+   "tmp": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\atomic_before.kvmem.tmp-1652-1a6d0111",
+    "size": 768,
+    "pid": 1652
+   },
+   "tmp_existed": true,
+   "tmp_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\atomic_before.kvmem.tmp-1652-1a6d0111",
+   "tmp_size": 768,
+   "tmp_pid": 1652,
+   "tmp_pid_matches_child": true,
+   "child_pid": 1652,
+   "target_sha": "78fad7c981b751f3",
+   "seed_sha16": "78fad7c981b751f3",
+   "seed_bytes": 19744884,
+   "seed_assert": true,
+   "tmp_clean_after_full": true,
+   "stale_tmp_cleared": false,
+   "killed_at_ms": 34734.72,
+   "deadline_ms": 34734.72,
+   "deadline_source": "first_observable_side_effect",
+   "save_start_ms": 34499.47,
+   "signal_ms": 34734.72,
+   "exit_ms": 35580.76,
+   "peak_ws_mb_seen": 13327,
+   "stderr_tail": [],
+   "stdout_tail": [
+    "E3META {\"mode\": \"kill\", \"pid\": 1652, \"model\": \"D:\\\\models\\\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf\", \"model_bytes\": 8988110240, \"dll\": \"D:\\\\llama-mem\\\\tools\\\\kvshim.dll\", \"gpu\": 0, \"backend\": \"cpu\", \"n_ctx\": 8192, \"n_seq\": 8, \"priority_class\": \"below_normal\", \"affinity_mask\": \"0xfff\", \"threads_env\": \"6\", \"threads_default_8\": false, \"vulkan_loaded\": false, \"load_s\": 14.175, \"vulkan_loaded_after_load\": false, \"free_ram_mb_after_load\": 430, \"peak_ws_mb_after_load\": 13100, \"child_pid\": 1652, \"dll_sha16\": \"3e29ae9eadc1dfc0\", \"priority\": \"below_normal\", \"affinity\": \"0xfff\", \"kvshim_threads_readback\": 6, \"kvshim_threads_env\": \"6\"}",
+    "E3SAVE_START"
+   ]
+  }
+ ],
+ "red_full": {
+  "mode": "red_full",
+  "chat_n_tokens": 189,
+  "nb": 19744884,
+  "save_s": 0.008,
+  "target_sha16": "78fad7c981b751f3",
+  "target_bytes": 19744884,
+  "peak_ws_mb": 13494,
+  "child_pid": 6032,
+  "target_sha": "78fad7c981b751f3",
+  "expected_final_sha": "78fad7c981b751f3",
+  "final_bytes": 19744884,
+  "legacy_impl": "unittest.mock"
+ },
+ "red_before": {
+  "sha16": "78fad7c981b751f3",
+  "bytes": 19744884
+ },
+ "red": [
+  {
+   "attempt": 1,
+   "mode": "red",
+   "before_sha16": "78fad7c981b751f3",
+   "before_bytes": 19744884,
+   "target_sha16": "285258d7e0f35434",
+   "target_bytes": 1688,
+   "state": "third",
+   "tmp": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\atomic_before.kvmem",
+    "size": 1512,
+    "pid": null
+   },
+   "tmp_existed": true,
+   "tmp_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\atomic_before.kvmem",
+   "tmp_size": 1512,
+   "tmp_pid": null,
+   "tmp_pid_matches_child": false,
+   "child_pid": 7372,
+   "target_sha": "285258d7e0f35434",
+   "seed_sha16": "78fad7c981b751f3",
+   "seed_bytes": 19744884,
+   "seed_assert": true,
+   "tmp_clean_after_full": true,
+   "stale_tmp_cleared": false,
+   "killed_at_ms": 35362.17,
+   "deadline_ms": 35362.17,
+   "deadline_source": "first_observable_side_effect",
+   "save_start_ms": 35130.07,
+   "signal_ms": 35362.17,
+   "exit_ms": 36142.71,
+   "peak_ws_mb_seen": 13378,
+   "stderr_tail": [],
+   "stdout_tail": [
+    "E3META {\"mode\": \"red\", \"pid\": 7372, \"model\": \"D:\\\\models\\\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf\", \"model_bytes\": 8988110240, \"dll\": \"D:\\\\llama-mem\\\\tools\\\\kvshim.dll\", \"gpu\": 0, \"backend\": \"cpu\", \"n_ctx\": 8192, \"n_seq\": 8, \"priority_class\": \"below_normal\", \"affinity_mask\": \"0xfff\", \"threads_env\": \"6\", \"threads_default_8\": false, \"vulkan_loaded\": false, \"load_s\": 14.034, \"vulkan_loaded_after_load\": false, \"free_ram_mb_after_load\": 532, \"peak_ws_mb_after_load\": 13011, \"child_pid\": 7372, \"dll_sha16\": \"3e29ae9eadc1dfc0\", \"priority\": \"below_normal\", \"affinity\": \"0xfff\", \"kvshim_threads_readback\": 6, \"kvshim_threads_env\": \"6\"}",
+    "E3SAVE_START"
+   ]
+  },
+  {
+   "attempt": 2,
+   "mode": "red",
+   "before_sha16": "78fad7c981b751f3",
+   "before_bytes": 19744884,
+   "target_sha16": "707b7ddd5b6f983b",
+   "target_bytes": 768,
+   "state": "third",
+   "tmp": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\atomic_before.kvmem",
+    "size": 768,
+    "pid": null
+   },
+   "tmp_existed": true,
+   "tmp_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3cpu\\atomic\\atomic_before.kvmem",
+   "tmp_size": 768,
+   "tmp_pid": null,
+   "tmp_pid_matches_child": false,
+   "child_pid": 9060,
+   "target_sha": "707b7ddd5b6f983b",
+   "seed_sha16": "78fad7c981b751f3",
+   "seed_bytes": 19744884,
+   "seed_assert": true,
+   "tmp_clean_after_full": true,
+   "stale_tmp_cleared": false,
+   "killed_at_ms": 33477.7,
+   "deadline_ms": 33477.7,
+   "deadline_source": "first_observable_side_effect",
+   "save_start_ms": 33233.62,
+   "signal_ms": 33477.7,
+   "exit_ms": 34323.67,
+   "peak_ws_mb_seen": 13533,
+   "stderr_tail": [],
+   "stdout_tail": [
+    "E3META {\"mode\": \"red\", \"pid\": 9060, \"model\": \"D:\\\\models\\\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf\", \"model_bytes\": 8988110240, \"dll\": \"D:\\\\llama-mem\\\\tools\\\\kvshim.dll\", \"gpu\": 0, \"backend\": \"cpu\", \"n_ctx\": 8192, \"n_seq\": 8, \"priority_class\": \"below_normal\", \"affinity_mask\": \"0xfff\", \"threads_env\": \"6\", \"threads_default_8\": false, \"vulkan_loaded\": false, \"load_s\": 13.299, \"vulkan_loaded_after_load\": false, \"free_ram_mb_after_load\": 528, \"peak_ws_mb_after_load\": 13100, \"child_pid\": 9060, \"dll_sha16\": \"3e29ae9eadc1dfc0\", \"priority\": \"below_normal\", \"affinity\": \"0xfff\", \"kvshim_threads_readback\": 6, \"kvshim_threads_env\": \"6\"}",
+    "E3SAVE_START"
+   ]
+  }
+ ],
+ "verdict": {
+  "green_all_before": true,
+  "green_tmp_seen": true,
+  "green_stale_cleared": false,
+  "red_all_third": true,
+  "red_full_final": true,
+  "gpu_zero": true,
+  "vulkan_imported": false,
+  "tmp_clean_after_full": true
+ },
+ "identity": {
+  "mode": "control",
+  "pid": 8364,
+  "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+  "model_bytes": 8988110240,
+  "dll": "D:\\llama-mem\\tools\\kvshim.dll",
+  "gpu": 0,
+  "backend": "cpu",
+  "n_ctx": 8192,
+  "n_seq": 8,
+  "priority_class": "below_normal",
+  "affinity_mask": "0xfff",
+  "threads_env": "6",
+  "threads_default_8": false,
+  "vulkan_loaded": false,
+  "load_s": 12.548,
+  "vulkan_loaded_after_load": false,
+  "free_ram_mb_after_load": 529,
+  "peak_ws_mb_after_load": 13100,
+  "child_pid": 8364,
+  "dll_sha16": "3e29ae9eadc1dfc0",
+  "priority": "below_normal",
+  "affinity": "0xfff",
+  "kvshim_threads_readback": 6,
+  "kvshim_threads_env": "6"
+ },
+ "no_self_sha": true
+}

@@ -1,0 +1,575 @@
+{
+ "schema": "m4_accept_recompute_v1",
+ "at": "2026-10-25T18:48:06",
+ "readonly": {
+  "gpu_used": false,
+  "model_loaded": false,
+  "new_anchor": false,
+  "note": "只读复算：不跑 14B、不产新锚；只读 JSON/SQLite/块文件/判据文档"
+ },
+ "script": {
+  "path": "D:/llama-mem/kvmem/m2_visibility/m4/run_m4_accept_recompute.py",
+  "sha256": "cd41a6edf7f17175d9214184743fe893625b59e9bf99b3a6d9029fa1025fe017",
+  "sha16": "cd41a6edf7f17175",
+  "bytes": 26877
+ },
+ "accept_doc": {
+  "path": "D:/llama-mem-backup-2026-10-25/kvmem/m2_visibility/mine/inspector/M4-ACCEPT.md",
+  "sha256": "c4186107246dd35d2cbc0e5d29d276232a5a1a38ea6d0d6404ad74de045ed743",
+  "sha16": "c4186107246dd35d",
+  "bytes": 25038,
+  "lines": 238
+ },
+ "readme_doc": {
+  "path": "D:/llama-mem-backup-2026-10-25/kvmem/m2_visibility/m4/README.md",
+  "sha256": "3ed45808788c745e8d85c6ec3ef157b47fcc7e6d4b5783e39460f8ef71091128",
+  "sha16": "3ed45808788c745e",
+  "bytes": 50434
+ },
+ "progress_ref": {
+  "path": "D:/llama-mem/PROGRESS-AND-ROADMAP.md",
+  "sha16": "aaa01dd85fd04526",
+  "section": "§6.3 L855-872（九项计数口径摘要）"
+ },
+ "anchor": {
+  "path": "D:/llama-mem/kvmem/m2_visibility/m4/run_m4_verify_a4.json",
+  "sha256": "59edbd82d4b9ae44f24bea76f86c0bb08822de1a4b0243e8fb47fea23d7f7c27",
+  "sha16": "59edbd82d4b9ae44",
+  "bytes": 17332,
+  "expected_sha16": "59edbd82d4b9ae44",
+  "match": true
+ },
+ "block": {
+  "path": "D:/llama-mem/kvmem/m2_visibility/m4/blocks/blk_conv_2026-10-25_01.kvmem",
+  "sha256": "81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6",
+  "sha16": "81127d24fd64b96b",
+  "bytes": 9507412,
+  "expected_sha16": "81127d24fd64b96b",
+  "expected_bytes": 9507412,
+  "cells_derived": 91,
+  "match": true
+ },
+ "inputs": [
+  {
+   "path": "D:/llama-mem-backup-2026-10-25/kvmem/m2_visibility/mine/inspector/M4-ACCEPT.md",
+   "sha16": "c4186107246dd35d",
+   "bytes": 25038
+  },
+  {
+   "path": "D:/llama-mem-backup-2026-10-25/kvmem/m2_visibility/m4/README.md",
+   "sha16": "3ed45808788c745e",
+   "bytes": 50434
+  },
+  {
+   "path": "D:/llama-mem/PROGRESS-AND-ROADMAP.md",
+   "sha16": "aaa01dd85fd04526",
+   "bytes": 193341
+  },
+  {
+   "path": "D:/llama-mem/kvmem/m2_visibility/m4/run_m4_verify_a4.json",
+   "sha16": "59edbd82d4b9ae44",
+   "bytes": 17332
+  },
+  {
+   "path": "D:/llama-mem/kvmem/m2_visibility/m4/blocks/blk_conv_2026-10-25_01.kvmem",
+   "sha16": "81127d24fd64b96b",
+   "bytes": 9507412
+  },
+  {
+   "path": "D:/llama-mem/kvmem/m2_visibility/m4/run_m4_write.json",
+   "sha16": "6408d8e2ecdf6ee5",
+   "bytes": 13402
+  },
+  {
+   "path": "D:/llama-mem/kvmem/m2_visibility/m4/evidence_m4_judge.json",
+   "sha16": "d7f7505b2ff2c452",
+   "bytes": 13077
+  },
+  {
+   "path": "D:/llama-mem/kvmem/m2_visibility/m4/m4_memory.db",
+   "sha16": "fd244c80c0cc974d",
+   "bytes": 86016
+  },
+  {
+   "path": "D:/llama-mem/kvmem/m2_visibility/m4/run_m4_ablate_plate_a7.json",
+   "sha16": "77e11a04aacd24c5",
+   "bytes": 17238
+  },
+  {
+   "path": "D:/llama-mem/kvmem/m2_visibility/m4/run_m4_ablate_plate_a5.json",
+   "sha16": "cf4a86340d54221a",
+   "bytes": 11705
+  },
+  {
+   "path": "D:/llama-mem/kvmem/m2_visibility/m4/run_m4_outfilter_selftest.json",
+   "sha16": "a85ec0df2bfa3cd3",
+   "bytes": 3856
+  },
+  {
+   "path": "D:/llama-mem/kvmem/m2_visibility/m4/outfilter.py",
+   "sha16": "e847196504d69183",
+   "bytes": 6672
+  },
+  {
+   "path": "D:/llama-mem/kvmem/m2_visibility/m4/m4_display.py",
+   "sha16": "a7192fba3530e80f",
+   "bytes": 5659
+  }
+ ],
+ "items": [
+  {
+   "id": 1,
+   "claim": "真实对话轮数 = 9（从产品路径进来，不是夹具造串）",
+   "expected": 9,
+   "recomputed": 9,
+   "source": "evidence_m4_judge.json:.sample(len=9)；run_m4_verify_a4.json:.block_text(9 行=9)；evidence_m4_judge.json:.sentences[*].turn(max=9)",
+   "match": true,
+   "note": "两条独立口径一致：判定侧 9 轮样本、块正文 9 行。"
+  },
+  {
+   "id": 2,
+   "claim": "判定句数 = 进入判定的句子数 = 10（K/D/U 三分类，无漏判留白）",
+   "expected": 10,
+   "recomputed": {
+    "write.judge.sentences": 10,
+    "len(judge.per_sentence)": 10,
+    "len(evidence.sentences)": 10,
+    "blank_or_nonKDU": [],
+    "verdict_words": [
+     "drop",
+     "drop",
+     "drop",
+     "keep",
+     "keep",
+     "keep",
+     "drop",
+     "drop",
+     "drop",
+     "keep"
+    ]
+   },
+   "source": "run_m4_write.json:.judge; evidence_m4_judge.json:.sentences",
+   "match": true,
+   "note": "逐句 verdict 全部落在 K/D/U（含复合码如 K1+K5/K4+K3），无空判定。"
+  },
+  {
+   "id": 3,
+   "claim": "keep 条数 = 6",
+   "expected": 6,
+   "recomputed": {
+    "judge.keeps": 6,
+    "write.db.keeps": 6,
+    "db memory rows": 6,
+    "a4.dedupe.keeps": 7
+   },
+   "source": "run_m4_write.json:.judge.keeps / .db.keeps；m4_memory.db::memory(count)",
+   "match": true,
+   "note": "a4.dedupe.keeps=7 是**插入尝试数**（6 条 distinct + 1 条被去重的重复住址），distinct_keys=6、rows=6；与本项的 keep 条数=6 不是同一量。"
+  },
+  {
+   "id": 4,
+   "claim": "块数 / cells = 1 块 / 91 cells",
+   "expected": {
+    "blocks": 1,
+    "cells": 91
+   },
+   "recomputed": {
+    "a4.blocks": 1,
+    "a4.blocks[0].cells": 91,
+    "db block rows": 1,
+    "db block[0].cells": 91,
+    "cells_from_block_bytes": 91
+   },
+   "source": "run_m4_verify_a4.json:.blocks；m4_memory.db::block；块文件字节数公式 1188+104464*cells",
+   "match": true,
+   "note": "块文件 9,507,412 B ⇒ (9,507,412-1188)/104464 = 91，与记录 cells 自洽。"
+  },
+  {
+   "id": 5,
+   "claim": "块落位与 pos_max = [4005,4096) / 4095",
+   "expected": {
+    "range": [
+     4005,
+     4096
+    ],
+    "pos_max": 4095
+   },
+   "recomputed": {
+    "answer_while_attached.range": [
+     4005,
+     4096
+    ],
+    "ask_pos": 4096,
+    "reload_and_place.pos_max_raw": 4095,
+    "anchor.blocks[0].pos_lo/pos_hi": [
+     0,
+     90
+    ]
+   },
+   "source": "run_m4_write.json:.lease_chain.answer_while_attached / .steps[reload_and_place]",
+   "match": true,
+   "note": "两个口径别混：**attach 到对话时**的落位是 [4005,4096)（pos_max_raw=4095）；a4.blocks 的 pos_lo/pos_hi=0/90 是块**在文件里**的 position-0 独占落位。本项按 §6.1 的『delta=+4005』口径核 attach 侧。"
+  },
+  {
+   "id": 6,
+   "claim": "memory 行数 = 6（含相对时间锚定 2026-10-28）",
+   "expected": {
+    "rows": 6,
+    "anchored_rows": 1,
+    "anchored_value": "2026-10-28"
+   },
+   "recomputed": {
+    "rows": 6,
+    "anchored_rows": [
+     [
+      6,
+      "计划",
+      "2026-10-28"
+     ]
+    ],
+    "others_none": 5
+   },
+   "source": "m4_memory.db::memory(*, anchored_time)；run_m4_verify_a4.json:.stored",
+   "match": true,
+   "note": "只有『计划』一行 anchored_time=2026-10-28，其余 5 行 None —— 与 M4-ACCEPT §0 第 7 项冻结的期望一致（原写法读作六行都有，已收紧）。"
+  },
+  {
+   "id": 7,
+   "claim": "`memory_source` 行数 = 7",
+   "expected": 7,
+   "recomputed": {
+    "db memory_source rows": 5,
+    "rows": [
+     [
+      1,
+      "conv_2026-10-25",
+      "对话",
+      1
+     ],
+     [
+      2,
+      "fact_住址_2",
+      "住址",
+      1
+     ],
+     [
+      3,
+      "fact_作息_3",
+      "作息",
+      2
+     ],
+     [
+      4,
+      "fact_车牌_4",
+      "车牌",
+      1
+     ],
+     [
+      5,
+      "fact_家庭成员_5",
+      "家庭成员",
+      2
+     ]
+    ],
+    "fanout": [
+     1,
+     1,
+     2,
+     1,
+     2
+    ],
+    "fanout_sum": 7,
+    "conv_rows": 1,
+    "write.db.sources": 5,
+    "a4.sources": 5,
+    "retrieval_units.dedup": {
+     "keeps": 6,
+     "unique_units": 4,
+     "fanout_sum": 6,
+     "fanout": [
+      1,
+      2,
+      1,
+      2
+     ]
+    }
+   },
+   "source": "m4_memory.db::memory_source(count/fanout)；run_m4_write.json:.db.sources / .retrieval_units.dedup；run_m4_verify_a4.json:.sources",
+   "match": false,
+   "note": "实得 5 = 1 段级行(conv) + 4 条去重后检索单元；fanout=[1,2,1,2] 和为 6 = keeps。7 是 **R9 去重前**的读数（1 段级行 + 6 条单元，README 备份 L9/L63：\"7 行 memory_source（1 块 + 6 条检索单元）\"）。放行条件 3 落地后 memory_source 加了 UNIQUE(text)+fanout，重复文本的 unit3=unit4、unit6=unit7 合并 ⇒ 5 行。**这不是回退，是口径变了**；若按『单元数』算，去重前 6 → 去重后 4（fanout 记 6）。"
+  },
+  {
+   "id": 8,
+   "claim": "新进程检索并正确作答 = 9/9",
+   "expected": "9/9",
+   "recomputed": {
+    "search_checks": [
+     [
+      "我住在哪？",
+      14168,
+      true,
+      true
+     ],
+     [
+      "我车牌号是多少？",
+      4356,
+      true,
+      true
+     ]
+    ],
+    "answer_checks": [
+     [
+      "我住在哪？",
+      4784,
+      12184,
+      true,
+      true
+     ],
+     [
+      "我车牌号是多少？",
+      13776,
+      12184,
+      true,
+      true
+     ]
+    ],
+    "parent_pid": 12184,
+    "pairs_ok": "2/2 检索 + 2/2 作答",
+    "acceptance_keys_true": "17/17",
+    "acceptance_all_pass": true,
+    "judge_sample_9_of_9": "9/9"
+   },
+   "source": "run_m4_verify_a4.json:.search_checks / .answers (=answer_checks) / .acceptance；evidence_m4_judge.json:.sample[*].match",
+   "match": false,
+   "note": "**字面 9/9 没有原件**：锚里只有 2 问 2 答（住址/车牌），每次 verify 都是 QUESTIONS=2。README 备份 L9-10 的原句是『新进程检索到该块、另两个新进程逐字答出住址与车牌。9/9 验收项全过』——『9/9』指**九项验收全过**，不是 9 个问答。实质可复算部分：新进程检索 2/2（pid 与 parent 两两不等，new_process=true）、新进程作答 2/2（hit=true）、a4.acceptance 17/17 全 true（含 all_pass）；另有 evidence_m4_judge.sample 9/9 逐轮与冻结预期一致（README L41 的另一个 9/9）。按字面 9/9 记 match=false，不改口径凑 true。"
+  },
+  {
+   "id": 9,
+   "claim": "锚 = run_m4_verify_a4.json = 59edbd82d4b9ae44（块 81127d24fd64b96b / 9,507,412 B）",
+   "expected": {
+    "anchor_sha16": "59edbd82d4b9ae44",
+    "block_sha16": "81127d24fd64b96b",
+    "block_bytes": 9507412
+   },
+   "recomputed": {
+    "anchor_sha16": "59edbd82d4b9ae44",
+    "anchor_bytes": 17332,
+    "block_sha16": "81127d24fd64b96b",
+    "block_sha256": "81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6",
+    "block_bytes": 9507412
+   },
+   "source": "对文件字节重算 sha256[:16]",
+   "match": true,
+   "note": "锚与块 gcd 与磁盘一致；块只在本机（PROGRESS §6.1 注）。"
+  }
+ ],
+ "open_items": [
+  {
+   "id": "O1",
+   "claim": "放行条件 1：`</think` 泄漏必须记录并处置（输出层白名单过滤 + 计数进 json + 一条会失败的断言），不许靠改块正文解决；重复句一并处置（交付取首句或同句去重）。",
+   "status": "部分覆盖（标签侧已闭；**重复句处置仍缺**）",
+   "evidence": [
+    "输出层白名单过滤：outfilter.py（sha16 e847196504d69183）只认 </?think>,</?response>,<|im_start|> 等白名单；S5 未知尖括号只报告不删、S7 块正文含标签直接 REFUSE（S7 block_text: this text contains a whitelisted control tag, so the output filter would change it; block text must stay verbatim. Refusing.）",
+    "计数进 json：a4.output_filter_counts.per_field = 2 个字段各 think×1、tag_chars_removed=8、delivered_has_tag=0；measured_on=raw answer（不在已归一化的 delivered 上量）",
+    "会失败的断言：run_m4_outfilter_selftest.json（sha16 a85ec0df2bfa3cd3）S2 = 同一文本关掉 filter ⇒ raised 'ControlTagLeft'（raw_line=\"S2 filter disabled: control tag(s) survived the filter: {'think': 1} | head='我住在广陵路 12 号 2 单元 602。\\\\n</think>\\\\n\\\\n我住在广陵路 12 号 2 单元 602。'\"），assertion_is_load_bearing=True，verdict='OUTFILTER-SELFTEST PASS'",
+    "a4.answer_checks[*]：raw_has_tag=true、display_has_tag=false、raw_kept_unchanged=true、output_layer_clean=true、idempotent=true",
+    "**仍缺（重复句）**：a4.answer_checks[*].answer_display 仍是同一句两遍 —— ['我住在广陵路 12 号 2 单元 602。\\n\\n我住在广陵路 12 号 2 单元 602。', '浙B-3F19K\\n\\n车牌号是浙B-3F19K。']；content_warnings=[]；m4_display.py 有 first_sentence_only/derive(first_sentence=False) 但交付路径没启用，也没有『重复句命中次数』进 json"
+   ],
+   "affects_nine": false,
+   "note": "标签污染侧三条处置都已落地且有会红的断言；M4-ACCEPT §1 的第二个污染（滤掉标签后 X\\n\\nX 重复两遍）只做到『原样保留 + 可事后看』，没做到『处置 + 计数』。它不在九项 acceptance 里，故不影响九项成立性，但按放行条件 1 的原文仍未闭。"
+  },
+  {
+   "id": "O2",
+   "claim": "放行条件 2：跨实验那句改成『支持性观察』，并补上『同一 M4 布局删掉车牌句』的对照实验，否则不许升级措辞。",
+   "status": "已被覆盖（对照已补；措辞强度=『内容承载』，混淆必须同引）",
+   "evidence": [
+    "run_m4_ablate_plate_a7.json（sha16 77e11a04aacd24c5，attempt 7，4 臂）",
+    "四臂：product_block_control 91 cells→'浙B-3F19K\\n</think>\\n\\n你'；reencoded_with_sentence 91→'浙B-3F19K\\n</think>\\n\\n你'；ablated_without_sentence 79 cells→'您的车牌号是苏A12345。\\n好的，没问'；length_matched_control 91→'车牌号是浙Q-00000。\\n</thin'",
+    "comparison: same_position=True / same_question=True / encoding_path_controlled=True / cells_loaded=[91, 79] / answers_plate=[True, True, False]",
+    "版本链：run_m4_ablate_plate_a5.json（sha16 cf4a86340d54221a，attempt 5，3 臂）",
+    "PROGRESS §6.5 已写：verdict=memory_carried_by_that_sentence_content_not_length，并强制同引 length_confound_note='the deleted-sentence arm is 12 cells shorter and attaches 12 positions later; the equal-le'"
+   ],
+   "affects_nine": false,
+   "note": "缺的那个对照实验（同一 M4 布局删掉车牌句再问）已经做过，**没有被静默升级成 A/B 证实**：等长对照与产品块不同源这一处混淆仍写在产物里，措辞强度停在『内容承载』。"
+  },
+  {
+   "id": "O3",
+   "claim": "放行条件 3：检索单元按 R9 按文本去重 + 记 fanout；memory.type 空列处理掉。",
+   "status": "已被覆盖（去重+fanout+type 均已落地）",
+   "evidence": [
+    "m4_memory.db::memory_source 5 行，fanout=[1, 1, 2, 1, 2]（和=6=keeps），conv 段级行 1 行；去重前是 1 段级+6 单元（README 备份 L9/L63）",
+    "run_m4_write.json:.retrieval_units.dedup={'keeps': 6, 'unique_units': 4, 'fanout_sum': 6, 'fanout': [1, 2, 1, 2]}（unique_units=4，fanout_sum=6）",
+    "memory.type 全有值：['constraint', 'fact', 'identity', 'plan']；memory 列含 resolved/resolved_to（True）",
+    "a4.acceptance 9_units_deduped_by_text=True、10_type_and_resolved=True"
+   ],
+   "affects_nine": "影响九项第 7 项的**数值口径**（7→5），不构成能力回退",
+   "note": "这条落地正是第 7 项 match=false 的原因：memory_source 由 7 行（1+6）变 5 行（1+4，fanout 和 6）。九项里第 7 项的『7』是去重前读数，未随实现更新。"
+  }
+ ],
+ "other_gaps": [
+  {
+   "id": "G-anchored",
+   "claim": "M4-ACCEPT §3-① 的实用缺口：anchored_time 不在检索单元文本里（单元文本是整句，含『下周三』原串），问『2026-10-28 有什么安排』命中不了；建议 unit 侧增加 value+anchored_time 派生文本。",
+   "status": "仍缺",
+   "evidence": [
+    "memory_source 的 4 条单元文本 = ['我住在广陵路 12 号 2 单元 602。', '我每天早上七点半出门，别在那个时候给我推消息。', '我车牌是浙B-3F19K。', '对了，我女儿小名叫豆豆，下周三她生日，提醒我买蛋糕。']",
+    "其中含 2026-10-28 的单元数 = 0"
+   ],
+   "affects_nine": false,
+   "note": "不是三条放行条件之一，属记录项；不影响九项。"
+  }
+ ],
+ "match_count": "7/9",
+ "all_match": false,
+ "mismatches": [
+  {
+   "id": 7,
+   "expected": 7,
+   "recomputed": {
+    "db memory_source rows": 5,
+    "rows": [
+     [
+      1,
+      "conv_2026-10-25",
+      "对话",
+      1
+     ],
+     [
+      2,
+      "fact_住址_2",
+      "住址",
+      1
+     ],
+     [
+      3,
+      "fact_作息_3",
+      "作息",
+      2
+     ],
+     [
+      4,
+      "fact_车牌_4",
+      "车牌",
+      1
+     ],
+     [
+      5,
+      "fact_家庭成员_5",
+      "家庭成员",
+      2
+     ]
+    ],
+    "fanout": [
+     1,
+     1,
+     2,
+     1,
+     2
+    ],
+    "fanout_sum": 7,
+    "conv_rows": 1,
+    "write.db.sources": 5,
+    "a4.sources": 5,
+    "retrieval_units.dedup": {
+     "keeps": 6,
+     "unique_units": 4,
+     "fanout_sum": 6,
+     "fanout": [
+      1,
+      2,
+      1,
+      2
+     ]
+    }
+   },
+   "why": "实得 5 = 1 段级行(conv) + 4 条去重后检索单元；fanout=[1,2,1,2] 和为 6 = keeps。7 是 **R9 去重前**的读数（1 段级行 + 6 条单元，README 备份 L9/L63：\"7 行 memory_source（1 块 + 6 条检索单元）\"）。放行条件 3 落地后 memory_source 加了 UNIQUE(text)+fanout，重复文本的 unit3=unit4、unit6=unit7 合并 ⇒ 5 行。**这不是回退，是口径变了**；若按『单元数』算，去重前 6 → 去重后 4（fanout 记 6）。"
+  },
+  {
+   "id": 8,
+   "expected": "9/9",
+   "recomputed": {
+    "search_checks": [
+     [
+      "我住在哪？",
+      14168,
+      true,
+      true
+     ],
+     [
+      "我车牌号是多少？",
+      4356,
+      true,
+      true
+     ]
+    ],
+    "answer_checks": [
+     [
+      "我住在哪？",
+      4784,
+      12184,
+      true,
+      true
+     ],
+     [
+      "我车牌号是多少？",
+      13776,
+      12184,
+      true,
+      true
+     ]
+    ],
+    "parent_pid": 12184,
+    "pairs_ok": "2/2 检索 + 2/2 作答",
+    "acceptance_keys_true": "17/17",
+    "acceptance_all_pass": true,
+    "judge_sample_9_of_9": "9/9"
+   },
+   "why": "**字面 9/9 没有原件**：锚里只有 2 问 2 答（住址/车牌），每次 verify 都是 QUESTIONS=2。README 备份 L9-10 的原句是『新进程检索到该块、另两个新进程逐字答出住址与车牌。9/9 验收项全过』——『9/9』指**九项验收全过**，不是 9 个问答。实质可复算部分：新进程检索 2/2（pid 与 parent 两两不等，new_process=true）、新进程作答 2/2（hit=true）、a4.acceptance 17/17 全 true（含 all_pass）；另有 evidence_m4_judge.sample 9/9 逐轮与冻结预期一致（README L41 的另一个 9/9）。按字面 9/9 记 match=false，不改口径凑 true。"
+  }
+ ],
+ "sha_stable": {
+  "ok": true,
+  "pre": {
+   "D:/llama-mem-backup-2026-10-25/kvmem/m2_visibility/mine/inspector/M4-ACCEPT.md": "c4186107246dd35d",
+   "D:/llama-mem-backup-2026-10-25/kvmem/m2_visibility/m4/README.md": "3ed45808788c745e",
+   "D:/llama-mem\\PROGRESS-AND-ROADMAP.md": "aaa01dd85fd04526",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\run_m4_verify_a4.json": "59edbd82d4b9ae44",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\blocks\\blk_conv_2026-10-25_01.kvmem": "81127d24fd64b96b",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\run_m4_write.json": "6408d8e2ecdf6ee5",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\evidence_m4_judge.json": "d7f7505b2ff2c452",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\m4_memory.db": "fd244c80c0cc974d",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\run_m4_ablate_plate_a7.json": "77e11a04aacd24c5",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\run_m4_ablate_plate_a5.json": "cf4a86340d54221a",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\run_m4_outfilter_selftest.json": "a85ec0df2bfa3cd3",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\outfilter.py": "e847196504d69183",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\m4_display.py": "a7192fba3530e80f",
+   "script": "cd41a6edf7f17175"
+  },
+  "post": {
+   "D:/llama-mem-backup-2026-10-25/kvmem/m2_visibility/mine/inspector/M4-ACCEPT.md": "c4186107246dd35d",
+   "D:/llama-mem-backup-2026-10-25/kvmem/m2_visibility/m4/README.md": "3ed45808788c745e",
+   "D:/llama-mem\\PROGRESS-AND-ROADMAP.md": "aaa01dd85fd04526",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\run_m4_verify_a4.json": "59edbd82d4b9ae44",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\blocks\\blk_conv_2026-10-25_01.kvmem": "81127d24fd64b96b",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\run_m4_write.json": "6408d8e2ecdf6ee5",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\evidence_m4_judge.json": "d7f7505b2ff2c452",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\m4_memory.db": "fd244c80c0cc974d",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\run_m4_ablate_plate_a7.json": "77e11a04aacd24c5",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\run_m4_ablate_plate_a5.json": "cf4a86340d54221a",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\run_m4_outfilter_selftest.json": "a85ec0df2bfa3cd3",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\outfilter.py": "e847196504d69183",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m4\\m4_display.py": "a7192fba3530e80f",
+   "script": "cd41a6edf7f17175"
+  }
+ },
+ "invariant_failures": [],
+ "not_touched": [
+  "kvmem/m4c_leases/**（M4C 台账/产物）",
+  "kvmem/m2_visibility/m5/**（M5 台账/产物）",
+  "docs/_work/**"
+ ],
+ "device_note": "本轮无 GPU、无 14B 加载；GPU 0 次、模型调用 0 次",
+ "exit": 0,
+ "exit_semantics": "0=产物落地且不变量全过（match=false 照实记录，不等于脚本失败）；2=所读文件/脚本 sha 漂移；3=锚/块 sha 不符（停手，不落产物）",
+ "elapsed_s": 0.13
+}

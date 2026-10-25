@@ -1,0 +1,1398 @@
+{
+ "schema": "m7_sites_v1",
+ "task": "M7 第一步：所有落盘 save/load 调用点清点（只读，不改代码）",
+ "at": "2026-10-26T01:24:39",
+ "scope": {
+  "repo": "D:\\llama-mem",
+  "searched": [
+   "tools/*.py",
+   "tools/*.cpp",
+   "llama.cpp/src/llama-context.cpp 关键函数"
+  ],
+  "method": "grep + 逐文件读上下文；product 判定 = 被 chat.py 产品子命令 (build/chat/save/load/m1) 或其库函数直接调用",
+  "read_only": true,
+  "files_written": [
+   "kvmem/m2_visibility/m7/out/M7-SITES.json"
+  ]
+ },
+ "product_definition": "chat.py build/chat/save/load/m1 路径 + memory_source/session_state 库函数；two 基准臂、p0_*/variance 验收脚本、kv_audit/kvdrift/m2_* 探针不算产品",
+ "save_sites": [
+  {
+   "file": "tools/memory_source.py",
+   "line": 350,
+   "symbol": "build_block",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": true,
+   "product_paths": [
+    "chat.py build (chat.py:203)",
+    "memory_source.py rebuild (:504,:682)",
+    "p0_*/variance_check (verification)"
+   ],
+   "target": "kvmem/blocks/<name>.kvmem + DB memory_block.n_bytes",
+   "note": "唯一产品块写点；nb<=0 抛错，之后 INSERT/UPDATE n_bytes（:358-370）"
+  },
+  {
+   "file": "tools/session_state.py",
+   "line": 229,
+   "symbol": "save_session",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": true,
+   "product_paths": [
+    "chat.py save (chat.py:431)",
+    "chat.py m1 --save (chat.py:700)",
+    "p0_2_check/variance_check/bridge_probe (verification)"
+   ],
+   "target": "<session_root>.chat.kvmem",
+   "note": "唯一产品 chat 写点；先 detach 块再 save，finally 重挂"
+  },
+  {
+   "file": "tools/session_state.py",
+   "line": 235,
+   "symbol": "save_session.manifest",
+   "site_kind": "manifest_write",
+   "via": "json + tmp + os.replace",
+   "product": true,
+   "product_paths": [
+    "chat.py save",
+    "chat.py m1 --save"
+   ],
+   "target": "<session>.json",
+   "note": "manifest 写 :251-253 tmp、:254 os.replace 已原子；非 KV，但同属落盘"
+  },
+  {
+   "file": "tools/kvslots.py",
+   "line": 307,
+   "symbol": "SlotPool._free_slot",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "demo __main__ (kvslots.py:440)"
+   ],
+   "target": "quality/slots/<cid>.kvmem",
+   "note": "4-slot LRU 演示类，产品不 import"
+  },
+  {
+   "file": "tools/kvslots.py",
+   "line": 409,
+   "symbol": "main",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "kvslots.py __main__"
+   ],
+   "target": "tools/quality/conv_<cid>.kvmem",
+   "note": "演示/旁证"
+  },
+  {
+   "file": "tools/kvslots.py",
+   "line": 514,
+   "symbol": "main",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "kvslots.py __main__"
+   ],
+   "target": "quality/blk_native.kvmem",
+   "note": "演示/旁证"
+  },
+  {
+   "file": "tools/kvslots.py",
+   "line": 522,
+   "symbol": "main",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "kvslots.py __main__"
+   ],
+   "target": "quality/blk_moved.kvmem",
+   "note": "演示/旁证"
+  },
+  {
+   "file": "tools/kv_audit.py",
+   "line": 107,
+   "symbol": "audit",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "tmp_a",
+   "note": "旁证/审计"
+  },
+  {
+   "file": "tools/kv_audit.py",
+   "line": 116,
+   "symbol": "audit",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "tmp_b",
+   "note": "旁证/审计"
+  },
+  {
+   "file": "tools/kvdrift.py",
+   "line": 82,
+   "symbol": "drift",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "hold_a",
+   "note": "旁证"
+  },
+  {
+   "file": "tools/kvdrift.py",
+   "line": 104,
+   "symbol": "drift",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "blk_path",
+   "note": "旁证"
+  },
+  {
+   "file": "tools/kvdrift.py",
+   "line": 153,
+   "symbol": "drift",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "hold_b",
+   "note": "旁证"
+  },
+  {
+   "file": "tools/m2_v1.py",
+   "line": 188,
+   "symbol": "probe",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "m2 probe"
+   ],
+   "target": "path_of(bid)",
+   "note": "m2 实验"
+  },
+  {
+   "file": "tools/m2_v1.py",
+   "line": 199,
+   "symbol": "probe",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "m2 probe"
+   ],
+   "target": "fresh.kvmem",
+   "note": "m2 实验"
+  },
+  {
+   "file": "tools/m2_v1.py",
+   "line": 209,
+   "symbol": "probe",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "m2 probe"
+   ],
+   "target": "after.kvmem",
+   "note": "m2 实验"
+  },
+  {
+   "file": "tools/m2_visibility_probe.py",
+   "line": 310,
+   "symbol": "probe",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "m2 visibility probe"
+   ],
+   "target": "path",
+   "note": "m2 实验"
+  },
+  {
+   "file": "tools/m2_visibility_probe.py",
+   "line": 328,
+   "symbol": "probe",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "m2 visibility probe"
+   ],
+   "target": "path",
+   "note": "m2 实验"
+  },
+  {
+   "file": "tools/p0_1a_check.py",
+   "line": 80,
+   "symbol": "check",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "acceptance test"
+   ],
+   "target": "a_path",
+   "note": "验收脚本"
+  },
+  {
+   "file": "tools/p0_1a_check.py",
+   "line": 82,
+   "symbol": "check",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "acceptance test"
+   ],
+   "target": "b_path",
+   "note": "验收脚本"
+  },
+  {
+   "file": "tools/t031_habit_para.py",
+   "line": 140,
+   "symbol": "experiment",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "t031 experiment"
+   ],
+   "target": "tmp",
+   "note": "实验"
+  },
+  {
+   "file": "tools/t031_habit_para.py",
+   "line": 151,
+   "symbol": "experiment",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "t031 experiment"
+   ],
+   "target": "OUT",
+   "note": "实验"
+  },
+  {
+   "file": "tools/variance_check.py",
+   "line": 91,
+   "symbol": "variance",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "variance test"
+   ],
+   "target": "p",
+   "note": "验收/方差"
+  },
+  {
+   "file": "tools/variance_check.py",
+   "line": 98,
+   "symbol": "variance",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "variance test"
+   ],
+   "target": "cp",
+   "note": "验收/方差"
+  },
+  {
+   "file": "tools/variance_check.py",
+   "line": 110,
+   "symbol": "variance",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "variance test"
+   ],
+   "target": "cp2",
+   "note": "验收/方差"
+  },
+  {
+   "file": "tools/variance_check.py",
+   "line": 134,
+   "symbol": "variance",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "variance test"
+   ],
+   "target": "cp0",
+   "note": "验收/方差"
+  },
+  {
+   "file": "tools/variance_check.py",
+   "line": 139,
+   "symbol": "variance",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "variance test"
+   ],
+   "target": "p",
+   "note": "验收/方差"
+  },
+  {
+   "file": "tools/variance_check.py",
+   "line": 145,
+   "symbol": "variance",
+   "site_kind": "kv_save",
+   "via": "kvslots.KVEngine.save",
+   "product": false,
+   "product_paths": [
+    "variance test"
+   ],
+   "target": "cp",
+   "note": "验收/方差"
+  },
+  {
+   "file": "tools/facet_index.py",
+   "line": 256,
+   "symbol": "FacetIndex.save",
+   "site_kind": "non_kv_write",
+   "via": "json",
+   "product": false,
+   "product_paths": [
+    "facet index tool"
+   ],
+   "target": "index_*.json",
+   "note": "JSON 索引，不是 KV 状态"
+  },
+  {
+   "file": "tools/kvmem_persist.cpp",
+   "line": 167,
+   "symbol": "save_state",
+   "site_kind": "direct_write",
+   "via": "fopen(wb)+fwrite",
+   "product": false,
+   "product_paths": [
+    "legacy handoff experiment (kvmem_persist.exe)"
+   ],
+   "target": "mem.kvmem",
+   "note": "自定义 header+blob 格式；产品不调用"
+  },
+  {
+   "file": "tools/kvmem_page.cpp",
+   "line": 401,
+   "symbol": "build",
+   "site_kind": "direct_write",
+   "via": "fopen(wb)+fwrite",
+   "product": false,
+   "product_paths": [
+    "page experiment (kvmem_page.exe)"
+   ],
+   "target": "index.tsv",
+   "note": "实验索引"
+  },
+  {
+   "file": "tools/kvmem_page.cpp",
+   "line": 444,
+   "symbol": "build",
+   "site_kind": "direct_write",
+   "via": "fopen(wb)+fwrite",
+   "product": false,
+   "product_paths": [
+    "page experiment"
+   ],
+   "target": "<block>.kvmem",
+   "note": "实验块文件"
+  },
+  {
+   "file": "tools/kvmem_page.cpp",
+   "line": 507,
+   "symbol": "main",
+   "site_kind": "direct_write",
+   "via": "fopen(wb)/stdout",
+   "product": false,
+   "product_paths": [
+    "page experiment"
+   ],
+   "target": "--out",
+   "note": "实验输出"
+  },
+  {
+   "file": "tools/kvmem_quality.cpp",
+   "line": 359,
+   "symbol": "main",
+   "site_kind": "direct_write",
+   "via": "fopen(wb)/stdout",
+   "product": false,
+   "product_paths": [
+    "quality experiment"
+   ],
+   "target": "--out results.tsv",
+   "note": "实验输出"
+  },
+  {
+   "file": "tools/dl_14b.py",
+   "line": 7,
+   "symbol": "download",
+   "site_kind": "non_kv_write",
+   "via": "open(wb)",
+   "product": false,
+   "product_paths": [
+    "model download script"
+   ],
+   "target": "model part",
+   "note": "下载模型，不是 KV"
+  },
+  {
+   "file": "tools/dl_14b_par.py",
+   "line": 11,
+   "symbol": "download",
+   "site_kind": "non_kv_write",
+   "via": "open(wb)",
+   "product": false,
+   "product_paths": [
+    "model download script"
+   ],
+   "target": "model part",
+   "note": "下载模型"
+  },
+  {
+   "file": "tools/dl_14b_par.py",
+   "line": 23,
+   "symbol": "download",
+   "site_kind": "non_kv_write",
+   "via": "open(r+b)",
+   "product": false,
+   "product_paths": [
+    "model download script"
+   ],
+   "target": "model part",
+   "note": "断点续传"
+  },
+  {
+   "file": "tools/dl_14b_par.py",
+   "line": 30,
+   "symbol": "download",
+   "site_kind": "non_kv_write",
+   "via": "open(wb)/write",
+   "product": false,
+   "product_paths": [
+    "model download script"
+   ],
+   "target": "model part",
+   "note": "下载模型"
+  },
+  {
+   "file": "tools/kvshim.cpp",
+   "line": 561,
+   "symbol": "kvshim_save",
+   "site_kind": "direct_write",
+   "via": "llama_state_seq_save_file",
+   "product": true,
+   "product_paths": [
+    "all kvslots.save callers"
+   ],
+   "target": "caller path",
+   "note": "后端单点：无 temp/fsync/rename；llama-context.cpp:3609 fopen(wb) 开即截断"
+  }
+ ],
+ "load_sites": [
+  {
+   "file": "tools/memory_source.py",
+   "line": 405,
+   "symbol": "load_into",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": true,
+   "product_paths": [
+    "chat.py 272/387/633",
+    "session_state.py 346/354",
+    "p0_*/variance/hole_* (verification)"
+   ],
+   "target": "DB memory_block.path",
+   "note": "闸门 check_compatible :381-400：文件存在、st_size==n_bytes(:389-391)、state_version、kv_type、model fp；n<0 抛 Incompatible"
+  },
+  {
+   "file": "tools/session_state.py",
+   "line": 330,
+   "symbol": "restore_session.chat",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load_strict",
+   "product": true,
+   "product_paths": [
+    "chat.py load (chat.py:461)"
+   ],
+   "target": "<session_root>.chat.kvmem",
+   "note": "manifest 校验 :268-292 后 load_strict；:331-333 只比 n_tokens，无 size/checksum"
+  },
+  {
+   "file": "tools/session_state.py",
+   "line": 346,
+   "symbol": "restore_session.blocks[].load",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": true,
+   "product_paths": [
+    "chat.py load"
+   ],
+   "target": "DB memory_block.path",
+   "note": "逐块 load_into（=memory_source:405，DB n_bytes 闸门）"
+  },
+  {
+   "file": "tools/session_state.py",
+   "line": 354,
+   "symbol": "restore_session.blocks[].fresh",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": true,
+   "product_paths": [
+    "chat.py load"
+   ],
+   "target": "DB memory_block.path",
+   "note": "重建/重挂分支，同样 load_into"
+  },
+  {
+   "file": "tools/chat.py",
+   "line": 272,
+   "symbol": "cmd_chat.place",
+   "site_kind": "kv_load",
+   "via": "ms.load_into",
+   "product": true,
+   "product_paths": [
+    "chat.py chat"
+   ],
+   "target": "DB memory_block.path",
+   "note": "产品 chat 挂块；DB n_bytes 闸门"
+  },
+  {
+   "file": "tools/chat.py",
+   "line": 387,
+   "symbol": "_place_slots",
+   "site_kind": "kv_load",
+   "via": "ms.load_into",
+   "product": true,
+   "product_paths": [
+    "chat.py chat",
+    "chat.py m1"
+   ],
+   "target": "DB memory_block.path",
+   "note": "右对齐槽位放置；DB n_bytes 闸门"
+  },
+  {
+   "file": "tools/chat.py",
+   "line": 633,
+   "symbol": "cmd_m1.mount",
+   "site_kind": "kv_load",
+   "via": "ms.load_into",
+   "product": true,
+   "product_paths": [
+    "chat.py m1"
+   ],
+   "target": "DB memory_block.path",
+   "note": "m1 挂块；DB n_bytes 闸门"
+  },
+  {
+   "file": "tools/chat.py",
+   "line": 841,
+   "symbol": "CountingEngine.load_block",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "bench only: two_session_run (chat.py:963) ← cmd_two"
+   ],
+   "target": "path from plan",
+   "note": "非核心产品（two 基准臂）；n<0 抛 RuntimeError"
+  },
+  {
+   "file": "tools/chat.py",
+   "line": 963,
+   "symbol": "two_session_run.mount",
+   "site_kind": "kv_load",
+   "via": "engine.load_block",
+   "product": false,
+   "product_paths": [
+    "bench only: cmd_two"
+   ],
+   "target": "path from plan",
+   "note": "调用 :841"
+  },
+  {
+   "file": "tools/diag_place.py",
+   "line": 48,
+   "symbol": "diag",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "profile.kvmem",
+   "note": "探针"
+  },
+  {
+   "file": "tools/diag_place.py",
+   "line": 65,
+   "symbol": "diag",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "profile.kvmem",
+   "note": "探针"
+  },
+  {
+   "file": "tools/diag_place.py",
+   "line": 80,
+   "symbol": "diag",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "profile.kvmem",
+   "note": "探针"
+  },
+  {
+   "file": "tools/diag_place.py",
+   "line": 97,
+   "symbol": "diag",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "profile.kvmem",
+   "note": "探针"
+  },
+  {
+   "file": "tools/diag_place.py",
+   "line": 109,
+   "symbol": "diag",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "profile.kvmem",
+   "note": "探针"
+  },
+  {
+   "file": "tools/diag_place.py",
+   "line": 117,
+   "symbol": "diag",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "profile.kvmem",
+   "note": "探针"
+  },
+  {
+   "file": "tools/diag_place.py",
+   "line": 123,
+   "symbol": "diag",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "project.kvmem",
+   "note": "探针"
+  },
+  {
+   "file": "tools/hole_matrix.py",
+   "line": 77,
+   "symbol": "probe",
+   "site_kind": "kv_load",
+   "via": "ms.load_into",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "DB block",
+   "note": "旁证"
+  },
+  {
+   "file": "tools/hole_probe.py",
+   "line": 37,
+   "symbol": "probe",
+   "site_kind": "kv_load",
+   "via": "ms.load_into",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "DB block",
+   "note": "旁证"
+  },
+  {
+   "file": "tools/kv_audit.py",
+   "line": 98,
+   "symbol": "audit",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "BLOCK",
+   "note": "旁证"
+  },
+  {
+   "file": "tools/kv_audit.py",
+   "line": 154,
+   "symbol": "audit",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "BLOCK",
+   "note": "旁证"
+  },
+  {
+   "file": "tools/kv_audit.py",
+   "line": 162,
+   "symbol": "audit",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "BLOCK",
+   "note": "旁证"
+  },
+  {
+   "file": "tools/kvdrift.py",
+   "line": 112,
+   "symbol": "drift",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "blk_path",
+   "note": "旁证"
+  },
+  {
+   "file": "tools/kvdrift.py",
+   "line": 128,
+   "symbol": "drift",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "probe"
+   ],
+   "target": "blk_path",
+   "note": "旁证"
+  },
+  {
+   "file": "tools/kvslots.py",
+   "line": 324,
+   "symbol": "SlotPool.get",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "demo __main__"
+   ],
+   "target": "quality/slots/<cid>.kvmem",
+   "note": "演示类"
+  },
+  {
+   "file": "tools/kvslots.py",
+   "line": 427,
+   "symbol": "main",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "kvslots.py __main__"
+   ],
+   "target": "quality/conv_A.kvmem",
+   "note": "演示"
+  },
+  {
+   "file": "tools/m2_probe_cells.py",
+   "line": 61,
+   "symbol": "probe",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load_strict",
+   "product": false,
+   "product_paths": [
+    "m2 probe"
+   ],
+   "target": "blocks/<bid>.kvmem",
+   "note": "m2 实验"
+  },
+  {
+   "file": "tools/m2_v1.py",
+   "line": 100,
+   "symbol": "probe",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load_strict",
+   "product": false,
+   "product_paths": [
+    "m2 probe"
+   ],
+   "target": "path_of(bid)",
+   "note": "m2 实验"
+  },
+  {
+   "file": "tools/m2_v1.py",
+   "line": 196,
+   "symbol": "probe",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load_strict",
+   "product": false,
+   "product_paths": [
+    "m2 probe"
+   ],
+   "target": "path_of(probe)",
+   "note": "m2 实验"
+  },
+  {
+   "file": "tools/m2_v1.py",
+   "line": 203,
+   "symbol": "probe",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load_strict",
+   "product": false,
+   "product_paths": [
+    "m2 probe"
+   ],
+   "target": "path_of(probe)",
+   "note": "m2 实验"
+  },
+  {
+   "file": "tools/m2_v1.py",
+   "line": 207,
+   "symbol": "probe",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load_strict",
+   "product": false,
+   "product_paths": [
+    "m2 probe"
+   ],
+   "target": "path_of(probe)",
+   "note": "m2 实验"
+  },
+  {
+   "file": "tools/m2_visibility_probe.py",
+   "line": 299,
+   "symbol": "probe",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load_strict",
+   "product": false,
+   "product_paths": [
+    "m2 probe"
+   ],
+   "target": "path",
+   "note": "m2 实验"
+  },
+  {
+   "file": "tools/m2_visibility_probe.py",
+   "line": 322,
+   "symbol": "probe",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load_strict",
+   "product": false,
+   "product_paths": [
+    "m2 probe"
+   ],
+   "target": "path",
+   "note": "m2 实验"
+  },
+  {
+   "file": "tools/m2_visibility_probe.py",
+   "line": 343,
+   "symbol": "probe",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load_strict",
+   "product": false,
+   "product_paths": [
+    "m2 probe"
+   ],
+   "target": "path",
+   "note": "m2 实验"
+  },
+  {
+   "file": "tools/m2_visibility_probe.py",
+   "line": 446,
+   "symbol": "probe",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load_strict",
+   "product": false,
+   "product_paths": [
+    "m2 probe"
+   ],
+   "target": "seg['file']",
+   "note": "m2 实验"
+  },
+  {
+   "file": "tools/p0_1a_check.py",
+   "line": 76,
+   "symbol": "check",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load_strict",
+   "product": false,
+   "product_paths": [
+    "acceptance",
+    "probe"
+   ],
+   "target": "block_path",
+   "note": "验收"
+  },
+  {
+   "file": "tools/p0_1a_check.py",
+   "line": 141,
+   "symbol": "check",
+   "site_kind": "kv_load",
+   "via": "ms.load_into",
+   "product": false,
+   "product_paths": [
+    "acceptance"
+   ],
+   "target": "DB block",
+   "note": "验收"
+  },
+  {
+   "file": "tools/p0_2_check.py",
+   "line": 124,
+   "symbol": "check",
+   "site_kind": "kv_load",
+   "via": "ms.load_into",
+   "product": false,
+   "product_paths": [
+    "acceptance"
+   ],
+   "target": "DB block",
+   "note": "验收"
+  },
+  {
+   "file": "tools/p0_2_check.py",
+   "line": 134,
+   "symbol": "check",
+   "site_kind": "kv_load",
+   "via": "ms.load_into",
+   "product": false,
+   "product_paths": [
+    "acceptance"
+   ],
+   "target": "DB block",
+   "note": "验收"
+  },
+  {
+   "file": "tools/p0_4b_right.py",
+   "line": 71,
+   "symbol": "check",
+   "site_kind": "kv_load",
+   "via": "ms.load_into",
+   "product": false,
+   "product_paths": [
+    "acceptance"
+   ],
+   "target": "DB block",
+   "note": "验收"
+  },
+  {
+   "file": "tools/states_demo.py",
+   "line": 57,
+   "symbol": "demo",
+   "site_kind": "kv_load",
+   "via": "ms.load_into",
+   "product": false,
+   "product_paths": [
+    "demo"
+   ],
+   "target": "DB block",
+   "note": "演示"
+  },
+  {
+   "file": "tools/t031_habit_para.py",
+   "line": 72,
+   "symbol": "experiment",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "t031 experiment"
+   ],
+   "target": "habit",
+   "note": "实验"
+  },
+  {
+   "file": "tools/t031_habit_para.py",
+   "line": 157,
+   "symbol": "experiment",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "t031 experiment"
+   ],
+   "target": "OUT",
+   "note": "实验"
+  },
+  {
+   "file": "tools/t031_habit_para.py",
+   "line": 171,
+   "symbol": "experiment",
+   "site_kind": "kv_load",
+   "via": "kvslots.KVEngine.load",
+   "product": false,
+   "product_paths": [
+    "t031 experiment"
+   ],
+   "target": "habit",
+   "note": "实验"
+  },
+  {
+   "file": "tools/variance_check.py",
+   "line": 68,
+   "symbol": "variance",
+   "site_kind": "kv_load",
+   "via": "ms.load_into",
+   "product": false,
+   "product_paths": [
+    "variance test"
+   ],
+   "target": "DB block",
+   "note": "验收/方差"
+  },
+  {
+   "file": "tools/kvmem_persist.cpp",
+   "line": 136,
+   "symbol": "load_state",
+   "site_kind": "direct_load",
+   "via": "fopen(rb)+fread",
+   "product": false,
+   "product_paths": [
+    "legacy experiment"
+   ],
+   "target": "mem.kvmem",
+   "note": "自定义格式；非产品"
+  },
+  {
+   "file": "tools/kvmem_page.cpp",
+   "line": 97,
+   "symbol": "load",
+   "site_kind": "direct_load",
+   "via": "fopen(rb)",
+   "product": false,
+   "product_paths": [
+    "page experiment"
+   ],
+   "target": "block file",
+   "note": "实验"
+  },
+  {
+   "file": "tools/kvmem_page.cpp",
+   "line": 546,
+   "symbol": "query",
+   "site_kind": "direct_load",
+   "via": "fopen(rb)",
+   "product": false,
+   "product_paths": [
+    "page experiment"
+   ],
+   "target": "block file",
+   "note": "实验"
+  },
+  {
+   "file": "tools/kvmem_quality.cpp",
+   "line": 83,
+   "symbol": "load",
+   "site_kind": "direct_load",
+   "via": "fopen(rb)",
+   "product": false,
+   "product_paths": [
+    "quality experiment"
+   ],
+   "target": "doc",
+   "note": "实验"
+  },
+  {
+   "file": "llama.cpp/src/llama-context.cpp",
+   "line": 3554,
+   "symbol": "state_seq_load_file",
+   "site_kind": "direct_load",
+   "via": "llama_file(rb)",
+   "product": true,
+   "product_paths": [
+    "kvshim_load (all callers)"
+   ],
+   "target": "state file",
+   "note": "后端单点：读 header/tokens/state；尾部多余不查 file.tell()==file.size()（:3589-3601）"
+  }
+ ],
+ "manifest": {
+  "writer": {
+   "file": "tools/session_state.py",
+   "lines": "235-258",
+   "symbol": "save_session.manifest",
+   "keys": [
+    "version",
+    "saved_at",
+    "tenant",
+    "scope",
+    "kv_type",
+    "state_version",
+    "model",
+    "chat{state,n_tokens,start,end}",
+    "layout",
+    "placement",
+    "selection"
+   ],
+   "atomicity": "tmp = path + '.tmp' (:251) → open/json.dump (:252-253) → os.replace(tmp,path) (:254)；已原子",
+   "size_field": "无 bytes/size 字段"
+  },
+  "required_keys": {
+   "file": "tools/session_state.py",
+   "lines": "39-47",
+   "MANIFEST_VERSION": 2,
+   "top": [
+    "version",
+    "saved_at",
+    "tenant",
+    "scope",
+    "kv_type",
+    "state_version",
+    "model",
+    "chat",
+    "layout",
+    "placement"
+   ],
+   "chat": [
+    "state",
+    "n_tokens",
+    "start",
+    "end"
+   ],
+   "pblock": [
+    "block",
+    "slot_id",
+    "role",
+    "start",
+    "end",
+    "n_tokens"
+   ]
+  },
+  "validate": {
+   "file": "tools/session_state.py",
+   "lines": "268-292",
+   "checks": [
+    "version==2",
+    "state_version",
+    "kv_type",
+    "model fp"
+   ]
+  },
+  "instances": [
+   {
+    "path": "kvmem/sessions/live.json",
+    "keys": [
+     "version",
+     "saved_at",
+     "tenant",
+     "scope",
+     "kv_type",
+     "state_version",
+     "model",
+     "chat",
+     "layout",
+     "placement",
+     "selection"
+    ],
+    "chat": {
+     "state": "live.chat.kvmem",
+     "n_tokens": 189,
+     "start": 4096,
+     "end": 4285
+    },
+    "chat_file_bytes": 5761428,
+    "has_bytes_field": false,
+    "placement_block_keys": [
+     "block",
+     "slot_id",
+     "role",
+     "start",
+     "end",
+     "n_tokens",
+     "block_sha256"
+    ]
+   },
+   {
+    "path": "kvmem/sessions/bridge.json",
+    "chat": {
+     "state": "bridge.chat.kvmem",
+     "n_tokens": 31,
+     "start": 4096,
+     "end": 4127
+    },
+    "has_bytes_field": false
+   },
+   {
+    "path": "kvmem/sessions/bad_head.json",
+    "chat": {
+     "state": "s.chat.kvmem",
+     "n_tokens": 203,
+     "start": 4096,
+     "end": 4299
+    },
+    "has_bytes_field": false
+   }
+  ],
+  "block_size_source": {
+   "table": "memory_block",
+   "column": "n_bytes",
+   "gate": "tools/memory_source.py:389-391",
+   "note": "block 的字节数在 DB 里，不在 manifest；chat 没有任何字节数来源"
+  },
+  "gaps": [
+   "chat manifest 只有 n_tokens，无 bytes/size/checksum ⇒ tail-extra + 同 token 数文件可过",
+   "placement.block 只有 block_sha256（哈希，不是长度），无 bytes",
+   "manifest 自身无 checksum/签名（不属于本单，只记录）"
+  ]
+ },
+ "counters": {
+  "save_kv_call_sites_tools": 26,
+  "save_product_kv_points": 2,
+  "save_product_entrypoints": [
+   "chat.py:203 cmd_build→build_block",
+   "chat.py:431 cmd_save→save_session",
+   "chat.py:700 cmd_m1 --save→save_session"
+  ],
+  "save_manifest_writes": 1,
+  "save_non_kv_writes": 5,
+  "direct_writers_product_bypass": 0,
+  "direct_writers_non_product": 5,
+  "load_kv_call_sites_tools": 43,
+  "load_product_call_sites": 7,
+  "load_bench_call_sites": 2,
+  "load_non_product_other": 35,
+  "direct_loads_cpp_non_product": 4,
+  "product_targets": {
+   "block": "kvmem/blocks/<name>.kvmem + DB memory_block.n_bytes",
+   "chat": "<session_root>.chat.kvmem",
+   "manifest": "<session>.json (json, 已原子)"
+  },
+  "save_grep_lines_tools": 27,
+  "load_grep_lines_tools": 47,
+  "load_indirect_proxy_call_sites": 1,
+  "load_entries_total": 44
+ },
+ "bypass_analysis": {
+  "chain": "产品 save → memory_source.build_block:350 / session_state.save_session:229 → kvslots.KVEngine.save (:222-223) → kvshim_save (kvshim.cpp:561-568) → llama_state_seq_save_file (llama-context.cpp:3608-3625, :3609 fopen(wb) 截断开)",
+  "product_save_points": 2,
+  "product_bypass_writers": [],
+  "single_point_feasible": true,
+  "single_point": "tools/kvslots.py:222-223 KVEngine.save",
+  "non_product_direct_writers": [
+   "tools/kvmem_persist.cpp:167",
+   "tools/kvmem_page.cpp:401/444/507",
+   "tools/kvmem_quality.cpp:359",
+   "tools/dl_14b.py:7",
+   "tools/dl_14b_par.py:11/23/30"
+  ],
+  "manifest_already_atomic": "session_state.py:251-254 tmp+os.replace；但 chat 文件与 manifest 不是跨文件事务",
+  "residual_gaps": [
+   "chat 文件 + manifest 两次 replace 之间崩溃：manifest 可能配到旧/新 chat；若 n_tokens 恰好相同会静默接受（bytes/sha 可闭）",
+   "block 文件 replace 后、DB n_bytes 更新前崩溃：文件新而 DB 旧 ⇒ 下次 load 因 st_size!=n_bytes 失败（fail-closed，需 rebuild）"
+  ]
+ },
+ "design_probe": {
+  "B2a": {
+   "target": "tools/kvslots.py:222-223（KVEngine.save）单点",
+   "approach": "同目录 tmp（path + '.tmp-<pid>-<uuid>'）写入 → flush + os.fsync(fd) → close → os.replace(tmp,path)；任何失败 finally 删 tmp；返回前 os.stat(path).st_size 与 shim 返回值核对",
+   "coverage": "覆盖全部产品 save：memory_source.py:350（block）与 session_state.py:229（chat）都走 KVEngine.save；产品无绕过者",
+   "not_covered": [
+    "chat 文件 + manifest 跨文件原子性（需 manifest 增加 bytes/sha 或在 save_session 内做两阶段提交）",
+    "block 文件 + DB row 跨存储原子性（SQLite 事务与文件 replace 无法一起提交）",
+    "实验工具直写（kvmem_persist/kvmem_page）不属于产品，不改"
+   ],
+   "risks": [
+    "Windows os.replace 目标被其他进程打开（无 FILE_SHARE_DELETE）⇒ PermissionError；fail-closed（旧文件保留），调用方需把 save 失败报错而非静默继续",
+    "目录 fsync 在 Windows 无 POSIX 语义（os.open(dir) 不支持）；os.replace 用 MoveFileEx(REPLACE_EXISTING)，不带 WRITE_THROUGH ⇒ 掉电持久性不保证；如需强持久需 ctypes 调 MoveFileExW(..., MOVEFILE_WRITE_THROUGH)",
+    "tmp 命名/清理：同目录、含 pid+uuid 防碰撞；启动或下次 save 清理 stale *.tmp-*",
+    "并行 save 同目标：两者都原子，last-writer-wins，无版本检查；可加 manifest/DB 版本比较或文件锁",
+    "杀毒/索引器占用句柄导致 replace 间歇失败：需明确报错或有限重试",
+    "shim 返回值 nb 与 replace 后 stat 可能不同（磁盘满/短写）：以 stat 为准并断言"
+   ],
+   "single_point_answer": "是；产品 save 仅 2 个点且都汇入 kvslots.py:222-223，单点修可覆盖全部产品 save，无产品绕过者"
+  },
+  "B2b_tail": {
+   "target": "manifest 加 chat.bytes（实际写入字节数）；restore_session 在 load_strict 前校验",
+   "existing_byte_field": "无：manifest chat 只有 n_tokens；placement.block 只有 block_sha256（哈希非长度）；DB memory_block.n_bytes 只覆盖 block",
+   "approach": "save_session 在 os.replace 后 os.stat(chat_file).st_size 写入 manifest chat.bytes（以及可选 placement.blocks[].bytes）；restore_session :324-330 之前，若 m['chat'].get('bytes') 存在则 st_size == bytes，否则 LayoutMismatch/Incompatible fail-closed；load_strict 本身不读 manifest，不宜把校验塞进 kvslots",
+   "coverage": "覆盖 chat 产品路径（cmd_load→restore_session）；block 已有 DB n_bytes 闸门（memory_source.py:389-391），可另加 manifest bytes 双保险",
+   "backward_compat": "新字段可选：老 manifest 无 bytes ⇒ 仍可 load，但记录 unvalidated:true 事件（chat_lease 事件通道或结构化 stderr）；不 bump MANIFEST_VERSION（additive）；若要强一致可 bump 并在 validate_manifest 对旧版本报错，但会拒老会话，需迁移",
+   "tail_extra_note": "P4 证明引擎本身接受尾部追加（load 同 n_tokens）；因此 manifest 层是唯一可拦截点；bytes 只能抓 size 变化，同 size 内容损坏需 sha256",
+   "risks": [
+    "save 后 stat 的 bytes 与 replace 前 tmp 大小可能不同（短写/磁盘满）⇒ 以 replace 后 stat 为准并失败",
+    "旧会话无 bytes：unvalidated 事件必须可见，不能静默当已验证",
+    "manifest 与 chat 跨文件事务缺失：bytes 能抓 tail-extra，但抓不了同 size 替换；sha256 更强（可后续加）",
+    "block 若同时加 bytes：DB 与 manifest 双源，需以同一 save 返回值/stat 记录，避免两处不一致"
+   ]
+  },
+  "severity_note": "B2a 修复 = 防止不可重建 chat 被截断/半写；B2b-tail 修复 = 完整性校验缺失（malformed 被当合法），chat 产品可达、block 产品被 DB size 挡住"
+ },
+ "limitations": [
+  "只清点 tools/ 与 llama-context.cpp 关键函数；kvmem/m2_visibility 下实验脚本未逐条纳入（非产品）",
+  "product 判定按当前 chat.py 子命令；m1 的 two 基准臂不计核心产品",
+  "manifest 实例只抽查 3 个会话，其余同 schema",
+  "未跑真实 save/load（只读要求）"
+ ],
+ "no_self_sha": true,
+ "conclusion": {
+  "product_save_points": 2,
+  "product_save_point_list": [
+   "tools/memory_source.py:350 (block)",
+   "tools/session_state.py:229 (chat)"
+  ],
+  "product_save_entrypoints": [
+   "chat.py build (:203)",
+   "chat.py save (:431)",
+   "chat.py m1 --save (:700)"
+  ],
+  "single_point_fix_feasible": true,
+  "single_point": "tools/kvslots.py:222-223 KVEngine.save（tmp+fsync+os.replace 可覆盖全部产品 save）",
+  "product_bypass_writers": 0,
+  "product_bypass_note": "直接 fopen(wb) 的 kvmem_persist/page/quality 与 dl_14b 均为实验/下载工具，产品不调用；manifest 已是 tmp+os.replace；引擎内部单点 llama-context.cpp:3609 fopen(wb)",
+  "residual": "chat 文件与 manifest、block 文件与 DB row 均非跨文件事务；B2a 单点修只解决单文件半写，不解决跨文件配对"
+ }
+}

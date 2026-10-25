@@ -1,0 +1,211 @@
+{
+ "schema": "m7_f1_unit_v1",
+ "at": "2026-10-26T02:18:21",
+ "task": "M7 F1 原子写单元级验收（GPU-free）",
+ "host_safety": {
+  "bsod_incidents": 3,
+  "bugchecks": [
+   "0xA",
+   "0xA",
+   "0x44"
+  ],
+  "live_kernel": [
+   "141",
+   "141",
+   "144"
+  ],
+  "gpu": "RX 6750 GRE 10GB / 32.0.21045.1000",
+  "policy": "GPU-free evidence; real-machine 14B arm NOT run (host unstable)"
+ },
+ "device": {
+  "gpu_used": false,
+  "dll_loaded": false,
+  "model_loaded": false,
+  "impl": "FakeLib slow write 64KiB/20ms; KVEngine.__new__ (no __init__)"
+ },
+ "kill_strategy": "两种实现都按‘第一次可观察写副作用即杀’：绿臂 tmp>0，红臂 target 尺寸变短/归零",
+ "payload": {
+  "bytes": 524288,
+  "sha256": "123f4bb921f97c4726112d3623fbc4559b0f4c286bc786bf8b1c9c38ec0eb4e9",
+  "write_ms_approx": 160.0
+ },
+ "full_control": {
+  "green": {
+   "rc": 0,
+   "identity": {
+    "kvslots_path": "D:\\llama-mem\\tools\\kvslots.py",
+    "kvslots_sha16": "a5c06b1939a418f2",
+    "save_is_atomic": true,
+    "save_semantics": {
+     "has_tmp": true,
+     "has_fsync": true,
+     "has_pre_replace_stat": true,
+     "has_post_replace_remove": false,
+     "action": "keep_old"
+    },
+    "impl": "KVEngine.save (current)"
+   },
+   "payload_sha256": "123f4bb921f97c4726112d3623fbc4559b0f4c286bc786bf8b1c9c38ec0eb4e9",
+   "save_ms": 173.82,
+   "target_sha16": "123f4bb921f97c47",
+   "target_bytes": 524288,
+   "tmp_clean_after_full": true,
+   "tmp_left_after_full": [],
+   "stderr_head": []
+  },
+  "red": {
+   "rc": 0,
+   "identity": {
+    "kvslots_path": "D:\\llama-mem\\tools\\kvslots.py",
+    "kvslots_sha16": "a5c06b1939a418f2",
+    "save_is_atomic": false,
+    "save_semantics": {
+     "has_tmp": false,
+     "has_fsync": false,
+     "has_pre_replace_stat": false,
+     "has_post_replace_remove": false,
+     "action": "legacy_direct_write"
+    },
+    "impl": "legacy_save: open(target,'wb') slow write"
+   },
+   "payload_sha256": "123f4bb921f97c4726112d3623fbc4559b0f4c286bc786bf8b1c9c38ec0eb4e9",
+   "save_ms": 163.37,
+   "target_sha16": "123f4bb921f97c47",
+   "target_bytes": 524288,
+   "tmp_clean_after_full": true,
+   "tmp_left_after_full": [],
+   "stderr_head": []
+  }
+ },
+ "green": [
+  {
+   "arm": "green",
+   "run": 1,
+   "before_sha16": "a0d51f5f8f1df262",
+   "before_bytes": 1048572,
+   "target_sha16": "a0d51f5f8f1df262",
+   "target_bytes": 1048572,
+   "state": "before",
+   "tmp_existed": true,
+   "tmp": {
+    "path": "target.kvmem.tmp-5752-5d2d8370",
+    "bytes": 65536,
+    "pid": 5752,
+    "at_ms": 0.22
+   },
+   "target_sha_at_kill": "a0d51f5f8f1df262",
+   "killed_at_ms": 1.43,
+   "signal_ms": 1.43,
+   "exit_ms": 1.43,
+   "tmp_size_lt_final": true,
+   "stale_tmp_cleared": true,
+   "stale_tmp_count": 1,
+   "child_pid": 5752,
+   "tmp_pid_matches_child": true,
+   "tmp_left_behind": [
+    "target.kvmem.tmp-5752-5d2d8370"
+   ],
+   "identity": null,
+   "stderr_head": []
+  },
+  {
+   "arm": "green",
+   "run": 2,
+   "before_sha16": "a0d51f5f8f1df262",
+   "before_bytes": 1048572,
+   "target_sha16": "a0d51f5f8f1df262",
+   "target_bytes": 1048572,
+   "state": "before",
+   "tmp_existed": true,
+   "tmp": {
+    "path": "target.kvmem.tmp-5720-a68b989f",
+    "bytes": 65536,
+    "pid": 5720,
+    "at_ms": 0.2
+   },
+   "target_sha_at_kill": "a0d51f5f8f1df262",
+   "killed_at_ms": 1.37,
+   "signal_ms": 1.37,
+   "exit_ms": 1.37,
+   "tmp_size_lt_final": true,
+   "stale_tmp_cleared": true,
+   "stale_tmp_count": 1,
+   "child_pid": 5720,
+   "tmp_pid_matches_child": true,
+   "tmp_left_behind": [
+    "target.kvmem.tmp-5720-a68b989f"
+   ],
+   "identity": null,
+   "stderr_head": []
+  }
+ ],
+ "red": [
+  {
+   "arm": "red",
+   "run": 1,
+   "before_sha16": "a0d51f5f8f1df262",
+   "before_bytes": 1048572,
+   "target_sha16": "2fe2435aacfc9034",
+   "target_bytes": 65536,
+   "state": "third",
+   "events": [
+    {
+     "at_ms": 0.11,
+     "bytes": 0
+    }
+   ],
+   "killed_at_ms": 0.19,
+   "identity": null,
+   "stderr_head": []
+  },
+  {
+   "arm": "red",
+   "run": 2,
+   "before_sha16": "a0d51f5f8f1df262",
+   "before_bytes": 1048572,
+   "target_sha16": "2fe2435aacfc9034",
+   "target_bytes": 65536,
+   "state": "third",
+   "events": [
+    {
+     "at_ms": 0.06,
+     "bytes": 65536
+    }
+   ],
+   "killed_at_ms": 0.14,
+   "identity": null,
+   "stderr_head": []
+  }
+ ],
+ "short_write": {
+  "before_sha16": "ef3c9ace669b1571",
+  "before_bytes": 1048570,
+  "target_sha16": "ef3c9ace669b1571",
+  "target_bytes": 1048570,
+  "rc": 1,
+  "stderr_head": [
+   "Traceback (most recent call last):",
+   "  File \"D:\\llama-mem\\kvmem\\m2_visibility\\m7\\_run_m7_f1_unit.py\", line 367, in <module>",
+   "    sys.exit(main())",
+   "             ^^^^^^",
+   "  File \"D:\\llama-mem\\kvmem\\m2_visibility\\m7\\_run_m7_f1_unit.py\", line 313, in main",
+   "    child(args.arm, args.target)",
+   "  File \"D:\\llama-mem\\kvmem\\m2_visibility\\m7\\_run_m7_f1_unit.py\", line 125, in child",
+   "    nb = eng.save(0, target)"
+  ],
+  "stderr_has_short_write": true,
+  "target_kept_old": true,
+  "tmp_left_behind": [],
+  "pass": true
+ },
+ "verdict": {
+  "green_tmp_evidence": true,
+  "green_all_before": true,
+  "red_third": true,
+  "red_all_third": true,
+  "short_write_keep_old": true,
+  "tmp_clean_after_full": true,
+  "F1": "绿：原子写杀 tmp 期间 target 仍 before，红臂旧语义出现 third，short-write 保留旧 target"
+ },
+ "no_self_sha": true
+}

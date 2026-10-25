@@ -1,0 +1,62 @@
+{
+ "schema": "m7_cpu_rebuild_verify2_v1",
+ "at": "2026-10-26T03:08:06",
+ "base": {
+  "path": "kvmem/m2_visibility/m7/out/M7-CPU-REBUILD.json",
+  "sha16": "f55dfd9a571f1306",
+  "bytes": 2493
+ },
+ "verify_sh": {
+  "rc": 0,
+  "item1": "PASS",
+  "item1_values": "600/0",
+  "all_pass": true,
+  "n_items": 12,
+  "command": "bash verify.sh",
+  "at": "2026-10-26T02:46+08:00",
+  "log": "kvmem/m2_visibility/m7/out/_verify_sh2.log",
+  "log_sha16": "78915ecb9b07884a"
+ },
+ "source_cpu": {
+  "path": "tools/kvshim.cpp",
+  "sha16": "bf8e26e7490c4fd2",
+  "bytes": 24827
+ },
+ "source_vulkan": {
+  "sha16": "51eb2adbc38461da",
+  "note": "GPU DLL not rebuilt; source anchor unchanged"
+ },
+ "cpu_dll": {
+  "path": "tools/kvshim.dll",
+  "sha16": "3e29ae9eadc1dfc0",
+  "bytes": 8106496
+ },
+ "vulkan_dll": {
+  "path": "tools/kvshim_vk.dll",
+  "sha16": "9edbafa150700614",
+  "bytes": 50007552
+ },
+ "threads": {
+  "default_8": true,
+  "with_env_6": 6,
+  "probe_default_log": "kvmem/m2_visibility/m7/out/_threads_probe8.log",
+  "probe_env6_log": "kvmem/m2_visibility/m7/out/_threads_probe6.log"
+ },
+ "vulkan_imported": false,
+ "imports": [
+  "KERNEL32.dll",
+  "msvcrt.dll",
+  "libomp.dll",
+  "ADVAPI32.dll"
+ ],
+ "snapshot": {
+  "path": "kvmem/m2_visibility/m7/_before/kvshim.cpp@51eb2adbc38461da",
+  "sha16": "51eb2adbc38461da",
+  "bytes": 24322
+ },
+ "register": {
+  "path": "kvmem/m2_visibility/m4/_before/REGISTER.json",
+  "sha16": "dbde8582ed239bec"
+ },
+ "no_self_sha": true
+}
