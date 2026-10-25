@@ -11,6 +11,7 @@ happen in the writer's process.
 import argparse, json, os, sqlite3, sys
 
 import m4_display as DISP
+import outfilter as OUT
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = r"D:/llama-mem"
@@ -35,17 +36,43 @@ def _index(con):
     return R
 
 
+def _output_layer(d):
+    """M4-A: the text we hand out must not carry a control tag, and every removal is counted.
+
+    The assertion is load-bearing, not decoration: run_outfilter_selftest.py case S2 runs the
+    same assertion with the filter disabled and it goes red. Raw evidence in d["answer"] is
+    never touched by this function.
+    """
+    f = OUT.filter_text(d.get("answer_display") or "")
+    d["answer_display"] = f["text"]
+    d["answer_display_changed"] = d["answer_display"] != (d.get("answer") or "")
+    d["output_filter"] = {"per_tag": f["per_tag"], "total": f["total"],
+                          "before_len": f["before_len"], "after_len": f["after_len"],
+                          "removed_chars": f["removed_chars"],
+                          "unknown_angle_tokens": f["unknown_angle_tokens"]}
+    try:
+        OUT.assert_clean(d["answer_display"], "newproc answer_display")
+        d["output_filter"]["assertion"] = "pass"
+        d["output_layer_clean"] = True
+    except OUT.ControlTagLeft as exc:
+        d["output_filter"]["assertion"] = "FAIL"
+        d["output_filter"]["assertion_raw_line"] = str(exc)
+        d["output_layer_clean"] = False
+    return d
+
+
 def derive_or_fallback(ans):
     """A display-layer bug must never destroy the raw evidence: fall back, keep the reason."""
     raw = ans.strip()
     try:
-        return DISP.derive(raw)
+        d = DISP.derive(raw)
     except Exception as exc:                      # noqa: BLE001 - recorded, never silent
-        return {"answer": raw, "answer_display": raw, "answer_display_changed": False,
-                "display_error": "%s: %s" % (type(exc).__name__, exc),
-                "per_tag_count": len(DISP.STRAY.findall(raw)),
-                "removed_chars": 0, "display_len": len(raw), "display_empty": raw == "",
-                "diff_explained": False, "idempotent": None, "content_warnings": []}
+        d = {"answer": raw, "answer_display": raw, "answer_display_changed": False,
+             "display_error": "%s: %s" % (type(exc).__name__, exc),
+             "per_tag_count": len(DISP.STRAY.findall(raw)),
+             "removed_chars": 0, "display_len": len(raw), "display_empty": raw == "",
+             "diff_explained": False, "idempotent": None, "content_warnings": []}
+    return _output_layer(d)
 
 
 def _route(con, q, k=3):
