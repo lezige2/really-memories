@@ -1,7 +1,7 @@
 {
  "schema": "landed_m6b_b2b_v2",
  "task": "M6b B2b P3：半文件是否被 load 当合法块/chat 接受",
- "at": "2026-10-25T23:52:17",
+ "at": "2026-10-25T23:53:56",
  "assertion": "任一 cut 点 load>0 ⇒ 未通过（半文件被接受）；全部 cut load=-1 ⇒ 未接上（实测支持码读）",
  "prereg": "23f2c4af §B2b（docs/_work/M6B-PREREG-draft.md）",
  "artifact": {
@@ -72,7 +72,44 @@
     "model_bytes": 8988110240,
     "n_tokens": 50
    },
-   "exceptions": []
+   "exceptions": [],
+   "summary": {
+    "cut_points": [
+     0,
+     4,
+     8,
+     12,
+     16,
+     1306097,
+     2612194,
+     3918291,
+     5224372,
+     5224384,
+     5224387
+    ],
+    "n_cut_points": 11,
+    "zero_byte_boundary": {
+     "cut": 0,
+     "load_rc": -1,
+     "note": "零字节边界，与 control_zero_rc 同一读数，计入 11 个 cut 点"
+    },
+    "load_rc_by_cut": {
+     "0": -1,
+     "4": -1,
+     "8": -1,
+     "12": -1,
+     "16": -1,
+     "1306097": -1,
+     "2612194": -1,
+     "3918291": -1,
+     "5224372": -1,
+     "5224384": -1,
+     "5224387": -1
+    },
+    "accepted_cuts": [],
+    "accepted_count": 0,
+    "control_full_rc": 50
+   }
   },
   "chat": {
    "arm": "chat",
@@ -125,7 +162,44 @@
     "model_bytes": 4683073504,
     "n_tokens": 189
    },
-   "exceptions": []
+   "exceptions": [],
+   "summary": {
+    "cut_points": [
+     0,
+     4,
+     8,
+     12,
+     16,
+     1440357,
+     2880714,
+     4321071,
+     5761412,
+     5761424,
+     5761427
+    ],
+    "n_cut_points": 11,
+    "zero_byte_boundary": {
+     "cut": 0,
+     "load_rc": -1,
+     "note": "零字节边界，与 control_zero_rc 同一读数，计入 11 个 cut 点"
+    },
+    "load_rc_by_cut": {
+     "0": -1,
+     "4": -1,
+     "8": -1,
+     "12": -1,
+     "16": -1,
+     "1440357": -1,
+     "2880714": -1,
+     "4321071": -1,
+     "5761412": -1,
+     "5761424": -1,
+     "5761427": -1
+    },
+    "accepted_cuts": [],
+    "accepted_count": 0,
+    "control_full_rc": 189
+   }
   }
  },
  "verdict": {
