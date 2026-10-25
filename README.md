@@ -29,7 +29,24 @@
 |---|---|
 | 引擎层 | **已落地**。补丁 6 文件 / **500 insertions / 0 deletions** |
 | 记忆读取 | **半真**。3 个块挂上去能读；4 个块挂上去读不全 |
-| 产品层 | **空的**。无序列池、无服务端、无 pin |
+| 产品层 | **有骨架，仍无服务端**。逐格见 [FEATURES.md](FEATURES.md) |
+
+产品层这条变了，说明变的是哪几格：
+
+```
+M2 规划器      几何已冻结（habit 12 / project 18 / home 21 @ [4045,4096)，gap 0，51 cells）
+               驱逐策略 / 多会话容量 / 位置租约 —— 未做
+M3 块生命周期  attach / detach / pin / 只读 已实现并验收（50 轮）
+               锚 run_m3_lifecycle_50_v4.json = ef3d1e8859add5b0（82,784 B，50/50 valid）
+M4 写入固化    部分。输出层过滤已绿：锚 run_m4_verify_a4.json = 59edbd82d4b9ae44
+               车牌句消融：三轮均 inconclusive，原因已定位到驱动（见 FEATURES.md）
+               leases 在真实产品路径上尚未被断言约束 —— 这是 M4 最大的未闭项
+M5 接地校验    未开工（判据已冻结：mine/inspector/M5-CRITERIA.md）
+```
+
+**为什么 M5 必须排在 M4 之后**：M5 校验 M4 产出的答案与块正文。
+M4 的答案此前仍带 `</think`，块正文也还没做过接地消融 ——
+**在一个被污染的数据上建校验器，它会先学会接受污染。**
 
 ### 已定位的缺陷：E10
 
@@ -52,12 +69,20 @@
 
 > 判据层级：**代码 > 运行产物 > 旧文档（仅史料）**
 
-| 文档 | 地位 | 说明 |
-|---|---|---|
-| **[PROJECT-STATE.md](PROJECT-STATE.md)** | **唯一权威** | 25 条里程碑判定，每条挂标记与锚点。有冲突时以它为准 |
-| [kvmem/m2_visibility/ISOLATION-REPORT.md](kvmem/m2_visibility/ISOLATION-REPORT.md) | **定稿·可引用** | E10 的完整实验报告与排除过程 |
-| [docs/README-PHASE1-ENGINE.md](docs/README-PHASE1-ENGINE.md) | 阶段文档 | 引擎/工具链总览，写作时点在 E10 之前 |
-| [docs/legacy-2026-10-24/](docs/legacy-2026-10-24/) | **史料·勿引用** | 四份早期交接文档，**多处与代码不符**，仅存"当时怎么想" |
+**只有三份是需要读的入口文档，其余全部是证据。**
+
+| 文档 | 读它的理由 |
+|---|---|
+| **[README.md](README.md)**（本文件） | 项目是什么、怎么跑、怎么复算 |
+| **[HANDOFF.md](HANDOFF.md)** | **换会话/交接前必读**：八个锚、已确立事实与强度、顺序与未闭项 |
+| **[FEATURES.md](FEATURES.md)** | **功能台账**：已实现 / 部分实现 / 未实现 / 可能需要，每行带锚与强度 |
+| [PROJECT-STATE.md](PROJECT-STATE.md) | 引擎层判定总表（25 条，E1–E10 / S1–S3 / P1–P8）。**FEATURES 的引擎层附册** |
+| `kvmem/**/*.md`（73 份） | **证据目录，不是文档**：预登记 / 验收 / 判据 / 台账，由 [INDEX.md](kvmem/m2_visibility/INDEX.md) 导航 |
+| [kvmem/m2_visibility/ISOLATION-REPORT.md](kvmem/m2_visibility/ISOLATION-REPORT.md) | E10 的完整实验报告与排除过程（**定稿·可引用**）|
+| [docs/legacy-2026-10-24/](docs/legacy-2026-10-24/) | **史料·勿引用**：早期交接文档多处与代码不符 |
+
+> **为什么把 73 份 md 叫「证据」而不是「文档」**：它们是某次跑、某份判据、某次验收的当场凭据。
+> 读它们的前提是「你要核某一条结论」。把证据当文档读，会读到互相矛盾的中间态。
 
 旧文档里的 `508ms → 42ms`、`SQLite 不存正文`、若干 `x/y` 通过数等断言，**在代码中查无依据**，已在 PROJECT-STATE.md 中逐条标注。
 
