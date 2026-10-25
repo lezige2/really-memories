@@ -1,0 +1,262 @@
+{
+  "schema": "m4_ablate_plate_v1",
+  "attempt": 4,
+  "pid": 3276,
+  "started_at": "2026-10-25T09:57:03",
+  "question": "我的车牌号是多少？",
+  "plate": "浙B-3F19K",
+  "block_seq": 1,
+  "live": 0,
+  "pos_hi": 4096,
+  "n_predict": 24,
+  "prereg": {
+    "declared_before_run": true,
+    "single_factor": "only the plate sentence is removed from the block text; every other line is byte-identical",
+    "control_arm_required": "the product block must still answer the plate; otherwise both ablation arms are uninterpretable",
+    "if_ablated_answers_plate": "the memory does not depend on that sentence (it is stored elsewhere, or the answer is fabricated)",
+    "if_ablated_does_not_answer": "the memory is carried by that sentence",
+    "asymmetry": "neither direction is preferred in advance: this is an ablation, not a verification",
+    "what_it_cannot_show": "it cannot say WHERE else the plate could live, only whether deleting this sentence changes the answer"
+  },
+  "inputs": {
+    "block_text_sha256": "d8c094c1f5fcb8f114b19cb2c0f553e602da44cb446343f7f674ec121cc3ac6c",
+    "block_text_len": 127,
+    "block_text_lines": 9,
+    "ablated_sha256": "93332bde804698bcf7f48d1433a4d927c6bdc66795a1faa37f0229c97c6d52aa",
+    "ablated_len": 113,
+    "ablated_lines": 8,
+    "removed_lines": [
+      "我车牌是浙B-3F19K。"
+    ],
+    "removed_lines_count": 1,
+    "plate_absent_from_ablated": true,
+    "only_removal_check": {
+      "chars_removed": 14,
+      "expected": 14,
+      "other_lines_identical": true
+    },
+    "product_block_path": "D:/llama-mem/kvmem/m2_visibility/m4/blocks/blk_conv_2026-10-25_01.kvmem",
+    "product_block_sha256": "81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6",
+    "ablated_block_path": "D:/llama-mem/kvmem/m2_visibility/m4/blocks/blk_conv_plateablate_attempt4.kvmem",
+    "ablated_block_is_new": true,
+    "product_block_untouched": "loaded read-only; the block file is never written here",
+    "reencoded_encode": {
+      "tokens_written": 91,
+      "cells_after_encode": 91,
+      "bytes_saved": 9507412,
+      "block_sha256": "81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6",
+      "reset_before_encode": {
+        "reset": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "skipped": []
+      },
+      "path": "D:/llama-mem/kvmem/m2_visibility/m4/blocks/blk_conv_platecontrol_attempt4.kvmem"
+    },
+    "ablated_encode": {
+      "tokens_written": 79,
+      "cells_after_encode": 79,
+      "bytes_saved": 8253844,
+      "block_sha256": "e3bfec41d1f059e7d062a5e50a22802fe38cbf91cae2283b8a4a6c48ce940c04",
+      "reset_before_encode": {
+        "reset": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "skipped": []
+      },
+      "path": "D:/llama-mem/kvmem/m2_visibility/m4/blocks/blk_conv_plateablate_attempt4.kvmem"
+    }
+  },
+  "arms": [
+    {
+      "arm": "product_block_control",
+      "role": "control: known-answer block, untouched",
+      "block_path": "D:/llama-mem/kvmem/m2_visibility/m4/blocks/blk_conv_2026-10-25_01.kvmem",
+      "block_sha256": "81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6",
+      "cells_loaded": 91,
+      "cells_in_block_seq": 91,
+      "attach_rule": "repos_local(POS_HI - moved - base) then lo = POS_HI - moved; hi = POS_HI -- mirrored from m4_newproc.py:161-166",
+      "cells_span_after_repos": [
+        0,
+        90
+      ],
+      "cells_span_matches_attach_range": null,
+      "repos_skipped": true,
+      "attach_range_is": "declared AND asserted equal to the measured cell span (cells_span_after_repos); with --no-repos it is declared only",
+      "n_predict": 64,
+      "attach_range": [
+        4005,
+        4096
+      ],
+      "pos_asked": 4096,
+      "pos_asked_source": "POS_HI (= pos_hi) -- the same value m4_verify passes as ask_pos",
+      "raw_pos_max_block_after_attach": 90,
+      "raw_pos_max_live_after_attach": -1,
+      "raw_pos_max_readings_are_observations": "reported, never used to place the question",
+      "seq_cleared_before_load": true,
+      "seq_clear_note": "reset via leases.reset (gated: refuses while leased)",
+      "ask_bytes": 261,
+      "answer_raw": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号",
+      "answer_len": 105,
+      "answer_delivered": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号",
+      "output_filter": {
+        "per_tag": {},
+        "tag_chars_removed": 0,
+        "raw_to_delivered_delta": 0,
+        "delivered_has_tag": 0
+      },
+      "assertion": "pass",
+      "answers_plate": false,
+      "child_pid": 16528,
+      "child_rc": 0
+    },
+    {
+      "arm": "reencoded_with_sentence",
+      "role": "control 2: same text, same write path as the ablated arm",
+      "block_path": "D:/llama-mem/kvmem/m2_visibility/m4/blocks/blk_conv_platecontrol_attempt4.kvmem",
+      "block_sha256": "81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6",
+      "cells_loaded": 91,
+      "cells_in_block_seq": 91,
+      "attach_rule": "repos_local(POS_HI - moved - base) then lo = POS_HI - moved; hi = POS_HI -- mirrored from m4_newproc.py:161-166",
+      "cells_span_after_repos": [
+        0,
+        90
+      ],
+      "cells_span_matches_attach_range": null,
+      "repos_skipped": true,
+      "attach_range_is": "declared AND asserted equal to the measured cell span (cells_span_after_repos); with --no-repos it is declared only",
+      "n_predict": 64,
+      "attach_range": [
+        4005,
+        4096
+      ],
+      "pos_asked": 4096,
+      "pos_asked_source": "POS_HI (= pos_hi) -- the same value m4_verify passes as ask_pos",
+      "raw_pos_max_block_after_attach": 90,
+      "raw_pos_max_live_after_attach": -1,
+      "raw_pos_max_readings_are_observations": "reported, never used to place the question",
+      "seq_cleared_before_load": true,
+      "seq_clear_note": "reset via leases.reset (gated: refuses while leased)",
+      "ask_bytes": 261,
+      "answer_raw": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号",
+      "answer_len": 105,
+      "answer_delivered": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号",
+      "output_filter": {
+        "per_tag": {},
+        "tag_chars_removed": 0,
+        "raw_to_delivered_delta": 0,
+        "delivered_has_tag": 0
+      },
+      "assertion": "pass",
+      "answers_plate": false,
+      "child_pid": 16872,
+      "child_rc": 0
+    },
+    {
+      "arm": "ablated_without_sentence",
+      "role": "ablation: same text minus the plate sentence",
+      "block_path": "D:/llama-mem/kvmem/m2_visibility/m4/blocks/blk_conv_plateablate_attempt4.kvmem",
+      "block_sha256": "e3bfec41d1f059e7d062a5e50a22802fe38cbf91cae2283b8a4a6c48ce940c04",
+      "cells_loaded": 79,
+      "cells_in_block_seq": 79,
+      "attach_rule": "repos_local(POS_HI - moved - base) then lo = POS_HI - moved; hi = POS_HI -- mirrored from m4_newproc.py:161-166",
+      "cells_span_after_repos": [
+        0,
+        78
+      ],
+      "cells_span_matches_attach_range": null,
+      "repos_skipped": true,
+      "attach_range_is": "declared AND asserted equal to the measured cell span (cells_span_after_repos); with --no-repos it is declared only",
+      "n_predict": 64,
+      "attach_range": [
+        4017,
+        4096
+      ],
+      "pos_asked": 4096,
+      "pos_asked_source": "POS_HI (= pos_hi) -- the same value m4_verify passes as ask_pos",
+      "raw_pos_max_block_after_attach": 78,
+      "raw_pos_max_live_after_attach": -1,
+      "raw_pos_max_readings_are_observations": "reported, never used to place the question",
+      "seq_cleared_before_load": true,
+      "seq_clear_note": "reset via leases.reset (gated: refuses while leased)",
+      "ask_bytes": 261,
+      "answer_raw": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号",
+      "answer_len": 105,
+      "answer_delivered": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号",
+      "output_filter": {
+        "per_tag": {},
+        "tag_chars_removed": 0,
+        "raw_to_delivered_delta": 0,
+        "delivered_has_tag": 0
+      },
+      "assertion": "pass",
+      "answers_plate": false,
+      "child_pid": 7300,
+      "child_rc": 0
+    }
+  ],
+  "engine": {
+    "dll_sha256": "9edbafa1507006147baad99ea936808b9cbb9ade2874b68d4ab5d83f227b2e5c",
+    "n_seq": 8,
+    "n_predict": 64,
+    "one_engine_per_process": true,
+    "process_model": "the parent holds no engine: encode and each arm run in their own child, sequentially"
+  },
+  "comparison": {
+    "question": "我的车牌号是多少？",
+    "pos_asked": [
+      4096,
+      4096
+    ],
+    "same_position": true,
+    "same_question": true,
+    "block_sha_changed": true,
+    "block_sha_note": "the pair cannot share a block sha: the ablation IS a different text, hence a different encoded block",
+    "cells_loaded": [
+      91,
+      79
+    ],
+    "answers_plate": [
+      false,
+      false,
+      false
+    ],
+    "answer_field": "arms[*].answer_raw (the only place an arm answer is stored)",
+    "answers_side_by_side": [
+      {
+        "arm": "product_block_control",
+        "answer_raw": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号"
+      },
+      {
+        "arm": "reencoded_with_sentence",
+        "answer_raw": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号"
+      },
+      {
+        "arm": "ablated_without_sentence",
+        "answer_raw": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX。\n问：我的车牌号"
+      }
+    ],
+    "encoding_path_controlled": true
+  },
+  "judgement": {
+    "verdict": "inconclusive_control_failed",
+    "why": "the known-answer product block did not answer the plate, so neither arm is interpretable",
+    "direction_was_not_preselected": true
+  },
+  "finished_at": "2026-10-25T10:01:09",
+  "secs": 246.0
+}
