@@ -1,0 +1,175 @@
+# -*- coding: utf-8 -*-
+"""M3 -- Python-side pin table for memory blocks.
+
+Why this file exists
+--------------------
+The engine does NOT refuse `reset()` on a block sequence that the dialogue still references.
+Measured (run_m3_50.json, pin_test): the call returns normally with no exception and no error
+code; the block's own sequence goes 21 cells -> 0 while the dialogue keeps its 51 shared cells
+and still answers correctly. So the danger is not immediate corruption -- it is the SILENT loss
+of the block's handle: the next `share(block_seq, ...)` attaches nothing, the dialogue loses the
+memory, and the model answers from thin air (that is exactly how run 1 of this experiment
+produced 74 minutes of worthless data: every round attached 0 cells).
+
+The DLL is not patched on purpose: rebuilding it would change the measured sha 9edbafa1... and
+invalidate every baseline recorded tonight. The guard therefore lives here.
+
+Correct order (tools/chat.py does this): drop the dialogue reference FIRST, then reset the block
+sequence, then reload it from its pristine file. This module makes the wrong order fail loudly
+instead of silently.
+"""
+from __future__ import annotations
+
+import json
+import time
+
+
+class LeaseError(RuntimeError):
+    """Raised when something tries to reset a block sequence that is still referenced."""
+
+
+class BlockLeases:
+    """Tracks who references which block cells, and gates destructive resets.
+
+    Only `attach`/`detach` may touch block cells; `reset` refuses while any lease is live.
+
+    `strict`（默认 True，L2 起）**只影响是否 raise**：`detach` 未命中 `ranges` 时，记账
+    （`unbooked_count` + `unbooked_detach` 事件）在**两种模式都不关**，可观测性不受 strict 影响；
+    strict=False 只是把「拒绝 + 不 drop」降级为「留痕 + 照旧 drop」，用于兼容旧调用序列。
+    """
+
+    def __init__(self, eng, log=None, strict=True):
+        self.eng = eng
+        self.log = log
+        self.strict = bool(strict)             # L2: 未命中 detach 默认抛错（不是静默 pass）
+        self.blocks = {}                       # block_seq -> block_id
+        self.holders = {}                      # block_seq -> {dst_seq, ...}
+        self.ranges = {}                       # (dst_seq, lo, hi) -> block_seq
+        self.unbooked_count = 0                # L2: 未命中 detach 的累计次数（初值 0，不是 None）
+        self.events = []
+
+    # -- bookkeeping -------------------------------------------------------
+    def _note(self, kind, **kw):
+        self.events.append(dict(kind=kind, at=time.strftime("%H:%M:%S"), **kw))
+        if self.log is not None:
+            self.log.write("  [lease] %-8s %s\n" % (kind, json.dumps(kw, ensure_ascii=False)))
+
+    def register_block(self, block_seq, block_id):
+        self.blocks[int(block_seq)] = block_id
+        self.holders.setdefault(int(block_seq), set())
+        return self
+
+    def referrers(self, block_seq):
+        return sorted(self.holders.get(int(block_seq), ()))
+
+    def leased(self, block_seq):
+        return bool(self.holders.get(int(block_seq)))
+
+    # -- the two legal operations -----------------------------------------
+    def attach(self, block_seq, dst_seq, lo, hi):
+        block_seq, dst_seq = int(block_seq), int(dst_seq)
+        lo, hi = int(lo), int(hi)
+        if block_seq not in self.blocks:
+            raise LeaseError("seq %d is not a registered block; register it first" % block_seq)
+        if not self.cells_of(block_seq):
+            raise LeaseError(
+                "block %r (seq %d) is EMPTY, refusing to attach: this is the silent-loss "
+                "signature -- reload it from its file before sharing"
+                % (self.blocks[block_seq], block_seq))
+        # M2 完整 L1（位置租约重叠校验）：同一 dst_seq 上两块区间相交 ⇒ 后者静默覆盖前者的
+        # cells，而 `ranges` 只留后者键 ⇒ detach 前者时记账漂移。检查**必须在 eng.share
+        # 之前**：拒绝不得先做破坏动作（holders / ranges 都不许变）。
+        # 不同 dst_seq 的重叠合法（同一块挂多 seq 是 M2 并发形态）；同块同区间重放幂等。
+        if self.ranges.get((dst_seq, lo, hi)) == block_seq:
+            self._note("attach_replay", block=self.blocks[block_seq], block_seq=block_seq,
+                       dst_seq=dst_seq, lo=lo, hi=hi)
+            return
+        for (kdst, klo, khi), kseq in sorted(self.ranges.items()):
+            if kdst != dst_seq:
+                continue
+            if klo < hi and lo < khi:
+                raise LeaseError(
+                    "refusing attach(block %r seq %d) onto dst_seq %d at [%d,%d): it overlaps "
+                    "an existing lease of block %r (seq %d) at [%d,%d). Different dst_seq may "
+                    "overlap; same dst_seq must not (detach the old range first)."
+                    % (self.blocks[block_seq], block_seq, dst_seq, lo, hi,
+                       self.blocks.get(kseq, "?"), kseq, klo, khi))
+        self.eng.share(block_seq, dst_seq, lo, hi)
+        self.holders[block_seq].add(dst_seq)
+        self.ranges[(dst_seq, int(lo), int(hi))] = block_seq
+        self._note("attach", block=self.blocks[block_seq], block_seq=block_seq,
+                   dst_seq=dst_seq, lo=lo, hi=hi)
+
+    def detach(self, dst_seq, lo, hi):
+        dst_seq, lo, hi = int(dst_seq), int(lo), int(hi)
+        block_seq = self.ranges.get((dst_seq, lo, hi))
+        # M2 完整 L2（记账一致性）：`ranges` 未命中时旧代码仍然 `eng.drop` ⇒ 静默丢引用、
+        # 记账漂移查不出。未命中必须**先记账**（事件 + 计数），strict 下再抛错且**不 drop**；
+        # 非 strict 保留旧行为（照 drop）但同样留痕，绝不静默。
+        if block_seq is None:
+            self.unbooked_count += 1
+            self._note("unbooked_detach", dst_seq=dst_seq, lo=lo, hi=hi,
+                       strict=self.strict)
+            if self.strict:
+                raise LeaseError(
+                    "refusing detach(dst_seq %d, [%d,%d)): no such range is booked, so the "
+                    "engine call would drop cells this table does not track (silent drift). "
+                    "Check the detach/drop pair, or pass strict=False to log-and-drop."
+                    % (dst_seq, lo, hi))
+            self.eng.drop(dst_seq, lo, hi)
+            return None
+        self.ranges.pop((dst_seq, lo, hi), None)
+        self.eng.drop(dst_seq, lo, hi)
+        self.holders[block_seq].discard(dst_seq)
+        self._note("detach", block=self.blocks[block_seq], block_seq=block_seq,
+                   dst_seq=dst_seq, lo=lo, hi=hi)
+        if not self.holders[block_seq]:
+            self._note("released", block=self.blocks[block_seq], block_seq=block_seq)
+        return block_seq
+
+    # -- gated destruction -------------------------------------------------
+    def reset(self, seq, force=False):
+        seq = int(seq)
+        refs = self.referrers(seq) if seq in self.blocks else []
+        if refs and not force:
+            raise LeaseError(
+                "refusing reset(seq %d, block %r): still referenced by dialogue seq(s) %s. "
+                "Detach first (detach-before-save), then reset, then reload from file. "
+                "Pass force=True only if you accept losing the block handle."
+                % (seq, self.blocks[seq], refs))
+        if refs and force:
+            self._note("force_reset", block=self.blocks[seq], seq=seq, refs=refs)
+        self.eng.reset(seq)
+        if seq in self.blocks:
+            self._note("reset_block", block=self.blocks[seq], seq=seq, forced=bool(refs))
+        return True
+
+    def safe_reset_all(self, seqs, skip=()):
+        """What the probe's reset_all should have been: never touches block seqs.
+
+        The probe's helper is a bare loop over range(N_SEQ); on an attached engine that
+        silently wipes every block slot.
+        """
+        skip = set(int(s) for s in skip) | set(self.blocks)
+        done, skipped = [], []
+        for s in seqs:
+            if int(s) in skip:
+                skipped.append(int(s))
+                continue
+            self.eng.reset(int(s))
+            done.append(int(s))
+        self._note("safe_reset_all", done=done, skipped=skipped)
+        return {"reset": done, "skipped": skipped}
+
+    # -- introspection -----------------------------------------------------
+    def cells_of(self, seq):
+        """Own-token count of a sequence. A loaded block reports its cells; a reset one 0."""
+        try:
+            return int(self.eng.n_tokens(int(seq)))
+        except Exception:                                       # noqa: BLE001
+            return 1                                            # unknown: do not block on it
+
+    def status(self):
+        return {"blocks": {self.blocks[s]: {"seq": s, "referrers": sorted(self.holders[s])}
+                           for s in self.blocks},
+                "any_leased": any(self.holders[s] for s in self.blocks)}
