@@ -42,7 +42,13 @@ CMakeFiles/
 **/runs_*/*.bak
 **/runs_*/*.pyc
 **/runs_*/_*/
-_*/ 
+_*/
+# `_*/` above would also swallow docs/_work (dir name starts with `_`). 2026-10-25 P0 ruler fix:
+# release exactly docs/_work/** (work docs must stay trackable); everything else `_*` stays ignored.
+# Trailing space removed on the `_*/` line was cosmetic -- git already strips it; the match came
+# from the glob itself, so the exceptions are what actually release the path.
+!docs/_work/
+!docs/_work/**
 *.log
 *.bak
 *.before-final.bak
@@ -137,3 +143,17 @@ __pycache__/
 !kvmem/m2_visibility/m4/run_m4_ablate_plate_a5.json
 !kvmem/m2_visibility/m4/run_m4_ablate_plate_a6.json
 !kvmem/m2_visibility/m4/run_m4_ablate_plate_a7.json
+
+# ===== 备份快照规则（保留，但目前无对象）=====
+# 本仓库**不留备份快照**：85 份被合并 md 的备份已搬出仓库，在 D:\llama-mem-backup-2026-10-25\
+#   （仓库外、同盘符、保留相对路径；逐份字节见 docs/_work/CONSOLIDATION-LEDGER.md）。
+# 这里保留 .trash-*/ 规则，只为将来再出现同名中间目录（「先备份 → 再物理删除」的中间态）时
+#   它不会被误入库 —— 那时「唯一 README / 唯一进度文档」在受控语料里就不再成立。
+.trash-*/
+
+# ===== 旧报告归档区：永不入库 =====
+# 用户明确要求：旧文档一律不上传 GitHub。docs/_work/archive/ 存放被 superseded / void 的历史报告，
+# 只作本地留档与溯源，不进版本库。
+# 放置位置很关键：必须在本行之前的 `!docs/_work/` + `!docs/_work/**` 两条放行规则**之后**。
+# git 以最后一条匹配的规则为准；写在放行规则前面会被后面的 `!` 重新放行，等于没写。
+docs/_work/archive/

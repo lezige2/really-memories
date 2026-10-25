@@ -1,0 +1,15 @@
+# ===== 字节可复现（byte reproducibility）=====
+# 本仓库所有验收断言都锚在 sha256[:16] 上：
+#   - 唯一副本备份以 @<sha16> 命名（kvmem/m2_visibility/m4/_before/run_m5_grounded.json@d13df1e987ee509c）
+#   - 锚表见 docs/_work/ANCHORS-CURRENT.md
+# 实测证据（2026-10-25，git-keeper 核）：全部 27 个 @<sha16> 文件的"工作区字节 sha256[:16]"
+#   与文件名后缀 27/27 完全一致，0 例不符。即锚是对 **工作区字节（CRLF）** 算的。
+#
+# 问题：git 的默认文本归一化（core.autocrlf=true / text 属性）会在 add 时把 CRLF 改写成 LF 存进
+#   对象库，checkout 时再按平台改写回来。结果是 clone 得到的字节 != 算锚时的字节，锚全部失效。
+#   本机 core.autocrlf 现值 = true，已造成 106 个已跟踪文件"库内 LF / 工作区 CRLF"漂移。
+#
+# 决定：全局 -text，彻底禁用行尾转换。存什么字节，取出什么字节，Windows/Linux/macOS 一致。
+#   实测：autocrlf=true + `* -text` 时，CRLF 工作区文件 add 后 blob 仍为 CRLF（字节相同）；
+#   且 -text 不影响 git diff 的文本比对（仍逐行显示，不会退化为 binary）。
+* -text

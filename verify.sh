@@ -16,11 +16,48 @@ say() { printf '%-46s %s\n' "$1" "$2"; }
 ok()  { n=$((n+1)); say "$1" "PASS"; }
 bad() { n=$((n+1)); fail=$((fail+1)); say "$1" "**FAIL**"; }
 
-# ---------- 1. 引擎未改动 ----------
+# ---------- 1. 引擎补丁（关系断言：实时 == MANIFEST 声明 == 补丁快照；归档 500 另立基线） ----------
+# RULE 0（patches/MANIFEST.txt）：写死字面量是缺陷。所以不写 600 也不写 500：
+# 声明值取自 MANIFEST，实时值取自工作区，快照值取自补丁文件本身，归档值取自归档文件，
+# 四个数两两比较。500 版只作为历史基线单列，不参与“引擎未改动”的现行断言。
+MF=patches/MANIFEST.txt
+PATCH=patches/persistent-memory.patch
+ARCH=patches/archive/persistent-memory-500-20261025.patch
+read -r decl_ins decl_del <<EOF
+$(grep -E '^insertions:' "$MF" | sed -E 's/^insertions:[[:space:]]*([0-9]+)[[:space:]]+deletions:[[:space:]]*([0-9]+).*/\1 \2/')
+EOF
+read -r arch_ins arch_del <<EOF
+$(grep -E '^[[:space:]]*archive-insertions:' "$MF" | sed -E 's/^[[:space:]]*archive-insertions:[[:space:]]*([0-9]+)[[:space:]]+archive-deletions:[[:space:]]*([0-9]+).*/\1 \2/')
+EOF
 read -r ins del <<EOF
 $(git -C llama.cpp diff --numstat 2>/dev/null | awk '{i+=$1;d+=$2} END{print i+0" "d+0}')
 EOF
-if [ "$ins" = "500" ] && [ "$del" = "0" ]; then ok "引擎补丁 ins/del = 500/0"; else bad "引擎补丁 ins/del = $ins/$del（期望 500/0）"; fi
+read -r snap_ins snap_del <<EOF
+$(awk '/^\+/{if ($0 !~ /^\+\+\+/) i++} /^-/{if ($0 !~ /^---/) d++} END{print i+0" "d+0}' "$PATCH")
+EOF
+read -r archf_ins archf_del <<EOF
+$(awk '/^\+/{if ($0 !~ /^\+\+\+/) i++} /^-/{if ($0 !~ /^---/) d++} END{print i+0" "d+0}' "$ARCH")
+EOF
+if [ "$ins" = "$decl_ins" ] && [ "$del" = "$decl_del" ]; then
+  ok "引擎补丁 = $ins/$del（关系：实时 == MANIFEST 声明 $decl_ins/$decl_del）"
+else
+  bad "引擎补丁 = $ins/$del，MANIFEST 声明 $decl_ins/$decl_del（实时 != 声明）"
+fi
+if [ "$snap_ins" = "$ins" ] && [ "$snap_del" = "$del" ]; then
+  ok "补丁快照 = $snap_ins/$snap_del（关系：快照 == 工作区 diff）"
+else
+  bad "补丁快照 = $snap_ins/$snap_del，工作区 diff = $ins/$del（快照已过期）"
+fi
+if [ "$archf_ins" = "$arch_ins" ] && [ "$archf_del" = "$arch_del" ]; then
+  ok "归档基线 = $archf_ins/$archf_del（关系：归档 == MANIFEST 归档声明；仅历史基线）"
+else
+  bad "归档基线 = $archf_ins/$archf_del，MANIFEST 归档声明 $arch_ins/$arch_del"
+fi
+if [ "$archf_ins" != "$ins" ]; then
+  ok "归档基线 != 实时（$archf_ins != $ins；500 版确实不是现行补丁）"
+else
+  bad "归档基线 == 实时（归档没有区分出来，历史基线失效）"
+fi
 
 # ---------- 2. 当前产物的哈希（信息，不作断言） ----------
 echo "--- 当前驱动指纹（信息）"

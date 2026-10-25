@@ -24,18 +24,44 @@ BUILD BASELINES under the v3 rule (a change of rule invalidates cross-rule compa
 PATCH MANIFEST
 
 file: patches/persistent-memory.patch
-sha256: f41cbfbd285af61fe7977c54c3ced88457f70e8777dc7c5b422934c3ed5809d6
-bytes: 26577
-insertions: 500  deletions: 0
+sha256: db32faae83bec9fc1369d9f2484d8eda792338c54843ee346d90f8dbe47183dc
+bytes: 32337
+insertions: 600  deletions: 0
 base: llama.cpp work-tree HEAD
 note: llama.cpp 为嵌套 git 仓库，补丁以本文件形式纳入版本控制。
 
-20	0	include/llama.h
-17	0	src/llama-context.cpp
-391	0	src/llama-kv-cache.cpp
-13	0	src/llama-kv-cache.h
-31	0	src/llama-kv-cells.h
-28	0	src/llama-memory.h
+hunk inventory (derived, not written down as expected values -- see RULE 0 above):
+  12 hunks across the 6 files below; counts are computed from the patch text.
+  include/llama.h          +20   1 hunk   @@ -802,6 +802,26 @@ extern "C" {
+  src/llama-context.cpp    +17   2 hunks  @@ -492,6 +492,10 @@ llama_context::llama_context(
+                                           @@ -4467,6 +4471,19 @@ void llama_memory_seq_div(
+  src/llama-kv-cache.cpp   +491  4 hunks  @@ -8,6 +8,8 @@
+                                           @@ -589,6 +591,302 @@ void llama_kv_cache::seq_keep(
+                                           @@ -1599,6 +1897,35 @@ static void set_input_kq_mask_impl(
+                                           @@ -1718,8 +2045,172 @@ static void set_input_kq_mask_impl(
+  src/llama-kv-cache.h     +13   2 hunks  @@ -141,6 +141,16 @@ public:
+                                           @@ -254,6 +264,9 @@ private:
+  src/llama-kv-cells.h     +31   1 hunk   @@ -471,6 +471,37 @@ public:
+  src/llama-memory.h       +28   2 hunks  @@ -9,6 +9,9 @@
+                                           @@ -114,6 +117,31 @@ struct llama_memory_i {
+  (= 600 insertions / 0 deletions; the six files above are the whole patch)
+
+archive baseline (historical only -- NOT an assertion about the live engine):
+  file: patches/archive/persistent-memory-500-20261025.patch
+  sha256: f41cbfbd285af61fe7977c54c3ced88457f70e8777dc7c5b422934c3ed5809d6
+  bytes: 26577
+  archive-insertions: 500  archive-deletions: 0
+  100-line drift = src/llama-kv-cache.cpp +391 (3 hunks) archived vs +491 (4 hunks) live.
+  Attribution (the sources are known; only freeze-period authorization is a process question,
+  not a provenance question):
+    [MASKBIAS] mask-bias setup + row bump: tools/t031_patch_maskbias.py (ins1 +27, ins2 +20,
+      i.e. ~49 lines with the separator blanks), and the per-call summary print (ins3 +7)
+    [MASKDBG-WIN] windows mask trace: kvmem/m2_7b/evidence/t030/p_win.py (win_add.txt, 44 lines)
+    49 + 44 + 7 = 100. Verified 2026-10-25: live patch db32faae/32,337 B/600 ins, archive
+    f41cbfbd/26,577 B/500 ins, and `git -C llama.cpp diff --numstat` = 600/0.
+  verify.sh no longer hardcodes either number: it reads `insertions:`/`deletions:` and the
+  `archive-insertions:`/`archive-deletions:` fields above, then checks the relations
+  live == declared, snapshot == live, archive == archive-declared, archive != live.
 BUILD REPRODUCIBILITY (T-030 step 0, verified 2026-10-24)
 
 target: tools/kvshim_vk.dll   size 49,952,768 bytes
@@ -85,17 +111,24 @@ second stamp) and hash to 168f8e9c4f2fb360 once cleared, so the build is determi
 The shipped 849e7281c74a5288 baseline stays on record; it is NOT expected to match after a
 source change -- behaviour (answer sha 7ec1430d..., ABLDBG counts) is the judge.
 
---- 2026-10-25 · 补丁归档出现 100 行漂移（未判定归属，先记不先修） ---
+--- 2026-10-25 · 补丁归档 100 行漂移：归属已判，验证改为关系断言 ---
 实测（两项各自独立算，不是抄的）:
   patches/archive/persistent-memory-500-20261025.patch   +500 / -0   6 文件   <- 41068fc 时的归档
   llama.cpp 工作区 git diff --numstat 合计                +600 / -0   6 文件   <- 今天实测
   逐文件比对，只有一处不同:
-    src/llama-kv-cache.cpp   归档 +391   实时 +491   差 +100
+    src/llama-kv-cache.cpp   归档 +391（3 hunk）   实时 +491（4 hunk）   差 +100
     其余 5 个文件 +20/+17/+13/+31/+28 完全一致
-所以: 有 100 行引擎代码只存在于工作区，不在任何归档里 —— 一旦该目录丢失就没了。
+归属判定（2026-10-25 补判；这不是“来源未知”，来源可判）:
+  +100 = [MASKBIAS] mask-bias 块（tools/t031_patch_maskbias.py：ins1 +27、ins2 +20，含分隔空行约 49）
+       + [MASKDBG-WIN] windows mask trace（kvmem/m2_7b/evidence/t030/p_win.py：win_add.txt 44 行）
+       + 每次调用汇总打印（同 t031 的 ins3 +7）
+  ⇒ 49 + 44 + 7 = 100。
+  仍未判定的是“冻结期授权”这一程序问题，不是来源问题：那 100 行由哪次改动加的已知（上述两脚本），
+  但“是否在冻结期内被授权”“今晚所有锚是否由含这 100 行的引擎产出”须由流程回答，写进复核清单，不靠猜。
 处置（本次）:
-  patches/persistent-memory.patch 已换成实时快照（+600），旧的 +500 移到 patches/archive/，两份都在，没有覆盖。
-verif.sh 里的 500 断言【保持为红】，不改绿:
-  那 100 行由哪次改动加的、是否在冻结期内授权、今晚所有锚是不是由含这 100 行的引擎产出的 —— 三项都未判定。
-  在判定前把断言改成 600 等于用现状去改判据。按本文件 RULE 0，写死的 500 本身就是缺陷（字面量，不是关系），
-  但把缺陷修成另一个字面量不是修法；正确的修法是比较关系（实时 == 归档），那是另一件要单独做的事。
+  patches/persistent-memory.patch 已换成实时快照（+600）；旧的 +500 移入 patches/archive/，两份都在，没有覆盖。
+  verify.sh 不再写死 500 也不写死 600，改为关系断言（RULE 0：字面量是缺陷）:
+    live  = git -C llama.cpp diff --numstat 合计
+    decl  = 本文件 `insertions:`/`deletions:`
+    断言 live == decl；补丁快照计数 == live；归档计数 == 本文件 archive-insertions/deletions；
+    归档 != live（证明 500 版确实不是现行补丁——只作历史基线单列，不参与“引擎未改动”的现行断言）。
