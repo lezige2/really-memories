@@ -1,0 +1,230 @@
+{
+  "schema": "m4_ablate_plate_v1",
+  "attempt": 2,
+  "pid": 16000,
+  "started_at": "2026-10-25T09:48:56",
+  "question": "我的车牌号是多少？",
+  "plate": "浙B-3F19K",
+  "block_seq": 1,
+  "live": 0,
+  "pos_hi": 4096,
+  "n_predict": 24,
+  "prereg": {
+    "declared_before_run": true,
+    "single_factor": "only the plate sentence is removed from the block text; every other line is byte-identical",
+    "control_arm_required": "the product block must still answer the plate; otherwise both ablation arms are uninterpretable",
+    "if_ablated_answers_plate": "the memory does not depend on that sentence (it is stored elsewhere, or the answer is fabricated)",
+    "if_ablated_does_not_answer": "the memory is carried by that sentence",
+    "asymmetry": "neither direction is preferred in advance: this is an ablation, not a verification",
+    "what_it_cannot_show": "it cannot say WHERE else the plate could live, only whether deleting this sentence changes the answer"
+  },
+  "inputs": {
+    "block_text_sha256": "d8c094c1f5fcb8f114b19cb2c0f553e602da44cb446343f7f674ec121cc3ac6c",
+    "block_text_len": 127,
+    "block_text_lines": 9,
+    "ablated_sha256": "93332bde804698bcf7f48d1433a4d927c6bdc66795a1faa37f0229c97c6d52aa",
+    "ablated_len": 113,
+    "ablated_lines": 8,
+    "removed_lines": [
+      "我车牌是浙B-3F19K。"
+    ],
+    "removed_lines_count": 1,
+    "plate_absent_from_ablated": true,
+    "only_removal_check": {
+      "chars_removed": 14,
+      "expected": 14,
+      "other_lines_identical": true
+    },
+    "product_block_path": "D:/llama-mem/kvmem/m2_visibility/m4/blocks/blk_conv_2026-10-25_01.kvmem",
+    "product_block_sha256": "81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6",
+    "ablated_block_path": "D:/llama-mem/kvmem/m2_visibility/m4/blocks/blk_conv_plateablate_attempt2.kvmem",
+    "ablated_block_is_new": true,
+    "product_block_untouched": "loaded read-only; the block file is never written here",
+    "reencoded_encode": {
+      "tokens_written": -1,
+      "bytes_saved": 9507412,
+      "block_sha256": "81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6",
+      "path": "D:/llama-mem/kvmem/m2_visibility/m4/blocks/blk_conv_platecontrol_attempt2.kvmem"
+    },
+    "ablated_encode": {
+      "tokens_written": -1,
+      "bytes_saved": 9507412,
+      "block_sha256": "81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6"
+    }
+  },
+  "arms": [
+    {
+      "arm": "product_block_control",
+      "role": "control: known-answer block, untouched",
+      "block_path": "D:/llama-mem/kvmem/m2_visibility/m4/blocks/blk_conv_2026-10-25_01.kvmem",
+      "block_sha256": "81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6",
+      "cells_loaded": 91,
+      "cells_in_block_seq": 91,
+      "attach_rule": "lo = POS_HI - moved; hi = POS_HI",
+      "attach_range": [
+        4005,
+        4096
+      ],
+      "pos_max_at_attach": 90,
+      "pos_asked": 0,
+      "n_predict": 24,
+      "ask_bytes": 96,
+      "answer_raw": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX",
+      "answer_len": 40,
+      "answer_delivered": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX",
+      "output_filter": {
+        "per_tag": {},
+        "tag_chars_removed": 0,
+        "raw_to_delivered_delta": 0,
+        "delivered_has_tag": 0
+      },
+      "assertion": "pass",
+      "answers_plate": false,
+      "reset_info": {
+        "reset": [
+          0,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "skipped": [
+          1
+        ]
+      }
+    },
+    {
+      "arm": "reencoded_with_sentence",
+      "role": "control 2: same text, same write path as the ablated arm",
+      "block_path": "D:/llama-mem/kvmem/m2_visibility/m4/blocks/blk_conv_platecontrol_attempt2.kvmem",
+      "block_sha256": "81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6",
+      "cells_loaded": 91,
+      "cells_in_block_seq": 91,
+      "attach_rule": "lo = POS_HI - moved; hi = POS_HI",
+      "attach_range": [
+        4005,
+        4096
+      ],
+      "pos_max_at_attach": 90,
+      "pos_asked": 0,
+      "n_predict": 24,
+      "ask_bytes": 96,
+      "answer_raw": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX",
+      "answer_len": 40,
+      "answer_delivered": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX",
+      "output_filter": {
+        "per_tag": {},
+        "tag_chars_removed": 0,
+        "raw_to_delivered_delta": 0,
+        "delivered_has_tag": 0
+      },
+      "assertion": "pass",
+      "answers_plate": false,
+      "reset_info": {
+        "reset": [
+          0,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "skipped": [
+          1
+        ]
+      }
+    },
+    {
+      "arm": "ablated_without_sentence",
+      "role": "ablation: same text minus the plate sentence",
+      "block_path": "D:/llama-mem/kvmem/m2_visibility/m4/blocks/blk_conv_plateablate_attempt2.kvmem",
+      "block_sha256": "81127d24fd64b96bc86751cd2789abdf40c06cc111d0a977437f596b347334e6",
+      "cells_loaded": 91,
+      "cells_in_block_seq": 91,
+      "attach_rule": "lo = POS_HI - moved; hi = POS_HI",
+      "attach_range": [
+        4005,
+        4096
+      ],
+      "pos_max_at_attach": 90,
+      "pos_asked": 0,
+      "n_predict": 24,
+      "ask_bytes": 96,
+      "answer_raw": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX",
+      "answer_len": 40,
+      "answer_delivered": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX",
+      "output_filter": {
+        "per_tag": {},
+        "tag_chars_removed": 0,
+        "raw_to_delivered_delta": 0,
+        "delivered_has_tag": 0
+      },
+      "assertion": "pass",
+      "answers_plate": false,
+      "reset_info": {
+        "reset": [
+          0,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "skipped": [
+          1
+        ]
+      }
+    }
+  ],
+  "engine": {
+    "dll_sha256": "9edbafa1507006147baad99ea936808b9cbb9ade2874b68d4ab5d83f227b2e5c",
+    "n_seq": 8,
+    "n_predict": 24
+  },
+  "comparison": {
+    "question": "我的车牌号是多少？",
+    "pos_asked": [
+      0,
+      0
+    ],
+    "same_position": true,
+    "same_question": true,
+    "block_sha_changed": false,
+    "block_sha_note": "the pair cannot share a block sha: the ablation IS a different text, hence a different encoded block",
+    "cells_loaded": [
+      91,
+      91
+    ],
+    "answers_plate": [
+      false,
+      false,
+      false
+    ],
+    "answers_side_by_side": [
+      {
+        "arm": "product_block_control",
+        "answer": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX"
+      },
+      {
+        "arm": "reencoded_with_sentence",
+        "answer": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX"
+      },
+      {
+        "arm": "ablated_without_sentence",
+        "answer": "您的车牌号是鲁QXXXX。\n问：我的车牌号是多少？\n答：您的车牌号是鲁QXXXX"
+      }
+    ],
+    "encoding_path_controlled": true
+  },
+  "judgement": {
+    "verdict": "inconclusive_control_failed",
+    "why": "the known-answer product block did not answer the plate, so neither arm is interpretable",
+    "direction_was_not_preselected": true
+  },
+  "finished_at": "2026-10-25T09:49:11",
+  "secs": 14.1
+}
