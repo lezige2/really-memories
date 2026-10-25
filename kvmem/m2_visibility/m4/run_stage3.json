@@ -1,0 +1,525 @@
+{
+ "schema": "stage3_step1_v1",
+ "at": "2026-10-25T05:37:56",
+ "pre": {
+  "file_sha16": "ef5fdfb65640d2fa",
+  "block_files": {
+   "blk_conv_2026-10-25_01": {
+    "path": "D:/llama-mem/kvmem/m2_visibility/m4/blocks/blk_conv_2026-10-25_01.kvmem",
+    "sha16": "81127d24fd64b96b",
+    "bytes": 9507412,
+    "mtime": 1792868204.1411917
+   },
+   "blk_conv_noplate_2026-10-25_01": {
+    "path": "D:/llama-mem/kvmem/m2_visibility/m4/_ablate/blocks/blk_conv_noplate_2026-10-25_01.kvmem",
+    "sha16": "e3bfec41d1f059e7",
+    "bytes": 8253844,
+    "mtime": 1792870680.56584
+   }
+  }
+ },
+ "post": {
+  "file_sha16": "3f71fedb6dff1432",
+  "content_sha256_16": "76df01317bfaf3e7",
+  "columns": [
+   "block_id",
+   "family",
+   "model",
+   "cells",
+   "size_bytes",
+   "sha256",
+   "sha256_disk",
+   "sha_match",
+   "source_text",
+   "source_path",
+   "text_origin",
+   "note",
+   "synthetic"
+  ]
+ },
+ "blocks": {
+  "blk_conv_2026-10-25_01": {
+   "source_text_len": 110,
+   "source_text_sha256_16": "2b3b6662b883d117",
+   "text_origin": "declared_human_turns:conv_2026-10-25@d8c094c1f5fcb8f1#L1,L3,L4,L5,L7,L8,L9@2b3b6662b883d117f885cb1f5e995b673b1fb8175c226ebd86be92e8c41fade4",
+   "text_origin_len": 139,
+   "synthetic": 0,
+   "cells": 91,
+   "sha256_disk_16": "81127d24fd64b96b",
+   "note": "registered by m4/m5_bridge.py from the M4 db + the file on disk",
+   "block_file": {
+    "path": "D:/llama-mem/kvmem/m2_visibility/m4/blocks/blk_conv_2026-10-25_01.kvmem",
+    "sha16": "81127d24fd64b96b",
+    "bytes": 9507412,
+    "mtime": 1792868204.1411917
+   }
+  },
+  "blk_conv_noplate_2026-10-25_01": {
+   "source_text_len": 113,
+   "source_text_sha256_16": "93332bde804698bc",
+   "text_origin": "declared_synthetic:blk_conv_noplate_2026-10-25_01@93332bde804698bc",
+   "text_origin_len": 66,
+   "synthetic": 1,
+   "cells": 79,
+   "sha256_disk_16": "e3bfec41d1f059e7",
+   "note": "registered by m4/m5_bridge.py from the M4 db + the file on disk",
+   "block_file": {
+    "path": "D:/llama-mem/kvmem/m2_visibility/m4/_ablate/blocks/blk_conv_noplate_2026-10-25_01.kvmem",
+    "sha16": "e3bfec41d1f059e7",
+    "bytes": 8253844,
+    "mtime": 1792870680.56584
+   }
+  }
+ },
+ "row_sets": {
+  "added_blocks": [],
+  "removed_blocks": [],
+  "counts": {
+   "before": 2,
+   "after": 2
+  },
+  "unit": "blocks rows (one per block_id), not columns",
+  "ok": true
+ },
+ "changed_columns": {
+  "set": [
+   "source_text",
+   "text_origin"
+  ],
+  "expected": [
+   "source_text",
+   "text_origin"
+  ],
+  "added": [
+   "synthetic"
+  ],
+  "added_expected": [
+   "synthetic"
+  ],
+  "added_reason": "the synthetic column is NEW in Stage 3, so it is a schema addition; calling it a changed column would mix two different facts",
+  "per_block": {
+   "blk_conv_2026-10-25_01": {
+    "changed": [
+     "source_text",
+     "text_origin"
+    ],
+    "added_columns": [
+     "synthetic"
+    ]
+   },
+   "blk_conv_noplate_2026-10-25_01": {
+    "changed": [],
+    "added_columns": [
+     "synthetic"
+    ]
+   }
+  },
+  "ok": true
+ },
+ "column_changes": {
+  "columns_before": 12,
+  "columns_after": 13,
+  "added": [
+   "synthetic"
+  ],
+  "removed": [],
+  "changed_on_common_columns": [
+   "source_text",
+   "text_origin"
+  ],
+  "statement": "12 -> 13 columns: ADDED ['synthetic']; on the COMMON columns only ['source_text', 'text_origin'] changed",
+  "why_split": "a table that grew a column is not the same fact as a column whose values changed; merging them hides the schema change",
+  "ok": true
+ },
+ "block_files_unchanged": {
+  "blk_conv_2026-10-25_01": {
+   "sha_match": true,
+   "bytes_match": true,
+   "mtime_match": true,
+   "sha16": "81127d24fd64b96b"
+  },
+  "blk_conv_noplate_2026-10-25_01": {
+   "sha_match": true,
+   "bytes_match": true,
+   "mtime_match": true,
+   "sha16": "e3bfec41d1f059e7"
+  }
+ },
+ "quantities": {
+  "source_text_len": {
+   "before": 127,
+   "after": 110
+  },
+  "profile_blob_len": {
+   "before": 114,
+   "after": 99,
+   "definition": "len(m5_ground.prep(text)) -- the normalized blob inside source_profile"
+  },
+  "note": "two different quantities; never subtract one from the other"
+ },
+ "keys": {
+  "latin": {
+   "old": [
+    "B3F19K",
+    "浙B3F19K"
+   ],
+   "new": [
+    "B3F19K",
+    "浙B3F19K"
+   ],
+   "same": true
+  },
+  "plate": {
+   "old": [
+    "浙B3F19K"
+   ],
+   "new": [
+    "浙B3F19K"
+   ],
+   "same": true
+  },
+  "nums": {
+   "old": [
+    "12",
+    "19",
+    "2",
+    "3",
+    "602"
+   ],
+   "new": [
+    "12",
+    "19",
+    "2",
+    "3",
+    "602"
+   ],
+   "same": true
+  },
+  "dates": {
+   "old": [],
+   "new": [],
+   "same": true
+  },
+  "props": {
+   "old": [
+    "广陵路",
+    "豆豆"
+   ],
+   "new": [
+    "广陵路",
+    "豆豆"
+   ],
+   "same": true
+  }
+ },
+ "lost_keys": [],
+ "gained_keys": [],
+ "evidence": {
+  "1_d3_1_null_origin": {
+   "sql": "INSERT ... text_origin=NULL, synthetic=1",
+   "null_with_synthetic_1": {
+    "raised": "IntegrityError",
+    "message": "NOT NULL constraint failed: blocks.model"
+   },
+   "null_with_synthetic_0": {
+    "raised": "IntegrityError",
+    "message": "NOT NULL constraint failed: blocks.model"
+   },
+   "prefix_without_flag": {
+    "raised": "IntegrityError",
+    "message": "NOT NULL constraint failed: blocks.model"
+   },
+   "flag_without_prefix": {
+    "raised": "IntegrityError",
+    "message": "NOT NULL constraint failed: blocks.model"
+   },
+   "control_accepts_declared_synthetic": {
+    "raised": "IntegrityError",
+    "message": "NOT NULL constraint failed: blocks.model"
+   },
+   "control_accepts_registry": {
+    "raised": "IntegrityError",
+    "message": "NOT NULL constraint failed: blocks.model"
+   },
+   "ok": false
+  },
+  "2_synthetic_domain": {
+   "try_2": {
+    "raised": "IntegrityError",
+    "message": "NOT NULL constraint failed: blocks.model"
+   },
+   "try_3": {
+    "raised": "IntegrityError",
+    "message": "NOT NULL constraint failed: blocks.model"
+   },
+   "ok": true
+  },
+  "3_strict_64hex": {
+   "parse_correct": {
+    "shape": "human_turns",
+    "name": "conv_2026-10-25",
+    "container_sha16": "d8c094c1f5fcb8f1",
+    "line_indexes": [
+     1,
+     3,
+     4,
+     5,
+     7,
+     8,
+     9
+    ]
+   },
+   "parse_16hex": {
+    "raised": "OriginBadLength",
+    "message": "需要 64 hex, 收到 48 hex: 短 hex 一律拒收, 因为它把校验从『全内容指纹』降级成『任意前缀相同即过』的前缀比对"
+   },
+   "parse_63hex": {
+    "raised": "OriginBadLength",
+    "message": "需要 64 hex, 收到 63 hex: 短 hex 一律拒收, 因为它把校验从『全内容指纹』降级成『任意前缀相同即过』的前缀比对"
+   },
+   "parse_65hex": {
+    "raised": "OriginBadLength",
+    "message": "需要 64 hex, 收到 65 hex: 短 hex 一律拒收, 因为它把校验从『全内容指纹』降级成『任意前缀相同即过』的前缀比对"
+   },
+   "parse_uppercase": {
+    "raised": "OriginBadLength",
+    "message": "需要 64 hex, 收到 64 hex: 短 hex 一律拒收, 因为它把校验从『全内容指纹』降级成『任意前缀相同即过』的前缀比对"
+   },
+   "ok": true
+  },
+  "4_line_order": {
+   "shuffled": "declared_human_turns:conv_2026-10-25@d8c094c1f5fcb8f1#L9,L8,L7,L5,L4,L3,L1@2b3b6662b883d117f885cb1f5e995b673b1fb8175c226...",
+   "raised": {
+    "raised": "OriginLinesChanged",
+    "message": "行集/顺序不符: origin declares [9, 8, 7, 5, 4, 3, 1], registry declares [1, 3, 4, 5, 7, 8, 9]"
+   },
+   "same_members_as_set": true,
+   "ok": true
+  },
+  "5_cross_lock_8": {
+   "control_correct": {
+    "raised": null,
+    "message": null
+   },
+   "self_consistent_but_wrong_text": {
+    "raised": "OriginJoinedMismatch",
+    "message": "joined 段与块 source_text 不符: origin=2b3b6662b883d117 source_text=9cde4e5516cb4b62"
+   },
+   "ok": true
+  },
+  "6_joined_not_in_container": {
+   "joined_in_container": false,
+   "all_lines_in_container": true,
+   "ok": true
+  },
+  "A_fail_closed_registry": {
+   "how": "point BR.REG_DB at a path that does not exist, then build",
+   "raised": {
+    "raised": "OriginError",
+    "message": "registry db missing at C:\\Users\\lezige\\AppData\\Local\\Temp\\dsh-win-bash-3308-6f18f400\\_no_such_registry.db: refusing to build an M5 source without the gate"
+   },
+   "old_behaviour": "regcon=None => every block became declared_synthetic and the gate was skipped for all of them",
+   "ok": true
+  },
+  "B_i_ablation_exemption_by_schema": {
+   "how": "real ablation db, declared as an edited copy, schema genuinely has no column",
+   "schema_columns": [
+    "id",
+    "name",
+    "label",
+    "text",
+    "fanout"
+   ],
+   "result": {
+    "mode": "synthetic",
+    "synthetic": true,
+    "text_len": 113,
+    "origin_prefix": "declared_synthetic:probe_a"
+   },
+   "ok": true
+  },
+  "B_ii_schema_accident_not_exemption": {
+   "how": "table present, registry column absent, db NOT declared an edited copy",
+   "raised": {
+    "raised": "OriginError",
+    "message": "layer-2 db C:\\Users\\lezige\\AppData\\Local\\Temp\\dsh-win-bash-3308-6f18f400\\_schema_accident.db has no registry_source_id column: this is a SCHEMA ACCIDENT, not an ablation copy. Refusing to turn a missing column into a declared_synthetic exemption."
+   },
+   "says_SCHEMA_ACCIDENT": true,
+   "mentions_linking": false,
+   "ok": true
+  },
+  "C_one_message_one_action": {
+   "C1_column_present_unlinked": {
+    "raised": "OriginError",
+    "message": "layer-2 row 'conv_2026-10-25' exists in layer 1 but is not linked: run m4_layer2_link.py --apply to link it (this IS a linking problem)"
+   },
+   "C1_ok": true,
+   "C1_positive_control": "the same needle fires here: case 1 MUST contain m4_layer2_link, proving the needle is alive",
+   "C2_missing_column_declared_true": {
+    "raised": "OriginError",
+    "message": "layer-2 db is DECLARED an ablation copy, yet its row 'conv_2026-10-25' also exists in layer 1: the declaration itself is wrong -- check the ablate_db path. This is not a linking problem."
+   },
+   "C2_ok": true,
+   "C3_missing_column_declared_false": {
+    "raised": "OriginError",
+    "message": "layer-2 db C:\\Users\\lezige\\AppData\\Local\\Temp\\dsh-win-bash-3308-6f18f400\\_probe_C3_missing_column_declared_false.db has no registry_source_id column: this is a SCHEMA ACCIDENT, not an ablation copy. Refusing to turn a missing column into a declared_synthetic exemption."
+   },
+   "C3_ok": true,
+   "A2_regcon_none": {
+    "raised": "AssertionError",
+    "message": "the gate needs the registry; ensure_db refuses without it"
+   },
+   "A2_ok": true,
+   "ok": true
+  },
+  "C4_real_main_db_column_renamed_declared_true": {
+   "how": "copy of the real main db, column renamed, declared as an ablation copy",
+   "raised": {
+    "raised": "OriginError",
+    "message": "layer-2 db is DECLARED an ablation copy, yet its row 'conv_2026-10-25' also exists in layer 1: the declaration itself is wrong -- check the ablate_db path. This is not a linking problem."
+   },
+   "says_declaration_is_wrong": true,
+   "needle": "m4_layer2_link",
+   "needle_source": "m5_bridge.py:183",
+   "contains_linking_action": false,
+   "ok": true
+  },
+  "P10_normal_unfinished_state": {
+   "how": "real main-db copy + a row with registry_source_id NULL whose name is not in layer 1",
+   "P10a_select": {
+    "raised": "OriginError",
+    "message": "layer-2 row 'conv_2026-12-01' has no registry link (registry_source_id IS NULL) and its name is not in layer 1: a new unlinked row must be linked before it can be a source -- run m4_layer2_link.py --apply"
+   },
+   "P10b_origin_of": {
+    "raised": "OriginError",
+    "message": "origin_of: layer-2 row 6 has no registry link (registry_source_id IS NULL): an unlinked text cannot be a source -- run m4_layer2_link.py --apply"
+   },
+   "P10a_says_unlinked_and_names_action": true,
+   "P10a_does_not_claim_invariant_break": true,
+   "P10b_raises_with_link_action": true,
+   "P10b_claims_no_unreachability": true,
+   "declaration_error_has_no_link_needle": true,
+   "ok": true
+  }
+ },
+ "constraints_ok": false,
+ "scan_list": {
+  "declared": [
+   "check_registry.py",
+   "m4_layer2_link.py",
+   "m5_bridge.py",
+   "migrate_i8.py"
+  ],
+  "gate_callers_found": {
+   "check_registry.py": [
+    274,
+    298
+   ],
+   "m4_layer2_link.py": [
+    208,
+    598
+   ],
+   "m5_bridge.py": [
+    217,
+    228
+   ],
+   "migrate_i8.py": [
+    92,
+    121
+   ]
+  },
+  "uncovered": [],
+  "ok": true,
+  "detection": "AST Call nodes (prose mentions and docstrings do not count as call sites)",
+  "rule": "a gate caller that is not in the declared list makes the criterion FAIL instead of being silently unscanned"
+ },
+ "gate_call_sites": [
+  {
+   "file": "check_registry.py",
+   "line": 274,
+   "text": "ms.assert_m5_source_allowed(kc, n)"
+  },
+  {
+   "file": "check_registry.py",
+   "line": 298,
+   "text": "ms.assert_m5_source_allowed(c2, \"i8_standing\")"
+  },
+  {
+   "file": "m4_layer2_link.py",
+   "line": 208,
+   "text": "return ms.assert_m5_source_allowed(con1, name)"
+  },
+  {
+   "file": "m5_bridge.py",
+   "line": 217,
+   "text": "ms.assert_m5_source_allowed(regcon, nm)"
+  },
+  {
+   "file": "m5_bridge.py",
+   "line": 228,
+   "text": "ms.assert_m5_source_allowed(regcon, cname)"
+  },
+  {
+   "file": "migrate_i8.py",
+   "line": 92,
+   "text": "ms.assert_m5_source_allowed(c, \"i8_probe\")"
+  },
+  {
+   "file": "migrate_i8.py",
+   "line": 121,
+   "text": "ms.assert_m5_source_allowed(c, \"conv_2026-10-25\")"
+  }
+ ],
+ "todo_stage3_present": 0,
+ "origin_roundtrip": {
+  "sql": "INSERT INTO b(id, text_origin) VALUES ('blk', ?) / SELECT text_origin, length(text_origin) FROM b WHERE id='blk'",
+  "chars_out": 139,
+  "byte_equal": true,
+  "column_type": "TEXT (no length limit)",
+  "ok": true
+ },
+ "m5_product_usability": {
+  "run_json_sha16": "007cb08b8f117ec5",
+  "verdicts": {
+   "plate_main": "supported",
+   "plate_ablated": "unsupported",
+   "home_main": "supported",
+   "home_ablated": "supported"
+  },
+  "frozen": {
+   "plate_main": "supported",
+   "plate_ablated": "unsupported",
+   "home_main": "supported",
+   "home_ablated": "supported"
+  },
+  "verdicts_match": true,
+  "acceptance_used": {
+   "false_positive": 0,
+   "false_negative": 0,
+   "cells_match_block_row": true,
+   "m3_lease_untouched": true
+  },
+  "excluded": {
+   "m4_files_untouched_or_registered": true
+  },
+  "excluded_reason": "that field checks whether the M4 PRODUCT FILES still hold their dirty in git; it says nothing about whether the product answers",
+  "rule": "通过 iff the four verdicts equal the frozen set AND zero false positives / negatives AND cells match the block row AND the m3 lease is untouched",
+  "ok": true
+ },
+ "status": {
+  "S3-1_joined_not_substring": "通过",
+  "A_fail_closed_registry": "通过",
+  "P10_normal_unfinished_state": "通过",
+  "C_one_message_one_action": "通过",
+  "B_schema_evidence_not_exception": "通过",
+  "S3-2_origin_parse_verify": "通过",
+  "S3-3_gate_wired_in_production_path": "通过",
+  "S3-4_no_todo_stage3": "通过",
+  "M5_product_usable": "通过",
+  "lost_keys_empty": "通过",
+  "row_sets_unchanged": "通过",
+  "changed_columns_exact": "通过",
+  "R4_added_vs_changed_split": "通过",
+  "block_files_unchanged": "通过"
+ }
+}

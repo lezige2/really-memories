@@ -1,0 +1,57 @@
+{
+ "schema": "m3_redB_v1",
+ "pid": 6628,
+ "prereg": {
+  "path": "kvmem/m2_visibility/mine/inspector/M3-PREREG.md",
+  "sha16": "3e4f465b67eebd3c",
+  "lines": 259,
+  "newline": "LF"
+ },
+ "aim": "show that a block-inclusive global reset makes the round-start reading 0 cells, so I3 fires as an INVALID ROUND (not as 未通过)",
+ "path": [
+  {
+   "step": "baseline round start",
+   "block_cells": 91,
+   "i3_fires": false
+  },
+  {
+   "step": "after block-inclusive global reset",
+   "block_cells": 91,
+   "i3_fires": false
+  },
+  {
+   "step": "after raw reset of the block sequence",
+   "block_cells": 0,
+   "i3_fires": true
+  }
+ ],
+ "verdict": "RED-B PASS -- the round is an INVALID ROUND (I3), not 未通过",
+ "setup": {
+  "loaded_cells": 91,
+  "pos_lo": 4005,
+  "pos_hi": 4096,
+  "pos_max": 4095
+ },
+ "safe_reset_all_return": {
+  "reset": [
+   0,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "skipped": [
+   1
+  ]
+ },
+ "safe_reset_all_raised": null,
+ "i3_reading": {
+  "block_cells": 0,
+  "expected": 91,
+  "i3_fires": true,
+  "reason": "I3 block cells at round start = 0 != 91"
+ },
+ "secs": 4.9
+}

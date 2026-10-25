@@ -106,3 +106,20 @@ kvmem/m2_visibility/**/logs/
 # 编译缓存不是证据
 __pycache__/
 *.pyc
+
+# ===== 证据产物放行（锚必须可复算）=====
+# 上面的 *.json 是全局排除，导致 run 产物进不了仓库；而所有验收结论都锚在它们的 sha256 上。
+# 只放行被验收文档点名为锚的这几个文件，不做目录级放行。
+!kvmem/m2_visibility/m3/run_m3_lifecycle_50_v4.json
+!kvmem/m2_visibility/m3/run_m3_criterion_declarations.json
+!kvmem/m2_visibility/m3/run_m3_unit_falsifiers.json
+!kvmem/m2_visibility/m3/run_m3_redA.json
+!kvmem/m2_visibility/m3/run_m3_redB.json
+!kvmem/m2_visibility/m3/run_m3_lifecycle_3rounds.json
+!kvmem/m2_visibility/m4/run_m4_write.json
+!kvmem/m2_visibility/m4/run_m4_verify.json
+!kvmem/m2_visibility/m4/evidence_think_tag.json
+!kvmem/m2_visibility/m4/run_stage3.json
+!kvmem/m2_visibility/m4/PREREG-STAGE3-11ROWS.json
+!kvmem/m2_visibility/m4/run_m5_grounded.json
+!kvmem/m2_visibility/m4/run_m5_fix_compare.json

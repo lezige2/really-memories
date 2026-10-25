@@ -1,0 +1,382 @@
+{
+ "schema": "m3_unit_falsifiers_v1",
+ "pid": 15264,
+ "prereg": {
+  "path": "kvmem/m2_visibility/mine/inspector/M3-PREREG.md",
+  "sha16": "3e4f465b67eebd3c",
+  "lines": 259
+ },
+ "aim": "each judged criterion must have ONE single-factor input that makes it red; a criterion that cannot go red carries zero information (discipline 34)",
+ "baseline": {
+  "S1_pos_max_detach_equal": true,
+  "S2_pos_max_within_bound": true,
+  "S3_pos_at_attach_equals_attach_pos_hi_minus_1": true,
+  "S3_cells_attach_minus_before_equals_moved": true,
+  "C2_cells_attach_minus_before_equals_moved": true,
+  "T1_needle_in_every_answer": true,
+  "T2_answers_identical_to_round1": true,
+  "C1_cells_detach_equal": true,
+  "C3_block_cells_moved": true,
+  "C4_no_3_round_non_decreasing_rise": true,
+  "C5_last_equals_first": true,
+  "L1_holders_zero": true,
+  "L2_ranges_zero": true,
+  "L3_any_leased_false": true,
+  "L4_reset_clears_tokens": true
+ },
+ "baseline_all_true": true,
+ "baseline_no_reason": true,
+ "cases": [
+  {
+   "case": "U-S1",
+   "aimed_at": "S1_pos_max_detach_equal",
+   "flipped": [
+    "S1_pos_max_detach_equal"
+   ],
+   "expected_flipped": [
+    "S1_pos_max_detach_equal"
+   ],
+   "invalid_reasons": [],
+   "pass": true
+  },
+  {
+   "case": "U-S2",
+   "aimed_at": "S2_pos_max_within_bound",
+   "flipped": [
+    "S2_pos_max_within_bound",
+    "S3_pos_at_attach_equals_attach_pos_hi_minus_1"
+   ],
+   "expected_flipped": [
+    "S2_pos_max_within_bound",
+    "S3_pos_at_attach_equals_attach_pos_hi_minus_1"
+   ],
+   "invalid_reasons": [],
+   "pass": true
+  },
+  {
+   "case": "U-S3pos",
+   "aimed_at": "S3_pos_at_attach_equals_attach_pos_hi_minus_1",
+   "flipped": [
+    "S3_pos_at_attach_equals_attach_pos_hi_minus_1"
+   ],
+   "expected_flipped": [
+    "S3_pos_at_attach_equals_attach_pos_hi_minus_1"
+   ],
+   "invalid_reasons": [],
+   "pass": true
+  },
+  {
+   "case": "U-S3cells",
+   "aimed_at": "S3_cells_attach_minus_before_equals_moved",
+   "flipped": [
+    "C2_cells_attach_minus_before_equals_moved",
+    "S3_cells_attach_minus_before_equals_moved"
+   ],
+   "expected_flipped": [
+    "C2_cells_attach_minus_before_equals_moved",
+    "S3_cells_attach_minus_before_equals_moved"
+   ],
+   "invalid_reasons": [],
+   "pass": true
+  },
+  {
+   "case": "U-T1",
+   "aimed_at": "T1_needle_in_every_answer",
+   "flipped": [
+    "T1_needle_in_every_answer",
+    "T2_answers_identical_to_round1"
+   ],
+   "expected_flipped": [
+    "T1_needle_in_every_answer",
+    "T2_answers_identical_to_round1"
+   ],
+   "invalid_reasons": [
+    "I1 needle missing from the answer"
+   ],
+   "pass": true
+  },
+  {
+   "case": "U-T2",
+   "aimed_at": "T2_answers_identical_to_round1",
+   "flipped": [
+    "T2_answers_identical_to_round1"
+   ],
+   "expected_flipped": [
+    "T2_answers_identical_to_round1"
+   ],
+   "invalid_reasons": [],
+   "pass": true
+  },
+  {
+   "case": "U-C1",
+   "aimed_at": "C1_cells_detach_equal",
+   "flipped": [
+    "C1_cells_detach_equal"
+   ],
+   "expected_flipped": [
+    "C1_cells_detach_equal"
+   ],
+   "invalid_reasons": [],
+   "pass": true
+  },
+  {
+   "case": "U-C3",
+   "aimed_at": "C3_block_cells_moved",
+   "flipped": [
+    "C3_block_cells_moved"
+   ],
+   "expected_flipped": [
+    "C3_block_cells_moved"
+   ],
+   "invalid_reasons": [],
+   "pass": true
+  },
+  {
+   "case": "U-C4",
+   "aimed_at": "C4_no_3_round_non_decreasing_rise",
+   "flipped": [
+    "C1_cells_detach_equal",
+    "C4_no_3_round_non_decreasing_rise",
+    "C5_last_equals_first"
+   ],
+   "expected_flipped": [
+    "C1_cells_detach_equal",
+    "C4_no_3_round_non_decreasing_rise",
+    "C5_last_equals_first"
+   ],
+   "invalid_reasons": [],
+   "pass": true
+  },
+  {
+   "case": "U-C5",
+   "aimed_at": "C5_last_equals_first",
+   "flipped": [
+    "C1_cells_detach_equal",
+    "C5_last_equals_first"
+   ],
+   "expected_flipped": [
+    "C1_cells_detach_equal",
+    "C5_last_equals_first"
+   ],
+   "invalid_reasons": [],
+   "pass": true
+  },
+  {
+   "case": "U-L1",
+   "aimed_at": "L1_holders_zero",
+   "flipped": [
+    "L1_holders_zero"
+   ],
+   "expected_flipped": [
+    "L1_holders_zero"
+   ],
+   "invalid_reasons": [],
+   "pass": true
+  },
+  {
+   "case": "U-L2",
+   "aimed_at": "L2_ranges_zero",
+   "flipped": [
+    "L2_ranges_zero"
+   ],
+   "expected_flipped": [
+    "L2_ranges_zero"
+   ],
+   "invalid_reasons": [],
+   "pass": true
+  },
+  {
+   "case": "U-L3",
+   "aimed_at": "L3_any_leased_false",
+   "flipped": [
+    "L3_any_leased_false"
+   ],
+   "expected_flipped": [
+    "L3_any_leased_false"
+   ],
+   "invalid_reasons": [],
+   "pass": true
+  },
+  {
+   "case": "U-L4",
+   "aimed_at": "L4_reset_clears_tokens",
+   "flipped": [
+    "L4_reset_clears_tokens"
+   ],
+   "expected_flipped": [
+    "L4_reset_clears_tokens"
+   ],
+   "invalid_reasons": [],
+   "pass": true
+  },
+  {
+   "case": "U-I1-empty",
+   "aimed_at": "I1",
+   "flipped": [
+    "T1_needle_in_every_answer",
+    "T2_answers_identical_to_round1"
+   ],
+   "expected_flipped": [
+    "T1_needle_in_every_answer",
+    "T2_answers_identical_to_round1"
+   ],
+   "invalid_reasons": [
+    "I1 empty answer (ask_return_bytes=93, recorded not judged)",
+    "I1 needle missing from the answer"
+   ],
+   "pass": true
+  },
+  {
+   "case": "U-I1-needle",
+   "aimed_at": "I1",
+   "flipped": [
+    "T1_needle_in_every_answer",
+    "T2_answers_identical_to_round1"
+   ],
+   "expected_flipped": [
+    "T1_needle_in_every_answer",
+    "T2_answers_identical_to_round1"
+   ],
+   "invalid_reasons": [
+    "I1 needle missing from the answer"
+   ],
+   "pass": true
+  },
+  {
+   "case": "U-I2",
+   "aimed_at": "I2",
+   "flipped": [],
+   "expected_flipped": [],
+   "invalid_reasons": [
+    "I2 pos=4097 raw+1=4096"
+   ],
+   "pass": true
+  },
+  {
+   "case": "U-I4",
+   "aimed_at": "I4",
+   "flipped": [],
+   "expected_flipped": [],
+   "invalid_reasons": [
+    "I4 carried over: holders=1 ranges=0"
+   ],
+   "pass": true
+  },
+  {
+   "case": "U-I5",
+   "aimed_at": "I5",
+   "flipped": [
+    "S3_pos_at_attach_equals_attach_pos_hi_minus_1"
+   ],
+   "expected_flipped": [
+    "S3_pos_at_attach_equals_attach_pos_hi_minus_1"
+   ],
+   "invalid_reasons": [
+    "I5 raw_pos_max == -1"
+   ],
+   "pass": true
+  },
+  {
+   "case": "U-I6",
+   "aimed_at": "I6",
+   "flipped": [],
+   "expected_flipped": [],
+   "invalid_reasons": [
+    "I6 interval 90 != 91"
+   ],
+   "pass": true
+  }
+ ],
+ "falsified_by": {
+  "S1_pos_max_detach_equal": [
+   "U-S1"
+  ],
+  "S2_pos_max_within_bound": [
+   "U-S2"
+  ],
+  "S3_pos_at_attach_equals_attach_pos_hi_minus_1": [
+   "U-S2",
+   "U-S3pos",
+   "U-I5"
+  ],
+  "C2_cells_attach_minus_before_equals_moved": [
+   "U-S3cells"
+  ],
+  "S3_cells_attach_minus_before_equals_moved": [
+   "U-S3cells"
+  ],
+  "T1_needle_in_every_answer": [
+   "U-T1",
+   "U-I1-empty",
+   "U-I1-needle"
+  ],
+  "T2_answers_identical_to_round1": [
+   "U-T1",
+   "U-T2",
+   "U-I1-empty",
+   "U-I1-needle"
+  ],
+  "C1_cells_detach_equal": [
+   "U-C1",
+   "U-C4",
+   "U-C5",
+   "live red control A (run_m3_redA.json)"
+  ],
+  "C3_block_cells_moved": [
+   "U-C3"
+  ],
+  "C4_no_3_round_non_decreasing_rise": [
+   "U-C4",
+   "live red control A (run_m3_redA.json)"
+  ],
+  "C5_last_equals_first": [
+   "U-C4",
+   "U-C5"
+  ],
+  "L1_holders_zero": [
+   "U-L1",
+   "live red control A (run_m3_redA.json)"
+  ],
+  "L2_ranges_zero": [
+   "U-L2",
+   "live red control A (run_m3_redA.json)"
+  ],
+  "L3_any_leased_false": [
+   "U-L3",
+   "live red control A (run_m3_redA.json)"
+  ],
+  "L4_reset_clears_tokens": [
+   "U-L4"
+  ]
+ },
+ "falsified_alone": {
+  "S1_pos_max_detach_equal": true,
+  "S2_pos_max_within_bound": false,
+  "S3_pos_at_attach_equals_attach_pos_hi_minus_1": true,
+  "C2_cells_attach_minus_before_equals_moved": false,
+  "S3_cells_attach_minus_before_equals_moved": false,
+  "T1_needle_in_every_answer": false,
+  "T2_answers_identical_to_round1": true,
+  "C1_cells_detach_equal": true,
+  "C3_block_cells_moved": true,
+  "C4_no_3_round_non_decreasing_rise": false,
+  "C5_last_equals_first": false,
+  "L1_holders_zero": true,
+  "L2_ranges_zero": true,
+  "L3_any_leased_false": true,
+  "L4_reset_clears_tokens": true
+ },
+ "not_alone": [
+  "C2_cells_attach_minus_before_equals_moved",
+  "C4_no_3_round_non_decreasing_rise",
+  "C5_last_equals_first",
+  "S2_pos_max_within_bound",
+  "S3_cells_attach_minus_before_equals_moved",
+  "T1_needle_in_every_answer"
+ ],
+ "no_flip": {},
+ "never_falsified": [],
+ "note_C5": "C5 (last == first) is implied by C1 (all equal): any single-factor input that flips C5 also flips C1, so C5 cannot be falsified alone -- it is a restatement, not an independent criterion.",
+ "note_S3C2": "S3_cells and C2 are the same expression under two names; they always flip together, so the count of independently verified criteria must count them once.",
+ "verdict": "UNIT-FALSIFIERS PASS -- every judged criterion except the restatements has a single-factor red"
+}

@@ -1,0 +1,339 @@
+{
+ "schema": "m3_criterion_declarations_v1",
+ "written_at": "2026-10-25 01:13:06",
+ "purpose": "per-discipline-34 layered values: whether a criterion CAN go red must be recorded separately for end-to-end and unit level, never merged into one boolean. Standalone file: no existing artifact is edited (editing an artifact after the run is indistinguishable from tampering).",
+ "prereg": {
+  "path": "kvmem/m2_visibility/mine/inspector/M3-PREREG.md",
+  "sha16": "3e4f465b67eebd3c",
+  "lines": 259,
+  "newline": "LF",
+  "note": "frozen during this run; the 50-round run is the lead's detached process writing run_m3_lifecycle_50_v2.json and is NOT cited here"
+ },
+ "counting_rule": {
+  "basis": "one distinct assertion = one criterion; an alias (second name of the same expression) and a restatement (implied by another) each count once",
+  "aliases": {
+   "C2_cells_attach_minus_before_equals_moved": "S3_cells_attach_minus_before_equals_moved"
+  },
+  "restatements": {
+   "C5_last_equals_first": "C1_cells_detach_equal"
+  },
+  "judged_keys": 15,
+  "distinct_claims": 13,
+  "dropped_as_duplicate": 2
+ },
+ "value_vocabulary": {
+  "T": "has been made to fail at least once at this level",
+  "F": "failing in the current run",
+  "U": "never made to fail at this level => zero discriminating power, not counted as passed"
+ },
+ "criteria": {
+  "S1_pos_max_detach_equal": {
+   "unit": "T",
+   "e2e": "U",
+   "why": "50/3 轮里恒等，从未红过；单元 U-S1 能单独红",
+   "unit_evidence": [
+    "U-S1"
+   ]
+  },
+  "S2_pos_max_within_bound": {
+   "unit": "T",
+   "e2e": "U",
+   "why": "U-S2 与 S3_pos 同时红，不能独立红",
+   "unit_evidence": [
+    "U-S2"
+   ]
+  },
+  "S3_pos_at_attach_equals_attach_pos_hi_minus_1": {
+   "unit": "T",
+   "e2e": "U",
+   "why": "任何能让它红的输入都先撞 I3/I5/I6 变成无效轮 ⇒ 有效轮内不可失败",
+   "unit_evidence": [
+    "U-S2",
+    "U-S3pos",
+    "U-I5"
+   ]
+  },
+  "S3_cells_attach_minus_before_equals_moved": {
+   "unit": "T",
+   "e2e": "U",
+   "why": "读的是驱动自己的两个数，引擎行为改不了它；只能由驱动记账错误致红",
+   "unit_evidence": [
+    "U-S3cells"
+   ]
+  },
+  "C2_cells_attach_minus_before_equals_moved": {
+   "unit": "T",
+   "e2e": "U",
+   "alias_of": "S3_cells_attach_minus_before_equals_moved",
+   "why": "同一算式，U-S3cells 一次同时红，从未分开 ⇒ 同一判据的第二个名字",
+   "unit_evidence": [
+    "U-S3cells"
+   ]
+  },
+  "T1_needle_in_every_answer": {
+   "unit": "T",
+   "e2e": "U",
+   "why": "U-T1/U-I1-empty/U-I1-needle 能红；端到端从未缺针",
+   "unit_evidence": [
+    "U-T1",
+    "U-I1-empty",
+    "U-I1-needle"
+   ]
+  },
+  "T2_answers_identical_to_round1": {
+   "unit": "T",
+   "e2e": "U",
+   "why": "U-T2 单独红；端到端答案逐字节相同",
+   "unit_evidence": [
+    "U-T1",
+    "U-T2",
+    "U-I1-empty",
+    "U-I1-needle"
+   ]
+  },
+  "C1_cells_detach_equal": {
+   "unit": "T",
+   "e2e": "T",
+   "why": "红控 A 第 37 轮 cells_after_detach=142（91 块格 + 51 本轮对话）",
+   "unit_evidence": [
+    "U-C1",
+    "U-C4",
+    "U-C5"
+   ]
+  },
+  "C3_block_cells_moved": {
+   "unit": "T",
+   "e2e": "U",
+   "why": "U-C3 单独红；端到端块恒 91 格",
+   "unit_evidence": [
+    "U-C3"
+   ]
+  },
+  "C4_no_3_round_non_decreasing_rise": {
+   "unit": "T",
+   "e2e": "T",
+   "why": "红控 A 窗口 [35,36,37]=[51,51,142]",
+   "unit_evidence": [
+    "U-C4"
+   ]
+  },
+  "C5_last_equals_first": {
+   "unit": "T",
+   "e2e": "U",
+   "restates": "C1_cells_detach_equal",
+   "why": "被 C1 蕴含：让 C5 红的单因子输入同时让 C1 红 ⇒ 复述，不是独立判据",
+   "unit_evidence": [
+    "U-C4",
+    "U-C5"
+   ]
+  },
+  "L1_holders_zero": {
+   "unit": "T",
+   "e2e": "T",
+   "why": "红控 A 第 37 轮 holders_after_detach=1",
+   "unit_evidence": [
+    "U-L1"
+   ]
+  },
+  "L2_ranges_zero": {
+   "unit": "T",
+   "e2e": "T",
+   "why": "红控 A 第 37 轮 ranges_after_detach=1",
+   "unit_evidence": [
+    "U-L2"
+   ]
+  },
+  "L3_any_leased_false": {
+   "unit": "T",
+   "e2e": "T",
+   "why": "红控 A 第 37 轮 any_leased=True",
+   "unit_evidence": [
+    "U-L3"
+   ]
+  },
+  "L4_reset_clears_tokens": {
+   "unit": "T",
+   "e2e": "U",
+   "why": "U-L4 单独红；端到端 reset 后恒 0",
+   "unit_evidence": [
+    "U-L4"
+   ]
+  }
+ },
+ "io_criteria": {
+  "I1": {
+   "unit": "T",
+   "e2e": "U",
+   "evidence": "U-I1-empty / U-I1-needle 均产生 invalid_reasons 前缀 I1"
+  },
+  "I2": {
+   "unit": "T",
+   "e2e": "U",
+   "evidence": "U-I2 -> invalid_reasons=['I2 pos=4097 raw+1=4096']"
+  },
+  "I3": {
+   "unit": "U",
+   "e2e": "T",
+   "evidence": "redB: block_cells=0 => i3_fires=true；未做单元注入故 unit=U"
+  },
+  "I4": {
+   "unit": "T",
+   "e2e": "T",
+   "evidence": "单元 U-I4；端到端 redA 第 38 轮 I4 carried over holders=1 ranges=1"
+  },
+  "I5": {
+   "unit": "T",
+   "e2e": "U",
+   "evidence": "U-I5 -> invalid_reasons 前缀 I5（并连带 S3_pos 红）"
+  },
+  "I6": {
+   "unit": "T",
+   "e2e": "U",
+   "evidence": "U-I6 -> invalid_reasons=['I6 interval 90 != 91']"
+  }
+ },
+ "summary": {
+  "distinct_claims": 13,
+  "verified_e2e_red": {
+   "count": 5,
+   "which": [
+    "C1_cells_detach_equal",
+    "C4_no_3_round_non_decreasing_rise",
+    "L1_holders_zero",
+    "L2_ranges_zero",
+    "L3_any_leased_false"
+   ]
+  },
+  "verified_unit_only": {
+   "count": 8,
+   "which": [
+    "S1_pos_max_detach_equal",
+    "S2_pos_max_within_bound",
+    "S3_pos_at_attach_equals_attach_pos_hi_minus_1",
+    "S3_cells_attach_minus_before_equals_moved",
+    "T1_needle_in_every_answer",
+    "T2_answers_identical_to_round1",
+    "C3_block_cells_moved",
+    "L4_reset_clears_tokens"
+   ]
+  },
+  "never_verified": {
+   "count": 0,
+   "which": []
+  },
+  "not_counted": {
+   "count": 2,
+   "which": [
+    "C2 (= S3_cells, alias)",
+    "C5 (restates C1)"
+   ]
+  },
+  "live_reds_observed": {
+   "count": 6,
+   "which": [
+    "C1_cells_detach_equal",
+    "C4_no_3_round_non_decreasing_rise",
+    "L1_holders_zero",
+    "L2_ranges_zero",
+    "L3_any_leased_false",
+    "I3 (redB)"
+   ]
+  },
+  "layered_sentence": {
+   "judged": {
+    "distinct_claims": 13,
+    "derived_as": "15 judged keys - 2 duplicates (C2 is an alias of S3_cells; C5 restates C1)",
+    "verified_e2e": {
+     "count": 5,
+     "which": [
+      "C1_cells_detach_equal",
+      "C4_no_3_round_non_decreasing_rise",
+      "L1_holders_zero",
+      "L2_ranges_zero",
+      "L3_any_leased_false"
+     ]
+    },
+    "verified_unit_only": {
+     "count": 8,
+     "which": [
+      "S1_pos_max_detach_equal",
+      "S2_pos_max_within_bound",
+      "S3_pos_at_attach_equals_attach_pos_hi_minus_1",
+      "S3_cells_attach_minus_before_equals_moved",
+      "T1_needle_in_every_answer",
+      "T2_answers_identical_to_round1",
+      "C3_block_cells_moved",
+      "L4_reset_clears_tokens"
+     ]
+    },
+    "not_falsifiable_e2e": {
+     "count": 8,
+     "which": [
+      "S1_pos_max_detach_equal",
+      "S2_pos_max_within_bound",
+      "S3_pos_at_attach_equals_attach_pos_hi_minus_1",
+      "S3_cells_attach_minus_before_equals_moved",
+      "T1_needle_in_every_answer",
+      "T2_answers_identical_to_round1",
+      "C3_block_cells_moved",
+      "L4_reset_clears_tokens"
+     ],
+     "scope": "within this driver only"
+    }
+   },
+   "invalid_round_rules": {
+    "note": "I1..I6 are not judged criteria: their red shows up as invalid_reasons, never in the flipped/judged table (that column mix-up is F-M3-4)",
+    "red_e2e": {
+     "count": 2,
+     "which": [
+      "I3 (red control B)",
+      "I4 (red control A round 38)"
+     ]
+    },
+    "red_unit_only": {
+     "count": 4,
+     "which": [
+      "I1",
+      "I2",
+      "I5",
+      "I6"
+     ]
+    }
+   },
+   "banned_phrasing": "'真正被验证 N 条' is withdrawn: with one number the reader hears end-to-end, and 8 of the 13 were never red end-to-end. Discipline 34 = the layer must live in the sentence, not in a footnote.",
+   "as_text": [
+    "judged distinct claims 13 条（15 - 2 重名: C2 为 S3_cells 别名, C5 为 C1 复述）",
+    "  端到端被验证   5 条 : C1_cells_detach_equal C4_no_3_round_non_decreasing_rise L1_holders_zero L2_ranges_zero L3_any_leased_false",
+    "  仅单元被验证   8 条 : S1_pos_max_detach_equal S2_pos_max_within_bound S3_pos_at_attach_equals_attach_pos_hi_minus_1 S3_cells_attach_minus_before_equals_moved T1_needle_in_every_answer T2_answers_identical_to_round1 C3_block_cells_moved L4_reset_clears_tokens",
+    "  端到端不可失败 8 条 :（同上那 8 条，在本驱动内）",
+    "无效轮规则 I1..I6",
+    "  端到端红过     2 条 : I3(红控B) I4(红控A 第38轮)",
+    "  仅单元红过     4 条 : I1 I2 I5 I6"
+   ]
+  }
+ },
+ "presentation_defect": {
+  "id": "F-M3-4",
+  "what": "m3_unit_falsifiers.py cases[].flipped only covers judged criteria; I1..I6 prove themselves through invalid_reasons, so U-I2/U-I4/U-I6 show flipped=[] which reads like 'nothing went red'.",
+  "correction": "read cases[].invalid_reasons together with pass; next version should add a fired_reason column and a top-level seen_by map",
+  "not_fixed_here": "run_m3_unit_falsifiers.json is not edited after the fact"
+ },
+ "observations_only": {
+  "interrupted_run": "m3/_interrupted_32of50/ (stale snapshot rounds_done=30, log last line [round 32/50]) -> incomplete, NOT evidence for the 50-round plan",
+  "smoke": "m3/run_m3_lifecycle_3rounds.json -> 3/3 valid, cells 0/91/51, answers byte-identical",
+  "redA": "m3/run_m3_redA.json -> 未通过, failed=[C1,C4,L1,L2,L3], I4 only at round 38 (consequence)",
+  "redB": "m3/run_m3_redB.json -> I3 red; the raw reset clears the block, the safe global reset does not"
+ },
+ "citations": {
+  "unit": "m3/run_m3_unit_falsifiers.json",
+  "redA": "m3/run_m3_redA.json",
+  "redB": "m3/run_m3_redB.json",
+  "smoke": "m3/run_m3_lifecycle_3rounds.json"
+ },
+ "discipline_35": {
+  "rule": "each attempt writes its own artifact name (with the attempt number); a failure must happen before the write, so no failed attempt can clobber a finished artifact.",
+  "incident": "a prose string containing the forbidden reset token made the source self-check count 2 (!= 0) and abort, and the abort path wrote the stub over a COMPLETED 50-round artifact (rounds_done=0).",
+  "fixed_in": "m3_lifecycle_50.py finish(): when an attempt aborts before round 1 it now writes <stem>.attempt<N><ext>.aborted<ext> and leaves --run-json untouched; artifact records attempt_number and aborted_before_round_1.",
+  "residual_honesty": "the completed 50-round artifact of that attempt was lost; what survives is the lead's preserved copy under _interrupted_32of50/ and the stdout pasted in the report. The fix is forward-looking, not restorative."
+ }
+}
