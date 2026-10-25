@@ -1,0 +1,425 @@
+{
+ "schema": "m6b_b2b_p3_v1",
+ "task": "M6b B2b P3：半文件是否被 load 当合法块/chat 接受",
+ "at": "2026-10-25T23:52:17",
+ "assertion": "任一 cut 点 load>0 ⇒ 未通过（半文件被接受）；全部 cut load=-1 ⇒ 未接上（实测支持码读）",
+ "prereg": "docs/_work/M6B-PREREG-draft.md §B2b（v3 23f2c4af）",
+ "setup": {
+  "tmp_root": "kvmem/m2_visibility/m6b/out/tmp",
+  "cut_rule": "每条 cut 前从源重新复制字节，不链式截断；cut=size 是完整副本控制；cut=0 是零字节边界",
+  "cut_points_rule": "按目标文件自身布局算（block/chat 各自 size）",
+  "zero_decode": true,
+  "engine_models": {
+   "block": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+   "chat": "7B 优先，控制失败则 14B（自动匹配）"
+  }
+ },
+ "static": {
+  "sites": [
+   {
+    "file": "tools/memory_source.py",
+    "line": 389,
+    "token": "n_bytes",
+    "note": "块文件有 DB n_bytes 前置校验",
+    "line_text": "if os.stat(path).st_size != n_bytes:",
+    "bad": false
+   },
+   {
+    "file": "tools/memory_source.py",
+    "line": 390,
+    "token": "truncated",
+    "note": "块文件有 DB n_bytes 前置校验（截断即抛）",
+    "line_text": "raise Incompatible(\"%s: block file truncated (%d != %d bytes)\"",
+    "bad": false
+   },
+   {
+    "file": "tools/kvshim.cpp",
+    "line": 572,
+    "token": "kvshim_load",
+    "note": "load 入口（shim 只返回 -1）",
+    "line_text": "KVSHIM_API int kvshim_load(kvshim * h, int seq, const char * path) {",
+    "bad": false
+   }
+  ],
+  "bad": 0
+ },
+ "arms": {
+  "block": {
+   "arm": "block",
+   "source": "kvmem/blocks/profile.kvmem",
+   "source_sha256": "3b046c8ee3fb3b53d67d349e965941384b53deb8415279fcd46dabc6608266b4",
+   "source_bytes": 5224388,
+   "seq": 1,
+   "cuts": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    1306097,
+    2612194,
+    3918291,
+    5224372,
+    5224384,
+    5224387
+   ],
+   "engine": {
+    "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+    "model_bytes": 8988110240,
+    "control_rc": 50,
+    "control_n_tokens": 50,
+    "engine_load_ms": 31484.4
+   },
+   "control": {
+    "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+    "bytes": 5224388,
+    "load_rc": 50,
+    "exception": null,
+    "load_ms": 31484.4
+   },
+   "rows": [
+    {
+     "cut": 0,
+     "kind": "boundary_zero",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 1.0,
+     "copy_bytes": 0
+    },
+    {
+     "cut": 4,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 0.0,
+     "copy_bytes": 4
+    },
+    {
+     "cut": 8,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 1.0,
+     "copy_bytes": 8
+    },
+    {
+     "cut": 12,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 1.0,
+     "copy_bytes": 12
+    },
+    {
+     "cut": 16,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 1.0,
+     "copy_bytes": 16
+    },
+    {
+     "cut": 1306097,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 5.6,
+     "copy_bytes": 1306097
+    },
+    {
+     "cut": 2612194,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 6.5,
+     "copy_bytes": 2612194
+    },
+    {
+     "cut": 3918291,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 6.0,
+     "copy_bytes": 3918291
+    },
+    {
+     "cut": 5224372,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 6.0,
+     "copy_bytes": 5224372
+    },
+    {
+     "cut": 5224384,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 7.0,
+     "copy_bytes": 5224384
+    },
+    {
+     "cut": 5224387,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 6.0,
+     "copy_bytes": 5224387
+    },
+    {
+     "cut": 5224388,
+     "kind": "boundary_full",
+     "load_rc": 50,
+     "n_tokens": 50,
+     "exception": null,
+     "load_ms": 5.5,
+     "copy_bytes": 5224388
+    }
+   ],
+   "error": null,
+   "started_at": "2026-10-25T23:52:17",
+   "cuts_done": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    1306097,
+    2612194,
+    3918291,
+    5224372,
+    5224384,
+    5224387,
+    5224388
+   ],
+   "summary": {
+    "engine_ok": true,
+    "control_full_rc": 50,
+    "control_zero_rc": -1,
+    "n_cut_points": 11,
+    "load_rc_by_cut": {
+     "0": -1,
+     "4": -1,
+     "8": -1,
+     "12": -1,
+     "16": -1,
+     "1306097": -1,
+     "2612194": -1,
+     "3918291": -1,
+     "5224372": -1,
+     "5224384": -1,
+     "5224387": -1
+    },
+    "accepted_cuts": [],
+    "accepted_count": 0,
+    "any_exception": [],
+    "verdict": "未接上（实测支持：全部 cut load=-1）"
+   }
+  },
+  "chat": {
+   "arm": "chat",
+   "source": "kvmem/sessions/live.chat.kvmem",
+   "source_sha256": "124019803eb3e73cb71a1315553238d4b8a149d6d5b444040c4ee9c7b95ad616",
+   "source_bytes": 5761428,
+   "seq": 0,
+   "cuts": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    1440357,
+    2880714,
+    4321071,
+    5761412,
+    5761424,
+    5761427
+   ],
+   "engine": {
+    "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",
+    "model_bytes": 4683073504,
+    "control_rc": 189,
+    "control_n_tokens": 189,
+    "engine_load_ms": 15697.3
+   },
+   "control": {
+    "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",
+    "bytes": 5761428,
+    "load_rc": 189,
+    "exception": null,
+    "load_ms": 15697.3
+   },
+   "rows": [
+    {
+     "cut": 0,
+     "kind": "boundary_zero",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 0.0,
+     "copy_bytes": 0
+    },
+    {
+     "cut": 4,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 0.0,
+     "copy_bytes": 4
+    },
+    {
+     "cut": 8,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 0.0,
+     "copy_bytes": 8
+    },
+    {
+     "cut": 12,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 0.0,
+     "copy_bytes": 12
+    },
+    {
+     "cut": 16,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 0.0,
+     "copy_bytes": 16
+    },
+    {
+     "cut": 1440357,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 8.0,
+     "copy_bytes": 1440357
+    },
+    {
+     "cut": 2880714,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 7.0,
+     "copy_bytes": 2880714
+    },
+    {
+     "cut": 4321071,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 8.0,
+     "copy_bytes": 4321071
+    },
+    {
+     "cut": 5761412,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 6.0,
+     "copy_bytes": 5761412
+    },
+    {
+     "cut": 5761424,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 8.5,
+     "copy_bytes": 5761424
+    },
+    {
+     "cut": 5761427,
+     "kind": "cut",
+     "load_rc": -1,
+     "n_tokens": null,
+     "exception": null,
+     "load_ms": 8.5,
+     "copy_bytes": 5761427
+    },
+    {
+     "cut": 5761428,
+     "kind": "boundary_full",
+     "load_rc": 189,
+     "n_tokens": 189,
+     "exception": null,
+     "load_ms": 8.0,
+     "copy_bytes": 5761428
+    }
+   ],
+   "error": null,
+   "started_at": "2026-10-25T23:52:49",
+   "cuts_done": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    1440357,
+    2880714,
+    4321071,
+    5761412,
+    5761424,
+    5761427,
+    5761428
+   ],
+   "summary": {
+    "engine_ok": true,
+    "control_full_rc": 189,
+    "control_zero_rc": -1,
+    "n_cut_points": 11,
+    "load_rc_by_cut": {
+     "0": -1,
+     "4": -1,
+     "8": -1,
+     "12": -1,
+     "16": -1,
+     "1440357": -1,
+     "2880714": -1,
+     "4321071": -1,
+     "5761412": -1,
+     "5761424": -1,
+     "5761427": -1
+    },
+    "accepted_cuts": [],
+    "accepted_count": 0,
+    "any_exception": [],
+    "verdict": "未接上（实测支持：全部 cut load=-1）"
+   }
+  }
+ },
+ "not_judged": {
+  "B2a": "另单",
+  "B3": "另单"
+ },
+ "discipline": {
+  "engine_changed": false,
+  "rebuild": false,
+  "real_blocks_written": false,
+  "sessions_written": false
+ },
+ "no_self_sha": true
+}

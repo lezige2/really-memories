@@ -1,0 +1,187 @@
+{
+ "schema": "landed_m6b_b2b_v2",
+ "task": "M6b B2b P3：半文件是否被 load 当合法块/chat 接受",
+ "at": "2026-10-25T23:52:17",
+ "assertion": "任一 cut 点 load>0 ⇒ 未通过（半文件被接受）；全部 cut load=-1 ⇒ 未接上（实测支持码读）",
+ "prereg": "23f2c4af §B2b（docs/_work/M6B-PREREG-draft.md）",
+ "artifact": {
+  "path": "kvmem/m2_visibility/m6b/out/M6B-B2B-P3.json",
+  "sha16": "bd8e36d8c5223b07",
+  "bytes": 8641
+ },
+ "code_sha16": {
+  "path": "kvmem/m2_visibility/m6b/_run_m6b_b2b.py",
+  "sha16": "16a555835c7516a9",
+  "bytes": 14374
+ },
+ "engine_model_per_arm": {
+  "block": "14B（DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf）—— profile.kvmem 是 14B 几何",
+  "chat": "7B（DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf）—— live.chat.kvmem 是 7B 几何",
+  "note": "臂级模型差异：两类文件本就来自不同模型，不是同一模型跑两类；混用会让 control 失败"
+ },
+ "control_token_note": "chat 臂 control load_rc=189 与 block 臂 50 不同，是因为两份文件 token 数本就不同（.chat.kvmem 189 tokens vs profile 块 50 tokens），不是读数不一致",
+ "arms": {
+  "block": {
+   "arm": "block",
+   "source": "kvmem/blocks/profile.kvmem",
+   "source_bytes": 5224388,
+   "cuts": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    1306097,
+    2612194,
+    3918291,
+    5224372,
+    5224384,
+    5224387
+   ],
+   "load_rc_by_cut": {
+    "0": -1,
+    "4": -1,
+    "8": -1,
+    "12": -1,
+    "16": -1,
+    "1306097": -1,
+    "2612194": -1,
+    "3918291": -1,
+    "5224372": -1,
+    "5224384": -1,
+    "5224387": -1
+   },
+   "all_cuts_load_rc": [
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
+   ],
+   "accepted_cuts": [],
+   "control": {
+    "bytes": 5224388,
+    "load_rc": 50,
+    "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+    "model_bytes": 8988110240,
+    "n_tokens": 50
+   },
+   "exceptions": []
+  },
+  "chat": {
+   "arm": "chat",
+   "source": "kvmem/sessions/live.chat.kvmem",
+   "source_bytes": 5761428,
+   "cuts": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    1440357,
+    2880714,
+    4321071,
+    5761412,
+    5761424,
+    5761427
+   ],
+   "load_rc_by_cut": {
+    "0": -1,
+    "4": -1,
+    "8": -1,
+    "12": -1,
+    "16": -1,
+    "1440357": -1,
+    "2880714": -1,
+    "4321071": -1,
+    "5761412": -1,
+    "5761424": -1,
+    "5761427": -1
+   },
+   "all_cuts_load_rc": [
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
+   ],
+   "accepted_cuts": [],
+   "control": {
+    "bytes": 5761428,
+    "load_rc": 189,
+    "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",
+    "model_bytes": 4683073504,
+    "n_tokens": 189
+   },
+   "exceptions": []
+  }
+ },
+ "verdict": {
+  "B2b": "未接上（实测支持：全部 cut load=-1）",
+  "bad_cuts": {
+   "block": [],
+   "chat": []
+  }
+ },
+ "static": {
+  "bad": 0,
+  "sites": [
+   {
+    "file": "tools/memory_source.py",
+    "line": 389,
+    "token": "n_bytes",
+    "note": "块文件有 DB n_bytes 前置校验",
+    "line_text": "if os.stat(path).st_size != n_bytes:",
+    "bad": false
+   },
+   {
+    "file": "tools/memory_source.py",
+    "line": 390,
+    "token": "truncated",
+    "note": "块文件有 DB n_bytes 前置校验（截断即抛）",
+    "line_text": "raise Incompatible(\"%s: block file truncated (%d != %d bytes)\"",
+    "bad": false
+   },
+   {
+    "file": "tools/kvshim.cpp",
+    "line": 572,
+    "token": "kvshim_load",
+    "note": "load 入口（shim 只返回 -1）",
+    "line_text": "KVSHIM_API int kvshim_load(kvshim * h, int seq, const char * path) {",
+    "bad": false
+   }
+  ]
+ },
+ "four_state": {
+  "B2b": "未接上（实测：block+chat 全 11 cut 均 load=-1）"
+ },
+ "not_judged": {
+  "B2a": "另单",
+  "B3": "另单"
+ },
+ "limitations": [
+  "只测 prefix 截断形态（cut < size；0 与 size-1 边界已覆盖）",
+  "尾部多余/拼接形态不在本单：无 checksum、llama-kv-cache.cpp:3602 不查尾部 ⇒ 归 B3 域",
+  "cut 前每点从源重新复制，未做链式截断"
+ ],
+ "discipline": {
+  "engine_changed": false,
+  "rebuild": false,
+  "real_blocks_written": false,
+  "sessions_written": false,
+  "zero_decode": true
+ },
+ "no_self_sha": true
+}
