@@ -1,0 +1,171 @@
+{
+ "schema": "m6b_b2b_p4_v1",
+ "task": "M6b B2b-adjacent：完整文件尾部追加垃圾是否被 load 接受（tail-extra）",
+ "at": "2026-10-25T23:55:56",
+ "assertion": "任一变体 load>0 ⇒ 未通过（尾部垃圾被接受）；全部 -1 ⇒ 该变体也被拒",
+ "prereg": "M6B-B2B 补充（inspector：llama-context.cpp:3602 不查 file.tell()==file.size()）",
+ "setup": {
+  "tmp_root": "kvmem/m2_visibility/m6b/out/tmp",
+  "per_case": "每例从源重新复制 + 追加；只 load 不 decode",
+  "control": "完整原文件先验 load>0 才继续（否则装置不成立）"
+ },
+ "arms": {
+  "block": {
+   "arm": "block",
+   "source": "kvmem/blocks/profile.kvmem",
+   "source_bytes": 5224388,
+   "source_sha256": "3b046c8ee3fb3b53d67d349e965941384b53deb8415279fcd46dabc6608266b4",
+   "seq": 1,
+   "engine": {
+    "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+    "model_bytes": 8988110240,
+    "control_rc": 50
+   },
+   "control": {
+    "bytes": 5224388,
+    "load_rc": 50,
+    "exception": null,
+    "n_tokens": 50
+   },
+   "rows": [
+    {
+     "case": "control_full",
+     "append": "完整原文件（控制）",
+     "append_bytes": 0,
+     "file_bytes": 5224388,
+     "load_rc": 50,
+     "n_tokens": 50,
+     "exception": null
+    },
+    {
+     "case": "tail_zero_1kb",
+     "append": "+1KB 零字节",
+     "append_bytes": 1024,
+     "file_bytes": 5225412,
+     "load_rc": 50,
+     "n_tokens": 50,
+     "exception": null
+    },
+    {
+     "case": "tail_random_1kb",
+     "append": "+1KB 随机字节（seed=1234）",
+     "append_bytes": 1024,
+     "file_bytes": 5225412,
+     "load_rc": 50,
+     "n_tokens": 50,
+     "exception": null,
+     "append_sha256": "b9ff90effc9dc0ad0509764ce7aa1f265bd7dc0dc7fbd2ab0222be66f7b77d4a"
+    }
+   ],
+   "error": null,
+   "summary": {
+    "engine_ok": true,
+    "control_full_rc": 50,
+    "n_variants": 2,
+    "variant_load_rc": {
+     "tail_zero_1kb": 50,
+     "tail_random_1kb": 50
+    },
+    "accepted_variants": [
+     {
+      "case": "tail_zero_1kb",
+      "load_rc": 50,
+      "n_tokens": 50
+     },
+     {
+      "case": "tail_random_1kb",
+      "load_rc": 50,
+      "n_tokens": 50
+     }
+    ],
+    "accepted_count": 2,
+    "verdict": "未通过（tail-extra 被接受）"
+   }
+  },
+  "chat": {
+   "arm": "chat",
+   "source": "kvmem/sessions/live.chat.kvmem",
+   "source_bytes": 5761428,
+   "source_sha256": "124019803eb3e73cb71a1315553238d4b8a149d6d5b444040c4ee9c7b95ad616",
+   "seq": 0,
+   "engine": {
+    "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",
+    "model_bytes": 4683073504,
+    "control_rc": 189
+   },
+   "control": {
+    "bytes": 5761428,
+    "load_rc": 189,
+    "exception": null,
+    "n_tokens": 189
+   },
+   "rows": [
+    {
+     "case": "control_full",
+     "append": "完整原文件（控制）",
+     "append_bytes": 0,
+     "file_bytes": 5761428,
+     "load_rc": 189,
+     "n_tokens": 189,
+     "exception": null
+    },
+    {
+     "case": "tail_zero_1kb",
+     "append": "+1KB 零字节",
+     "append_bytes": 1024,
+     "file_bytes": 5762452,
+     "load_rc": 189,
+     "n_tokens": 189,
+     "exception": null
+    },
+    {
+     "case": "tail_random_1kb",
+     "append": "+1KB 随机字节（seed=1234）",
+     "append_bytes": 1024,
+     "file_bytes": 5762452,
+     "load_rc": 189,
+     "n_tokens": 189,
+     "exception": null,
+     "append_sha256": "b9ff90effc9dc0ad0509764ce7aa1f265bd7dc0dc7fbd2ab0222be66f7b77d4a"
+    }
+   ],
+   "error": null,
+   "summary": {
+    "engine_ok": true,
+    "control_full_rc": 189,
+    "n_variants": 2,
+    "variant_load_rc": {
+     "tail_zero_1kb": 189,
+     "tail_random_1kb": 189
+    },
+    "accepted_variants": [
+     {
+      "case": "tail_zero_1kb",
+      "load_rc": 189,
+      "n_tokens": 189
+     },
+     {
+      "case": "tail_random_1kb",
+      "load_rc": 189,
+      "n_tokens": 189
+     }
+    ],
+    "accepted_count": 2,
+    "verdict": "未通过（tail-extra 被接受）"
+   }
+  }
+ },
+ "not_judged": {
+  "B2a": "另单",
+  "B3": "另单",
+  "n_tokens_ne_cell_count": "未测"
+ },
+ "discipline": {
+  "engine_changed": false,
+  "rebuild": false,
+  "real_blocks_written": false,
+  "sessions_written": false,
+  "zero_decode": true
+ },
+ "no_self_sha": true
+}

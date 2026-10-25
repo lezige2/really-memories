@@ -1,7 +1,7 @@
 {
  "schema": "landed_m6b_b2b_v2",
  "task": "M6b B2b P3：半文件是否被 load 当合法块/chat 接受",
- "at": "2026-10-25T23:53:56",
+ "at": "2026-10-26T00:00:21",
  "assertion": "任一 cut 点 load>0 ⇒ 未通过（半文件被接受）；全部 cut load=-1 ⇒ 未接上（实测支持码读）",
  "prereg": "23f2c4af §B2b（docs/_work/M6B-PREREG-draft.md）",
  "artifact": {
@@ -239,16 +239,28 @@
   ]
  },
  "four_state": {
-  "B2b": "未接上（实测：block+chat 全 11 cut 均 load=-1）"
+  "B2b": "未接上（实测：prefix 截断 block+chat 各 11/11 cut 均 load=-1；scope=prefix）",
+  "B2b_tail_extra": "未通过（tail-extra 被接受；见 P4）",
+  "B2b_tail": "未通过（tail-extra 被接受；chat 产品可达、block 有 DB size 闸门）"
  },
  "not_judged": {
   "B2a": "另单",
   "B3": "另单"
  },
  "limitations": [
-  "只测 prefix 截断形态（cut < size；0 与 size-1 边界已覆盖）",
-  "尾部多余/拼接形态不在本单：无 checksum、llama-kv-cache.cpp:3602 不查尾部 ⇒ 归 B3 域",
-  "cut 前每点从源重新复制，未做链式截断"
+  {
+   "what": "只测 prefix 截断",
+   "scope": "prefix"
+  },
+  {
+   "what": "tail-extra/拼接未测",
+   "why": "llama-context.cpp:3602 只断言 nread 消费量==读位置，不检查 file.tell()==file.size() ⇒ 完整文件后追加字节可能仍被接受",
+   "status": "已测：P4 显示 tail-extra 被接受（未通过）；prefix 截断结论不变"
+  },
+  {
+   "what": "n_tokens≠cell_count 未测",
+   "status": "B2b 未测变体"
+  }
  ],
  "discipline": {
   "engine_changed": false,
@@ -257,5 +269,28 @@
   "sessions_written": false,
   "zero_decode": true
  },
- "no_self_sha": true
+ "no_self_sha": true,
+ "untested_variants": [
+  "n_tokens_ne_cell_count"
+ ],
+ "tested_variants": {
+  "tail_extra": {
+   "status": "未通过（完整文件尾部追加 1KB 零字节/随机字节均被 load 接受）",
+   "artifact": "kvmem/m2_visibility/m6b/out/M6B-B2B-P4.json",
+   "artifact_sha16": "47907ef7b88e6c94",
+   "ledger": "kvmem/m2_visibility/m6b/LANDED-m6b-b2b-p4.json",
+   "ledger_sha16": "f7d2edabccc01dcf"
+  }
+ },
+ "B2b_overall": "未通过（tail-extra；prefix 子项未接上）",
+ "harm": {
+  "not": "不是数据损坏（尾随字节被静默忽略、n_tokens 不变）",
+  "harm": "完整性校验缺失 / malformed 文件被当合法",
+  "chat_reachable": "session_state.py:330 eng.load_strict(0, chat_path) 前无 n_bytes/size/checksum，n==manifest n_tokens 189==189 也过",
+  "block_product_unreachable": "ms.load_into 先 check_compatible；memory_source.py:389-391 的 st_size == DB n_bytes 会拒掉多出的 1KB（P4 的 block accepted 是引擎层，不是产品层）",
+  "severity": "低于 B2a（不可重建 chat 被截断的数据丢失），高于纯码读"
+ },
+ "n_tokens_ne_cell_count": {
+  "status": "未做（本轮收工，不做）"
+ }
 }

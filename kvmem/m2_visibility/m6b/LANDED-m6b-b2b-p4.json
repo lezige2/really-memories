@@ -1,0 +1,174 @@
+{
+ "schema": "landed_m6b_b2b_p4_v1",
+ "task": "M6b B2b-adjacent：完整文件尾部追加垃圾是否被 load 接受（tail-extra）",
+ "at": "2026-10-25T23:55:56",
+ "assertion": "任一变体 load>0 ⇒ 未通过（尾部垃圾被接受）；全部 -1 ⇒ 该变体也被拒",
+ "artifact": {
+  "path": "kvmem/m2_visibility/m6b/out/M6B-B2B-P4.json",
+  "sha16": "47907ef7b88e6c94",
+  "bytes": 4215
+ },
+ "code_sha16": {
+  "path": "kvmem/m2_visibility/m6b/_run_m6b_b2b_p4.py",
+  "sha16": "5a920e71e8e901ea",
+  "bytes": 9619
+ },
+ "engine_model_per_arm": {
+  "block": "14B（profile.kvmem 是 14B 几何）",
+  "chat": "7B（live.chat.kvmem 是 7B 几何）"
+ },
+ "arms": {
+  "block": {
+   "source": "kvmem/blocks/profile.kvmem",
+   "source_bytes": 5224388,
+   "engine": {
+    "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+    "model_bytes": 8988110240,
+    "control_rc": 50
+   },
+   "control": {
+    "bytes": 5224388,
+    "load_rc": 50,
+    "exception": null,
+    "n_tokens": 50
+   },
+   "rows": [
+    {
+     "case": "control_full",
+     "append": "完整原文件（控制）",
+     "append_bytes": 0,
+     "file_bytes": 5224388,
+     "load_rc": 50,
+     "n_tokens": 50,
+     "exception": null
+    },
+    {
+     "case": "tail_zero_1kb",
+     "append": "+1KB 零字节",
+     "append_bytes": 1024,
+     "file_bytes": 5225412,
+     "load_rc": 50,
+     "n_tokens": 50,
+     "exception": null
+    },
+    {
+     "case": "tail_random_1kb",
+     "append": "+1KB 随机字节（seed=1234）",
+     "append_bytes": 1024,
+     "file_bytes": 5225412,
+     "load_rc": 50,
+     "n_tokens": 50,
+     "exception": null,
+     "append_sha256": "b9ff90effc9dc0ad0509764ce7aa1f265bd7dc0dc7fbd2ab0222be66f7b77d4a"
+    }
+   ],
+   "summary": {
+    "engine_ok": true,
+    "control_full_rc": 50,
+    "n_variants": 2,
+    "variant_load_rc": {
+     "tail_zero_1kb": 50,
+     "tail_random_1kb": 50
+    },
+    "accepted_variants": [
+     {
+      "case": "tail_zero_1kb",
+      "load_rc": 50,
+      "n_tokens": 50
+     },
+     {
+      "case": "tail_random_1kb",
+      "load_rc": 50,
+      "n_tokens": 50
+     }
+    ],
+    "accepted_count": 2,
+    "verdict": "未通过（tail-extra 被接受）"
+   }
+  },
+  "chat": {
+   "source": "kvmem/sessions/live.chat.kvmem",
+   "source_bytes": 5761428,
+   "engine": {
+    "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",
+    "model_bytes": 4683073504,
+    "control_rc": 189
+   },
+   "control": {
+    "bytes": 5761428,
+    "load_rc": 189,
+    "exception": null,
+    "n_tokens": 189
+   },
+   "rows": [
+    {
+     "case": "control_full",
+     "append": "完整原文件（控制）",
+     "append_bytes": 0,
+     "file_bytes": 5761428,
+     "load_rc": 189,
+     "n_tokens": 189,
+     "exception": null
+    },
+    {
+     "case": "tail_zero_1kb",
+     "append": "+1KB 零字节",
+     "append_bytes": 1024,
+     "file_bytes": 5762452,
+     "load_rc": 189,
+     "n_tokens": 189,
+     "exception": null
+    },
+    {
+     "case": "tail_random_1kb",
+     "append": "+1KB 随机字节（seed=1234）",
+     "append_bytes": 1024,
+     "file_bytes": 5762452,
+     "load_rc": 189,
+     "n_tokens": 189,
+     "exception": null,
+     "append_sha256": "b9ff90effc9dc0ad0509764ce7aa1f265bd7dc0dc7fbd2ab0222be66f7b77d4a"
+    }
+   ],
+   "summary": {
+    "engine_ok": true,
+    "control_full_rc": 189,
+    "n_variants": 2,
+    "variant_load_rc": {
+     "tail_zero_1kb": 189,
+     "tail_random_1kb": 189
+    },
+    "accepted_variants": [
+     {
+      "case": "tail_zero_1kb",
+      "load_rc": 189,
+      "n_tokens": 189
+     },
+     {
+      "case": "tail_random_1kb",
+      "load_rc": 189,
+      "n_tokens": 189
+     }
+    ],
+    "accepted_count": 2,
+    "verdict": "未通过（tail-extra 被接受）"
+   }
+  }
+ },
+ "four_state": {
+  "B2b_tail_extra": "未通过（tail-extra 被接受）"
+ },
+ "not_judged": {
+  "B2a": "另单",
+  "B3": "另单",
+  "n_tokens_ne_cell_count": "未测"
+ },
+ "discipline": {
+  "engine_changed": false,
+  "rebuild": false,
+  "real_blocks_written": false,
+  "sessions_written": false,
+  "zero_decode": true
+ },
+ "no_self_sha": true
+}
