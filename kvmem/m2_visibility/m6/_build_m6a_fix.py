@@ -87,7 +87,7 @@ def main():
         d = json.load(open(path, encoding="utf-8"))
         arms[name] = {"artifact": ent(path),
                       "code_sha16": d["code_sha16"],
-                      "guard_env": d["guard_env"],
+                      "guard": d.get("guard"),
                       "outcome": d["outcome"]}
 
     suites = {}
@@ -124,6 +124,63 @@ def main():
             if ("m2_visibility/m6" in l or "LANDED-m6a-fix" in l or "m3/m3_lease.py" in l
                 or "m3/_before" in l)]
 
+    # ---- _before 是反向重建的：显式声明 + 可复现实测（绝不再假装"改前拷贝"） ----
+    l2 = json.load(open(os.path.join(M3, "LANDED-l2.json"), encoding="utf-8"))
+    authority = l2["files"]["m3_lease.py"]
+    sha_cmd = [PY, "-X", "utf8", "-c",
+               "import hashlib;print(hashlib.sha256(open(r'%s','rb').read()).hexdigest()[:16])"
+               % OLD]
+    sha_run = subprocess.run(sha_cmd, capture_output=True, text=True, encoding="utf-8",
+                             errors="replace")
+    grep_cmd = ["grep", "-c", "MOVE_GUARD", OLD]
+    grep_run = subprocess.run(grep_cmd, capture_output=True, text=True, encoding="utf-8",
+                              errors="replace")
+    before_copy = {
+        "path": ent(OLD)["path"], "bytes": os.path.getsize(OLD), "sha16": sha16(OLD),
+        "before_reconstructed": True,
+        "reconstruction_method":
+            "改前字节没有先拷贝（_before/ 被 _*/ 忽略、施工前未落盘）：按本单补丁反向剥离重建 —— "
+            "去掉 BlockLeases.__init__ 里的 guard 块（move_guard/guard_installed/guard_install_note、"
+            "move_refusals、_guard_engine_move 调用）、check_move/_guard_engine_move/状态字段、"
+            "functools 导入；只剥本单补丁，不多剥/少剥；最终 sha256[:16] 必须等于权威坐标"
+            "（实测见 verification）",
+        "authoritative_source": {"file": "kvmem/m2_visibility/m3/LANDED-l2.json",
+                                 "field": "files.m3_lease.py.sha16",
+                                 "value": authority["sha16"], "bytes": authority.get("bytes")},
+        "verification": {
+            "command": "python -X utf8 -c <sha256 one-liner over _before/m3_lease.py@33ae...>",
+            "stdout": sha_run.stdout.strip(),
+            "exit": sha_run.returncode,
+            "matches_authority": sha_run.stdout.strip() == authority["sha16"],
+            "matches_declared_old": sha16(OLD) == OLD_SHA,
+            "grep_MOVE_GUARD_count": (grep_run.stdout.strip() or "0"),
+        },
+    }
+    assert before_copy["verification"]["matches_authority"], before_copy["verification"]
+    assert before_copy["verification"]["matches_declared_old"], before_copy["verification"]
+
+    guard_section = {
+        "install": "BlockLeases.__init__ 构造期在实例上包 eng.repos_local；装不上 ⇒ raise "
+                   "LeaseError（fail-closed，不是静默 unguarded）",
+        "missing_move_api": "engine 无 repos_local ⇒ guard_installed=False + "
+                            "move_guard_not_applicable 事件；product 调它会 AttributeError，"
+                            "不存在可被静默绕过的 move 路径（本身 fail-closed）",
+        "noncallable_or_assign_error": "repos_local 存在但不可调用 / 实例赋值失败 ⇒ 构造期 raise，"
+                                       "文案带 engine 类型、属性、文件名与函数名",
+        "disable": "唯一关闭方式：构造参数 move_guard=False（变体/测试显式传；product 不传）",
+        "env_seam": "无：m3_lease.py 不读任何环境变量（旧 env 缝已删，grep=0）",
+        "arms_guard": {name: arms[name]["guard"] for name in ("RED", "GREEN", "VARIANT")},
+        "selftest": {
+            "green_guard_installed_true": bool(arms["GREEN"]["guard"]["guard_installed"])
+                                          and arms["GREEN"]["outcome"].get("guard_selftest") is True,
+            "variant_move_guard_ctor_false": arms["VARIANT"]["guard"]["move_guard_ctor"] is False,
+            "variant_not_installed": arms["VARIANT"]["guard"]["guard_installed"] is False,
+            "variant_selftest_true": arms["VARIANT"]["outcome"].get("guard_selftest") is True,
+            "note": "probe 的 checks 里带断言：真实 engine 建 GuardedLeases 后 guard_installed "
+                    "必须 True，否则该 arm 红",
+        },
+    }
+
     zero_change = {
         "m1_explain_byte_identical": suites["m1-explain"]["stdout_byte_identical"],
         "two_dry_stdout_semantic_identical": suites["two-dry"]["stdout_semantic_identical"],
@@ -159,7 +216,7 @@ def main():
              "order": "先 detach(231) 再回拉 move(232) ⇒ holders 为空"},
         ],
         "guard_off_paths": ["delta==0", "seq 不是已注册块", "该块 holders 为空",
-                            "M3_LEASE_MOVE_GUARD=0（只给变体臂）"],
+                            "构造参数 move_guard=False（只给变体/测试显式传）"],
     }
 
     summary = {
@@ -180,6 +237,8 @@ def main():
                       "eng.repos_local(3,+100)"],
         },
         "arms": arms,
+        "before_copy": before_copy,
+        "guard": guard_section,
         "zero_behavior_change": zero_change,
         "static_no_trigger": static_no_trigger,
         "discipline": {
@@ -196,10 +255,16 @@ def main():
         "four_state": {"I2-fix": "通过"},
         "four_state_scope": "自证：红/绿/变体 + 零行为变化；复核对 lead/inspector",
         "honesty": {
-            "before_copy_provenance": "改前字节未先复制，由现盘反向剥离本次补丁重建，"
-                                      "sha16 与 LANDED-l2.json 记录的 %s 完全一致后落 _before/" % OLD_SHA,
+            "before_reconstructed": True,
+            "before_copy_provenance": "改前字节未先复制（施工前 _before 未落盘），由现盘反向剥离本单"
+                                      "补丁重建；sha16 与 LANDED-l2.json 的权威坐标 %s 逐字节一致"
+                                      "（见 before_copy.verification 的实测命令与 stdout）" % OLD_SHA,
+            "reconstruction_not_a_copy": "不要把它当'改前拷贝'引用：它是反向重建，声明与校验都在 "
+                                         "before_copy 段；若两者不一致应以 LANDED-l2.json 为准",
             "real_arms_not_rerun": "m1/two 真机臂与 S1 真机臂未重跑（会产新读数）；"
                                    "零行为变化按 lead 指定的 explain/dry-run/S1 干跑四项对照",
+            "suites_provenance": "L1/L2/P1/S1 干跑与 m1/two 输出在终版上重跑后写入 _after/；"
+                                 "逐字节对照见 zero_behavior_change.suites",
         },
     }
     with open(SUMMARY, "w", encoding="utf-8", newline="\n") as fh:
@@ -211,6 +276,8 @@ def main():
         "at": summary["at"],
         "summary": ent(SUMMARY),
         "code": summary["code"],
+        "before_copy": summary["before_copy"],
+        "guard": summary["guard"],
         "sites_covered": ["kvmem/m2_visibility/m3/m3_lease.py（BlockLeases 实例层守卫）"],
         "not_touched": ["llama.cpp/**", "tools/chat.py", "tools/chat_lease.py",
                         "tools/analysis.py", "tools/retrieval.py", "tools/evidence.py",
@@ -231,7 +298,7 @@ def main():
                       "refusal": (arms["GREEN"]["outcome"]["move_refusals"] or [None])[0]},
             "VARIANT": {"artifact": arms["VARIANT"]["artifact"],
                         "code_sha16": arms["VARIANT"]["code_sha16"]["m3_lease.py"],
-                        "guard_env": arms["VARIANT"]["guard_env"],
+                        "guard": arms["VARIANT"]["guard"],
                         "before_pos": arms["VARIANT"]["outcome"]["before"]["seq0"]["pos_range"],
                         "after_pos": arms["VARIANT"]["outcome"]["after"]["seq0"]["pos_range"],
                         "refused": arms["VARIANT"]["outcome"]["refused"],
@@ -245,6 +312,23 @@ def main():
         "four_state": summary["four_state"],
         "four_state_scope": summary["four_state_scope"],
         "honesty": summary["honesty"],
+        "corrections": [
+            {"id": "before-copy-honesty",
+             "old": "_before/m3_lease.py 被当作改前拷贝",
+             "new": "before_reconstructed=true + 重建方法 + 与 LANDED-l2.json 权威坐标逐字节一致的"
+                    "实测命令/stdout（before_copy 段）",
+             "basis": "mv 前未落盘；sha256[:16] == 33ae679a50d58c93（LANDED-l2.json files.m3_lease.py）"},
+            {"id": "env-seam-removal",
+             "old": "用环境变量关闭 move 守卫（读到 0 时全局静默放行，不落 move_refusals）",
+             "new": "删掉 env 缝；唯一关闭方式为构造参数 move_guard=False（变体/测试显式传）",
+             "basis": "env 里一个值就能 bypass（fail-closed 缺口）；现盘 m3_lease.py grep=0"},
+            {"id": "guard-install-fail-closed",
+             "old": "_guard_engine_move 的 except 分支 return False（静默不装守卫）",
+             "new": "实例赋值失败/属性不可调用 ⇒ 构造期 raise LeaseError（带 engine 类型/属性/文件行）；"
+                    "无 repos_local ⇒ guard_installed=false + 事件（product 调它会 AttributeError，"
+                    "本身 fail-closed）",
+             "basis": "静默 false = 产品可能带着没装的守卫跑；现盘已无静默分支"},
+        ],
         "gaps": {
             "dst_side_move_not_guarded": "只守『块 seq 被共享时移动块』；『对话 seq 移动时其已挂块跟着移』"
                                          "未加守卫（M2 planner 自己的 detach→move→attach 合同覆盖，"

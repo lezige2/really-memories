@@ -10,7 +10,8 @@
 臂：
   red      改前（或守卫关掉）：静默移动 —— seq0/seq7 的位置区间都变 [100,149]（无报错）
   green    改后：守卫拒绝 —— `refused=true` + reason 带 seq/区间/referrers/块名 + 两个 seq 区间不变
-  variant  改后 + `M3_LEASE_MOVE_GUARD=0`（守卫条件恒 False 的等价缝）：必须回到红（静默移动）
+  variant  改后 + 构造参数 `move_guard=False`（唯一关闭方式；本臂用同表 BlockLeases，
+           GuardedLeases 的构造签名在冻结文件 tools/chat_lease.py 里、不接该参数）：必须回到红
 
 产物只落 `kvmem/m2_visibility/m6/out/`；事件日志目录也设到 `m6/out/_logs`（不写仓库
 `kvmem/lease_logs/`）。DATABASE 不碰。
@@ -39,7 +40,7 @@ os.environ.setdefault("CHAT_LEASE_LOG_DIR", os.path.join(M6, "out", "_logs", "le
 
 import chat as C                     # noqa: E402
 from chat_lease import GuardedLeases  # noqa: E402
-from m3_lease import LeaseError       # noqa: E402
+from m3_lease import BlockLeases, LeaseError  # noqa: E402
 
 BLOCK = os.path.join(ROOT, "kvmem", "blocks", "profile.kvmem")
 BLOCK_SEQ, DST_A, DST_B = 3, 0, 7
@@ -99,11 +100,19 @@ def main():
               "code_sha16": {"m3_lease.py": sha16(os.path.join(M3, "m3_lease.py")),
                              "chat.py": sha16(os.path.join(TOOLS, "chat.py")),
                              "chat_lease.py": sha16(os.path.join(TOOLS, "chat_lease.py"))},
-              "guard_env": {"M3_LEASE_MOVE_GUARD": os.environ.get("M3_LEASE_MOVE_GUARD", "1")},
+              "guard": {"ctor": ("BlockLeases(move_guard=False)" if args.arm == "variant"
+                                 else "GuardedLeases(default move_guard=True)"),
+                        "move_guard_ctor": args.arm != "variant",
+                        "guard_installed": None, "guard_install_note": None},
               "steps": steps}
     leases = None
     try:
-        leases = GuardedLeases(eng, site_prefix="m6a_i2")
+        if args.arm == "variant":
+            leases = BlockLeases(eng, move_guard=False)
+        else:
+            leases = GuardedLeases(eng, site_prefix="m6a_i2")
+        result["guard"]["guard_installed"] = bool(getattr(leases, "guard_installed", False))
+        result["guard"]["guard_install_note"] = getattr(leases, "guard_install_note", None)
         n = int(eng.load(BLOCK_SEQ, BLOCK))
         steps.append({"step": "load(profile->seq3)", "ret": n, "after": snapshot()})
         leases.register_block(BLOCK_SEQ, "profile")
@@ -128,7 +137,7 @@ def main():
                "before": before, "after": after,
                "refused": refused, "moved": moved, "exception": exc,
                "move_refusals": refusals,
-               "guard_disabled_reads": list(getattr(leases, "guard_disabled_reads", [])),
+               "guard": result["guard"],
                "table_status": leases.status()}
         steps.append(rec)
 
@@ -147,12 +156,19 @@ def main():
         }
         expect = {"red": "silent_move", "variant": "silent_move",
                   "green": "refused_with_reason"}[args.arm]
-        ok = bool(rec_shape[expect]) and (rec_shape["both_unchanged"] if args.arm == "green"
-                                          else True)
+        # guard 自测：green 臂必须证明"真实 engine 上守卫确实装上了"；variant 必须证明确实关掉。
+        if args.arm == "green":
+            guard_ok = result["guard"]["guard_installed"] is True
+        else:
+            guard_ok = (result["guard"]["move_guard_ctor"] is False
+                        and result["guard"]["guard_installed"] is False)
+        ok = (bool(rec_shape[expect]) and guard_ok
+              and (rec_shape["both_unchanged"] if args.arm == "green" else True))
         result["outcome"] = {"refused": refused, "moved": moved, "exception": exc,
                              "before": before, "after": after,
                              "move_refusals": refusals,
                              "rec_shape": rec_shape,
+                             "guard_selftest": guard_ok,
                              "expected_shape": expect, "pass": ok}
         result["event_log"] = _event_info()
     finally:
