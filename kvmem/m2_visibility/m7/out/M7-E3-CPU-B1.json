@@ -1,0 +1,142 @@
+{
+ "schema": "m6b_b1_e3cpu_v1",
+ "at": "2026-10-26T10:16:55+0800",
+ "scope": "真实 14B CPU（gpu=0）；无 GPU/无信号；P1 损坏 chat 真拒绝，P2 块拒绝为注入以隔离路径",
+ "prereg": {
+  "sha16": "73779a220ab0aff5",
+  "bytes": 7762
+ },
+ "device": {
+  "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+  "model_bytes": 8988110240,
+  "dll": "D:\\llama-mem\\tools\\kvshim.dll",
+  "dll_sha16": "3e29ae9eadc1dfc0",
+  "dll_bytes": 8106496,
+  "gpu": 0,
+  "engine_load_s": 38.74,
+  "pid": 11308
+ },
+ "fixtures": {
+  "manifest": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m6\\tmp\\b1cpu\\s1.json",
+   "sha16": "d0cefc1e83cf7d5d",
+   "bytes": 1197
+  },
+  "chat": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m6\\tmp\\b1cpu\\s1.chat.kvmem",
+   "sha16": "6a2508d4df79fa57",
+   "bytes": 19744884
+  },
+  "corrupt_chat": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m6\\tmp\\b1cpu\\bad.chat.kvmem",
+   "sha16": "3b754470ac419c3e",
+   "bytes": 19744884
+  },
+  "corrupt_manifest": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m6\\tmp\\b1cpu\\bad.json",
+   "sha16": "53f9b67dfd3b5fcd",
+   "bytes": 1073
+  },
+  "no_chat_manifest": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m6\\tmp\\b1cpu\\s2_none.json",
+   "sha16": "bda302d0cb3de2db",
+   "bytes": 1055
+  }
+ },
+ "P1": {
+  "red": {
+   "before": [
+    7,
+    6
+   ],
+   "after": [
+    0,
+    -1
+   ],
+   "reset_calls": [
+    0
+   ],
+   "error": "RuntimeError: kvshim_load refused D:\\llama-mem\\kvmem\\m2_visibility\\m6\\tmp\\b1cpu\\bad.chat.kvmem -- incompatible state (model, rope, kv type or n_rot_k differs from when the block was written)",
+   "report": null
+  },
+  "green": {
+   "before": [
+    7,
+    6
+   ],
+   "after": [
+    7,
+    6
+   ],
+   "reset_calls": [],
+   "error": "RuntimeError: kvshim_load refused D:\\llama-mem\\kvmem\\m2_visibility\\m6\\tmp\\b1cpu\\bad.chat.kvmem -- incompatible state (model, rope, kv type or n_rot_k differs from when the block was written)",
+   "report": null
+  }
+ },
+ "P2": {
+  "red": {
+   "before": [
+    7,
+    6
+   ],
+   "after": [
+    0,
+    -1
+   ],
+   "reset_calls": [
+    0,
+    1
+   ],
+   "error": "RuntimeError: E3-CPU injected block rejection (non-Incompatible)",
+   "report": null
+  },
+  "green": {
+   "before": [
+    7,
+    6
+   ],
+   "after": [
+    7,
+    6
+   ],
+   "reset_calls": [],
+   "error": "RuntimeError: E3-CPU injected block rejection (non-Incompatible)",
+   "report": null
+  }
+ },
+ "verdict": {
+  "P1_red_loss": true,
+  "P1_green_zero": true,
+  "P2_red_loss": true,
+  "P2_green_zero": true,
+  "C++": "未接上（受不重建 DLL 限制）"
+ },
+ "code_sha16": {
+  "session_state.py": {
+   "path": "tools\\session_state.py",
+   "sha16": "44b508a886dfb8f8",
+   "bytes": 24005
+  },
+  "chat.py": {
+   "path": "tools\\chat.py",
+   "sha16": "4bb3243aadf176a9",
+   "bytes": 75031
+  },
+  "kvslots.py": {
+   "path": "tools\\kvslots.py",
+   "sha16": "cfec958c19c62563",
+   "bytes": 27016
+  }
+ },
+ "corrections": [
+  {
+   "artifact": "M6B-B1-E3CPU.json",
+   "old_sha16": "7ebdb8ab0de83c96",
+   "old_bytes": 2610,
+   "new_sha16": "972ceba30b505be7",
+   "new_bytes": 2611,
+   "reason": "task-68 产品 A 后的最后一次 E3-CPU"
+  }
+ ],
+ "boundary": "结论边界=进程级非正常终止；驱动级 bug check 不在保证范围；目录 flush 不是缺口"
+}

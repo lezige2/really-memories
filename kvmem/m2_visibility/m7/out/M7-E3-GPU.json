@@ -1,7 +1,7 @@
 {
  "schema": "m7_e3_gpu_v1",
  "task": "M7 E3-GPU (a) 无 kill 子臂 14B Vulkan 36 层",
- "at": "2026-10-26T08:22:44+0800",
+ "at": "2026-10-26T10:21:23+0800",
  "scope": "只覆盖无 kill 子臂，不得借用 CPU 臂结论",
  "kill_arm": "未做（主机不安全）",
  "freeze": {
@@ -19,62 +19,41 @@
   "action": "close_browsers",
   "authorized_by": "user (ask_user_question option B)",
   "method": "CloseMainWindow→Stop-Process(msedge only)",
-  "pids": [
-   3188,
-   4172,
-   4632,
-   5192,
-   5564,
-   6464,
-   7364,
-   8236,
-   8528,
-   9944,
-   10032,
-   10928,
-   11232,
-   11960
-  ],
-  "started_at": "2026-10-26T08:22:44+0800",
-  "finished_at": "2026-10-26T08:22:58+0800",
-  "before_count": 14,
-  "after_graceful_count": 8,
+  "pids": [],
+  "started_at": "2026-10-26T10:21:23+0800",
+  "finished_at": "2026-10-26T10:21:37+0800",
+  "before_count": 0,
+  "after_graceful_count": 0,
   "after_count": 0,
-  "force_used": true,
+  "force_used": false,
   "other_processes_touched": false,
   "raw": {
    "list_before": {
     "command": "Get-Process -Name msedge -ErrorAction SilentlyContinue | Select-Object Id,MainWindowHandle | ConvertTo-Json -Compress",
-    "rc": 0,
-    "collected_at": "2026-10-26T08:22:45+0800",
-    "stdout": "[{\"Id\":3188,\"MainWindowHandle\":0},{\"Id\":4172,\"MainWindowHandle\":0},{\"Id\":4632,\"MainWindowHandle\":0},{\"Id\":5192,\"MainWindowHandle\":0},{\"Id\":5564,\"MainWindowHandle\":0},{\"Id\":6464,\"MainWindowHandle\":0},{\"Id\":7364,\"MainWindowHandle\":66882},{\"Id\":8236,\"MainWindowHandle\":0},{\"Id\":8528,\"MainWindowHandle\":0},{\"Id\":9944,\"MainWindowHandle\":0},{\"Id\":10032,\"MainWindowHandle\":0},{\"Id\":10928,\"MainWindowHandle\":0},{\"Id\":11232,\"MainWindowHandle\":0},{\"Id\":11960,\"MainWindowHandle\":0}]",
+    "rc": 1,
+    "collected_at": "2026-10-26T10:21:24+0800",
+    "stdout": "",
     "stderr": ""
    },
    "close_main_window": {
     "command": "(Get-Process -Name msedge -ErrorAction SilentlyContinue | Where-Object { $_.MainWindowHandle -ne 0 }) | ForEach-Object { $_.CloseMainWindow() } | Out-Null; Start-Sleep -Seconds 10",
     "rc": 0,
-    "collected_at": "2026-10-26T08:22:56+0800",
+    "collected_at": "2026-10-26T10:21:35+0800",
     "stdout": "",
     "stderr": ""
    },
    "list_after_graceful": {
     "command": "Get-Process -Name msedge -ErrorAction SilentlyContinue | Select-Object Id,MainWindowHandle | ConvertTo-Json -Compress",
-    "rc": 0,
-    "collected_at": "2026-10-26T08:22:57+0800",
-    "stdout": "[{\"Id\":1804,\"MainWindowHandle\":0},{\"Id\":6620,\"MainWindowHandle\":0},{\"Id\":8252,\"MainWindowHandle\":0},{\"Id\":10172,\"MainWindowHandle\":0},{\"Id\":11312,\"MainWindowHandle\":0},{\"Id\":11532,\"MainWindowHandle\":0},{\"Id\":11696,\"MainWindowHandle\":0},{\"Id\":12176,\"MainWindowHandle\":0}]",
-    "stderr": ""
-   },
-   "force_msedge_only": {
-    "command": "Get-Process -Name msedge -ErrorAction SilentlyContinue | Stop-Process -Force",
-    "rc": 0,
-    "collected_at": "2026-10-26T08:22:58+0800",
+    "rc": 1,
+    "collected_at": "2026-10-26T10:21:36+0800",
     "stdout": "",
     "stderr": ""
    },
+   "force_msedge_only": null,
    "list_after": {
     "command": "Get-Process -Name msedge -ErrorAction SilentlyContinue | Select-Object Id,MainWindowHandle | ConvertTo-Json -Compress",
     "rc": 1,
-    "collected_at": "2026-10-26T08:22:58+0800",
+    "collected_at": "2026-10-26T10:21:37+0800",
     "stdout": "",
     "stderr": ""
    }
@@ -84,18 +63,18 @@
  "host_check": {
   "before": {
    "tag": "before",
-   "collected_at": "2026-10-26T08:23:00+0800",
+   "collected_at": "2026-10-26T10:21:39+0800",
    "boot": {
     "command": "(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString('o')",
     "rc": 0,
-    "collected_at": "2026-10-26T08:22:59+0800",
+    "collected_at": "2026-10-26T10:21:38+0800",
     "stdout": "2026-10-26T03:24:52.5000000+08:00",
     "stderr": ""
    },
    "minidump": {
     "command": "Get-ChildItem -LiteralPath 'C:\\Windows\\Minidump' -Filter '*.dmp' -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime | Select-Object Name,Length,@{n='LastWriteTime';e={$_.LastWriteTime.ToString('o')}} | ConvertTo-Json -Compress",
     "rc": 0,
-    "collected_at": "2026-10-26T08:23:00+0800",
+    "collected_at": "2026-10-26T10:21:39+0800",
     "stdout": "[{\"Name\":\"102626-5187-01.dmp\",\"Length\":2201077,\"LastWriteTime\":\"2026-10-26T01:31:36.2997028+08:00\"},{\"Name\":\"102626-4468-01.dmp\",\"Length\":1994809,\"LastWriteTime\":\"2026-10-26T01:38:56.5625530+08:00\"},{\"Name\":\"102626-4593-01.dmp\",\"Length\":1063617,\"LastWriteTime\":\"2026-10-26T01:56:32.6758278+08:00\"},{\"Name\":\"102626-4437-01.dmp\",\"Length\":2062496,\"LastWriteTime\":\"2026-10-26T03:10:17.4578327+08:00\"},{\"Name\":\"102626-4671-01.dmp\",\"Length\":2043758,\"LastWriteTime\":\"2026-10-26T03:24:55.7693314+08:00\"}]",
     "stderr": ""
    },
@@ -134,18 +113,18 @@
   },
   "after": {
    "tag": "after",
-   "collected_at": "2026-10-26T08:23:48+0800",
+   "collected_at": "2026-10-26T10:22:53+0800",
    "boot": {
     "command": "(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString('o')",
     "rc": 0,
-    "collected_at": "2026-10-26T08:23:47+0800",
+    "collected_at": "2026-10-26T10:22:52+0800",
     "stdout": "2026-10-26T03:24:52.5000000+08:00",
     "stderr": ""
    },
    "minidump": {
     "command": "Get-ChildItem -LiteralPath 'C:\\Windows\\Minidump' -Filter '*.dmp' -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime | Select-Object Name,Length,@{n='LastWriteTime';e={$_.LastWriteTime.ToString('o')}} | ConvertTo-Json -Compress",
     "rc": 0,
-    "collected_at": "2026-10-26T08:23:48+0800",
+    "collected_at": "2026-10-26T10:22:53+0800",
     "stdout": "[{\"Name\":\"102626-5187-01.dmp\",\"Length\":2201077,\"LastWriteTime\":\"2026-10-26T01:31:36.2997028+08:00\"},{\"Name\":\"102626-4468-01.dmp\",\"Length\":1994809,\"LastWriteTime\":\"2026-10-26T01:38:56.5625530+08:00\"},{\"Name\":\"102626-4593-01.dmp\",\"Length\":1063617,\"LastWriteTime\":\"2026-10-26T01:56:32.6758278+08:00\"},{\"Name\":\"102626-4437-01.dmp\",\"Length\":2062496,\"LastWriteTime\":\"2026-10-26T03:10:17.4578327+08:00\"},{\"Name\":\"102626-4671-01.dmp\",\"Length\":2043758,\"LastWriteTime\":\"2026-10-26T03:24:55.7693314+08:00\"}]",
     "stderr": ""
    },
@@ -195,7 +174,25 @@
   },
   {
    "attempt": 2,
-   "at": "2026-10-26T08:22:44+0800",
+   "at": "2026-10-26T10:19:46+0800",
+   "status": "invalid_setup",
+   "gate_result": "fail",
+   "artifact": {
+    "sha16": "601bc768",
+    "bytes": 12267,
+    "deleted": true,
+    "sha_source": "audit_record_only"
+   },
+   "artifact_deleted": true,
+   "artifact_note": "盘上已无 601bc768 件；10:21:23 成功重跑覆盖。sha/字节仅引自审计记录（INSPECTOR-M6B-B1-AUDIT.md:44），未对盘上件复算。",
+   "reason": "free_ram 1.2 GB < 闸（free_ram_kb=1,265,684，free_ram_ok=false）",
+   "counted_in_verdict": false,
+   "readings_used": false,
+   "disposition": "装置不合格（不计入判据、不作废判据）"
+  },
+  {
+   "attempt": 3,
+   "at": "2026-10-26T10:21:23+0800",
    "status": "completed",
    "artifacts": [
     "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\M7-E3-GPU.json",
@@ -203,34 +200,81 @@
    ],
    "readings_used": true,
    "note": "本次重跑；B1–B3 修复后只使用本轮读数",
-   "finished_at": "2026-10-26T08:23:48+0800"
+   "finished_at": "2026-10-26T10:22:53+0800"
   }
  ],
  "corrections": [
   {
    "artifact": "M7-E3-GPU.json",
-   "old_sha16": "36c5bf21bcfee9c9",
-   "old_bytes": 14400,
-   "new_sha16": "见 LANDED-m7-e3-gpu.json corrections[0].new_sha16（写入后自哈希，避免自指）",
-   "audit_sha16": "e6a58bf315680610",
-   "audit_bytes": 9705,
-   "changes": [
-    "B1: host_safety.bsod_incidents 3->5 + 5 份 dump 枚举",
-    "B2: host_check() 实跑 Minidump/LastBootUpTime 并保留命令+原始输出+时间",
-    "B3: 每 child 独立 _e3gpu_log_<scenario>.log（append，不删不覆盖）",
-    "G8: 每场景独立 peak 文件",
-    "G5: S4 明写为 S1 副本改名",
-    "G3: 明写 chat_sha16 为文件字节哈希",
-    "G7: attempts[] 记录 attempt#1 失败"
-   ]
+   "old_sha16": "e6b03da6f75cb851",
+   "old_bytes": 30561,
+   "new_sha16": "9faacdd021898dd1",
+   "new_bytes": 29413,
+   "reason": "B1 第一次重跑"
+  },
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "9faacdd021898dd1",
+   "old_bytes": 29413,
+   "new_sha16": "7f07b1c2861092e7",
+   "new_bytes": 29476,
+   "reason": "补 corrections 的中间件"
+  },
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "7f07b1c2861092e7",
+   "old_bytes": 29476,
+   "new_sha16": "7a57ecb2c360bb2e",
+   "new_bytes": 29421,
+   "reason": "P2 修正后的中间件"
+  },
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "7a57ecb2c360bb2e",
+   "old_bytes": 29421,
+   "new_sha16": "e0cb5a1d56c6c494",
+   "new_bytes": 29484,
+   "reason": "补 corrections 的中间件"
+  },
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "e0cb5a1d56c6c494",
+   "old_bytes": 29484,
+   "new_sha16": "16997c6fc0c2ffd0",
+   "new_bytes": 30087,
+   "reason": "rev3 定稿件"
+  },
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "16997c6fc0c2ffd0",
+   "old_bytes": 30087,
+   "new_sha16": "46ac6aa199a5b176",
+   "new_bytes": 29412,
+   "reason": "rev4 scratch 重跑原始读数"
+  },
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "46ac6aa199a5b176",
+   "old_bytes": 29412,
+   "new_sha16": "3011c9ec93eb4235",
+   "new_bytes": 30592,
+   "reason": "rev4 定稿件（补前驱链/code）"
+  },
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "3011c9ec93eb4235",
+   "old_bytes": 30592,
+   "new_sha16": "4f4e824d55431bb9",
+   "new_bytes": 29415,
+   "reason": "task-68 A 加固后最后一次 E3-GPU 重跑原始读数"
   }
  ],
  "device": {
   "qualified": true,
   "gate": {
    "pnp_rndis_usb_audio": 0,
-   "vram_baseline_gib": 0.4404,
-   "free_ram_kb": 12123340,
+   "vram_baseline_gib": 0.4266,
+   "free_ram_kb": 13184324,
    "gpu_procs_gt256mb": 0,
    "browser_or_code_procs": 0,
    "boot_id": "2026-10-26T03:24:52.5000000+08:00",
@@ -285,24 +329,24 @@
   "n_gpu_layers_readback_total": 49,
   "offloaded_log_line": "offloaded 36/49 layers to GPU",
   "n_gpu_layers_readback_ok": true,
-  "first_child_pid": 11812,
-  "load_s": 7.734,
+  "first_child_pid": 5696,
+  "load_s": 34.917,
   "boot_id_after": "2026-10-26T03:24:52.5000000+08:00"
  },
  "scenarios": {
   "S1-save": {
    "scenario": "S1-save",
    "mode": "s1_save",
-   "child_pid": 11812,
+   "child_pid": 5696,
    "rc": 0,
-   "elapsed_s": 16.45,
+   "elapsed_s": 37.58,
    "timeout": false,
    "hung": false,
    "aborted": false,
-   "vram_peak_gib": 7.3878,
+   "vram_peak_gib": 7.374,
    "meta": {
-    "pid": 11812,
-    "load_s": 7.734,
+    "pid": 5696,
+    "load_s": 34.917,
     "vulkan_imported": true,
     "dll_sha16": "9edbafa150700614",
     "n_gpu_layers_input": 36,
@@ -317,7 +361,7 @@
    },
    "result": {
     "mode": "s1_save",
-    "load_s": 7.734,
+    "load_s": 34.917,
     "prefill_n": 189,
     "prefill_pos_max": 4284,
     "profile_n_tokens": 50,
@@ -327,7 +371,7 @@
     "chat_sha16": "6a2508d4df79fa57",
     "chat_bytes": 19744884,
     "manifest": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3gpu\\s1.json",
-    "manifest_sha16": "f808aa433d60a400",
+    "manifest_sha16": "9c374337a419e06c",
     "manifest_chat_bytes": 19744884,
     "manifest_chat_n_tokens": 189,
     "save_events": 0,
@@ -338,28 +382,28 @@
     "vulkan_imported": true
    },
    "stdout_tail": [
-    "E3META {\"pid\": 11812, \"load_s\": 7.734, \"vulkan_imported\": true, \"dll_sha16\": \"9edbafa150700614\", \"n_gpu_layers_input\": 36, \"n_gpu_layers_readback\": 36, \"n_gpu_layers_readback_total\": 49, \"offloaded_log_line\": \"offloaded 36/49 layers to GPU\", \"gpu\": 36, \"n_ctx\": 8192, \"n_seq\": 8, \"kv\": \"q8_0\", \"model_bytes\": 8988110240}",
+    "E3META {\"pid\": 5696, \"load_s\": 34.917, \"vulkan_imported\": true, \"dll_sha16\": \"9edbafa150700614\", \"n_gpu_layers_input\": 36, \"n_gpu_layers_readback\": 36, \"n_gpu_layers_readback_total\": 49, \"offloaded_log_line\": \"offloaded 36/49 layers to GPU\", \"gpu\": 36, \"n_ctx\": 8192, \"n_seq\": 8, \"kv\": \"q8_0\", \"model_bytes\": 8988110240}",
     "E3SAVE_START D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3gpu\\s1.json",
     "E3SAVE_DONE",
-    "E3RESULT {\"mode\": \"s1_save\", \"load_s\": 7.734, \"prefill_n\": 189, \"prefill_pos_max\": 4284, \"profile_n_tokens\": 50, \"profile_lo\": 4046, \"profile_hi\": 4096, \"chat_n_tokens\": 189, \"chat_sha16\": \"6a2508d4df79fa57\", \"chat_bytes\": 19744884, \"manifest\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3gpu\\\\s1.json\", \"manifest_sha16\": \"f808aa433d60a400\", \"manifest_chat_bytes\": 19744884, \"manifest_chat_n_tokens\": 189, \"save_events\": 0, \"s4_manifest\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3gpu\\\\s4.json\", \"s4_chat\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3gpu\\\\s4.chat.kvmem\", \"s4_bytes\": 19744884, \"s4_sha16\": \"6a2508d4df79fa57\", \"vulkan_imported\": true}"
+    "E3RESULT {\"mode\": \"s1_save\", \"load_s\": 34.917, \"prefill_n\": 189, \"prefill_pos_max\": 4284, \"profile_n_tokens\": 50, \"profile_lo\": 4046, \"profile_hi\": 4096, \"chat_n_tokens\": 189, \"chat_sha16\": \"6a2508d4df79fa57\", \"chat_bytes\": 19744884, \"manifest\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3gpu\\\\s1.json\", \"manifest_sha16\": \"9c374337a419e06c\", \"manifest_chat_bytes\": 19744884, \"manifest_chat_n_tokens\": 189, \"save_events\": 0, \"s4_manifest\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3gpu\\\\s4.json\", \"s4_chat\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3gpu\\\\s4.chat.kvmem\", \"s4_bytes\": 19744884, \"s4_sha16\": \"6a2508d4df79fa57\", \"vulkan_imported\": true}"
    ],
    "stderr_tail": [],
    "raw_log": {
     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_log_S1-save.log",
-    "sha16": "71f4c7ccc0a81bb1",
-    "bytes": 508495,
+    "sha16": "7506bd1113e05024",
+    "bytes": 2542475,
     "mode": "append_only_no_predelete"
    },
    "offloaded_log_line": "offloaded 36/49 layers to GPU",
    "peak_file": {
     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_peak_S1-save.txt",
-    "sha16": "ab8f164a7a15c011",
+    "sha16": "aa64324047c3aad9",
     "bytes": 10
    },
    "atomic_shape": {
     "tmp_seen": true,
     "tmp_pattern": [
-     "s1.chat.kvmem.tmp-11812-0a07ddcb"
+     "s1.chat.kvmem.tmp-5696-396338c2"
     ],
     "tmp_cleaned_after": true,
     "target_existed_before": true
@@ -369,16 +413,16 @@
   "S1-load": {
    "scenario": "S1-load",
    "mode": "s1_load",
-   "child_pid": 10180,
+   "child_pid": 8816,
    "rc": 0,
    "elapsed_s": 5.43,
    "timeout": false,
    "hung": false,
    "aborted": false,
-   "vram_peak_gib": 7.349,
+   "vram_peak_gib": 7.3352,
    "meta": {
-    "pid": 10180,
-    "load_s": 4.453,
+    "pid": 8816,
+    "load_s": 4.438,
     "vulkan_imported": true,
     "dll_sha16": "9edbafa150700614",
     "n_gpu_layers_input": 36,
@@ -406,20 +450,20 @@
     "report_anchor": 4096
    },
    "stdout_tail": [
-    "E3META {\"pid\": 10180, \"load_s\": 4.453, \"vulkan_imported\": true, \"dll_sha16\": \"9edbafa150700614\", \"n_gpu_layers_input\": 36, \"n_gpu_layers_readback\": 36, \"n_gpu_layers_readback_total\": 49, \"offloaded_log_line\": \"offloaded 36/49 layers to GPU\", \"gpu\": 36, \"n_ctx\": 8192, \"n_seq\": 8, \"kv\": \"q8_0\", \"model_bytes\": 8988110240}",
+    "E3META {\"pid\": 8816, \"load_s\": 4.438, \"vulkan_imported\": true, \"dll_sha16\": \"9edbafa150700614\", \"n_gpu_layers_input\": 36, \"n_gpu_layers_readback\": 36, \"n_gpu_layers_readback_total\": 49, \"offloaded_log_line\": \"offloaded 36/49 layers to GPU\", \"gpu\": 36, \"n_ctx\": 8192, \"n_seq\": 8, \"kv\": \"q8_0\", \"model_bytes\": 8988110240}",
     "E3RESULT {\"mode\": \"s1_load\", \"load_ok\": true, \"events\": 0, \"event_lines\": [], \"chat_n_tokens\": 189, \"chat_pos_max\": 4284, \"chat_sha16\": \"6a2508d4df79fa57\", \"chat_bytes\": 19744884, \"manifest_chat_bytes\": 19744884, \"manifest_chat_n_tokens\": 189, \"report_chat_end\": 4285, \"report_anchor\": 4096}"
    ],
    "stderr_tail": [],
    "raw_log": {
     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_log_S1-load.log",
-    "sha16": "0561baa9ce3d988b",
-    "bytes": 508547,
+    "sha16": "aa82079394288f18",
+    "bytes": 2543147,
     "mode": "append_only_no_predelete"
    },
    "offloaded_log_line": "offloaded 36/49 layers to GPU",
    "peak_file": {
     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_peak_S1-load.txt",
-    "sha16": "367d703d8b81266a",
+    "sha16": "30161df64eaebeac",
     "bytes": 10
    },
    "atomic_shape": {
@@ -435,7 +479,7 @@
    "observed": {
     "save": {
      "mode": "s1_save",
-     "load_s": 7.734,
+     "load_s": 34.917,
      "prefill_n": 189,
      "prefill_pos_max": 4284,
      "profile_n_tokens": 50,
@@ -445,7 +489,7 @@
      "chat_sha16": "6a2508d4df79fa57",
      "chat_bytes": 19744884,
      "manifest": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3gpu\\s1.json",
-     "manifest_sha16": "f808aa433d60a400",
+     "manifest_sha16": "9c374337a419e06c",
      "manifest_chat_bytes": 19744884,
      "manifest_chat_n_tokens": 189,
      "save_events": 0,
@@ -472,7 +516,7 @@
     "atomic_shape": {
      "tmp_seen": true,
      "tmp_pattern": [
-      "s1.chat.kvmem.tmp-11812-0a07ddcb"
+      "s1.chat.kvmem.tmp-5696-396338c2"
      ],
      "tmp_cleaned_after": true,
      "target_existed_before": true
@@ -484,7 +528,7 @@
     "chat_sha16": "6a2508d4df79fa57",
     "n_tokens": 189,
     "pos_max": 4284,
-    "manifest_sha16": "f808aa433d60a400",
+    "manifest_sha16": "9c374337a419e06c",
     "load_n_tokens": 189,
     "load_pos_max": 4284,
     "events": 0,
@@ -497,14 +541,14 @@
     "tmp_seen": true,
     "tmp_cleaned_after": true,
     "target_existed_before": true,
-    "s1_raw_log_sha16": "71f4c7ccc0a81bb1",
+    "s1_raw_log_sha16": "7506bd1113e05024",
     "s1_offloaded_log_line": "offloaded 36/49 layers to GPU"
    },
-   "vram_peak_gib": 7.3878,
+   "vram_peak_gib": 7.374,
    "timeout": false,
    "child_pid": [
-    11812,
-    10180
+    5696,
+    8816
    ],
    "rc": [
     0,
@@ -513,33 +557,33 @@
    "raw_logs": {
     "save": {
      "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_log_S1-save.log",
-     "sha16": "71f4c7ccc0a81bb1",
-     "bytes": 508495,
+     "sha16": "7506bd1113e05024",
+     "bytes": 2542475,
      "mode": "append_only_no_predelete"
     },
     "load": {
      "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_log_S1-load.log",
-     "sha16": "0561baa9ce3d988b",
-     "bytes": 508547,
+     "sha16": "aa82079394288f18",
+     "bytes": 2543147,
      "mode": "append_only_no_predelete"
     }
    },
    "peak_files": {
     "save": {
      "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_peak_S1-save.txt",
-     "sha16": "ab8f164a7a15c011",
+     "sha16": "aa64324047c3aad9",
      "bytes": 10
     },
     "load": {
      "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_peak_S1-load.txt",
-     "sha16": "367d703d8b81266a",
+     "sha16": "30161df64eaebeac",
      "bytes": 10
     }
    },
    "atomic_shape": {
     "tmp_seen": true,
     "tmp_pattern": [
-     "s1.chat.kvmem.tmp-11812-0a07ddcb"
+     "s1.chat.kvmem.tmp-5696-396338c2"
     ],
     "tmp_cleaned_after": true,
     "target_existed_before": true
@@ -596,19 +640,19 @@
     "expected_exc": "LayoutMismatch",
     "pass": true
    },
-   "vram_peak_gib": 7.349,
+   "vram_peak_gib": 7.3402,
    "timeout": false,
-   "child_pid": 10192,
+   "child_pid": 2436,
    "rc": 0,
    "raw_log": {
     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_log_S2.log",
-    "sha16": "07a02d3d3caad699",
-    "bytes": 508444,
+    "sha16": "e46846f99c701a77",
+    "bytes": 2542220,
     "mode": "append_only_no_predelete"
    },
    "peak_file": {
     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_peak_S2.txt",
-    "sha16": "367d703d8b81266a",
+    "sha16": "2f117aeccbf13a03",
     "bytes": 10
    },
    "offloaded_log_line": "offloaded 36/49 layers to GPU"
@@ -624,14 +668,14 @@
     "old_exc": null,
     "events": 1,
     "event_lines": [
-     "{\"schema\": \"m7_f2_event_v1\", \"event\": \"chat_unvalidated\", \"unvalidated\": true, \"manifest\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3gpu\\\\s3_old.json\", \"manifest_sha16\": \"a6cdf14029c31069\", \"manifest_version\": 2, \"chat_state\": \"s3_old.chat.kvmem\", \"chat_path\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3gpu\\\\s3_old.chat.kvmem\", \"actual_bytes\": 19744884, \"expected_bytes\": null, \"reason\": \"missing_chat_bytes\", \"n_tokens\": 189, \"wrote_manifest\": false}"
+     "{\"schema\": \"m7_f2_event_v1\", \"event\": \"chat_unvalidated\", \"unvalidated\": true, \"manifest\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3gpu\\\\s3_old.json\", \"manifest_sha16\": \"7b6c826114910d37\", \"manifest_version\": 2, \"chat_state\": \"s3_old.chat.kvmem\", \"chat_path\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3gpu\\\\s3_old.chat.kvmem\", \"actual_bytes\": 19744884, \"expected_bytes\": null, \"reason\": \"missing_chat_bytes\", \"n_tokens\": 189, \"wrote_manifest\": false}"
     ],
     "unvalidated_chat_bytes": true,
     "original_load_ok": true,
     "original_events": 0,
     "original_event_lines": [],
     "pass": true,
-    "source_manifest_sha16": "a6cdf14029c31069"
+    "source_manifest_sha16": "7b6c826114910d37"
    },
    "verdict": "通过",
    "readings": {
@@ -643,28 +687,28 @@
     "old_exc": null,
     "events": 1,
     "event_lines": [
-     "{\"schema\": \"m7_f2_event_v1\", \"event\": \"chat_unvalidated\", \"unvalidated\": true, \"manifest\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3gpu\\\\s3_old.json\", \"manifest_sha16\": \"a6cdf14029c31069\", \"manifest_version\": 2, \"chat_state\": \"s3_old.chat.kvmem\", \"chat_path\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3gpu\\\\s3_old.chat.kvmem\", \"actual_bytes\": 19744884, \"expected_bytes\": null, \"reason\": \"missing_chat_bytes\", \"n_tokens\": 189, \"wrote_manifest\": false}"
+     "{\"schema\": \"m7_f2_event_v1\", \"event\": \"chat_unvalidated\", \"unvalidated\": true, \"manifest\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3gpu\\\\s3_old.json\", \"manifest_sha16\": \"7b6c826114910d37\", \"manifest_version\": 2, \"chat_state\": \"s3_old.chat.kvmem\", \"chat_path\": \"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m7\\\\out\\\\tmp\\\\e3gpu\\\\s3_old.chat.kvmem\", \"actual_bytes\": 19744884, \"expected_bytes\": null, \"reason\": \"missing_chat_bytes\", \"n_tokens\": 189, \"wrote_manifest\": false}"
     ],
     "unvalidated_chat_bytes": true,
     "original_load_ok": true,
     "original_events": 0,
     "original_event_lines": [],
     "pass": true,
-    "source_manifest_sha16": "a6cdf14029c31069"
+    "source_manifest_sha16": "7b6c826114910d37"
    },
-   "vram_peak_gib": 7.349,
+   "vram_peak_gib": 7.3352,
    "timeout": false,
-   "child_pid": 5900,
+   "child_pid": 11684,
    "rc": 0,
    "raw_log": {
     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_log_S3.log",
-    "sha16": "1961d4f766e8b62b",
-    "bytes": 508650,
+    "sha16": "08fa0b6c98d9aae5",
+    "bytes": 2544074,
     "mode": "append_only_no_predelete"
    },
    "peak_file": {
     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_peak_S3.txt",
-    "sha16": "367d703d8b81266a",
+    "sha16": "30161df64eaebeac",
     "bytes": 10
    },
    "offloaded_log_line": "offloaded 36/49 layers to GPU"
@@ -692,19 +736,19 @@
     "fixture_independence": "S4 = S1 产物改名，不是独立 fixture",
     "pass": true
    },
-   "vram_peak_gib": 7.349,
+   "vram_peak_gib": 7.3352,
    "timeout": false,
-   "child_pid": 6468,
+   "child_pid": 8748,
    "rc": 0,
    "raw_log": {
     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_log_S4.log",
-    "sha16": "ade0e9a244a862eb",
-    "bytes": 508547,
+    "sha16": "4d9f102e25266a5b",
+    "bytes": 2543147,
     "mode": "append_only_no_predelete"
    },
    "peak_file": {
     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_peak_S4.txt",
-    "sha16": "f92aed10556e0c9d",
+    "sha16": "30161df64eaebeac",
     "bytes": 10
    },
    "offloaded_log_line": "offloaded 36/49 layers to GPU",
@@ -714,59 +758,59 @@
  "raw_logs": {
   "S1-save": {
    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_log_S1-save.log",
-   "sha16": "71f4c7ccc0a81bb1",
-   "bytes": 508495,
+   "sha16": "7506bd1113e05024",
+   "bytes": 2542475,
    "mode": "append_only_no_predelete"
   },
   "S1-load": {
    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_log_S1-load.log",
-   "sha16": "0561baa9ce3d988b",
-   "bytes": 508547,
+   "sha16": "aa82079394288f18",
+   "bytes": 2543147,
    "mode": "append_only_no_predelete"
   },
   "S2": {
    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_log_S2.log",
-   "sha16": "07a02d3d3caad699",
-   "bytes": 508444,
+   "sha16": "e46846f99c701a77",
+   "bytes": 2542220,
    "mode": "append_only_no_predelete"
   },
   "S3": {
    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_log_S3.log",
-   "sha16": "1961d4f766e8b62b",
-   "bytes": 508650,
+   "sha16": "08fa0b6c98d9aae5",
+   "bytes": 2544074,
    "mode": "append_only_no_predelete"
   },
   "S4": {
    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_log_S4.log",
-   "sha16": "ade0e9a244a862eb",
-   "bytes": 508547,
+   "sha16": "4d9f102e25266a5b",
+   "bytes": 2543147,
    "mode": "append_only_no_predelete"
   }
  },
  "peak_files": {
   "S1-save": {
    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_peak_S1-save.txt",
-   "sha16": "ab8f164a7a15c011",
+   "sha16": "aa64324047c3aad9",
    "bytes": 10
   },
   "S1-load": {
    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_peak_S1-load.txt",
-   "sha16": "367d703d8b81266a",
+   "sha16": "30161df64eaebeac",
    "bytes": 10
   },
   "S2": {
    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_peak_S2.txt",
-   "sha16": "367d703d8b81266a",
+   "sha16": "2f117aeccbf13a03",
    "bytes": 10
   },
   "S3": {
    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_peak_S3.txt",
-   "sha16": "367d703d8b81266a",
+   "sha16": "30161df64eaebeac",
    "bytes": 10
   },
   "S4": {
    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_peak_S4.txt",
-   "sha16": "f92aed10556e0c9d",
+   "sha16": "30161df64eaebeac",
    "bytes": 10
   }
  },
@@ -888,5 +932,30 @@
   "source": "今晚主机 5 次蓝屏（0xA/0xA/0x44/0x144/0xA）；Minidump 现场枚举由 host_check() 生成",
   "policy": "无 SIGKILL；只置 stop flag；不杀 child",
   "minidump_latest_mtime": "2026-10-26T03:24:55.7693314+08:00"
+ },
+ "code_sha16": {
+  "tools/session_state.py": {
+   "path": "tools/session_state.py",
+   "sha16": "44b508a886dfb8f8",
+   "bytes": 24005
+  },
+  "tools/chat.py": {
+   "path": "tools/chat.py",
+   "sha16": "4bb3243aadf176a9",
+   "bytes": 75031
+  },
+  "tools/kvslots.py": {
+   "path": "tools/kvslots.py",
+   "sha16": "cfec958c19c62563",
+   "bytes": 27016
+  }
+ },
+ "b1_ref": {
+  "prereg_sha16": "73779a220ab0aff5",
+  "product_changed": true,
+  "scratch_fix": "max_slot_id+2",
+  "durability": "manifest fsync + MoveFileExW write-through",
+  "kill_boundary": "进程级非正常终止；驱动级 bug check 不在保证范围",
+  "kill_arm": "未做（主机不安全）"
  }
 }

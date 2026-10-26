@@ -1,0 +1,178 @@
+{
+ "schema": "landed_m7_e3_gpu_b1rev_v1",
+ "at": "2026-10-26T10:24:41+0800",
+ "scope": "task-68 A+D 后最后一次 E3-GPU(a)；仅结构级，kill 子臂未做",
+ "final_artifact": {
+  "path": "kvmem\\m2_visibility\\m7\\out\\M7-E3-GPU.json",
+  "sha16": "5493d3ca4879eb6d",
+  "bytes": 31688
+ },
+ "artifacts": {
+  "M7-E3-GPU.json": {
+   "path": "kvmem\\m2_visibility\\m7\\out\\M7-E3-GPU.json",
+   "sha16": "5493d3ca4879eb6d",
+   "bytes": 31688
+  }
+ },
+ "old_ledger": {
+  "path": "kvmem\\m2_visibility\\m7\\LANDED-m7-e3-gpu.json",
+  "sha16": "cebe77646204a173",
+  "bytes": 9827,
+  "note": "旧台账保留不改；其 artifacts.M7-E3-GPU.json=e6b03da6/30,561 已被后续覆盖，见 corrections"
+ },
+ "corrections": [
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "e6b03da6f75cb851",
+   "old_bytes": 30561,
+   "new_sha16": "9faacdd021898dd1",
+   "new_bytes": 29413
+  },
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "9faacdd021898dd1",
+   "old_bytes": 29413,
+   "new_sha16": "7f07b1c2861092e7",
+   "new_bytes": 29476
+  },
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "7f07b1c2861092e7",
+   "old_bytes": 29476,
+   "new_sha16": "7a57ecb2c360bb2e",
+   "new_bytes": 29421
+  },
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "7a57ecb2c360bb2e",
+   "old_bytes": 29421,
+   "new_sha16": "e0cb5a1d56c6c494",
+   "new_bytes": 29484
+  },
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "e0cb5a1d56c6c494",
+   "old_bytes": 29484,
+   "new_sha16": "16997c6fc0c2ffd0",
+   "new_bytes": 30087
+  },
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "16997c6fc0c2ffd0",
+   "old_bytes": 30087,
+   "new_sha16": "46ac6aa199a5b176",
+   "new_bytes": 29412
+  },
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "46ac6aa199a5b176",
+   "old_bytes": 29412,
+   "new_sha16": "3011c9ec93eb4235",
+   "new_bytes": 30592
+  },
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "3011c9ec93eb4235",
+   "old_bytes": 30592,
+   "new_sha16": "4f4e824d55431bb9",
+   "new_bytes": 29415,
+   "reason": "task-68 重跑原始读数"
+  },
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "4f4e824d55431bb9",
+   "old_bytes": 29415,
+   "new_sha16": "803e59d505a1caa0",
+   "new_bytes": 31020,
+   "reason": "task-68 最终件（补前驱链/code/边界）"
+  },
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "803e59d505a1caa0",
+   "old_bytes": 31020,
+   "new_sha16": "5493d3ca4879eb6d",
+   "new_bytes": 31688,
+   "reason": "rev5 审计补记 10:19:46 装置不合格 attempt；仅元数据，不改读数"
+  }
+ ],
+ "scenarios": {
+  "S1-save": {
+   "child_pid": 5696,
+   "vram_peak_gib": 7.374,
+   "offloaded_log_line": "offloaded 36/49 layers to GPU",
+   "rc": 0
+  },
+  "S1-load": {
+   "child_pid": 8816,
+   "vram_peak_gib": 7.3352,
+   "offloaded_log_line": "offloaded 36/49 layers to GPU",
+   "rc": 0
+  },
+  "S2": {
+   "child_pid": 2436,
+   "vram_peak_gib": 7.3402,
+   "offloaded_log_line": "offloaded 36/49 layers to GPU",
+   "rc": 0
+  },
+  "S3": {
+   "child_pid": 11684,
+   "vram_peak_gib": 7.3352,
+   "offloaded_log_line": "offloaded 36/49 layers to GPU",
+   "rc": 0
+  },
+  "S4": {
+   "child_pid": 8748,
+   "vram_peak_gib": 7.3352,
+   "offloaded_log_line": "offloaded 36/49 layers to GPU",
+   "rc": 0
+  }
+ },
+ "device": {
+  "qualified": true,
+  "gate": {
+   "pnp_rndis_usb_audio": 0,
+   "vram_baseline_gib": 0.4266,
+   "free_ram_kb": 13184324,
+   "gpu_procs_gt256mb": 0,
+   "browser_or_code_procs": 0,
+   "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+   "residual_results": [],
+   "residual_count": 0,
+   "prereg_sha16": "e75a425b7ef15201",
+   "prereg_sha_ok": true,
+   "dll_sha16": "9edbafa150700614",
+   "dll_bytes": 50007552,
+   "dll_ok": true,
+   "model_bytes": 8988110240,
+   "model_ok": true,
+   "free_ram_ok": true,
+   "vram_baseline_ok": true,
+   "pnp_ok": true,
+   "gpu_procs_ok": true,
+   "browsers_ok": true,
+   "residual_ok": true
+  },
+  "geometry": {
+   "n_gpu_layers": 36,
+   "n_ctx": 8192,
+   "n_seq": 8,
+   "kv": "q8_0",
+   "chat_start": 4096
+  },
+  "first_child_pid": 5696,
+  "vulkan_imported": true,
+  "n_gpu_layers_readback": 36,
+  "n_gpu_layers_readback_total": 49
+ },
+ "conclusion": {
+  "S1": "通过",
+  "S2": "通过",
+  "S3": "通过",
+  "S4": "通过",
+  "overall": "通过",
+  "kill_arm": "未做（主机不安全）",
+  "one_line": "S1/S2/S3/S4: S1=通过, S2=通过, S3=通过, S4=通过; 总体=通过; kill 子臂=未做（主机不安全）"
+ },
+ "kill_boundary": "进程级非正常终止；驱动级 bug check 不在保证范围；kill 臂未做（主机不安全）",
+ "attempts_note": "attempts[] 保留 #1 08:04 自检失败、#2 10:19:46 装置不合格（free_ram 1.2 GB < 闸，601bc768 已覆盖，artifact_deleted=true）、#3 10:21:23 成功重跑。"
+}
