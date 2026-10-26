@@ -3524,12 +3524,12 @@
    "claimed": "7 = 5 fixed + 0 broken + 2 neutral",
    "computed": "n_changed=7, fixed=5, broken=0, neutral=2",
    "verdict": "match",
-   "method": "REV7 产物 sentence_diff（rev7.1 重跑产物未落盘，故按 rev7 计）",
+   "method": "REV7.1 重跑产物 sentence_diff（M5C2-REV7-1-OFFLINE.json 55191eaf / 510,508 B，已 21:07:27 落盘）",
    "artifacts": [
-    "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
     "docs/_work/PREREG-M5-C2-REV7.1.md"
    ],
-   "note": ""
+   "note": "产物内 sentence_diff: n_changed=7 / fixed=5 / broken=0 / neutral=2 逐项一致"
   },
   {
    "id": "N37",
@@ -3794,9 +3794,9 @@
    "severity": "high",
    "file": "docs/_work/PREREG-M5-C2-REV7.md",
    "line": 7,
-   "problem": "REV7 把 (b5) 钉成 e306ce994d306a84，但该值只等于「B5 去掉 §9 并 rstrip」的 11,388 B 版本；现 B5（含 20:20 追加的 §9）= d6c7bdac73ef7326 / 14,597 B。§9 是冻结（19:55）之后追加，未重钉。",
-   "evidence": "sha256(B5[:idx(\"## 9 LEAD 追加\")].rstrip())=e306ce994d306a84 / 11,388 B；raw 截断 11,390 B 的哈希是 9c09ceaf；sha256(B5 全文)=d6c7bdac73ef7326",
-   "suggested": "双坐标写清：题面冻结体 = e306ce994d306a84（§0–§8，11,388 B）；现行文件（含 2026-10-26T20:20 追加 §9）= d6c7bdac73ef7326。若 §9 也属冻结内容，必须重钉并把 frozen_at/§9 时间写进头注。"
+   "problem": "REV7 把 (b5) 钉成 e306ce994d306a84，但该值只等于「B5 去掉 §9 并 rstrip」的 11,388 B 早期版本；B5 于 19:54:15 写入 §9、19:55 冻结，冻结版 = d6c7bdac73ef7326 / 14,597 B（含 §9）。REV7 20:15 冻结时引用已过期（stale-at-freeze）。",
+   "evidence": "sha256(B5[:idx(\"## 9 LEAD 追加\")].rstrip())=e306ce994d306a84 / 11,388 B；raw 截断 11,390 B 的哈希是 9c09ceaf；sha256(B5 全文)=d6c7bdac73ef7326；`git cat-file -p full:docs/_work/PREREG-M5-C2-B5.md` 同为 d6c7bdac / 14,597 B 且含 §9（full commit 19:59:10）；B5 mtime=19:54:15 < frozen_at 19:55",
+   "suggested": "把 REV7 的 (b5) 重钉为冻结版 d6c7bdac73ef7326 / 14,597 B；或明确注释“引的是 19:53 早期草稿、已被 19:55 冻结版取代”。冻结前须重跑 pin 校验。"
   },
   {
    "id": "X05",
@@ -4015,7 +4015,8 @@
     "X05：删除“§9 冻结后 20:20 追加 / post_freeze=true”，改为“§9 早于冻结写入（mtime 19:54:15；full@5574253 含 §9）；REV7 冻结时引用过期（stale-at-freeze）；B5 §9 标题自称 20:20 与 mtime/frozen_at 矛盾”",
     "C106 note / key_findings[0]：同步该事实，不再称去 §9 版本为“冻结体”",
     "scope.rev7_1_snapshot.frozen=false → true（frozen_at 21:06:55）",
-    "key_findings[3] / N37 note：REV7.1 已冻结、重跑产物 55191eaf / 510,508 B 已于 21:07:27 落盘，不再是“未冻结草稿且产物未落盘”"
+    "key_findings[3] / N37 note：REV7.1 已冻结、重跑产物 55191eaf / 510,508 B 已于 21:07:27 落盘，不再是“未冻结草稿且产物未落盘”",
+    "X04 / N36：X04 同步为 stale-at-freeze 叙述；N36 的 method/artifacts 改指已落盘的 REV7.1 产物（数值不变，verdict=match）"
    ],
    "data_layer_changed": false,
    "note": "四类计数、151 引用、47 数字、其余 corrections 全未改动"
