@@ -1,0 +1,47 @@
+{
+ "schema": "m5c2_gbnf_dll_provenance_v1",
+ "generated_at": "2026-10-26T16:19:00+08:00",
+ "artifact": "kvshim_gbnf_vk.dll",
+ "sha16": "138b6e13881219bc",
+ "bytes": 50017792,
+ "git_head": "6340da7e2a6e360af846cd41d2eb5a5137c302f1",
+ "basis": {
+  "file": "tools/kvshim.cpp",
+  "sha16": "bf8e26e7490c4fd2",
+  "bytes": 24827,
+  "note": "custom source includes this frozen implementation unchanged via #include \"kvshim.cpp\"; no frozen source was edited"
+ },
+ "custom_source": {
+  "file": "tools/kvshim_gbnf.cpp",
+  "sha16": "3407788965604e81",
+  "bytes": 4799,
+  "adds": "kvshim_ask_grammar_probs(): grammar sampler, grammar-constrained greedy generation, top-3 post-grammar softmax probabilities"
+ },
+ "build_script": {
+  "file": "tools/build_gbnf.ps1",
+  "sha16": "1231487a8c3c3fd9",
+  "bytes": 1234,
+  "compiler": "LLVM-MinGW clang++ 22 (x86_64-w64-mingw32, msvcrt)",
+  "archives": [
+   "build-vulkan/src/libllama.a",
+   "build-vulkan/ggml/src/ggml.a",
+   "build-vulkan/ggml/src/ggml-cpu.a",
+   "build-vulkan/ggml/src/ggml-vulkan/ggml-vulkan.a",
+   "build-vulkan/ggml/src/ggml-base.a",
+   "vulkan-sdk/Lib/vulkan-1.lib"
+  ],
+  "command": "powershell -NoProfile -ExecutionPolicy Bypass -File tools/build_gbnf.ps1",
+  "output": "tools/kvshim_gbnf_vk.dll"
+ },
+ "why_new_binary": "frozen kvshim_vk.dll exposes only prompt/greedy kvshim_ask_at (no grammar sampler or candidate probability export); the smoke test needs both without changing the frozen DLL",
+ "frozen_dll": {
+  "file": "tools/kvshim_vk.dll",
+  "sha16": "9edbafa150700614",
+  "bytes": 50007552,
+  "modified": false
+ },
+ "isolation_rule": "every GBNF result is tagged with dll=kvshim_gbnf_vk 138b6e13881219bc; frozen-device results are tagged dll=kvshim_vk 9edbafa150700614; no mixed calculation",
+ "probability_mode": "post_grammar_softmax_over_allowed_tokens (requested with n_probs=3, post_sampling_probs=true); not a greedy one-hot and not a full-vocabulary softmax",
+ "grammar": "root ::= \"A\" | \"B\" | \"C\"",
+ "root": "root"
+}

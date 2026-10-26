@@ -1,0 +1,25 @@
+{
+ "schema": "m5c2_floor_artifact_amend_v1",
+ "amends": "M5C2-FLOOR-ARTIFACT.json a8e33701520a8d07",
+ "amended_by": "LEAD",
+ "amended_at": "2026-10-26T16:20:40+0800",
+ "original_artifact_sha16": "a8e33701520a8d07",
+ "original_artifact_bytes": 29679,
+ "original_artifact_untouched": true,
+ "position_bias": true,
+ "position_bias_reasoning": [
+  "GBNF FLOOR: options pos1=A(有依据), pos2=B(编造), pos3=C; model chose pos1(A, 有依据) although correct was pos2(B).",
+  "Arm P: options pos1=1(有编造), pos2=2(有依据), pos3=3(无法); model chose pos1(1, 有编造) and was correct only because the correct label happened to be first.",
+  "Both runs chose option position 1; therefore the model is selecting the first candidate, not reading the labels.",
+  "Arm P's 5/5 '1' is not evidence against position bias: it is consistent with always-first.",
+  "The earlier rule 'P outputs 2 => position_bias' was a specification error by the Lead; the cross-run evidence overrides it."
+ ],
+ "prior_gbnf_all_A_invalidated": true,
+ "rubber_stamp": null,
+ "rubber_stamp_reason": "not established; the protocol was broken before the semantic question could be tested (position bias dominates both GBNF floor and arm P)",
+ "conclusion": "position_bias=true; prior GBNF 31/31 all-A invalid; no rubber_stamp verdict yet",
+ "notes": [
+  "This amendment does not overwrite or modify the original artifact.",
+  "All GBNF-tagged results remain custom-DLL results (138b6e13881219bc); no mixing with frozen DLL."
+ ]
+}

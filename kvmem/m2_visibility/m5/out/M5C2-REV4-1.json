@@ -1,0 +1,1257 @@
+{
+ "schema": "m5c2_rev4_1_v1",
+ "frozen_rev": 1,
+ "status": "已判定",
+ "reason": null,
+ "complete": true,
+ "n_done": 24,
+ "n_forward": 12,
+ "n_forward_planned": 12,
+ "aborted": null,
+ "prereg": {
+  "file": "PREREG-M5-C2-REV4-1.md",
+  "sha16": "69c8d48ea026c50a",
+  "bytes": 6201,
+  "lines": 94
+ },
+ "spec": {
+  "file": "JUDGE-ROBUSTNESS-SPEC.md",
+  "sha16": "5ad46f8efb762c6d",
+  "bytes": 8555,
+  "lines": 129
+ },
+ "prompt_sha16": "a6bc4f268f7711de",
+ "n_predict": 384,
+ "temperature": 0,
+ "grammar": null,
+ "dll": "kvshim_vk 9edbafa150700614",
+ "items": [
+  {
+   "fid": "F07",
+   "arm": 2,
+   "route": "model_extract",
+   "sentence": "我的会员卡号是 GZ-5517。",
+   "source": "我在力量方舟健身房办了年卡，卡号不是 GZ-5517，而是 GZ-9911，会员期 24 个月。",
+   "raw_out": "\n\n\n</think>\n\n条目：我的会员卡号是 GZ-5517\n依据：卡号不是 GZ-5517，而是 GZ-9911",
+   "items": [
+    {
+     "item": "我的会员卡号是 GZ-5517",
+     "evidence": "卡号不是 GZ-5517，而是 GZ-9911",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R2",
+       "reason": "negated",
+       "span": "卡号不是GZ-5517，而是GZ-99",
+       "anchor": "GZ-5517",
+       "before": "卡号不是",
+       "neg_word": "不是"
+      }
+     ]
+    }
+   ],
+   "absent_flags": [
+    true
+   ],
+   "parse_ok": true,
+   "parse_reason": "ok",
+   "verdict": "unsupported",
+   "rule_hits": [
+    {
+     "rule": "R2",
+     "reason": "negated",
+     "span": "卡号不是GZ-5517，而是GZ-99",
+     "anchor": "GZ-5517",
+     "before": "卡号不是",
+     "neg_word": "不是"
+    }
+   ],
+   "prompt_verbatim": "下面是一段用户的记忆记录：\n【记忆】我在力量方舟健身房办了年卡，卡号不是 GZ-5517，而是 GZ-9911，会员期 24 个月。\n\n用户曾问过：我在哪家健身房办的卡？\n助手在回答里写了这一句：\n【待判句子】我的会员卡号是 GZ-5517。\n\n请只做抽取，不要下任何结论、不要评价真伪。把【待判句子】里的每一个具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）单独列成一行，每行格式严格如下：\n条目：<该信息在句子里的原文>\n依据：<【记忆】里与之对应的原文片段；如果【记忆】里没有对应内容，就写 未提及>\n\n注意：只列【待判句子】里真正出现的信息，不要替它补全；条目至少 1 条，最多 12 条。",
+   "prompt_sha16": "c4df86016ea94255",
+   "_peak": 7.576
+  },
+  {
+   "fid": "F08",
+   "arm": 2,
+   "route": "model_extract",
+   "sentence": "宽带是 500M。",
+   "source": "我办了北方联通宽带，带宽不是 500M，而是 1000M，装机在周五下午。",
+   "raw_out": "\n\n\n</think>\n\n条目：500M\n依据：带宽不是 500M，而是 1000M\n\n条目：宽带\n依据：我办了北方联通宽带\n\n条目：北方联通\n依据：我办了北方联通宽带\n\n条目：1000M\n依据：带宽不是 500M，而是 1000M\n\n条目：周五下午\n依据：装机在周五下午",
+   "items": [
+    {
+     "item": "500M",
+     "evidence": "带宽不是 500M，而是 1000M",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R2",
+       "reason": "negated",
+       "span": "带宽不是500M，而是1000M",
+       "anchor": "500M",
+       "before": "带宽不是",
+       "neg_word": "不是"
+      }
+     ]
+    },
+    {
+     "item": "宽带",
+     "evidence": "我办了北方联通宽带",
+     "absent": false,
+     "rule_hits": []
+    },
+    {
+     "item": "北方联通",
+     "evidence": "我办了北方联通宽带",
+     "absent": false,
+     "rule_hits": []
+    },
+    {
+     "item": "1000M",
+     "evidence": "带宽不是 500M，而是 1000M",
+     "absent": false,
+     "rule_hits": []
+    },
+    {
+     "item": "周五下午",
+     "evidence": "装机在周五下午",
+     "absent": false,
+     "rule_hits": []
+    }
+   ],
+   "absent_flags": [
+    true,
+    false,
+    false,
+    false,
+    false
+   ],
+   "parse_ok": true,
+   "parse_reason": "ok",
+   "verdict": "unsupported",
+   "rule_hits": [
+    {
+     "rule": "R2",
+     "reason": "negated",
+     "span": "带宽不是500M，而是1000M",
+     "anchor": "500M",
+     "before": "带宽不是",
+     "neg_word": "不是"
+    }
+   ],
+   "prompt_verbatim": "下面是一段用户的记忆记录：\n【记忆】我办了北方联通宽带，带宽不是 500M，而是 1000M，装机在周五下午。\n\n用户曾问过：宽带是哪家运营商办的？带宽多少？\n助手在回答里写了这一句：\n【待判句子】宽带是 500M。\n\n请只做抽取，不要下任何结论、不要评价真伪。把【待判句子】里的每一个具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）单独列成一行，每行格式严格如下：\n条目：<该信息在句子里的原文>\n依据：<【记忆】里与之对应的原文片段；如果【记忆】里没有对应内容，就写 未提及>\n\n注意：只列【待判句子】里真正出现的信息，不要替它补全；条目至少 1 条，最多 12 条。",
+   "prompt_sha16": "8ee02c9cae0c0b70",
+   "_peak": 7.615
+  },
+  {
+   "fid": "F09",
+   "arm": 2,
+   "route": "model_extract",
+   "sentence": "我考的是 C1。",
+   "source": "我在安达驾校报名，报的是不是 C1，而是 C2。",
+   "raw_out": "\n\n\n</think>\n\n条目：我考的是 C1\n依据：他在【记忆】里提到的是“报的是不是 C1，而是 C2”，所以【待判句子】里的“C1”与【记忆】里的“C2”不一致，依据为未提及。",
+   "items": [
+    {
+     "item": "我考的是 C1",
+     "evidence": "他在【记忆】里提到的是“报的是不是 C1，而是 C2”，所以【待判句子】里的“C1”与【记忆】里的“C2”不一致，依据为未提及。",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R3",
+       "reason": "absent_marker",
+       "span": "未提及"
+      }
+     ]
+    }
+   ],
+   "absent_flags": [
+    true
+   ],
+   "parse_ok": true,
+   "parse_reason": "ok",
+   "verdict": "unsupported",
+   "rule_hits": [
+    {
+     "rule": "R3",
+     "reason": "absent_marker",
+     "span": "未提及"
+    }
+   ],
+   "prompt_verbatim": "下面是一段用户的记忆记录：\n【记忆】我在安达驾校报名，报的是不是 C1，而是 C2。\n\n用户曾问过：我在哪家驾校？报的什么车型？\n助手在回答里写了这一句：\n【待判句子】我考的是 C1。\n\n请只做抽取，不要下任何结论、不要评价真伪。把【待判句子】里的每一个具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）单独列成一行，每行格式严格如下：\n条目：<该信息在句子里的原文>\n依据：<【记忆】里与之对应的原文片段；如果【记忆】里没有对应内容，就写 未提及>\n\n注意：只列【待判句子】里真正出现的信息，不要替它补全；条目至少 1 条，最多 12 条。",
+   "prompt_sha16": "91609b3a3eb33f13",
+   "_peak": 7.615
+  },
+  {
+   "fid": "F10",
+   "arm": 2,
+   "route": "model_extract",
+   "sentence": "民宿是两室一厅。",
+   "source": "我订了半山小院，房型不是两室一厅，而是一室一厅。",
+   "raw_out": "\n\n\n</think>\n\n条目：民宿\n依据：我订的民宿叫什么？\n\n条目：两室一厅\n依据：房型不是两室一厅，而是一室一厅。",
+   "items": [
+    {
+     "item": "民宿",
+     "evidence": "我订的民宿叫什么？",
+     "absent": false,
+     "rule_hits": []
+    },
+    {
+     "item": "两室一厅",
+     "evidence": "房型不是两室一厅，而是一室一厅。",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R2",
+       "reason": "negated",
+       "span": "房型不是两室一厅，而是一室一厅。",
+       "anchor": "两室一厅",
+       "before": "房型不是",
+       "neg_word": "不是"
+      }
+     ]
+    }
+   ],
+   "absent_flags": [
+    false,
+    true
+   ],
+   "parse_ok": true,
+   "parse_reason": "ok",
+   "verdict": "unsupported",
+   "rule_hits": [
+    {
+     "rule": "R2",
+     "reason": "negated",
+     "span": "房型不是两室一厅，而是一室一厅。",
+     "anchor": "两室一厅",
+     "before": "房型不是",
+     "neg_word": "不是"
+    }
+   ],
+   "prompt_verbatim": "下面是一段用户的记忆记录：\n【记忆】我订了半山小院，房型不是两室一厅，而是一室一厅。\n\n用户曾问过：我订的民宿叫什么？\n助手在回答里写了这一句：\n【待判句子】民宿是两室一厅。\n\n请只做抽取，不要下任何结论、不要评价真伪。把【待判句子】里的每一个具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）单独列成一行，每行格式严格如下：\n条目：<该信息在句子里的原文>\n依据：<【记忆】里与之对应的原文片段；如果【记忆】里没有对应内容，就写 未提及>\n\n注意：只列【待判句子】里真正出现的信息，不要替它补全；条目至少 1 条，最多 12 条。",
+   "prompt_sha16": "de1db90e7592753d",
+   "_peak": 7.615
+  },
+  {
+   "fid": "F11",
+   "arm": 2,
+   "route": "model_extract",
+   "sentence": "镜片是防蓝光的。",
+   "source": "我在明亮眼镜店配镜，镜片不是防蓝光的，是普通镜片。",
+   "raw_out": "\n\n\n</think>\n\n条目：镜片是防蓝光的\n依据：未提及",
+   "items": [
+    {
+     "item": "镜片是防蓝光的",
+     "evidence": "未提及",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R3",
+       "reason": "absent_marker",
+       "span": "未提及"
+      }
+     ]
+    }
+   ],
+   "absent_flags": [
+    true
+   ],
+   "parse_ok": true,
+   "parse_reason": "ok",
+   "verdict": "unsupported",
+   "rule_hits": [
+    {
+     "rule": "R3",
+     "reason": "absent_marker",
+     "span": "未提及"
+    }
+   ],
+   "prompt_verbatim": "下面是一段用户的记忆记录：\n【记忆】我在明亮眼镜店配镜，镜片不是防蓝光的，是普通镜片。\n\n用户曾问过：我在哪家店配的眼镜？\n助手在回答里写了这一句：\n【待判句子】镜片是防蓝光的。\n\n请只做抽取，不要下任何结论、不要评价真伪。把【待判句子】里的每一个具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）单独列成一行，每行格式严格如下：\n条目：<该信息在句子里的原文>\n依据：<【记忆】里与之对应的原文片段；如果【记忆】里没有对应内容，就写 未提及>\n\n注意：只列【待判句子】里真正出现的信息，不要替它补全；条目至少 1 条，最多 12 条。",
+   "prompt_sha16": "8996a31e3315845d",
+   "_peak": 7.615
+  },
+  {
+   "fid": "F12",
+   "arm": 2,
+   "route": "model_extract",
+   "sentence": "燃气安检是港华燃气公司。",
+   "source": "上门安检的是不是港华燃气公司，是另一家燃气公司。",
+   "raw_out": "\n\n\n</think>\n\n条目：燃气安检\n依据：上门安检的是不是港华燃气公司，是另一家燃气公司。\n\n条目：港华燃气公司\n依据：上门安检的是不是港华燃气公司，是另一家燃气公司。",
+   "items": [
+    {
+     "item": "燃气安检",
+     "evidence": "上门安检的是不是港华燃气公司，是另一家燃气公司。",
+     "absent": false,
+     "rule_hits": []
+    },
+    {
+     "item": "港华燃气公司",
+     "evidence": "上门安检的是不是港华燃气公司，是另一家燃气公司。",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R2",
+       "reason": "negated",
+       "span": "上门安检的是不是港华燃气公司，是另一家燃气公",
+       "anchor": "港华燃气公司",
+       "before": "安检的是不是",
+       "neg_word": "不是"
+      }
+     ]
+    }
+   ],
+   "absent_flags": [
+    false,
+    true
+   ],
+   "parse_ok": true,
+   "parse_reason": "ok",
+   "verdict": "unsupported",
+   "rule_hits": [
+    {
+     "rule": "R2",
+     "reason": "negated",
+     "span": "上门安检的是不是港华燃气公司，是另一家燃气公",
+     "anchor": "港华燃气公司",
+     "before": "安检的是不是",
+     "neg_word": "不是"
+    }
+   ],
+   "prompt_verbatim": "下面是一段用户的记忆记录：\n【记忆】上门安检的是不是港华燃气公司，是另一家燃气公司。\n\n用户曾问过：哪家燃气公司来安检？几号上午来？\n助手在回答里写了这一句：\n【待判句子】燃气安检是港华燃气公司。\n\n请只做抽取，不要下任何结论、不要评价真伪。把【待判句子】里的每一个具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）单独列成一行，每行格式严格如下：\n条目：<该信息在句子里的原文>\n依据：<【记忆】里与之对应的原文片段；如果【记忆】里没有对应内容，就写 未提及>\n\n注意：只列【待判句子】里真正出现的信息，不要替它补全；条目至少 1 条，最多 12 条。",
+   "prompt_sha16": "a152d8a6635eceb7",
+   "_peak": 7.615
+  },
+  {
+   "fid": "F13",
+   "arm": 3,
+   "route": "model_extract",
+   "sentence": "我的会员卡号是 GZ-5517。",
+   "source": "我在力量方舟健身房办了年卡，卡号 GZ-3021，会员期 24 个月。",
+   "raw_out": "\n\n\n</think>\n\n条目：GZ-5517\n依据：未提及",
+   "items": [
+    {
+     "item": "GZ-5517",
+     "evidence": "未提及",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R1",
+       "reason": "value_mismatch",
+       "span": "GZ-5517"
+      },
+      {
+       "rule": "R3",
+       "reason": "absent_marker",
+       "span": "未提及"
+      }
+     ]
+    }
+   ],
+   "absent_flags": [
+    true
+   ],
+   "parse_ok": true,
+   "parse_reason": "ok",
+   "verdict": "unsupported",
+   "rule_hits": [
+    {
+     "rule": "R1",
+     "reason": "value_mismatch",
+     "span": "GZ-5517"
+    },
+    {
+     "rule": "R3",
+     "reason": "absent_marker",
+     "span": "未提及"
+    }
+   ],
+   "prompt_verbatim": "下面是一段用户的记忆记录：\n【记忆】我在力量方舟健身房办了年卡，卡号 GZ-3021，会员期 24 个月。\n\n用户曾问过：我在哪家健身房办的卡？\n助手在回答里写了这一句：\n【待判句子】我的会员卡号是 GZ-5517。\n\n请只做抽取，不要下任何结论、不要评价真伪。把【待判句子】里的每一个具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）单独列成一行，每行格式严格如下：\n条目：<该信息在句子里的原文>\n依据：<【记忆】里与之对应的原文片段；如果【记忆】里没有对应内容，就写 未提及>\n\n注意：只列【待判句子】里真正出现的信息，不要替它补全；条目至少 1 条，最多 12 条。",
+   "prompt_sha16": "36d7f7dfb32ad3b5",
+   "_peak": 7.615
+  },
+  {
+   "fid": "F14",
+   "arm": 3,
+   "route": "model_extract",
+   "sentence": "我的座位是 13 排 7 号。",
+   "source": "我买了回声乐队的票，周六晚 8 点，内场 B 区 9 排 2 号。",
+   "raw_out": "\n\n\n</think>\n\n条目：我的座位\n依据：未提及\n\n条目：13 排\n依据：未提及\n\n条目：7 号\n依据：未提及",
+   "items": [
+    {
+     "item": "我的座位",
+     "evidence": "未提及",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R3",
+       "reason": "absent_marker",
+       "span": "未提及"
+      }
+     ]
+    },
+    {
+     "item": "13 排",
+     "evidence": "未提及",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R1",
+       "reason": "value_mismatch",
+       "span": "13 排"
+      },
+      {
+       "rule": "R3",
+       "reason": "absent_marker",
+       "span": "未提及"
+      }
+     ]
+    },
+    {
+     "item": "7 号",
+     "evidence": "未提及",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R1",
+       "reason": "value_mismatch",
+       "span": "7 号"
+      },
+      {
+       "rule": "R3",
+       "reason": "absent_marker",
+       "span": "未提及"
+      }
+     ]
+    }
+   ],
+   "absent_flags": [
+    true,
+    true,
+    true
+   ],
+   "parse_ok": true,
+   "parse_reason": "ok",
+   "verdict": "unsupported",
+   "rule_hits": [
+    {
+     "rule": "R3",
+     "reason": "absent_marker",
+     "span": "未提及"
+    },
+    {
+     "rule": "R1",
+     "reason": "value_mismatch",
+     "span": "13 排"
+    },
+    {
+     "rule": "R3",
+     "reason": "absent_marker",
+     "span": "未提及"
+    },
+    {
+     "rule": "R1",
+     "reason": "value_mismatch",
+     "span": "7 号"
+    },
+    {
+     "rule": "R3",
+     "reason": "absent_marker",
+     "span": "未提及"
+    }
+   ],
+   "prompt_verbatim": "下面是一段用户的记忆记录：\n【记忆】我买了回声乐队的票，周六晚 8 点，内场 B 区 9 排 2 号。\n\n用户曾问过：这场演唱会是哪个乐队的？演出几点开始？\n助手在回答里写了这一句：\n【待判句子】我的座位是 13 排 7 号。\n\n请只做抽取，不要下任何结论、不要评价真伪。把【待判句子】里的每一个具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）单独列成一行，每行格式严格如下：\n条目：<该信息在句子里的原文>\n依据：<【记忆】里与之对应的原文片段；如果【记忆】里没有对应内容，就写 未提及>\n\n注意：只列【待判句子】里真正出现的信息，不要替它补全；条目至少 1 条，最多 12 条。",
+   "prompt_sha16": "f023eadb69b3977f",
+   "_peak": 7.615
+  },
+  {
+   "fid": "F15",
+   "arm": 3,
+   "route": "model_extract",
+   "sentence": "搬家报价 480 元。",
+   "source": "我约了顺捷搬家公司，报价 620 元，厢式货车。",
+   "raw_out": "\n\n\n</think>\n\n条目：搬家报价\n依据：未提及\n\n条目：480 元\n依据：未提及",
+   "items": [
+    {
+     "item": "搬家报价",
+     "evidence": "未提及",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R3",
+       "reason": "absent_marker",
+       "span": "未提及"
+      }
+     ]
+    },
+    {
+     "item": "480 元",
+     "evidence": "未提及",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R1",
+       "reason": "value_mismatch",
+       "span": "480 元"
+      },
+      {
+       "rule": "R3",
+       "reason": "absent_marker",
+       "span": "未提及"
+      }
+     ]
+    }
+   ],
+   "absent_flags": [
+    true,
+    true
+   ],
+   "parse_ok": true,
+   "parse_reason": "ok",
+   "verdict": "unsupported",
+   "rule_hits": [
+    {
+     "rule": "R3",
+     "reason": "absent_marker",
+     "span": "未提及"
+    },
+    {
+     "rule": "R1",
+     "reason": "value_mismatch",
+     "span": "480 元"
+    },
+    {
+     "rule": "R3",
+     "reason": "absent_marker",
+     "span": "未提及"
+    }
+   ],
+   "prompt_verbatim": "下面是一段用户的记忆记录：\n【记忆】我约了顺捷搬家公司，报价 620 元，厢式货车。\n\n用户曾问过：我约的哪家搬家公司？搬家的日子定在几号？\n助手在回答里写了这一句：\n【待判句子】搬家报价 480 元。\n\n请只做抽取，不要下任何结论、不要评价真伪。把【待判句子】里的每一个具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）单独列成一行，每行格式严格如下：\n条目：<该信息在句子里的原文>\n依据：<【记忆】里与之对应的原文片段；如果【记忆】里没有对应内容，就写 未提及>\n\n注意：只列【待判句子】里真正出现的信息，不要替它补全；条目至少 1 条，最多 12 条。",
+   "prompt_sha16": "cea13f6b73419d2d",
+   "_peak": 7.615
+  },
+  {
+   "fid": "F16",
+   "arm": 3,
+   "route": "model_extract",
+   "sentence": "我下周二考试。",
+   "source": "我在安达驾校，考试定在下周四。",
+   "raw_out": "\n\n\n</think>\n\n条目：我下周二考试\n依据：考试定在下周四",
+   "items": [
+    {
+     "item": "我下周二考试",
+     "evidence": "考试定在下周四",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R1",
+       "reason": "value_mismatch",
+       "span": "下周二"
+      }
+     ]
+    }
+   ],
+   "absent_flags": [
+    true
+   ],
+   "parse_ok": true,
+   "parse_reason": "ok",
+   "verdict": "unsupported",
+   "rule_hits": [
+    {
+     "rule": "R1",
+     "reason": "value_mismatch",
+     "span": "下周二"
+    }
+   ],
+   "prompt_verbatim": "下面是一段用户的记忆记录：\n【记忆】我在安达驾校，考试定在下周四。\n\n用户曾问过：我在哪家驾校？报的什么车型？\n助手在回答里写了这一句：\n【待判句子】我下周二考试。\n\n请只做抽取，不要下任何结论、不要评价真伪。把【待判句子】里的每一个具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）单独列成一行，每行格式严格如下：\n条目：<该信息在句子里的原文>\n依据：<【记忆】里与之对应的原文片段；如果【记忆】里没有对应内容，就写 未提及>\n\n注意：只列【待判句子】里真正出现的信息，不要替它补全；条目至少 1 条，最多 12 条。",
+   "prompt_sha16": "e5f264ef059c87ae",
+   "_peak": 7.615
+  },
+  {
+   "fid": "F17",
+   "arm": 3,
+   "route": "model_extract",
+   "sentence": "民宿 420 元一晚。",
+   "source": "我订了半山小院，价格 580 元/晚。",
+   "raw_out": "\n\n\n</think>\n\n条目：民宿\n依据：未提及\n\n条目：420 元\n依据：未提及\n\n条目：一晚\n依据：未提及",
+   "items": [
+    {
+     "item": "民宿",
+     "evidence": "未提及",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R3",
+       "reason": "absent_marker",
+       "span": "未提及"
+      }
+     ]
+    },
+    {
+     "item": "420 元",
+     "evidence": "未提及",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R1",
+       "reason": "value_mismatch",
+       "span": "420 元"
+      },
+      {
+       "rule": "R3",
+       "reason": "absent_marker",
+       "span": "未提及"
+      }
+     ]
+    },
+    {
+     "item": "一晚",
+     "evidence": "未提及",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R3",
+       "reason": "absent_marker",
+       "span": "未提及"
+      }
+     ]
+    }
+   ],
+   "absent_flags": [
+    true,
+    true,
+    true
+   ],
+   "parse_ok": true,
+   "parse_reason": "ok",
+   "verdict": "unsupported",
+   "rule_hits": [
+    {
+     "rule": "R3",
+     "reason": "absent_marker",
+     "span": "未提及"
+    },
+    {
+     "rule": "R1",
+     "reason": "value_mismatch",
+     "span": "420 元"
+    },
+    {
+     "rule": "R3",
+     "reason": "absent_marker",
+     "span": "未提及"
+    },
+    {
+     "rule": "R3",
+     "reason": "absent_marker",
+     "span": "未提及"
+    }
+   ],
+   "prompt_verbatim": "下面是一段用户的记忆记录：\n【记忆】我订了半山小院，价格 580 元/晚。\n\n用户曾问过：我订的民宿叫什么？\n助手在回答里写了这一句：\n【待判句子】民宿 420 元一晚。\n\n请只做抽取，不要下任何结论、不要评价真伪。把【待判句子】里的每一个具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）单独列成一行，每行格式严格如下：\n条目：<该信息在句子里的原文>\n依据：<【记忆】里与之对应的原文片段；如果【记忆】里没有对应内容，就写 未提及>\n\n注意：只列【待判句子】里真正出现的信息，不要替它补全；条目至少 1 条，最多 12 条。",
+   "prompt_sha16": "de34a29ef279f595",
+   "_peak": 7.615
+  },
+  {
+   "fid": "F18",
+   "arm": 3,
+   "route": "model_extract",
+   "sentence": "我左眼 375 度。",
+   "source": "我在明亮眼镜店配镜，左眼 425 度、右眼 425 度。",
+   "raw_out": "\n\n\n</think>\n\n条目：我左眼 375 度\n依据：未提及",
+   "items": [
+    {
+     "item": "我左眼 375 度",
+     "evidence": "未提及",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R1",
+       "reason": "value_mismatch",
+       "span": "375 度"
+      },
+      {
+       "rule": "R3",
+       "reason": "absent_marker",
+       "span": "未提及"
+      }
+     ]
+    }
+   ],
+   "absent_flags": [
+    true
+   ],
+   "parse_ok": true,
+   "parse_reason": "ok",
+   "verdict": "unsupported",
+   "rule_hits": [
+    {
+     "rule": "R1",
+     "reason": "value_mismatch",
+     "span": "375 度"
+    },
+    {
+     "rule": "R3",
+     "reason": "absent_marker",
+     "span": "未提及"
+    }
+   ],
+   "prompt_verbatim": "下面是一段用户的记忆记录：\n【记忆】我在明亮眼镜店配镜，左眼 425 度、右眼 425 度。\n\n用户曾问过：我在哪家店配的眼镜？\n助手在回答里写了这一句：\n【待判句子】我左眼 375 度。\n\n请只做抽取，不要下任何结论、不要评价真伪。把【待判句子】里的每一个具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）单独列成一行，每行格式严格如下：\n条目：<该信息在句子里的原文>\n依据：<【记忆】里与之对应的原文片段；如果【记忆】里没有对应内容，就写 未提及>\n\n注意：只列【待判句子】里真正出现的信息，不要替它补全；条目至少 1 条，最多 12 条。",
+   "prompt_sha16": "b860581dcaef8759",
+   "_peak": 7.615
+  },
+  {
+   "fid": "D1-1",
+   "arm": "D1",
+   "route": "derived_bypass",
+   "sentence": "这次搬家一共花了 960 元。",
+   "source": "顺捷搬家，费 480 元，另付楼层费 480 元。",
+   "raw_out": null,
+   "items": [],
+   "absent_flags": [],
+   "parse_ok": true,
+   "parse_reason": "derived_bypass",
+   "verdict": "undecidable",
+   "rule_hits": [
+    {
+     "rule": "R_DERIVED",
+     "reason": "reasoning_keyword",
+     "span": "一共"
+    }
+   ],
+   "prompt_verbatim": null,
+   "prompt_sha16": null,
+   "derived": true
+  },
+  {
+   "fid": "D1-2",
+   "arm": "D1",
+   "route": "derived_bypass",
+   "sentence": "我总共去过 3 次健身房。",
+   "source": "我每周去一次力量方舟，已经连续去了 3 周。",
+   "raw_out": null,
+   "items": [],
+   "absent_flags": [],
+   "parse_ok": true,
+   "parse_reason": "derived_bypass",
+   "verdict": "undecidable",
+   "rule_hits": [
+    {
+     "rule": "R_DERIVED",
+     "reason": "reasoning_keyword",
+     "span": "总共"
+    }
+   ],
+   "prompt_verbatim": null,
+   "prompt_sha16": null,
+   "derived": true
+  },
+  {
+   "fid": "D1-3",
+   "arm": "D1",
+   "route": "derived_bypass",
+   "sentence": "两样加起来一共 780 元。",
+   "source": "宽带 500M，月费 100 元；健身房月费 268 元。",
+   "raw_out": null,
+   "items": [],
+   "absent_flags": [],
+   "parse_ok": true,
+   "parse_reason": "derived_bypass",
+   "verdict": "undecidable",
+   "rule_hits": [
+    {
+     "rule": "R_DERIVED",
+     "reason": "reasoning_keyword",
+     "span": "加起来"
+    }
+   ],
+   "prompt_verbatim": null,
+   "prompt_sha16": null,
+   "derived": true
+  },
+  {
+   "fid": "D1-4",
+   "arm": "D1",
+   "route": "derived_bypass",
+   "sentence": "押金和月费加起来是 368 元。",
+   "source": "光猫押金 100 元，月费 268 元。",
+   "raw_out": null,
+   "items": [],
+   "absent_flags": [],
+   "parse_ok": true,
+   "parse_reason": "derived_bypass",
+   "verdict": "undecidable",
+   "rule_hits": [
+    {
+     "rule": "R_DERIVED",
+     "reason": "reasoning_keyword",
+     "span": "加起来"
+    }
+   ],
+   "prompt_verbatim": null,
+   "prompt_sha16": null,
+   "derived": true
+  },
+  {
+   "fid": "M1-1",
+   "arm": "M1",
+   "route": "malformed_injection",
+   "sentence": "",
+   "source": null,
+   "raw_out": "",
+   "items": [],
+   "absent_flags": [],
+   "parse_ok": false,
+   "parse_reason": "no_items",
+   "verdict": "parse_fail",
+   "rule_hits": [],
+   "expected": "parse_fail",
+   "ok": true,
+   "exception": null
+  },
+  {
+   "fid": "M1-2",
+   "arm": "M1",
+   "route": "malformed_injection",
+   "sentence": "抱歉，我无法完成这个任务。",
+   "source": null,
+   "raw_out": "抱歉，我无法完成这个任务。",
+   "items": [],
+   "absent_flags": [],
+   "parse_ok": false,
+   "parse_reason": "no_items",
+   "verdict": "parse_fail",
+   "rule_hits": [],
+   "expected": "parse_fail",
+   "ok": true,
+   "exception": null
+  },
+  {
+   "fid": "M1-3",
+   "arm": "M1",
+   "route": "malformed_injection",
+   "sentence": "The sentence is supported by the memory.",
+   "source": null,
+   "raw_out": "The sentence is supported by the memory.",
+   "items": [],
+   "absent_flags": [],
+   "parse_ok": false,
+   "parse_reason": "no_items",
+   "verdict": "parse_fail",
+   "rule_hits": [],
+   "expected": "parse_fail",
+   "ok": true,
+   "exception": null
+  },
+  {
+   "fid": "M1-4",
+   "arm": "M1",
+   "route": "malformed_injection",
+   "sentence": "条目：卡号",
+   "source": null,
+   "raw_out": "条目：卡号",
+   "items": [],
+   "absent_flags": [],
+   "parse_ok": false,
+   "parse_reason": "item_without_evidence",
+   "verdict": "parse_fail",
+   "rule_hits": [],
+   "expected": "parse_fail",
+   "ok": true,
+   "exception": null
+  },
+  {
+   "fid": "M1-5",
+   "arm": "M1",
+   "route": "malformed_injection",
+   "sentence": "依据：卡号 GZ-5517",
+   "source": null,
+   "raw_out": "依据：卡号 GZ-5517",
+   "items": [],
+   "absent_flags": [],
+   "parse_ok": false,
+   "parse_reason": "evidence_without_item",
+   "verdict": "parse_fail",
+   "rule_hits": [],
+   "expected": "parse_fail",
+   "ok": true,
+   "exception": null
+  },
+  {
+   "fid": "M1-6",
+   "arm": "M1",
+   "route": "malformed_injection",
+   "sentence": "@@##%%乱码乱码%%##@@",
+   "source": null,
+   "raw_out": "@@##%%乱码乱码%%##@@",
+   "items": [],
+   "absent_flags": [],
+   "parse_ok": false,
+   "parse_reason": "no_items",
+   "verdict": "parse_fail",
+   "rule_hits": [],
+   "expected": "parse_fail",
+   "ok": true,
+   "exception": null
+  },
+  {
+   "fid": "M1-7",
+   "arm": "M1",
+   "route": "malformed_injection",
+   "sentence": "条目：卡号\n依据：GZ-5517\n条目：有效期\n依据：未提及",
+   "source": null,
+   "raw_out": "条目：卡号\n依据：GZ-5517\n条目：有效期\n依据：未提及",
+   "items": [
+    {
+     "item": "卡号",
+     "evidence": "GZ-5517",
+     "absent": false,
+     "rule_hits": []
+    },
+    {
+     "item": "有效期",
+     "evidence": "未提及",
+     "absent": true,
+     "rule_hits": [
+      {
+       "rule": "R3",
+       "reason": "absent_marker",
+       "span": "未提及"
+      }
+     ]
+    }
+   ],
+   "absent_flags": [
+    false,
+    true
+   ],
+   "parse_ok": true,
+   "parse_reason": "ok",
+   "verdict": "unsupported",
+   "rule_hits": [
+    {
+     "rule": "R3",
+     "reason": "absent_marker",
+     "span": "未提及"
+    }
+   ],
+   "expected": "unsupported",
+   "ok": true,
+   "exception": null
+  },
+  {
+   "fid": "M1-8",
+   "arm": "M1",
+   "route": "malformed_injection",
+   "sentence": "条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B",
+   "source": null,
+   "raw_out": "条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B条目：A 依据：B",
+   "items": [],
+   "absent_flags": [],
+   "parse_ok": false,
+   "parse_reason": "line_too_long",
+   "verdict": "parse_fail",
+   "rule_hits": [],
+   "expected": "parse_fail",
+   "ok": true,
+   "exception": null
+  }
+ ],
+ "arms": {
+  "2": {
+   "n": 6,
+   "unsupported": 6,
+   "supported": 0,
+   "parse_fail": 0,
+   "forward_count": 6
+  },
+  "3": {
+   "n": 6,
+   "unsupported": 6,
+   "supported": 0,
+   "parse_fail": 0,
+   "forward_count": 6
+  },
+  "D1": {
+   "n": 4,
+   "undecidable": 4,
+   "unsupported": 0,
+   "forward_count": 0
+  },
+  "M1": {
+   "n": 8,
+   "parse_fail": 7,
+   "normal_supported": 0,
+   "normal_unsupported": 1,
+   "all_expected": true,
+   "no_exception": true,
+   "forward_count": 0
+  }
+ },
+ "gates": {
+  "arm2_unsupported_ge_5": true,
+  "arm3_unsupported_ge_4": true,
+  "d1_undecidable_eq_4": true,
+  "d1_no_unsupported": true,
+  "m1_all_expected": true,
+  "m1_no_exception": true,
+  "parse_fail_model_le_4": true,
+  "complete_24": true
+ },
+ "rev4_1_ok": true,
+ "14B_can_judge": true,
+ "rule_impl": {
+  "order": [
+   "R1",
+   "R2",
+   "R3",
+   "R4"
+  ],
+  "R1": "value tokens (number+unit, week/day, model, institution); exact or bigram coverage >= 0.80",
+  "R2": "anchor value/entry in evidence; negator within preceding 6 chars, or 不是/并非/而不是<anchor>, or <anchor>不是/是错的",
+  "R3": "absent-marker vocabulary",
+  "R4": "quoted fragment >= 4 chars must exist verbatim in source",
+  "derived_bypass": "共|总共|合计|一共|平均|最|加起来 => undecidable"
+ },
+ "deterministic_rule_fix": {
+  "applied": true,
+  "prior_rev4_abstain_fix": "narrow '提' option accepted by Lead; unchanged here",
+  "rev4_1_scope": "R1/R2 added; model prompt unchanged"
+ },
+ "device": {
+  "pid": 5860,
+  "load_s": 4.749,
+  "vulkan_imported": true,
+  "dll_sha16": "9edbafa150700614",
+  "n_gpu_layers_input": 36,
+  "n_gpu_layers_readback": 36,
+  "n_gpu_layers_readback_total": 49,
+  "offloaded_log_line": "offloaded 36/49 layers to GPU",
+  "gpu": 36,
+  "n_ctx": 8192,
+  "n_seq": 8,
+  "kv": "q8_0",
+  "model_bytes": 8988110240,
+  "frozen_dll_sha16": "9edbafa150700614",
+  "n_predict": 384,
+  "only_extraction_no_options": true
+ },
+ "host_gate_before": {
+  "pnp_rndis_usb_audio": 0,
+  "vram_baseline_gib": 0.6673,
+  "free_ram_kb": 9688676,
+  "gpu_procs_gt256mb": 1,
+  "browser_or_code_procs": 7,
+  "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+  "gpu_procs_gt256mb_reported_by_E": 1,
+  "gpu_proc_query": "$m=Get-CimInstance Win32_PerfFormattedData_GPUPerformanceCounters_GPUProcessMemory -ErrorAction SilentlyContinue | ? { $_.DedicatedUsage -gt 268435456 }; if ($m) { $m | ForEach-Object { $mm=[regex]::Match($_.Name,'pid_(\\d+)'); $p=Get-Process -Id ([int]$mm.Groups[1].Value) -ErrorAction SilentlyContinue; 'COUNT {0} NAME={1} BYTES={2}' -f @($m | ? { $_ -ne $null }).Count,$p.ProcessName,([int]$_.DedicatedUsage) } } else { 'COUNT 0' }",
+  "gpu_proc_details": [
+   "COUNT 1 NAME=dwm BYTES=269819904"
+  ],
+  "gpu_proc_samples": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "prereg_sha16": "d4ab619b59bfe6fb",
+  "prereg_ok": true,
+  "free_ram_ok": true,
+  "vram_baseline_ok": true,
+  "gpu_procs_ok": true,
+  "browsers_ok": false,
+  "browsers_gated": false,
+  "boot_id_ok": true,
+  "dll_sha16": "9edbafa150700614",
+  "dll_ok": true,
+  "model_bytes": 8988110240,
+  "model_ok": true,
+  "gate_ok": true,
+  "gate_ok_raw": false,
+  "gpu_procs_ok_raw": false,
+  "gate_exception_applied": true,
+  "gate_exceptions": [
+   {
+    "name": "dwm.exe",
+    "observed_process_name": "dwm",
+    "bytes": 269819904,
+    "threshold_bytes": 268435456,
+    "reason": "system desktop compositor, not a compute workload"
+   }
+  ]
+ },
+ "host_gate_after": {
+  "pnp_rndis_usb_audio": 0,
+  "vram_baseline_gib": 0.7028,
+  "free_ram_kb": 9765748,
+  "gpu_procs_gt256mb": 1,
+  "browser_or_code_procs": 7,
+  "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+  "gpu_procs_gt256mb_reported_by_E": 1,
+  "gpu_proc_query": "$m=Get-CimInstance Win32_PerfFormattedData_GPUPerformanceCounters_GPUProcessMemory -ErrorAction SilentlyContinue | ? { $_.DedicatedUsage -gt 268435456 }; if ($m) { $m | ForEach-Object { $mm=[regex]::Match($_.Name,'pid_(\\d+)'); $p=Get-Process -Id ([int]$mm.Groups[1].Value) -ErrorAction SilentlyContinue; 'COUNT {0} NAME={1} BYTES={2}' -f @($m | ? { $_ -ne $null }).Count,$p.ProcessName,([int]$_.DedicatedUsage) } } else { 'COUNT 0' }",
+  "gpu_proc_details": [
+   "COUNT 1 NAME=dwm BYTES=269819904"
+  ],
+  "gpu_proc_samples": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "prereg_sha16": "d4ab619b59bfe6fb",
+  "prereg_ok": true,
+  "free_ram_ok": true,
+  "vram_baseline_ok": true,
+  "gpu_procs_ok": true,
+  "browsers_ok": false,
+  "browsers_gated": false,
+  "boot_id_ok": true,
+  "dll_sha16": "9edbafa150700614",
+  "dll_ok": true,
+  "model_bytes": 8988110240,
+  "model_ok": true,
+  "gate_ok": true,
+  "gate_ok_raw": false,
+  "gpu_procs_ok_raw": false,
+  "gate_exception_applied": true,
+  "gate_exceptions": [
+   {
+    "name": "dwm.exe",
+    "observed_process_name": "dwm",
+    "bytes": 269819904,
+    "threshold_bytes": 268435456,
+    "reason": "system desktop compositor, not a compute workload"
+   }
+  ]
+ },
+ "gate_exceptions": [
+  {
+   "name": "dwm.exe",
+   "observed_process_name": "dwm",
+   "bytes": 269819904,
+   "threshold_bytes": 268435456,
+   "reason": "system desktop compositor, not a compute workload"
+  }
+ ],
+ "host_before": {
+  "tag": "rev4_1_before",
+  "collected_at": "2026-10-26T17:15:58+0800",
+  "boot": {
+   "command": "(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString('o')",
+   "rc": 0,
+   "collected_at": "2026-10-26T17:15:57+0800",
+   "stdout": "2026-10-26T03:24:52.5000000+08:00",
+   "stderr": ""
+  },
+  "minidump": {
+   "command": "Get-ChildItem -LiteralPath 'C:\\Windows\\Minidump' -Filter '*.dmp' -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime | Select-Object Name,Length,@{n='LastWriteTime';e={$_.LastWriteTime.ToString('o')}} | ConvertTo-Json -Compress",
+   "rc": 0,
+   "collected_at": "2026-10-26T17:15:58+0800",
+   "stdout": "[{\"Name\":\"102626-5187-01.dmp\",\"Length\":2201077,\"LastWriteTime\":\"2026-10-26T01:31:36.2997028+08:00\"},{\"Name\":\"102626-4468-01.dmp\",\"Length\":1994809,\"LastWriteTime\":\"2026-10-26T01:38:56.5625530+08:00\"},{\"Name\":\"102626-4593-01.dmp\",\"Length\":1063617,\"LastWriteTime\":\"2026-10-26T01:56:32.6758278+08:00\"},{\"Name\":\"102626-4437-01.dmp\",\"Length\":2062496,\"LastWriteTime\":\"2026-10-26T03:10:17.4578327+08:00\"},{\"Name\":\"102626-4671-01.dmp\",\"Length\":2043758,\"LastWriteTime\":\"2026-10-26T03:24:55.7693314+08:00\"}]",
+   "stderr": ""
+  },
+  "parsed": {
+   "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+   "dumps": [
+    {
+     "name": "102626-5187-01.dmp",
+     "bytes": 2201077,
+     "mtime": "2026-10-26T01:31:36.2997028+08:00"
+    },
+    {
+     "name": "102626-4468-01.dmp",
+     "bytes": 1994809,
+     "mtime": "2026-10-26T01:38:56.5625530+08:00"
+    },
+    {
+     "name": "102626-4593-01.dmp",
+     "bytes": 1063617,
+     "mtime": "2026-10-26T01:56:32.6758278+08:00"
+    },
+    {
+     "name": "102626-4437-01.dmp",
+     "bytes": 2062496,
+     "mtime": "2026-10-26T03:10:17.4578327+08:00"
+    },
+    {
+     "name": "102626-4671-01.dmp",
+     "bytes": 2043758,
+     "mtime": "2026-10-26T03:24:55.7693314+08:00"
+    }
+   ],
+   "existing_count": 5,
+   "latest_mtime": "2026-10-26T03:24:55.7693314+08:00"
+  }
+ },
+ "host_after": {
+  "tag": "rev4_1_after",
+  "collected_at": "2026-10-26T17:17:56+0800",
+  "boot": {
+   "command": "(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString('o')",
+   "rc": 0,
+   "collected_at": "2026-10-26T17:17:55+0800",
+   "stdout": "2026-10-26T03:24:52.5000000+08:00",
+   "stderr": ""
+  },
+  "minidump": {
+   "command": "Get-ChildItem -LiteralPath 'C:\\Windows\\Minidump' -Filter '*.dmp' -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime | Select-Object Name,Length,@{n='LastWriteTime';e={$_.LastWriteTime.ToString('o')}} | ConvertTo-Json -Compress",
+   "rc": 0,
+   "collected_at": "2026-10-26T17:17:56+0800",
+   "stdout": "[{\"Name\":\"102626-5187-01.dmp\",\"Length\":2201077,\"LastWriteTime\":\"2026-10-26T01:31:36.2997028+08:00\"},{\"Name\":\"102626-4468-01.dmp\",\"Length\":1994809,\"LastWriteTime\":\"2026-10-26T01:38:56.5625530+08:00\"},{\"Name\":\"102626-4593-01.dmp\",\"Length\":1063617,\"LastWriteTime\":\"2026-10-26T01:56:32.6758278+08:00\"},{\"Name\":\"102626-4437-01.dmp\",\"Length\":2062496,\"LastWriteTime\":\"2026-10-26T03:10:17.4578327+08:00\"},{\"Name\":\"102626-4671-01.dmp\",\"Length\":2043758,\"LastWriteTime\":\"2026-10-26T03:24:55.7693314+08:00\"}]",
+   "stderr": ""
+  },
+  "parsed": {
+   "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+   "dumps": [
+    {
+     "name": "102626-5187-01.dmp",
+     "bytes": 2201077,
+     "mtime": "2026-10-26T01:31:36.2997028+08:00"
+    },
+    {
+     "name": "102626-4468-01.dmp",
+     "bytes": 1994809,
+     "mtime": "2026-10-26T01:38:56.5625530+08:00"
+    },
+    {
+     "name": "102626-4593-01.dmp",
+     "bytes": 1063617,
+     "mtime": "2026-10-26T01:56:32.6758278+08:00"
+    },
+    {
+     "name": "102626-4437-01.dmp",
+     "bytes": 2062496,
+     "mtime": "2026-10-26T03:10:17.4578327+08:00"
+    },
+    {
+     "name": "102626-4671-01.dmp",
+     "bytes": 2043758,
+     "mtime": "2026-10-26T03:24:55.7693314+08:00"
+    }
+   ],
+   "existing_count": 5,
+   "latest_mtime": "2026-10-26T03:24:55.7693314+08:00"
+  }
+ },
+ "peak_gib": 7.615,
+ "target_gib": 8.0,
+ "fuse_gib": 8.6,
+ "total_limit_s": 900,
+ "elapsed_s": 58.8,
+ "signals_sent": false,
+ "no_parent_signals": true,
+ "no_grammar": true,
+ "no_custom_dll": true,
+ "no_options": true,
+ "no_verdict_prompt": true,
+ "no_prompt_changes": true,
+ "no_hardcoded_case_exceptions": true,
+ "no_b2_blind_labels": true,
+ "no_accuracy_or_f1": true
+}

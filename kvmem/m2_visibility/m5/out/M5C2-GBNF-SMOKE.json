@@ -1,0 +1,295 @@
+{
+ "schema": "m5c2_gbnf_smoke_v1",
+ "status": "完成",
+ "complete": true,
+ "aborted": null,
+ "n_done": 3,
+ "dll": {
+  "path": "kvshim_gbnf_vk.dll",
+  "sha16": "138b6e13881219bc",
+  "bytes": 50017792
+ },
+ "grammar": "root ::= \"A\" | \"B\" | \"C\"",
+ "root": "root",
+ "n_probs_requested": 3,
+ "post_sampling_probs": true,
+ "cases": [
+  {
+   "fid": "F07",
+   "arm": 2,
+   "prompt_sha16": "c7eddcce7de56905",
+   "raw_out": "A",
+   "rc": 1,
+   "grammar": "root ::= \"A\" | \"B\" | \"C\"",
+   "root": "root",
+   "n_probs_requested": 3,
+   "post_sampling_probs": true,
+   "top_probs": [
+    {
+     "token_id": 32,
+     "prob": 0.9824223518371582
+    },
+    {
+     "token_id": 33,
+     "prob": 0.014845271594822407
+    },
+    {
+     "token_id": 34,
+     "prob": 0.002732355846092105
+    }
+   ],
+   "top_probs_n": 3,
+   "top_probs_sum": 0.999999979,
+   "n_allowed": 3,
+   "grammar_output_is_single_letter": true,
+   "peak_gib_running": 7.5722
+  },
+  {
+   "fid": "F01",
+   "arm": 1,
+   "prompt_sha16": "b9d093fc5f2f51a8",
+   "raw_out": "A",
+   "rc": 1,
+   "grammar": "root ::= \"A\" | \"B\" | \"C\"",
+   "root": "root",
+   "n_probs_requested": 3,
+   "post_sampling_probs": true,
+   "top_probs": [
+    {
+     "token_id": 32,
+     "prob": 0.988381564617157
+    },
+    {
+     "token_id": 33,
+     "prob": 0.009261487051844597
+    },
+    {
+     "token_id": 34,
+     "prob": 0.002356946235522628
+    }
+   ],
+   "top_probs_n": 3,
+   "top_probs_sum": 0.999999998,
+   "n_allowed": 3,
+   "grammar_output_is_single_letter": true,
+   "peak_gib_running": 7.6118
+  },
+  {
+   "fid": "F25",
+   "arm": 5,
+   "prompt_sha16": "8f001bea98aa84f2",
+   "raw_out": "A",
+   "rc": 1,
+   "grammar": "root ::= \"A\" | \"B\" | \"C\"",
+   "root": "root",
+   "n_probs_requested": 3,
+   "post_sampling_probs": true,
+   "top_probs": [
+    {
+     "token_id": 32,
+     "prob": 0.9910471439361572
+    },
+    {
+     "token_id": 33,
+     "prob": 0.006324016023427248
+    },
+    {
+     "token_id": 34,
+     "prob": 0.002628868445754051
+    }
+   ],
+   "top_probs_n": 3,
+   "top_probs_sum": 1.000000028,
+   "n_allowed": 3,
+   "grammar_output_is_single_letter": true,
+   "peak_gib_running": 7.6118
+  }
+ ],
+ "checks": {
+  "grammar_output_single_letter": true,
+  "top_probs_exactly_3": true,
+  "top_probs_sum_1": true,
+  "prob_mode": "post_grammar_softmax_over_allowed_tokens"
+ },
+ "device": {
+  "pid": 13344,
+  "load_s": 4.149,
+  "vulkan_imported": true,
+  "dll_sha16": "138b6e13881219bc",
+  "n_gpu_layers_input": 36,
+  "n_ctx": 8192,
+  "n_seq": 8,
+  "kv": "q8_0",
+  "model_bytes": 8988110240,
+  "first_prompt_tokens": 198
+ },
+ "host_gate_before": {
+  "pnp_rndis_usb_audio": 0,
+  "vram_baseline_gib": 0.6644,
+  "free_ram_kb": 10157108,
+  "gpu_procs_gt256mb": 0,
+  "browser_or_code_procs": 7,
+  "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+  "gpu_procs_gt256mb_reported_by_E": 0,
+  "gpu_proc_query": "$m=Get-CimInstance Win32_PerfFormattedData_GPUPerformanceCounters_GPUProcessMemory -ErrorAction SilentlyContinue | ? { $_.DedicatedUsage -gt 268435456 }; if ($m) { $m | ForEach-Object { $mm=[regex]::Match($_.Name,'pid_(\\d+)'); $p=Get-Process -Id ([int]$mm.Groups[1].Value) -ErrorAction SilentlyContinue; 'COUNT {0} NAME={1} BYTES={2}' -f @($m | ? { $_ -ne $null }).Count,$p.ProcessName,([int]$_.DedicatedUsage) } } else { 'COUNT 0' }",
+  "gpu_proc_details": [
+   "COUNT 0"
+  ],
+  "gpu_proc_samples": [
+   0
+  ],
+  "prereg_sha16": "d4ab619b59bfe6fb",
+  "prereg_ok": true,
+  "free_ram_ok": true,
+  "vram_baseline_ok": true,
+  "gpu_procs_ok": true,
+  "browsers_ok": false,
+  "browsers_gated": false,
+  "boot_id_ok": true,
+  "dll_sha16": "9edbafa150700614",
+  "dll_ok": true,
+  "model_bytes": 8988110240,
+  "model_ok": true,
+  "gate_ok": true
+ },
+ "host_gate_after": {
+  "pnp_rndis_usb_audio": 0,
+  "vram_baseline_gib": 0.6999,
+  "free_ram_kb": 10121588,
+  "gpu_procs_gt256mb": 0,
+  "browser_or_code_procs": 7,
+  "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+  "gpu_procs_gt256mb_reported_by_E": 0,
+  "gpu_proc_query": "$m=Get-CimInstance Win32_PerfFormattedData_GPUPerformanceCounters_GPUProcessMemory -ErrorAction SilentlyContinue | ? { $_.DedicatedUsage -gt 268435456 }; if ($m) { $m | ForEach-Object { $mm=[regex]::Match($_.Name,'pid_(\\d+)'); $p=Get-Process -Id ([int]$mm.Groups[1].Value) -ErrorAction SilentlyContinue; 'COUNT {0} NAME={1} BYTES={2}' -f @($m | ? { $_ -ne $null }).Count,$p.ProcessName,([int]$_.DedicatedUsage) } } else { 'COUNT 0' }",
+  "gpu_proc_details": [
+   "COUNT 0"
+  ],
+  "gpu_proc_samples": [
+   0
+  ],
+  "prereg_sha16": "d4ab619b59bfe6fb",
+  "prereg_ok": true,
+  "free_ram_ok": true,
+  "vram_baseline_ok": true,
+  "gpu_procs_ok": true,
+  "browsers_ok": false,
+  "browsers_gated": false,
+  "boot_id_ok": true,
+  "dll_sha16": "9edbafa150700614",
+  "dll_ok": true,
+  "model_bytes": 8988110240,
+  "model_ok": true,
+  "gate_ok": true
+ },
+ "host_before": {
+  "tag": "gbnf_before",
+  "collected_at": "2026-10-26T16:09:56+0800",
+  "boot": {
+   "command": "(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString('o')",
+   "rc": 0,
+   "collected_at": "2026-10-26T16:09:55+0800",
+   "stdout": "2026-10-26T03:24:52.5000000+08:00",
+   "stderr": ""
+  },
+  "minidump": {
+   "command": "Get-ChildItem -LiteralPath 'C:\\Windows\\Minidump' -Filter '*.dmp' -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime | Select-Object Name,Length,@{n='LastWriteTime';e={$_.LastWriteTime.ToString('o')}} | ConvertTo-Json -Compress",
+   "rc": 0,
+   "collected_at": "2026-10-26T16:09:56+0800",
+   "stdout": "[{\"Name\":\"102626-5187-01.dmp\",\"Length\":2201077,\"LastWriteTime\":\"2026-10-26T01:31:36.2997028+08:00\"},{\"Name\":\"102626-4468-01.dmp\",\"Length\":1994809,\"LastWriteTime\":\"2026-10-26T01:38:56.5625530+08:00\"},{\"Name\":\"102626-4593-01.dmp\",\"Length\":1063617,\"LastWriteTime\":\"2026-10-26T01:56:32.6758278+08:00\"},{\"Name\":\"102626-4437-01.dmp\",\"Length\":2062496,\"LastWriteTime\":\"2026-10-26T03:10:17.4578327+08:00\"},{\"Name\":\"102626-4671-01.dmp\",\"Length\":2043758,\"LastWriteTime\":\"2026-10-26T03:24:55.7693314+08:00\"}]",
+   "stderr": ""
+  },
+  "parsed": {
+   "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+   "dumps": [
+    {
+     "name": "102626-5187-01.dmp",
+     "bytes": 2201077,
+     "mtime": "2026-10-26T01:31:36.2997028+08:00"
+    },
+    {
+     "name": "102626-4468-01.dmp",
+     "bytes": 1994809,
+     "mtime": "2026-10-26T01:38:56.5625530+08:00"
+    },
+    {
+     "name": "102626-4593-01.dmp",
+     "bytes": 1063617,
+     "mtime": "2026-10-26T01:56:32.6758278+08:00"
+    },
+    {
+     "name": "102626-4437-01.dmp",
+     "bytes": 2062496,
+     "mtime": "2026-10-26T03:10:17.4578327+08:00"
+    },
+    {
+     "name": "102626-4671-01.dmp",
+     "bytes": 2043758,
+     "mtime": "2026-10-26T03:24:55.7693314+08:00"
+    }
+   ],
+   "existing_count": 5,
+   "latest_mtime": "2026-10-26T03:24:55.7693314+08:00"
+  }
+ },
+ "host_after": {
+  "tag": "gbnf_after",
+  "collected_at": "2026-10-26T16:10:14+0800",
+  "boot": {
+   "command": "(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString('o')",
+   "rc": 0,
+   "collected_at": "2026-10-26T16:10:13+0800",
+   "stdout": "2026-10-26T03:24:52.5000000+08:00",
+   "stderr": ""
+  },
+  "minidump": {
+   "command": "Get-ChildItem -LiteralPath 'C:\\Windows\\Minidump' -Filter '*.dmp' -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime | Select-Object Name,Length,@{n='LastWriteTime';e={$_.LastWriteTime.ToString('o')}} | ConvertTo-Json -Compress",
+   "rc": 0,
+   "collected_at": "2026-10-26T16:10:14+0800",
+   "stdout": "[{\"Name\":\"102626-5187-01.dmp\",\"Length\":2201077,\"LastWriteTime\":\"2026-10-26T01:31:36.2997028+08:00\"},{\"Name\":\"102626-4468-01.dmp\",\"Length\":1994809,\"LastWriteTime\":\"2026-10-26T01:38:56.5625530+08:00\"},{\"Name\":\"102626-4593-01.dmp\",\"Length\":1063617,\"LastWriteTime\":\"2026-10-26T01:56:32.6758278+08:00\"},{\"Name\":\"102626-4437-01.dmp\",\"Length\":2062496,\"LastWriteTime\":\"2026-10-26T03:10:17.4578327+08:00\"},{\"Name\":\"102626-4671-01.dmp\",\"Length\":2043758,\"LastWriteTime\":\"2026-10-26T03:24:55.7693314+08:00\"}]",
+   "stderr": ""
+  },
+  "parsed": {
+   "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+   "dumps": [
+    {
+     "name": "102626-5187-01.dmp",
+     "bytes": 2201077,
+     "mtime": "2026-10-26T01:31:36.2997028+08:00"
+    },
+    {
+     "name": "102626-4468-01.dmp",
+     "bytes": 1994809,
+     "mtime": "2026-10-26T01:38:56.5625530+08:00"
+    },
+    {
+     "name": "102626-4593-01.dmp",
+     "bytes": 1063617,
+     "mtime": "2026-10-26T01:56:32.6758278+08:00"
+    },
+    {
+     "name": "102626-4437-01.dmp",
+     "bytes": 2062496,
+     "mtime": "2026-10-26T03:10:17.4578327+08:00"
+    },
+    {
+     "name": "102626-4671-01.dmp",
+     "bytes": 2043758,
+     "mtime": "2026-10-26T03:24:55.7693314+08:00"
+    }
+   ],
+   "existing_count": 5,
+   "latest_mtime": "2026-10-26T03:24:55.7693314+08:00"
+  }
+ },
+ "peak_gib": 7.612,
+ "target_gib": 8.0,
+ "fuse_gib": 8.6,
+ "elapsed_s": 9.5,
+ "segment_limit_s": 900,
+ "signals_sent": false,
+ "no_parent_signals": true,
+ "no_b2_blind_labels": true,
+ "no_accuracy_or_f1": true,
+ "no_prompt_changes": true,
+ "no_stage2": true
+}

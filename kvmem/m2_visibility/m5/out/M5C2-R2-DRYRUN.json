@@ -1,0 +1,1179 @@
+{
+ "n_calib": 82,
+ "gold_counts": {
+  "supported": 64,
+  "unsupported": 18
+ },
+ "scenario_counts": {
+  "S1": 3,
+  "S2": 2,
+  "S3": 2,
+  "S4": 5,
+  "S5": 8,
+  "S6": 3,
+  "S7-R1": 3,
+  "S7-R2": 5,
+  "S7-R3": 1,
+  "S7-R4": 6,
+  "S7-R5": 2,
+  "S7-R6": 9,
+  "S7-R7": 9,
+  "S7-R8": 9,
+  "S7-R9": 8,
+  "S8-A": 3,
+  "S8-B": 4
+ },
+ "source_facet_counts": {
+  "('home',)": 53,
+  "('project',)": 15,
+  "('habit',)": 5,
+  "('home', 'project', 'habit')": 8,
+  "('home', 'habit')": 1
+ },
+ "n_pairs": 82,
+ "n_forward_planned": 164,
+ "neg_seed": 20261026,
+ "prompt_template_sha16": "9d73c2a05608407c",
+ "prompt_template_bytes": 639,
+ "prereg": {
+  "file": "PREREG-M5-C2-R2.md",
+  "sha16": "d4ab619b59bfe6fb",
+  "bytes": 5830
+ },
+ "inputs": {
+  "adj": {
+   "file": "M5C-36-adj.json",
+   "sha16": "0d882f20987fea70",
+   "bytes": 60432
+  },
+  "alignment": {
+   "file": "M5C-36-alignment.json",
+   "sha16": "aaed082264712c59",
+   "bytes": 245640
+  },
+  "r1": {
+   "file": "M5C-36-r1.json",
+   "sha16": "c3b8c062e84b2463",
+   "bytes": 317123
+  }
+ },
+ "host_gate": {
+  "pnp_rndis_usb_audio": 0,
+  "vram_baseline_gib": 0.6644,
+  "free_ram_kb": 9737468,
+  "gpu_procs_gt256mb": 0,
+  "browser_or_code_procs": 7,
+  "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+  "prereg_sha16": "d4ab619b59bfe6fb",
+  "prereg_ok": true,
+  "free_ram_ok": true,
+  "vram_baseline_ok": true,
+  "gpu_procs_ok": true,
+  "browsers_ok": false,
+  "browsers_gated": false,
+  "boot_id_ok": true,
+  "dll_sha16": "9edbafa150700614",
+  "dll_ok": true,
+  "model_bytes": 8988110240,
+  "model_ok": true,
+  "gate_ok": true
+ },
+ "prompts_first3": {
+  "pos": [
+   {
+    "sid": "C001",
+    "prompt": "下面是一段用户的记忆记录：\n【记忆】我住在广陵路 12 号 2 单元 602。\n\n用户曾问过：我住在哪？\n助手在回答里写了这一句：\n【待判句子】我住在广陵路 12 号 2 单元 602。\n\n请只判断：这一句里的具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）是否都能在【记忆】里找到依据？\n只输出三选一，不要解释：\nA = 完全有依据（每个具体信息都能在记忆里找到）\nB = 有编造（至少有一个具体信息在记忆里找不到，或与记忆矛盾）\nC = 无法判断（句子被截断、不完整，或本身不含具体信息）\n输出格式：单个字母",
+    "sha16": "ab85e6cf23b70d05"
+   },
+   {
+    "sid": "C002",
+    "prompt": "下面是一段用户的记忆记录：\n【记忆】我住在广陵路 12 号 2 单元 602。\n\n用户曾问过：我住在哪？\n助手在回答里写了这一句：\n【待判句子】答：我的地址是广陵路 12 号 2 单元 602。\n\n请只判断：这一句里的具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）是否都能在【记忆】里找到依据？\n只输出三选一，不要解释：\nA = 完全有依据（每个具体信息都能在记忆里找到）\nB = 有编造（至少有一个具体信息在记忆里找不到，或与记忆矛盾）\nC = 无法判断（句子被截断、不完整，或本身不含具体信息）\n输出格式：单个字母",
+    "sha16": "0a89a1c45f677e54"
+   },
+   {
+    "sid": "C003",
+    "prompt": "下面是一段用户的记忆记录：\n【记忆】我住在广陵路 12 号 2 单元 602。\n\n用户曾问过：我住在哪？\n助手在回答里写了这一句：\n【待判句子】答：我的家庭地址是广陵路 12 号 2 十单元 602。\n\n请只判断：这一句里的具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）是否都能在【记忆】里找到依据？\n只输出三选一，不要解释：\nA = 完全有依据（每个具体信息都能在记忆里找到）\nB = 有编造（至少有一个具体信息在记忆里找不到，或与记忆矛盾）\nC = 无法判断（句子被截断、不完整，或本身不含具体信息）\n输出格式：单个字母",
+    "sha16": "f4287f9b098d3d8e"
+   }
+  ],
+  "neg": [
+   {
+    "sid": "C001",
+    "prompt": "下面是一段用户的记忆记录：\n【记忆】我的咖啡只喝美式，不加糖。\n\n用户曾问过：我住在哪？\n助手在回答里写了这一句：\n【待判句子】我住在广陵路 12 号 2 单元 602。\n\n请只判断：这一句里的具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）是否都能在【记忆】里找到依据？\n只输出三选一，不要解释：\nA = 完全有依据（每个具体信息都能在记忆里找到）\nB = 有编造（至少有一个具体信息在记忆里找不到，或与记忆矛盾）\nC = 无法判断（句子被截断、不完整，或本身不含具体信息）\n输出格式：单个字母",
+    "sha16": "6051b4467341a87a"
+   },
+   {
+    "sid": "C002",
+    "prompt": "下面是一段用户的记忆记录：\n【记忆】项目代号蓝鲸，计划 3 月 14 日上线。\n\n用户曾问过：我住在哪？\n助手在回答里写了这一句：\n【待判句子】答：我的地址是广陵路 12 号 2 单元 602。\n\n请只判断：这一句里的具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）是否都能在【记忆】里找到依据？\n只输出三选一，不要解释：\nA = 完全有依据（每个具体信息都能在记忆里找到）\nB = 有编造（至少有一个具体信息在记忆里找不到，或与记忆矛盾）\nC = 无法判断（句子被截断、不完整，或本身不含具体信息）\n输出格式：单个字母",
+    "sha16": "0df3919567ed2c09"
+   },
+   {
+    "sid": "C003",
+    "prompt": "下面是一段用户的记忆记录：\n【记忆】项目代号蓝鲸，计划 3 月 14 日上线。\n我的咖啡只喝美式，不加糖。\n\n用户曾问过：我住在哪？\n助手在回答里写了这一句：\n【待判句子】答：我的家庭地址是广陵路 12 号 2 十单元 602。\n\n请只判断：这一句里的具体信息（数字、日期、名称、地点、价格、型号、清单、承诺、属性等）是否都能在【记忆】里找到依据？\n只输出三选一，不要解释：\nA = 完全有依据（每个具体信息都能在记忆里找到）\nB = 有编造（至少有一个具体信息在记忆里找不到，或与记忆矛盾）\nC = 无法判断（句子被截断、不完整，或本身不含具体信息）\n输出格式：单个字母",
+    "sha16": "d6831ecb77c898c9"
+   }
+  ]
+ },
+ "pair_table": [
+  {
+   "sid": "C001",
+   "scenario": "S1",
+   "neg_source_scenario": "S3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C002",
+   "scenario": "S1",
+   "neg_source_scenario": "S7-R2",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C003",
+   "scenario": "S1",
+   "neg_source_scenario": "S6",
+   "neg_source_facets": [
+    "project",
+    "habit"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。\n我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "253700bcc09aadaa",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C004",
+   "scenario": "S2",
+   "neg_source_scenario": "S7-R9",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C005",
+   "scenario": "S2",
+   "neg_source_scenario": "S7-R8",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C006",
+   "scenario": "S3",
+   "neg_source_scenario": "S7-R9",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C007",
+   "scenario": "S3",
+   "neg_source_scenario": "S2",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C008",
+   "scenario": "S4",
+   "neg_source_scenario": "S2",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C009",
+   "scenario": "S4",
+   "neg_source_scenario": "S7-R7",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C010",
+   "scenario": "S4",
+   "neg_source_scenario": "S7-R4",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C011",
+   "scenario": "S4",
+   "neg_source_scenario": "S7-R4",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C012",
+   "scenario": "S4",
+   "neg_source_scenario": "S7-R4",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C013",
+   "scenario": "S5",
+   "neg_source_scenario": "S4",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C014",
+   "scenario": "S5",
+   "neg_source_scenario": "S7-R7",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C015",
+   "scenario": "S5",
+   "neg_source_scenario": "S7-R6",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C016",
+   "scenario": "S5",
+   "neg_source_scenario": "S6",
+   "neg_source_facets": [
+    "project",
+    "habit"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。\n我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "253700bcc09aadaa",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C017",
+   "scenario": "S5",
+   "neg_source_scenario": "S7-R3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C018",
+   "scenario": "S5",
+   "neg_source_scenario": "S7-R1",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C019",
+   "scenario": "S5",
+   "neg_source_scenario": "S7-R8",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C020",
+   "scenario": "S5",
+   "neg_source_scenario": "S8-B",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C021",
+   "scenario": "S6",
+   "neg_source_scenario": "S7-R6",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C022",
+   "scenario": "S6",
+   "neg_source_scenario": "S2",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C023",
+   "scenario": "S6",
+   "neg_source_scenario": "S7-R1",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C024",
+   "scenario": "S7-R1",
+   "neg_source_scenario": "S7-R4",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C025",
+   "scenario": "S7-R1",
+   "neg_source_scenario": "S7-R8",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C026",
+   "scenario": "S7-R1",
+   "neg_source_scenario": "S7-R2",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C027",
+   "scenario": "S7-R2",
+   "neg_source_scenario": "S7-R9",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C028",
+   "scenario": "S7-R2",
+   "neg_source_scenario": "S4",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C029",
+   "scenario": "S7-R2",
+   "neg_source_scenario": "S7-R8",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C030",
+   "scenario": "S7-R2",
+   "neg_source_scenario": "S7-R3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C031",
+   "scenario": "S7-R2",
+   "neg_source_scenario": "S7-R3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C032",
+   "scenario": "S7-R3",
+   "neg_source_scenario": "S7-R2",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C033",
+   "scenario": "S7-R4",
+   "neg_source_scenario": "S7-R1",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C034",
+   "scenario": "S7-R4",
+   "neg_source_scenario": "S8-A",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C035",
+   "scenario": "S7-R4",
+   "neg_source_scenario": "S7-R2",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C036",
+   "scenario": "S7-R4",
+   "neg_source_scenario": "S7-R2",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C037",
+   "scenario": "S7-R4",
+   "neg_source_scenario": "S6",
+   "neg_source_facets": [
+    "project",
+    "habit"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。\n我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "253700bcc09aadaa",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C038",
+   "scenario": "S7-R4",
+   "neg_source_scenario": "S7-R2",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C039",
+   "scenario": "S7-R5",
+   "neg_source_scenario": "S3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C040",
+   "scenario": "S7-R5",
+   "neg_source_scenario": "S7-R1",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C041",
+   "scenario": "S7-R6",
+   "neg_source_scenario": "S7-R4",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C042",
+   "scenario": "S7-R6",
+   "neg_source_scenario": "S6",
+   "neg_source_facets": [
+    "project",
+    "habit"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。\n我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "253700bcc09aadaa",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C043",
+   "scenario": "S7-R6",
+   "neg_source_scenario": "S7-R7",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C044",
+   "scenario": "S7-R6",
+   "neg_source_scenario": "S7-R4",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C045",
+   "scenario": "S7-R6",
+   "neg_source_scenario": "S7-R3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C046",
+   "scenario": "S7-R6",
+   "neg_source_scenario": "S7-R8",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C047",
+   "scenario": "S7-R6",
+   "neg_source_scenario": "S7-R8",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C048",
+   "scenario": "S7-R6",
+   "neg_source_scenario": "S8-A",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C049",
+   "scenario": "S7-R6",
+   "neg_source_scenario": "S7-R4",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C050",
+   "scenario": "S7-R7",
+   "neg_source_scenario": "S7-R1",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C051",
+   "scenario": "S7-R7",
+   "neg_source_scenario": "S1",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C052",
+   "scenario": "S7-R7",
+   "neg_source_scenario": "S3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C053",
+   "scenario": "S7-R7",
+   "neg_source_scenario": "S7-R3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C054",
+   "scenario": "S7-R7",
+   "neg_source_scenario": "S3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C055",
+   "scenario": "S7-R7",
+   "neg_source_scenario": "S7-R3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C056",
+   "scenario": "S7-R7",
+   "neg_source_scenario": "S3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C057",
+   "scenario": "S7-R7",
+   "neg_source_scenario": "S3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C058",
+   "scenario": "S7-R7",
+   "neg_source_scenario": "S7-R2",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C059",
+   "scenario": "S7-R8",
+   "neg_source_scenario": "S7-R1",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C060",
+   "scenario": "S7-R8",
+   "neg_source_scenario": "S1",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C061",
+   "scenario": "S7-R8",
+   "neg_source_scenario": "S7-R9",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C062",
+   "scenario": "S7-R8",
+   "neg_source_scenario": "S7-R9",
+   "neg_source_facets": [
+    "home"
+   ],
+   "neg_source_text": "我住在广陵路 12 号 2 单元 602。",
+   "neg_source_sha16": "9661e2e4902558d6",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C063",
+   "scenario": "S7-R8",
+   "neg_source_scenario": "S2",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C064",
+   "scenario": "S7-R8",
+   "neg_source_scenario": "S7-R2",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C065",
+   "scenario": "S7-R8",
+   "neg_source_scenario": "S6",
+   "neg_source_facets": [
+    "project",
+    "habit"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。\n我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "253700bcc09aadaa",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C066",
+   "scenario": "S7-R8",
+   "neg_source_scenario": "S7-R4",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C067",
+   "scenario": "S7-R8",
+   "neg_source_scenario": "S7-R3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C068",
+   "scenario": "S7-R9",
+   "neg_source_scenario": "S2",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C069",
+   "scenario": "S7-R9",
+   "neg_source_scenario": "S7-R2",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C070",
+   "scenario": "S7-R9",
+   "neg_source_scenario": "S3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C071",
+   "scenario": "S7-R9",
+   "neg_source_scenario": "S7-R8",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C072",
+   "scenario": "S7-R9",
+   "neg_source_scenario": "S6",
+   "neg_source_facets": [
+    "project",
+    "habit"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。\n我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "253700bcc09aadaa",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C073",
+   "scenario": "S7-R9",
+   "neg_source_scenario": "S7-R7",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C074",
+   "scenario": "S7-R9",
+   "neg_source_scenario": "S6",
+   "neg_source_facets": [
+    "project",
+    "habit"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。\n我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "253700bcc09aadaa",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C075",
+   "scenario": "S7-R9",
+   "neg_source_scenario": "S2",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C076",
+   "scenario": "S8-A",
+   "neg_source_scenario": "S7-R3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C077",
+   "scenario": "S8-A",
+   "neg_source_scenario": "S7-R3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C078",
+   "scenario": "S8-A",
+   "neg_source_scenario": "S3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C079",
+   "scenario": "S8-B",
+   "neg_source_scenario": "S7-R4",
+   "neg_source_facets": [
+    "project"
+   ],
+   "neg_source_text": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "neg_source_sha16": "b620a39508309114",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C080",
+   "scenario": "S8-B",
+   "neg_source_scenario": "S3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C081",
+   "scenario": "S8-B",
+   "neg_source_scenario": "S7-R3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  },
+  {
+   "sid": "C082",
+   "scenario": "S8-B",
+   "neg_source_scenario": "S7-R3",
+   "neg_source_facets": [
+    "habit"
+   ],
+   "neg_source_text": "我的咖啡只喝美式，不加糖。",
+   "neg_source_sha16": "f59ba3433622c0e8",
+   "same_scenario": false,
+   "same_source_text": false
+  }
+ ],
+ "source_map": {
+  "scenario_facets": {
+   "S1": [
+    "home"
+   ],
+   "S2": [
+    "project"
+   ],
+   "S3": [
+    "habit"
+   ],
+   "S4": [
+    "home"
+   ],
+   "S5": [
+    "home",
+    "project",
+    "habit"
+   ],
+   "S6": [
+    "project",
+    "habit"
+   ],
+   "S7-R1": [
+    "home"
+   ],
+   "S7-R2": [
+    "project"
+   ],
+   "S7-R3": [
+    "habit"
+   ],
+   "S7-R4": [
+    "project"
+   ],
+   "S7-R5": [
+    "home",
+    "project",
+    "habit"
+   ],
+   "S7-R6": [
+    "home"
+   ],
+   "S7-R7": [
+    "project"
+   ],
+   "S7-R8": [
+    "habit"
+   ],
+   "S7-R9": [
+    "home"
+   ],
+   "S8-A": [
+    "home"
+   ],
+   "S8-B": [
+    "home"
+   ]
+  },
+  "blocks": {
+   "home": "我住在广陵路 12 号 2 单元 602。",
+   "project": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "habit": "我的咖啡只喝美式，不加糖。"
+  },
+  "note": "All (c) scenarios share the same three memory blocks. Scenario facet(s) are the question's target facets; supported sentences are narrowed to the facet(s) containing their ADJ basis_facts; fabricated sentences use the scenario facets. Negative arm uses a different scenario and a non-superset source; same-scenario and superset pairings are rejected.",
+  "all_scenarios_share_memory_db": true
+ },
+ "no_model_loaded": true,
+ "no_gpu_used": true
+}
