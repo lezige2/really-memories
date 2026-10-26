@@ -1,0 +1,619 @@
+{
+ "schema": "m6b_fs_kill_v1",
+ "task": "M6B F1 filesystem-layer SIGKILL (zero GPU)",
+ "at": "2026-10-26T09:28:24+0800",
+ "scope": "文件系统层 + 静态不变量；不替代 GPU kill 子臂（永久未做）",
+ "evidence_level": "E1/FS",
+ "not_gpu_kill": true,
+ "device": {
+  "pure_file_child": true,
+  "gpu_used": false,
+  "model_loaded": false,
+  "vulkan_touched": false,
+  "gpu_process_signalled": false,
+  "parent_signals_to_child": "Popen.kill() only; child is a pure-file Python process",
+  "source_read_only": true
+ },
+ "source": {
+  "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3gpu\\s1.chat.kvmem",
+  "sha16": "6a2508d4df79fa57",
+  "bytes": 19744884,
+  "before": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3gpu\\s1.chat.kvmem",
+   "exists": true,
+   "bytes": 19744884,
+   "sha16": "6a2508d4df79fa57"
+  },
+  "unchanged": true
+ },
+ "payload": {
+  "before": {
+   "sha16": "6a2508d4df79fa57",
+   "bytes": 19744884,
+   "role": "E3-GPU S1 real chat state"
+  },
+  "after": {
+   "sha16": "1aa58a96d8799553",
+   "bytes": 19744884,
+   "role": "deterministic reverse of source, same size"
+  }
+ },
+ "protocol": {
+  "chunk_bytes": 32768,
+  "chunk_delay_s": 0.0025,
+  "three_points": [
+   "p1_30pct: tmp/target ~30%",
+   "p2_full_fsync_pre_replace: tmp full + fsync, before replace",
+   "p3_after_replace: after os.replace"
+  ],
+  "runs_per_point": 2,
+  "atomic_writer": "temp + fsync + os.replace, same shape as tools/kvslots.py:223-267",
+  "red_writer": "direct open(target,'wb') chunked write, deliberate non-atomic control",
+  "red_timepoints": "red has no replace; p1/p2/p3 are 30%/55%/80% mid-write target sizes, all before completion; this is the required red control, not a product path"
+ },
+ "trials": [
+  {
+   "arm": "atomic",
+   "point": "p1_30pct",
+   "run": 1,
+   "target_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p1_30pct_1\\target.chat.kvmem",
+   "tmp_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p1_30pct_1\\target.chat.kvmem.tmp-6608-5cae7b52",
+   "child_pid": 11616,
+   "kill_method": "Popen.kill (TerminateProcess, SIGKILL equivalent)",
+   "kill_ms": 540.8,
+   "elapsed_ms": 543.8,
+   "kill_condition": "tmp_30pct",
+   "fraction_at_kill": 0.3004,
+   "target_before": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p1_30pct_1\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "6a2508d4df79fa57"
+   },
+   "target_after": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p1_30pct_1\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "6a2508d4df79fa57"
+   },
+   "new_payload": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p1_30pct_1\\new.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "1aa58a96d8799553"
+   },
+   "observed_state": "before",
+   "target_is_before_or_after": true,
+   "residual_tmp": [
+    {
+     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p1_30pct_1\\target.chat.kvmem.tmp-6608-5cae7b52",
+     "exists": true,
+     "bytes": 5931008,
+     "sha16": "d6e939cb771ec7ef"
+    }
+   ],
+   "residual_tmp_count": 1,
+   "stderr_tail": []
+  },
+  {
+   "arm": "atomic",
+   "point": "p1_30pct",
+   "run": 2,
+   "target_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p1_30pct_2\\target.chat.kvmem",
+   "tmp_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p1_30pct_2\\target.chat.kvmem.tmp-6608-b8162ac7",
+   "child_pid": 8064,
+   "kill_method": "Popen.kill (TerminateProcess, SIGKILL equivalent)",
+   "kill_ms": 546.6,
+   "elapsed_ms": 548.6,
+   "kill_condition": "tmp_30pct",
+   "fraction_at_kill": 0.3004,
+   "target_before": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p1_30pct_2\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "6a2508d4df79fa57"
+   },
+   "target_after": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p1_30pct_2\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "6a2508d4df79fa57"
+   },
+   "new_payload": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p1_30pct_2\\new.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "1aa58a96d8799553"
+   },
+   "observed_state": "before",
+   "target_is_before_or_after": true,
+   "residual_tmp": [
+    {
+     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p1_30pct_2\\target.chat.kvmem.tmp-6608-b8162ac7",
+     "exists": true,
+     "bytes": 5931008,
+     "sha16": "d6e939cb771ec7ef"
+    }
+   ],
+   "residual_tmp_count": 1,
+   "stderr_tail": []
+  },
+  {
+   "arm": "atomic",
+   "point": "p2_full_fsync_pre_replace",
+   "run": 1,
+   "target_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p2_full_fsync_pre_replace_1\\target.chat.kvmem",
+   "tmp_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p2_full_fsync_pre_replace_1\\target.chat.kvmem.tmp-6608-f088da1e",
+   "child_pid": 11624,
+   "kill_method": "Popen.kill (TerminateProcess, SIGKILL equivalent)",
+   "kill_ms": 1757.3,
+   "elapsed_ms": 1759.1,
+   "kill_condition": "tmp_full_fsync_ready",
+   "fraction_at_kill": 1.0,
+   "target_before": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p2_full_fsync_pre_replace_1\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "6a2508d4df79fa57"
+   },
+   "target_after": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p2_full_fsync_pre_replace_1\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "6a2508d4df79fa57"
+   },
+   "new_payload": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p2_full_fsync_pre_replace_1\\new.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "1aa58a96d8799553"
+   },
+   "observed_state": "before",
+   "target_is_before_or_after": true,
+   "residual_tmp": [
+    {
+     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p2_full_fsync_pre_replace_1\\target.chat.kvmem.tmp-6608-f088da1e",
+     "exists": true,
+     "bytes": 19744884,
+     "sha16": "1aa58a96d8799553"
+    }
+   ],
+   "residual_tmp_count": 1,
+   "stderr_tail": []
+  },
+  {
+   "arm": "atomic",
+   "point": "p2_full_fsync_pre_replace",
+   "run": 2,
+   "target_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p2_full_fsync_pre_replace_2\\target.chat.kvmem",
+   "tmp_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p2_full_fsync_pre_replace_2\\target.chat.kvmem.tmp-6608-ee0bcf43",
+   "child_pid": 11704,
+   "kill_method": "Popen.kill (TerminateProcess, SIGKILL equivalent)",
+   "kill_ms": 1746.5,
+   "elapsed_ms": 1748.5,
+   "kill_condition": "tmp_full_fsync_ready",
+   "fraction_at_kill": 1.0,
+   "target_before": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p2_full_fsync_pre_replace_2\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "6a2508d4df79fa57"
+   },
+   "target_after": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p2_full_fsync_pre_replace_2\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "6a2508d4df79fa57"
+   },
+   "new_payload": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p2_full_fsync_pre_replace_2\\new.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "1aa58a96d8799553"
+   },
+   "observed_state": "before",
+   "target_is_before_or_after": true,
+   "residual_tmp": [
+    {
+     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p2_full_fsync_pre_replace_2\\target.chat.kvmem.tmp-6608-ee0bcf43",
+     "exists": true,
+     "bytes": 19744884,
+     "sha16": "1aa58a96d8799553"
+    }
+   ],
+   "residual_tmp_count": 1,
+   "stderr_tail": []
+  },
+  {
+   "arm": "atomic",
+   "point": "p3_after_replace",
+   "run": 1,
+   "target_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p3_after_replace_1\\target.chat.kvmem",
+   "tmp_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p3_after_replace_1\\target.chat.kvmem.tmp-6608-6498ec3a",
+   "child_pid": 12248,
+   "kill_method": "Popen.kill (TerminateProcess, SIGKILL equivalent)",
+   "kill_ms": 1757.1,
+   "elapsed_ms": 1759.0,
+   "kill_condition": "replaced",
+   "fraction_at_kill": 1.0,
+   "target_before": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p3_after_replace_1\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "6a2508d4df79fa57"
+   },
+   "target_after": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p3_after_replace_1\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "1aa58a96d8799553"
+   },
+   "new_payload": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p3_after_replace_1\\new.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "1aa58a96d8799553"
+   },
+   "observed_state": "after",
+   "target_is_before_or_after": true,
+   "residual_tmp": [],
+   "residual_tmp_count": 0,
+   "stderr_tail": []
+  },
+  {
+   "arm": "atomic",
+   "point": "p3_after_replace",
+   "run": 2,
+   "target_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p3_after_replace_2\\target.chat.kvmem",
+   "tmp_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p3_after_replace_2\\target.chat.kvmem.tmp-6608-4a19e390",
+   "child_pid": 7172,
+   "kill_method": "Popen.kill (TerminateProcess, SIGKILL equivalent)",
+   "kill_ms": 1786.7,
+   "elapsed_ms": 1788.6,
+   "kill_condition": "replaced",
+   "fraction_at_kill": 1.0,
+   "target_before": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p3_after_replace_2\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "6a2508d4df79fa57"
+   },
+   "target_after": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p3_after_replace_2\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "1aa58a96d8799553"
+   },
+   "new_payload": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\atomic_p3_after_replace_2\\new.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "1aa58a96d8799553"
+   },
+   "observed_state": "after",
+   "target_is_before_or_after": true,
+   "residual_tmp": [],
+   "residual_tmp_count": 0,
+   "stderr_tail": []
+  },
+  {
+   "arm": "red",
+   "point": "p1_30pct",
+   "run": 1,
+   "target_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p1_30pct_1\\target.chat.kvmem",
+   "tmp_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p1_30pct_1\\target.chat.kvmem.tmp-6608-e54aae6b",
+   "child_pid": 3580,
+   "kill_method": "Popen.kill (TerminateProcess, SIGKILL equivalent)",
+   "kill_ms": 543.3,
+   "elapsed_ms": 545.3,
+   "kill_condition": "target_30pct",
+   "fraction_at_kill": 0.3004,
+   "target_before": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p1_30pct_1\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "6a2508d4df79fa57"
+   },
+   "target_after": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p1_30pct_1\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 5931008,
+    "sha16": "d6e939cb771ec7ef"
+   },
+   "new_payload": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p1_30pct_1\\new.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "1aa58a96d8799553"
+   },
+   "observed_state": "third",
+   "target_is_before_or_after": false,
+   "residual_tmp": [],
+   "residual_tmp_count": 0,
+   "stderr_tail": []
+  },
+  {
+   "arm": "red",
+   "point": "p1_30pct",
+   "run": 2,
+   "target_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p1_30pct_2\\target.chat.kvmem",
+   "tmp_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p1_30pct_2\\target.chat.kvmem.tmp-6608-f3bf7d3e",
+   "child_pid": 2232,
+   "kill_method": "Popen.kill (TerminateProcess, SIGKILL equivalent)",
+   "kill_ms": 547.6,
+   "elapsed_ms": 549.6,
+   "kill_condition": "target_30pct",
+   "fraction_at_kill": 0.3004,
+   "target_before": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p1_30pct_2\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "6a2508d4df79fa57"
+   },
+   "target_after": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p1_30pct_2\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 5931008,
+    "sha16": "d6e939cb771ec7ef"
+   },
+   "new_payload": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p1_30pct_2\\new.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "1aa58a96d8799553"
+   },
+   "observed_state": "third",
+   "target_is_before_or_after": false,
+   "residual_tmp": [],
+   "residual_tmp_count": 0,
+   "stderr_tail": []
+  },
+  {
+   "arm": "red",
+   "point": "p2_full_fsync_pre_replace",
+   "run": 1,
+   "target_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p2_full_fsync_pre_replace_1\\target.chat.kvmem",
+   "tmp_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p2_full_fsync_pre_replace_1\\target.chat.kvmem.tmp-6608-7c522b6e",
+   "child_pid": 11720,
+   "kill_method": "Popen.kill (TerminateProcess, SIGKILL equivalent)",
+   "kill_ms": 954.6,
+   "elapsed_ms": 956.8,
+   "kill_condition": "target_55pct",
+   "fraction_at_kill": 0.551,
+   "target_before": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p2_full_fsync_pre_replace_1\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "6a2508d4df79fa57"
+   },
+   "target_after": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p2_full_fsync_pre_replace_1\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 10878976,
+    "sha16": "c83d667b0f7c51a6"
+   },
+   "new_payload": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p2_full_fsync_pre_replace_1\\new.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "1aa58a96d8799553"
+   },
+   "observed_state": "third",
+   "target_is_before_or_after": false,
+   "residual_tmp": [],
+   "residual_tmp_count": 0,
+   "stderr_tail": []
+  },
+  {
+   "arm": "red",
+   "point": "p2_full_fsync_pre_replace",
+   "run": 2,
+   "target_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p2_full_fsync_pre_replace_2\\target.chat.kvmem",
+   "tmp_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p2_full_fsync_pre_replace_2\\target.chat.kvmem.tmp-6608-dac9121a",
+   "child_pid": 6580,
+   "kill_method": "Popen.kill (TerminateProcess, SIGKILL equivalent)",
+   "kill_ms": 961.2,
+   "elapsed_ms": 963.0,
+   "kill_condition": "target_55pct",
+   "fraction_at_kill": 0.551,
+   "target_before": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p2_full_fsync_pre_replace_2\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "6a2508d4df79fa57"
+   },
+   "target_after": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p2_full_fsync_pre_replace_2\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 10878976,
+    "sha16": "c83d667b0f7c51a6"
+   },
+   "new_payload": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p2_full_fsync_pre_replace_2\\new.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "1aa58a96d8799553"
+   },
+   "observed_state": "third",
+   "target_is_before_or_after": false,
+   "residual_tmp": [],
+   "residual_tmp_count": 0,
+   "stderr_tail": []
+  },
+  {
+   "arm": "red",
+   "point": "p3_after_replace",
+   "run": 1,
+   "target_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p3_after_replace_1\\target.chat.kvmem",
+   "tmp_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p3_after_replace_1\\target.chat.kvmem.tmp-6608-7e7147e2",
+   "child_pid": 10444,
+   "kill_method": "Popen.kill (TerminateProcess, SIGKILL equivalent)",
+   "kill_ms": 1357.2,
+   "elapsed_ms": 1359.3,
+   "kill_condition": "target_80pct",
+   "fraction_at_kill": 0.8016,
+   "target_before": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p3_after_replace_1\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "6a2508d4df79fa57"
+   },
+   "target_after": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p3_after_replace_1\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 15826944,
+    "sha16": "80655afacb130989"
+   },
+   "new_payload": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p3_after_replace_1\\new.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "1aa58a96d8799553"
+   },
+   "observed_state": "third",
+   "target_is_before_or_after": false,
+   "residual_tmp": [],
+   "residual_tmp_count": 0,
+   "stderr_tail": []
+  },
+  {
+   "arm": "red",
+   "point": "p3_after_replace",
+   "run": 2,
+   "target_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p3_after_replace_2\\target.chat.kvmem",
+   "tmp_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p3_after_replace_2\\target.chat.kvmem.tmp-6608-1d24e0a2",
+   "child_pid": 9524,
+   "kill_method": "Popen.kill (TerminateProcess, SIGKILL equivalent)",
+   "kill_ms": 1360.9,
+   "elapsed_ms": 1362.8,
+   "kill_condition": "target_80pct",
+   "fraction_at_kill": 0.8016,
+   "target_before": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p3_after_replace_2\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "6a2508d4df79fa57"
+   },
+   "target_after": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p3_after_replace_2\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 15826944,
+    "sha16": "80655afacb130989"
+   },
+   "new_payload": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\red_p3_after_replace_2\\new.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "1aa58a96d8799553"
+   },
+   "observed_state": "third",
+   "target_is_before_or_after": false,
+   "residual_tmp": [],
+   "residual_tmp_count": 0,
+   "stderr_tail": []
+  }
+ ],
+ "summary": {
+  "atomic": {
+   "points": {
+    "p1_30pct": {
+     "states": [
+      "before",
+      "before"
+     ],
+     "expected": "before",
+     "all_match": true,
+     "fractions": [
+      0.3004,
+      0.3004
+     ]
+    },
+    "p2_full_fsync_pre_replace": {
+     "states": [
+      "before",
+      "before"
+     ],
+     "expected": "before",
+     "all_match": true,
+     "fractions": [
+      1.0,
+      1.0
+     ]
+    },
+    "p3_after_replace": {
+     "states": [
+      "after",
+      "after"
+     ],
+     "expected": "after",
+     "all_match": true,
+     "fractions": [
+      1.0,
+      1.0
+     ]
+    }
+   },
+   "all_target_before_or_after": true,
+   "third_state_count": 0,
+   "target_states": [
+    "before",
+    "before",
+    "before",
+    "before",
+    "after",
+    "after"
+   ]
+  },
+  "red": {
+   "target_states": [
+    "third",
+    "third",
+    "third",
+    "third",
+    "third",
+    "third"
+   ],
+   "third_or_truncated_count": 6,
+   "third_state_reproduced": true,
+   "note": "red is control only; not counted as a pass"
+  }
+ },
+ "stale_cleanup": {
+  "killed_tmp_ready": true,
+  "stale_before_next_save": [
+   {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\stale_probe\\target.chat.kvmem.tmp-stale-e6cc6f1b",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "1aa58a96d8799553"
+   }
+  ],
+  "stale_after_next_save": [
+   {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\stale_probe\\target.chat.kvmem.tmp-stale-e6cc6f1b",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "1aa58a96d8799553"
+   }
+  ],
+  "startup_scan_in_product": false,
+  "product_cleanup_site": "tools/kvslots.py:264-267 finally: only removes this process's tmp; SIGKILL bypasses finally",
+  "stale_cleanup_effective": false,
+  "target_after_next_save": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\stale_probe\\target.chat.kvmem",
+   "exists": true,
+   "bytes": 19744884,
+   "sha16": "1aa58a96d8799553"
+  }
+ },
+ "conclusion": {
+  "atomic": "target always before or after; no third state",
+  "red": "third/truncated state reproduced",
+  "gpu_kill_arm": "未做（主机不安全；本件不替代）"
+ },
+ "limitations": [
+  "filesystem-layer evidence only; not GPU KV semantics",
+  "Popen.kill on Windows is TerminateProcess (SIGKILL-equivalent); no cleanup runs",
+  "atomic writer here is an equivalent of kvslots.save, not the native shim"
+ ]
+}

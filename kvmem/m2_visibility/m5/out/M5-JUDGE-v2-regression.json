@@ -1,0 +1,6675 @@
+{
+  "schema": "m5_judge_v2_regression_v1",
+  "task": "M5 judge v2.1 — prereg-locked implementation + 46-pair in-sample regression",
+  "judge_version": "v2.1",
+  "judge_path": "kvmem/m2_visibility/m5/m5_ground_v2.py",
+  "judge_sha16": "5e11e1ac06f022c7",
+  "judge_bytes": 66413,
+  "supersedes": "m5_ground.py 86b7c501ab9904aa",
+  "supersedes_sha16": "86b7c501ab9904aa",
+  "supersedes_bytes": 18496,
+  "supersedes_untouched": true,
+  "prereg": {
+    "sha16": "6c77b56f406432aa",
+    "bytes": 35739,
+    "path": "docs/_work/PREREG-M5-JUDGE-v2.md",
+    "observed_sha16": "6c77b56f406432aa",
+    "observed_bytes": 35739,
+    "observed_matches_coordinate": true,
+    "coordinate_history": [
+      {
+        "stage": "handoff",
+        "sha16": "8330fa716ef32a28",
+        "bytes": 34373,
+        "lines": 405,
+        "status": "superseded; never the frozen text. The old source/regression cited this as `prereg` (audit R1)."
+      },
+      {
+        "stage": "first_read",
+        "sha16": "135d020fe35deee2",
+        "bytes": 35716,
+        "lines": 411,
+        "status": "intermediate draft seen at first read; superseded before any v2 result was written, carries no result-fitting risk"
+      },
+      {
+        "stage": "frozen_on_disk",
+        "sha16": "6c77b56f406432aa",
+        "bytes": 35739,
+        "lines": 411,
+        "status": "the version this implementation follows and now cites"
+      }
+    ],
+    "note": "R1：源码与回归件原先把已取代稿 8330fa716ef32a28 标为 prereg。现统一改指盘上冻结版 6c77b56f406432aa / 35,739 B；8330fa71 / 34,373 / 405 行是任务书坐标，135d020f / 35,716 / 411 行是首读中间稿，两者均不再作为实现坐标。内容与预登记 §B/§B5/§C/§D 逐条一致（五档不可区分、θ=0.20 固档、差异只许 P13/P25），坐标链在此单件可读；未据此改动任何判定/阈值/词表"
+  },
+  "threshold_theta": 0.2,
+  "recheck_semantics": {
+    "value": "v1_unchanged",
+    "authority": "预登记 §B3：`recheck` 一行不动",
+    "implementation": "recheck() 模板逐行复制 v1；嵌套判定显式绑定 _v1.ground，v2 不再改变 recheck 语义",
+    "deviation_fixed": "盘上 34afeef1ee02ba82 曾让嵌套 `ground` 按名字解析到 v2，P13/P25 的 recheck_verdict 因此为 unsupported（v1 在该对不触发 recheck）；本版按预登记回退，属对偏离的纠正，不是新的偏离",
+    "sides_with_recheck": [
+      {
+        "arm": "R1",
+        "pair_id": "P01",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P01",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P03",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P03",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P05",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P05",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P07",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P07",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P09",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P09",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P11",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P11",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P13",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P13",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P15",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P15",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P17",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P17",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P19",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P19",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P21",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P21",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P23",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P23",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P25",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P25",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P27",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P27",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P29",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P29",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R2",
+        "pair_id": "P15",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R2",
+        "pair_id": "P15",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R2",
+        "pair_id": "P17",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R2",
+        "pair_id": "P17",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R2",
+        "pair_id": "P19",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R2",
+        "pair_id": "P19",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R2",
+        "pair_id": "P23",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R2",
+        "pair_id": "P23",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R2",
+        "pair_id": "P29",
+        "side": "orig",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R2",
+        "pair_id": "P29",
+        "side": "rewrite",
+        "recheck_verdict": "supported"
+      }
+    ],
+    "newly_triggered_vs_v1": [
+      {
+        "arm": "R1",
+        "pair_id": "P13",
+        "side": "orig",
+        "v1_verdict": "supported",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P13",
+        "side": "rewrite",
+        "v1_verdict": "supported",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P25",
+        "side": "orig",
+        "v1_verdict": "supported",
+        "recheck_verdict": "supported"
+      },
+      {
+        "arm": "R1",
+        "pair_id": "P25",
+        "side": "rewrite",
+        "v1_verdict": "supported",
+        "recheck_verdict": "supported"
+      }
+    ],
+    "recheck_verdict_impact": "none on any pair verdict：recheck_verdict 只是报告字段，46 对 verdict / 92 side 判定与 v2 关联字段不变"
+  },
+  "gate": {
+    "theta": 0.2,
+    "stop_sha16": "a4406d0bd1de47c7",
+    "frame_sha16": "f7df16d8ba96e68f",
+    "question_clause_excluded": true,
+    "no_fact_rule": "|G|==0",
+    "gram_n": 2,
+    "strict_gt": true,
+    "theta_not_runtime_overridable": true,
+    "frozen_sets_verified": true,
+    "note": "§C3.1 θ/STOP/FRAME/问句排除/|G|==0 在落盘前不得改动；实现内为源码常量"
+  },
+  "inputs": {
+    "R1_pairs": {
+      "path": "kvmem/m2_visibility/m5/out/M5-36A-pairs.json",
+      "sha16": "f0767d84c16c31bb",
+      "bytes": 7503,
+      "count": 30
+    },
+    "R2_pairs": {
+      "path": "kvmem/m2_visibility/m5/out/M5-36A-pairs-model.json",
+      "sha16": "aa9e6106925657e1",
+      "bytes": 7851,
+      "count": 16
+    },
+    "adj": {
+      "path": "kvmem/m2_visibility/m5/out/M5-36A-adj.json",
+      "sha16": "1f5d7a5447478802"
+    },
+    "review": {
+      "path": "docs/_work/REVIEW-M5-36A-blind.json",
+      "sha16": "39d1d24860294ee3"
+    },
+    "model_adj": {
+      "path": "kvmem/m2_visibility/m5/out/M5-36A-model-adj.json",
+      "sha16": "1b52862fe64ad384"
+    },
+    "v1_judge": {
+      "path": "kvmem/m2_visibility/m5/out/M5-36A-judge.json",
+      "sha16": "bff8a34ba652d1e2"
+    },
+    "v1_model_judge": {
+      "path": "kvmem/m2_visibility/m5/out/M5-36A-model-judge.json",
+      "sha16": "8bc7af8eb82aed86"
+    },
+    "truth_consensus": {
+      "adj_vs_review": "30/30",
+      "rule": "§D2/§G: R1 truth = ADJ∩REVIEW 2-of-2; R2 truth = model ADJ only",
+      "model_arm_note": "R2 单方 ADJ，证据等级低于 R1，不得替代 rewrite18 主口径"
+    }
+  },
+  "per_pair": [
+    {
+      "arm": "R1",
+      "pair_id": "P01",
+      "block": "baseline12",
+      "dim": "不改写基线",
+      "orig": "我的车牌号是苏A12345。",
+      "rewrite": "我的车牌号是苏A12345。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P02",
+      "block": "baseline12",
+      "dim": "不改写基线",
+      "orig": "我住在广陵路 12 号 2 单元 602。",
+      "rewrite": "我住在广陵路 12 号 2 单元 602。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P03",
+      "block": "rewrite18",
+      "dim": "语序",
+      "orig": "我的车牌号是苏A12345。",
+      "rewrite": "车牌号苏A12345。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P04",
+      "block": "rewrite18",
+      "dim": "语序",
+      "orig": "我住在广陵路 12 号 2 单元 602。",
+      "rewrite": "广陵路 12 号 2 单元 602 是我的住处。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 5,
+          "hits_n": 5,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P05",
+      "block": "rewrite18",
+      "dim": "问答句",
+      "orig": "我的车牌号是苏A12345。",
+      "rewrite": "问：车牌号是多少？答：苏A12345。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P06",
+      "block": "rewrite18",
+      "dim": "删修饰",
+      "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+      "rewrite": "项目将在 3 月 14 日上线。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 1,
+          "hits_n": 1,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P07",
+      "block": "rewrite18",
+      "dim": "硬事实替换",
+      "orig": "我的车牌号是苏A12345。",
+      "rewrite": "车牌号是B3F19K。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P08",
+      "block": "rewrite18",
+      "dim": "日期等价",
+      "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+      "rewrite": "项目将在三月十四号上线。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 1,
+          "hits_n": 1,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P09",
+      "block": "baseline12",
+      "dim": "不改写基线",
+      "orig": "我的住址是广陵路 12 号 2 单元 603。",
+      "rewrite": "我的住址是广陵路 12 号 2 单元 603。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 4,
+          "hits_n": 3,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 4,
+          "hits_n": 3,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P10",
+      "block": "rewrite18",
+      "dim": "删虚词",
+      "orig": "我住在广陵路 12 号 2 单元 602。",
+      "rewrite": "我住广陵路 12 号 2 单元 602。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P11",
+      "block": "rewrite18",
+      "dim": "否定语境",
+      "orig": "我的住址是广陵路 12 号 2 单元 603。",
+      "rewrite": "不是 602，我住在广陵路 12 号 2 单元 603。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 4,
+          "hits_n": 3,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 5,
+          "hits_n": 4,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P12",
+      "block": "rewrite18",
+      "dim": "语序",
+      "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+      "rewrite": "项目计划在 3 月 14 日上线，代号蓝鲸。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P13",
+      "block": "baseline12",
+      "dim": "硬事实替换",
+      "orig": "我住在杭州西湖边。",
+      "rewrite": "我住在杭州西湖边。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "defect_fixed",
+      "changed_sides": [
+        "orig",
+        "rewrite"
+      ],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 0,
+          "hits_n": 0,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "5a_2gram_negative",
+          "reason_v1": "抽不到硬事实",
+          "reason_v2": "2gram_negative_evidence",
+          "gram_n": 5,
+          "miss_n": 4,
+          "u": 0.8,
+          "miss_grams": [
+            "州西",
+            "杭州",
+            "湖边",
+            "西湖"
+          ],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 0,
+          "hits_n": 0,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "5a_2gram_negative",
+          "reason_v1": "抽不到硬事实",
+          "reason_v2": "2gram_negative_evidence",
+          "gram_n": 5,
+          "miss_n": 4,
+          "u": 0.8,
+          "miss_grams": [
+            "州西",
+            "杭州",
+            "湖边",
+            "西湖"
+          ],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P14",
+      "block": "rewrite18",
+      "dim": "删修饰",
+      "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+      "rewrite": "项目代号是蓝鲸。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 1,
+          "hits_n": 1,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P15",
+      "block": "baseline12",
+      "dim": "日期替换",
+      "orig": "项目将在 3 月 15 日上线。",
+      "rewrite": "项目将在 3 月 15 日上线。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P16",
+      "block": "rewrite18",
+      "dim": "问答句",
+      "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+      "rewrite": "问：项目代号是什么？答：蓝鲸。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 0,
+          "hits_n": 0,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "5b_ngram_covered",
+          "reason_v1": "抽不到硬事实",
+          "reason_v2": "no_fact_ngram_covered",
+          "gram_n": 1,
+          "miss_n": 0,
+          "u": 0.0,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P17",
+      "block": "rewrite18",
+      "dim": "增饰",
+      "orig": "项目将在 3 月 15 日上线。",
+      "rewrite": "项目上线时间定在 3 月 15 日，我记得是这样。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 2,
+          "hits_n": 0,
+          "unhit_n": 2,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P18",
+      "block": "rewrite18",
+      "dim": "增饰",
+      "orig": "我住在广陵路 12 号 2 单元 602。",
+      "rewrite": "我现在的住处是广陵路 12 号 2 单元 602，一直没搬。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P19",
+      "block": "baseline12",
+      "dim": "日期替换",
+      "orig": "项目将在 3 月 16 日上线。",
+      "rewrite": "项目将在 3 月 16 日上线。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P20",
+      "block": "rewrite18",
+      "dim": "问答句",
+      "orig": "我住在广陵路 12 号 2 单元 602。",
+      "rewrite": "问：你住哪里？答：广陵路 12 号 2 单元 602。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P21",
+      "block": "baseline12",
+      "dim": "硬事实替换",
+      "orig": "项目代号是海豚。",
+      "rewrite": "项目代号是海豚。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P22",
+      "block": "rewrite18",
+      "dim": "语序",
+      "orig": "我的咖啡只喝美式，不加糖。",
+      "rewrite": "我喝咖啡只喝美式，不加糖。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 0,
+          "hits_n": 0,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "5b_ngram_covered",
+          "reason_v1": "抽不到硬事实",
+          "reason_v2": "no_fact_ngram_covered",
+          "gram_n": 3,
+          "miss_n": 0,
+          "u": 0.0,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 0,
+          "hits_n": 0,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "5b_ngram_covered",
+          "reason_v1": "抽不到硬事实",
+          "reason_v2": "no_fact_ngram_covered",
+          "gram_n": 3,
+          "miss_n": 0,
+          "u": 0.0,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P23",
+      "block": "baseline12",
+      "dim": "硬事实替换",
+      "orig": "我喝咖啡习惯是拿铁，加双份糖。",
+      "rewrite": "我喝咖啡习惯是拿铁，加双份糖。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P24",
+      "block": "rewrite18",
+      "dim": "问答句",
+      "orig": "我的咖啡只喝美式，不加糖。",
+      "rewrite": "问：喝咖啡有什么习惯？答：只喝美式，不加糖。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 0,
+          "hits_n": 0,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "5b_ngram_covered",
+          "reason_v1": "抽不到硬事实",
+          "reason_v2": "no_fact_ngram_covered",
+          "gram_n": 3,
+          "miss_n": 0,
+          "u": 0.0,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 0,
+          "hits_n": 0,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "5b_ngram_covered",
+          "reason_v1": "抽不到硬事实",
+          "reason_v2": "no_fact_ngram_covered",
+          "gram_n": 2,
+          "miss_n": 0,
+          "u": 0.0,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P25",
+      "block": "baseline12",
+      "dim": "硬事实替换",
+      "orig": "我只喝龙井茶，不加糖。",
+      "rewrite": "我只喝龙井茶，不加糖。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "defect_fixed",
+      "changed_sides": [
+        "orig",
+        "rewrite"
+      ],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 0,
+          "hits_n": 0,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "5a_2gram_negative",
+          "reason_v1": "抽不到硬事实",
+          "reason_v2": "2gram_negative_evidence",
+          "gram_n": 3,
+          "miss_n": 2,
+          "u": 0.6666666666666666,
+          "miss_grams": [
+            "井茶",
+            "龙井"
+          ],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 0,
+          "hits_n": 0,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "5a_2gram_negative",
+          "reason_v1": "抽不到硬事实",
+          "reason_v2": "2gram_negative_evidence",
+          "gram_n": 3,
+          "miss_n": 2,
+          "u": 0.6666666666666666,
+          "miss_grams": [
+            "井茶",
+            "龙井"
+          ],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P26",
+      "block": "rewrite18",
+      "dim": "增饰",
+      "orig": "我的咖啡只喝美式，不加糖。",
+      "rewrite": "我的咖啡习惯是只喝美式，不加糖，别的都不喝。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 0,
+          "hits_n": 0,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "5b_ngram_covered",
+          "reason_v1": "抽不到硬事实",
+          "reason_v2": "no_fact_ngram_covered",
+          "gram_n": 3,
+          "miss_n": 0,
+          "u": 0.0,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 1,
+          "hits_n": 1,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P27",
+      "block": "baseline12",
+      "dim": "硬事实替换",
+      "orig": "我的手机号是 13800001234。",
+      "rewrite": "我的手机号是 13800001234。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P28",
+      "block": "baseline12",
+      "dim": "不改写基线",
+      "orig": "我的咖啡只喝美式，不加糖。",
+      "rewrite": "我的咖啡只喝美式，不加糖。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 0,
+          "hits_n": 0,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "5b_ngram_covered",
+          "reason_v1": "抽不到硬事实",
+          "reason_v2": "no_fact_ngram_covered",
+          "gram_n": 3,
+          "miss_n": 0,
+          "u": 0.0,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 0,
+          "hits_n": 0,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "5b_ngram_covered",
+          "reason_v1": "抽不到硬事实",
+          "reason_v2": "no_fact_ngram_covered",
+          "gram_n": 3,
+          "miss_n": 0,
+          "u": 0.0,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P29",
+      "block": "baseline12",
+      "dim": "门牌替换",
+      "orig": "我住在广陵路 12 号 2 单元 601。",
+      "rewrite": "我住在广陵路 12 号 2 单元 601。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 4,
+          "hits_n": 3,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 4,
+          "hits_n": 3,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P30",
+      "block": "rewrite18",
+      "dim": "增饰",
+      "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+      "rewrite": "项目代号蓝鲸，计划在 3 月 14 日上线。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P02",
+      "block": "model16",
+      "dim": "模型同义改写",
+      "orig": "我住在广陵路 12 号 2 单元 602。",
+      "rewrite": "我居住在广陵路12号2单元602室。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P04",
+      "block": "model16",
+      "dim": "模型同义改写",
+      "orig": "我住在广陵路 12 号 2 单元 602。",
+      "rewrite": "我居住在广陵路12号2单元602室。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P06",
+      "block": "model16",
+      "dim": "模型同义改写",
+      "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+      "rewrite": "项目代号蓝鲸，计划于3月14日上线。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P08",
+      "block": "model16",
+      "dim": "模型同义改写",
+      "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+      "rewrite": "项目代号蓝鲸，计划于3月14日上线。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P10",
+      "block": "model16",
+      "dim": "模型同义改写",
+      "orig": "我住在广陵路 12 号 2 单元 602。",
+      "rewrite": "我居住在广陵路12号2单元602室。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P12",
+      "block": "model16",
+      "dim": "模型同义改写",
+      "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+      "rewrite": "项目代号蓝鲸，计划于3月14日上线。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P14",
+      "block": "model16",
+      "dim": "模型同义改写",
+      "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+      "rewrite": "项目代号蓝鲸，计划于3月14日上线。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P15",
+      "block": "model16",
+      "dim": "模型同义改写",
+      "orig": "项目将在 3 月 15 日上线。",
+      "rewrite": "项目上线日期为 3 月 15 日。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P16",
+      "block": "model16",
+      "dim": "模型同义改写",
+      "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+      "rewrite": "项目代号蓝鲸，计划于3月14日上线。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P17",
+      "block": "model16",
+      "dim": "模型同义改写",
+      "orig": "项目将在 3 月 15 日上线。",
+      "rewrite": "项目上线日期为 3 月 15 日。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P18",
+      "block": "model16",
+      "dim": "模型同义改写",
+      "orig": "我住在广陵路 12 号 2 单元 602。",
+      "rewrite": "我居住在广陵路12号2单元602室。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P19",
+      "block": "model16",
+      "dim": "模型同义改写",
+      "orig": "项目将在 3 月 16 日上线。",
+      "rewrite": "项目上线日期为 3 月 16 日。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P20",
+      "block": "model16",
+      "dim": "模型同义改写",
+      "orig": "我住在广陵路 12 号 2 单元 602。",
+      "rewrite": "我居住在广陵路12号2单元602室。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 4,
+          "hits_n": 4,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P23",
+      "block": "model16",
+      "dim": "模型同义改写",
+      "orig": "我喝咖啡习惯是拿铁，加双份糖。",
+      "rewrite": "我喝咖啡的习惯是拿铁，加双份糖。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 1,
+          "hits_n": 0,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P29",
+      "block": "model16",
+      "dim": "模型同义改写",
+      "orig": "我住在广陵路 12 号 2 单元 601。",
+      "rewrite": "我居住在广陵路12号2单元601室。",
+      "v1_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "v2_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "truth_label": {
+        "orig": "unsupported",
+        "rewrite": "unsupported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 4,
+          "hits_n": 3,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "unsupported",
+          "v2": "unsupported",
+          "truth": "unsupported",
+          "facts_n": 4,
+          "hits_n": 3,
+          "unhit_n": 1,
+          "undecidable_items_n": 0,
+          "branch": "2_unhit",
+          "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": "supported",
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P30",
+      "block": "model16",
+      "dim": "模型同义改写",
+      "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+      "rewrite": "项目代号蓝鲸，计划于3月14日上线。",
+      "v1_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "v2_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "truth_label": {
+        "orig": "supported",
+        "rewrite": "supported"
+      },
+      "change": "unchanged",
+      "changed_sides": [],
+      "sides": {
+        "orig": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        },
+        "rewrite": {
+          "v1": "supported",
+          "v2": "supported",
+          "truth": "supported",
+          "facts_n": 2,
+          "hits_n": 2,
+          "unhit_n": 0,
+          "undecidable_items_n": 0,
+          "branch": "4_facts_hit",
+          "reason_v1": "全部硬事实命中",
+          "reason_v2": "全部硬事实命中",
+          "gram_n": 0,
+          "miss_n": 0,
+          "u": null,
+          "miss_grams": [],
+          "near_threshold": false,
+          "no_fact": false,
+          "recheck_verdict": null,
+          "v2_label_ok_vs_truth": true
+        }
+      }
+    }
+  ],
+  "diff_vs_v1": [
+    {
+      "pair_id": "P13",
+      "arm": "R1",
+      "block": "baseline12",
+      "old_verdict": "supported",
+      "new_verdict": "unsupported",
+      "sides_changed": [
+        "orig",
+        "rewrite"
+      ],
+      "branch": "5a_2gram_negative",
+      "u": 0.8,
+      "miss_grams": [
+        "州西",
+        "杭州",
+        "湖边",
+        "西湖"
+      ],
+      "gram_n": 5,
+      "change": "defect_fixed",
+      "why": "抽取器漏抽实体（层 a）+ 空事实默认 supported（层 b）：v2 只在 facts==[] 分支改用 2-gram 负证据覆盖率判定",
+      "v1_judge_sha16": "86b7c501ab9904aa",
+      "v2_judge_sha16": "5e11e1ac06f022c7"
+    },
+    {
+      "pair_id": "P25",
+      "arm": "R1",
+      "block": "baseline12",
+      "old_verdict": "supported",
+      "new_verdict": "unsupported",
+      "sides_changed": [
+        "orig",
+        "rewrite"
+      ],
+      "branch": "5a_2gram_negative",
+      "u": 0.6666666666666666,
+      "miss_grams": [
+        "井茶",
+        "龙井"
+      ],
+      "gram_n": 3,
+      "change": "defect_fixed",
+      "why": "抽取器漏抽实体（层 a）+ 空事实默认 supported（层 b）：v2 只在 facts==[] 分支改用 2-gram 负证据覆盖率判定",
+      "v1_judge_sha16": "86b7c501ab9904aa",
+      "v2_judge_sha16": "5e11e1ac06f022c7"
+    }
+  ],
+  "rows": [
+    {
+      "arm": "R1",
+      "pair_id": "P01",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P01",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P02",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P02",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P03",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P03",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P04",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P04",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 5,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P05",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P05",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P06",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P06",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 1,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P07",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P07",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P08",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P08",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 1,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P09",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 4,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P09",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 4,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P10",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P10",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P11",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 4,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P11",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 5,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P12",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P12",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P13",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "unsupported",
+      "v1_label": "supported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 0,
+      "unhit_n": 0,
+      "gram_n": 5,
+      "miss_n": 4,
+      "u": 0.8,
+      "branch": "5a_2gram_negative",
+      "near_threshold": false,
+      "miss_grams": [
+        "州西",
+        "杭州",
+        "湖边",
+        "西湖"
+      ],
+      "recheck_verdict": "supported",
+      "reason_v1": "抽不到硬事实",
+      "reason_v2": "2gram_negative_evidence"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P13",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "unsupported",
+      "v1_label": "supported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 0,
+      "unhit_n": 0,
+      "gram_n": 5,
+      "miss_n": 4,
+      "u": 0.8,
+      "branch": "5a_2gram_negative",
+      "near_threshold": false,
+      "miss_grams": [
+        "州西",
+        "杭州",
+        "湖边",
+        "西湖"
+      ],
+      "recheck_verdict": "supported",
+      "reason_v1": "抽不到硬事实",
+      "reason_v2": "2gram_negative_evidence"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P14",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P14",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 1,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P15",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P15",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P16",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P16",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 0,
+      "unhit_n": 0,
+      "gram_n": 1,
+      "miss_n": 0,
+      "u": 0.0,
+      "branch": "5b_ngram_covered",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "抽不到硬事实",
+      "reason_v2": "no_fact_ngram_covered"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P17",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P17",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 2,
+      "unhit_n": 2,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P18",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P18",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P19",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P19",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P20",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P20",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P21",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P21",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P22",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 0,
+      "unhit_n": 0,
+      "gram_n": 3,
+      "miss_n": 0,
+      "u": 0.0,
+      "branch": "5b_ngram_covered",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "抽不到硬事实",
+      "reason_v2": "no_fact_ngram_covered"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P22",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 0,
+      "unhit_n": 0,
+      "gram_n": 3,
+      "miss_n": 0,
+      "u": 0.0,
+      "branch": "5b_ngram_covered",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "抽不到硬事实",
+      "reason_v2": "no_fact_ngram_covered"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P23",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P23",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P24",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 0,
+      "unhit_n": 0,
+      "gram_n": 3,
+      "miss_n": 0,
+      "u": 0.0,
+      "branch": "5b_ngram_covered",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "抽不到硬事实",
+      "reason_v2": "no_fact_ngram_covered"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P24",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 0,
+      "unhit_n": 0,
+      "gram_n": 2,
+      "miss_n": 0,
+      "u": 0.0,
+      "branch": "5b_ngram_covered",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "抽不到硬事实",
+      "reason_v2": "no_fact_ngram_covered"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P25",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "unsupported",
+      "v1_label": "supported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 0,
+      "unhit_n": 0,
+      "gram_n": 3,
+      "miss_n": 2,
+      "u": 0.6666666666666666,
+      "branch": "5a_2gram_negative",
+      "near_threshold": false,
+      "miss_grams": [
+        "井茶",
+        "龙井"
+      ],
+      "recheck_verdict": "supported",
+      "reason_v1": "抽不到硬事实",
+      "reason_v2": "2gram_negative_evidence"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P25",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "unsupported",
+      "v1_label": "supported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 0,
+      "unhit_n": 0,
+      "gram_n": 3,
+      "miss_n": 2,
+      "u": 0.6666666666666666,
+      "branch": "5a_2gram_negative",
+      "near_threshold": false,
+      "miss_grams": [
+        "井茶",
+        "龙井"
+      ],
+      "recheck_verdict": "supported",
+      "reason_v1": "抽不到硬事实",
+      "reason_v2": "2gram_negative_evidence"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P26",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 0,
+      "unhit_n": 0,
+      "gram_n": 3,
+      "miss_n": 0,
+      "u": 0.0,
+      "branch": "5b_ngram_covered",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "抽不到硬事实",
+      "reason_v2": "no_fact_ngram_covered"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P26",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 1,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P27",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P27",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P28",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 0,
+      "unhit_n": 0,
+      "gram_n": 3,
+      "miss_n": 0,
+      "u": 0.0,
+      "branch": "5b_ngram_covered",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "抽不到硬事实",
+      "reason_v2": "no_fact_ngram_covered"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P28",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 0,
+      "unhit_n": 0,
+      "gram_n": 3,
+      "miss_n": 0,
+      "u": 0.0,
+      "branch": "5b_ngram_covered",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "抽不到硬事实",
+      "reason_v2": "no_fact_ngram_covered"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P29",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 4,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P29",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 4,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P30",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P30",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P02",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P02",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P04",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P04",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P06",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P06",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P08",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P08",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P10",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P10",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P12",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P12",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P14",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P14",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P15",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P15",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P16",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P16",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P17",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P17",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P18",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P18",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P19",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P19",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P20",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P20",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 4,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P23",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P23",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 1,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P29",
+      "side": "orig",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 4,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P29",
+      "side": "rewrite",
+      "verdict_v1": "unsupported",
+      "verdict_v2": "unsupported",
+      "v1_label": "unsupported",
+      "v2_label": "unsupported",
+      "truth": "unsupported",
+      "facts_n": 4,
+      "unhit_n": 1,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "2_unhit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": "supported",
+      "reason_v1": "至少一个硬事实未命中，且不属豁免/黑名单",
+      "reason_v2": "至少一个硬事实未命中，且不属豁免/黑名单"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P30",
+      "side": "orig",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    },
+    {
+      "arm": "R2",
+      "pair_id": "P30",
+      "side": "rewrite",
+      "verdict_v1": "supported",
+      "verdict_v2": "supported",
+      "v1_label": "supported",
+      "v2_label": "supported",
+      "truth": "supported",
+      "facts_n": 2,
+      "unhit_n": 0,
+      "gram_n": 0,
+      "miss_n": 0,
+      "u": null,
+      "branch": "4_facts_hit",
+      "near_threshold": false,
+      "miss_grams": [],
+      "recheck_verdict": null,
+      "reason_v1": "全部硬事实命中",
+      "reason_v2": "全部硬事实命中"
+    }
+  ],
+  "threshold_table": [
+    {
+      "theta": 0.1,
+      "main": false,
+      "declared_in_advance": false,
+      "sides_92": {
+        "denominator": 92,
+        "supported": 52,
+        "unsupported": 40,
+        "undecidable": 0
+      },
+      "sides_92_missed": {
+        "num": 0,
+        "den": 92,
+        "note": "真值 unsupported 且 v2==supported（漏判，按 side）",
+        "sides": []
+      },
+      "sides_92_false": {
+        "num": 0,
+        "den": 92,
+        "note": "真值 supported 且 v2==unsupported（误判，按 side）",
+        "sides": []
+      },
+      "pairs_46": {
+        "denominator": 46,
+        "supported": 26,
+        "unsupported": 20,
+        "undecidable": 0,
+        "missed": 0,
+        "false": 0,
+        "note": "pair verdict = rewrite side (prereg §F1 main口径)；漏判/误判按 pair 计（真值取 rewrite 侧标签），与 sides_92 的两类错误口径并列，不混用"
+      },
+      "rewrite18": {
+        "leak": {
+          "num": 0,
+          "den": 5
+        },
+        "false": {
+          "num": 0,
+          "den": 13
+        },
+        "note": "leak/false 分母同 §F3（truth orig unsupported / supported），非 18"
+      },
+      "in_sample": true,
+      "note": "in-sample；θ 由预登记 §C2 事先固定，本表只证明 θ 落在不改变 46 对标签的平台上，不构成 θ 已被校准的证据"
+    },
+    {
+      "theta": 0.15,
+      "main": false,
+      "declared_in_advance": false,
+      "sides_92": {
+        "denominator": 92,
+        "supported": 52,
+        "unsupported": 40,
+        "undecidable": 0
+      },
+      "sides_92_missed": {
+        "num": 0,
+        "den": 92,
+        "note": "真值 unsupported 且 v2==supported（漏判，按 side）",
+        "sides": []
+      },
+      "sides_92_false": {
+        "num": 0,
+        "den": 92,
+        "note": "真值 supported 且 v2==unsupported（误判，按 side）",
+        "sides": []
+      },
+      "pairs_46": {
+        "denominator": 46,
+        "supported": 26,
+        "unsupported": 20,
+        "undecidable": 0,
+        "missed": 0,
+        "false": 0,
+        "note": "pair verdict = rewrite side (prereg §F1 main口径)；漏判/误判按 pair 计（真值取 rewrite 侧标签），与 sides_92 的两类错误口径并列，不混用"
+      },
+      "rewrite18": {
+        "leak": {
+          "num": 0,
+          "den": 5
+        },
+        "false": {
+          "num": 0,
+          "den": 13
+        },
+        "note": "leak/false 分母同 §F3（truth orig unsupported / supported），非 18"
+      },
+      "in_sample": true,
+      "note": "in-sample；θ 由预登记 §C2 事先固定，本表只证明 θ 落在不改变 46 对标签的平台上，不构成 θ 已被校准的证据"
+    },
+    {
+      "theta": 0.2,
+      "main": true,
+      "declared_in_advance": true,
+      "sides_92": {
+        "denominator": 92,
+        "supported": 52,
+        "unsupported": 40,
+        "undecidable": 0
+      },
+      "sides_92_missed": {
+        "num": 0,
+        "den": 92,
+        "note": "真值 unsupported 且 v2==supported（漏判，按 side）",
+        "sides": []
+      },
+      "sides_92_false": {
+        "num": 0,
+        "den": 92,
+        "note": "真值 supported 且 v2==unsupported（误判，按 side）",
+        "sides": []
+      },
+      "pairs_46": {
+        "denominator": 46,
+        "supported": 26,
+        "unsupported": 20,
+        "undecidable": 0,
+        "missed": 0,
+        "false": 0,
+        "note": "pair verdict = rewrite side (prereg §F1 main口径)；漏判/误判按 pair 计（真值取 rewrite 侧标签），与 sides_92 的两类错误口径并列，不混用"
+      },
+      "rewrite18": {
+        "leak": {
+          "num": 0,
+          "den": 5
+        },
+        "false": {
+          "num": 0,
+          "den": 13
+        },
+        "note": "leak/false 分母同 §F3（truth orig unsupported / supported），非 18"
+      },
+      "in_sample": true,
+      "note": "in-sample；θ 由预登记 §C2 事先固定，本表只证明 θ 落在不改变 46 对标签的平台上，不构成 θ 已被校准的证据"
+    },
+    {
+      "theta": 0.25,
+      "main": false,
+      "declared_in_advance": false,
+      "sides_92": {
+        "denominator": 92,
+        "supported": 52,
+        "unsupported": 40,
+        "undecidable": 0
+      },
+      "sides_92_missed": {
+        "num": 0,
+        "den": 92,
+        "note": "真值 unsupported 且 v2==supported（漏判，按 side）",
+        "sides": []
+      },
+      "sides_92_false": {
+        "num": 0,
+        "den": 92,
+        "note": "真值 supported 且 v2==unsupported（误判，按 side）",
+        "sides": []
+      },
+      "pairs_46": {
+        "denominator": 46,
+        "supported": 26,
+        "unsupported": 20,
+        "undecidable": 0,
+        "missed": 0,
+        "false": 0,
+        "note": "pair verdict = rewrite side (prereg §F1 main口径)；漏判/误判按 pair 计（真值取 rewrite 侧标签），与 sides_92 的两类错误口径并列，不混用"
+      },
+      "rewrite18": {
+        "leak": {
+          "num": 0,
+          "den": 5
+        },
+        "false": {
+          "num": 0,
+          "den": 13
+        },
+        "note": "leak/false 分母同 §F3（truth orig unsupported / supported），非 18"
+      },
+      "in_sample": true,
+      "note": "in-sample；θ 由预登记 §C2 事先固定，本表只证明 θ 落在不改变 46 对标签的平台上，不构成 θ 已被校准的证据"
+    },
+    {
+      "theta": 0.3,
+      "main": false,
+      "declared_in_advance": false,
+      "sides_92": {
+        "denominator": 92,
+        "supported": 52,
+        "unsupported": 40,
+        "undecidable": 0
+      },
+      "sides_92_missed": {
+        "num": 0,
+        "den": 92,
+        "note": "真值 unsupported 且 v2==supported（漏判，按 side）",
+        "sides": []
+      },
+      "sides_92_false": {
+        "num": 0,
+        "den": 92,
+        "note": "真值 supported 且 v2==unsupported（误判，按 side）",
+        "sides": []
+      },
+      "pairs_46": {
+        "denominator": 46,
+        "supported": 26,
+        "unsupported": 20,
+        "undecidable": 0,
+        "missed": 0,
+        "false": 0,
+        "note": "pair verdict = rewrite side (prereg §F1 main口径)；漏判/误判按 pair 计（真值取 rewrite 侧标签），与 sides_92 的两类错误口径并列，不混用"
+      },
+      "rewrite18": {
+        "leak": {
+          "num": 0,
+          "den": 5
+        },
+        "false": {
+          "num": 0,
+          "den": 13
+        },
+        "note": "leak/false 分母同 §F3（truth orig unsupported / supported），非 18"
+      },
+      "in_sample": true,
+      "note": "in-sample；θ 由预登记 §C2 事先固定，本表只证明 θ 落在不改变 46 对标签的平台上，不构成 θ 已被校准的证据"
+    }
+  ],
+  "threshold_table_in_sample": true,
+  "threshold_table_note": "五个 θ 档在 46 对上完全不可区分（u 谱只有 [0.0, 0.666667, 0.8]，五档全落在真空区；实测五档读数只有 1 种；§C1 的「五档不可区分」成立）；回归集对 θ 没有标定能力，本表只证明 θ 落在不改标签的平台上",
+  "rates": {
+    "rewrite18_main": {
+      "n_pairs": 18,
+      "leak": {
+        "num": 0,
+        "den": 5,
+        "pairs": [],
+        "definition": "truth.orig==unsupported and judge.rewrite==supported",
+        "denominator": "pairs whose truth orig label is unsupported",
+        "v1_num": 0,
+        "v1_pairs": []
+      },
+      "false": {
+        "num": 0,
+        "den": 13,
+        "pairs": [],
+        "definition": "truth.orig==supported and judge.rewrite==unsupported",
+        "denominator": "pairs whose truth orig label is supported",
+        "v1_num": 0,
+        "v1_pairs": []
+      },
+      "decidable": {
+        "den_leak": 5,
+        "den_false": 13,
+        "note": "§F4 verdict != undecidable; identical to raw when undecidable==0"
+      },
+      "rewrite_undecidable": {
+        "num": 0,
+        "pairs": []
+      },
+      "sample_size_note": "leak/false 分母 <10 ⇒ 样本量不足以给区间，仅装置可用性",
+      "v1_leak": "0/5",
+      "v1_false": "0/13",
+      "note": "主口径（§F1）；leak 分母 = 真值 orig unsupported 的 accepted 对，false 分母 = 真值 orig supported 的 accepted 对；对 v1 的 0/5、0/13 不得恶化"
+    },
+    "model16": {
+      "n_pairs": 16,
+      "leak": {
+        "num": 0,
+        "den": 5,
+        "pairs": [],
+        "definition": "truth.orig==unsupported and judge.rewrite==supported",
+        "denominator": "pairs whose truth orig label is unsupported",
+        "v1_num": 0,
+        "v1_pairs": []
+      },
+      "false": {
+        "num": 0,
+        "den": 11,
+        "pairs": [],
+        "definition": "truth.orig==supported and judge.rewrite==unsupported",
+        "denominator": "pairs whose truth orig label is supported",
+        "v1_num": 0,
+        "v1_pairs": []
+      },
+      "decidable": {
+        "den_leak": 5,
+        "den_false": 11,
+        "note": "§F4 verdict != undecidable; identical to raw when undecidable==0"
+      },
+      "rewrite_undecidable": {
+        "num": 0,
+        "pairs": []
+      },
+      "sample_size_note": "leak/false 分母 <10 ⇒ 样本量不足以给区间，仅装置可用性",
+      "v1_leak": "0/5",
+      "v1_false": "0/11",
+      "note": "模型臂 16 accepted（§F2）；真值只有模型臂 ADJ 单方盲标（§G 注）"
+    },
+    "baseline12": {
+      "n_pairs": 12,
+      "agreement_v2": 12,
+      "agreement_v1": 10,
+      "denominator": "12 baseline pairs (§F1: no leak/false denominators here)",
+      "note": "并列留档，不设 leak/false 分母"
+    },
+    "all30_old_scope": {
+      "n_pairs": 30,
+      "leak": {
+        "num": 0,
+        "den": 15,
+        "pairs": [],
+        "definition": "truth.orig==unsupported and judge.rewrite==supported",
+        "denominator": "pairs whose truth orig label is unsupported",
+        "v1_num": 2,
+        "v1_pairs": [
+          "P13",
+          "P25"
+        ]
+      },
+      "false": {
+        "num": 0,
+        "den": 15,
+        "pairs": [],
+        "definition": "truth.orig==supported and judge.rewrite==unsupported",
+        "denominator": "pairs whose truth orig label is supported",
+        "v1_num": 0,
+        "v1_pairs": []
+      },
+      "decidable": {
+        "den_leak": 15,
+        "den_false": 15,
+        "note": "§F4 verdict != undecidable; identical to raw when undecidable==0"
+      },
+      "rewrite_undecidable": {
+        "num": 0,
+        "pairs": []
+      },
+      "sample_size_note": "leak/false 分母 <10 ⇒ 样本量不足以给区间，仅装置可用性",
+      "note": "旧口径并列留档，不为主（§F6）"
+    },
+    "no_single_accuracy": true
+  },
+  "no_fact_lines": [],
+  "no_fact_lines_note": "预测为 0（预登记 §C1/F6）：本回归没有「剔完 STOP/FRAME 后无可检 2-gram」的软表述；① 的活性由 selftest 的三条合成句覆盖（ngram_check 层 + ground() 端到端层），未留死代码",
+  "prereg_c1_u_check": [
+    {
+      "arm": "R1",
+      "pair_id": "P13",
+      "side": "orig",
+      "gram_n": 5,
+      "u": 0.8,
+      "u_3dp": 0.8,
+      "miss_grams": [
+        "州西",
+        "杭州",
+        "湖边",
+        "西湖"
+      ],
+      "branch": "5a_2gram_negative",
+      "prereg_c1_u": 0.8,
+      "matches_prereg_c1": true
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P13",
+      "side": "rewrite",
+      "gram_n": 5,
+      "u": 0.8,
+      "u_3dp": 0.8,
+      "miss_grams": [
+        "州西",
+        "杭州",
+        "湖边",
+        "西湖"
+      ],
+      "branch": "5a_2gram_negative",
+      "prereg_c1_u": 0.8,
+      "matches_prereg_c1": true
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P16",
+      "side": "rewrite",
+      "gram_n": 1,
+      "u": 0.0,
+      "u_3dp": 0.0,
+      "miss_grams": [],
+      "branch": "5b_ngram_covered",
+      "prereg_c1_u": 0.0,
+      "matches_prereg_c1": true
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P22",
+      "side": "orig",
+      "gram_n": 3,
+      "u": 0.0,
+      "u_3dp": 0.0,
+      "miss_grams": [],
+      "branch": "5b_ngram_covered",
+      "prereg_c1_u": 0.0,
+      "matches_prereg_c1": true
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P22",
+      "side": "rewrite",
+      "gram_n": 3,
+      "u": 0.0,
+      "u_3dp": 0.0,
+      "miss_grams": [],
+      "branch": "5b_ngram_covered",
+      "prereg_c1_u": 0.0,
+      "matches_prereg_c1": true
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P24",
+      "side": "orig",
+      "gram_n": 3,
+      "u": 0.0,
+      "u_3dp": 0.0,
+      "miss_grams": [],
+      "branch": "5b_ngram_covered",
+      "prereg_c1_u": 0.0,
+      "matches_prereg_c1": true
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P24",
+      "side": "rewrite",
+      "gram_n": 2,
+      "u": 0.0,
+      "u_3dp": 0.0,
+      "miss_grams": [],
+      "branch": "5b_ngram_covered",
+      "prereg_c1_u": 0.0,
+      "matches_prereg_c1": true
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P25",
+      "side": "orig",
+      "gram_n": 3,
+      "u": 0.6666666666666666,
+      "u_3dp": 0.667,
+      "miss_grams": [
+        "井茶",
+        "龙井"
+      ],
+      "branch": "5a_2gram_negative",
+      "prereg_c1_u": 0.667,
+      "matches_prereg_c1": true
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P25",
+      "side": "rewrite",
+      "gram_n": 3,
+      "u": 0.6666666666666666,
+      "u_3dp": 0.667,
+      "miss_grams": [
+        "井茶",
+        "龙井"
+      ],
+      "branch": "5a_2gram_negative",
+      "prereg_c1_u": 0.667,
+      "matches_prereg_c1": true
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P26",
+      "side": "orig",
+      "gram_n": 3,
+      "u": 0.0,
+      "u_3dp": 0.0,
+      "miss_grams": [],
+      "branch": "5b_ngram_covered",
+      "prereg_c1_u": 0.0,
+      "matches_prereg_c1": true
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P28",
+      "side": "orig",
+      "gram_n": 3,
+      "u": 0.0,
+      "u_3dp": 0.0,
+      "miss_grams": [],
+      "branch": "5b_ngram_covered",
+      "prereg_c1_u": 0.0,
+      "matches_prereg_c1": true
+    },
+    {
+      "arm": "R1",
+      "pair_id": "P28",
+      "side": "rewrite",
+      "gram_n": 3,
+      "u": 0.0,
+      "u_3dp": 0.0,
+      "miss_grams": [],
+      "branch": "5b_ngram_covered",
+      "prereg_c1_u": 0.0,
+      "matches_prereg_c1": true
+    }
+  ],
+  "near_threshold": [],
+  "u_spectrum": [
+    0.0,
+    0.666667,
+    0.8
+  ],
+  "known_fp_controls": [
+    {
+      "id": "C1",
+      "text": "我住在杭州西湖边。",
+      "gram_n": 5,
+      "u": 0.8,
+      "verdict": "unsupported",
+      "miss_grams": [
+        "州西",
+        "杭州",
+        "湖边",
+        "西湖"
+      ],
+      "expected_verdict": "unsupported",
+      "matches_prereg": true,
+      "known_fp": false,
+      "note": "same as P13"
+    },
+    {
+      "id": "C2",
+      "text": "我只喝龙井茶，不加糖。",
+      "gram_n": 3,
+      "u": 0.6666666666666666,
+      "verdict": "unsupported",
+      "miss_grams": [
+        "井茶",
+        "龙井"
+      ],
+      "expected_verdict": "unsupported",
+      "matches_prereg": true,
+      "known_fp": false,
+      "note": "same as P25"
+    },
+    {
+      "id": "C3",
+      "text": "我的咖啡只喝美式，不加糖。",
+      "gram_n": 3,
+      "u": 0.0,
+      "verdict": "supported",
+      "miss_grams": [],
+      "expected_verdict": "supported",
+      "matches_prereg": true,
+      "known_fp": false,
+      "note": "same as P28"
+    },
+    {
+      "id": "C4",
+      "text": "嗯，可能吧。",
+      "gram_n": 0,
+      "u": null,
+      "verdict": "undecidable",
+      "miss_grams": [],
+      "expected_verdict": "undecidable",
+      "matches_prereg": true,
+      "known_fp": false,
+      "note": "① |G|==0 smoke test"
+    },
+    {
+      "id": "C5",
+      "text": "好像是吧。",
+      "gram_n": 0,
+      "u": null,
+      "verdict": "undecidable",
+      "miss_grams": [],
+      "expected_verdict": "undecidable",
+      "matches_prereg": true,
+      "known_fp": false,
+      "note": "① |G|==0 smoke test"
+    },
+    {
+      "id": "C6",
+      "text": "我喝美式咖啡，不加糖。",
+      "gram_n": 4,
+      "u": 0.25,
+      "verdict": "unsupported",
+      "miss_grams": [
+        "式咖"
+      ],
+      "expected_verdict": "unsupported",
+      "matches_prereg": true,
+      "known_fp": true,
+      "note": "known_fp same-sense/composition"
+    },
+    {
+      "id": "C7",
+      "text": "我家在广陵路。",
+      "gram_n": 3,
+      "u": 0.3333333333333333,
+      "verdict": "unsupported",
+      "miss_grams": [
+        "我家"
+      ],
+      "expected_verdict": "unsupported",
+      "matches_prereg": true,
+      "known_fp": true,
+      "note": "known_fp 我家 not in source"
+    },
+    {
+      "id": "C8",
+      "text": "我喝美式咖啡。",
+      "gram_n": 3,
+      "u": 0.3333333333333333,
+      "verdict": "unsupported",
+      "miss_grams": [
+        "式咖"
+      ],
+      "expected_verdict": "unsupported",
+      "matches_prereg": true,
+      "known_fp": true,
+      "note": "known_fp composition gram 式咖"
+    },
+    {
+      "id": "C9",
+      "text": "它就定在那天上线。",
+      "gram_n": 3,
+      "u": 0.6666666666666666,
+      "verdict": "unsupported",
+      "miss_grams": [
+        "天上",
+        "那天"
+      ],
+      "expected_verdict": "unsupported",
+      "matches_prereg": true,
+      "known_fp": true,
+      "note": "known_fp anaphora/ellipsis"
+    },
+    {
+      "id": "C10",
+      "text": "它们都一样。",
+      "gram_n": 1,
+      "u": 1.0,
+      "verdict": "unsupported",
+      "miss_grams": [
+        "它们"
+      ],
+      "expected_verdict": "unsupported",
+      "matches_prereg": true,
+      "known_fp": true,
+      "note": "known_fp pure pronoun sentence"
+    }
+  ],
+  "selftest": [
+    {
+      "id": "C1",
+      "text": "我住在杭州西湖边。",
+      "gram_n": 5,
+      "u": 0.8,
+      "verdict": "unsupported",
+      "miss_grams": [
+        "州西",
+        "杭州",
+        "湖边",
+        "西湖"
+      ],
+      "expected_gram_n": 5,
+      "expected_u": 0.8,
+      "expected_verdict": "unsupported",
+      "note": "same as P13",
+      "pass": true
+    },
+    {
+      "id": "C2",
+      "text": "我只喝龙井茶，不加糖。",
+      "gram_n": 3,
+      "u": 0.6666666666666666,
+      "verdict": "unsupported",
+      "miss_grams": [
+        "井茶",
+        "龙井"
+      ],
+      "expected_gram_n": 3,
+      "expected_u": 0.667,
+      "expected_verdict": "unsupported",
+      "note": "same as P25",
+      "pass": true
+    },
+    {
+      "id": "C3",
+      "text": "我的咖啡只喝美式，不加糖。",
+      "gram_n": 3,
+      "u": 0.0,
+      "verdict": "supported",
+      "miss_grams": [],
+      "expected_gram_n": 3,
+      "expected_u": 0.0,
+      "expected_verdict": "supported",
+      "note": "same as P28",
+      "pass": true
+    },
+    {
+      "id": "C4",
+      "text": "嗯，可能吧。",
+      "gram_n": 0,
+      "u": null,
+      "verdict": "undecidable",
+      "miss_grams": [],
+      "expected_gram_n": 0,
+      "expected_u": null,
+      "expected_verdict": "undecidable",
+      "note": "① |G|==0 smoke test",
+      "pass": true
+    },
+    {
+      "id": "C5",
+      "text": "好像是吧。",
+      "gram_n": 0,
+      "u": null,
+      "verdict": "undecidable",
+      "miss_grams": [],
+      "expected_gram_n": 0,
+      "expected_u": null,
+      "expected_verdict": "undecidable",
+      "note": "① |G|==0 smoke test",
+      "pass": true
+    },
+    {
+      "id": "C6",
+      "text": "我喝美式咖啡，不加糖。",
+      "gram_n": 4,
+      "u": 0.25,
+      "verdict": "unsupported",
+      "miss_grams": [
+        "式咖"
+      ],
+      "expected_gram_n": 4,
+      "expected_u": 0.25,
+      "expected_verdict": "unsupported",
+      "note": "known_fp same-sense/composition",
+      "pass": true
+    },
+    {
+      "id": "C7",
+      "text": "我家在广陵路。",
+      "gram_n": 3,
+      "u": 0.3333333333333333,
+      "verdict": "unsupported",
+      "miss_grams": [
+        "我家"
+      ],
+      "expected_gram_n": 3,
+      "expected_u": 0.333,
+      "expected_verdict": "unsupported",
+      "note": "known_fp 我家 not in source",
+      "pass": true
+    },
+    {
+      "id": "C8",
+      "text": "我喝美式咖啡。",
+      "gram_n": 3,
+      "u": 0.3333333333333333,
+      "verdict": "unsupported",
+      "miss_grams": [
+        "式咖"
+      ],
+      "expected_gram_n": 3,
+      "expected_u": 0.333,
+      "expected_verdict": "unsupported",
+      "note": "known_fp composition gram 式咖",
+      "pass": true
+    },
+    {
+      "id": "C9",
+      "text": "它就定在那天上线。",
+      "gram_n": 3,
+      "u": 0.6666666666666666,
+      "verdict": "unsupported",
+      "miss_grams": [
+        "天上",
+        "那天"
+      ],
+      "expected_gram_n": 3,
+      "expected_u": 0.667,
+      "expected_verdict": "unsupported",
+      "note": "known_fp anaphora/ellipsis",
+      "pass": true
+    },
+    {
+      "id": "C10",
+      "text": "它们都一样。",
+      "gram_n": 1,
+      "u": 1.0,
+      "verdict": "unsupported",
+      "miss_grams": [
+        "它们"
+      ],
+      "expected_gram_n": 1,
+      "expected_u": 1.0,
+      "expected_verdict": "unsupported",
+      "note": "known_fp pure pronoun sentence",
+      "pass": true
+    },
+    {
+      "id": "no_fact",
+      "text": "嗯，可能吧。",
+      "gram_n": 0,
+      "u": null,
+      "verdict": "undecidable",
+      "expected_verdict": "undecidable",
+      "note": "§B2 ① synthetic (|G|==0 -> undecidable)",
+      "pass": true
+    },
+    {
+      "id": "no_fact",
+      "text": "好像是吧。",
+      "gram_n": 0,
+      "u": null,
+      "verdict": "undecidable",
+      "expected_verdict": "undecidable",
+      "note": "§B2 ① synthetic (|G|==0 -> undecidable)",
+      "pass": true
+    },
+    {
+      "id": "no_fact",
+      "text": "也就是说。",
+      "gram_n": 0,
+      "u": null,
+      "verdict": "undecidable",
+      "expected_verdict": "undecidable",
+      "note": "§B2 ① synthetic (|G|==0 -> undecidable)",
+      "pass": true
+    },
+    {
+      "id": "no_fact_ground",
+      "text": "嗯，可能吧。",
+      "verdict": "undecidable",
+      "branch": "5c_no_fact",
+      "reason": "no_fact_unverifiable",
+      "gram_n": 0,
+      "mounted": [],
+      "expected_verdict": "undecidable",
+      "expected_branch": "5c_no_fact",
+      "note": "§B2 ① end-to-end ground(): |G|==0 -> undecidable / 5c_no_fact",
+      "pass": true
+    },
+    {
+      "id": "no_fact_ground",
+      "text": "好像是吧。",
+      "verdict": "undecidable",
+      "branch": "5c_no_fact",
+      "reason": "no_fact_unverifiable",
+      "gram_n": 0,
+      "mounted": [],
+      "expected_verdict": "undecidable",
+      "expected_branch": "5c_no_fact",
+      "note": "§B2 ① end-to-end ground(): |G|==0 -> undecidable / 5c_no_fact",
+      "pass": true
+    },
+    {
+      "id": "no_fact_ground",
+      "text": "也就是说。",
+      "verdict": "undecidable",
+      "branch": "5c_no_fact",
+      "reason": "no_fact_unverifiable",
+      "gram_n": 0,
+      "mounted": [],
+      "expected_verdict": "undecidable",
+      "expected_branch": "5c_no_fact",
+      "note": "§B2 ① end-to-end ground(): |G|==0 -> undecidable / 5c_no_fact",
+      "pass": true
+    },
+    {
+      "id": "frozen_sets",
+      "pass": true,
+      "stop_sha16": "a4406d0bd1de47c7",
+      "frame_sha16": "f7df16d8ba96e68f",
+      "note": "§B1 frozen STOP/FRAME reproduced byte-exactly"
+    },
+    {
+      "id": "invariants",
+      "pass": true,
+      "note": "§B3 branch order; |G|==0 <=> 5c; branch 5 total over 3 verdicts"
+    }
+  ],
+  "counts": {
+    "pairs_total": 46,
+    "sides_total": 92,
+    "R1": 30,
+    "R2": 16,
+    "baseline12": 12,
+    "rewrite18": 18,
+    "diff_rows": 2,
+    "no_fact_undecidable_count": 0,
+    "near_threshold_count": 0,
+    "unexpected_rows": 0,
+    "decidable_denominators": {
+      "rewrite18": {
+        "den_leak": 5,
+        "den_false": 13,
+        "note": "§F4 verdict != undecidable; identical to raw when undecidable==0"
+      },
+      "model16": {
+        "den_leak": 5,
+        "den_false": 11,
+        "note": "§F4 verdict != undecidable; identical to raw when undecidable==0"
+      }
+    },
+    "v2_verdict_distribution": {
+      "sides": {
+        "supported": 52,
+        "unsupported": 40,
+        "undecidable": 0
+      }
+    },
+    "known_fp_controls": {
+      "count": 10,
+      "all_match_prereg": true,
+      "known_fp_count": 5,
+      "note": "C6-C10 为预登记事先声明的已知误伤，单列，不进任何两率"
+    },
+    "v1_verdict_distribution": {
+      "sides": {
+        "supported": 56,
+        "unsupported": 36,
+        "undecidable": 0
+      }
+    }
+  },
+  "blocks": {
+    "baseline12": [
+      "P01",
+      "P02",
+      "P09",
+      "P13",
+      "P15",
+      "P19",
+      "P21",
+      "P23",
+      "P25",
+      "P27",
+      "P28",
+      "P29"
+    ],
+    "rewrite18": [
+      "P03",
+      "P04",
+      "P05",
+      "P06",
+      "P07",
+      "P08",
+      "P10",
+      "P11",
+      "P12",
+      "P14",
+      "P16",
+      "P17",
+      "P18",
+      "P20",
+      "P22",
+      "P24",
+      "P26",
+      "P30"
+    ],
+    "model16": [
+      "P02",
+      "P04",
+      "P06",
+      "P08",
+      "P10",
+      "P12",
+      "P14",
+      "P15",
+      "P16",
+      "P17",
+      "P18",
+      "P19",
+      "P20",
+      "P23",
+      "P29",
+      "P30"
+    ]
+  },
+  "fitting_disclosure": {
+    "frame_habit_is_load_bearing": true,
+    "detail": "§B1 披露：FRAME 的 34 项里只有「习惯」在 46 对回归上承重（去掉它 P26 的 u 从 0.000 变 0.400 ⇒ 变 unsupported ⇒ 差异表 3 行 + false 1/13）。其余 6 个新增成员（记得/好像/大概/印象/平时/一般）在 12 个 no-fact side 上均不出现，本回归集影响为空。这是 in-sample 拟合成分，不得作为「已校准」宣称。",
+    "question_exclusion_is_load_bearing": true,
+    "theta_is_not_load_bearing": true,
+    "note": "§C4：样本内承重旋钮 = FRAME 含「习惯」+ 问句排除；θ 本身不承重"
+  },
+  "corrections": [
+    {
+      "kind": "判定差异",
+      "pair_id": "P13",
+      "side": "orig",
+      "old_verdict": "supported",
+      "new_verdict": "unsupported",
+      "branch": "5a_2gram_negative",
+      "u": 0.8,
+      "miss_grams": [
+        "州西",
+        "杭州",
+        "湖边",
+        "西湖"
+      ],
+      "v1_judge_sha16": "86b7c501ab9904aa",
+      "v2_judge_sha16": "5e11e1ac06f022c7",
+      "reason": "双层缺陷修复：层(a) 抽取器漏抽实体 + 层(b) 空事实默认 supported"
+    },
+    {
+      "kind": "判定差异",
+      "pair_id": "P13",
+      "side": "rewrite",
+      "old_verdict": "supported",
+      "new_verdict": "unsupported",
+      "branch": "5a_2gram_negative",
+      "u": 0.8,
+      "miss_grams": [
+        "州西",
+        "杭州",
+        "湖边",
+        "西湖"
+      ],
+      "v1_judge_sha16": "86b7c501ab9904aa",
+      "v2_judge_sha16": "5e11e1ac06f022c7",
+      "reason": "双层缺陷修复：层(a) 抽取器漏抽实体 + 层(b) 空事实默认 supported"
+    },
+    {
+      "kind": "判定差异",
+      "pair_id": "P25",
+      "side": "orig",
+      "old_verdict": "supported",
+      "new_verdict": "unsupported",
+      "branch": "5a_2gram_negative",
+      "u": 0.6666666666666666,
+      "miss_grams": [
+        "井茶",
+        "龙井"
+      ],
+      "v1_judge_sha16": "86b7c501ab9904aa",
+      "v2_judge_sha16": "5e11e1ac06f022c7",
+      "reason": "双层缺陷修复：层(a) 抽取器漏抽实体 + 层(b) 空事实默认 supported"
+    },
+    {
+      "kind": "判定差异",
+      "pair_id": "P25",
+      "side": "rewrite",
+      "old_verdict": "supported",
+      "new_verdict": "unsupported",
+      "branch": "5a_2gram_negative",
+      "u": 0.6666666666666666,
+      "miss_grams": [
+        "井茶",
+        "龙井"
+      ],
+      "v1_judge_sha16": "86b7c501ab9904aa",
+      "v2_judge_sha16": "5e11e1ac06f022c7",
+      "reason": "双层缺陷修复：层(a) 抽取器漏抽实体 + 层(b) 空事实默认 supported"
+    },
+    {
+      "kind": "口径修订",
+      "item": "① 触发条件：草稿的 facts==[] / u==0 收窄为 |G|==0",
+      "effect": "u==0（有 gram 且全被覆盖）走 5b supported，不再弃权",
+      "authority": "预登记 §B2"
+    },
+    {
+      "kind": "口径修订",
+      "item": "差异表：草稿 6 行 → 2 行（P13/P25）",
+      "effect": "P28/P22/P24/P26 等 4 例真实 supported 的软表述保住",
+      "authority": "预登记 §A5/§D4"
+    },
+    {
+      "kind": "口径修订",
+      "item": "supersedes 链：m5_ground.py 86b7c501ab9904aa → 5e11e1ac06f022c7",
+      "effect": "v1 不修改、不 monkeypatch，仅 import 其抽取函数",
+      "authority": "§B4.3"
+    },
+    {
+      "kind": "留痕",
+      "item": "自引用哈希不可自含",
+      "effect": "本件 sha16/bytes 不写入本件，回填 LANDED 台账",
+      "authority": "§0.2/§E2"
+    },
+    {
+      "kind": "坐标纠正（audit R1）",
+      "item": "prereg 坐标：源码/回归件原写已取代稿 8330fa716ef32a28；现统一改指盘上冻结版 6c77b56f406432aa / 35739 B（链：handoff 8330fa71 / 34,373 B / 405 行 → 首读 135d020f / 35,716 B / 411 行 → 冻结 6c77b56f / 35,739 B / 411 行）",
+      "effect": "实现坐标与磁盘冻结版一致；/prereg/ 保留 observed_* 与 coordinate_history；未据此改动任何阈值、词表或判定",
+      "authority": "审计 R1 + §0.1 冻结输入纪律"
+    },
+    {
+      "kind": "纪律纠正（audit R2）",
+      "item": "--regression 默认 write=False（只打印/比对，不落盘）；落盘须显式 --write",
+      "effect": "复跑不再重写 out/M5-JUDGE-v2-regression.json，台账里的 regression sha16 不会因复跑而失效",
+      "authority": "审计 R2"
+    },
+    {
+      "kind": "覆盖补强（audit R3）",
+      "item": "selftest 新增 ground() 端到端 5c_no_fact 三条；_assert_invariants 由恒真断言改为真断言（|G|==0 <=> 5c_no_fact；分支 5 走完必得三值之一）",
+      "effect": "5c 出口与分支 5 决策表有自动测试覆盖；分支重排或 5c 挪位会失败",
+      "authority": "审计 R3 / 预登记 §B2"
+    },
+    {
+      "kind": "偏离纠正（audit R4）",
+      "item": "recheck 回退为 v1 语义（嵌套判定显式 _v1.ground），记 recheck_semantics=v1_unchanged；盘上旧件曾用 v2 嵌套，P13/P25 的 recheck_verdict 由 unsupported → supported",
+      "effect": "符合预登记 §B3「recheck 一行不动」；只影响报告字段，不影响任何对 verdict",
+      "authority": "审计 R4 + 预登记 §B3"
+    },
+    {
+      "kind": "措辞纠正（audit R6）",
+      "item": "docstring 的 byte-for-byte v1 改为「语义等价，形式三处改写」；summary 改为「§D 五项验收：5/5 满足（装置可用性层面；非 v2 已通过）」",
+      "effect": "summary 不再可被引成「v2 已通过」（§H7.4）",
+      "authority": "审计 R6"
+    }
+  ],
+  "excluded": [
+    {
+      "pair_id": "P01",
+      "reason": "verbatim_copy",
+      "note": "模型臂 CAND 冻结剔除的 14 对，不进任何两率分母（§F2）"
+    },
+    {
+      "pair_id": "P03",
+      "reason": "verbatim_copy",
+      "note": "模型臂 CAND 冻结剔除的 14 对，不进任何两率分母（§F2）"
+    },
+    {
+      "pair_id": "P05",
+      "reason": "verbatim_copy",
+      "note": "模型臂 CAND 冻结剔除的 14 对，不进任何两率分母（§F2）"
+    },
+    {
+      "pair_id": "P07",
+      "reason": "verbatim_copy",
+      "note": "模型臂 CAND 冻结剔除的 14 对，不进任何两率分母（§F2）"
+    },
+    {
+      "pair_id": "P09",
+      "reason": "verbatim_copy",
+      "note": "模型臂 CAND 冻结剔除的 14 对，不进任何两率分母（§F2）"
+    },
+    {
+      "pair_id": "P11",
+      "reason": "verbatim_copy",
+      "note": "模型臂 CAND 冻结剔除的 14 对，不进任何两率分母（§F2）"
+    },
+    {
+      "pair_id": "P13",
+      "reason": "verbatim_copy",
+      "note": "模型臂 CAND 冻结剔除的 14 对，不进任何两率分母（§F2）"
+    },
+    {
+      "pair_id": "P21",
+      "reason": "verbatim_copy",
+      "note": "模型臂 CAND 冻结剔除的 14 对，不进任何两率分母（§F2）"
+    },
+    {
+      "pair_id": "P22",
+      "reason": "verbatim_copy",
+      "note": "模型臂 CAND 冻结剔除的 14 对，不进任何两率分母（§F2）"
+    },
+    {
+      "pair_id": "P24",
+      "reason": "verbatim_copy",
+      "note": "模型臂 CAND 冻结剔除的 14 对，不进任何两率分母（§F2）"
+    },
+    {
+      "pair_id": "P25",
+      "reason": "verbatim_copy",
+      "note": "模型臂 CAND 冻结剔除的 14 对，不进任何两率分母（§F2）"
+    },
+    {
+      "pair_id": "P26",
+      "reason": "verbatim_copy",
+      "note": "模型臂 CAND 冻结剔除的 14 对，不进任何两率分母（§F2）"
+    },
+    {
+      "pair_id": "P27",
+      "reason": "verbatim_copy",
+      "note": "模型臂 CAND 冻结剔除的 14 对，不进任何两率分母（§F2）"
+    },
+    {
+      "pair_id": "P28",
+      "reason": "verbatim_copy",
+      "note": "模型臂 CAND 冻结剔除的 14 对，不进任何两率分母（§F2）"
+    }
+  ],
+  "abort": false,
+  "abort_reason": null,
+  "stop_conditions_checked": {
+    "diff_rows_gt_2": false,
+    "unexpected_rows": [],
+    "rewrite18_worse_than_v1": false,
+    "v1_rerun_mismatch": [],
+    "u_vs_prereg_c1_mismatch": []
+  },
+  "verdict": {
+    "v2_signable": true,
+    "scope": "仅表示「判定器缺陷修复可用」；不代表 M5 可进全量，θ 未被校准（§H7.4）",
+    "checks": [
+      {
+        "id": 1,
+        "name": "P13/P25 -> unsupported (reason=2gram_negative_evidence, u=0.800/0.667)",
+        "pass": true,
+        "detail": {
+          "P13": [
+            {
+              "side": "orig",
+              "v2": "unsupported",
+              "branch": "5a_2gram_negative",
+              "u": 0.8,
+              "miss_grams": [
+                "州西",
+                "杭州",
+                "湖边",
+                "西湖"
+              ]
+            },
+            {
+              "side": "rewrite",
+              "v2": "unsupported",
+              "branch": "5a_2gram_negative",
+              "u": 0.8,
+              "miss_grams": [
+                "州西",
+                "杭州",
+                "湖边",
+                "西湖"
+              ]
+            }
+          ],
+          "P25": [
+            {
+              "side": "orig",
+              "v2": "unsupported",
+              "branch": "5a_2gram_negative",
+              "u": 0.6666666666666666,
+              "miss_grams": [
+                "井茶",
+                "龙井"
+              ]
+            },
+            {
+              "side": "rewrite",
+              "v2": "unsupported",
+              "branch": "5a_2gram_negative",
+              "u": 0.6666666666666666,
+              "miss_grams": [
+                "井茶",
+                "龙井"
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": 2,
+        "name": "其余 28 对与 v1 逐对标签一致（含 P28/P22/P24/P26/P16 仍 supported）",
+        "pass": true,
+        "detail": {
+          "unchanged_28": true,
+          "real_supported_kept": true
+        }
+      },
+      {
+        "id": 3,
+        "name": "rewrite18 主口径不恶化（leak 0/5, false 0/13; decidable 分母同报）",
+        "pass": true,
+        "detail": {
+          "leak": {
+            "num": 0,
+            "den": 5,
+            "pairs": [],
+            "definition": "truth.orig==unsupported and judge.rewrite==supported",
+            "denominator": "pairs whose truth orig label is unsupported",
+            "v1_num": 0,
+            "v1_pairs": []
+          },
+          "false": {
+            "num": 0,
+            "den": 13,
+            "pairs": [],
+            "definition": "truth.orig==supported and judge.rewrite==unsupported",
+            "denominator": "pairs whose truth orig label is supported",
+            "v1_num": 0,
+            "v1_pairs": []
+          },
+          "decidable": {
+            "den_leak": 5,
+            "den_false": 13,
+            "note": "§F4 verdict != undecidable; identical to raw when undecidable==0"
+          },
+          "v1_baseline": {
+            "leak": "0/5",
+            "false": "0/13"
+          }
+        }
+      },
+      {
+        "id": 4,
+        "name": "差异表只 P13/P25 两行（>2 行 ⇒ 停手，不调阈值凑数）",
+        "pass": true,
+        "detail": {
+          "rows": 2,
+          "pairs": [
+            "P13",
+            "P25"
+          ]
+        }
+      },
+      {
+        "id": 5,
+        "name": "46 对全跑（R1 30 + R2 16，两 side 均判，真值不顶替）",
+        "pass": true,
+        "detail": {
+          "R1": 30,
+          "R2": 16,
+          "adj_review_agreement": "30/30",
+          "R1_sha16": "f0767d84c16c31bb",
+          "R2_sha16": "aa9e6106925657e1"
+        }
+      }
+    ],
+    "summary": "§D 五项验收：5/5 满足（装置可用性层面；非 v2 已通过）"
+  },
+  "no_single_accuracy": true,
+  "no_final_verdict": true,
+  "gpu_used": false,
+  "model_calls": 0,
+  "git_operations": 0,
+  "created_at": "2026-10-26T10:35:24+0800",
+  "producer": {
+    "role": "implementer (not ADJ, not REVIEW)",
+    "note": "§G: v2 作者不得充任 v2 的 ADJ/REVIEW"
+  }
+}

@@ -1,0 +1,112 @@
+{
+ "schema": "m5_36a_rule_arm_result_v1",
+ "task": "M5 36A (a) rule-arm ADJ/JUDGE only; model arm not merged",
+ "at": "2026-10-26T09:37:14+08:00",
+ "arm": "rule-authored rewrites (model_calls=0)",
+ "files": {
+  "pairs": {
+   "path": "kvmem/m2_visibility/m5/out/M5-36A-pairs.json",
+   "sha16": "f0767d84c16c31bb",
+   "bytes": 7503
+  },
+  "intent_sealed": {
+   "path": "kvmem/m2_visibility/m5/out/M5-36A-intent-sealed.json",
+   "sha16": "9f14097996e5deb9",
+   "bytes": 2184
+  },
+  "adj": {
+   "path": "kvmem/m2_visibility/m5/out/M5-36A-adj.json",
+   "sha16": "1f5d7a5447478802",
+   "bytes": 10653
+  },
+  "judge": {
+   "path": "kvmem/m2_visibility/m5/out/M5-36A-judge.json",
+   "sha16": "bff8a34ba652d1e2",
+   "bytes": 27935
+  },
+  "judge_script": {
+   "path": "kvmem/m2_visibility/m5/m5_ground.py",
+   "sha16": "86b7c501ab9904aa",
+   "bytes": 18496
+  }
+ },
+ "adj_blinding": {
+  "labels_written_before_judge": true,
+  "intent_opened_after_adj": true,
+  "adj_orig_vs_intent_mismatches": []
+ },
+ "counts": {
+  "pairs": 30,
+  "adj_orig": {
+   "supported": 15,
+   "unsupported": 15
+  },
+  "adj_rewrite": {
+   "supported": 15,
+   "unsupported": 15
+  },
+  "judge_orig": {
+   "supported": 17,
+   "unsupported": 13
+  },
+  "judge_rewrite": {
+   "supported": 17,
+   "unsupported": 13
+  }
+ },
+ "leak": {
+  "definition": "ADJ orig unsupported 且 JUDGE rewrite supported（预登记 leak）",
+  "events": [
+   "P13",
+   "P25"
+  ],
+  "count": 2,
+  "denominator": 15,
+  "rate": 0.13333333333333333
+ },
+ "false": {
+  "definition": "ADJ orig supported 且 JUDGE rewrite unsupported（预登记 false）",
+  "events": [],
+  "count": 0,
+  "denominator": 15,
+  "rate": 0.0
+ },
+ "excluded": [],
+ "disagreements": [
+  {
+   "pair_id": "P13",
+   "orig": "我住在杭州西湖边。",
+   "rewrite": "我住在杭州西湖边。",
+   "adj_orig": "unsupported",
+   "adj_rewrite": "unsupported",
+   "judge_orig": "supported",
+   "judge_rewrite": "supported",
+   "judge_orig_facts": [],
+   "judge_rewrite_facts": [],
+   "intent": "unsupported",
+   "adjudicated_by_inspector": false,
+   "note": "ADJ=unsupported, JUDGE=supported, JUDGE facts=[]；待 lead + 第二复核者复标"
+  },
+  {
+   "pair_id": "P25",
+   "orig": "我只喝龙井茶，不加糖。",
+   "rewrite": "我只喝龙井茶，不加糖。",
+   "adj_orig": "unsupported",
+   "adj_rewrite": "unsupported",
+   "judge_orig": "supported",
+   "judge_rewrite": "supported",
+   "judge_orig_facts": [],
+   "judge_rewrite_facts": [],
+   "intent": "unsupported",
+   "adjudicated_by_inspector": false,
+   "note": "ADJ=unsupported, JUDGE=supported, JUDGE facts=[]；待 lead + 第二复核者复标"
+  }
+ ],
+ "no_single_accuracy": true,
+ "pilot": {
+  "judge_adj_status": "未接上（规则臂 ADJ/JUDGE 已接；模型臂未接；两臂未合并）",
+  "usable_pass": false,
+  "reason": "模型臂尚未交付；预登记要求两臂各自出数且可用性清单闭合后才可写“试跑可用性通过”"
+ },
+ "no_final_verdict": true
+}

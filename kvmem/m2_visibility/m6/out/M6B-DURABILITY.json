@@ -1,0 +1,182 @@
+{
+ "schema": "m6b_durability_v1",
+ "at": "2026-10-26T10:24:52+0800",
+ "scope": "A: manifest tmp content fsync + MoveFileExW write-through; directory flush explicitly not a gap",
+ "files": {
+  "session_state.py": {
+   "path": "D:\\llama-mem\\tools\\session_state.py",
+   "sha16": "44b508a886dfb8f8",
+   "bytes": 24005
+  },
+  "chat.py": {
+   "path": "D:\\llama-mem\\tools\\chat.py",
+   "sha16": "4bb3243aadf176a9",
+   "bytes": 75031
+  },
+  "kvslots.py": {
+   "path": "D:\\llama-mem\\tools\\kvslots.py",
+   "sha16": "cfec958c19c62563",
+   "bytes": 27016
+  }
+ },
+ "source_checks": {
+  "session_state_manifest_fsync": {
+   "file": "tools/session_state.py",
+   "lines": [
+    326
+   ],
+   "ok": true
+  },
+  "session_state_durable_replace": {
+   "lines": [
+    327
+   ],
+   "ok": true
+  },
+  "kvslots_durable_replace": {
+   "lines": [
+    276
+   ],
+   "ok": true
+  },
+  "movefile_flags": {
+   "lines": [
+    58,
+    73
+   ],
+   "ok": true
+  },
+  "directory_flush_removed": {
+   "grep_dfd": 0,
+   "grep_FlushFileBuffers_code": [],
+   "ok": true
+  },
+  "ntfs_comment": {
+   "lines": [
+    56,
+    286,
+    41,
+    320
+   ],
+   "ok": true
+  }
+ },
+ "unit": {
+  "write_through_manifest": {
+   "mode": "write_through",
+   "target_first": "{",
+   "target_bytes": 7
+  },
+  "write_through_chat": {
+   "mode": "write_through",
+   "target_first": "C",
+   "target_bytes": 8192
+  },
+  "fallback_manifest": {
+   "mode": "replace_fallback",
+   "exists": true
+  },
+  "fallback_chat": {
+   "mode": "replace_fallback",
+   "target_first": "D"
+  },
+  "counts": {
+   "session_state": {
+    "write_through": 1,
+    "replace_fallback": 1
+   },
+   "kvslots": {
+    "write_through": 1,
+    "replace_fallback": 1
+   }
+  }
+ },
+ "durability_mode": "write_through",
+ "fallback_used": true,
+ "directory_flush": "not_a_gap: Windows has no directory fsync primitive; NTFS journal covers rename metadata; no directory FlushFileBuffers is attempted",
+ "conclusion": {
+  "manifest_fsync": true,
+  "write_through": true,
+  "fallback_path": true,
+  "directory_flush_is_gap": false
+ },
+ "boundary": "结论边界=进程级非正常终止；驱动级 bug check 不在保证范围；目录 flush 不是缺口（Windows 无原语，NTFS 日志覆盖 rename 元数据）",
+ "zero_behavior": {
+  "source": "M6B-B1-FIX.json 的 unit harness（同一产品码进程）",
+  "fields_equal": true,
+  "fields": {
+   "shifts": {
+    "before": 1,
+    "after": 1,
+    "equal": true
+   },
+   "rebuilt": {
+    "before": [],
+    "after": [],
+    "equal": true
+   },
+   "blocks": {
+    "before": [
+     {
+      "block": "profile",
+      "slot_id": 0,
+      "role": "memory",
+      "start": 4046,
+      "end": 4096,
+      "n_tokens": 50
+     }
+    ],
+    "after": [
+     {
+      "block": "profile",
+      "slot_id": 0,
+      "role": "memory",
+      "start": 4046,
+      "end": 4096,
+      "n_tokens": 50
+     }
+    ],
+    "equal": true
+   },
+   "layout_problems": {
+    "before": [],
+    "after": [],
+    "equal": true
+   },
+   "chat_end": {
+    "before": 4285,
+    "after": 4285,
+    "equal": true
+   },
+   "chat_n_tokens": {
+    "before": 189,
+    "after": 189,
+    "equal": true
+   },
+   "anchor": {
+    "before": 4096,
+    "after": 4096,
+    "equal": true
+   },
+   "chat_bytes_verified": {
+    "before": true,
+    "after": true,
+    "equal": true
+   },
+   "unvalidated_chat_bytes": {
+    "before": false,
+    "after": false,
+    "equal": true
+   }
+  },
+  "red_reset": {
+   "R1": 1,
+   "R2": 2
+  },
+  "green_reset": {
+   "restore": 2,
+   "G1": 0,
+   "G2": 0
+  }
+ }
+}

@@ -1,0 +1,1153 @@
+{
+ "schema": "landed_m6b_b1_v1",
+ "at": "2026-10-26T10:25:18+0800",
+ "prereg": {
+  "path": "docs/_work/PREREG-M6B-B1.md",
+  "sha16": "73779a220ab0aff5",
+  "bytes": 7762
+ },
+ "backup_dir": "kvmem\\m2_visibility\\m3\\_before\\M6B-B1-20261026",
+ "backup": [
+  {
+   "file": "session_state.py",
+   "sha16": "ea021bb28168ebf2",
+   "bytes": 20463,
+   "expected": "ea021bb28168ebf2",
+   "ok": true
+  },
+  {
+   "file": "chat.py",
+   "sha16": "22081c411c64fbe7",
+   "bytes": 75310,
+   "expected": "22081c411c64fbe7",
+   "ok": true
+  },
+  {
+   "file": "kvslots.py",
+   "sha16": "a5c06b1939a418f2",
+   "bytes": 25933,
+   "expected": "a5c06b1939a418f2",
+   "ok": true
+  }
+ ],
+ "backup_all_ok": true,
+ "files_before": {
+  "session_state.py": {
+   "sha16": "ea021bb28168ebf2"
+  },
+  "chat.py": {
+   "sha16": "22081c411c64fbe7"
+  },
+  "kvslots.py": {
+   "sha16": "a5c06b1939a418f2"
+  }
+ },
+ "files_after": {
+  "session_state.py": {
+   "path": "tools\\session_state.py",
+   "sha16": "44b508a886dfb8f8",
+   "bytes": 24005
+  },
+  "chat.py": {
+   "path": "tools\\chat.py",
+   "sha16": "4bb3243aadf176a9",
+   "bytes": 75031
+  },
+  "kvslots.py": {
+   "path": "tools\\kvslots.py",
+   "sha16": "cfec958c19c62563",
+   "bytes": 27016
+  }
+ },
+ "changes": [
+  {
+   "file": "tools/session_state.py",
+   "old": "ea021bb28168ebf2",
+   "new": "44b508a886dfb8f8",
+   "points": [
+    "B1 scratch=max_slot_id+2 / n_seq",
+    "A manifest flush+fsync then write-through replace",
+    "P2 rebuild before target reset"
+   ]
+  },
+  {
+   "file": "tools/chat.py",
+   "old": "22081c411c64fbe7",
+   "new": "4bb3243aadf176a9",
+   "points": [
+    "P3/P4/P5 precheck before reset",
+    "_chat_scratch<N_SEQ"
+   ]
+  },
+  {
+   "file": "tools/kvslots.py",
+   "old": "a5c06b1939a418f2",
+   "new": "cfec958c19c62563",
+   "points": [
+    "A chat MoveFileExW write-through",
+    "directory flush removed/not a gap"
+   ]
+  }
+ ],
+ "unit": {
+  "artifact": {
+   "path": "kvmem\\m2_visibility\\m6\\out\\M6B-B1-FIX.json",
+   "sha16": "f37635532df1b673",
+   "bytes": 23027
+  },
+  "baseline": {
+   "path": "kvmem\\m2_visibility\\m6\\out\\_before\\M6B-B1-baseline.json",
+   "sha16": "f9ddccf555fbf626",
+   "bytes": 845
+  },
+  "red": {
+   "R1": {
+    "reset_calls": 1,
+    "before": {
+     "seq0": [
+      7,
+      6
+     ],
+     "seq1": [
+      7,
+      6
+     ]
+    },
+    "after": {
+     "seq0": [
+      0,
+      -1
+     ],
+     "seq1": [
+      7,
+      6
+     ]
+    },
+    "error": "RuntimeError: fake chat incompatible/refused"
+   },
+   "R2": {
+    "reset_calls": 2,
+    "before": {
+     "seq0": [
+      7,
+      6
+     ],
+     "seq1": [
+      7,
+      6
+     ]
+    },
+    "after": {
+     "seq0": [
+      0,
+      -1
+     ],
+     "seq1": [
+      0,
+      -1
+     ]
+    },
+    "error": "RuntimeError: fake block refused (non-Incompatible)"
+   }
+  },
+  "green": {
+   "restore": {
+    "reset_calls": 2,
+    "before": {
+     "seq0": [
+      7,
+      6
+     ],
+     "seq1": [
+      7,
+      6
+     ]
+    },
+    "after": {
+     "seq0": [
+      189,
+      4284
+     ],
+     "seq1": [
+      50,
+      4095
+     ]
+    },
+    "error": null
+   },
+   "G1": {
+    "reset_calls": 0,
+    "before": {
+     "seq0": [
+      7,
+      6
+     ],
+     "seq1": [
+      7,
+      6
+     ]
+    },
+    "after": {
+     "seq0": [
+      7,
+      6
+     ],
+     "seq1": [
+      7,
+      6
+     ]
+    },
+    "error": "RuntimeError: fake chat incompatible/refused"
+   },
+   "G2": {
+    "reset_calls": 0,
+    "before": {
+     "seq0": [
+      7,
+      6
+     ],
+     "seq1": [
+      7,
+      6
+     ]
+    },
+    "after": {
+     "seq0": [
+      7,
+      6
+     ],
+     "seq1": [
+      7,
+      6
+     ]
+    },
+    "error": "RuntimeError: fake block refused (non-Incompatible)"
+   }
+  },
+  "mount": {
+   "P3": {
+    "red": {
+     "reset_calls": 1,
+     "after": [
+      0,
+      -1
+     ],
+     "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+    },
+    "green": {
+     "reset_calls": 0,
+     "after": [
+      7,
+      6
+     ],
+     "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+    }
+   },
+   "P4": {
+    "red": {
+     "reset_calls": 1,
+     "after": [
+      0,
+      -1
+     ],
+     "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+    },
+    "green": {
+     "reset_calls": 0,
+     "after": [
+      7,
+      6
+     ],
+     "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+    }
+   },
+   "P5": {
+    "red": {
+     "reset_calls": 1,
+     "after": [
+      0,
+      -1
+     ],
+     "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+    },
+    "green": {
+     "reset_calls": 0,
+     "after": [
+      7,
+      6
+     ],
+     "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+    }
+   }
+  },
+  "zero_fields_equal": true,
+  "scratch_collision": {
+   "artifact": {
+    "path": "kvmem\\m2_visibility\\m6\\out\\M6B-B1-SCRATCH.json",
+    "sha16": "9788dad6e2e27eca",
+    "bytes": 1150
+   },
+   "red": {
+    "before": [
+     7,
+     6
+    ],
+    "after": [
+     0,
+     -1
+    ],
+    "loads": [
+     [
+      "load",
+      1
+     ]
+    ],
+    "error": "RuntimeError: injected preflight refusal after kvshim reset"
+   },
+   "green": {
+    "before": [
+     7,
+     6
+    ],
+    "after": [
+     7,
+     6
+    ],
+    "loads": [
+     [
+      "load",
+      2
+     ]
+    ],
+    "error": "RuntimeError: injected preflight refusal after kvshim reset"
+   },
+   "verdict": {
+    "red_collides": true,
+    "green_no_collision": true,
+    "same_error": true
+   },
+   "fix": "scratch=max_slot_id+2; scratch<n_seq; chat _chat_scratch<N_SEQ"
+  },
+  "durability": {
+   "artifact": {
+    "path": "kvmem\\m2_visibility\\m6\\out\\M6B-DURABILITY.json",
+    "sha16": "7747655babffc2c6",
+    "bytes": 3505
+   },
+   "mode": "write_through",
+   "fallback_used": true,
+   "directory_flush_is_gap": false
+  }
+ },
+ "e3_cpu": {
+  "artifact": {
+   "path": "kvmem\\m2_visibility\\m6\\out\\M6B-B1-E3CPU.json",
+   "sha16": "07eb446dbc2f8e9b",
+   "bytes": 3315
+  },
+  "alias": {
+   "path": "kvmem\\m2_visibility\\m7\\out\\M7-E3-CPU-B1.json",
+   "sha16": "07eb446dbc2f8e9b",
+   "bytes": 3315,
+   "same_bytes_as": "M6B-B1-E3CPU.json",
+   "copy_verified": true
+  },
+  "verdict": "通过（P1/P2 Python 层；P2 为注入拒绝）"
+ },
+ "e3_gpu": {
+  "artifact": {
+   "path": "kvmem\\m2_visibility\\m7\\out\\M7-E3-GPU.json",
+   "sha16": "5493d3ca4879eb6d",
+   "bytes": 31688
+  },
+  "new_ledger": {
+   "path": "kvmem\\m2_visibility\\m7\\LANDED-m7-e3-gpu-b1rev.json",
+   "sha16": "aef342f128efee68",
+   "bytes": 4702
+  },
+  "old_ledger": {
+   "path": "kvmem\\m2_visibility\\m7\\LANDED-m7-e3-gpu.json",
+   "sha16": "cebe77646204a173",
+   "bytes": 9827
+  },
+  "old_sha16": "e6b03da6f75cb851",
+  "old_bytes": 30561,
+  "verdict": "通过（S1-S4；仅结构级，非 kill 臂）"
+ },
+ "paths": {
+  "P1": {
+   "state": "通过（Python 层）",
+   "red": {
+    "before": {
+     "seq0": [
+      7,
+      6
+     ],
+     "seq1": [
+      7,
+      6
+     ]
+    },
+    "after": {
+     "seq0": [
+      0,
+      -1
+     ],
+     "seq1": [
+      7,
+      6
+     ]
+    },
+    "reset_calls": 1,
+    "target_resets": [
+     0
+    ],
+    "load_calls": 0,
+    "load_strict_calls": 1,
+    "error": "RuntimeError: fake chat incompatible/refused",
+    "report": null
+   },
+   "green": {
+    "before": {
+     "seq0": [
+      7,
+      6
+     ],
+     "seq1": [
+      7,
+      6
+     ]
+    },
+    "after": {
+     "seq0": [
+      7,
+      6
+     ],
+     "seq1": [
+      7,
+      6
+     ]
+    },
+    "reset_calls": 0,
+    "target_resets": [],
+    "load_calls": 0,
+    "load_strict_calls": 1,
+    "error": "RuntimeError: fake chat incompatible/refused",
+    "report": null
+   }
+  },
+  "P2": {
+   "state": "通过（Python 层）",
+   "red": {
+    "before": {
+     "seq0": [
+      7,
+      6
+     ],
+     "seq1": [
+      7,
+      6
+     ]
+    },
+    "after": {
+     "seq0": [
+      0,
+      -1
+     ],
+     "seq1": [
+      0,
+      -1
+     ]
+    },
+    "reset_calls": 2,
+    "target_resets": [
+     0,
+     1
+    ],
+    "load_calls": 0,
+    "load_strict_calls": 0,
+    "error": "RuntimeError: fake block refused (non-Incompatible)",
+    "report": null
+   },
+   "green": {
+    "before": {
+     "seq0": [
+      7,
+      6
+     ],
+     "seq1": [
+      7,
+      6
+     ]
+    },
+    "after": {
+     "seq0": [
+      7,
+      6
+     ],
+     "seq1": [
+      7,
+      6
+     ]
+    },
+    "reset_calls": 0,
+    "target_resets": [],
+    "load_calls": 0,
+    "load_strict_calls": 0,
+    "error": "RuntimeError: fake block refused (non-Incompatible)",
+    "report": null
+   }
+  },
+  "P3": {
+   "state": "通过（Python 层）",
+   "red": {
+    "site": "P3",
+    "before": [
+     7,
+     6
+    ],
+    "after": [
+     0,
+     -1
+    ],
+    "reset_calls": 1,
+    "target_resets": [
+     1
+    ],
+    "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+   },
+   "green": {
+    "site": "P3",
+    "before": [
+     7,
+     6
+    ],
+    "after": [
+     7,
+     6
+    ],
+    "reset_calls": 0,
+    "target_resets": [],
+    "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+   }
+  },
+  "P4": {
+   "state": "通过（Python 层）",
+   "red": {
+    "site": "P4",
+    "before": [
+     7,
+     6
+    ],
+    "after": [
+     0,
+     -1
+    ],
+    "reset_calls": 1,
+    "target_resets": [
+     1
+    ],
+    "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+   },
+   "green": {
+    "site": "P4",
+    "before": [
+     7,
+     6
+    ],
+    "after": [
+     7,
+     6
+    ],
+    "reset_calls": 0,
+    "target_resets": [],
+    "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+   }
+  },
+  "P5": {
+   "state": "通过（Python 层）",
+   "red": {
+    "site": "P5",
+    "before": [
+     7,
+     6
+    ],
+    "after": [
+     0,
+     -1
+    ],
+    "reset_calls": 1,
+    "target_resets": [
+     1
+    ],
+    "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+   },
+   "green": {
+    "site": "P5",
+    "before": [
+     7,
+     6
+    ],
+    "after": [
+     7,
+     6
+    ],
+    "reset_calls": 0,
+    "target_resets": [],
+    "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+   }
+  },
+  "C++": {
+   "state": "未接上（受不重建 DLL 限制）",
+   "file": "tools/kvshim.cpp",
+   "lines": "588-605"
+  }
+ },
+ "cplusplus": {
+  "state": "未接上（受不重建 DLL 限制）",
+  "file": "tools/kvshim.cpp",
+  "lines": "588-605"
+ },
+ "b1_total": "未接上（C++ 臂未修；Python 层 P1-P5 通过）",
+ "kill_arm": "未做（主机不安全）",
+ "rollback": {
+  "needed": false,
+  "reason": "零行为/红绿/E3 通过，未回滚"
+ },
+ "git_touched": false,
+ "product_code_changed": true,
+ "final_artifacts": {
+  "M6B-B1-FIX.json": {
+   "path": "kvmem\\m2_visibility\\m6\\out\\M6B-B1-FIX.json",
+   "sha16": "f37635532df1b673",
+   "bytes": 23027
+  },
+  "M7-E3-GPU.json": {
+   "path": "kvmem\\m2_visibility\\m7\\out\\M7-E3-GPU.json",
+   "sha16": "5493d3ca4879eb6d",
+   "bytes": 31688
+  },
+  "M6B-B1-E3CPU.json": {
+   "path": "kvmem\\m2_visibility\\m6\\out\\M6B-B1-E3CPU.json",
+   "sha16": "07eb446dbc2f8e9b",
+   "bytes": 3315
+  },
+  "M7-E3-CPU-B1.json": {
+   "path": "kvmem\\m2_visibility\\m7\\out\\M7-E3-CPU-B1.json",
+   "sha16": "07eb446dbc2f8e9b",
+   "bytes": 3315
+  },
+  "M6B-DURABILITY.json": {
+   "path": "kvmem\\m2_visibility\\m6\\out\\M6B-DURABILITY.json",
+   "sha16": "7747655babffc2c6",
+   "bytes": 3505
+  },
+  "M6B-FS-KILL-FUZZ.json": {
+   "path": "kvmem\\m2_visibility\\m7\\out\\M6B-FS-KILL-FUZZ.json",
+   "sha16": "958d58a97e4575f6",
+   "bytes": 19674
+  }
+ },
+ "alias_note": "M7-E3-CPU-B1.json 是 M6B-B1-E3CPU.json 的逐字节副本；sha16 相同，已用字节比较验证。",
+ "corrections": [
+  {
+   "artifact": "M6B-B1-FIX.json",
+   "old_sha16": "7f4f26f2c0c39b2d",
+   "old_bytes": 12777,
+   "new_sha16": "18c86c205bc5129f",
+   "new_bytes": 12777,
+   "reason": "审计 G1 死锚；旧值保留不改，只登记"
+  },
+  {
+   "artifact": "M6B-B1-FIX.json",
+   "old_sha16": "18c86c205bc5129f",
+   "new_sha16": "f7085cb2249976a7",
+   "new_bytes": 13786,
+   "reason": "B1 rev4 终稿"
+  },
+  {
+   "artifact": "M6B-B1-FIX.json",
+   "old_sha16": "f7085cb2249976a7",
+   "new_sha16": "2a3288c9b23a13a6",
+   "new_bytes": 22824,
+   "reason": "A+B 中间件"
+  },
+  {
+   "artifact": "M6B-B1-FIX.json",
+   "old_sha16": "2a3288c9b23a13a6",
+   "new_sha16": "cb5c1928910451a9",
+   "new_bytes": 23027,
+   "reason": "task-68 A+B+C 终稿"
+  },
+  {
+   "artifact": "M6B-DURABILITY.json",
+   "old_sha16": "f2feb2aef6df3ea7",
+   "old_bytes": 2224,
+   "new_sha16": "7747655babffc2c6",
+   "new_bytes": 3505,
+   "reason": "审 83/84 唯一不符：unit.durability.artifact 死指针；旧值保留，字段改指现盘真值"
+  },
+  {
+   "artifact": "M6B-B1-FIX.json",
+   "old_sha16": "cb5c1928910451a9",
+   "new_sha16": "f37635532df1b673",
+   "new_bytes": 23027,
+   "reason": "rev5 同步 M7 新 sha/attempts 后的终稿"
+  }
+ ],
+ "durability": {
+  "artifact": {
+   "path": "kvmem\\m2_visibility\\m6\\out\\M6B-DURABILITY.json",
+   "sha16": "7747655babffc2c6",
+   "bytes": 3505
+  },
+  "mode": "write_through",
+  "fallback_used": true,
+  "directory_flush_is_gap": false
+ },
+ "fuzz": {
+  "artifact": {
+   "path": "kvmem\\m2_visibility\\m7\\out\\M6B-FS-KILL-FUZZ.json",
+   "sha16": "958d58a97e4575f6",
+   "bytes": 19674
+  },
+  "summary": {
+   "atomic": {
+    "runs": 20,
+    "third": 0,
+    "before": 17,
+    "after": 3,
+    "missing": 0,
+    "signal_sent": 20,
+    "fraction_min": 0.0,
+    "fraction_median": 0.44921900000000003,
+    "fraction_max": 1.0,
+    "states": [
+     {
+      "run": 1,
+      "fraction_at_kill": 0.140625,
+      "delay_s": 0.1748,
+      "state": "before",
+      "bytes": 8388608,
+      "sha16": "001224bdbc0a675a",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 2,
+      "fraction_at_kill": 0.289062,
+      "delay_s": 0.3004,
+      "state": "before",
+      "bytes": 8388608,
+      "sha16": "001224bdbc0a675a",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 3,
+      "fraction_at_kill": 0.164062,
+      "delay_s": 0.1963,
+      "state": "before",
+      "bytes": 8388608,
+      "sha16": "001224bdbc0a675a",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 4,
+      "fraction_at_kill": 0.632812,
+      "delay_s": 0.5847,
+      "state": "before",
+      "bytes": 8388608,
+      "sha16": "001224bdbc0a675a",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 5,
+      "fraction_at_kill": 0.703125,
+      "delay_s": 0.6461,
+      "state": "before",
+      "bytes": 8388608,
+      "sha16": "001224bdbc0a675a",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 6,
+      "fraction_at_kill": 0.0,
+      "delay_s": 0.0595,
+      "state": "before",
+      "bytes": 8388608,
+      "sha16": "001224bdbc0a675a",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 7,
+      "fraction_at_kill": 0.515625,
+      "delay_s": 0.4906,
+      "state": "before",
+      "bytes": 8388608,
+      "sha16": "001224bdbc0a675a",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 8,
+      "fraction_at_kill": 0.460938,
+      "delay_s": 0.4401,
+      "state": "before",
+      "bytes": 8388608,
+      "sha16": "001224bdbc0a675a",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 9,
+      "fraction_at_kill": 0.4375,
+      "delay_s": 0.4257,
+      "state": "before",
+      "bytes": 8388608,
+      "sha16": "001224bdbc0a675a",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 10,
+      "fraction_at_kill": 0.84375,
+      "delay_s": 0.7616,
+      "state": "before",
+      "bytes": 8388608,
+      "sha16": "001224bdbc0a675a",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 11,
+      "fraction_at_kill": 0.34375,
+      "delay_s": 0.3482,
+      "state": "before",
+      "bytes": 8388608,
+      "sha16": "001224bdbc0a675a",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 12,
+      "fraction_at_kill": 0.640625,
+      "delay_s": 0.5979,
+      "state": "before",
+      "bytes": 8388608,
+      "sha16": "001224bdbc0a675a",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 13,
+      "fraction_at_kill": 0.4375,
+      "delay_s": 0.4258,
+      "state": "before",
+      "bytes": 8388608,
+      "sha16": "001224bdbc0a675a",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 14,
+      "fraction_at_kill": 1.0,
+      "delay_s": 1.0239,
+      "state": "after",
+      "bytes": 8388608,
+      "sha16": "b16bd32b101132fd",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 15,
+      "fraction_at_kill": 1.0,
+      "delay_s": 1.0958,
+      "state": "after",
+      "bytes": 8388608,
+      "sha16": "b16bd32b101132fd",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 16,
+      "fraction_at_kill": 0.054688,
+      "delay_s": 0.1082,
+      "state": "before",
+      "bytes": 8388608,
+      "sha16": "001224bdbc0a675a",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 17,
+      "fraction_at_kill": 0.273438,
+      "delay_s": 0.2906,
+      "state": "before",
+      "bytes": 8388608,
+      "sha16": "001224bdbc0a675a",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 18,
+      "fraction_at_kill": 0.648438,
+      "delay_s": 0.596,
+      "state": "before",
+      "bytes": 8388608,
+      "sha16": "001224bdbc0a675a",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 19,
+      "fraction_at_kill": 0.0,
+      "delay_s": 0.7314,
+      "state": "before",
+      "bytes": 8388608,
+      "sha16": "001224bdbc0a675a",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 20,
+      "fraction_at_kill": 1.0,
+      "delay_s": 1.0996,
+      "state": "after",
+      "bytes": 8388608,
+      "sha16": "b16bd32b101132fd",
+      "signal_sent": true,
+      "rc": 1
+     }
+    ]
+   },
+   "red": {
+    "runs": 20,
+    "third": 20,
+    "before": 0,
+    "after": 0,
+    "missing": 0,
+    "signal_sent": 20,
+    "fraction_min": 0.0,
+    "fraction_median": 0.2890625,
+    "fraction_max": 0.734375,
+    "states": [
+     {
+      "run": 1,
+      "fraction_at_kill": 0.085938,
+      "delay_s": 0.1365,
+      "state": "third",
+      "bytes": 720896,
+      "sha16": "1e191f27413cfe12",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 2,
+      "fraction_at_kill": 0.296875,
+      "delay_s": 0.3097,
+      "state": "third",
+      "bytes": 2490368,
+      "sha16": "cb948831f9e76a85",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 3,
+      "fraction_at_kill": 0.0,
+      "delay_s": 0.6549,
+      "state": "third",
+      "bytes": 6029312,
+      "sha16": "303bdaee5f1ec5af",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 4,
+      "fraction_at_kill": 0.226562,
+      "delay_s": 0.2563,
+      "state": "third",
+      "bytes": 1900544,
+      "sha16": "01a800446308f6d9",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 5,
+      "fraction_at_kill": 0.59375,
+      "delay_s": 0.5556,
+      "state": "third",
+      "bytes": 4980736,
+      "sha16": "006c99014dd418e3",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 6,
+      "fraction_at_kill": 0.304688,
+      "delay_s": 0.3126,
+      "state": "third",
+      "bytes": 2555904,
+      "sha16": "ace303f2c094a5b7",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 7,
+      "fraction_at_kill": 0.25,
+      "delay_s": 0.2661,
+      "state": "third",
+      "bytes": 2097152,
+      "sha16": "5b766f6d76a99963",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 8,
+      "fraction_at_kill": 0.039062,
+      "delay_s": 0.0969,
+      "state": "third",
+      "bytes": 327680,
+      "sha16": "84cf8805362161ee",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 9,
+      "fraction_at_kill": 0.625,
+      "delay_s": 0.5837,
+      "state": "third",
+      "bytes": 5242880,
+      "sha16": "dbbe5517996826bd",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 10,
+      "fraction_at_kill": 0.59375,
+      "delay_s": 0.5538,
+      "state": "third",
+      "bytes": 4980736,
+      "sha16": "006c99014dd418e3",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 11,
+      "fraction_at_kill": 0.0,
+      "delay_s": 0.1494,
+      "state": "third",
+      "bytes": 917504,
+      "sha16": "c5d550f27cb83cf4",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 12,
+      "fraction_at_kill": 0.242188,
+      "delay_s": 0.2653,
+      "state": "third",
+      "bytes": 2031616,
+      "sha16": "f18ee60b3734365c",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 13,
+      "fraction_at_kill": 0.460938,
+      "delay_s": 0.4415,
+      "state": "third",
+      "bytes": 3866624,
+      "sha16": "390a6a133479f7f0",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 14,
+      "fraction_at_kill": 0.5625,
+      "delay_s": 0.5299,
+      "state": "third",
+      "bytes": 4718592,
+      "sha16": "1f56e98e7126f721",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 15,
+      "fraction_at_kill": 0.726562,
+      "delay_s": 0.6653,
+      "state": "third",
+      "bytes": 6094848,
+      "sha16": "722d27b3f0a2c9e7",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 16,
+      "fraction_at_kill": 0.367188,
+      "delay_s": 0.3702,
+      "state": "third",
+      "bytes": 3080192,
+      "sha16": "ca36cebd26e48c84",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 17,
+      "fraction_at_kill": 0.28125,
+      "delay_s": 0.2969,
+      "state": "third",
+      "bytes": 2359296,
+      "sha16": "e0c7df33bfbde7a6",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 18,
+      "fraction_at_kill": 0.257812,
+      "delay_s": 0.2765,
+      "state": "third",
+      "bytes": 2162688,
+      "sha16": "e475eaea568853c5",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 19,
+      "fraction_at_kill": 0.734375,
+      "delay_s": 0.6759,
+      "state": "third",
+      "bytes": 6160384,
+      "sha16": "adcbbd4a2934eb15",
+      "signal_sent": true,
+      "rc": 1
+     },
+     {
+      "run": 20,
+      "fraction_at_kill": 0.109375,
+      "delay_s": 0.1524,
+      "state": "third",
+      "bytes": 917504,
+      "sha16": "c5d550f27cb83cf4",
+      "signal_sent": true,
+      "rc": 1
+     }
+    ]
+   }
+  },
+  "verdict": {
+   "atomic_third": 0,
+   "red_third": 20,
+   "atomic_target_only_before_or_after": true,
+   "red_hit_truncation": true,
+   "all_signals_real": true,
+   "atomic_pass": true,
+   "red_pass_as_window_proof": true
+  }
+ },
+ "boundary": "结论边界=进程级非正常终止；驱动级 bug check 不在保证范围；目录 flush 不是缺口"
+}

@@ -1,0 +1,276 @@
+{
+ "schema": "m5_36a_rule_arm_result_v2",
+ "task": "M5 36A (a) rule-arm ADJ/JUDGE, corrected three-block split",
+ "at": "2026-10-26T09:39:28+08:00",
+ "arm": "rule-authored rewrites (model_calls=0)",
+ "supersedes": {
+  "path": "kvmem/m2_visibility/m5/out/M5-36A-rule-arm-result.json",
+  "sha16": "14dcc5a973d41359",
+  "bytes": 2968,
+  "retained": true
+ },
+ "correction_authority": "LEAD 2026-10-26：12 对 orig==rewrite 为基线，leak/false 只在 18 改写对算；基线只报 JUDGE/ADJ 一致率；三块并列。",
+ "files": {
+  "pairs": {
+   "path": "kvmem/m2_visibility/m5/out/M5-36A-pairs.json",
+   "sha16": "f0767d84c16c31bb",
+   "bytes": 7503
+  },
+  "intent_sealed": {
+   "path": "kvmem/m2_visibility/m5/out/M5-36A-intent-sealed.json",
+   "sha16": "9f14097996e5deb9",
+   "bytes": 2184
+  },
+  "adj": {
+   "path": "kvmem/m2_visibility/m5/out/M5-36A-adj.json",
+   "sha16": "1f5d7a5447478802",
+   "bytes": 10653
+  },
+  "judge": {
+   "path": "kvmem/m2_visibility/m5/out/M5-36A-judge.json",
+   "sha16": "bff8a34ba652d1e2",
+   "bytes": 27935
+  },
+  "judge_script": {
+   "path": "kvmem/m2_visibility/m5/m5_ground.py",
+   "sha16": "86b7c501ab9904aa",
+   "bytes": 18496
+  }
+ },
+ "pair_sets": {
+  "baseline_orig_eq_rewrite": [
+   "P01",
+   "P02",
+   "P09",
+   "P13",
+   "P15",
+   "P19",
+   "P21",
+   "P23",
+   "P25",
+   "P27",
+   "P28",
+   "P29"
+  ],
+  "rewrite_orig_ne_rewrite": [
+   "P03",
+   "P04",
+   "P05",
+   "P06",
+   "P07",
+   "P08",
+   "P10",
+   "P11",
+   "P12",
+   "P14",
+   "P16",
+   "P17",
+   "P18",
+   "P20",
+   "P22",
+   "P24",
+   "P26",
+   "P30"
+  ]
+ },
+ "blocks": {
+  "all30_legacy": {
+   "n": 30,
+   "pair_ids": [
+    "P01",
+    "P02",
+    "P03",
+    "P04",
+    "P05",
+    "P06",
+    "P07",
+    "P08",
+    "P09",
+    "P10",
+    "P11",
+    "P12",
+    "P13",
+    "P14",
+    "P15",
+    "P16",
+    "P17",
+    "P18",
+    "P19",
+    "P20",
+    "P21",
+    "P22",
+    "P23",
+    "P24",
+    "P25",
+    "P26",
+    "P27",
+    "P28",
+    "P29",
+    "P30"
+   ],
+   "orig_label_counts": {
+    "supported": 15,
+    "unsupported": 15
+   },
+   "leak": {
+    "definition": "ADJ orig unsupported 且 JUDGE rewrite supported",
+    "events": [
+     "P13",
+     "P25"
+    ],
+    "count": 2,
+    "denominator": 15,
+    "rate": 0.13333333333333333
+   },
+   "false": {
+    "definition": "ADJ orig supported 且 JUDGE rewrite unsupported",
+    "events": [],
+    "count": 0,
+    "denominator": 15,
+    "rate": 0.0
+   },
+   "judge_adj_disagreements": [
+    "P13",
+    "P25"
+   ],
+   "note": "旧口径全30对；含12个 orig==rewrite 基线对，仅供参考，不是真灵敏度主口径"
+  },
+  "rewrite18_primary": {
+   "n": 18,
+   "pair_ids": [
+    "P03",
+    "P04",
+    "P05",
+    "P06",
+    "P07",
+    "P08",
+    "P10",
+    "P11",
+    "P12",
+    "P14",
+    "P16",
+    "P17",
+    "P18",
+    "P20",
+    "P22",
+    "P24",
+    "P26",
+    "P30"
+   ],
+   "orig_label_counts": {
+    "supported": 13,
+    "unsupported": 5
+   },
+   "leak": {
+    "definition": "ADJ orig unsupported 且 JUDGE rewrite supported",
+    "events": [],
+    "count": 0,
+    "denominator": 5,
+    "rate": 0.0
+   },
+   "false": {
+    "definition": "ADJ orig supported 且 JUDGE rewrite unsupported",
+    "events": [],
+    "count": 0,
+    "denominator": 13,
+    "rate": 0.0
+   },
+   "judge_adj_disagreements": [],
+   "primary": true,
+   "note": "18个真改写对；leak/false 主口径"
+  },
+  "baseline12_consistency": {
+   "n": 12,
+   "pair_ids": [
+    "P01",
+    "P02",
+    "P09",
+    "P13",
+    "P15",
+    "P19",
+    "P21",
+    "P23",
+    "P25",
+    "P27",
+    "P28",
+    "P29"
+   ],
+   "orig_label_counts": {
+    "supported": 2,
+    "unsupported": 10
+   },
+   "judge_adj_agreement": {
+    "agreement": 10,
+    "denominator": 12,
+    "rate": 0.8333333333333334,
+    "disagreements": [
+     "P13",
+     "P25"
+    ],
+    "note": "基线对 orig==rewrite，只报 JUDGE vs ADJ 自洽性；不设 leak/false 分母，不得并入两率"
+   },
+   "leak_false": "not_applicable（基线对无改写，不能算改写漏判/误判）"
+  }
+ },
+ "excluded": [],
+ "no_single_accuracy": true,
+ "corrections": [
+  {
+   "id": "C1",
+   "old_ref": "14dcc5a9",
+   "field": "leak.denominator",
+   "old_value": 15,
+   "new_value": 5,
+   "reason": "旧口径把10个基线unsupported对并入改写漏判分母；主口径只取18改写对中的ADJ unsupported 5"
+  },
+  {
+   "id": "C2",
+   "old_ref": "14dcc5a9",
+   "field": "leak.events",
+   "old_value": [
+    "P13",
+    "P25"
+   ],
+   "new_value": [],
+   "reason": "P13/P25 是 orig==rewrite 基线；JUDGE no-fact 盲区归基线自洽块，不是改写漏判"
+  },
+  {
+   "id": "C3",
+   "old_ref": "14dcc5a9",
+   "field": "leak.count",
+   "old_value": 2,
+   "new_value": 0,
+   "reason": "18 改写对中无 ADJ unsupported -> JUDGE supported 事件"
+  },
+  {
+   "id": "C4",
+   "old_ref": "14dcc5a9",
+   "field": "false.denominator",
+   "old_value": 15,
+   "new_value": 13,
+   "reason": "主口径只取18改写对中的ADJ supported 13"
+  },
+  {
+   "id": "C5",
+   "old_ref": "14dcc5a9",
+   "field": "block_structure",
+   "old_value": null,
+   "new_value": {
+    "all30_legacy": "leak 2/15, false 0/15（仅参考）",
+    "rewrite18_primary": "leak 0/5, false 0/13",
+    "baseline12_consistency": "JUDGE/ADJ agreement 10/12, disagreements P13/P25；无 leak/false 分母"
+   },
+   "reason": "按 LEAD 裁定三块并列；旧全30口径降为参考"
+  }
+ ],
+ "p13_p25": {
+  "status": "保持不改判；已由独立盲标复核者进入三方对齐，等 REVIEW-M5-36A-blind.json",
+  "handled_by_inspector": false
+ },
+ "pilot": {
+  "judge_adj_status": "未接上（规则臂 ADJ/JUDGE 已接；模型臂未接；两臂未合并）",
+  "usable_pass": false,
+  "model_arm": "pending"
+ },
+ "no_final_verdict": true
+}

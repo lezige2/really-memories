@@ -1,0 +1,306 @@
+{
+  "schema": "m5_judge_v2_landed_v1",
+  "task": "M5 judge v2.1 (2-gram negative evidence + no_fact fallback) — landing ledger",
+  "created_at": "2026-10-26T10:12:50+0800",
+  "judge": {
+    "path": "kvmem/m2_visibility/m5/m5_ground_v2.py",
+    "sha16": "5e11e1ac06f022c7",
+    "bytes": 66413,
+    "sha256_first16_rule": "sha256[:16]",
+    "judge_version": "v2.1",
+    "supersedes": "m5_ground.py 86b7c501ab9904aa",
+    "supersedes_sha16": "86b7c501ab9904aa",
+    "supersedes_bytes": 18496,
+    "threshold_theta": 0.2,
+    "prereg": "6c77b56f406432aa",
+    "prereg_observed": {
+      "sha16": "6c77b56f406432aa",
+      "bytes": 35739,
+      "path": "docs/_work/PREREG-M5-JUDGE-v2.md",
+      "matches_coordinate": true
+    },
+    "note": "v1 未修改、未 monkeypatch；仅 import 其抽取函数（§B4.3 允许复制 v1 控制流加分支）。audit R1：源码 prereg 坐标已由已取代稿 8330fa71 改指盘上冻结版 6c77b56f / 35,739 B"
+  },
+  "regression": {
+    "path": "kvmem/m2_visibility/m5/out/M5-JUDGE-v2-regression.json",
+    "sha16": "205a61dc51b3cb4a",
+    "bytes": 193316,
+    "schema": "m5_judge_v2_regression_v1",
+    "diff_rows": 2,
+    "abort": false,
+    "v2_signable": true,
+    "edited_note": "regenerated once with explicit --write after R1-R6；92 side / 46 pair verdict 与改前逐项相同"
+  },
+  "self_reference": "judge 与 regression 的 sha16/bytes 已回填本台账；本台账自身的 sha16/bytes 不写入自身（§0.2/§E2），由外层回报给出",
+  "diff_rows": 2,
+  "diff_pairs": [
+    "P13",
+    "P25"
+  ],
+  "diff_detail": [
+    {
+      "pair_id": "P13",
+      "old_verdict": "supported",
+      "new_verdict": "unsupported",
+      "sides_changed": [
+        "orig",
+        "rewrite"
+      ],
+      "branch": "5a_2gram_negative",
+      "u": 0.8,
+      "miss_grams": [
+        "州西",
+        "杭州",
+        "湖边",
+        "西湖"
+      ],
+      "gram_n": 5,
+      "change": "defect_fixed"
+    },
+    {
+      "pair_id": "P25",
+      "old_verdict": "supported",
+      "new_verdict": "unsupported",
+      "sides_changed": [
+        "orig",
+        "rewrite"
+      ],
+      "branch": "5a_2gram_negative",
+      "u": 0.6666666666666666,
+      "miss_grams": [
+        "井茶",
+        "龙井"
+      ],
+      "gram_n": 3,
+      "change": "defect_fixed"
+    }
+  ],
+  "abort": false,
+  "abort_reason": null,
+  "v2_signable": true,
+  "acceptance_5": {
+    "passed": 5,
+    "total": 5,
+    "detail": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    }
+  },
+  "theta_0_20_errors": {
+    "sides_92_missed": 0,
+    "sides_92_false": 0,
+    "pairs_46_missed": 0,
+    "pairs_46_false": 0
+  },
+  "rates": {
+    "rewrite18_leak": "0/5",
+    "rewrite18_false": "0/13",
+    "rewrite18_v1": {
+      "leak": "0/5",
+      "false": "0/13"
+    },
+    "model16_leak": "0/5",
+    "model16_false": "0/11",
+    "baseline12_agreement": {
+      "v2": "12/12",
+      "v1": "10/12"
+    }
+  },
+  "counts": {
+    "pairs_total": 46,
+    "sides_total": 92,
+    "R1": 30,
+    "R2": 16,
+    "baseline12": 12,
+    "rewrite18": 18,
+    "diff_rows": 2,
+    "no_fact_undecidable_count": 0,
+    "near_threshold_count": 0,
+    "unexpected_rows": 0,
+    "decidable_denominators": {
+      "rewrite18": {
+        "den_leak": 5,
+        "den_false": 13,
+        "note": "§F4 verdict != undecidable; identical to raw when undecidable==0"
+      },
+      "model16": {
+        "den_leak": 5,
+        "den_false": 11,
+        "note": "§F4 verdict != undecidable; identical to raw when undecidable==0"
+      }
+    },
+    "v2_verdict_distribution": {
+      "sides": {
+        "supported": 52,
+        "unsupported": 40,
+        "undecidable": 0
+      }
+    },
+    "known_fp_controls": {
+      "count": 10,
+      "all_match_prereg": true,
+      "known_fp_count": 5,
+      "note": "C6-C10 为预登记事先声明的已知误伤，单列，不进任何两率"
+    },
+    "v1_verdict_distribution": {
+      "sides": {
+        "supported": 56,
+        "unsupported": 36,
+        "undecidable": 0
+      }
+    }
+  },
+  "inputs_verified_unchanged": {
+    "m5_ground_py": {
+      "path": "kvmem/m2_visibility/m5/m5_ground.py",
+      "sha16": "86b7c501ab9904aa",
+      "bytes": 18496,
+      "matches_frozen": true
+    },
+    "v1_products": [
+      {
+        "path": "kvmem/m2_visibility/m5/out/M5-36A-pairs.json",
+        "sha16": "f0767d84c16c31bb",
+        "bytes": 7503,
+        "matches_frozen": true
+      },
+      {
+        "path": "kvmem/m2_visibility/m5/out/M5-36A-pairs-model.json",
+        "sha16": "aa9e6106925657e1",
+        "bytes": 7851,
+        "matches_frozen": true
+      },
+      {
+        "path": "kvmem/m2_visibility/m5/out/M5-36A-adj.json",
+        "sha16": "1f5d7a5447478802",
+        "bytes": 10653,
+        "matches_frozen": true
+      },
+      {
+        "path": "kvmem/m2_visibility/m5/out/M5-36A-model-adj.json",
+        "sha16": "1b52862fe64ad384",
+        "bytes": 6035,
+        "matches_frozen": true
+      },
+      {
+        "path": "kvmem/m2_visibility/m5/out/M5-36A-judge.json",
+        "sha16": "bff8a34ba652d1e2",
+        "bytes": 27935,
+        "matches_frozen": true
+      },
+      {
+        "path": "kvmem/m2_visibility/m5/out/M5-36A-model-judge.json",
+        "sha16": "8bc7af8eb82aed86",
+        "bytes": 17928,
+        "matches_frozen": true
+      },
+      {
+        "path": "docs/_work/REVIEW-M5-36A-blind.json",
+        "sha16": "39d1d24860294ee3",
+        "bytes": 9143,
+        "matches_frozen": true
+      }
+    ],
+    "all_match_frozen": true,
+    "rechecked_at": "2026-10-26T10:36:11+0800"
+  },
+  "discipline": {
+    "gpu_used": false,
+    "model_calls": 0,
+    "git_operations": 0,
+    "v1_files_modified": 0,
+    "samples_modified": 0,
+    "theta_retuned": false,
+    "note": "全程 CPU、零模型、零 GPU、未调用 git；θ/STOP/FRAME 未在落盘前改动"
+  },
+  "prereg_coordinate_mismatch": {
+    "given_in_task": {
+      "sha16": "8330fa716ef32a28",
+      "bytes": 34373,
+      "lines": 405
+    },
+    "observed_first_read": {
+      "sha16": "135d020fe35deee2",
+      "bytes": 35716,
+      "lines": 411
+    },
+    "observed_at_regression": {
+      "sha16": "6c77b56f406432aa",
+      "bytes": 35739
+    },
+    "finding": "任务书给的预登记坐标与磁盘上的 docs/_work/PREREG-M5-JUDGE-v2.md 不符，且该文件在本任务期间被外部改动过（首读 135d020fe35deee2 / 35,716 B → 落盘时 6c77b56f406432aa / 35739 B）。逐条核对 §B/§B5/§C/§D 语义：θ=0.20 固档、STOP/FRAME 两个 sha16 与描述一致、五档不可区分、差异只许 P13/P25、① 仅由 |G|==0 触发 —— 与实现所依据的预登记一致，故按磁盘内容执行并上报，未据此改动任何判定/阈值/词表。",
+    "action": "已修正源码与 regression 的 prereg 坐标；台账保留三稿坐标链。未改判定/阈值/词表",
+    "status": "fixed_in_source_and_regression (audit R1)：源码 :5 与 PREREG_SHA16 常量（审计记作 :48，改后 :57）以及 regression /prereg/ 现均记 6c77b56f406432aa / 35,739 B，并保留 8330fa71 / 34,373 / 405 与 135d020f / 35,716 / 411 的链",
+    "resolved_coordinate": {
+      "sha16": "6c77b56f406432aa",
+      "bytes": 35739,
+      "lines": 411
+    }
+  },
+  "updated_at": "2026-10-26T10:36:11+0800",
+  "update": "audit remediation R1-R6 per docs/_work/INSPECTOR-M5-JUDGE-V2-AUDIT.md (sha16 29c87901dc828f10, 38 lines); zero model / zero GPU / no git; verdicts unchanged",
+  "recheck_semantics": {
+    "value": "v1_unchanged",
+    "authority": "预登记 §B3：`recheck` 一行不动",
+    "note": "audit R4：旧件 m5_ground_v2.py 34afeef1ee02ba82 让 recheck 的嵌套 ground 按名字解析到 v2，P13/P25 的 recheck_verdict=unsupported；现回退为显式 _v1.ground，记 recheck_semantics=v1_unchanged。只影响 recheck_verdict 报告字段，不影响任何对 verdict。",
+    "newly_triggered_sides": 4,
+    "affected_pairs": [
+      "P13",
+      "P25"
+    ],
+    "recheck_verdict_after": "supported（v1 值；旧件为 v2 嵌套的 unsupported）"
+  },
+  "in_sample": true,
+  "theta_calibrated": false,
+  "out_of_sample_required_for": [
+    "(c) 长生成",
+    "全量"
+  ],
+  "denominator_note": "两率分母 5/13 <10，仅装置可用性",
+  "known_fp_excluded_from_rates": "5 例（T6–T10）",
+  "scope_note": "v2_signable=true 只表示「judge_defect 双层缺陷修复的装置可用性」；不代表 M5 可进全量、θ 已校准、(c) 已验证。(c)/全量必须 out-of-sample 重新检验；46 对的 0 漏判/0 误判是 in-sample，且误指控类（T6–T10 五例）被 §C5 结构性地排除在两率之外。",
+  "audit_remediation": {
+    "report": "docs/_work/INSPECTOR-M5-JUDGE-V2-AUDIT.md",
+    "report_sha16": "29c87901dc828f10",
+    "items": {
+      "R1": "源码 :5 与 PREREG_SHA16（原 :48 → 现 :57）+ regression /prereg/ 改指 6c77b56f406432aa / 35,739 B；补 135d020f / 35,716 / 411 与 8330fa71 / 34,373 / 405 留痕",
+      "R2": "--regression 默认 write=False（只打印/比对）；落盘须显式 --write",
+      "R3": "selftest 增 ground() 端到端 5c_no_fact 三条；_assert_invariants 改为真断言（|G|==0 <=> 5c；分支 5 三值完备）",
+      "R4": "recheck 回退 v1 语义（显式 _v1.ground），recheck_semantics=v1_unchanged",
+      "R5": "台账补 in_sample / theta_calibrated / out_of_sample_required_for / denominator_note / known_fp_excluded_from_rates",
+      "R6": "docstring 改「语义等价，三处形式改写」；summary 改「§D 五项验收：5/5 满足（装置可用性层面；非 v2 已通过）」"
+    }
+  },
+  "corrections": [
+    {
+      "kind": "judge",
+      "path": "kvmem/m2_visibility/m5/m5_ground_v2.py",
+      "old_sha16": "34afeef1ee02ba82",
+      "old_bytes": 55401,
+      "new_sha16": "5e11e1ac06f022c7",
+      "new_bytes": 66413,
+      "reason": "audit R1-R6 remediation（判定结果不变）"
+    },
+    {
+      "kind": "regression",
+      "path": "kvmem/m2_visibility/m5/out/M5-JUDGE-v2-regression.json",
+      "old_sha16": "bb7eb3aef4c98e03",
+      "old_bytes": 175707,
+      "new_sha16": "205a61dc51b3cb4a",
+      "new_bytes": 193316,
+      "reason": "唯一一次显式 --write 重生成；46 对 verdict 与旧件完全相同（0 diff）；新增 R1/R2/R4/R6 留痕字段；P13/P25 的 recheck_verdict 由 unsupported 变 supported（R4 回退，允许项）"
+    },
+    {
+      "kind": "landed",
+      "path": "kvmem/m2_visibility/m5/LANDED-m5-judge-v2.json",
+      "old_sha16": "9e81ff740b8422ee",
+      "old_bytes": 6718,
+      "new_sha16": "<self>",
+      "new_bytes": "<self>",
+      "reason": "R5 限定 + R1/R4 留痕 + corrections 台账。本件自身 sha16/bytes 不可自含（§0.2/§E2），由外层回报给出"
+    }
+  ]
+}

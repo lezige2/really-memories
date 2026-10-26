@@ -1,0 +1,60 @@
+{
+ "schema": "m6b_b1_scratch_collision_v1",
+ "at": "2026-10-26T10:16:11+0800",
+ "question": "P2 preflight scratch == highest block target seq ? \"先清后验\" : unused",
+ "bug_source": {
+  "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m6\\tmp\\b1scratch\\session_state_plus1.py",
+  "sha16": "23602bc842a3d80c",
+  "bytes": 24005,
+  "diff_from_fixed": "scratch = max_slot_id + 1 (old +1)"
+ },
+ "fixed_source": {
+  "path": "D:\\llama-mem\\tools\\session_state.py",
+  "sha16": "44b508a886dfb8f8",
+  "bytes": 24005
+ },
+ "manifest": {
+  "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m6\\tmp\\b1scratch\\scratch_none.json",
+  "sha16": "bda302d0cb3de2db",
+  "bytes": 1055
+ },
+ "red": {
+  "before": [
+   7,
+   6
+  ],
+  "after": [
+   0,
+   -1
+  ],
+  "loads": [
+   [
+    "load",
+    1
+   ]
+  ],
+  "error": "RuntimeError: injected preflight refusal after kvshim reset"
+ },
+ "green": {
+  "before": [
+   7,
+   6
+  ],
+  "after": [
+   7,
+   6
+  ],
+  "loads": [
+   [
+    "load",
+    2
+   ]
+  ],
+  "error": "RuntimeError: injected preflight refusal after kvshim reset"
+ },
+ "verdict": {
+  "red_collides": true,
+  "green_no_collision": true,
+  "same_error": true
+ }
+}

@@ -1,0 +1,75 @@
+{
+ "P1": {
+  "red": {
+   "before": [
+    7,
+    6
+   ],
+   "after": [
+    0,
+    -1
+   ],
+   "reset_calls": [
+    0
+   ],
+   "error": "RuntimeError: kvshim_load refused D:\\llama-mem\\kvmem\\m2_visibility\\m6\\tmp\\b1cpu\\bad.chat.kvmem -- incompatible state (model, rope, kv type or n_rot_k differs from when the block was written)",
+   "report": null
+  },
+  "green": {
+   "before": [
+    7,
+    6
+   ],
+   "after": [
+    7,
+    6
+   ],
+   "reset_calls": [],
+   "error": "RuntimeError: kvshim_load refused D:\\llama-mem\\kvmem\\m2_visibility\\m6\\tmp\\b1cpu\\bad.chat.kvmem -- incompatible state (model, rope, kv type or n_rot_k differs from when the block was written)",
+   "report": null
+  }
+ },
+ "P2": {
+  "red": {
+   "before": [
+    7,
+    6
+   ],
+   "after": [
+    0,
+    -1
+   ],
+   "reset_calls": [
+    0,
+    1
+   ],
+   "error": "RuntimeError: E3-CPU injected block rejection (non-Incompatible)",
+   "report": null
+  },
+  "green": {
+   "before": [
+    7,
+    6
+   ],
+   "after": [
+    7,
+    6
+   ],
+   "reset_calls": [],
+   "error": "RuntimeError: E3-CPU injected block rejection (non-Incompatible)",
+   "report": null
+  }
+ },
+ "verdict": {
+  "P1_red_loss": true,
+  "P1_green_zero": true,
+  "P2_red_loss": true,
+  "P2_green_zero": true,
+  "C++": "未接上（受不重建 DLL 限制）"
+ },
+ "artifact": {
+  "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m6\\out\\M6B-B1-E3CPU.json",
+  "sha16": "972ceba30b505be7",
+  "bytes": 2611
+ }
+}

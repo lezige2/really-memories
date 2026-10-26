@@ -1,0 +1,65 @@
+{
+ "modes": [
+  "write_through",
+  "write_through",
+  "replace_fallback",
+  "replace_fallback"
+ ],
+ "checks": {
+  "session_state_manifest_fsync": {
+   "file": "tools/session_state.py",
+   "lines": [
+    326
+   ],
+   "ok": true
+  },
+  "session_state_durable_replace": {
+   "lines": [
+    327
+   ],
+   "ok": true
+  },
+  "kvslots_durable_replace": {
+   "lines": [
+    276
+   ],
+   "ok": true
+  },
+  "movefile_flags": {
+   "lines": [
+    58,
+    73
+   ],
+   "ok": true
+  },
+  "directory_flush_removed": {
+   "grep_dfd": 0,
+   "grep_FlushFileBuffers_code": [],
+   "ok": true
+  },
+  "ntfs_comment": {
+   "lines": [
+    56,
+    286,
+    41,
+    320
+   ],
+   "ok": true
+  }
+ },
+ "counts": {
+  "session_state": {
+   "write_through": 1,
+   "replace_fallback": 1
+  },
+  "kvslots": {
+   "write_through": 1,
+   "replace_fallback": 1
+  }
+ },
+ "artifact": {
+  "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m6\\out\\M6B-DURABILITY.json",
+  "sha16": "f2feb2aef6df3ea7",
+  "bytes": 2224
+ }
+}

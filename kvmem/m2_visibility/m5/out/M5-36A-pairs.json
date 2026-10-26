@@ -1,0 +1,350 @@
+{
+ "schema": "m5_36a_pairs_v1",
+ "task": "M5 36A pilot candidate (a) 30 pairs",
+ "scope": "CAND 候选冻结；不含意图标签；JUDGE 只看文本",
+ "prereg": {
+  "path": "docs/_work/PREREG-M5-PROBE.md",
+  "sha16": "04d7b8d644e69620",
+  "bytes": 7937
+ },
+ "created_at": "2026-10-26T09:30:46+0800",
+ "producer": {
+  "role": "CAND",
+  "method": "manual/rule-authored rewrites, not model-generated",
+  "model_calls": 0,
+  "why": "预登记 §2 只规定“CAND 写对”，未规定模型改写；旧 M5(a) 亦为零模型；CAND 不得看 JUDGE 输出，故本试跑不调用 36 层模型生成改写。"
+ },
+ "count": 30,
+ "pairs": [
+  {
+   "pair_id": "P01",
+   "orig": "我的车牌号是苏A12345。",
+   "rewrite": "我的车牌号是苏A12345。",
+   "dim": "不改写基线",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P02",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "我住在广陵路 12 号 2 单元 602。",
+   "dim": "不改写基线",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P03",
+   "orig": "我的车牌号是苏A12345。",
+   "rewrite": "车牌号苏A12345。",
+   "dim": "语序",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P04",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "广陵路 12 号 2 单元 602 是我的住处。",
+   "dim": "语序",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P05",
+   "orig": "我的车牌号是苏A12345。",
+   "rewrite": "问：车牌号是多少？答：苏A12345。",
+   "dim": "问答句",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P06",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目将在 3 月 14 日上线。",
+   "dim": "删修饰",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P07",
+   "orig": "我的车牌号是苏A12345。",
+   "rewrite": "车牌号是B3F19K。",
+   "dim": "硬事实替换",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P08",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目将在三月十四号上线。",
+   "dim": "日期等价",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P09",
+   "orig": "我的住址是广陵路 12 号 2 单元 603。",
+   "rewrite": "我的住址是广陵路 12 号 2 单元 603。",
+   "dim": "不改写基线",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P10",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "我住广陵路 12 号 2 单元 602。",
+   "dim": "删虚词",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P11",
+   "orig": "我的住址是广陵路 12 号 2 单元 603。",
+   "rewrite": "不是 602，我住在广陵路 12 号 2 单元 603。",
+   "dim": "否定语境",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P12",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目计划在 3 月 14 日上线，代号蓝鲸。",
+   "dim": "语序",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P13",
+   "orig": "我住在杭州西湖边。",
+   "rewrite": "我住在杭州西湖边。",
+   "dim": "硬事实替换",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P14",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目代号是蓝鲸。",
+   "dim": "删修饰",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P15",
+   "orig": "项目将在 3 月 15 日上线。",
+   "rewrite": "项目将在 3 月 15 日上线。",
+   "dim": "日期替换",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P16",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "问：项目代号是什么？答：蓝鲸。",
+   "dim": "问答句",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P17",
+   "orig": "项目将在 3 月 15 日上线。",
+   "rewrite": "项目上线时间定在 3 月 15 日，我记得是这样。",
+   "dim": "增饰",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P18",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "我现在的住处是广陵路 12 号 2 单元 602，一直没搬。",
+   "dim": "增饰",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P19",
+   "orig": "项目将在 3 月 16 日上线。",
+   "rewrite": "项目将在 3 月 16 日上线。",
+   "dim": "日期替换",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P20",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "问：你住哪里？答：广陵路 12 号 2 单元 602。",
+   "dim": "问答句",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P21",
+   "orig": "项目代号是海豚。",
+   "rewrite": "项目代号是海豚。",
+   "dim": "硬事实替换",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P22",
+   "orig": "我的咖啡只喝美式，不加糖。",
+   "rewrite": "我喝咖啡只喝美式，不加糖。",
+   "dim": "语序",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P23",
+   "orig": "我喝咖啡习惯是拿铁，加双份糖。",
+   "rewrite": "我喝咖啡习惯是拿铁，加双份糖。",
+   "dim": "硬事实替换",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P24",
+   "orig": "我的咖啡只喝美式，不加糖。",
+   "rewrite": "问：喝咖啡有什么习惯？答：只喝美式，不加糖。",
+   "dim": "问答句",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P25",
+   "orig": "我只喝龙井茶，不加糖。",
+   "rewrite": "我只喝龙井茶，不加糖。",
+   "dim": "硬事实替换",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P26",
+   "orig": "我的咖啡只喝美式，不加糖。",
+   "rewrite": "我的咖啡习惯是只喝美式，不加糖，别的都不喝。",
+   "dim": "增饰",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P27",
+   "orig": "我的手机号是 13800001234。",
+   "rewrite": "我的手机号是 13800001234。",
+   "dim": "硬事实替换",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P28",
+   "orig": "我的咖啡只喝美式，不加糖。",
+   "rewrite": "我的咖啡只喝美式，不加糖。",
+   "dim": "不改写基线",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P29",
+   "orig": "我住在广陵路 12 号 2 单元 601。",
+   "rewrite": "我住在广陵路 12 号 2 单元 601。",
+   "dim": "门牌替换",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  },
+  {
+   "pair_id": "P30",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目代号蓝鲸，计划在 3 月 14 日上线。",
+   "dim": "增饰",
+   "mounted": [
+    "home",
+    "project",
+    "habit"
+   ]
+  }
+ ]
+}

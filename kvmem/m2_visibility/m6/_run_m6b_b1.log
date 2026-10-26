@@ -1,0 +1,235 @@
+==========================================================================
+blocks from SQLite (D:\llama-mem\kvmem\chat.db)
+==========================================================================
+  row 1  profile  profile profile.kvmem (50 tokens)
+  row 1  profile  profile profile.kvmem (50 tokens)
+
+==========================================================================
+placement (engine-side, pure CPU rotation)
+==========================================================================
+  seq  block        tok  pos range       cells       ms     MiB/s
+==========================================================================
+blocks from SQLite (D:\llama-mem\kvmem\chat.db)
+==========================================================================
+  row 1  profile  profile profile.kvmem (50 tokens)
+  row 1  profile  profile profile.kvmem (50 tokens)
+
+==========================================================================
+placement (engine-side, pure CPU rotation)
+==========================================================================
+  seq  block        tok  pos range       cells       ms     MiB/s
+
+==========================================================================
+问：我的车牌号是多少？
+  状态：grounded  [[test]]  test
+  检索：profile(1.00)
+
+==========================================================================
+问：我的车牌号是多少？
+  状态：grounded  [[test]]  test
+  检索：profile(1.00)
+{
+ "red": {
+  "R1": {
+   "reset": 1,
+   "after": {
+    "seq0": [
+     0,
+     -1
+    ],
+    "seq1": [
+     7,
+     6
+    ]
+   },
+   "error": "RuntimeError: fake chat incompatible/refused"
+  },
+  "R2": {
+   "reset": 2,
+   "after": {
+    "seq0": [
+     0,
+     -1
+    ],
+    "seq1": [
+     0,
+     -1
+    ]
+   },
+   "error": "RuntimeError: fake block refused (non-Incompatible)"
+  }
+ },
+ "green_restore": {
+  "error": null,
+  "reset": 2,
+  "after": {
+   "seq0": [
+    189,
+    4284
+   ],
+   "seq1": [
+    50,
+    4095
+   ]
+  }
+ },
+ "baseline": {
+  "error": null,
+  "report": {
+   "shifts": 1,
+   "rebuilt": [],
+   "blocks": [
+    {
+     "block": "profile",
+     "slot_id": 0,
+     "role": "memory",
+     "start": 4046,
+     "end": 4096,
+     "n_tokens": 50
+    }
+   ],
+   "layout_problems": [],
+   "chat_bytes_verified": true,
+   "unvalidated_chat_bytes": false,
+   "chat_end": 4285,
+   "chat_n_tokens": 189,
+   "anchor": 4096
+  }
+ },
+ "mount": {
+  "P3": {
+   "red": {
+    "reset": 1,
+    "after": [
+     0,
+     -1
+    ],
+    "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+   },
+   "green": {
+    "reset": 0,
+    "after": [
+     7,
+     6
+    ],
+    "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+   }
+  },
+  "P4": {
+   "red": {
+    "reset": 1,
+    "after": [
+     0,
+     -1
+    ],
+    "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+   },
+   "green": {
+    "reset": 0,
+    "after": [
+     7,
+     6
+    ],
+    "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+   }
+  },
+  "P5": {
+   "red": {
+    "reset": 1,
+    "after": [
+     0,
+     -1
+    ],
+    "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+   },
+   "green": {
+    "reset": 0,
+    "after": [
+     7,
+     6
+    ],
+    "error": "RuntimeError: fake mount load refused (non-Incompatible)"
+   }
+  }
+ },
+ "zero": {
+  "fields": {
+   "shifts": {
+    "before": 1,
+    "after": 1,
+    "equal": true
+   },
+   "rebuilt": {
+    "before": [],
+    "after": [],
+    "equal": true
+   },
+   "blocks": {
+    "before": [
+     {
+      "block": "profile",
+      "slot_id": 0,
+      "role": "memory",
+      "start": 4046,
+      "end": 4096,
+      "n_tokens": 50
+     }
+    ],
+    "after": [
+     {
+      "block": "profile",
+      "slot_id": 0,
+      "role": "memory",
+      "start": 4046,
+      "end": 4096,
+      "n_tokens": 50
+     }
+    ],
+    "equal": true
+   },
+   "layout_problems": {
+    "before": [],
+    "after": [],
+    "equal": true
+   },
+   "chat_end": {
+    "before": 4285,
+    "after": 4285,
+    "equal": true
+   },
+   "chat_n_tokens": {
+    "before": 189,
+    "after": 189,
+    "equal": true
+   },
+   "anchor": {
+    "before": 4096,
+    "after": 4096,
+    "equal": true
+   },
+   "chat_bytes_verified": {
+    "before": true,
+    "after": true,
+    "equal": true
+   },
+   "unvalidated_chat_bytes": {
+    "before": false,
+    "after": false,
+    "equal": true
+   }
+  },
+  "reset_calls": {
+   "before": 2,
+   "after": 2
+  },
+  "error": {
+   "before": null,
+   "after": null
+  }
+ },
+ "artifact": {
+  "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m6\\out\\M6B-B1-FIX.json",
+  "sha16": "84afb3f08289aa4f",
+  "bytes": 6622
+ }
+}

@@ -1,0 +1,312 @@
+{
+ "schema": "m6b_atomic_static_v1",
+ "task": "M6B-F1 D: static invariant of save target writes (zero GPU)",
+ "at": "2026-10-26T09:28:01+0800",
+ "scope": "文件系统层 + 静态不变量；不替代 GPU kill 子臂（永久未做）",
+ "evidence_level": "E1/FS",
+ "not_gpu_kill": true,
+ "inventory_scope": "session save targets = the manifest path passed to session_state.save_session and its sibling *.chat.kvmem; plus the engine/native call chain that mutates them. Result/log/artifact JSON and DB files are not session manifests and are excluded.",
+ "search_commands": [
+  "grep -RIn --include='*.py' 'os\\.replace|os\\.rename|shutil\\.copy|shutil\\.copyfile|shutil\\.move' tools kvmem/m2_visibility",
+  "grep -RIn --include='*.py' '\\.save\\(|kvshim_save' tools",
+  "grep -RIn --include='*.py' '\\.chat\\.kvmem' tools kvmem/m2_visibility",
+  "grep -RIn 'state_seq_save_file|fopen|\"wb\"' llama.cpp/src tools/kvshim.cpp"
+ ],
+ "write_inventory": [
+  {
+   "file": "tools/kvslots.py",
+   "line": 231,
+   "operation": "tmp = path + '.tmp-<pid>-<uuid8>'",
+   "target_class": "sibling temp",
+   "atomic": true,
+   "classification": "product-chat-atomic"
+  },
+  {
+   "file": "tools/kvslots.py",
+   "line": 233,
+   "operation": "kvshim_save(..., tmp)",
+   "target_class": "sibling temp",
+   "atomic": true,
+   "classification": "product-chat-atomic (target is not the final path)"
+  },
+  {
+   "file": "tools/kvslots.py",
+   "line": 237,
+   "operation": "os.fsync(tmp.fileno())",
+   "target_class": "sibling temp",
+   "atomic": true,
+   "classification": "product-chat-durability"
+  },
+  {
+   "file": "tools/kvslots.py",
+   "line": 244,
+   "operation": "os.replace(tmp, path)",
+   "target_class": "final *.chat.kvmem",
+   "atomic": true,
+   "classification": "product-chat-atomic"
+  },
+  {
+   "file": "tools/kvslots.py",
+   "line": 252,
+   "operation": "directory fsync (POSIX; Windows no equivalent, best effort)",
+   "target_class": "parent dir",
+   "atomic": "best-effort",
+   "classification": "product-chat-dir-fsync"
+  },
+  {
+   "file": "tools/session_state.py",
+   "line": 230,
+   "operation": "chat_file = root + '.chat.kvmem'",
+   "target_class": "final *.chat.kvmem",
+   "atomic": true,
+   "classification": "product-chat-path-construction"
+  },
+  {
+   "file": "tools/session_state.py",
+   "line": 260,
+   "operation": "eng.save(0, chat_file) -> kvslots.save atomic temp+fsync+replace",
+   "target_class": "final *.chat.kvmem",
+   "atomic": true,
+   "classification": "product-chat-delegated-atomic"
+  },
+  {
+   "file": "tools/session_state.py",
+   "line": 287,
+   "operation": "with open(tmp, 'w') as f: json.dump(manifest, f)",
+   "target_class": "sibling manifest temp",
+   "atomic": true,
+   "classification": "product-manifest-temp (no fsync)"
+  },
+  {
+   "file": "tools/session_state.py",
+   "line": 289,
+   "operation": "os.replace(tmp, path)",
+   "target_class": "final manifest *.json",
+   "atomic": true,
+   "classification": "product-manifest-atomic-namespace-no-fsync"
+  },
+  {
+   "file": "tools/memory_source.py",
+   "line": 350,
+   "operation": "eng.save(seq, path) for block *.kvmem",
+   "target_class": "block *.kvmem (not chat/manifest)",
+   "atomic": true,
+   "classification": "product-block-atomic-via-kvslots"
+  },
+  {
+   "file": "tools/chat.py",
+   "line": 88,
+   "operation": "open(tmp,\"w\") + json.dump for M4C assertion log; :90 os.replace",
+   "target_class": "M4C assertion log (not session manifest)",
+   "atomic": true,
+   "classification": "non-target-log-no-fsync"
+  },
+  {
+   "file": "llama.cpp/src/llama-context.cpp",
+   "line": 3609,
+   "operation": "llama_file file(filepath, \"wb\") (engine primitive)",
+   "target_class": "whatever caller passes",
+   "atomic": false,
+   "classification": "engine direct-wb primitive; product passes temp via kvslots"
+  },
+  {
+   "file": "tools/kvshim.cpp",
+   "line": 581,
+   "operation": "llama_state_seq_save_file(..., path)",
+   "target_class": "caller path",
+   "atomic": false,
+   "classification": "native passthrough; caller tempifies"
+  }
+ ],
+ "atomic_target_mutation_points": [
+  {
+   "file": "tools/kvslots.py",
+   "line": 244,
+   "operation": "os.replace(tmp, path)",
+   "for": "*.chat.kvmem"
+  },
+  {
+   "file": "tools/session_state.py",
+   "line": 289,
+   "operation": "os.replace(tmp, path)",
+   "for": "*.json manifest"
+  }
+ ],
+ "non_atomic_writes": [],
+ "non_atomic_writes_note": "产品保存目标（session manifest / *.chat.kvmem）没有直接 open(target,\"wb\") / shutil.copy / 非 os.replace 的写点；所有产品目标变异都经 os.replace。test/probe 直接写 fixture 的清单另列，不计入产品不变量。",
+ "non_atomic_test_only": [
+  {
+   "file": "kvmem/m2_visibility/m7/_run_m7_e3_cpu.py",
+   "lines": [
+    182,
+    184,
+    208,
+    210,
+    235,
+    238
+   ],
+   "write": "json.dump(mm, open(s2_man,'w')) 及 shutil.copyfile(fixture_chat,...)",
+   "target_class": "14B 测试 fixture manifest/chat",
+   "product": false
+  },
+  {
+   "file": "kvmem/m2_visibility/m7/out/_e3gpu_run.py",
+   "lines": [
+    430,
+    431,
+    436,
+    477,
+    484,
+    524,
+    530
+   ],
+   "write": "shutil.copyfile + open(fixture_man,'w') + json.dump",
+   "target_class": "E3-GPU 测试 fixture",
+   "product": false
+  },
+  {
+   "file": "kvmem/m2_visibility/m7/_run_m7_f1_kill.py",
+   "line": 106,
+   "write": "shutil.copyfile(BASE[arm], target)",
+   "target_class": "kill 测试 fixture",
+   "product": false
+  },
+  {
+   "file": "kvmem/m2_visibility/m7/_run_m7_f2_unit.py",
+   "line": 149,
+   "write": "shutil.copyfile(... chat state ...)",
+   "target_class": "F2 测试 fixture",
+   "product": false
+  },
+  {
+   "file": "kvmem/m2_visibility/m6b/_run_m6b_b2.py",
+   "lines": [
+    164,
+    214,
+    221
+   ],
+   "write": "shutil.copyfile(PROJECT/src_chat, target)",
+   "target_class": "M6B 红臂/基线 fixture",
+   "product": false
+  },
+  {
+   "file": "tools/m2_visibility_probe.py",
+   "line": 417,
+   "write": "open(MANIFEST,'w') + json.dump",
+   "target_class": "probe fixtures.json (not session manifest)",
+   "product": false
+  },
+  {
+   "file": "tools/p0_2_check.py",
+   "lines": [
+    257,
+    270,
+    279
+   ],
+   "write": "open(p_bad*.json,'w') + json.dump",
+   "target_class": "负例 manifest（故意坏）",
+   "product": false
+  }
+ ],
+ "fsync_covered": {
+  "chat_tmp_data_fsync": {
+   "covered": true,
+   "site": "tools/kvslots.py:237"
+  },
+  "chat_directory_fsync": {
+   "covered": "best-effort only",
+   "site": "tools/kvslots.py:252-257",
+   "windows": "no directory fsync equivalent; silently skipped"
+  },
+  "manifest_tmp_data_fsync": {
+   "covered": false,
+   "site": "tools/session_state.py:287-289",
+   "gap": "json.dump -> os.replace; no fsync between them"
+  },
+  "manifest_directory_fsync": {
+   "covered": false,
+   "site": "tools/session_state.py:289",
+   "gap": "no directory fsync"
+  },
+  "after_replace_target_fsync": {
+   "covered": false,
+   "note": "not performed in either product save path"
+  }
+ },
+ "gaps": [
+  {
+   "id": "G-manifest-no-fsync",
+   "severity": "durability",
+   "file": "tools/session_state.py",
+   "line": 289,
+   "issue": "manifest temp 未 fsync 即 os.replace；掉电/内核崩溃后可能出现新名字但旧/零内容，命名原子不等于持久化原子；与本任务文件层 kill 无关，但属已知缺口。"
+  },
+  {
+   "id": "G-dir-no-fsync-windows",
+   "severity": "durability",
+   "file": "tools/kvslots.py",
+   "line": 252,
+   "issue": "目录 fsync 在 Windows 无等价物，被 except OSError 吞掉；属平台限制。"
+  },
+  {
+   "id": "G-no-startup-stale-cleanup",
+   "severity": "space/cleanup",
+   "file": "tools/kvslots.py",
+   "line": 264,
+   "issue": "只有同一进程 finally 删除自己的 tmp；SIGKILL 不会跑 finally，且没有启动时 stale tmp 扫描/清理。"
+  },
+  {
+   "id": "G-engine-direct-wb",
+   "severity": "precondition",
+   "file": "llama.cpp/src/llama-context.cpp",
+   "line": 3609,
+   "issue": "引擎原语直接 \"wb\" 打开调用者给的路径；产品必须保持“只把 temp 传给引擎”的前提，否则原子性失效。"
+  },
+  {
+   "id": "G-concurrent-savers",
+   "severity": "semantics",
+   "file": "tools/session_state.py",
+   "line": 289,
+   "issue": "两个并发 save 各自 replace，命名层不撕裂但最后写者胜；没有锁/版本检查。"
+  }
+ ],
+ "conclusion": {
+  "product_chat_target": "原子（temp+fsync+replace）",
+  "product_manifest_target": "命名原子（os.replace），但缺 tmp fsync/目录 fsync ⇒ 持久化缺口",
+  "product_non_atomic_writes": 0,
+  "test_only_non_atomic_writes": 7,
+  "note": "本件只做静态不变量与文件层；不替代 GPU kill 子臂。"
+ },
+ "source_files": {
+  "tools/kvslots.py": {
+   "path": "tools/kvslots.py",
+   "sha16": "a5c06b1939a418f2",
+   "bytes": 25933
+  },
+  "tools/session_state.py": {
+   "path": "tools/session_state.py",
+   "sha16": "ea021bb28168ebf2",
+   "bytes": 20463
+  },
+  "tools/memory_source.py": {
+   "path": "tools/memory_source.py",
+   "sha16": "af380cca548e8112",
+   "bytes": 33867
+  },
+  "tools/chat.py": {
+   "path": "tools/chat.py",
+   "sha16": "22081c411c64fbe7",
+   "bytes": 75310
+  },
+  "llama.cpp/src/llama-context.cpp": {
+   "path": "llama.cpp/src/llama-context.cpp",
+   "sha16": "dff9a28be65dd28a",
+   "bytes": 175025
+  },
+  "tools/kvshim.cpp": {
+   "path": "tools/kvshim.cpp",
+   "sha16": "bf8e26e7490c4fd2",
+   "bytes": 24827
+  }
+ }
+}

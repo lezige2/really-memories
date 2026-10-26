@@ -1,0 +1,116 @@
+{
+ "schema": "m5_36a_model_arm_result_v1",
+ "task": "M5 36A (a) model-arm ADJ/JUDGE; not merged with rule arm",
+ "at": "2026-10-26T09:40:35+08:00",
+ "arm": "14B@36-layer greedy model rewrites",
+ "files": {
+  "pairs": {
+   "path": "kvmem/m2_visibility/m5/out/M5-36A-pairs-model.json",
+   "sha16": "aa9e6106925657e1",
+   "bytes": 7851
+  },
+  "intent_sealed": {
+   "path": "kvmem/m2_visibility/m5/out/M5-36A-intent-sealed-model.json",
+   "sha16": "6e4656d3c41ec7d7",
+   "bytes": 1373
+  },
+  "pilot": {
+   "path": "kvmem/m2_visibility/m5/out/M5-36A-pilot-model.json",
+   "sha16": "b6f086bc771d37d4",
+   "bytes": 22809
+  },
+  "adj": {
+   "path": "kvmem/m2_visibility/m5/out/M5-36A-model-adj.json",
+   "sha16": "1b52862fe64ad384",
+   "bytes": 6035
+  },
+  "judge": {
+   "path": "kvmem/m2_visibility/m5/out/M5-36A-model-judge.json",
+   "sha16": "8bc7af8eb82aed86",
+   "bytes": 17928
+  },
+  "judge_script": {
+   "path": "kvmem/m2_visibility/m5/m5_ground.py",
+   "sha16": "86b7c501ab9904aa",
+   "bytes": 18496
+  }
+ },
+ "generator": {
+  "model_calls": 30,
+  "accepted": 16,
+  "excluded": 14,
+  "excluded_reason": "verbatim_copy",
+  "no_retry": true,
+  "no_regeneration": true,
+  "selection_by_judge": false,
+  "device": "36 layers readback + offloaded 36/49 + vulkan_imported=true; peak 7.3924 GiB"
+ },
+ "cand_excluded": {
+  "count": 14,
+  "reason": "verbatim_copy（模型原样复读；CAND 冻结不补生成）",
+  "pair_ids": [
+   "P01",
+   "P03",
+   "P05",
+   "P07",
+   "P09",
+   "P11",
+   "P13",
+   "P21",
+   "P22",
+   "P24",
+   "P25",
+   "P26",
+   "P27",
+   "P28"
+  ],
+  "note": "这是生成端剔除，不是 ADJ/JUDGE 的 excluded；不进 leak/false 分母"
+ },
+ "accepted_pairs": 16,
+ "adj_blinding": {
+  "labels_written_before_judge": true,
+  "intent_opened_after_adj": true,
+  "adj_orig_vs_intent_mismatches": []
+ },
+ "intent_counts": {
+  "supported": 11,
+  "unsupported": 5
+ },
+ "adj_counts": {
+  "supported": 11,
+  "unsupported": 5
+ },
+ "judge_counts": {
+  "supported": 11,
+  "unsupported": 5
+ },
+ "leak": {
+  "definition": "ADJ orig unsupported 且 JUDGE rewrite supported",
+  "events": [],
+  "count": 0,
+  "denominator": 5,
+  "rate": 0.0,
+  "sample_note": "分母 <10，样本量不足以给区间，只作装置可用性"
+ },
+ "false": {
+  "definition": "ADJ orig supported 且 JUDGE rewrite unsupported",
+  "events": [],
+  "count": 0,
+  "denominator": 11,
+  "rate": 0.0
+ },
+ "excluded": [],
+ "judge_adj_disagreements": [],
+ "no_single_accuracy": true,
+ "model_behavior_finding": {
+  "finding": "30 次调用中 14 次原样复读（verbatim_copy），accepted 16",
+  "interpretation": "模型在“改写含虚构事实的句子且不得增删事实”时倾向复读；这是装置/模型行为发现，不是判定器结论",
+  "not_a_judge_verdict": true
+ },
+ "pilot": {
+  "judge_adj_status": "未接上（两臂 ADJ/JUDGE 已各自出数；独立盲标 REVIEW 未到；两臂未合并）",
+  "usable_pass": false,
+  "reason": "预登记要求两臂各自出数且可用性清单闭合；尚未做 REVIEW 三方对齐，故不写“试跑可用性通过”"
+ },
+ "no_final_verdict": true
+}

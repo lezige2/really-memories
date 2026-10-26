@@ -1,0 +1,219 @@
+{
+ "schema": "m5_36a_pilot_v1",
+ "task": "M5 36A pilot (a) — CAND freeze + device self-proof only",
+ "role": "CAND",
+ "at": "2026-10-26T09:32:24+0800",
+ "scope": "仅 CAND 候选冻结与 36 层装置自证；不运行 JUDGE/ADJ，不出 M5 质量判决",
+ "prereg": {
+  "path": "D:\\llama-mem\\docs\\_work\\PREREG-M5-PROBE.md",
+  "sha16": "04d7b8d644e69620",
+  "bytes": 7937
+ },
+ "candidate": {
+  "pairs": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5-36A-pairs.json",
+   "sha16": "f0767d84c16c31bb",
+   "bytes": 7503
+  },
+  "intent_sealed": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5-36A-intent-sealed.json",
+   "sha16": "9f14097996e5deb9",
+   "bytes": 2184
+  },
+  "pairs_model_calls": 0,
+  "producer_explanation": "预登记 §2 只写“CAND 写对”，未规定模型改写；沿用旧 M5(a) 零模型口径，人工/规则改写，model_calls=0；不是模型生成。"
+ },
+ "judge_adj": {
+  "status": "已接（含 1 类阻塞缺陷 no_fact_to_supported，2 例）",
+  "judge_sha16": "86b7c501ab9904aa",
+  "review_sha16": "39d1d24860294ee3",
+  "three_way": {
+   "adj_vs_review": "30/30",
+   "judge_vs_review": "28/30",
+   "disagreements": [
+    "P13",
+    "P25"
+   ]
+  },
+  "judge_defect": {
+   "id": "no_fact_to_supported",
+   "count": 2,
+   "pairs": [
+    "P13",
+    "P25"
+   ],
+   "severity": "阻塞（阻断全量）"
+  },
+  "criteria_status": "判据可用、判定器有缺陷（判据本身不作废）"
+ },
+ "device": {
+  "vulkan_imported": true,
+  "n_gpu_layers_readback": 36,
+  "n_gpu_layers_readback_total": 49,
+  "offloaded_log_line": "offloaded 36/49 layers to GPU",
+  "load_s": 42.36,
+  "n_ctx": 8192,
+  "n_seq": 8,
+  "kv": "q8_0",
+  "chat_start": 4096,
+  "model_calls": 0,
+  "engine_opened": true
+ },
+ "device_proof": {
+  "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+  "model_bytes": 8988110240,
+  "dll": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+  "dll_sha16": "9edbafa150700614",
+  "dll_bytes": 50007552,
+  "n_gpu_layers": 36,
+  "log_path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_m5_device_llama.log",
+  "log_sha16": "efa013fee0c2944c",
+  "peak_gib": 7.352,
+  "vram_gate_gib": 8.6,
+  "gate": {
+   "pnp_rndis_usb_audio": 0,
+   "vram_baseline_gib": 0.4433,
+   "free_ram_kb": 12479636,
+   "gpu_procs_gt256mb": 0,
+   "browser_or_code_procs": 0,
+   "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+   "prereg_sha16": "04d7b8d644e69620",
+   "prereg_ok": true,
+   "dll_sha16": "9edbafa150700614",
+   "dll_ok": true,
+   "model_ok": true,
+   "free_ram_ok": true,
+   "vram_baseline_ok": true,
+   "pnp_ok": true,
+   "gpu_procs_ok": true,
+   "browsers_ok": true
+  },
+  "gate_ok": true,
+  "host_before": {
+   "tag": "before_m5",
+   "collected_at": "2026-10-26T09:31:29+0800",
+   "boot": {
+    "command": "(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString('o')",
+    "rc": 0,
+    "collected_at": "2026-10-26T09:31:28+0800",
+    "stdout": "2026-10-26T03:24:52.5000000+08:00",
+    "stderr": ""
+   },
+   "minidump": {
+    "command": "Get-ChildItem -LiteralPath 'C:\\Windows\\Minidump' -Filter '*.dmp' -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime | Select-Object Name,Length,@{n='LastWriteTime';e={$_.LastWriteTime.ToString('o')}} | ConvertTo-Json -Compress",
+    "rc": 0,
+    "collected_at": "2026-10-26T09:31:29+0800",
+    "stdout": "[{\"Name\":\"102626-5187-01.dmp\",\"Length\":2201077,\"LastWriteTime\":\"2026-10-26T01:31:36.2997028+08:00\"},{\"Name\":\"102626-4468-01.dmp\",\"Length\":1994809,\"LastWriteTime\":\"2026-10-26T01:38:56.5625530+08:00\"},{\"Name\":\"102626-4593-01.dmp\",\"Length\":1063617,\"LastWriteTime\":\"2026-10-26T01:56:32.6758278+08:00\"},{\"Name\":\"102626-4437-01.dmp\",\"Length\":2062496,\"LastWriteTime\":\"2026-10-26T03:10:17.4578327+08:00\"},{\"Name\":\"102626-4671-01.dmp\",\"Length\":2043758,\"LastWriteTime\":\"2026-10-26T03:24:55.7693314+08:00\"}]",
+    "stderr": ""
+   },
+   "parsed": {
+    "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+    "dumps": [
+     {
+      "name": "102626-5187-01.dmp",
+      "bytes": 2201077,
+      "mtime": "2026-10-26T01:31:36.2997028+08:00"
+     },
+     {
+      "name": "102626-4468-01.dmp",
+      "bytes": 1994809,
+      "mtime": "2026-10-26T01:38:56.5625530+08:00"
+     },
+     {
+      "name": "102626-4593-01.dmp",
+      "bytes": 1063617,
+      "mtime": "2026-10-26T01:56:32.6758278+08:00"
+     },
+     {
+      "name": "102626-4437-01.dmp",
+      "bytes": 2062496,
+      "mtime": "2026-10-26T03:10:17.4578327+08:00"
+     },
+     {
+      "name": "102626-4671-01.dmp",
+      "bytes": 2043758,
+      "mtime": "2026-10-26T03:24:55.7693314+08:00"
+     }
+    ],
+    "existing_count": 5,
+    "latest_mtime": "2026-10-26T03:24:55.7693314+08:00"
+   }
+  },
+  "host_after": {
+   "tag": "after_m5",
+   "collected_at": "2026-10-26T09:32:24+0800",
+   "boot": {
+    "command": "(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString('o')",
+    "rc": 0,
+    "collected_at": "2026-10-26T09:32:23+0800",
+    "stdout": "2026-10-26T03:24:52.5000000+08:00",
+    "stderr": ""
+   },
+   "minidump": {
+    "command": "Get-ChildItem -LiteralPath 'C:\\Windows\\Minidump' -Filter '*.dmp' -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime | Select-Object Name,Length,@{n='LastWriteTime';e={$_.LastWriteTime.ToString('o')}} | ConvertTo-Json -Compress",
+    "rc": 0,
+    "collected_at": "2026-10-26T09:32:24+0800",
+    "stdout": "[{\"Name\":\"102626-5187-01.dmp\",\"Length\":2201077,\"LastWriteTime\":\"2026-10-26T01:31:36.2997028+08:00\"},{\"Name\":\"102626-4468-01.dmp\",\"Length\":1994809,\"LastWriteTime\":\"2026-10-26T01:38:56.5625530+08:00\"},{\"Name\":\"102626-4593-01.dmp\",\"Length\":1063617,\"LastWriteTime\":\"2026-10-26T01:56:32.6758278+08:00\"},{\"Name\":\"102626-4437-01.dmp\",\"Length\":2062496,\"LastWriteTime\":\"2026-10-26T03:10:17.4578327+08:00\"},{\"Name\":\"102626-4671-01.dmp\",\"Length\":2043758,\"LastWriteTime\":\"2026-10-26T03:24:55.7693314+08:00\"}]",
+    "stderr": ""
+   },
+   "parsed": {
+    "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+    "dumps": [
+     {
+      "name": "102626-5187-01.dmp",
+      "bytes": 2201077,
+      "mtime": "2026-10-26T01:31:36.2997028+08:00"
+     },
+     {
+      "name": "102626-4468-01.dmp",
+      "bytes": 1994809,
+      "mtime": "2026-10-26T01:38:56.5625530+08:00"
+     },
+     {
+      "name": "102626-4593-01.dmp",
+      "bytes": 1063617,
+      "mtime": "2026-10-26T01:56:32.6758278+08:00"
+     },
+     {
+      "name": "102626-4437-01.dmp",
+      "bytes": 2062496,
+      "mtime": "2026-10-26T03:10:17.4578327+08:00"
+     },
+     {
+      "name": "102626-4671-01.dmp",
+      "bytes": 2043758,
+      "mtime": "2026-10-26T03:24:55.7693314+08:00"
+     }
+    ],
+    "existing_count": 5,
+    "latest_mtime": "2026-10-26T03:24:55.7693314+08:00"
+   }
+  },
+  "reboot": {
+   "boot_id_before": "2026-10-26T03:24:52.5000000+08:00",
+   "boot_id_after": "2026-10-26T03:24:52.5000000+08:00",
+   "minidump_before_count": 5,
+   "minidump_existing_count": 5,
+   "minidump_latest_mtime": "2026-10-26T03:24:55.7693314+08:00",
+   "minidump_new": false,
+   "minidump_new_files": [],
+   "boot_changed": false
+  }
+ },
+ "status": "装置自证可用；判定器可用性未全绿；pilot 未通过",
+ "error": null,
+ "limitations": [
+  "两臂已接；判定器 no_fact_to_supported 阻塞全量，pilot 未通过",
+  "未做 (c)；未写最终判决；未对任何 GPU 进程发信号"
+ ],
+ "availability_checklist": {
+  "装置自证": "通过",
+  "规则臂 ADJ/JUDGE": "完成",
+  "模型臂 ADJ/JUDGE": "完成（accepted 16；14/30 verbatim_copy；仅装置可用性）",
+  "三方对齐": "完成（ADJ/REVIEW 30/30；JUDGE/REVIEW 28/30）",
+  "判定器可用性": "未全绿",
+  "阻塞项": "judge_defect: no_fact_to_supported（P13/P25，2 例；阻断全量）",
+  "pilot可用性": "未通过（不写最终判决）"
+ },
+ "no_final_verdict": true
+}

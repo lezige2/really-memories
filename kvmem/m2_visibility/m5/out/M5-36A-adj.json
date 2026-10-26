@@ -1,0 +1,326 @@
+{
+ "schema": "m5_36a_adj_v1",
+ "task": "M5 36A (a) rule-arm ADJ blind labels, 30 pairs",
+ "adjudicator": "inspector (ADJ; not CAND/JUDGE)",
+ "blinding": "labels fixed before JUDGE run; intent-sealed not opened before this file was written",
+ "rubric": "M5-CRITERIA frozen + pre-reg: supported=all extracted hard facts hit source; unsupported=at least one unhit, not exempt/blacklist; undecidable=source fails/traditional/P-c unresolved; shortcut insensitive to rewrite",
+ "source": {
+  "mounted": [
+   "home",
+   "project",
+   "habit"
+  ],
+  "texts": [
+   "我住在广陵路 12 号 2 单元 602。",
+   "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "我的咖啡只喝美式，不加糖。"
+  ]
+ },
+ "pairs_path": "kvmem/m2_visibility/m5/out/M5-36A-pairs.json",
+ "pairs_sha16": "f0767d84c16c31bb",
+ "count": 30,
+ "created_at": "2026-10-26T09:35:12+08:00",
+ "judge_adj_status": "未接上（只完成 ADJ；JUDGE 与模型臂未完成）",
+ "pairs": [
+  {
+   "pair_id": "P01",
+   "orig": "我的车牌号是苏A12345。",
+   "rewrite": "我的车牌号是苏A12345。",
+   "dim": "不改写基线",
+   "adj_orig": "unsupported",
+   "adj_rewrite": "unsupported",
+   "pair_verdict": "unsupported",
+   "basis": "A 苏A12345 不在三块源文（源文无车牌事实）"
+  },
+  {
+   "pair_id": "P02",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "我住在广陵路 12 号 2 单元 602。",
+   "dim": "不改写基线",
+   "adj_orig": "supported",
+   "adj_rewrite": "supported",
+   "pair_verdict": "supported",
+   "basis": "P 广陵路 + N 12/2/602 全部命中 home"
+  },
+  {
+   "pair_id": "P03",
+   "orig": "我的车牌号是苏A12345。",
+   "rewrite": "车牌号苏A12345。",
+   "dim": "语序",
+   "adj_orig": "unsupported",
+   "adj_rewrite": "unsupported",
+   "pair_verdict": "unsupported",
+   "basis": "A 苏A12345 未命中"
+  },
+  {
+   "pair_id": "P04",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "广陵路 12 号 2 单元 602 是我的住处。",
+   "dim": "语序",
+   "adj_orig": "supported",
+   "adj_rewrite": "supported",
+   "pair_verdict": "supported",
+   "basis": "P 广陵路（“我的”作 P-c 子串宽匹配）+ N 12/2/602 命中"
+  },
+  {
+   "pair_id": "P05",
+   "orig": "我的车牌号是苏A12345。",
+   "rewrite": "问：车牌号是多少？答：苏A12345。",
+   "dim": "问答句",
+   "adj_orig": "unsupported",
+   "adj_rewrite": "unsupported",
+   "pair_verdict": "unsupported",
+   "basis": "A 苏A12345 未命中；问答句不改变事实缺失"
+  },
+  {
+   "pair_id": "P06",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目将在 3 月 14 日上线。",
+   "dim": "删修饰",
+   "adj_orig": "supported",
+   "adj_rewrite": "supported",
+   "pair_verdict": "supported",
+   "basis": "D 3/14 命中；删“代号蓝鲸”不产生新事实"
+  },
+  {
+   "pair_id": "P07",
+   "orig": "我的车牌号是苏A12345。",
+   "rewrite": "车牌号是B3F19K。",
+   "dim": "硬事实替换",
+   "adj_orig": "unsupported",
+   "adj_rewrite": "unsupported",
+   "pair_verdict": "unsupported",
+   "basis": "A 是B3F19K/B3F19K 未命中源文"
+  },
+  {
+   "pair_id": "P08",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目将在三月十四号上线。",
+   "dim": "日期等价",
+   "adj_orig": "supported",
+   "adj_rewrite": "supported",
+   "pair_verdict": "supported",
+   "basis": "D 三月十四 = 3/14 命中；N 十四 亦在源文日期中"
+  },
+  {
+   "pair_id": "P09",
+   "orig": "我的住址是广陵路 12 号 2 单元 603。",
+   "rewrite": "我的住址是广陵路 12 号 2 单元 603。",
+   "dim": "不改写基线",
+   "adj_orig": "unsupported",
+   "adj_rewrite": "unsupported",
+   "pair_verdict": "unsupported",
+   "basis": "N 603 未命中（源文只有 602）"
+  },
+  {
+   "pair_id": "P10",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "我住广陵路 12 号 2 单元 602。",
+   "dim": "删虚词",
+   "adj_orig": "supported",
+   "adj_rewrite": "supported",
+   "pair_verdict": "supported",
+   "basis": "P 广陵路 + N 602 命中"
+  },
+  {
+   "pair_id": "P11",
+   "orig": "我的住址是广陵路 12 号 2 单元 603。",
+   "rewrite": "不是 602，我住在广陵路 12 号 2 单元 603。",
+   "dim": "否定语境",
+   "adj_orig": "unsupported",
+   "adj_rewrite": "unsupported",
+   "pair_verdict": "unsupported",
+   "basis": "N 603 未命中；“不是602”只豁免 602，不豁免 603"
+  },
+  {
+   "pair_id": "P12",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目计划在 3 月 14 日上线，代号蓝鲸。",
+   "dim": "语序",
+   "adj_orig": "supported",
+   "adj_rewrite": "supported",
+   "pair_verdict": "supported",
+   "basis": "P 蓝鲸 + D 3/14 命中"
+  },
+  {
+   "pair_id": "P13",
+   "orig": "我住在杭州西湖边。",
+   "rewrite": "我住在杭州西湖边。",
+   "dim": "硬事实替换",
+   "adj_orig": "unsupported",
+   "adj_rewrite": "unsupported",
+   "pair_verdict": "unsupported",
+   "basis": "“杭州西湖边”无任何可抽取硬事实命中；源文无杭州/西湖"
+  },
+  {
+   "pair_id": "P14",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目代号是蓝鲸。",
+   "dim": "删修饰",
+   "adj_orig": "supported",
+   "adj_rewrite": "supported",
+   "pair_verdict": "supported",
+   "basis": "P 蓝鲸 命中；删日期不产生新事实"
+  },
+  {
+   "pair_id": "P15",
+   "orig": "项目将在 3 月 15 日上线。",
+   "rewrite": "项目将在 3 月 15 日上线。",
+   "dim": "日期替换",
+   "adj_orig": "unsupported",
+   "adj_rewrite": "unsupported",
+   "pair_verdict": "unsupported",
+   "basis": "D 3/15 未命中（源文 3/14）"
+  },
+  {
+   "pair_id": "P16",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "问：项目代号是什么？答：蓝鲸。",
+   "dim": "问答句",
+   "adj_orig": "supported",
+   "adj_rewrite": "supported",
+   "pair_verdict": "supported",
+   "basis": "P 蓝鲸 命中；疑问词/代号字段不进事实"
+  },
+  {
+   "pair_id": "P17",
+   "orig": "项目将在 3 月 15 日上线。",
+   "rewrite": "项目上线时间定在 3 月 15 日，我记得是这样。",
+   "dim": "增饰",
+   "adj_orig": "unsupported",
+   "adj_rewrite": "unsupported",
+   "pair_verdict": "unsupported",
+   "basis": "D 3/15 未命中；“这样”亦无源文"
+  },
+  {
+   "pair_id": "P18",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "我现在的住处是广陵路 12 号 2 单元 602，一直没搬。",
+   "dim": "增饰",
+   "adj_orig": "supported",
+   "adj_rewrite": "supported",
+   "pair_verdict": "supported",
+   "basis": "P 广陵路 + N 602 命中；“一直没搬”不产生硬事实"
+  },
+  {
+   "pair_id": "P19",
+   "orig": "项目将在 3 月 16 日上线。",
+   "rewrite": "项目将在 3 月 16 日上线。",
+   "dim": "日期替换",
+   "adj_orig": "unsupported",
+   "adj_rewrite": "unsupported",
+   "pair_verdict": "unsupported",
+   "basis": "D 3/16 未命中"
+  },
+  {
+   "pair_id": "P20",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "问：你住哪里？答：广陵路 12 号 2 单元 602。",
+   "dim": "问答句",
+   "adj_orig": "supported",
+   "adj_rewrite": "supported",
+   "pair_verdict": "supported",
+   "basis": "P 广陵路 + N 602 命中"
+  },
+  {
+   "pair_id": "P21",
+   "orig": "项目代号是海豚。",
+   "rewrite": "项目代号是海豚。",
+   "dim": "硬事实替换",
+   "adj_orig": "unsupported",
+   "adj_rewrite": "unsupported",
+   "pair_verdict": "unsupported",
+   "basis": "P 海豚 未命中（源文代号蓝鲸）"
+  },
+  {
+   "pair_id": "P22",
+   "orig": "我的咖啡只喝美式，不加糖。",
+   "rewrite": "我喝咖啡只喝美式，不加糖。",
+   "dim": "语序",
+   "adj_orig": "supported",
+   "adj_rewrite": "supported",
+   "pair_verdict": "supported",
+   "basis": "“美式/不加糖”均源自 habit，无 unhit 硬事实"
+  },
+  {
+   "pair_id": "P23",
+   "orig": "我喝咖啡习惯是拿铁，加双份糖。",
+   "rewrite": "我喝咖啡习惯是拿铁，加双份糖。",
+   "dim": "硬事实替换",
+   "adj_orig": "unsupported",
+   "adj_rewrite": "unsupported",
+   "pair_verdict": "unsupported",
+   "basis": "P 拿铁 未命中；双份糖/糖亦无源文事实"
+  },
+  {
+   "pair_id": "P24",
+   "orig": "我的咖啡只喝美式，不加糖。",
+   "rewrite": "问：喝咖啡有什么习惯？答：只喝美式，不加糖。",
+   "dim": "问答句",
+   "adj_orig": "supported",
+   "adj_rewrite": "supported",
+   "pair_verdict": "supported",
+   "basis": "只喝美式/不加糖 源自 habit，无 unhit 硬事实"
+  },
+  {
+   "pair_id": "P25",
+   "orig": "我只喝龙井茶，不加糖。",
+   "rewrite": "我只喝龙井茶，不加糖。",
+   "dim": "硬事实替换",
+   "adj_orig": "unsupported",
+   "adj_rewrite": "unsupported",
+   "pair_verdict": "unsupported",
+   "basis": "“龙井茶”无任何可抽取硬事实命中；源文无茶事实"
+  },
+  {
+   "pair_id": "P26",
+   "orig": "我的咖啡只喝美式，不加糖。",
+   "rewrite": "我的咖啡习惯是只喝美式，不加糖，别的都不喝。",
+   "dim": "增饰",
+   "adj_orig": "supported",
+   "adj_rewrite": "supported",
+   "pair_verdict": "supported",
+   "basis": "P 美式 命中；增饰“别的都不喝”不产生新硬事实"
+  },
+  {
+   "pair_id": "P27",
+   "orig": "我的手机号是 13800001234。",
+   "rewrite": "我的手机号是 13800001234。",
+   "dim": "硬事实替换",
+   "adj_orig": "unsupported",
+   "adj_rewrite": "unsupported",
+   "pair_verdict": "unsupported",
+   "basis": "N 13800001234 未命中"
+  },
+  {
+   "pair_id": "P28",
+   "orig": "我的咖啡只喝美式，不加糖。",
+   "rewrite": "我的咖啡只喝美式，不加糖。",
+   "dim": "不改写基线",
+   "adj_orig": "supported",
+   "adj_rewrite": "supported",
+   "pair_verdict": "supported",
+   "basis": "美式/不加糖 源自 habit"
+  },
+  {
+   "pair_id": "P29",
+   "orig": "我住在广陵路 12 号 2 单元 601。",
+   "rewrite": "我住在广陵路 12 号 2 单元 601。",
+   "dim": "门牌替换",
+   "adj_orig": "unsupported",
+   "adj_rewrite": "unsupported",
+   "pair_verdict": "unsupported",
+   "basis": "N 601 未命中（源文 602）"
+  },
+  {
+   "pair_id": "P30",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目代号蓝鲸，计划在 3 月 14 日上线。",
+   "dim": "增饰",
+   "adj_orig": "supported",
+   "adj_rewrite": "supported",
+   "pair_verdict": "supported",
+   "basis": "P 蓝鲸 + D 3/14 命中"
+  }
+ ]
+}

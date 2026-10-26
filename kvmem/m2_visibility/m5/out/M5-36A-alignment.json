@@ -1,0 +1,1793 @@
+{
+ "schema": "m5_36a_alignment_v1",
+ "task": "M5 36A (a) rule-arm three-way ADJ/JUDGE/REVIEW alignment",
+ "at": "2026-10-26T09:42:16+08:00",
+ "truth_source": "docs/_work/REVIEW-M5-36A-blind.json（独立盲标复核者；LEAD 采纳为真值）",
+ "inputs": {
+  "pairs": {
+   "path": "kvmem/m2_visibility/m5/out/M5-36A-pairs.json",
+   "sha16": "f0767d84c16c31bb",
+   "bytes": 7503
+  },
+  "intent_sealed": {
+   "path": "kvmem/m2_visibility/m5/out/M5-36A-intent-sealed.json",
+   "sha16": "9f14097996e5deb9",
+   "bytes": 2184
+  },
+  "ADJ": {
+   "path": "kvmem/m2_visibility/m5/out/M5-36A-adj.json",
+   "sha16": "1f5d7a5447478802",
+   "bytes": 10653
+  },
+  "JUDGE": {
+   "path": "kvmem/m2_visibility/m5/out/M5-36A-judge.json",
+   "sha16": "bff8a34ba652d1e2",
+   "bytes": 27935
+  },
+  "REVIEW": {
+   "path": "docs/_work/REVIEW-M5-36A-blind.json",
+   "sha16": "39d1d24860294ee3",
+   "bytes": 9143
+  },
+  "judge_script": {
+   "path": "kvmem/m2_visibility/m5/m5_ground.py",
+   "sha16": "86b7c501ab9904aa",
+   "bytes": 18496
+  },
+  "model_arm": {
+   "pairs": {
+    "path": "kvmem/m2_visibility/m5/out/M5-36A-pairs-model.json",
+    "sha16": "aa9e6106925657e1",
+    "bytes": 7851
+   },
+   "intent": {
+    "path": "kvmem/m2_visibility/m5/out/M5-36A-intent-sealed-model.json",
+    "sha16": "6e4656d3c41ec7d7",
+    "bytes": 1373
+   },
+   "pilot": {
+    "path": "kvmem/m2_visibility/m5/out/M5-36A-pilot-model.json",
+    "sha16": "b6f086bc771d37d4",
+    "bytes": 22809
+   }
+  }
+ },
+ "labels": [
+  {
+   "pair_id": "P01",
+   "orig": "我的车牌号是苏A12345。",
+   "rewrite": "我的车牌号是苏A12345。",
+   "orig_eq_rewrite": true,
+   "ADJ": {
+    "orig": "unsupported",
+    "rewrite": "unsupported"
+   },
+   "JUDGE": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "orig_facts": [
+     {
+      "family": "A",
+      "raw": "苏A12345",
+      "key": "苏A12345",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "A",
+      "raw": "苏A12345",
+      "key": "苏A12345",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "reason": "苏A12345 这一号牌硬事实未在三条源文中出现，属无中生有。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P02",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "我住在广陵路 12 号 2 单元 602。",
+   "orig_eq_rewrite": true,
+   "ADJ": {
+    "orig": "supported",
+    "rewrite": "supported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [
+     {
+      "family": "P",
+      "raw": "广陵路",
+      "key": "广陵路",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "12",
+      "key": "12",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "2",
+      "key": "2",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "602",
+      "key": "602",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "P",
+      "raw": "广陵路",
+      "key": "广陵路",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "12",
+      "key": "12",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "2",
+      "key": "2",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "602",
+      "key": "602",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "reason": "广陵路、12、2、602 全部命中 home 源文，无新增硬事实。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P03",
+   "orig": "我的车牌号是苏A12345。",
+   "rewrite": "车牌号苏A12345。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "unsupported",
+    "rewrite": "unsupported"
+   },
+   "JUDGE": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "orig_facts": [
+     {
+      "family": "A",
+      "raw": "苏A12345",
+      "key": "苏A12345",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "A",
+      "raw": "苏A12345",
+      "key": "苏A12345",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "reason": "苏A12345 这一号牌硬事实未在源文中出现，仅语序改变。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P04",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "广陵路 12 号 2 单元 602 是我的住处。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "supported",
+    "rewrite": "supported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [
+     {
+      "family": "P",
+      "raw": "广陵路",
+      "key": "广陵路",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "12",
+      "key": "12",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "2",
+      "key": "2",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "602",
+      "key": "602",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "P",
+      "raw": "我的住处",
+      "key": "我的住处",
+      "sentence": 0,
+      "hit": true,
+      "origin": "P-c"
+     },
+     {
+      "family": "P",
+      "raw": "广陵路",
+      "key": "广陵路",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "12",
+      "key": "12",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "2",
+      "key": "2",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "602",
+      "key": "602",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "reason": "广陵路、12、2、602 全部命中；“住处”为泛指而非硬事实。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P05",
+   "orig": "我的车牌号是苏A12345。",
+   "rewrite": "问：车牌号是多少？答：苏A12345。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "unsupported",
+    "rewrite": "unsupported"
+   },
+   "JUDGE": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "orig_facts": [
+     {
+      "family": "A",
+      "raw": "苏A12345",
+      "key": "苏A12345",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "A",
+      "raw": "苏A12345",
+      "key": "苏A12345",
+      "sentence": 1,
+      "hit": false,
+      "origin": null
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "reason": "答句中的苏A12345 未在源文出现，问句部分不含硬事实。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P06",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目将在 3 月 14 日上线。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "supported",
+    "rewrite": "supported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [
+     {
+      "family": "D",
+      "raw": "3月14日",
+      "key": "('MD', 3, 14)",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "P",
+      "raw": "蓝鲸",
+      "key": "蓝鲸",
+      "sentence": 0,
+      "hit": true,
+      "origin": "P-c"
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "D",
+      "raw": "3月14日",
+      "key": "('MD', 3, 14)",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "reason": "3 月 14 日命中 project 源文；删去“蓝鲸”不新增硬事实。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P07",
+   "orig": "我的车牌号是苏A12345。",
+   "rewrite": "车牌号是B3F19K。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "unsupported",
+    "rewrite": "unsupported"
+   },
+   "JUDGE": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "orig_facts": [
+     {
+      "family": "A",
+      "raw": "苏A12345",
+      "key": "苏A12345",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "A",
+      "raw": "是B3F19K",
+      "key": "是B3F19K",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "reason": "B3F19K 未在源文出现，替换掉了源文的苏A12345。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P08",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目将在三月十四号上线。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "supported",
+    "rewrite": "supported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [
+     {
+      "family": "D",
+      "raw": "3月14日",
+      "key": "('MD', 3, 14)",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "P",
+      "raw": "蓝鲸",
+      "key": "蓝鲸",
+      "sentence": 0,
+      "hit": true,
+      "origin": "P-c"
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "D",
+      "raw": "三月十四号",
+      "key": "('MD', 3, 14)",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "reason": "“三月十四号”与源文 3 月 14 日为同一日期，无新增硬事实。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P09",
+   "orig": "我的住址是广陵路 12 号 2 单元 603。",
+   "rewrite": "我的住址是广陵路 12 号 2 单元 603。",
+   "orig_eq_rewrite": true,
+   "ADJ": {
+    "orig": "unsupported",
+    "rewrite": "unsupported"
+   },
+   "JUDGE": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "orig_facts": [
+     {
+      "family": "P",
+      "raw": "广陵路",
+      "key": "广陵路",
+      "sentence": 0,
+      "hit": true,
+      "origin": "P-c"
+     },
+     {
+      "family": "N",
+      "raw": "12",
+      "key": "12",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "2",
+      "key": "2",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "603",
+      "key": "603",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "P",
+      "raw": "广陵路",
+      "key": "广陵路",
+      "sentence": 0,
+      "hit": true,
+      "origin": "P-c"
+     },
+     {
+      "family": "N",
+      "raw": "12",
+      "key": "12",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "2",
+      "key": "2",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "603",
+      "key": "603",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "reason": "603 与源文 602 不符，数字硬事实未命中。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P10",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "我住广陵路 12 号 2 单元 602。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "supported",
+    "rewrite": "supported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [
+     {
+      "family": "P",
+      "raw": "广陵路",
+      "key": "广陵路",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "12",
+      "key": "12",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "2",
+      "key": "2",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "602",
+      "key": "602",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "P",
+      "raw": "广陵路",
+      "key": "广陵路",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "12",
+      "key": "12",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "2",
+      "key": "2",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "602",
+      "key": "602",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "reason": "广陵路、12、2、602 全部命中，仅删去虚词“在”。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P11",
+   "orig": "我的住址是广陵路 12 号 2 单元 603。",
+   "rewrite": "不是 602，我住在广陵路 12 号 2 单元 603。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "unsupported",
+    "rewrite": "unsupported"
+   },
+   "JUDGE": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "orig_facts": [
+     {
+      "family": "P",
+      "raw": "广陵路",
+      "key": "广陵路",
+      "sentence": 0,
+      "hit": true,
+      "origin": "P-c"
+     },
+     {
+      "family": "N",
+      "raw": "12",
+      "key": "12",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "2",
+      "key": "2",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "603",
+      "key": "603",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "P",
+      "raw": "广陵路",
+      "key": "广陵路",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "602",
+      "key": "602",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "12",
+      "key": "12",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "2",
+      "key": "2",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "603",
+      "key": "603",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "reason": "603 未在源文（源文为 602）；否定语境里的 602 本身命中，但 603 仍属无中生有。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P12",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目计划在 3 月 14 日上线，代号蓝鲸。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "supported",
+    "rewrite": "supported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [
+     {
+      "family": "D",
+      "raw": "3月14日",
+      "key": "('MD', 3, 14)",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "P",
+      "raw": "蓝鲸",
+      "key": "蓝鲸",
+      "sentence": 0,
+      "hit": true,
+      "origin": "P-c"
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "D",
+      "raw": "3月14日",
+      "key": "('MD', 3, 14)",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "P",
+      "raw": "蓝鲸",
+      "key": "蓝鲸",
+      "sentence": 0,
+      "hit": true,
+      "origin": "P-c"
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "reason": "蓝鲸、3 月 14 日均命中 project 源文，仅调整语序。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P13",
+   "orig": "我住在杭州西湖边。",
+   "rewrite": "我住在杭州西湖边。",
+   "orig_eq_rewrite": true,
+   "ADJ": {
+    "orig": "unsupported",
+    "rewrite": "unsupported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [],
+    "rewrite_facts": []
+   },
+   "REVIEW": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "reason": "杭州、西湖两地名未在源文出现（源文为广陵路）。"
+   },
+   "disagreement": true
+  },
+  {
+   "pair_id": "P14",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目代号是蓝鲸。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "supported",
+    "rewrite": "supported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [
+     {
+      "family": "D",
+      "raw": "3月14日",
+      "key": "('MD', 3, 14)",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "P",
+      "raw": "蓝鲸",
+      "key": "蓝鲸",
+      "sentence": 0,
+      "hit": true,
+      "origin": "P-c"
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "P",
+      "raw": "蓝鲸",
+      "key": "蓝鲸",
+      "sentence": 0,
+      "hit": true,
+      "origin": "P-c"
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "reason": "蓝鲸命中；删去日期不新增硬事实。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P15",
+   "orig": "项目将在 3 月 15 日上线。",
+   "rewrite": "项目将在 3 月 15 日上线。",
+   "orig_eq_rewrite": true,
+   "ADJ": {
+    "orig": "unsupported",
+    "rewrite": "unsupported"
+   },
+   "JUDGE": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "orig_facts": [
+     {
+      "family": "D",
+      "raw": "3月15日",
+      "key": "('MD', 3, 15)",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "D",
+      "raw": "3月15日",
+      "key": "('MD', 3, 15)",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "reason": "3 月 15 日与源文 3 月 14 日不符。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P16",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "问：项目代号是什么？答：蓝鲸。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "supported",
+    "rewrite": "supported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [
+     {
+      "family": "D",
+      "raw": "3月14日",
+      "key": "('MD', 3, 14)",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "P",
+      "raw": "蓝鲸",
+      "key": "蓝鲸",
+      "sentence": 0,
+      "hit": true,
+      "origin": "P-c"
+     }
+    ],
+    "rewrite_facts": []
+   },
+   "REVIEW": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "reason": "项目代号、蓝鲸均命中 project 源文，问句部分不含硬事实。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P17",
+   "orig": "项目将在 3 月 15 日上线。",
+   "rewrite": "项目上线时间定在 3 月 15 日，我记得是这样。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "unsupported",
+    "rewrite": "unsupported"
+   },
+   "JUDGE": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "orig_facts": [
+     {
+      "family": "D",
+      "raw": "3月15日",
+      "key": "('MD', 3, 15)",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "D",
+      "raw": "3月15日",
+      "key": "('MD', 3, 15)",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     },
+     {
+      "family": "P",
+      "raw": "这样",
+      "key": "这样",
+      "sentence": 0,
+      "hit": false,
+      "origin": "P-c"
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "reason": "3 月 15 日不符；“我记得是这样”属不确定表述豁免，但不豁免该日期硬事实。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P18",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "我现在的住处是广陵路 12 号 2 单元 602，一直没搬。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "supported",
+    "rewrite": "supported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [
+     {
+      "family": "P",
+      "raw": "广陵路",
+      "key": "广陵路",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "12",
+      "key": "12",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "2",
+      "key": "2",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "602",
+      "key": "602",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "P",
+      "raw": "广陵路",
+      "key": "广陵路",
+      "sentence": 0,
+      "hit": true,
+      "origin": "P-c"
+     },
+     {
+      "family": "N",
+      "raw": "12",
+      "key": "12",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "2",
+      "key": "2",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "602",
+      "key": "602",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "reason": "602 等全部命中；“现在”“一直没搬”为时间副词/修辞，非硬事实。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P19",
+   "orig": "项目将在 3 月 16 日上线。",
+   "rewrite": "项目将在 3 月 16 日上线。",
+   "orig_eq_rewrite": true,
+   "ADJ": {
+    "orig": "unsupported",
+    "rewrite": "unsupported"
+   },
+   "JUDGE": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "orig_facts": [
+     {
+      "family": "D",
+      "raw": "3月16日",
+      "key": "('MD', 3, 16)",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "D",
+      "raw": "3月16日",
+      "key": "('MD', 3, 16)",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "reason": "3 月 16 日与源文 3 月 14 日不符。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P20",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "问：你住哪里？答：广陵路 12 号 2 单元 602。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "supported",
+    "rewrite": "supported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [
+     {
+      "family": "P",
+      "raw": "广陵路",
+      "key": "广陵路",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "12",
+      "key": "12",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "2",
+      "key": "2",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "602",
+      "key": "602",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "P",
+      "raw": "广陵路",
+      "key": "广陵路",
+      "sentence": 1,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "12",
+      "key": "12",
+      "sentence": 1,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "2",
+      "key": "2",
+      "sentence": 1,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "602",
+      "key": "602",
+      "sentence": 1,
+      "hit": true,
+      "origin": null
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "reason": "广陵路、12、2、602 全部命中，问句部分不含硬事实。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P21",
+   "orig": "项目代号是海豚。",
+   "rewrite": "项目代号是海豚。",
+   "orig_eq_rewrite": true,
+   "ADJ": {
+    "orig": "unsupported",
+    "rewrite": "unsupported"
+   },
+   "JUDGE": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "orig_facts": [
+     {
+      "family": "P",
+      "raw": "海豚",
+      "key": "海豚",
+      "sentence": 0,
+      "hit": false,
+      "origin": "P-c"
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "P",
+      "raw": "海豚",
+      "key": "海豚",
+      "sentence": 0,
+      "hit": false,
+      "origin": "P-c"
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "reason": "海豚与源文 蓝鲸 不符，专有名词未命中。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P22",
+   "orig": "我的咖啡只喝美式，不加糖。",
+   "rewrite": "我喝咖啡只喝美式，不加糖。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "supported",
+    "rewrite": "supported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [],
+    "rewrite_facts": []
+   },
+   "REVIEW": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "reason": "美式、不加糖命中 habit 源文，仅调整语序。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P23",
+   "orig": "我喝咖啡习惯是拿铁，加双份糖。",
+   "rewrite": "我喝咖啡习惯是拿铁，加双份糖。",
+   "orig_eq_rewrite": true,
+   "ADJ": {
+    "orig": "unsupported",
+    "rewrite": "unsupported"
+   },
+   "JUDGE": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "orig_facts": [
+     {
+      "family": "P",
+      "raw": "拿铁",
+      "key": "拿铁",
+      "sentence": 0,
+      "hit": false,
+      "origin": "P-c"
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "P",
+      "raw": "拿铁",
+      "key": "拿铁",
+      "sentence": 0,
+      "hit": false,
+      "origin": "P-c"
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "reason": "拿铁、双份糖未在源文出现（源文为美式、不加糖）。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P24",
+   "orig": "我的咖啡只喝美式，不加糖。",
+   "rewrite": "问：喝咖啡有什么习惯？答：只喝美式，不加糖。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "supported",
+    "rewrite": "supported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [],
+    "rewrite_facts": []
+   },
+   "REVIEW": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "reason": "美式、不加糖命中，问句部分不含硬事实。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P25",
+   "orig": "我只喝龙井茶，不加糖。",
+   "rewrite": "我只喝龙井茶，不加糖。",
+   "orig_eq_rewrite": true,
+   "ADJ": {
+    "orig": "unsupported",
+    "rewrite": "unsupported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [],
+    "rewrite_facts": []
+   },
+   "REVIEW": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "reason": "龙井茶未在源文出现（源文为美式咖啡）。"
+   },
+   "disagreement": true
+  },
+  {
+   "pair_id": "P26",
+   "orig": "我的咖啡只喝美式，不加糖。",
+   "rewrite": "我的咖啡习惯是只喝美式，不加糖，别的都不喝。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "supported",
+    "rewrite": "supported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [],
+    "rewrite_facts": [
+     {
+      "family": "P",
+      "raw": "美式",
+      "key": "美式",
+      "sentence": 0,
+      "hit": true,
+      "origin": "P-c"
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "reason": "咖啡、美式、不加糖命中；“别的都不喝”为泛指，非硬事实。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P27",
+   "orig": "我的手机号是 13800001234。",
+   "rewrite": "我的手机号是 13800001234。",
+   "orig_eq_rewrite": true,
+   "ADJ": {
+    "orig": "unsupported",
+    "rewrite": "unsupported"
+   },
+   "JUDGE": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "orig_facts": [
+     {
+      "family": "N",
+      "raw": "13800001234",
+      "key": "13800001234",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "N",
+      "raw": "13800001234",
+      "key": "13800001234",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "reason": "13800001234 未在源文出现，属无中生有的号码硬事实。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P28",
+   "orig": "我的咖啡只喝美式，不加糖。",
+   "rewrite": "我的咖啡只喝美式，不加糖。",
+   "orig_eq_rewrite": true,
+   "ADJ": {
+    "orig": "supported",
+    "rewrite": "supported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [],
+    "rewrite_facts": []
+   },
+   "REVIEW": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "reason": "咖啡、美式、不加糖全部命中 habit 源文。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P29",
+   "orig": "我住在广陵路 12 号 2 单元 601。",
+   "rewrite": "我住在广陵路 12 号 2 单元 601。",
+   "orig_eq_rewrite": true,
+   "ADJ": {
+    "orig": "unsupported",
+    "rewrite": "unsupported"
+   },
+   "JUDGE": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "orig_facts": [
+     {
+      "family": "P",
+      "raw": "广陵路",
+      "key": "广陵路",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "12",
+      "key": "12",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "2",
+      "key": "2",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "601",
+      "key": "601",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "P",
+      "raw": "广陵路",
+      "key": "广陵路",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "12",
+      "key": "12",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "2",
+      "key": "2",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "N",
+      "raw": "601",
+      "key": "601",
+      "sentence": 0,
+      "hit": false,
+      "origin": null
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "reason": "601 与源文 602 不符，数字硬事实未命中。"
+   },
+   "disagreement": false
+  },
+  {
+   "pair_id": "P30",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目代号蓝鲸，计划在 3 月 14 日上线。",
+   "orig_eq_rewrite": false,
+   "ADJ": {
+    "orig": "supported",
+    "rewrite": "supported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [
+     {
+      "family": "D",
+      "raw": "3月14日",
+      "key": "('MD', 3, 14)",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "P",
+      "raw": "蓝鲸",
+      "key": "蓝鲸",
+      "sentence": 0,
+      "hit": true,
+      "origin": "P-c"
+     }
+    ],
+    "rewrite_facts": [
+     {
+      "family": "D",
+      "raw": "3月14日",
+      "key": "('MD', 3, 14)",
+      "sentence": 0,
+      "hit": true,
+      "origin": null
+     },
+     {
+      "family": "P",
+      "raw": "蓝鲸",
+      "key": "蓝鲸",
+      "sentence": 0,
+      "hit": true,
+      "origin": "P-c"
+     }
+    ]
+   },
+   "REVIEW": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "reason": "蓝鲸、3 月 14 日均命中，仅增加虚词“在”。"
+   },
+   "disagreement": false
+  }
+ ],
+ "disagreements": [
+  {
+   "pair_id": "P13",
+   "orig": "我住在杭州西湖边。",
+   "rewrite": "我住在杭州西湖边。",
+   "ADJ": {
+    "orig": "unsupported",
+    "rewrite": "unsupported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [],
+    "rewrite_facts": []
+   },
+   "REVIEW": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "reason": "杭州、西湖两地名未在源文出现（源文为广陵路）。"
+   },
+   "lead_ruling": "ADJ 与 REVIEW 正确、JUDGE 错误；不修改冻结 judge，记 judge_defect: no_fact_to_supported",
+   "reason": "JUDGE 未抽出任何硬事实（facts=[]）即判 supported；ADJ/REVIEW 看到源文无杭州/西湖、无龙井茶，判 unsupported"
+  },
+  {
+   "pair_id": "P25",
+   "orig": "我只喝龙井茶，不加糖。",
+   "rewrite": "我只喝龙井茶，不加糖。",
+   "ADJ": {
+    "orig": "unsupported",
+    "rewrite": "unsupported"
+   },
+   "JUDGE": {
+    "orig": "supported",
+    "rewrite": "supported",
+    "orig_facts": [],
+    "rewrite_facts": []
+   },
+   "REVIEW": {
+    "orig": "unsupported",
+    "rewrite": "unsupported",
+    "reason": "龙井茶未在源文出现（源文为美式咖啡）。"
+   },
+   "lead_ruling": "ADJ 与 REVIEW 正确、JUDGE 错误；不修改冻结 judge，记 judge_defect: no_fact_to_supported",
+   "reason": "JUDGE 未抽出任何硬事实（facts=[]）即判 supported；ADJ/REVIEW 看到源文无杭州/西湖、无龙井茶，判 unsupported"
+  }
+ ],
+ "judge_defect": {
+  "id": "no_fact_to_supported",
+  "pairs": [
+   "P13",
+   "P25"
+  ],
+  "count": 2,
+  "description": "JUDGE 抽不到硬事实（facts=[]）时直接 supported；ADJ/REVIEW 判 unsupported",
+  "severity": "阻塞（阻断全量）",
+  "criteria_status": "判据可用、判定器有缺陷；判据本身不作废",
+  "frozen_judge_modified": false
+ },
+ "blocks": {
+  "rewrite18_primary": {
+   "n": 18,
+   "ADJ_vs_REVIEW": {
+    "agreement": 18,
+    "denominator": 18
+   },
+   "JUDGE_vs_REVIEW": {
+    "agreement": 18,
+    "denominator": 18,
+    "disagreements": []
+   },
+   "leak": {
+    "definition": "REVIEW orig unsupported 且 JUDGE rewrite supported",
+    "events": [],
+    "count": 0,
+    "denominator": 5
+   },
+   "false": {
+    "definition": "REVIEW orig supported 且 JUDGE rewrite unsupported",
+    "events": [],
+    "count": 0,
+    "denominator": 13
+   },
+   "primary": true,
+   "note": "18个真改写对；leak/false 主口径"
+  },
+  "baseline12_consistency": {
+   "n": 12,
+   "ADJ_vs_REVIEW": {
+    "agreement": 12,
+    "denominator": 12
+   },
+   "JUDGE_vs_REVIEW": {
+    "agreement": 10,
+    "denominator": 12,
+    "disagreements": [
+     "P13",
+     "P25"
+    ]
+   },
+   "note": "12个 orig==rewrite 基线对；只报 JUDGE/REVIEW 一致率；不设 leak/false 主口径",
+   "judge_review_consistency": {
+    "agreement": 10,
+    "denominator": 12,
+    "rate": 0.8333333333333334,
+    "disagreements": [
+     "P13",
+     "P25"
+    ]
+   },
+   "leak_false": "not_applicable（基线对无改写，不能算改写漏判/误判）"
+  },
+  "all30_legacy": {
+   "n": 30,
+   "ADJ_vs_REVIEW": {
+    "agreement": 30,
+    "denominator": 30
+   },
+   "JUDGE_vs_REVIEW": {
+    "agreement": 28,
+    "denominator": 30,
+    "disagreements": [
+     "P13",
+     "P25"
+    ]
+   },
+   "leak": {
+    "definition": "REVIEW orig unsupported 且 JUDGE rewrite supported",
+    "events": [
+     "P13",
+     "P25"
+    ],
+    "count": 2,
+    "denominator": 15
+   },
+   "false": {
+    "definition": "REVIEW orig supported 且 JUDGE rewrite unsupported",
+    "events": [],
+    "count": 0,
+    "denominator": 15
+   },
+   "note": "全30对；含12基线对，仅并列留档，不是主口径"
+  }
+ },
+ "excluded": [],
+ "no_single_accuracy": true,
+ "lead_ruling": [
+  "P13/P25 上 ADJ 与 REVIEW 正确、JUDGE 错误；不修改冻结的 m5_ground.py 86b7c501，把该现象记为 judge_defect: no_fact_to_supported（2 例）。",
+  "判据本身不作废（判据定义正确、缺陷在判定器实现）⇒ 记 \"判据可用、判定器有缺陷\"，缺陷定级 阻塞（阻断全量）。",
+  "两率主口径维持 rewrite18：leak 0/5、false 0/13；all30 与 baseline12 只作并列留档。",
+  "模型臂：accepted 16（leak 0/5、false 0/11、ADJ/JUDGE/intent 三方 0 mismatch）+ 14/30 verbatim_copy 装置发现；分母 5 <10，只作装置可用性。"
+ ],
+ "model_arm_ref": {
+  "accepted": 16,
+  "cand_excluded": 14,
+  "cand_excluded_reason": "verbatim_copy",
+  "leak": {
+   "count": 0,
+   "denominator": 5,
+   "sample_note": "分母<10，样本量不足以给区间，只作装置可用性"
+  },
+  "false": {
+   "count": 0,
+   "denominator": 11
+  },
+  "three_way_mismatch": 0
+ },
+ "pilot": {
+  "judge_adj_status": "已接（含 1 类阻塞缺陷 no_fact_to_supported，2 例）",
+  "usable_pass": false,
+  "reason": "判定器可用性未全绿；不写最终判决"
+ },
+ "no_final_verdict": true
+}

@@ -1,0 +1,237 @@
+{
+ "schema": "landed_m6b_atomic_supp_v1",
+ "task": "M6B F1 补充证据：静态不变量 + 文件层真 SIGKILL（零 GPU）",
+ "at": "2026-10-26T09:28:36+0800",
+ "scope": "文件系统层 + 静态不变量；不替代 GPU kill 子臂（永久未做）",
+ "evidence_level": "E1/FS",
+ "not_gpu_kill": true,
+ "executor": "executor",
+ "new_files": [
+  {
+   "path": "kvmem/m2_visibility/m7/out/M6B-ATOMIC-STATIC.json",
+   "sha16": "3482236d1daf0949",
+   "bytes": 9382,
+   "sha256": "3482236d1daf09498b6951d16e50e615670af848599f730355cd82f9a8ab2373"
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out/M6B-FS-KILL.json",
+   "sha16": "3bb5fee95189db5e",
+   "bytes": 21508,
+   "sha256": "3bb5fee95189db5ec8de5a3bd16942e289122a6d513e8d041c88f30bf92b4b30"
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out/_m6b_fs_kill.py",
+   "sha16": "32d08a65b9311c9d",
+   "bytes": 14177,
+   "sha256": "32d08a65b9311c9d0208560762ce50115deadd90c631f6915943ce480e17482f"
+  }
+ ],
+ "static_summary": {
+  "atomic_target_mutation_points": [
+   {
+    "file": "tools/kvslots.py",
+    "line": 244,
+    "operation": "os.replace(tmp, path)",
+    "for": "*.chat.kvmem"
+   },
+   {
+    "file": "tools/session_state.py",
+    "line": 289,
+    "operation": "os.replace(tmp, path)",
+    "for": "*.json manifest"
+   }
+  ],
+  "non_atomic_writes_product": [],
+  "non_atomic_test_only_count": 7,
+  "fsync_gaps": [
+   {
+    "id": "G-manifest-no-fsync",
+    "severity": "durability",
+    "file": "tools/session_state.py",
+    "line": 289,
+    "issue": "manifest temp 未 fsync 即 os.replace；掉电/内核崩溃后可能出现新名字但旧/零内容，命名原子不等于持久化原子；与本任务文件层 kill 无关，但属已知缺口。"
+   },
+   {
+    "id": "G-dir-no-fsync-windows",
+    "severity": "durability",
+    "file": "tools/kvslots.py",
+    "line": 252,
+    "issue": "目录 fsync 在 Windows 无等价物，被 except OSError 吞掉；属平台限制。"
+   }
+  ],
+  "conclusion": {
+   "product_chat_target": "原子（temp+fsync+replace）",
+   "product_manifest_target": "命名原子（os.replace），但缺 tmp fsync/目录 fsync ⇒ 持久化缺口",
+   "product_non_atomic_writes": 0,
+   "test_only_non_atomic_writes": 7,
+   "note": "本件只做静态不变量与文件层；不替代 GPU kill 子臂。"
+  }
+ },
+ "fs_kill_summary": {
+  "source": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\e3gpu\\s1.chat.kvmem",
+   "sha16": "6a2508d4df79fa57",
+   "bytes": 19744884,
+   "unchanged": true
+  },
+  "atomic": {
+   "points": {
+    "p1_30pct": {
+     "states": [
+      "before",
+      "before"
+     ],
+     "expected": "before",
+     "all_match": true,
+     "fractions": [
+      0.3004,
+      0.3004
+     ]
+    },
+    "p2_full_fsync_pre_replace": {
+     "states": [
+      "before",
+      "before"
+     ],
+     "expected": "before",
+     "all_match": true,
+     "fractions": [
+      1.0,
+      1.0
+     ]
+    },
+    "p3_after_replace": {
+     "states": [
+      "after",
+      "after"
+     ],
+     "expected": "after",
+     "all_match": true,
+     "fractions": [
+      1.0,
+      1.0
+     ]
+    }
+   },
+   "all_target_before_or_after": true,
+   "third_state_count": 0,
+   "target_states": [
+    "before",
+    "before",
+    "before",
+    "before",
+    "after",
+    "after"
+   ]
+  },
+  "red": {
+   "target_states": [
+    "third",
+    "third",
+    "third",
+    "third",
+    "third",
+    "third"
+   ],
+   "third_or_truncated_count": 6,
+   "third_state_reproduced": true,
+   "note": "red is control only; not counted as a pass"
+  },
+  "stale_cleanup": {
+   "killed_tmp_ready": true,
+   "stale_before_next_save": [
+    {
+     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\stale_probe\\target.chat.kvmem.tmp-stale-e6cc6f1b",
+     "exists": true,
+     "bytes": 19744884,
+     "sha16": "1aa58a96d8799553"
+    }
+   ],
+   "stale_after_next_save": [
+    {
+     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\stale_probe\\target.chat.kvmem.tmp-stale-e6cc6f1b",
+     "exists": true,
+     "bytes": 19744884,
+     "sha16": "1aa58a96d8799553"
+    }
+   ],
+   "startup_scan_in_product": false,
+   "product_cleanup_site": "tools/kvslots.py:264-267 finally: only removes this process's tmp; SIGKILL bypasses finally",
+   "stale_cleanup_effective": false,
+   "target_after_next_save": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\tmp\\m6b_fs_kill\\stale_probe\\target.chat.kvmem",
+    "exists": true,
+    "bytes": 19744884,
+    "sha16": "1aa58a96d8799553"
+   }
+  },
+  "protocol": {
+   "chunk_bytes": 32768,
+   "chunk_delay_s": 0.0025,
+   "three_points": [
+    "p1_30pct: tmp/target ~30%",
+    "p2_full_fsync_pre_replace: tmp full + fsync, before replace",
+    "p3_after_replace: after os.replace"
+   ],
+   "runs_per_point": 2,
+   "atomic_writer": "temp + fsync + os.replace, same shape as tools/kvslots.py:223-267",
+   "red_writer": "direct open(target,'wb') chunked write, deliberate non-atomic control",
+   "red_timepoints": "red has no replace; p1/p2/p3 are 30%/55%/80% mid-write target sizes, all before completion; this is the required red control, not a product path"
+  },
+  "conclusion": {
+   "atomic": "target always before or after; no third state",
+   "red": "third/truncated state reproduced",
+   "gpu_kill_arm": "未做（主机不安全；本件不替代）"
+  },
+  "trials": 12
+ },
+ "device": {
+  "gpu_used": false,
+  "model_loaded": false,
+  "vulkan_touched": false,
+  "gpu_process_signalled": false,
+  "pure_file_children": true,
+  "source_read_only": true
+ },
+ "source_files_unchanged": {
+  "tools/kvslots.py": {
+   "path": "tools/kvslots.py",
+   "sha16": "a5c06b1939a418f2",
+   "bytes": 25933,
+   "sha256": "a5c06b1939a418f2c816ca91442e7bfd76cb52f1a69e78c2b05643d4ad9c5212"
+  },
+  "tools/session_state.py": {
+   "path": "tools/session_state.py",
+   "sha16": "ea021bb28168ebf2",
+   "bytes": 20463,
+   "sha256": "ea021bb28168ebf21452def9fc1591c26f1ea1898f7a13374a8af71fe21e5ae9"
+  },
+  "tools/kvshim.cpp": {
+   "path": "tools/kvshim.cpp",
+   "sha16": "bf8e26e7490c4fd2",
+   "bytes": 24827,
+   "sha256": "bf8e26e7490c4fd287d8e35c4c41e4b9a1a84f1cc64ae38d84912888d686854a"
+  },
+  "llama.cpp/src/llama-context.cpp": {
+   "path": "llama.cpp/src/llama-context.cpp",
+   "sha16": "dff9a28be65dd28a",
+   "bytes": 175025,
+   "sha256": "dff9a28be65dd28aab935a12bdd517cf3487ad3bf0b929c65304f13c9b6ba3c7"
+  },
+  "m7/out/tmp/e3gpu/s1.chat.kvmem": {
+   "path": "kvmem/m2_visibility/m7/out/tmp/e3gpu/s1.chat.kvmem",
+   "sha16": "6a2508d4df79fa57",
+   "bytes": 19744884,
+   "sha256": "6a2508d4df79fa574a8f1581d3e10c74d90ae1284940387231afb735b8bb32d9"
+  }
+ },
+ "limits": [
+  "file-system layer only",
+  "not GPU KV semantic kill",
+  "Popen.kill = TerminateProcess (SIGKILL equivalent)",
+  "atomic writer is equivalent shape, not native shim"
+ ],
+ "git_touched": false,
+ "product_code_changed": false,
+ "note": "D 的产品目标非原子写清单为空；manifest 缺 fsync 记 gap。B 原子臂 6/6 target 均 before/after，红臂 6/6 third；stale cleanup 不生效。"
+}
