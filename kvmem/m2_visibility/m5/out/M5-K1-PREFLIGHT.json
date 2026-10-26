@@ -1,0 +1,140 @@
+{
+ "schema": "m5_k1_preflight_v1",
+ "at": "2026-10-26T12:26:09+0800",
+ "authorization": "user 2026-10-26T12:24+08:00; K1 only; armed requested",
+ "armed": false,
+ "warmups": {
+  "planned": 3,
+  "completed": 0,
+  "not_run_reason": "preflight gate failed; no run started"
+ },
+ "signals_sent": 0,
+ "kill_attempts": 0,
+ "prereg": {
+  "path": "docs\\_work\\PREREG-KILL-ARM-v2.md",
+  "sha16": "42434b91d3923d1a",
+  "bytes": 18253
+ },
+ "fixtures": {
+  "expected": {
+   "child": {
+    "sha16": "9339107866cbc84c",
+    "bytes": 24243
+   },
+   "parent": {
+    "sha16": "854fbe3dcd93ace5",
+    "bytes": 17535
+   },
+   "recovery": {
+    "sha16": "52f33f17e10ee7ca",
+    "bytes": 7029
+   },
+   "manifest": {
+    "sha16": "d2d6ab0b6f806e15",
+    "bytes": 594
+   }
+  },
+  "current": {
+   "child": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\_k1_park_child.py",
+    "sha16": "9339107866cbc84c",
+    "bytes": 24243
+   },
+   "parent": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\_k1_park_parent.py",
+    "sha16": "7ac8cef82a1bbff3",
+    "bytes": 20254
+   },
+   "recovery": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\_k1_recovery.py",
+    "sha16": "52f33f17e10ee7ca",
+    "bytes": 7029
+   },
+   "manifest": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\_k1_fixture_manifest.json",
+    "sha16": "d2d6ab0b6f806e15",
+    "bytes": 594
+   }
+  },
+  "match": {
+   "child": true,
+   "parent": false,
+   "recovery": true,
+   "manifest": true
+  },
+  "parent_conflict": "expected parent 854fbe3dcd93ace5/17535 but current is 7ac8cef82a1bbff3/20254; manifest d2d6 itself records parent 7ac8/20254, so expected parent + manifest d2d6 are mutually inconsistent"
+ },
+ "manifest_content": {
+  "path": "kvmem\\m2_visibility\\m5\\out\\_k1_fixture_manifest.json",
+  "files": {
+   "child": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\_k1_park_child.py",
+    "sha16": "9339107866cbc84c",
+    "bytes": 24243
+   },
+   "parent": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\_k1_park_parent.py",
+    "sha16": "7ac8cef82a1bbff3",
+    "bytes": 20254
+   },
+   "recovery": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\_k1_recovery.py",
+    "sha16": "52f33f17e10ee7ca",
+    "bytes": 7029
+   }
+  }
+ },
+ "host_gate": {
+  "gate_values": {
+   "pnp_rndis_usb_audio": 0,
+   "vram_baseline_gib": 0.7066,
+   "free_ram_kb": 9228956,
+   "gpu_procs_gt256mb": 0,
+   "browser_or_code_procs": 7,
+   "boot_id": "2026-10-26T03:24:52.5000000+08:00"
+  },
+  "host_check_parsed": {
+   "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+   "dumps": [
+    {
+     "name": "102626-5187-01.dmp",
+     "bytes": 2201077,
+     "mtime": "2026-10-26T01:31:36.2997028+08:00"
+    },
+    {
+     "name": "102626-4468-01.dmp",
+     "bytes": 1994809,
+     "mtime": "2026-10-26T01:38:56.5625530+08:00"
+    },
+    {
+     "name": "102626-4593-01.dmp",
+     "bytes": 1063617,
+     "mtime": "2026-10-26T01:56:32.6758278+08:00"
+    },
+    {
+     "name": "102626-4437-01.dmp",
+     "bytes": 2062496,
+     "mtime": "2026-10-26T03:10:17.4578327+08:00"
+    },
+    {
+     "name": "102626-4671-01.dmp",
+     "bytes": 2043758,
+     "mtime": "2026-10-26T03:24:55.7693314+08:00"
+    }
+   ],
+   "existing_count": 5,
+   "latest_mtime": "2026-10-26T03:24:55.7693314+08:00"
+  },
+  "minidump_count": 5,
+  "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+  "boot_expected": "2026-10-26T03:24:52.5000000+08:00",
+  "gate_ok": false,
+  "fail_reasons": [
+   "vram_baseline_gib=0.7066 > 0.5",
+   "browser_or_code_procs=7 != 0"
+  ]
+ },
+ "status": "未接上（前置门未过；warm-up 0/3 未跑）",
+ "disposition": "按 lead 前置门规则停手；未 armed、未开引擎、未发信号。需先清掉浏览器/Code 并让 vram_baseline<=0.5，且裁定 parent 与 manifest 的冻结版本冲突。",
+ "no_gpu_experiment": true
+}

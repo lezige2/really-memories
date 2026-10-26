@@ -1,0 +1,501 @@
+{
+ "schema": "m5_k1_warmup_settle_v1",
+ "at": "2026-10-26T12:50:10+0800",
+ "prereg": {
+  "path": "D:\\llama-mem\\docs\\_work\\PREREG-KILL-ARM-v2.md",
+  "sha16": "42434b91d3923d1a",
+  "bytes": 18253
+ },
+ "armed": false,
+ "arm_scope": "K1 only",
+ "armed_authorized_by": "user 2026-10-26T12:24+08:00",
+ "kill_attempts": 0,
+ "signals_sent": 2,
+ "model_loaded": false,
+ "warmup": true,
+ "fixture_correction": {
+  "old": "9339107866cbc84c/24,243 (uninstrumented child)",
+  "settle_child": "20bbbad16f4f0b71/36,593",
+  "parent": "7ac8cef82a1bbff3/20,254",
+  "reason": "settle probe inserted after park and before save; save/kill criteria unchanged"
+ },
+ "timeout_amended": true,
+ "timeout_amendment": {
+  "old_warmup_soft_s": 10.0,
+  "new_warmup_soft_s": 60.0,
+  "new_formal_soft_s": 30.0,
+  "slow_run_definition": "formal run >30 s: slow_run=true, counted but marked",
+  "global_stop": "two consecutive slow_run OR any run >120 s => stop batch",
+  "reason": "Heisenbug freeze on first save cycle after device destroy; settle probe + wider timeout; corruption criteria (third=0) unchanged",
+  "amended_by": "lead 2026-10-26T12:44+08:00"
+ },
+ "gate_amended": true,
+ "gate_amendment": {
+  "kept": [
+   "boot_id = 2026-10-26T03:24:52.5+08:00",
+   "free_ram_kb >= 8388608",
+   "gpu_procs_gt256mb = 0",
+   "minidump count = 5 and no new dump"
+  ],
+  "relaxed": {
+   "vram_baseline_gib": "<= 1.5",
+   "browser_or_code_procs": "not gated, recorded every run"
+  },
+  "final_load_strict": "gpu_procs_gt256mb=0 + vram_baseline<=1.5 + peak<=8.6 GiB; browser_present recorded",
+  "reason": "K1 does not load model; browser is the control channel; third/peak criteria unaffected",
+  "amended_by": "lead 2026-10-26T12:2x+08:00; authorized by user arm grant 12:24"
+ },
+ "fixtures": {
+  "expected": {
+   "child": {
+    "sha16": "20bbbad16f4f0b71",
+    "bytes": 36593
+   },
+   "parent": {
+    "sha16": "7ac8cef82a1bbff3",
+    "bytes": 20254
+   },
+   "recovery": {
+    "sha16": "52f33f17e10ee7ca",
+    "bytes": 7029
+   },
+   "manifest": {
+    "sha16": "d2d6ab0b6f806e15",
+    "bytes": 594
+   }
+  },
+  "observed": {
+   "child": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_park_child.py",
+    "sha16": "20bbbad16f4f0b71",
+    "bytes": 36593
+   },
+   "parent": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_park_parent.py",
+    "sha16": "7ac8cef82a1bbff3",
+    "bytes": 20254
+   },
+   "recovery": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_recovery.py",
+    "sha16": "52f33f17e10ee7ca",
+    "bytes": 7029
+   },
+   "manifest": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_fixture_manifest.json",
+    "sha16": "d2d6ab0b6f806e15",
+    "bytes": 594
+   }
+  },
+  "match": {
+   "child": true,
+   "parent": true,
+   "recovery": true,
+   "manifest": true
+  },
+  "all_match": true,
+  "manifest_parent": {
+   "path": "kvmem\\m2_visibility\\m5\\out\\_k1_park_parent.py",
+   "sha16": "7ac8cef82a1bbff3",
+   "bytes": 20254
+  },
+  "manifest_parent_consistent": true
+ },
+ "warmups": [
+  {
+   "n": 1,
+   "elapsed_s": 60.007,
+   "timed_out_gt60": true,
+   "slow_warmup": true,
+   "returncode": 1,
+   "signals_sent": 1,
+   "state_log": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_state_warmup_settle_001.log",
+    "sha16": "e14354a1aa6f0dab",
+    "bytes": 4295
+   },
+   "states": [
+    "[STATE vulkan_init t_mono=0.016000 t_wall=2026-10-26T12:50:24.958+0800] {}",
+    "[STATE instance_created t_mono=0.063000 t_wall=2026-10-26T12:50:25.006+0800] {\"rc\":0,\"instance\":true}",
+    "[STATE physical_device t_mono=0.063000 t_wall=2026-10-26T12:50:25.006+0800] {\"rc\":null,\"name\":\"AMD Radeon RX 6750 GRE 10GB\",\"api_version\":4211003,\"driver_version\":8388961,\"vendor_id\":4098,\"device_id\":29695,\"device_type\":2,\"device_count\":1}",
+    "[STATE queue_family t_mono=0.063000 t_wall=2026-10-26T12:50:25.006+0800] {\"index\":0,\"flags\":15,\"queue_count\":8}",
+    "[STATE device_created t_mono=0.094000 t_wall=2026-10-26T12:50:25.042+0800] {\"rc\":0,\"device\":true}",
+    "[STATE buffer_created t_mono=0.094000 t_wall=2026-10-26T12:50:25.046+0800] {\"rc\":0}",
+    "[STATE memory_allocated t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0,\"size\":4096,\"memory_type\":1}",
+    "[STATE buffer_bound t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0}",
+    "[STATE command_pool_created t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0}",
+    "[STATE command_buffer_allocated t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0,\"command_buffer\":true}",
+    "[STATE command_buffer_begin t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0}",
+    "[STATE command_buffer_end t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0}",
+    "[STATE fence_created t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0}",
+    "[STATE fence_reset t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0}",
+    "[STATE submitted t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0,\"submitted\":true}",
+    "[STATE fence_wait t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0}",
+    "[STATE device_ready t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"queue_family\":0,\"submitted\":true,\"buffer_bytes\":4096,\"memory_type\":1}",
+    "[STATE park t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {}",
+    "[STATE wait_idle t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0}",
+    "[STATE destroy_device t_mono=0.110000 t_wall=2026-10-26T12:50:25.053+0800] {\"rc\":null,\"api\":\"void\",\"completed\":true}",
+    "[STATE destroy_instance t_mono=0.125000 t_wall=2026-10-26T12:50:25.063+0800] {\"rc\":null,\"api\":\"void\",\"completed\":true}",
+    "[STATE parked t_mono=0.125000 t_wall=2026-10-26T12:50:25.063+0800] {\"device_destroyed\":true,\"instance_destroyed\":true,\"held_device\":false,\"vulkan_calls_after_park\":0}",
+    "[STATE holding t_mono=0.125000 t_wall=2026-10-26T12:50:25.063+0800] {\"device_destroyed\":true,\"pure_file\":true,\"vk\":\"on\"}",
+    "[STATE settle_probe t_mono=0.125000 t_wall=2026-10-26T12:50:25.067+0800] {\"probe\":1,\"bytes\":4096,\"write_ms\":0.003,\"flush_ms\":0.123,\"fsync_ms\":0.709,\"total_ms\":0.835,\"slow\":false,\"sleep_ms_after\":0}",
+    "[STATE settle_done t_mono=0.125000 t_wall=2026-10-26T12:50:25.067+0800] {\"probes\":1,\"total_s\":0.001,\"final_total_ms\":0.835,\"removed\":true}",
+    "[STATE target_initialized t_mono=0.172000 t_wall=2026-10-26T12:50:25.107+0800] {\"target\":\"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m5\\\\out\\\\kill_k1\\\\warmup-settle-1\\\\target.kvmem\",\"sha16\":\"3b046c8ee3fb3b53\",\"n_tokens\":50,\"bytes\":5224388}",
+    "[STATE save_loop t_mono=0.172000 t_wall=2026-10-26T12:50:25.107+0800] {\"cycle\":1,\"of\":3}",
+    "[STATE saving_cycle t_mono=0.172000 t_wall=2026-10-26T12:50:25.107+0800] {\"cycle\":1,\"phase\":\"pre_tmp\"}",
+    "[STATE tmp_writing t_mono=0.219000 t_wall=2026-10-26T12:50:25.158+0800] {\"cycle\":1,\"frac\":0.0,\"chunk_bytes\":65536}",
+    "[STATE tmp_writing t_mono=0.219000 t_wall=2026-10-26T12:50:25.158+0800] {\"cycle\":1,\"frac\":0.0125,\"chunk\":1,\"chunks\":80}",
+    "[STATE tmp_writing t_mono=0.266000 t_wall=2026-10-26T12:50:25.204+0800] {\"cycle\":1,\"frac\":0.1004,\"chunk\":8,\"chunks\":80}",
+    "[STATE tmp_writing t_mono=0.313000 t_wall=2026-10-26T12:50:25.255+0800] {\"cycle\":1,\"frac\":0.2007,\"chunk\":16,\"chunks\":80}",
+    "[STATE tmp_writing t_mono=0.360000 t_wall=2026-10-26T12:50:25.307+0800] {\"cycle\":1,\"frac\":0.3011,\"chunk\":24,\"chunks\":80}",
+    "[STATE tmp_writing t_mono=0.422000 t_wall=2026-10-26T12:50:25.359+0800] {\"cycle\":1,\"frac\":0.4014,\"chunk\":32,\"chunks\":80}",
+    "[STATE tmp_writing t_mono=0.469000 t_wall=2026-10-26T12:50:25.410+0800] {\"cycle\":1,\"frac\":0.5018,\"chunk\":40,\"chunks\":80}"
+   ],
+   "child_result": null,
+   "settle": {
+    "probes": [
+     {
+      "probe": 1,
+      "bytes": 4096,
+      "write_ms": 0.003,
+      "flush_ms": 0.123,
+      "fsync_ms": 0.709,
+      "total_ms": 0.835,
+      "slow": false,
+      "sleep_ms_after": 0
+     }
+    ],
+    "n_probes": 1,
+    "source": "state_log (child killed before result)",
+    "total_s": null,
+    "removed": null
+   },
+   "settle_probe": [
+    {
+     "probe": 1,
+     "bytes": 4096,
+     "write_ms": 0.003,
+     "flush_ms": 0.123,
+     "fsync_ms": 0.709,
+     "total_ms": 0.835,
+     "slow": false,
+     "sleep_ms_after": 0
+    }
+   ],
+   "cycle_times_s": [],
+   "n_cycles_completed": 0,
+   "target": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_k1\\warmup-settle-1\\target.kvmem",
+    "sha16": "3b046c8ee3fb3b53",
+    "bytes": 5224388
+   },
+   "target_n_tokens": 50,
+   "target_third": false,
+   "target_ok": false,
+   "tmp_remaining": [
+    "target.kvmem.tmp-14284-1"
+   ],
+   "settle_probe_remaining": [],
+   "peak_gib": 0.7151,
+   "model_loaded": false,
+   "armed": false,
+   "warmup_no_kill": true,
+   "stdout_tail": "[STATE vulkan_init t_mono=0.016000 t_wall=2026-10-26T12:50:24.958+0800] {}\n[STATE instance_created t_mono=0.063000 t_wall=2026-10-26T12:50:25.006+0800] {\"rc\":0,\"instance\":true}\n[STATE physical_device t_mono=0.063000 t_wall=2026-10-26T12:50:25.006+0800] {\"rc\":null,\"name\":\"AMD Radeon RX 6750 GRE 10GB\",\"api_version\":4211003,\"driver_version\":8388961,\"vendor_id\":4098,\"device_id\":29695,\"device_type\":2,\"device_count\":1}\n[STATE queue_family t_mono=0.063000 t_wall=2026-10-26T12:50:25.006+0800] {\"index\":0,\"flags\":15,\"queue_count\":8}\n[STATE device_created t_mono=0.094000 t_wall=2026-10-26T12:50:25.042+0800] {\"rc\":0,\"device\":true}\n[STATE buffer_created t_mono=0.094000 t_wall=2026-10-26T12:50:25.046+0800] {\"rc\":0}\n[STATE memory_allocated t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0,\"size\":4096,\"memory_type\":1}\n[STATE buffer_bound t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0}\n[STATE command_pool_created t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0}\n[STATE command_buffer_allocated t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0,\"command_buffer\":true}\n[STATE command_buffer_begin t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0}\n[STATE command_buffer_end t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0}\n[STATE fence_created t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0}\n[STATE fence_reset t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0}\n[STATE submitted t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0,\"submitted\":true}\n[STATE fence_wait t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0}\n[STATE device_ready t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"queue_family\":0,\"submitted\":true,\"buffer_bytes\":4096,\"memory_type\":1}\n[STATE park t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {}\n[STATE wait_idle t_mono=0.110000 t_wall=2026-10-26T12:50:25.047+0800] {\"rc\":0}\n[STATE destroy_device t_mono=0.110000 t_wall=2026-10-26T12:50:25.053+0800] {\"rc\":null,\"api\":\"void\",\"completed\":true}\n[STATE destroy_instance t_mono=0.125000 t_wall=2026-10-26T12:50:25.063+0800] {\"rc\":null,\"api\":\"void\",\"completed\":true}\n[STATE parked t_mono=0.125000 t_wall=2026-10-26T12:50:25.063+0800] {\"device_destroyed\":true,\"instance_destroyed\":true,\"held_device\":false,\"vulkan_calls_after_park\":0}\n[STATE holding t_mono=0.125000 t_wall=2026-10-26T12:50:25.063+0800] {\"device_destroyed\":true,\"pure_file\":true,\"vk\":\"on\"}\n[STATE settle_probe t_mono=0.125000 t_wall=2026-10-26T12:50:25.067+0800] {\"probe\":1,\"bytes\":4096,\"write_ms\":0.003,\"flush_ms\":0.123,\"fsync_ms\":0.709,\"total_ms\":0.835,\"slow\":false,\"sleep_ms_after\":0}\n[STATE settle_done t_mono=0.125000 t_wall=2026-10-26T12:50:25.067+0800] {\"probes\":1,\"total_s\":0.001,\"final_total_ms\":0.835,\"removed\":true}\n[STATE target_initialized t_mono=0.172000 t_wall=2026-10-26T12:50:25.107+0800] {\"target\":\"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m5\\\\out\\\\kill_k1\\\\warmup-settle-1\\\\target.kvmem\",\"sha16\":\"3b046c8ee3fb3b53\",\"n_tokens\":50,\"bytes\":5224388}\n[STATE save_loop t_mono=0.172000 t_wall=2026-10-26T12:50:25.107+0800] {\"cycle\":1,\"of\":3}\n[STATE saving_cycle t_mono=0.172000 t_wall=2026-10-26T12:50:25.107+0800] {\"cycle\":1,\"phase\":\"pre_tmp\"}\n[STATE tmp_writing t_mono=0.219000 t_wall=2026-10-26T12:50:25.158+0800] {\"cycle\":1,\"frac\":0.0,\"chunk_bytes\":65536}\n[STATE tmp_writing t_mono=0.219000 t_wall=2026-10-26T12:50:25.158+0800] {\"cycle\":1,\"frac\":0.0125,\"chunk\":1,\"chunks\":80}\n[STATE tmp_writing t_mono=0.266000 t_wall=2026-10-26T12:50:25.204+0800] {\"cycle\":1,\"frac\":0.1004,\"chunk\":8,\"chunks\":80}\n[STATE tmp_writing t_mono=0.313000 t_wall=2026-10-26T12:50:25.255+0800] {\"cycle\":1,\"frac\":0.2007,\"chunk\":16,\"chunks\":80}\n[STATE tmp_writing t_mono=0.360000 t_wall=2026-10-26T12:50:25.307+0800] {\"cycle\":1,\"frac\":0.3011,\"chunk\":24,\"chunks\":80}\n[STATE tmp_writing t_mono=0.422000 t_wall=2026-10-26T12:50:25.359+0800] {\"cycle\":1,\"frac\":0.4014,\"chunk\":32,\"chunks\":80}\n[STATE tmp_writing t_mono=0.469000 t_wall=2026-10-26T12:50:25.410+0800] {\"cycle\":1,\"frac\":0.5018,\"chunk\":40,\"chunks\":80}\n",
+   "stderr_tail": "",
+   "cycle1_partial_s": 0.297,
+   "state_settle_probe": [
+    {
+     "probe": 1,
+     "bytes": 4096,
+     "write_ms": 0.003,
+     "flush_ms": 0.123,
+     "fsync_ms": 0.709,
+     "total_ms": 0.835,
+     "slow": false,
+     "sleep_ms_after": 0
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "elapsed_s": 60.005,
+   "timed_out_gt60": true,
+   "slow_warmup": true,
+   "returncode": 1,
+   "signals_sent": 1,
+   "state_log": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_state_warmup_settle_002.log",
+    "sha16": "aa97d6240896296d",
+    "bytes": 4310
+   },
+   "states": [
+    "[STATE vulkan_init t_mono=0.015000 t_wall=2026-10-26T12:52:20.190+0800] {}",
+    "[STATE instance_created t_mono=0.062000 t_wall=2026-10-26T12:52:20.235+0800] {\"rc\":0,\"instance\":true}",
+    "[STATE physical_device t_mono=0.062000 t_wall=2026-10-26T12:52:20.237+0800] {\"rc\":null,\"name\":\"AMD Radeon RX 6750 GRE 10GB\",\"api_version\":4211003,\"driver_version\":8388961,\"vendor_id\":4098,\"device_id\":29695,\"device_type\":2,\"device_count\":1}",
+    "[STATE queue_family t_mono=0.062000 t_wall=2026-10-26T12:52:20.237+0800] {\"index\":0,\"flags\":15,\"queue_count\":8}",
+    "[STATE device_created t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0,\"device\":true}",
+    "[STATE buffer_created t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0}",
+    "[STATE memory_allocated t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0,\"size\":4096,\"memory_type\":1}",
+    "[STATE buffer_bound t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0}",
+    "[STATE command_pool_created t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0}",
+    "[STATE command_buffer_allocated t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0,\"command_buffer\":true}",
+    "[STATE command_buffer_begin t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0}",
+    "[STATE command_buffer_end t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0}",
+    "[STATE fence_created t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0}",
+    "[STATE fence_reset t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0}",
+    "[STATE submitted t_mono=0.109000 t_wall=2026-10-26T12:52:20.280+0800] {\"rc\":0,\"submitted\":true}",
+    "[STATE fence_wait t_mono=0.109000 t_wall=2026-10-26T12:52:20.280+0800] {\"rc\":0}",
+    "[STATE device_ready t_mono=0.109000 t_wall=2026-10-26T12:52:20.280+0800] {\"queue_family\":0,\"submitted\":true,\"buffer_bytes\":4096,\"memory_type\":1}",
+    "[STATE park t_mono=0.109000 t_wall=2026-10-26T12:52:20.280+0800] {}",
+    "[STATE wait_idle t_mono=0.109000 t_wall=2026-10-26T12:52:20.280+0800] {\"rc\":0}",
+    "[STATE destroy_device t_mono=0.109000 t_wall=2026-10-26T12:52:20.285+0800] {\"rc\":null,\"api\":\"void\",\"completed\":true}",
+    "[STATE destroy_instance t_mono=0.125000 t_wall=2026-10-26T12:52:20.297+0800] {\"rc\":null,\"api\":\"void\",\"completed\":true}",
+    "[STATE parked t_mono=0.125000 t_wall=2026-10-26T12:52:20.297+0800] {\"device_destroyed\":true,\"instance_destroyed\":true,\"held_device\":false,\"vulkan_calls_after_park\":0}",
+    "[STATE holding t_mono=0.125000 t_wall=2026-10-26T12:52:20.297+0800] {\"device_destroyed\":true,\"pure_file\":true,\"vk\":\"on\"}",
+    "[STATE settle_probe t_mono=0.125000 t_wall=2026-10-26T12:52:20.298+0800] {\"probe\":1,\"bytes\":4096,\"write_ms\":0.003,\"flush_ms\":0.077,\"fsync_ms\":0.681,\"total_ms\":0.76,\"slow\":false,\"sleep_ms_after\":0}",
+    "[STATE settle_done t_mono=0.125000 t_wall=2026-10-26T12:52:20.298+0800] {\"probes\":1,\"total_s\":0.001,\"final_total_ms\":0.76,\"removed\":true}",
+    "[STATE target_initialized t_mono=0.156000 t_wall=2026-10-26T12:52:20.335+0800] {\"target\":\"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m5\\\\out\\\\kill_k1\\\\warmup-settle-2\\\\target.kvmem\",\"sha16\":\"3b046c8ee3fb3b53\",\"n_tokens\":50,\"bytes\":5224388}",
+    "[STATE save_loop t_mono=0.156000 t_wall=2026-10-26T12:52:20.335+0800] {\"cycle\":1,\"of\":3}",
+    "[STATE saving_cycle t_mono=0.156000 t_wall=2026-10-26T12:52:20.335+0800] {\"cycle\":1,\"phase\":\"pre_tmp\"}",
+    "[STATE tmp_writing t_mono=0.203000 t_wall=2026-10-26T12:52:20.386+0800] {\"cycle\":1,\"frac\":0.0,\"chunk_bytes\":65536}",
+    "[STATE tmp_writing t_mono=0.203000 t_wall=2026-10-26T12:52:20.386+0800] {\"cycle\":1,\"frac\":0.0125,\"chunk\":1,\"chunks\":80}",
+    "[STATE tmp_writing t_mono=0.250000 t_wall=2026-10-26T12:52:20.432+0800] {\"cycle\":1,\"frac\":0.1004,\"chunk\":8,\"chunks\":80}",
+    "[STATE tmp_writing t_mono=0.312000 t_wall=2026-10-26T12:52:20.483+0800] {\"cycle\":1,\"frac\":0.2007,\"chunk\":16,\"chunks\":80}",
+    "[STATE tmp_writing t_mono=0.359000 t_wall=2026-10-26T12:52:20.535+0800] {\"cycle\":1,\"frac\":0.3011,\"chunk\":24,\"chunks\":80}",
+    "[STATE tmp_writing t_mono=0.406000 t_wall=2026-10-26T12:52:20.586+0800] {\"cycle\":1,\"frac\":0.4014,\"chunk\":32,\"chunks\":80}",
+    "[STATE tmp_writing t_mono=0.468000 t_wall=2026-10-26T12:52:20.638+0800] {\"cycle\":1,\"frac\":0.5018,\"chunk\":40,\"chunks\":80}"
+   ],
+   "child_result": null,
+   "settle": {
+    "probes": [
+     {
+      "probe": 1,
+      "bytes": 4096,
+      "write_ms": 0.003,
+      "flush_ms": 0.077,
+      "fsync_ms": 0.681,
+      "total_ms": 0.76,
+      "slow": false,
+      "sleep_ms_after": 0
+     }
+    ],
+    "n_probes": 1,
+    "source": "state_log (child killed before result)",
+    "total_s": null,
+    "removed": null
+   },
+   "settle_probe": [
+    {
+     "probe": 1,
+     "bytes": 4096,
+     "write_ms": 0.003,
+     "flush_ms": 0.077,
+     "fsync_ms": 0.681,
+     "total_ms": 0.76,
+     "slow": false,
+     "sleep_ms_after": 0
+    }
+   ],
+   "cycle_times_s": [],
+   "cycle1_partial_s": 0.312,
+   "n_cycles_completed": 0,
+   "target": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_k1\\warmup-settle-2\\target.kvmem",
+    "sha16": "3b046c8ee3fb3b53",
+    "bytes": 5224388
+   },
+   "target_n_tokens": 50,
+   "target_third": false,
+   "target_ok": false,
+   "tmp_remaining": [
+    "target.kvmem.tmp-12128-1"
+   ],
+   "settle_probe_remaining": [],
+   "peak_gib": 0.7666,
+   "model_loaded": false,
+   "armed": false,
+   "warmup_no_kill": true,
+   "stdout_tail": "[STATE vulkan_init t_mono=0.015000 t_wall=2026-10-26T12:52:20.190+0800] {}\n[STATE instance_created t_mono=0.062000 t_wall=2026-10-26T12:52:20.235+0800] {\"rc\":0,\"instance\":true}\n[STATE physical_device t_mono=0.062000 t_wall=2026-10-26T12:52:20.237+0800] {\"rc\":null,\"name\":\"AMD Radeon RX 6750 GRE 10GB\",\"api_version\":4211003,\"driver_version\":8388961,\"vendor_id\":4098,\"device_id\":29695,\"device_type\":2,\"device_count\":1}\n[STATE queue_family t_mono=0.062000 t_wall=2026-10-26T12:52:20.237+0800] {\"index\":0,\"flags\":15,\"queue_count\":8}\n[STATE device_created t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0,\"device\":true}\n[STATE buffer_created t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0}\n[STATE memory_allocated t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0,\"size\":4096,\"memory_type\":1}\n[STATE buffer_bound t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0}\n[STATE command_pool_created t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0}\n[STATE command_buffer_allocated t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0,\"command_buffer\":true}\n[STATE command_buffer_begin t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0}\n[STATE command_buffer_end t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0}\n[STATE fence_created t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0}\n[STATE fence_reset t_mono=0.093000 t_wall=2026-10-26T12:52:20.275+0800] {\"rc\":0}\n[STATE submitted t_mono=0.109000 t_wall=2026-10-26T12:52:20.280+0800] {\"rc\":0,\"submitted\":true}\n[STATE fence_wait t_mono=0.109000 t_wall=2026-10-26T12:52:20.280+0800] {\"rc\":0}\n[STATE device_ready t_mono=0.109000 t_wall=2026-10-26T12:52:20.280+0800] {\"queue_family\":0,\"submitted\":true,\"buffer_bytes\":4096,\"memory_type\":1}\n[STATE park t_mono=0.109000 t_wall=2026-10-26T12:52:20.280+0800] {}\n[STATE wait_idle t_mono=0.109000 t_wall=2026-10-26T12:52:20.280+0800] {\"rc\":0}\n[STATE destroy_device t_mono=0.109000 t_wall=2026-10-26T12:52:20.285+0800] {\"rc\":null,\"api\":\"void\",\"completed\":true}\n[STATE destroy_instance t_mono=0.125000 t_wall=2026-10-26T12:52:20.297+0800] {\"rc\":null,\"api\":\"void\",\"completed\":true}\n[STATE parked t_mono=0.125000 t_wall=2026-10-26T12:52:20.297+0800] {\"device_destroyed\":true,\"instance_destroyed\":true,\"held_device\":false,\"vulkan_calls_after_park\":0}\n[STATE holding t_mono=0.125000 t_wall=2026-10-26T12:52:20.297+0800] {\"device_destroyed\":true,\"pure_file\":true,\"vk\":\"on\"}\n[STATE settle_probe t_mono=0.125000 t_wall=2026-10-26T12:52:20.298+0800] {\"probe\":1,\"bytes\":4096,\"write_ms\":0.003,\"flush_ms\":0.077,\"fsync_ms\":0.681,\"total_ms\":0.76,\"slow\":false,\"sleep_ms_after\":0}\n[STATE settle_done t_mono=0.125000 t_wall=2026-10-26T12:52:20.298+0800] {\"probes\":1,\"total_s\":0.001,\"final_total_ms\":0.76,\"removed\":true}\n[STATE target_initialized t_mono=0.156000 t_wall=2026-10-26T12:52:20.335+0800] {\"target\":\"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m5\\\\out\\\\kill_k1\\\\warmup-settle-2\\\\target.kvmem\",\"sha16\":\"3b046c8ee3fb3b53\",\"n_tokens\":50,\"bytes\":5224388}\n[STATE save_loop t_mono=0.156000 t_wall=2026-10-26T12:52:20.335+0800] {\"cycle\":1,\"of\":3}\n[STATE saving_cycle t_mono=0.156000 t_wall=2026-10-26T12:52:20.335+0800] {\"cycle\":1,\"phase\":\"pre_tmp\"}\n[STATE tmp_writing t_mono=0.203000 t_wall=2026-10-26T12:52:20.386+0800] {\"cycle\":1,\"frac\":0.0,\"chunk_bytes\":65536}\n[STATE tmp_writing t_mono=0.203000 t_wall=2026-10-26T12:52:20.386+0800] {\"cycle\":1,\"frac\":0.0125,\"chunk\":1,\"chunks\":80}\n[STATE tmp_writing t_mono=0.250000 t_wall=2026-10-26T12:52:20.432+0800] {\"cycle\":1,\"frac\":0.1004,\"chunk\":8,\"chunks\":80}\n[STATE tmp_writing t_mono=0.312000 t_wall=2026-10-26T12:52:20.483+0800] {\"cycle\":1,\"frac\":0.2007,\"chunk\":16,\"chunks\":80}\n[STATE tmp_writing t_mono=0.359000 t_wall=2026-10-26T12:52:20.535+0800] {\"cycle\":1,\"frac\":0.3011,\"chunk\":24,\"chunks\":80}\n[STATE tmp_writing t_mono=0.406000 t_wall=2026-10-26T12:52:20.586+0800] {\"cycle\":1,\"frac\":0.4014,\"chunk\":32,\"chunks\":80}\n[STATE tmp_writing t_mono=0.468000 t_wall=2026-10-26T12:52:20.638+0800] {\"cycle\":1,\"frac\":0.5018,\"chunk\":40,\"chunks\":80}\n",
+   "stderr_tail": "",
+   "state_settle_probe": [
+    {
+     "probe": 1,
+     "bytes": 4096,
+     "write_ms": 0.003,
+     "flush_ms": 0.077,
+     "fsync_ms": 0.681,
+     "total_ms": 0.76,
+     "slow": false,
+     "sleep_ms_after": 0
+    }
+   ]
+  }
+ ],
+ "status": "stopped",
+ "gate": {
+  "pre": {
+   "tag": "warmup_pre",
+   "values": {
+    "pnp_rndis_usb_audio": 0,
+    "vram_baseline_gib": 0.7151,
+    "free_ram_kb": 9009116,
+    "gpu_procs_gt256mb": 0,
+    "browser_or_code_procs": 7,
+    "boot_id": "2026-10-26T03:24:52.5000000+08:00"
+   },
+   "minidump_count": 5,
+   "minidump_latest": "2026-10-26T03:24:55.7693314+08:00",
+   "browser_present": true,
+   "browser_or_code_procs_recorded": 7,
+   "gate_ok": true,
+   "fail_reasons": [],
+   "host_check_parsed": {
+    "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+    "dumps": [
+     {
+      "name": "102626-5187-01.dmp",
+      "bytes": 2201077,
+      "mtime": "2026-10-26T01:31:36.2997028+08:00"
+     },
+     {
+      "name": "102626-4468-01.dmp",
+      "bytes": 1994809,
+      "mtime": "2026-10-26T01:38:56.5625530+08:00"
+     },
+     {
+      "name": "102626-4593-01.dmp",
+      "bytes": 1063617,
+      "mtime": "2026-10-26T01:56:32.6758278+08:00"
+     },
+     {
+      "name": "102626-4437-01.dmp",
+      "bytes": 2062496,
+      "mtime": "2026-10-26T03:10:17.4578327+08:00"
+     },
+     {
+      "name": "102626-4671-01.dmp",
+      "bytes": 2043758,
+      "mtime": "2026-10-26T03:24:55.7693314+08:00"
+     }
+    ],
+    "existing_count": 5,
+    "latest_mtime": "2026-10-26T03:24:55.7693314+08:00"
+   }
+  },
+  "after": {
+   "tag": "warmup_after",
+   "values": {
+    "pnp_rndis_usb_audio": 0,
+    "vram_baseline_gib": 0.7122,
+    "free_ram_kb": 9074884,
+    "gpu_procs_gt256mb": 0,
+    "browser_or_code_procs": 7,
+    "boot_id": "2026-10-26T03:24:52.5000000+08:00"
+   },
+   "minidump_count": 5,
+   "minidump_latest": "2026-10-26T03:24:55.7693314+08:00",
+   "browser_present": true,
+   "browser_or_code_procs_recorded": 7,
+   "gate_ok": true,
+   "fail_reasons": [],
+   "host_check_parsed": {
+    "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+    "dumps": [
+     {
+      "name": "102626-5187-01.dmp",
+      "bytes": 2201077,
+      "mtime": "2026-10-26T01:31:36.2997028+08:00"
+     },
+     {
+      "name": "102626-4468-01.dmp",
+      "bytes": 1994809,
+      "mtime": "2026-10-26T01:38:56.5625530+08:00"
+     },
+     {
+      "name": "102626-4593-01.dmp",
+      "bytes": 1063617,
+      "mtime": "2026-10-26T01:56:32.6758278+08:00"
+     },
+     {
+      "name": "102626-4437-01.dmp",
+      "bytes": 2062496,
+      "mtime": "2026-10-26T03:10:17.4578327+08:00"
+     },
+     {
+      "name": "102626-4671-01.dmp",
+      "bytes": 2043758,
+      "mtime": "2026-10-26T03:24:55.7693314+08:00"
+     }
+    ],
+    "existing_count": 5,
+    "latest_mtime": "2026-10-26T03:24:55.7693314+08:00"
+   }
+  }
+ },
+ "warmup_times_s": [
+  60.007,
+  60.005
+ ],
+ "settle_probe_summary": [
+  {
+   "n": 1,
+   "probes": [
+    {
+     "probe": 1,
+     "bytes": 4096,
+     "write_ms": 0.003,
+     "flush_ms": 0.123,
+     "fsync_ms": 0.709,
+     "total_ms": 0.835,
+     "slow": false,
+     "sleep_ms_after": 0
+    }
+   ],
+   "settle_total_s": null,
+   "final_probe_ms": 0.835
+  },
+  {
+   "n": 2,
+   "probes": [
+    {
+     "probe": 1,
+     "bytes": 4096,
+     "write_ms": 0.003,
+     "flush_ms": 0.077,
+     "fsync_ms": 0.681,
+     "total_ms": 0.76,
+     "slow": false,
+     "sleep_ms_after": 0
+    }
+   ],
+   "settle_total_s": null,
+   "final_probe_ms": 0.76
+  }
+ ],
+ "all_warmups_under_10s": false,
+ "stop_reason": "two consecutive warm-ups >10 s (60.007 s, 60.005 s); stopped at 2/3 by the consecutive-slow rule",
+ "finished_at": "2026-10-26T12:54:02+0800",
+ "settle_verdict": "4 KiB settle probe passed in both runs (0.835 ms, 0.760 ms) and did not prevent the first-cycle save freeze: tmp stopped at 3,145,728 B (48 chunks), target untouched, no cycle completed.",
+ "attempts": [
+  {
+   "id": "warmup_settle_1",
+   "counted": true,
+   "attempts": 1,
+   "rerun": false
+  },
+  {
+   "id": "warmup_settle_2",
+   "counted": true,
+   "attempts": 1,
+   "rerun": false
+  },
+  {
+   "id": "warmup_settle_3",
+   "counted": false,
+   "reason": "not started: two consecutive >10 s warm-ups triggered the stop rule"
+  }
+ ],
+ "formal_stage_kills": 0,
+ "no_model": true,
+ "l1_runs": 0,
+ "upper_bound_changed": false
+}

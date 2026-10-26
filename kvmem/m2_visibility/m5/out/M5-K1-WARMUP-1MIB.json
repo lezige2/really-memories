@@ -1,0 +1,159 @@
+{
+ "schema": "m5_k1_warmup_1mib_v1",
+ "at": "2026-10-26T12:55:23+0800",
+ "purpose": "1 MiB smoke only; no trace; no kill; no L1",
+ "fixture": {
+  "child": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_park_child.py",
+   "sha16": "20bbbad16f4f0b71",
+   "bytes": 36593
+  },
+  "before": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5-KILL-before.kvmem",
+   "sha16": "3b046c8ee3fb3b53",
+   "bytes": 5224388
+  },
+  "settle_changed": false,
+  "trace_used": false
+ },
+ "payload_amended": {
+  "before": "5,224,388 B / 80 chunk",
+  "after": "1,048,576 B / 20 chunk (chunk 52,429 B; existing 1 MiB variant)",
+  "reason": "planned hypothesis was not supported: 1 MiB payload still froze at 629,148 B in cycle 1",
+  "reason_planned": "post-destroy first large write freezes process at ~3 MiB; test whether 1 MiB payload avoids environmental freeze",
+  "test_result": "did_not_avoid_freeze",
+  "actual_tmp_bytes": 629148
+ },
+ "timeout_policy": {
+  "warmup_soft_s": 60.0,
+  "slow_s": 10.0,
+  "two_warmups": true,
+  "stop_on_any_freeze": true
+ },
+ "a_plan": {
+  "status": "withheld_not_run_freeze",
+  "atomicity_claim_size_independent": true,
+  "large_payload_kill": "未做（环境冻结）",
+  "note": "1 MiB smoke failed; A-plan formal small-payload 100 kills is NOT authorized by this result.",
+  "before_fixture": "retain before n_tokens semantics; K1 target becomes 1 MiB synthetic payload (before 1 MiB prefix + valid header); payload_is_synthetic=true",
+  "load_strict": "still uses real M5-KILL-before.kvmem (5.2 MB); if that write freezes, record separately"
+ },
+ "runs": [
+  {
+   "n": 1,
+   "elapsed_s": 60.007,
+   "timed_out_gt60": true,
+   "completed": false,
+   "freeze": true,
+   "returncode": 1,
+   "signals_sent": 1,
+   "slow_warmup": true,
+   "cycles": [],
+   "n_cycles_completed": 0,
+   "cycle_times_s": [],
+   "settle_probe": [
+    {
+     "probe": 1,
+     "bytes": 4096,
+     "write_ms": 0.004,
+     "flush_ms": 0.083,
+     "fsync_ms": 0.56,
+     "total_ms": 0.647,
+     "slow": false,
+     "sleep_ms_after": 0
+    }
+   ],
+   "settle_total_s": null,
+   "peak_gib": 0.6776,
+   "payload": {
+    "bytes_requested": 1048576,
+    "chunk_bytes": 52429,
+    "chunks_expected": 20,
+    "sha16": "b5be581a495a45ff"
+   },
+   "target": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_k1\\warmup-1mib-1\\target.kvmem",
+    "sha16": "3b046c8ee3fb3b53",
+    "bytes": 5224388
+   },
+   "target_n_tokens": 50,
+   "target_ok_payload": false,
+   "target_bytes_final": 5224388,
+   "tmp_remaining": [
+    "target.kvmem.tmp-11592-1"
+   ],
+   "state_log": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\kill_state_warmup_1mib_001.log",
+    "sha16": "ad40af2cbb1a280b",
+    "bytes": 4174
+   },
+   "result": null,
+   "last_state": "[STATE tmp_writing t_mono=0.250000 t_wall=2026-10-26T12:55:23.896+0800] {\"cycle\":1,\"frac\":0.5,\"chunk\":10,\"chunks\":20}",
+   "stderr_tail": "",
+   "settle": {
+    "probes": [
+     {
+      "probe": 1,
+      "bytes": 4096,
+      "write_ms": 0.004,
+      "flush_ms": 0.083,
+      "fsync_ms": 0.56,
+      "total_ms": 0.647,
+      "slow": false,
+      "sleep_ms_after": 0
+     }
+    ],
+    "n_probes": 1,
+    "source": "state_log (child killed before result)",
+    "total_s": null,
+    "removed": true
+   },
+   "last_heartbeat": "[HEARTBEAT t_mono=0.219000 t_wall=2026-10-26T12:55:23.864+0800 phase=save_write(chunk_4)] {\"cycle\":1,\"chunk\":4}",
+   "heartbeat_count": 1,
+   "cycle1_partial_s": 0.109,
+   "tmp_bytes": [
+    629148
+   ],
+   "tmp_chunks": [
+    12.0
+   ],
+   "status_from_child": null,
+   "note": "target remains the real 5,224,388 B before; tmp stopped at 629,148 B = 12 * 52,429 B"
+  }
+ ],
+ "attempts": [
+  {
+   "id": "1mib_warmup_1",
+   "counted": true,
+   "attempts": 1,
+   "rerun": false
+  },
+  {
+   "id": "1mib_warmup_2",
+   "counted": false,
+   "reason": "not started: first 1 MiB warm-up froze"
+  }
+ ],
+ "status": "stopped_freeze",
+ "judgment": {
+  "passed": false,
+  "freeze": true,
+  "freeze_tmp_bytes": 629148,
+  "freeze_tmp_chunks": 12,
+  "payload_bytes": 1048576,
+  "payload_chunks_expected": 20,
+  "last_phase": "save_write(chunk_4)",
+  "last_state": "[STATE tmp_writing t_mono=0.250000 t_wall=2026-10-26T12:55:23.896+0800] {\"cycle\":1,\"frac\":0.5,\"chunk\":10,\"chunks\":20}",
+  "interpretation": "1 MiB reduced payload ALSO freezes in cycle 1, at ~0.63 MiB, before fsync/replace. This is not a 3 MiB capacity threshold and does not support A plan small-payload kill. Settle 4 KiB probe passed (0.647 ms) and did not prevent it.",
+  "next": "stop hand; discuss B plan (fsync every 8 chunks, fidelity discount) or record 未接上"
+ },
+ "signals_sent": 1,
+ "kill_attempts": 0,
+ "formal_stage_kills": 0,
+ "armed": false,
+ "no_model": true,
+ "l1_runs": 0,
+ "upper_bound_changed": false,
+ "finished_at": "2026-10-26T12:56:53+0800",
+ "settle_verdict": "4 KiB probe passed in 0.647 ms; payload reduced to 1 MiB still froze at 629,148 B in cycle 1; settle did not prevent it."
+}

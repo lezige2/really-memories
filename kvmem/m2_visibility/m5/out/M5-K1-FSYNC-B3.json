@@ -1,0 +1,131 @@
+{
+ "schema": "m5_k1_fsync_b3_v1",
+ "at": "2026-10-26T13:04:06+0800",
+ "purpose": "B3 only: every chunk (80/cycle); 5 MB payload; no trace; no kill; no L1",
+ "fixture": {
+  "child": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_park_child.py",
+   "sha16": "acc8f4fd77e1e682",
+   "bytes": 39224
+  },
+  "before": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5-KILL-before.kvmem",
+   "sha16": "3b046c8ee3fb3b53",
+   "bytes": 5224388
+  },
+  "trace_used": false,
+  "settle_skipped": true
+ },
+ "b3": {
+  "fsync_every": 1,
+  "payload_bytes": 5224388,
+  "chunks": 80,
+  "chunk_bytes": 65536,
+  "cycles": 3,
+  "expected_fsync_per_cycle": 80,
+  "observed_freeze": "cycle1 at 4,194,304 B (64 chunks), last heartbeat save_fsync chunk59, last state chunk56",
+  "fsync_note": "heartbeat shows save_fsync at chunk 29 and 59, proving per-chunk fsync was active before the freeze; exact per-fsync timings unavailable"
+ },
+ "io_profile_candidate": {
+  "from": "write 80×64KiB → flush → fsync → MoveFileExW",
+  "to": "write 80×64KiB, fsync every 8 chunk → flush → fsync → MoveFileExW",
+  "reason": "post-destroy first large write freezes process ~0.3 s after save starts, independent of payload size and post-park wait; high-frequency fsync suppresses it",
+  "fidelity_disclosure": "B3 write cadence differs from the product path (product fsyncs once); K1 support for process-level crash-safety is slightly weaker. Criteria unchanged: real kill, target in {before, after}, third=0, four recovery states; intermediate fsync only persists tmp earlier and does not weaken the no-torn-file claim.",
+  "large_payload_kill": "5,224,388 B 原载荷保留",
+  "status": "not_adopted_B3_froze"
+ },
+ "timeout_policy": {
+  "soft_s": 60.0,
+  "slow_s": 10.0
+ },
+ "attempts": [
+  {
+   "id": "B3",
+   "counted": true,
+   "attempts": 1,
+   "rerun": false
+  }
+ ],
+ "result": {
+  "elapsed_s": 60.008,
+  "timed_out_gt60": true,
+  "returncode": 1,
+  "signals_sent": 1,
+  "completed": false,
+  "freeze": true,
+  "cycle_times_s": [],
+  "cycles": [],
+  "n_cycles_completed": 0,
+  "fsync_every": 1,
+  "fsync_per_cycle": {},
+  "fsync_events": [],
+  "target": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_k1\\fsync-b3\\target.kvmem",
+   "sha16": "3b046c8ee3fb3b53",
+   "bytes": 5224388
+  },
+  "target_sha16": "3b046c8ee3fb3b53",
+  "target_n_tokens": 50,
+  "tmp_remaining": [
+   "target.kvmem.tmp-11248-1"
+  ],
+  "peak_gib": 0.6776,
+  "state_log": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_state_fsync_b3.log",
+   "sha16": "b13caf5f8827daee",
+   "bytes": 4288
+  },
+  "result_file": null,
+  "states_tail": [
+   "[STATE tmp_writing t_mono=0.203000 t_wall=2026-10-26T13:03:06.572+0800] {\"cycle\":1,\"frac\":0.0125,\"chunk\":1,\"chunks\":80}",
+   "[STATE tmp_writing t_mono=0.266000 t_wall=2026-10-26T13:03:06.625+0800] {\"cycle\":1,\"frac\":0.1004,\"chunk\":8,\"chunks\":80}",
+   "[STATE tmp_writing t_mono=0.313000 t_wall=2026-10-26T13:03:06.681+0800] {\"cycle\":1,\"frac\":0.2007,\"chunk\":16,\"chunks\":80}",
+   "[STATE tmp_writing t_mono=0.375000 t_wall=2026-10-26T13:03:06.737+0800] {\"cycle\":1,\"frac\":0.3011,\"chunk\":24,\"chunks\":80}",
+   "[STATE tmp_writing t_mono=0.438000 t_wall=2026-10-26T13:03:06.794+0800] {\"cycle\":1,\"frac\":0.4014,\"chunk\":32,\"chunks\":80}",
+   "[STATE tmp_writing t_mono=0.485000 t_wall=2026-10-26T13:03:06.850+0800] {\"cycle\":1,\"frac\":0.5018,\"chunk\":40,\"chunks\":80}",
+   "[STATE tmp_writing t_mono=0.547000 t_wall=2026-10-26T13:03:06.906+0800] {\"cycle\":1,\"frac\":0.6021,\"chunk\":48,\"chunks\":80}",
+   "[STATE tmp_writing t_mono=0.594000 t_wall=2026-10-26T13:03:06.962+0800] {\"cycle\":1,\"frac\":0.7025,\"chunk\":56,\"chunks\":80}"
+  ],
+  "stdout_tail": "[STATE vulkan_init t_mono=0.000000 t_wall=2026-10-26T13:03:06.370+0800] {}\n[STATE instance_created t_mono=0.047000 t_wall=2026-10-26T13:03:06.414+0800] {\"rc\":0,\"instance\":true}\n[STATE physical_device t_mono=0.047000 t_wall=2026-10-26T13:03:06.414+0800] {\"rc\":null,\"name\":\"AMD Radeon RX 6750 GRE 10GB\",\"api_version\":4211003,\"driver_version\":8388961,\"vendor_id\":4098,\"device_id\":29695,\"device_type\":2,\"device_count\":1}\n[STATE queue_family t_mono=0.047000 t_wall=2026-10-26T13:03:06.414+0800] {\"index\":0,\"flags\":15,\"queue_count\":8}\n[STATE device_created t_mono=0.094000 t_wall=2026-10-26T13:03:06.453+0800] {\"rc\":0,\"device\":true}\n[STATE buffer_created t_mono=0.094000 t_wall=2026-10-26T13:03:06.453+0800] {\"rc\":0}\n[STATE memory_allocated t_mono=0.094000 t_wall=2026-10-26T13:03:06.457+0800] {\"rc\":0,\"size\":4096,\"memory_type\":1}\n[STATE buffer_bound t_mono=0.094000 t_wall=2026-10-26T13:03:06.457+0800] {\"rc\":0}\n[STATE command_pool_created t_mono=0.094000 t_wall=2026-10-26T13:03:06.457+0800] {\"rc\":0}\n[STATE command_buffer_allocated t_mono=0.094000 t_wall=2026-10-26T13:03:06.457+0800] {\"rc\":0,\"command_buffer\":true}\n[STATE command_buffer_begin t_mono=0.094000 t_wall=2026-10-26T13:03:06.457+0800] {\"rc\":0}\n[STATE command_buffer_end t_mono=0.094000 t_wall=2026-10-26T13:03:06.457+0800] {\"rc\":0}\n[STATE fence_created t_mono=0.094000 t_wall=2026-10-26T13:03:06.457+0800] {\"rc\":0}\n[STATE fence_reset t_mono=0.094000 t_wall=2026-10-26T13:03:06.457+0800] {\"rc\":0}\n[STATE submitted t_mono=0.094000 t_wall=2026-10-26T13:03:06.457+0800] {\"rc\":0,\"submitted\":true}\n[STATE fence_wait t_mono=0.094000 t_wall=2026-10-26T13:03:06.460+0800] {\"rc\":0}\n[STATE device_ready t_mono=0.094000 t_wall=2026-10-26T13:03:06.460+0800] {\"queue_family\":0,\"submitted\":true,\"buffer_bytes\":4096,\"memory_type\":1}\n[STATE park t_mono=0.094000 t_wall=2026-10-26T13:03:06.460+0800] {}\n[STATE wait_idle t_mono=0.094000 t_wall=2026-10-26T13:03:06.460+0800] {\"rc\":0}\n[STATE destroy_device t_mono=0.094000 t_wall=2026-10-26T13:03:06.462+0800] {\"rc\":null,\"api\":\"void\",\"completed\":true}\n[STATE destroy_instance t_mono=0.125000 t_wall=2026-10-26T13:03:06.483+0800] {\"rc\":null,\"api\":\"void\",\"completed\":true}\n[STATE parked t_mono=0.125000 t_wall=2026-10-26T13:03:06.483+0800] {\"device_destroyed\":true,\"instance_destroyed\":true,\"held_device\":false,\"vulkan_calls_after_park\":0}\n[STATE holding t_mono=0.125000 t_wall=2026-10-26T13:03:06.483+0800] {\"device_destroyed\":true,\"pure_file\":true,\"vk\":\"on\"}\n[STATE target_initialized t_mono=0.156000 t_wall=2026-10-26T13:03:06.521+0800] {\"target\":\"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m5\\\\out\\\\kill_k1\\\\fsync-b3\\\\target.kvmem\",\"sha16\":\"3b046c8ee3fb3b53\",\"n_tokens\":50,\"bytes\":5224388}\n[STATE save_loop t_mono=0.156000 t_wall=2026-10-26T13:03:06.521+0800] {\"cycle\":1,\"of\":3}\n[STATE saving_cycle t_mono=0.156000 t_wall=2026-10-26T13:03:06.521+0800] {\"cycle\":1,\"phase\":\"pre_tmp\"}\n[STATE tmp_writing t_mono=0.203000 t_wall=2026-10-26T13:03:06.572+0800] {\"cycle\":1,\"frac\":0.0,\"chunk_bytes\":65536}\n[STATE tmp_writing t_mono=0.203000 t_wall=2026-10-26T13:03:06.572+0800] {\"cycle\":1,\"frac\":0.0125,\"chunk\":1,\"chunks\":80}\n[STATE tmp_writing t_mono=0.266000 t_wall=2026-10-26T13:03:06.625+0800] {\"cycle\":1,\"frac\":0.1004,\"chunk\":8,\"chunks\":80}\n[STATE tmp_writing t_mono=0.313000 t_wall=2026-10-26T13:03:06.681+0800] {\"cycle\":1,\"frac\":0.2007,\"chunk\":16,\"chunks\":80}\n[STATE tmp_writing t_mono=0.375000 t_wall=2026-10-26T13:03:06.737+0800] {\"cycle\":1,\"frac\":0.3011,\"chunk\":24,\"chunks\":80}\n[STATE tmp_writing t_mono=0.438000 t_wall=2026-10-26T13:03:06.794+0800] {\"cycle\":1,\"frac\":0.4014,\"chunk\":32,\"chunks\":80}\n[STATE tmp_writing t_mono=0.485000 t_wall=2026-10-26T13:03:06.850+0800] {\"cycle\":1,\"frac\":0.5018,\"chunk\":40,\"chunks\":80}\n[STATE tmp_writing t_mono=0.547000 t_wall=2026-10-26T13:03:06.906+0800] {\"cycle\":1,\"frac\":0.6021,\"chunk\":48,\"chunks\":80}\n[STATE tmp_writing t_mono=0.594000 t_wall=2026-10-26T13:03:06.962+0800] {\"cycle\":1,\"frac\":0.7025,\"chunk\":56,\"chunks\":80}\n",
+  "stderr_tail": "",
+  "save_ok": null,
+  "cycle1_partial_s": 0.438,
+  "tmp_bytes": [
+   4194304
+  ],
+  "tmp_chunks": [
+   64.0
+  ],
+  "last_state": "[STATE tmp_writing t_mono=0.594000 t_wall=2026-10-26T13:03:06.962+0800] {\"cycle\":1,\"frac\":0.7025,\"chunk\":56,\"chunks\":80}",
+  "last_heartbeat": "[HEARTBEAT t_mono=0.625000 t_wall=2026-10-26T13:03:06.985+0800 phase=save_fsync] {\"cycle\":1,\"chunk\":59}",
+  "heartbeat_count": 3,
+  "fsync_events_available": false,
+  "target_bytes_final": 5224388,
+  "note": "tmp stopped at 4,194,304 B = 64 chunks; per-chunk fsync at 1..64 should have run, but child was killed before result so exact count/timings are unavailable"
+ },
+ "b2": {
+  "status": "not_run",
+  "reason": "Lead corrected: B2 not run; B3 tested instead"
+ },
+ "status": "stopped_freeze",
+ "judgment": {
+  "B3_passed": false,
+  "freeze": true,
+  "freeze_tmp_bytes": 4194304,
+  "freeze_tmp_chunks": 64,
+  "save_to_freeze_s": 0.438,
+  "fsync_every": 1,
+  "expected_fsync_per_cycle": 80,
+  "observed": "per-chunk flush+fsync also froze at the 4 MiB / 64-chunk boundary; no cycle completed; no target replacement",
+  "interpretation": "High-frequency fsync alone is not a reliable suppressor. V1-V3 passes were trace-write confounded; per-chunk tmp fsync still freezes.",
+  "next": "B3 failed; per Lead, write M5-K1-UNATTACHED.json and stop. No L1."
+ },
+ "signals_sent": 1,
+ "kill_attempts": 0,
+ "formal_stage_kills": 0,
+ "armed": false,
+ "no_model": true,
+ "l1_runs": 0,
+ "upper_bound_changed": false,
+ "finished_at": "2026-10-26T13:04:30+0800"
+}

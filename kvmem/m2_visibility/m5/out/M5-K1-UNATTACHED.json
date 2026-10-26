@@ -1,0 +1,209 @@
+{
+ "schema": "m5_k1_unattached_v1",
+ "at": "2026-10-26T13:04:49+0800",
+ "status": "未接上（环境冻结）",
+ "four_state": "未接上（环境冻结）",
+ "judgment": "K1 formal 100-kill evidence cannot be produced: every no-trace arm that entered the first save window froze at a 0.25–0.44 s / ~0.6–4 MiB boundary after park. The only arms that completed (V1–V3) wrote a flush+fsync trace line at every boundary to a separate file, which is a timing-changing confound and is not admissible as formal evidence. Therefore K1 is 未接上（环境冻结）, not a product failure and not an atomicity pass.",
+ "conclusion": {
+  "formal_k1_run": false,
+  "l1_runs": 0,
+  "kill_attempts": 0,
+  "formal_stage_kills": 0,
+  "atomicity_claim": "未做（环境冻结）",
+  "large_payload_kill": "未做（环境冻结）",
+  "criteria_unchanged": true,
+  "no_product_change": true,
+  "no_model_load": true,
+  "reason": "post-destroy first save window freezes the process; no stable no-trace configuration found"
+ },
+ "fixture": {
+  "child": {
+   "path": "kvmem\\m2_visibility\\m5\\out\\_k1_park_child.py",
+   "sha16": "acc8f4fd77e1e682",
+   "bytes": 39224
+  },
+  "before": {
+   "path": "kvmem\\m2_visibility\\m5\\out\\M5-KILL-before.kvmem",
+   "sha16": "3b046c8ee3fb3b53",
+   "bytes": 5224388
+  },
+  "parent": {
+   "path": "kvmem\\m2_visibility\\m5\\out\\_k1_park_parent.py",
+   "sha16": "7ac8cef82a1bbff3",
+   "bytes": 20254
+  },
+  "recovery": {
+   "path": "kvmem\\m2_visibility\\m5\\out\\_k1_recovery.py",
+   "sha16": "52f33f17e10ee7ca",
+   "bytes": 7029
+  },
+  "manifest": {
+   "path": "kvmem\\m2_visibility\\m5\\out\\_k1_fixture_manifest.json",
+   "sha16": "d2d6ab0b6f806e15",
+   "bytes": 594
+  }
+ },
+ "variants": [
+  {
+   "id": "LOCATE_VK_ON",
+   "description": "5 MB, single final fsync, vk=on; diagnostic hard stop 180 s",
+   "result": "froze at 4 MiB / 64 chunks; 2 heartbeats then silence",
+   "artifact": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\M5-K1-STALL-LOCATE.json",
+    "sha16": "007ba7b215d93e29",
+    "bytes": 138990
+   }
+  },
+  {
+   "id": "LOCATE_VK_OFF",
+   "description": "vk=off control",
+   "result": "5 cycles completed ~5.3 s; no freeze",
+   "artifact": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\M5-K1-STALL-LOCATE.json",
+    "sha16": "007ba7b215d93e29",
+    "bytes": 138990
+   }
+  },
+  {
+   "id": "V1-V3_TRACE",
+   "description": "prewarm / 1 MiB / 1 MiB chunks, each with per-boundary trace flush+fsync",
+   "result": "all completed <6 s, no freeze; BUT trace fsync is the timing confound; not formal evidence",
+   "artifact": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\M5-K1-STALL-MECH.json",
+    "sha16": "81af2798702531e4",
+    "bytes": 414827
+   }
+  },
+  {
+   "id": "SETTLE_4K",
+   "description": "4 KiB settle probe after park; 5 MB; no trace",
+   "result": "probe 0.835/0.760 ms; still froze at 3 MiB / 48 chunks in two runs; stopped by two-consecutive-slow rule",
+   "artifact": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\M5-K1-WARMUP-SETTLE.json",
+    "sha16": "2ed0e41306849e0e",
+    "bytes": 28145
+   }
+  },
+  {
+   "id": "PAYLOAD_1MIB",
+   "description": "1 MiB payload (20 x 52,429 B); no trace; no settle",
+   "result": "froze at 629,148 B / 12 chunks; one run, stopped hand",
+   "artifact": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\M5-K1-WARMUP-1MIB.json",
+    "sha16": "020be5a92f264ff2",
+    "bytes": 4969
+   }
+  },
+  {
+   "id": "POST_PARK_WAIT_5S",
+   "description": "true 5 s wait after park before save; 5 MB; no trace",
+   "result": "wait completed 5.0 s; froze at 3,670,016 B / 56 chunks; S2 not run",
+   "artifact": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\M5-K1-SLEEP-S1.json",
+    "sha16": "08ca4d70ae2baeef",
+    "bytes": 9219
+   }
+  },
+  {
+   "id": "FSYNC_EVERY_8",
+   "description": "5 MB, fsync every 8 chunks, no trace",
+   "result": "froze at 4,194,304 B / 64 chunks; no result/timings",
+   "artifact": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\M5-K1-FSYNC-B1.json",
+    "sha16": "26352059fd79f1a0",
+    "bytes": 9922
+   }
+  },
+  {
+   "id": "FSYNC_EVERY_1",
+   "description": "5 MB, fsync every chunk (80/cycle), no trace",
+   "result": "froze at 4,194,304 B / 64 chunks; heartbeat showed save_fsync at chunk29/59 then silence",
+   "artifact": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\M5-K1-FSYNC-B3.json",
+    "sha16": "9a417c78ef4d0e03",
+    "bytes": 9503
+   }
+  },
+  {
+   "id": "WARMUP_OLD_5MB",
+   "description": "old 5 MB warm-up before settle",
+   "result": "timed out at 10.006 s; preserved as earlier evidence",
+   "artifact": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\M5-K1-WARMUP.json",
+    "sha16": "a23abaf26c651c83",
+    "bytes": 15752
+   }
+  }
+ ],
+ "attempts": [
+  {
+   "id": "V1-V3",
+   "counted": true,
+   "runs": 3,
+   "rerun": false,
+   "note": "trace confound; not formal"
+  },
+  {
+   "id": "settle_4k",
+   "counted": true,
+   "runs": 2,
+   "rerun": false
+  },
+  {
+   "id": "payload_1mib",
+   "counted": true,
+   "runs": 1,
+   "rerun": false
+  },
+  {
+   "id": "post_park_wait_5s",
+   "counted": true,
+   "runs": 1,
+   "rerun": false
+  },
+  {
+   "id": "fsync_every_8",
+   "counted": true,
+   "runs": 1,
+   "rerun": false
+  },
+  {
+   "id": "fsync_every_1",
+   "counted": true,
+   "runs": 1,
+   "rerun": false
+  },
+  {
+   "id": "L1",
+   "counted": false,
+   "reason": "not started: no stable no-trace K1 condition"
+  }
+ ],
+ "timeout_policy": {
+  "warmup_soft_s": 60.0,
+  "formal_soft_s": 30.0,
+  "global_stop": "two consecutive slow_run or any run >120 s"
+ },
+ "harness_amendments_tried_but_not_adopted": [
+  {
+   "name": "settle_probe",
+   "result": "4 KiB probe passed; did not prevent freeze"
+  },
+  {
+   "name": "post_destroy_wait",
+   "result": "5 s true wait; did not prevent freeze"
+  },
+  {
+   "name": "fsync_every_8",
+   "result": "froze"
+  },
+  {
+   "name": "fsync_every_1",
+   "result": "froze"
+  }
+ ],
+ "no_l1": true,
+ "no_model": true,
+ "upper_bound_changed": false,
+ "finished_at": "2026-10-26T13:04:49+0800"
+}

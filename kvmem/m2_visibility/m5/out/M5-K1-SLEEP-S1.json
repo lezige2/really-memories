@@ -1,0 +1,138 @@
+{
+ "schema": "m5_k1_sleep_s1_v1",
+ "at": "2026-10-26T12:59:10+0800",
+ "purpose": "S1 only: park -> true sleep 5 s -> save 3 cycles; no trace, no kill, no L1",
+ "fixture": {
+  "child": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_park_child.py",
+   "sha16": "98333d06a19a6304",
+   "bytes": 37609
+  },
+  "before": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5-KILL-before.kvmem",
+   "sha16": "3b046c8ee3fb3b53",
+   "bytes": 5224388
+  },
+  "settle_changed": false,
+  "trace_used": false
+ },
+ "s1": {
+  "park_sleep_s": 5.0,
+  "cycles": 3,
+  "settle_skipped": true,
+  "payload": "original 5,224,388 B / 80 x 65,536 B",
+  "post_park_wait_end_state": {
+   "seconds": 5.0,
+   "since_park_s": 5.0
+  },
+  "observed_freeze": "cycle1 write loop at tmp 3,670,016 B (56 chunks), 0.359 s after save_loop start"
+ },
+ "timeout_policy": {
+  "soft_s": 60.0,
+  "hard_s": 60.0,
+  "slow_s": 10.0
+ },
+ "attempts": [
+  {
+   "id": "S1",
+   "counted": true,
+   "attempts": 1,
+   "rerun": false
+  },
+  {
+   "id": "S2",
+   "counted": false,
+   "reason": "not started: S1 froze"
+  }
+ ],
+ "result": {
+  "elapsed_s": 60.01,
+  "timed_out_gt60": true,
+  "returncode": 1,
+  "signals_sent": 1,
+  "completed": false,
+  "freeze": true,
+  "soft_timeout_60": true,
+  "post_park_wait_s": 5.0,
+  "park_to_save_s": 5.031,
+  "settle": null,
+  "cycle_times_s": [],
+  "cycles": [],
+  "n_cycles_completed": 0,
+  "target": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_k1\\sleep-s1\\target.kvmem",
+   "sha16": "3b046c8ee3fb3b53",
+   "bytes": 5224388
+  },
+  "target_sha16": "3b046c8ee3fb3b53",
+  "target_n_tokens": 50,
+  "tmp_remaining": [
+   "target.kvmem.tmp-13072-1"
+  ],
+  "peak_gib": 0.6776,
+  "state_log": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_state_sleep_s1.log",
+   "sha16": "2b421c8cb321d569",
+   "bytes": 6751
+  },
+  "result_file": null,
+  "states_tail": [
+   "[STATE post_park_wait_end t_mono=5.110000 t_wall=2026-10-26T12:58:15.348+0800] {\"seconds\":5.0,\"since_park_s\":5.0}",
+   "[STATE target_initialized t_mono=5.141000 t_wall=2026-10-26T12:58:15.380+0800] {\"target\":\"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m5\\\\out\\\\kill_k1\\\\sleep-s1\\\\target.kvmem\",\"sha16\":\"3b046c8ee3fb3b53\",\"n_tokens\":50,\"bytes\":5224388}",
+   "[STATE save_loop t_mono=5.141000 t_wall=2026-10-26T12:58:15.380+0800] {\"cycle\":1,\"of\":3}",
+   "[STATE saving_cycle t_mono=5.141000 t_wall=2026-10-26T12:58:15.380+0800] {\"cycle\":1,\"phase\":\"pre_tmp\"}",
+   "[STATE tmp_writing t_mono=5.188000 t_wall=2026-10-26T12:58:15.433+0800] {\"cycle\":1,\"frac\":0.0,\"chunk_bytes\":65536}",
+   "[STATE tmp_writing t_mono=5.188000 t_wall=2026-10-26T12:58:15.433+0800] {\"cycle\":1,\"frac\":0.0125,\"chunk\":1,\"chunks\":80}",
+   "[STATE tmp_writing t_mono=5.235000 t_wall=2026-10-26T12:58:15.478+0800] {\"cycle\":1,\"frac\":0.1004,\"chunk\":8,\"chunks\":80}",
+   "[STATE tmp_writing t_mono=5.297000 t_wall=2026-10-26T12:58:15.530+0800] {\"cycle\":1,\"frac\":0.2007,\"chunk\":16,\"chunks\":80}",
+   "[STATE tmp_writing t_mono=5.344000 t_wall=2026-10-26T12:58:15.583+0800] {\"cycle\":1,\"frac\":0.3011,\"chunk\":24,\"chunks\":80}",
+   "[STATE tmp_writing t_mono=5.391000 t_wall=2026-10-26T12:58:15.635+0800] {\"cycle\":1,\"frac\":0.4014,\"chunk\":32,\"chunks\":80}",
+   "[STATE tmp_writing t_mono=5.453000 t_wall=2026-10-26T12:58:15.687+0800] {\"cycle\":1,\"frac\":0.5018,\"chunk\":40,\"chunks\":80}",
+   "[STATE tmp_writing t_mono=5.500000 t_wall=2026-10-26T12:58:15.739+0800] {\"cycle\":1,\"frac\":0.6021,\"chunk\":48,\"chunks\":80}"
+  ],
+  "stdout_tail": "58:10.250+0800] {}\n[STATE instance_created t_mono=0.047000 t_wall=2026-10-26T12:58:10.287+0800] {\"rc\":0,\"instance\":true}\n[STATE physical_device t_mono=0.047000 t_wall=2026-10-26T12:58:10.287+0800] {\"rc\":null,\"name\":\"AMD Radeon RX 6750 GRE 10GB\",\"api_version\":4211003,\"driver_version\":8388961,\"vendor_id\":4098,\"device_id\":29695,\"device_type\":2,\"device_count\":1}\n[STATE queue_family t_mono=0.047000 t_wall=2026-10-26T12:58:10.287+0800] {\"index\":0,\"flags\":15,\"queue_count\":8}\n[STATE device_created t_mono=0.078000 t_wall=2026-10-26T12:58:10.320+0800] {\"rc\":0,\"device\":true}\n[STATE buffer_created t_mono=0.078000 t_wall=2026-10-26T12:58:10.320+0800] {\"rc\":0}\n[STATE memory_allocated t_mono=0.078000 t_wall=2026-10-26T12:58:10.324+0800] {\"rc\":0,\"size\":4096,\"memory_type\":1}\n[STATE buffer_bound t_mono=0.078000 t_wall=2026-10-26T12:58:10.324+0800] {\"rc\":0}\n[STATE command_pool_created t_mono=0.078000 t_wall=2026-10-26T12:58:10.324+0800] {\"rc\":0}\n[STATE command_buffer_allocated t_mono=0.078000 t_wall=2026-10-26T12:58:10.324+0800] {\"rc\":0,\"command_buffer\":true}\n[STATE command_buffer_begin t_mono=0.078000 t_wall=2026-10-26T12:58:10.324+0800] {\"rc\":0}\n[STATE command_buffer_end t_mono=0.078000 t_wall=2026-10-26T12:58:10.324+0800] {\"rc\":0}\n[STATE fence_created t_mono=0.078000 t_wall=2026-10-26T12:58:10.324+0800] {\"rc\":0}\n[STATE fence_reset t_mono=0.078000 t_wall=2026-10-26T12:58:10.324+0800] {\"rc\":0}\n[STATE submitted t_mono=0.078000 t_wall=2026-10-26T12:58:10.324+0800] {\"rc\":0,\"submitted\":true}\n[STATE fence_wait t_mono=0.078000 t_wall=2026-10-26T12:58:10.324+0800] {\"rc\":0}\n[STATE device_ready t_mono=0.078000 t_wall=2026-10-26T12:58:10.324+0800] {\"queue_family\":0,\"submitted\":true,\"buffer_bytes\":4096,\"memory_type\":1}\n[STATE park t_mono=0.078000 t_wall=2026-10-26T12:58:10.324+0800] {}\n[STATE wait_idle t_mono=0.078000 t_wall=2026-10-26T12:58:10.324+0800] {\"rc\":0}\n[STATE destroy_device t_mono=0.094000 t_wall=2026-10-26T12:58:10.330+0800] {\"rc\":null,\"api\":\"void\",\"completed\":true}\n[STATE destroy_instance t_mono=0.110000 t_wall=2026-10-26T12:58:10.345+0800] {\"rc\":null,\"api\":\"void\",\"completed\":true}\n[STATE parked t_mono=0.110000 t_wall=2026-10-26T12:58:10.345+0800] {\"device_destroyed\":true,\"instance_destroyed\":true,\"held_device\":false,\"vulkan_calls_after_park\":0}\n[STATE holding t_mono=0.110000 t_wall=2026-10-26T12:58:10.345+0800] {\"device_destroyed\":true,\"pure_file\":true,\"vk\":\"on\"}\n[STATE post_park_wait_begin t_mono=0.110000 t_wall=2026-10-26T12:58:10.345+0800] {\"seconds\":5.0,\"since_park_s\":0.0}\n[STATE post_park_wait_end t_mono=5.110000 t_wall=2026-10-26T12:58:15.348+0800] {\"seconds\":5.0,\"since_park_s\":5.0}\n[STATE target_initialized t_mono=5.141000 t_wall=2026-10-26T12:58:15.380+0800] {\"target\":\"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m5\\\\out\\\\kill_k1\\\\sleep-s1\\\\target.kvmem\",\"sha16\":\"3b046c8ee3fb3b53\",\"n_tokens\":50,\"bytes\":5224388}\n[STATE save_loop t_mono=5.141000 t_wall=2026-10-26T12:58:15.380+0800] {\"cycle\":1,\"of\":3}\n[STATE saving_cycle t_mono=5.141000 t_wall=2026-10-26T12:58:15.380+0800] {\"cycle\":1,\"phase\":\"pre_tmp\"}\n[STATE tmp_writing t_mono=5.188000 t_wall=2026-10-26T12:58:15.433+0800] {\"cycle\":1,\"frac\":0.0,\"chunk_bytes\":65536}\n[STATE tmp_writing t_mono=5.188000 t_wall=2026-10-26T12:58:15.433+0800] {\"cycle\":1,\"frac\":0.0125,\"chunk\":1,\"chunks\":80}\n[STATE tmp_writing t_mono=5.235000 t_wall=2026-10-26T12:58:15.478+0800] {\"cycle\":1,\"frac\":0.1004,\"chunk\":8,\"chunks\":80}\n[STATE tmp_writing t_mono=5.297000 t_wall=2026-10-26T12:58:15.530+0800] {\"cycle\":1,\"frac\":0.2007,\"chunk\":16,\"chunks\":80}\n[STATE tmp_writing t_mono=5.344000 t_wall=2026-10-26T12:58:15.583+0800] {\"cycle\":1,\"frac\":0.3011,\"chunk\":24,\"chunks\":80}\n[STATE tmp_writing t_mono=5.391000 t_wall=2026-10-26T12:58:15.635+0800] {\"cycle\":1,\"frac\":0.4014,\"chunk\":32,\"chunks\":80}\n[STATE tmp_writing t_mono=5.453000 t_wall=2026-10-26T12:58:15.687+0800] {\"cycle\":1,\"frac\":0.5018,\"chunk\":40,\"chunks\":80}\n[STATE tmp_writing t_mono=5.500000 t_wall=2026-10-26T12:58:15.739+0800] {\"cycle\":1,\"frac\":0.6021,\"chunk\":48,\"chunks\":80}\n",
+  "stderr_tail": "",
+  "save_ok": null,
+  "cycle1_partial_s": 0.359,
+  "tmp_bytes": [
+   3670016
+  ],
+  "tmp_chunks": [
+   56.0
+  ],
+  "last_state": "[STATE tmp_writing t_mono=5.500000 t_wall=2026-10-26T12:58:15.739+0800] {\"cycle\":1,\"frac\":0.6021,\"chunk\":48,\"chunks\":80}",
+  "last_heartbeat": "[HEARTBEAT t_mono=5.375000 t_wall=2026-10-26T12:58:15.620+0800 phase=save_write(chunk_29)] {\"cycle\":1,\"chunk\":29}",
+  "heartbeat_count": 26,
+  "target_bytes_final": 5224388,
+  "settle_skipped": true
+ },
+ "status": "stopped_freeze",
+ "judgment": {
+  "S1_passed": false,
+  "freeze": true,
+  "post_park_wait_s": 5.0,
+  "park_to_save_s": 5.031,
+  "save_to_freeze_s": 0.359,
+  "tmp_bytes": [
+   3670016
+  ],
+  "tmp_chunks": [
+   56.0
+  ],
+  "last_phase": "save_write(chunk_29)",
+  "interpretation": "A true 5 s wait after park did NOT prevent the first-cycle freeze. The freeze still occurs ~0.25-0.36 s after save starts, but the 5 s wait itself completed (heartbeats throughout); time-since-park alone is not sufficient.",
+  "next": "S2 not started because S1 failed. B plan or 未接上."
+ },
+ "s2": {
+  "status": "not_started",
+  "reason": "S1 failed; S2 only if S1 passes"
+ },
+ "signals_sent": 1,
+ "kill_attempts": 0,
+ "formal_stage_kills": 0,
+ "armed": false,
+ "no_model": true,
+ "l1_runs": 0,
+ "upper_bound_changed": false,
+ "finished_at": "2026-10-26T12:59:32+0800"
+}

@@ -1,0 +1,8350 @@
+{
+ "schema": "m5_k1_stall_diag_v1",
+ "at": "2026-10-26T12:33:02+0800",
+ "source": {
+  "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5-KILL-before.kvmem",
+  "sha16": "3b046c8ee3fb3b53",
+  "bytes": 5224388
+ },
+ "method": "imported frozen _k1_park_child.save_cycles; Vulkan skipped; no model; no kill",
+ "actual_child_io_note": "frozen child's save_cycles does ONE flush+fsync per cycle, NOT per chunk; B_one_fsync tests per-cycle fsync frequency",
+ "arms": {
+  "A_cold": {
+   "tag": "A_cold",
+   "target": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_cold\\target.kvmem",
+   "total_5cycles_s": 5.154,
+   "rounds": [
+    {
+     "cycle": 1,
+     "total_s": 1.021,
+     "n_chunks": 80,
+     "slowest_chunk": {
+      "cycle": 1,
+      "serial": 2,
+      "bytes": 65536,
+      "gap_ms": 6.623,
+      "write_ms": 0.205,
+      "total_ms": 6.829
+     },
+     "chunks_over_1s": [],
+     "stall_near_64_72": false
+    },
+    {
+     "cycle": 2,
+     "total_s": 1.018,
+     "n_chunks": 80,
+     "slowest_chunk": {
+      "cycle": 2,
+      "serial": 2,
+      "bytes": 65536,
+      "gap_ms": 6.556,
+      "write_ms": 0.073,
+      "total_ms": 6.628
+     },
+     "chunks_over_1s": [],
+     "stall_near_64_72": false
+    },
+    {
+     "cycle": 3,
+     "total_s": 1.025,
+     "n_chunks": 80,
+     "slowest_chunk": {
+      "cycle": 3,
+      "serial": 2,
+      "bytes": 65536,
+      "gap_ms": 6.52,
+      "write_ms": 0.147,
+      "total_ms": 6.666
+     },
+     "chunks_over_1s": [],
+     "stall_near_64_72": false
+    },
+    {
+     "cycle": 4,
+     "total_s": 1.025,
+     "n_chunks": 80,
+     "slowest_chunk": {
+      "cycle": 4,
+      "serial": 2,
+      "bytes": 65536,
+      "gap_ms": 6.595,
+      "write_ms": 0.077,
+      "total_ms": 6.672
+     },
+     "chunks_over_1s": [],
+     "stall_near_64_72": false
+    },
+    {
+     "cycle": 5,
+     "total_s": 1.027,
+     "n_chunks": 80,
+     "slowest_chunk": {
+      "cycle": 5,
+      "serial": 13,
+      "bytes": 65536,
+      "gap_ms": 7.969,
+      "write_ms": 0.036,
+      "total_ms": 8.005
+     },
+     "chunks_over_1s": [],
+     "stall_near_64_72": false
+    }
+   ],
+   "replace_events": [
+    {
+     "cycle": 1,
+     "ms": 1.013,
+     "mode": "write_through"
+    },
+    {
+     "cycle": 2,
+     "ms": 0.949,
+     "mode": "write_through"
+    },
+    {
+     "cycle": 3,
+     "ms": 1.085,
+     "mode": "write_through"
+    },
+    {
+     "cycle": 4,
+     "ms": 1.095,
+     "mode": "write_through"
+    },
+    {
+     "cycle": 5,
+     "ms": 0.869,
+     "mode": "write_through"
+    }
+   ],
+   "save_result": {
+    "source": {
+     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5-KILL-before.kvmem",
+     "sha16": "3b046c8ee3fb3b53",
+     "bytes": 5224388,
+     "n_tokens": 50
+    },
+    "target_initial": {
+     "n_tokens": 50,
+     "bytes": 5224388,
+     "sha16": "3b046c8ee3fb3b53"
+    },
+    "saves": [
+     {
+      "cycle": 1,
+      "target_sha16": "3b046c8ee3fb3b53",
+      "target_bytes": 5224388,
+      "target_n_tokens": 50,
+      "third": false,
+      "replace_mode": "write_through",
+      "tmp_removed": true
+     },
+     {
+      "cycle": 2,
+      "target_sha16": "3b046c8ee3fb3b53",
+      "target_bytes": 5224388,
+      "target_n_tokens": 50,
+      "third": false,
+      "replace_mode": "write_through",
+      "tmp_removed": true
+     },
+     {
+      "cycle": 3,
+      "target_sha16": "3b046c8ee3fb3b53",
+      "target_bytes": 5224388,
+      "target_n_tokens": 50,
+      "third": false,
+      "replace_mode": "write_through",
+      "tmp_removed": true
+     },
+     {
+      "cycle": 4,
+      "target_sha16": "3b046c8ee3fb3b53",
+      "target_bytes": 5224388,
+      "target_n_tokens": 50,
+      "third": false,
+      "replace_mode": "write_through",
+      "tmp_removed": true
+     },
+     {
+      "cycle": 5,
+      "target_sha16": "3b046c8ee3fb3b53",
+      "target_bytes": 5224388,
+      "target_n_tokens": 50,
+      "third": false,
+      "replace_mode": "write_through",
+      "tmp_removed": true
+     }
+    ],
+    "all_third_zero": true
+   },
+   "events": [
+    {
+     "state": "target_initialized",
+     "t_perf": 32890.7438639,
+     "target": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_cold\\target.kvmem",
+     "sha16": "3b046c8ee3fb3b53",
+     "n_tokens": 50,
+     "bytes": 5224388
+    },
+    {
+     "state": "save_loop",
+     "t_perf": 32890.7442088,
+     "cycle": 1,
+     "of": 5
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32890.7443757,
+     "cycle": 1,
+     "phase": "pre_tmp"
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32890.7949261,
+     "cycle": 1,
+     "frac": 0.0,
+     "chunk_bytes": 65536
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32890.7953733,
+     "cycle": 1,
+     "frac": 0.0125,
+     "chunk": 1,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32890.8409813,
+     "cycle": 1,
+     "frac": 0.1004,
+     "chunk": 8,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32890.892985,
+     "cycle": 1,
+     "frac": 0.2007,
+     "chunk": 16,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32890.944959,
+     "cycle": 1,
+     "frac": 0.3011,
+     "chunk": 24,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32890.995581,
+     "cycle": 1,
+     "frac": 0.4014,
+     "chunk": 32,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32891.0468508,
+     "cycle": 1,
+     "frac": 0.5018,
+     "chunk": 40,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32891.0988731,
+     "cycle": 1,
+     "frac": 0.6021,
+     "chunk": 48,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32891.1508454,
+     "cycle": 1,
+     "frac": 0.7025,
+     "chunk": 56,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32891.2018561,
+     "cycle": 1,
+     "frac": 0.8028,
+     "chunk": 64,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32891.2538453,
+     "cycle": 1,
+     "frac": 0.9032,
+     "chunk": 72,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32891.3053715,
+     "cycle": 1,
+     "frac": 1.0,
+     "chunk": 80,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_ready",
+     "t_perf": 32891.3238537,
+     "cycle": 1,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_cold\\target.kvmem.tmp-9300-1",
+     "bytes": 5224388
+    },
+    {
+     "state": "fsynced",
+     "t_perf": 32891.3239425,
+     "cycle": 1,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_cold\\target.kvmem.tmp-9300-1"
+    },
+    {
+     "state": "replaced",
+     "t_perf": 32891.3552923,
+     "cycle": 1,
+     "mode": "write_through"
+    },
+    {
+     "state": "hold",
+     "t_perf": 32891.3645715,
+     "cycle": 1,
+     "hold_s": 0.4
+    },
+    {
+     "state": "hold_end",
+     "t_perf": 32891.7648561,
+     "cycle": 1
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32891.7650236,
+     "cycle": 1,
+     "phase": "done",
+     "third": false
+    },
+    {
+     "state": "save_loop",
+     "t_perf": 32891.7650945,
+     "cycle": 2,
+     "of": 5
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32891.7651455,
+     "cycle": 2,
+     "phase": "pre_tmp"
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32891.8153686,
+     "cycle": 2,
+     "frac": 0.0,
+     "chunk_bytes": 65536
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32891.8158078,
+     "cycle": 2,
+     "frac": 0.0125,
+     "chunk": 1,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32891.8614758,
+     "cycle": 2,
+     "frac": 0.1004,
+     "chunk": 8,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32891.9134177,
+     "cycle": 2,
+     "frac": 0.2007,
+     "chunk": 16,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32891.9653998,
+     "cycle": 2,
+     "frac": 0.3011,
+     "chunk": 24,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32892.017372,
+     "cycle": 2,
+     "frac": 0.4014,
+     "chunk": 32,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32892.0693386,
+     "cycle": 2,
+     "frac": 0.5018,
+     "chunk": 40,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32892.1203886,
+     "cycle": 2,
+     "frac": 0.6021,
+     "chunk": 48,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32892.1724208,
+     "cycle": 2,
+     "frac": 0.7025,
+     "chunk": 56,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32892.2239123,
+     "cycle": 2,
+     "frac": 0.8028,
+     "chunk": 64,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32892.2759187,
+     "cycle": 2,
+     "frac": 0.9032,
+     "chunk": 72,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32892.3274141,
+     "cycle": 2,
+     "frac": 1.0,
+     "chunk": 80,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_ready",
+     "t_perf": 32892.337453,
+     "cycle": 2,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_cold\\target.kvmem.tmp-9300-2",
+     "bytes": 5224388
+    },
+    {
+     "state": "fsynced",
+     "t_perf": 32892.3375694,
+     "cycle": 2,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_cold\\target.kvmem.tmp-9300-2"
+    },
+    {
+     "state": "replaced",
+     "t_perf": 32892.3688315,
+     "cycle": 2,
+     "mode": "write_through"
+    },
+    {
+     "state": "hold",
+     "t_perf": 32892.3824494,
+     "cycle": 2,
+     "hold_s": 0.4
+    },
+    {
+     "state": "hold_end",
+     "t_perf": 32892.7826163,
+     "cycle": 2
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32892.7827692,
+     "cycle": 2,
+     "phase": "done",
+     "third": false
+    },
+    {
+     "state": "save_loop",
+     "t_perf": 32892.7828147,
+     "cycle": 3,
+     "of": 5
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32892.7828458,
+     "cycle": 3,
+     "phase": "pre_tmp"
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32892.8333953,
+     "cycle": 3,
+     "frac": 0.0,
+     "chunk_bytes": 65536
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32892.8339423,
+     "cycle": 3,
+     "frac": 0.0125,
+     "chunk": 1,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32892.8793817,
+     "cycle": 3,
+     "frac": 0.1004,
+     "chunk": 8,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32892.9309438,
+     "cycle": 3,
+     "frac": 0.2007,
+     "chunk": 16,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32892.9823704,
+     "cycle": 3,
+     "frac": 0.3011,
+     "chunk": 24,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32893.0343369,
+     "cycle": 3,
+     "frac": 0.4014,
+     "chunk": 32,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32893.0863821,
+     "cycle": 3,
+     "frac": 0.5018,
+     "chunk": 40,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32893.1373834,
+     "cycle": 3,
+     "frac": 0.6021,
+     "chunk": 48,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32893.1893736,
+     "cycle": 3,
+     "frac": 0.7025,
+     "chunk": 56,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32893.240987,
+     "cycle": 3,
+     "frac": 0.8028,
+     "chunk": 64,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32893.2928751,
+     "cycle": 3,
+     "frac": 0.9032,
+     "chunk": 72,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32893.3448858,
+     "cycle": 3,
+     "frac": 1.0,
+     "chunk": 80,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_ready",
+     "t_perf": 32893.3655889,
+     "cycle": 3,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_cold\\target.kvmem.tmp-9300-3",
+     "bytes": 5224388
+    },
+    {
+     "state": "fsynced",
+     "t_perf": 32893.3657235,
+     "cycle": 3,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_cold\\target.kvmem.tmp-9300-3"
+    },
+    {
+     "state": "replaced",
+     "t_perf": 32893.3969045,
+     "cycle": 3,
+     "mode": "write_through"
+    },
+    {
+     "state": "hold",
+     "t_perf": 32893.4075472,
+     "cycle": 3,
+     "hold_s": 0.4
+    },
+    {
+     "state": "hold_end",
+     "t_perf": 32893.807814,
+     "cycle": 3
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32893.8079113,
+     "cycle": 3,
+     "phase": "done",
+     "third": false
+    },
+    {
+     "state": "save_loop",
+     "t_perf": 32893.8079386,
+     "cycle": 4,
+     "of": 5
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32893.8079591,
+     "cycle": 4,
+     "phase": "pre_tmp"
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32893.8583532,
+     "cycle": 4,
+     "frac": 0.0,
+     "chunk_bytes": 65536
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32893.8587457,
+     "cycle": 4,
+     "frac": 0.0125,
+     "chunk": 1,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32893.9039103,
+     "cycle": 4,
+     "frac": 0.1004,
+     "chunk": 8,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32893.9558525,
+     "cycle": 4,
+     "frac": 0.2007,
+     "chunk": 16,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32894.0078633,
+     "cycle": 4,
+     "frac": 0.3011,
+     "chunk": 24,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32894.0598352,
+     "cycle": 4,
+     "frac": 0.4014,
+     "chunk": 32,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32894.110977,
+     "cycle": 4,
+     "frac": 0.5018,
+     "chunk": 40,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32894.1623396,
+     "cycle": 4,
+     "frac": 0.6021,
+     "chunk": 48,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32894.2138438,
+     "cycle": 4,
+     "frac": 0.7025,
+     "chunk": 56,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32894.2648543,
+     "cycle": 4,
+     "frac": 0.8028,
+     "chunk": 64,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32894.3163917,
+     "cycle": 4,
+     "frac": 0.9032,
+     "chunk": 72,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32894.368365,
+     "cycle": 4,
+     "frac": 1.0,
+     "chunk": 80,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_ready",
+     "t_perf": 32894.3906781,
+     "cycle": 4,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_cold\\target.kvmem.tmp-9300-4",
+     "bytes": 5224388
+    },
+    {
+     "state": "fsynced",
+     "t_perf": 32894.3907718,
+     "cycle": 4,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_cold\\target.kvmem.tmp-9300-4"
+    },
+    {
+     "state": "replaced",
+     "t_perf": 32894.4224116,
+     "cycle": 4,
+     "mode": "write_through"
+    },
+    {
+     "state": "hold",
+     "t_perf": 32894.4325531,
+     "cycle": 4,
+     "hold_s": 0.4
+    },
+    {
+     "state": "hold_end",
+     "t_perf": 32894.83283,
+     "cycle": 4
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32894.8329336,
+     "cycle": 4,
+     "phase": "done",
+     "third": false
+    },
+    {
+     "state": "save_loop",
+     "t_perf": 32894.8329625,
+     "cycle": 5,
+     "of": 5
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32894.8329832,
+     "cycle": 5,
+     "phase": "pre_tmp"
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32894.8833128,
+     "cycle": 5,
+     "frac": 0.0,
+     "chunk_bytes": 65536
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32894.883726,
+     "cycle": 5,
+     "frac": 0.0125,
+     "chunk": 1,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32894.9289012,
+     "cycle": 5,
+     "frac": 0.1004,
+     "chunk": 8,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32894.9823582,
+     "cycle": 5,
+     "frac": 0.2007,
+     "chunk": 16,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32895.0343032,
+     "cycle": 5,
+     "frac": 0.3011,
+     "chunk": 24,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32895.086345,
+     "cycle": 5,
+     "frac": 0.4014,
+     "chunk": 32,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32895.1383745,
+     "cycle": 5,
+     "frac": 0.5018,
+     "chunk": 40,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32895.1898513,
+     "cycle": 5,
+     "frac": 0.6021,
+     "chunk": 48,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32895.2418418,
+     "cycle": 5,
+     "frac": 0.7025,
+     "chunk": 56,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32895.2933518,
+     "cycle": 5,
+     "frac": 0.8028,
+     "chunk": 64,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32895.3453649,
+     "cycle": 5,
+     "frac": 0.9032,
+     "chunk": 72,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32895.3973561,
+     "cycle": 5,
+     "frac": 1.0,
+     "chunk": 80,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_ready",
+     "t_perf": 32895.4179636,
+     "cycle": 5,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_cold\\target.kvmem.tmp-9300-5",
+     "bytes": 5224388
+    },
+    {
+     "state": "fsynced",
+     "t_perf": 32895.4180683,
+     "cycle": 5,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_cold\\target.kvmem.tmp-9300-5"
+    },
+    {
+     "state": "replaced",
+     "t_perf": 32895.4492003,
+     "cycle": 5,
+     "mode": "write_through"
+    },
+    {
+     "state": "hold",
+     "t_perf": 32895.4596647,
+     "cycle": 5,
+     "hold_s": 0.4
+    },
+    {
+     "state": "hold_end",
+     "t_perf": 32895.8602585,
+     "cycle": 5
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32895.8603707,
+     "cycle": 5,
+     "phase": "done",
+     "third": false
+    }
+   ],
+   "chunks": [
+    {
+     "cycle": 1,
+     "serial": 1,
+     "bytes": 65536,
+     "gap_ms": 0.0,
+     "write_ms": 0.086,
+     "total_ms": 0.086
+    },
+    {
+     "cycle": 1,
+     "serial": 2,
+     "bytes": 65536,
+     "gap_ms": 6.623,
+     "write_ms": 0.205,
+     "total_ms": 6.829
+    },
+    {
+     "cycle": 1,
+     "serial": 3,
+     "bytes": 65536,
+     "gap_ms": 6.245,
+     "write_ms": 0.035,
+     "total_ms": 6.28
+    },
+    {
+     "cycle": 1,
+     "serial": 4,
+     "bytes": 65536,
+     "gap_ms": 6.415,
+     "write_ms": 0.096,
+     "total_ms": 6.511
+    },
+    {
+     "cycle": 1,
+     "serial": 5,
+     "bytes": 65536,
+     "gap_ms": 6.426,
+     "write_ms": 0.059,
+     "total_ms": 6.485
+    },
+    {
+     "cycle": 1,
+     "serial": 6,
+     "bytes": 65536,
+     "gap_ms": 6.429,
+     "write_ms": 0.04,
+     "total_ms": 6.469
+    },
+    {
+     "cycle": 1,
+     "serial": 7,
+     "bytes": 65536,
+     "gap_ms": 6.364,
+     "write_ms": 0.04,
+     "total_ms": 6.404
+    },
+    {
+     "cycle": 1,
+     "serial": 8,
+     "bytes": 65536,
+     "gap_ms": 6.531,
+     "write_ms": 0.089,
+     "total_ms": 6.62
+    },
+    {
+     "cycle": 1,
+     "serial": 9,
+     "bytes": 65536,
+     "gap_ms": 6.434,
+     "write_ms": 0.077,
+     "total_ms": 6.511
+    },
+    {
+     "cycle": 1,
+     "serial": 10,
+     "bytes": 65536,
+     "gap_ms": 6.526,
+     "write_ms": 0.034,
+     "total_ms": 6.561
+    },
+    {
+     "cycle": 1,
+     "serial": 11,
+     "bytes": 65536,
+     "gap_ms": 6.352,
+     "write_ms": 0.045,
+     "total_ms": 6.397
+    },
+    {
+     "cycle": 1,
+     "serial": 12,
+     "bytes": 65536,
+     "gap_ms": 6.442,
+     "write_ms": 0.04,
+     "total_ms": 6.483
+    },
+    {
+     "cycle": 1,
+     "serial": 13,
+     "bytes": 65536,
+     "gap_ms": 6.454,
+     "write_ms": 0.031,
+     "total_ms": 6.485
+    },
+    {
+     "cycle": 1,
+     "serial": 14,
+     "bytes": 65536,
+     "gap_ms": 6.486,
+     "write_ms": 0.045,
+     "total_ms": 6.531
+    },
+    {
+     "cycle": 1,
+     "serial": 15,
+     "bytes": 65536,
+     "gap_ms": 6.469,
+     "write_ms": 0.033,
+     "total_ms": 6.502
+    },
+    {
+     "cycle": 1,
+     "serial": 16,
+     "bytes": 65536,
+     "gap_ms": 6.46,
+     "write_ms": 0.077,
+     "total_ms": 6.537
+    },
+    {
+     "cycle": 1,
+     "serial": 17,
+     "bytes": 65536,
+     "gap_ms": 6.375,
+     "write_ms": 0.078,
+     "total_ms": 6.453
+    },
+    {
+     "cycle": 1,
+     "serial": 18,
+     "bytes": 65536,
+     "gap_ms": 6.494,
+     "write_ms": 0.037,
+     "total_ms": 6.531
+    },
+    {
+     "cycle": 1,
+     "serial": 19,
+     "bytes": 65536,
+     "gap_ms": 6.447,
+     "write_ms": 0.034,
+     "total_ms": 6.481
+    },
+    {
+     "cycle": 1,
+     "serial": 20,
+     "bytes": 65536,
+     "gap_ms": 6.482,
+     "write_ms": 0.071,
+     "total_ms": 6.553
+    },
+    {
+     "cycle": 1,
+     "serial": 21,
+     "bytes": 65536,
+     "gap_ms": 6.403,
+     "write_ms": 0.123,
+     "total_ms": 6.526
+    },
+    {
+     "cycle": 1,
+     "serial": 22,
+     "bytes": 65536,
+     "gap_ms": 6.427,
+     "write_ms": 0.035,
+     "total_ms": 6.462
+    },
+    {
+     "cycle": 1,
+     "serial": 23,
+     "bytes": 65536,
+     "gap_ms": 6.401,
+     "write_ms": 0.032,
+     "total_ms": 6.433
+    },
+    {
+     "cycle": 1,
+     "serial": 24,
+     "bytes": 65536,
+     "gap_ms": 6.48,
+     "write_ms": 0.048,
+     "total_ms": 6.528
+    },
+    {
+     "cycle": 1,
+     "serial": 25,
+     "bytes": 65536,
+     "gap_ms": 6.438,
+     "write_ms": 0.037,
+     "total_ms": 6.475
+    },
+    {
+     "cycle": 1,
+     "serial": 26,
+     "bytes": 65536,
+     "gap_ms": 6.175,
+     "write_ms": 0.04,
+     "total_ms": 6.215
+    },
+    {
+     "cycle": 1,
+     "serial": 27,
+     "bytes": 65536,
+     "gap_ms": 6.433,
+     "write_ms": 0.027,
+     "total_ms": 6.461
+    },
+    {
+     "cycle": 1,
+     "serial": 28,
+     "bytes": 65536,
+     "gap_ms": 6.145,
+     "write_ms": 0.027,
+     "total_ms": 6.172
+    },
+    {
+     "cycle": 1,
+     "serial": 29,
+     "bytes": 65536,
+     "gap_ms": 6.103,
+     "write_ms": 0.043,
+     "total_ms": 6.146
+    },
+    {
+     "cycle": 1,
+     "serial": 30,
+     "bytes": 65536,
+     "gap_ms": 6.444,
+     "write_ms": 0.031,
+     "total_ms": 6.475
+    },
+    {
+     "cycle": 1,
+     "serial": 31,
+     "bytes": 65536,
+     "gap_ms": 6.409,
+     "write_ms": 0.036,
+     "total_ms": 6.445
+    },
+    {
+     "cycle": 1,
+     "serial": 32,
+     "bytes": 65536,
+     "gap_ms": 6.204,
+     "write_ms": 0.036,
+     "total_ms": 6.241
+    },
+    {
+     "cycle": 1,
+     "serial": 33,
+     "bytes": 65536,
+     "gap_ms": 6.276,
+     "write_ms": 0.037,
+     "total_ms": 6.313
+    },
+    {
+     "cycle": 1,
+     "serial": 34,
+     "bytes": 65536,
+     "gap_ms": 6.496,
+     "write_ms": 0.033,
+     "total_ms": 6.529
+    },
+    {
+     "cycle": 1,
+     "serial": 35,
+     "bytes": 65536,
+     "gap_ms": 6.283,
+     "write_ms": 0.032,
+     "total_ms": 6.316
+    },
+    {
+     "cycle": 1,
+     "serial": 36,
+     "bytes": 65536,
+     "gap_ms": 6.175,
+     "write_ms": 0.031,
+     "total_ms": 6.206
+    },
+    {
+     "cycle": 1,
+     "serial": 37,
+     "bytes": 65536,
+     "gap_ms": 6.381,
+     "write_ms": 0.066,
+     "total_ms": 6.448
+    },
+    {
+     "cycle": 1,
+     "serial": 38,
+     "bytes": 65536,
+     "gap_ms": 6.451,
+     "write_ms": 0.027,
+     "total_ms": 6.478
+    },
+    {
+     "cycle": 1,
+     "serial": 39,
+     "bytes": 65536,
+     "gap_ms": 6.449,
+     "write_ms": 0.027,
+     "total_ms": 6.476
+    },
+    {
+     "cycle": 1,
+     "serial": 40,
+     "bytes": 65536,
+     "gap_ms": 6.484,
+     "write_ms": 0.026,
+     "total_ms": 6.51
+    },
+    {
+     "cycle": 1,
+     "serial": 41,
+     "bytes": 65536,
+     "gap_ms": 6.485,
+     "write_ms": 0.029,
+     "total_ms": 6.514
+    },
+    {
+     "cycle": 1,
+     "serial": 42,
+     "bytes": 65536,
+     "gap_ms": 6.445,
+     "write_ms": 0.033,
+     "total_ms": 6.477
+    },
+    {
+     "cycle": 1,
+     "serial": 43,
+     "bytes": 65536,
+     "gap_ms": 6.488,
+     "write_ms": 0.026,
+     "total_ms": 6.514
+    },
+    {
+     "cycle": 1,
+     "serial": 44,
+     "bytes": 65536,
+     "gap_ms": 6.463,
+     "write_ms": 0.024,
+     "total_ms": 6.488
+    },
+    {
+     "cycle": 1,
+     "serial": 45,
+     "bytes": 65536,
+     "gap_ms": 6.441,
+     "write_ms": 0.031,
+     "total_ms": 6.472
+    },
+    {
+     "cycle": 1,
+     "serial": 46,
+     "bytes": 65536,
+     "gap_ms": 6.49,
+     "write_ms": 0.028,
+     "total_ms": 6.518
+    },
+    {
+     "cycle": 1,
+     "serial": 47,
+     "bytes": 65536,
+     "gap_ms": 6.495,
+     "write_ms": 0.031,
+     "total_ms": 6.527
+    },
+    {
+     "cycle": 1,
+     "serial": 48,
+     "bytes": 65536,
+     "gap_ms": 6.483,
+     "write_ms": 0.029,
+     "total_ms": 6.512
+    },
+    {
+     "cycle": 1,
+     "serial": 49,
+     "bytes": 65536,
+     "gap_ms": 6.468,
+     "write_ms": 0.047,
+     "total_ms": 6.516
+    },
+    {
+     "cycle": 1,
+     "serial": 50,
+     "bytes": 65536,
+     "gap_ms": 6.453,
+     "write_ms": 0.027,
+     "total_ms": 6.48
+    },
+    {
+     "cycle": 1,
+     "serial": 51,
+     "bytes": 65536,
+     "gap_ms": 6.456,
+     "write_ms": 0.029,
+     "total_ms": 6.486
+    },
+    {
+     "cycle": 1,
+     "serial": 52,
+     "bytes": 65536,
+     "gap_ms": 6.479,
+     "write_ms": 0.042,
+     "total_ms": 6.521
+    },
+    {
+     "cycle": 1,
+     "serial": 53,
+     "bytes": 65536,
+     "gap_ms": 6.439,
+     "write_ms": 0.072,
+     "total_ms": 6.51
+    },
+    {
+     "cycle": 1,
+     "serial": 54,
+     "bytes": 65536,
+     "gap_ms": 6.458,
+     "write_ms": 0.06,
+     "total_ms": 6.518
+    },
+    {
+     "cycle": 1,
+     "serial": 55,
+     "bytes": 65536,
+     "gap_ms": 6.36,
+     "write_ms": 0.028,
+     "total_ms": 6.389
+    },
+    {
+     "cycle": 1,
+     "serial": 56,
+     "bytes": 65536,
+     "gap_ms": 6.523,
+     "write_ms": 0.03,
+     "total_ms": 6.553
+    },
+    {
+     "cycle": 1,
+     "serial": 57,
+     "bytes": 65536,
+     "gap_ms": 6.511,
+     "write_ms": 0.027,
+     "total_ms": 6.538
+    },
+    {
+     "cycle": 1,
+     "serial": 58,
+     "bytes": 65536,
+     "gap_ms": 6.425,
+     "write_ms": 0.027,
+     "total_ms": 6.452
+    },
+    {
+     "cycle": 1,
+     "serial": 59,
+     "bytes": 65536,
+     "gap_ms": 6.129,
+     "write_ms": 0.032,
+     "total_ms": 6.161
+    },
+    {
+     "cycle": 1,
+     "serial": 60,
+     "bytes": 65536,
+     "gap_ms": 6.083,
+     "write_ms": 0.026,
+     "total_ms": 6.109
+    },
+    {
+     "cycle": 1,
+     "serial": 61,
+     "bytes": 65536,
+     "gap_ms": 6.225,
+     "write_ms": 0.029,
+     "total_ms": 6.254
+    },
+    {
+     "cycle": 1,
+     "serial": 62,
+     "bytes": 65536,
+     "gap_ms": 6.46,
+     "write_ms": 0.028,
+     "total_ms": 6.488
+    },
+    {
+     "cycle": 1,
+     "serial": 63,
+     "bytes": 65536,
+     "gap_ms": 6.469,
+     "write_ms": 0.027,
+     "total_ms": 6.497
+    },
+    {
+     "cycle": 1,
+     "serial": 64,
+     "bytes": 65536,
+     "gap_ms": 6.485,
+     "write_ms": 0.027,
+     "total_ms": 6.511
+    },
+    {
+     "cycle": 1,
+     "serial": 65,
+     "bytes": 65536,
+     "gap_ms": 6.46,
+     "write_ms": 0.036,
+     "total_ms": 6.496
+    },
+    {
+     "cycle": 1,
+     "serial": 66,
+     "bytes": 65536,
+     "gap_ms": 6.49,
+     "write_ms": 0.034,
+     "total_ms": 6.524
+    },
+    {
+     "cycle": 1,
+     "serial": 67,
+     "bytes": 65536,
+     "gap_ms": 6.437,
+     "write_ms": 0.027,
+     "total_ms": 6.465
+    },
+    {
+     "cycle": 1,
+     "serial": 68,
+     "bytes": 65536,
+     "gap_ms": 6.489,
+     "write_ms": 0.026,
+     "total_ms": 6.515
+    },
+    {
+     "cycle": 1,
+     "serial": 69,
+     "bytes": 65536,
+     "gap_ms": 6.411,
+     "write_ms": 0.031,
+     "total_ms": 6.443
+    },
+    {
+     "cycle": 1,
+     "serial": 70,
+     "bytes": 65536,
+     "gap_ms": 6.514,
+     "write_ms": 0.07,
+     "total_ms": 6.584
+    },
+    {
+     "cycle": 1,
+     "serial": 71,
+     "bytes": 65536,
+     "gap_ms": 6.43,
+     "write_ms": 0.024,
+     "total_ms": 6.454
+    },
+    {
+     "cycle": 1,
+     "serial": 72,
+     "bytes": 65536,
+     "gap_ms": 6.482,
+     "write_ms": 0.028,
+     "total_ms": 6.509
+    },
+    {
+     "cycle": 1,
+     "serial": 73,
+     "bytes": 65536,
+     "gap_ms": 6.49,
+     "write_ms": 0.031,
+     "total_ms": 6.521
+    },
+    {
+     "cycle": 1,
+     "serial": 74,
+     "bytes": 65536,
+     "gap_ms": 6.465,
+     "write_ms": 0.026,
+     "total_ms": 6.491
+    },
+    {
+     "cycle": 1,
+     "serial": 75,
+     "bytes": 65536,
+     "gap_ms": 6.468,
+     "write_ms": 0.028,
+     "total_ms": 6.496
+    },
+    {
+     "cycle": 1,
+     "serial": 76,
+     "bytes": 65536,
+     "gap_ms": 6.46,
+     "write_ms": 0.036,
+     "total_ms": 6.496
+    },
+    {
+     "cycle": 1,
+     "serial": 77,
+     "bytes": 65536,
+     "gap_ms": 6.456,
+     "write_ms": 0.028,
+     "total_ms": 6.484
+    },
+    {
+     "cycle": 1,
+     "serial": 78,
+     "bytes": 65536,
+     "gap_ms": 6.494,
+     "write_ms": 0.027,
+     "total_ms": 6.521
+    },
+    {
+     "cycle": 1,
+     "serial": 79,
+     "bytes": 65536,
+     "gap_ms": 6.083,
+     "write_ms": 0.026,
+     "total_ms": 6.109
+    },
+    {
+     "cycle": 1,
+     "serial": 80,
+     "bytes": 47044,
+     "gap_ms": 6.381,
+     "write_ms": 0.027,
+     "total_ms": 6.407
+    },
+    {
+     "cycle": 2,
+     "serial": 1,
+     "bytes": 65536,
+     "gap_ms": 0.0,
+     "write_ms": 0.116,
+     "total_ms": 0.116
+    },
+    {
+     "cycle": 2,
+     "serial": 2,
+     "bytes": 65536,
+     "gap_ms": 6.556,
+     "write_ms": 0.073,
+     "total_ms": 6.628
+    },
+    {
+     "cycle": 2,
+     "serial": 3,
+     "bytes": 65536,
+     "gap_ms": 6.408,
+     "write_ms": 0.03,
+     "total_ms": 6.439
+    },
+    {
+     "cycle": 2,
+     "serial": 4,
+     "bytes": 65536,
+     "gap_ms": 6.453,
+     "write_ms": 0.069,
+     "total_ms": 6.523
+    },
+    {
+     "cycle": 2,
+     "serial": 5,
+     "bytes": 65536,
+     "gap_ms": 6.455,
+     "write_ms": 0.033,
+     "total_ms": 6.488
+    },
+    {
+     "cycle": 2,
+     "serial": 6,
+     "bytes": 65536,
+     "gap_ms": 6.477,
+     "write_ms": 0.034,
+     "total_ms": 6.511
+    },
+    {
+     "cycle": 2,
+     "serial": 7,
+     "bytes": 65536,
+     "gap_ms": 6.469,
+     "write_ms": 0.035,
+     "total_ms": 6.504
+    },
+    {
+     "cycle": 2,
+     "serial": 8,
+     "bytes": 65536,
+     "gap_ms": 6.494,
+     "write_ms": 0.073,
+     "total_ms": 6.567
+    },
+    {
+     "cycle": 2,
+     "serial": 9,
+     "bytes": 65536,
+     "gap_ms": 6.381,
+     "write_ms": 0.031,
+     "total_ms": 6.412
+    },
+    {
+     "cycle": 2,
+     "serial": 10,
+     "bytes": 65536,
+     "gap_ms": 6.417,
+     "write_ms": 0.043,
+     "total_ms": 6.46
+    },
+    {
+     "cycle": 2,
+     "serial": 11,
+     "bytes": 65536,
+     "gap_ms": 6.504,
+     "write_ms": 0.041,
+     "total_ms": 6.545
+    },
+    {
+     "cycle": 2,
+     "serial": 12,
+     "bytes": 65536,
+     "gap_ms": 6.467,
+     "write_ms": 0.03,
+     "total_ms": 6.496
+    },
+    {
+     "cycle": 2,
+     "serial": 13,
+     "bytes": 65536,
+     "gap_ms": 6.464,
+     "write_ms": 0.032,
+     "total_ms": 6.496
+    },
+    {
+     "cycle": 2,
+     "serial": 14,
+     "bytes": 65536,
+     "gap_ms": 6.505,
+     "write_ms": 0.031,
+     "total_ms": 6.536
+    },
+    {
+     "cycle": 2,
+     "serial": 15,
+     "bytes": 65536,
+     "gap_ms": 6.456,
+     "write_ms": 0.031,
+     "total_ms": 6.487
+    },
+    {
+     "cycle": 2,
+     "serial": 16,
+     "bytes": 65536,
+     "gap_ms": 6.436,
+     "write_ms": 0.073,
+     "total_ms": 6.509
+    },
+    {
+     "cycle": 2,
+     "serial": 17,
+     "bytes": 65536,
+     "gap_ms": 6.453,
+     "write_ms": 0.053,
+     "total_ms": 6.506
+    },
+    {
+     "cycle": 2,
+     "serial": 18,
+     "bytes": 65536,
+     "gap_ms": 6.436,
+     "write_ms": 0.033,
+     "total_ms": 6.469
+    },
+    {
+     "cycle": 2,
+     "serial": 19,
+     "bytes": 65536,
+     "gap_ms": 6.46,
+     "write_ms": 0.029,
+     "total_ms": 6.489
+    },
+    {
+     "cycle": 2,
+     "serial": 20,
+     "bytes": 65536,
+     "gap_ms": 6.395,
+     "write_ms": 0.078,
+     "total_ms": 6.473
+    },
+    {
+     "cycle": 2,
+     "serial": 21,
+     "bytes": 65536,
+     "gap_ms": 6.494,
+     "write_ms": 0.035,
+     "total_ms": 6.528
+    },
+    {
+     "cycle": 2,
+     "serial": 22,
+     "bytes": 65536,
+     "gap_ms": 6.47,
+     "write_ms": 0.072,
+     "total_ms": 6.542
+    },
+    {
+     "cycle": 2,
+     "serial": 23,
+     "bytes": 65536,
+     "gap_ms": 6.432,
+     "write_ms": 0.031,
+     "total_ms": 6.463
+    },
+    {
+     "cycle": 2,
+     "serial": 24,
+     "bytes": 65536,
+     "gap_ms": 6.478,
+     "write_ms": 0.033,
+     "total_ms": 6.51
+    },
+    {
+     "cycle": 2,
+     "serial": 25,
+     "bytes": 65536,
+     "gap_ms": 6.453,
+     "write_ms": 0.033,
+     "total_ms": 6.486
+    },
+    {
+     "cycle": 2,
+     "serial": 26,
+     "bytes": 65536,
+     "gap_ms": 6.451,
+     "write_ms": 0.041,
+     "total_ms": 6.492
+    },
+    {
+     "cycle": 2,
+     "serial": 27,
+     "bytes": 65536,
+     "gap_ms": 6.479,
+     "write_ms": 0.033,
+     "total_ms": 6.512
+    },
+    {
+     "cycle": 2,
+     "serial": 28,
+     "bytes": 65536,
+     "gap_ms": 6.468,
+     "write_ms": 0.027,
+     "total_ms": 6.495
+    },
+    {
+     "cycle": 2,
+     "serial": 29,
+     "bytes": 65536,
+     "gap_ms": 6.469,
+     "write_ms": 0.028,
+     "total_ms": 6.497
+    },
+    {
+     "cycle": 2,
+     "serial": 30,
+     "bytes": 65536,
+     "gap_ms": 6.418,
+     "write_ms": 0.032,
+     "total_ms": 6.45
+    },
+    {
+     "cycle": 2,
+     "serial": 31,
+     "bytes": 65536,
+     "gap_ms": 6.525,
+     "write_ms": 0.033,
+     "total_ms": 6.558
+    },
+    {
+     "cycle": 2,
+     "serial": 32,
+     "bytes": 65536,
+     "gap_ms": 6.46,
+     "write_ms": 0.027,
+     "total_ms": 6.488
+    },
+    {
+     "cycle": 2,
+     "serial": 33,
+     "bytes": 65536,
+     "gap_ms": 6.477,
+     "write_ms": 0.036,
+     "total_ms": 6.513
+    },
+    {
+     "cycle": 2,
+     "serial": 34,
+     "bytes": 65536,
+     "gap_ms": 6.455,
+     "write_ms": 0.03,
+     "total_ms": 6.485
+    },
+    {
+     "cycle": 2,
+     "serial": 35,
+     "bytes": 65536,
+     "gap_ms": 6.472,
+     "write_ms": 0.028,
+     "total_ms": 6.501
+    },
+    {
+     "cycle": 2,
+     "serial": 36,
+     "bytes": 65536,
+     "gap_ms": 6.477,
+     "write_ms": 0.024,
+     "total_ms": 6.502
+    },
+    {
+     "cycle": 2,
+     "serial": 37,
+     "bytes": 65536,
+     "gap_ms": 6.486,
+     "write_ms": 0.042,
+     "total_ms": 6.528
+    },
+    {
+     "cycle": 2,
+     "serial": 38,
+     "bytes": 65536,
+     "gap_ms": 6.452,
+     "write_ms": 0.068,
+     "total_ms": 6.52
+    },
+    {
+     "cycle": 2,
+     "serial": 39,
+     "bytes": 65536,
+     "gap_ms": 6.426,
+     "write_ms": 0.031,
+     "total_ms": 6.457
+    },
+    {
+     "cycle": 2,
+     "serial": 40,
+     "bytes": 65536,
+     "gap_ms": 6.422,
+     "write_ms": 0.036,
+     "total_ms": 6.457
+    },
+    {
+     "cycle": 2,
+     "serial": 41,
+     "bytes": 65536,
+     "gap_ms": 6.502,
+     "write_ms": 0.036,
+     "total_ms": 6.538
+    },
+    {
+     "cycle": 2,
+     "serial": 42,
+     "bytes": 65536,
+     "gap_ms": 6.467,
+     "write_ms": 0.027,
+     "total_ms": 6.495
+    },
+    {
+     "cycle": 2,
+     "serial": 43,
+     "bytes": 65536,
+     "gap_ms": 6.503,
+     "write_ms": 0.028,
+     "total_ms": 6.532
+    },
+    {
+     "cycle": 2,
+     "serial": 44,
+     "bytes": 65536,
+     "gap_ms": 6.463,
+     "write_ms": 0.042,
+     "total_ms": 6.505
+    },
+    {
+     "cycle": 2,
+     "serial": 45,
+     "bytes": 65536,
+     "gap_ms": 6.124,
+     "write_ms": 0.034,
+     "total_ms": 6.159
+    },
+    {
+     "cycle": 2,
+     "serial": 46,
+     "bytes": 65536,
+     "gap_ms": 6.202,
+     "write_ms": 0.035,
+     "total_ms": 6.237
+    },
+    {
+     "cycle": 2,
+     "serial": 47,
+     "bytes": 65536,
+     "gap_ms": 6.076,
+     "write_ms": 0.033,
+     "total_ms": 6.11
+    },
+    {
+     "cycle": 2,
+     "serial": 48,
+     "bytes": 65536,
+     "gap_ms": 6.439,
+     "write_ms": 0.035,
+     "total_ms": 6.474
+    },
+    {
+     "cycle": 2,
+     "serial": 49,
+     "bytes": 65536,
+     "gap_ms": 6.479,
+     "write_ms": 0.061,
+     "total_ms": 6.54
+    },
+    {
+     "cycle": 2,
+     "serial": 50,
+     "bytes": 65536,
+     "gap_ms": 6.463,
+     "write_ms": 0.034,
+     "total_ms": 6.496
+    },
+    {
+     "cycle": 2,
+     "serial": 51,
+     "bytes": 65536,
+     "gap_ms": 6.454,
+     "write_ms": 0.043,
+     "total_ms": 6.496
+    },
+    {
+     "cycle": 2,
+     "serial": 52,
+     "bytes": 65536,
+     "gap_ms": 6.457,
+     "write_ms": 0.046,
+     "total_ms": 6.503
+    },
+    {
+     "cycle": 2,
+     "serial": 53,
+     "bytes": 65536,
+     "gap_ms": 6.487,
+     "write_ms": 0.035,
+     "total_ms": 6.521
+    },
+    {
+     "cycle": 2,
+     "serial": 54,
+     "bytes": 65536,
+     "gap_ms": 6.388,
+     "write_ms": 0.097,
+     "total_ms": 6.485
+    },
+    {
+     "cycle": 2,
+     "serial": 55,
+     "bytes": 65536,
+     "gap_ms": 6.481,
+     "write_ms": 0.034,
+     "total_ms": 6.515
+    },
+    {
+     "cycle": 2,
+     "serial": 56,
+     "bytes": 65536,
+     "gap_ms": 6.442,
+     "write_ms": 0.034,
+     "total_ms": 6.476
+    },
+    {
+     "cycle": 2,
+     "serial": 57,
+     "bytes": 65536,
+     "gap_ms": 6.497,
+     "write_ms": 0.063,
+     "total_ms": 6.56
+    },
+    {
+     "cycle": 2,
+     "serial": 58,
+     "bytes": 65536,
+     "gap_ms": 6.53,
+     "write_ms": 0.037,
+     "total_ms": 6.566
+    },
+    {
+     "cycle": 2,
+     "serial": 59,
+     "bytes": 65536,
+     "gap_ms": 6.37,
+     "write_ms": 0.036,
+     "total_ms": 6.406
+    },
+    {
+     "cycle": 2,
+     "serial": 60,
+     "bytes": 65536,
+     "gap_ms": 6.285,
+     "write_ms": 0.039,
+     "total_ms": 6.324
+    },
+    {
+     "cycle": 2,
+     "serial": 61,
+     "bytes": 65536,
+     "gap_ms": 6.129,
+     "write_ms": 0.054,
+     "total_ms": 6.182
+    },
+    {
+     "cycle": 2,
+     "serial": 62,
+     "bytes": 65536,
+     "gap_ms": 6.413,
+     "write_ms": 0.078,
+     "total_ms": 6.492
+    },
+    {
+     "cycle": 2,
+     "serial": 63,
+     "bytes": 65536,
+     "gap_ms": 6.513,
+     "write_ms": 0.048,
+     "total_ms": 6.561
+    },
+    {
+     "cycle": 2,
+     "serial": 64,
+     "bytes": 65536,
+     "gap_ms": 6.367,
+     "write_ms": 0.033,
+     "total_ms": 6.401
+    },
+    {
+     "cycle": 2,
+     "serial": 65,
+     "bytes": 65536,
+     "gap_ms": 6.491,
+     "write_ms": 0.107,
+     "total_ms": 6.597
+    },
+    {
+     "cycle": 2,
+     "serial": 66,
+     "bytes": 65536,
+     "gap_ms": 6.394,
+     "write_ms": 0.036,
+     "total_ms": 6.429
+    },
+    {
+     "cycle": 2,
+     "serial": 67,
+     "bytes": 65536,
+     "gap_ms": 6.456,
+     "write_ms": 0.033,
+     "total_ms": 6.49
+    },
+    {
+     "cycle": 2,
+     "serial": 68,
+     "bytes": 65536,
+     "gap_ms": 6.475,
+     "write_ms": 0.042,
+     "total_ms": 6.517
+    },
+    {
+     "cycle": 2,
+     "serial": 69,
+     "bytes": 65536,
+     "gap_ms": 6.466,
+     "write_ms": 0.045,
+     "total_ms": 6.511
+    },
+    {
+     "cycle": 2,
+     "serial": 70,
+     "bytes": 65536,
+     "gap_ms": 6.518,
+     "write_ms": 0.076,
+     "total_ms": 6.594
+    },
+    {
+     "cycle": 2,
+     "serial": 71,
+     "bytes": 65536,
+     "gap_ms": 6.254,
+     "write_ms": 0.038,
+     "total_ms": 6.292
+    },
+    {
+     "cycle": 2,
+     "serial": 72,
+     "bytes": 65536,
+     "gap_ms": 6.54,
+     "write_ms": 0.037,
+     "total_ms": 6.577
+    },
+    {
+     "cycle": 2,
+     "serial": 73,
+     "bytes": 65536,
+     "gap_ms": 6.463,
+     "write_ms": 0.035,
+     "total_ms": 6.498
+    },
+    {
+     "cycle": 2,
+     "serial": 74,
+     "bytes": 65536,
+     "gap_ms": 6.475,
+     "write_ms": 0.03,
+     "total_ms": 6.506
+    },
+    {
+     "cycle": 2,
+     "serial": 75,
+     "bytes": 65536,
+     "gap_ms": 6.342,
+     "write_ms": 0.028,
+     "total_ms": 6.37
+    },
+    {
+     "cycle": 2,
+     "serial": 76,
+     "bytes": 65536,
+     "gap_ms": 6.089,
+     "write_ms": 0.045,
+     "total_ms": 6.134
+    },
+    {
+     "cycle": 2,
+     "serial": 77,
+     "bytes": 65536,
+     "gap_ms": 6.52,
+     "write_ms": 0.087,
+     "total_ms": 6.607
+    },
+    {
+     "cycle": 2,
+     "serial": 78,
+     "bytes": 65536,
+     "gap_ms": 6.311,
+     "write_ms": 0.053,
+     "total_ms": 6.363
+    },
+    {
+     "cycle": 2,
+     "serial": 79,
+     "bytes": 65536,
+     "gap_ms": 6.469,
+     "write_ms": 0.035,
+     "total_ms": 6.504
+    },
+    {
+     "cycle": 2,
+     "serial": 80,
+     "bytes": 47044,
+     "gap_ms": 6.464,
+     "write_ms": 0.043,
+     "total_ms": 6.506
+    },
+    {
+     "cycle": 3,
+     "serial": 1,
+     "bytes": 65536,
+     "gap_ms": 0.0,
+     "write_ms": 0.13,
+     "total_ms": 0.13
+    },
+    {
+     "cycle": 3,
+     "serial": 2,
+     "bytes": 65536,
+     "gap_ms": 6.52,
+     "write_ms": 0.147,
+     "total_ms": 6.666
+    },
+    {
+     "cycle": 3,
+     "serial": 3,
+     "bytes": 65536,
+     "gap_ms": 6.385,
+     "write_ms": 0.035,
+     "total_ms": 6.421
+    },
+    {
+     "cycle": 3,
+     "serial": 4,
+     "bytes": 65536,
+     "gap_ms": 6.343,
+     "write_ms": 0.069,
+     "total_ms": 6.412
+    },
+    {
+     "cycle": 3,
+     "serial": 5,
+     "bytes": 65536,
+     "gap_ms": 6.419,
+     "write_ms": 0.039,
+     "total_ms": 6.458
+    },
+    {
+     "cycle": 3,
+     "serial": 6,
+     "bytes": 65536,
+     "gap_ms": 6.465,
+     "write_ms": 0.032,
+     "total_ms": 6.497
+    },
+    {
+     "cycle": 3,
+     "serial": 7,
+     "bytes": 65536,
+     "gap_ms": 6.485,
+     "write_ms": 0.031,
+     "total_ms": 6.517
+    },
+    {
+     "cycle": 3,
+     "serial": 8,
+     "bytes": 65536,
+     "gap_ms": 6.387,
+     "write_ms": 0.077,
+     "total_ms": 6.464
+    },
+    {
+     "cycle": 3,
+     "serial": 9,
+     "bytes": 65536,
+     "gap_ms": 6.469,
+     "write_ms": 0.034,
+     "total_ms": 6.503
+    },
+    {
+     "cycle": 3,
+     "serial": 10,
+     "bytes": 65536,
+     "gap_ms": 6.47,
+     "write_ms": 0.028,
+     "total_ms": 6.498
+    },
+    {
+     "cycle": 3,
+     "serial": 11,
+     "bytes": 65536,
+     "gap_ms": 6.487,
+     "write_ms": 0.029,
+     "total_ms": 6.515
+    },
+    {
+     "cycle": 3,
+     "serial": 12,
+     "bytes": 65536,
+     "gap_ms": 6.283,
+     "write_ms": 0.053,
+     "total_ms": 6.335
+    },
+    {
+     "cycle": 3,
+     "serial": 13,
+     "bytes": 65536,
+     "gap_ms": 6.141,
+     "write_ms": 0.036,
+     "total_ms": 6.177
+    },
+    {
+     "cycle": 3,
+     "serial": 14,
+     "bytes": 65536,
+     "gap_ms": 6.451,
+     "write_ms": 0.031,
+     "total_ms": 6.482
+    },
+    {
+     "cycle": 3,
+     "serial": 15,
+     "bytes": 65536,
+     "gap_ms": 6.414,
+     "write_ms": 0.041,
+     "total_ms": 6.455
+    },
+    {
+     "cycle": 3,
+     "serial": 16,
+     "bytes": 65536,
+     "gap_ms": 6.51,
+     "write_ms": 0.082,
+     "total_ms": 6.592
+    },
+    {
+     "cycle": 3,
+     "serial": 17,
+     "bytes": 65536,
+     "gap_ms": 6.148,
+     "write_ms": 0.05,
+     "total_ms": 6.197
+    },
+    {
+     "cycle": 3,
+     "serial": 18,
+     "bytes": 65536,
+     "gap_ms": 6.206,
+     "write_ms": 0.028,
+     "total_ms": 6.235
+    },
+    {
+     "cycle": 3,
+     "serial": 19,
+     "bytes": 65536,
+     "gap_ms": 6.51,
+     "write_ms": 0.05,
+     "total_ms": 6.559
+    },
+    {
+     "cycle": 3,
+     "serial": 20,
+     "bytes": 65536,
+     "gap_ms": 6.488,
+     "write_ms": 0.088,
+     "total_ms": 6.576
+    },
+    {
+     "cycle": 3,
+     "serial": 21,
+     "bytes": 65536,
+     "gap_ms": 6.369,
+     "write_ms": 0.029,
+     "total_ms": 6.398
+    },
+    {
+     "cycle": 3,
+     "serial": 22,
+     "bytes": 65536,
+     "gap_ms": 6.401,
+     "write_ms": 0.073,
+     "total_ms": 6.474
+    },
+    {
+     "cycle": 3,
+     "serial": 23,
+     "bytes": 65536,
+     "gap_ms": 6.468,
+     "write_ms": 0.029,
+     "total_ms": 6.497
+    },
+    {
+     "cycle": 3,
+     "serial": 24,
+     "bytes": 65536,
+     "gap_ms": 6.47,
+     "write_ms": 0.026,
+     "total_ms": 6.496
+    },
+    {
+     "cycle": 3,
+     "serial": 25,
+     "bytes": 65536,
+     "gap_ms": 6.495,
+     "write_ms": 0.038,
+     "total_ms": 6.533
+    },
+    {
+     "cycle": 3,
+     "serial": 26,
+     "bytes": 65536,
+     "gap_ms": 6.49,
+     "write_ms": 0.044,
+     "total_ms": 6.535
+    },
+    {
+     "cycle": 3,
+     "serial": 27,
+     "bytes": 65536,
+     "gap_ms": 6.464,
+     "write_ms": 0.03,
+     "total_ms": 6.494
+    },
+    {
+     "cycle": 3,
+     "serial": 28,
+     "bytes": 65536,
+     "gap_ms": 6.477,
+     "write_ms": 0.036,
+     "total_ms": 6.513
+    },
+    {
+     "cycle": 3,
+     "serial": 29,
+     "bytes": 65536,
+     "gap_ms": 6.56,
+     "write_ms": 0.05,
+     "total_ms": 6.61
+    },
+    {
+     "cycle": 3,
+     "serial": 30,
+     "bytes": 65536,
+     "gap_ms": 6.337,
+     "write_ms": 0.044,
+     "total_ms": 6.381
+    },
+    {
+     "cycle": 3,
+     "serial": 31,
+     "bytes": 65536,
+     "gap_ms": 6.443,
+     "write_ms": 0.03,
+     "total_ms": 6.473
+    },
+    {
+     "cycle": 3,
+     "serial": 32,
+     "bytes": 65536,
+     "gap_ms": 6.372,
+     "write_ms": 0.047,
+     "total_ms": 6.419
+    },
+    {
+     "cycle": 3,
+     "serial": 33,
+     "bytes": 65536,
+     "gap_ms": 6.507,
+     "write_ms": 0.038,
+     "total_ms": 6.545
+    },
+    {
+     "cycle": 3,
+     "serial": 34,
+     "bytes": 65536,
+     "gap_ms": 6.482,
+     "write_ms": 0.03,
+     "total_ms": 6.512
+    },
+    {
+     "cycle": 3,
+     "serial": 35,
+     "bytes": 65536,
+     "gap_ms": 6.463,
+     "write_ms": 0.034,
+     "total_ms": 6.497
+    },
+    {
+     "cycle": 3,
+     "serial": 36,
+     "bytes": 65536,
+     "gap_ms": 6.472,
+     "write_ms": 0.032,
+     "total_ms": 6.505
+    },
+    {
+     "cycle": 3,
+     "serial": 37,
+     "bytes": 65536,
+     "gap_ms": 6.461,
+     "write_ms": 0.031,
+     "total_ms": 6.492
+    },
+    {
+     "cycle": 3,
+     "serial": 38,
+     "bytes": 65536,
+     "gap_ms": 6.489,
+     "write_ms": 0.072,
+     "total_ms": 6.561
+    },
+    {
+     "cycle": 3,
+     "serial": 39,
+     "bytes": 65536,
+     "gap_ms": 6.426,
+     "write_ms": 0.044,
+     "total_ms": 6.471
+    },
+    {
+     "cycle": 3,
+     "serial": 40,
+     "bytes": 65536,
+     "gap_ms": 6.429,
+     "write_ms": 0.038,
+     "total_ms": 6.467
+    },
+    {
+     "cycle": 3,
+     "serial": 41,
+     "bytes": 65536,
+     "gap_ms": 6.479,
+     "write_ms": 0.037,
+     "total_ms": 6.516
+    },
+    {
+     "cycle": 3,
+     "serial": 42,
+     "bytes": 65536,
+     "gap_ms": 6.354,
+     "write_ms": 0.033,
+     "total_ms": 6.387
+    },
+    {
+     "cycle": 3,
+     "serial": 43,
+     "bytes": 65536,
+     "gap_ms": 6.044,
+     "write_ms": 0.036,
+     "total_ms": 6.08
+    },
+    {
+     "cycle": 3,
+     "serial": 44,
+     "bytes": 65536,
+     "gap_ms": 6.204,
+     "write_ms": 0.038,
+     "total_ms": 6.242
+    },
+    {
+     "cycle": 3,
+     "serial": 45,
+     "bytes": 65536,
+     "gap_ms": 6.265,
+     "write_ms": 0.03,
+     "total_ms": 6.295
+    },
+    {
+     "cycle": 3,
+     "serial": 46,
+     "bytes": 65536,
+     "gap_ms": 6.388,
+     "write_ms": 0.085,
+     "total_ms": 6.473
+    },
+    {
+     "cycle": 3,
+     "serial": 47,
+     "bytes": 65536,
+     "gap_ms": 6.475,
+     "write_ms": 0.032,
+     "total_ms": 6.507
+    },
+    {
+     "cycle": 3,
+     "serial": 48,
+     "bytes": 65536,
+     "gap_ms": 6.477,
+     "write_ms": 0.028,
+     "total_ms": 6.506
+    },
+    {
+     "cycle": 3,
+     "serial": 49,
+     "bytes": 65536,
+     "gap_ms": 6.497,
+     "write_ms": 0.048,
+     "total_ms": 6.545
+    },
+    {
+     "cycle": 3,
+     "serial": 50,
+     "bytes": 65536,
+     "gap_ms": 6.451,
+     "write_ms": 0.036,
+     "total_ms": 6.487
+    },
+    {
+     "cycle": 3,
+     "serial": 51,
+     "bytes": 65536,
+     "gap_ms": 6.432,
+     "write_ms": 0.08,
+     "total_ms": 6.512
+    },
+    {
+     "cycle": 3,
+     "serial": 52,
+     "bytes": 65536,
+     "gap_ms": 6.438,
+     "write_ms": 0.031,
+     "total_ms": 6.469
+    },
+    {
+     "cycle": 3,
+     "serial": 53,
+     "bytes": 65536,
+     "gap_ms": 6.489,
+     "write_ms": 0.039,
+     "total_ms": 6.528
+    },
+    {
+     "cycle": 3,
+     "serial": 54,
+     "bytes": 65536,
+     "gap_ms": 6.442,
+     "write_ms": 0.034,
+     "total_ms": 6.475
+    },
+    {
+     "cycle": 3,
+     "serial": 55,
+     "bytes": 65536,
+     "gap_ms": 6.465,
+     "write_ms": 0.031,
+     "total_ms": 6.497
+    },
+    {
+     "cycle": 3,
+     "serial": 56,
+     "bytes": 65536,
+     "gap_ms": 6.416,
+     "write_ms": 0.051,
+     "total_ms": 6.467
+    },
+    {
+     "cycle": 3,
+     "serial": 57,
+     "bytes": 65536,
+     "gap_ms": 6.266,
+     "write_ms": 0.038,
+     "total_ms": 6.303
+    },
+    {
+     "cycle": 3,
+     "serial": 58,
+     "bytes": 65536,
+     "gap_ms": 6.22,
+     "write_ms": 0.042,
+     "total_ms": 6.263
+    },
+    {
+     "cycle": 3,
+     "serial": 59,
+     "bytes": 65536,
+     "gap_ms": 6.473,
+     "write_ms": 0.046,
+     "total_ms": 6.519
+    },
+    {
+     "cycle": 3,
+     "serial": 60,
+     "bytes": 65536,
+     "gap_ms": 6.43,
+     "write_ms": 0.049,
+     "total_ms": 6.48
+    },
+    {
+     "cycle": 3,
+     "serial": 61,
+     "bytes": 65536,
+     "gap_ms": 6.457,
+     "write_ms": 0.036,
+     "total_ms": 6.493
+    },
+    {
+     "cycle": 3,
+     "serial": 62,
+     "bytes": 65536,
+     "gap_ms": 6.508,
+     "write_ms": 0.037,
+     "total_ms": 6.546
+    },
+    {
+     "cycle": 3,
+     "serial": 63,
+     "bytes": 65536,
+     "gap_ms": 6.356,
+     "write_ms": 0.049,
+     "total_ms": 6.405
+    },
+    {
+     "cycle": 3,
+     "serial": 64,
+     "bytes": 65536,
+     "gap_ms": 6.551,
+     "write_ms": 0.054,
+     "total_ms": 6.605
+    },
+    {
+     "cycle": 3,
+     "serial": 65,
+     "bytes": 65536,
+     "gap_ms": 6.478,
+     "write_ms": 0.055,
+     "total_ms": 6.533
+    },
+    {
+     "cycle": 3,
+     "serial": 66,
+     "bytes": 65536,
+     "gap_ms": 6.415,
+     "write_ms": 0.044,
+     "total_ms": 6.459
+    },
+    {
+     "cycle": 3,
+     "serial": 67,
+     "bytes": 65536,
+     "gap_ms": 6.394,
+     "write_ms": 0.089,
+     "total_ms": 6.483
+    },
+    {
+     "cycle": 3,
+     "serial": 68,
+     "bytes": 65536,
+     "gap_ms": 6.454,
+     "write_ms": 0.054,
+     "total_ms": 6.508
+    },
+    {
+     "cycle": 3,
+     "serial": 69,
+     "bytes": 65536,
+     "gap_ms": 6.405,
+     "write_ms": 0.035,
+     "total_ms": 6.44
+    },
+    {
+     "cycle": 3,
+     "serial": 70,
+     "bytes": 65536,
+     "gap_ms": 6.437,
+     "write_ms": 0.041,
+     "total_ms": 6.478
+    },
+    {
+     "cycle": 3,
+     "serial": 71,
+     "bytes": 65536,
+     "gap_ms": 6.461,
+     "write_ms": 0.031,
+     "total_ms": 6.492
+    },
+    {
+     "cycle": 3,
+     "serial": 72,
+     "bytes": 65536,
+     "gap_ms": 6.475,
+     "write_ms": 0.03,
+     "total_ms": 6.505
+    },
+    {
+     "cycle": 3,
+     "serial": 73,
+     "bytes": 65536,
+     "gap_ms": 6.416,
+     "write_ms": 0.047,
+     "total_ms": 6.463
+    },
+    {
+     "cycle": 3,
+     "serial": 74,
+     "bytes": 65536,
+     "gap_ms": 6.496,
+     "write_ms": 0.042,
+     "total_ms": 6.539
+    },
+    {
+     "cycle": 3,
+     "serial": 75,
+     "bytes": 65536,
+     "gap_ms": 6.463,
+     "write_ms": 0.04,
+     "total_ms": 6.503
+    },
+    {
+     "cycle": 3,
+     "serial": 76,
+     "bytes": 65536,
+     "gap_ms": 6.493,
+     "write_ms": 0.034,
+     "total_ms": 6.527
+    },
+    {
+     "cycle": 3,
+     "serial": 77,
+     "bytes": 65536,
+     "gap_ms": 6.443,
+     "write_ms": 0.056,
+     "total_ms": 6.498
+    },
+    {
+     "cycle": 3,
+     "serial": 78,
+     "bytes": 65536,
+     "gap_ms": 6.463,
+     "write_ms": 0.038,
+     "total_ms": 6.5
+    },
+    {
+     "cycle": 3,
+     "serial": 79,
+     "bytes": 65536,
+     "gap_ms": 6.455,
+     "write_ms": 0.037,
+     "total_ms": 6.493
+    },
+    {
+     "cycle": 3,
+     "serial": 80,
+     "bytes": 47044,
+     "gap_ms": 6.447,
+     "write_ms": 0.039,
+     "total_ms": 6.486
+    },
+    {
+     "cycle": 4,
+     "serial": 1,
+     "bytes": 65536,
+     "gap_ms": 0.0,
+     "write_ms": 0.092,
+     "total_ms": 0.092
+    },
+    {
+     "cycle": 4,
+     "serial": 2,
+     "bytes": 65536,
+     "gap_ms": 6.595,
+     "write_ms": 0.077,
+     "total_ms": 6.672
+    },
+    {
+     "cycle": 4,
+     "serial": 3,
+     "bytes": 65536,
+     "gap_ms": 6.441,
+     "write_ms": 0.036,
+     "total_ms": 6.476
+    },
+    {
+     "cycle": 4,
+     "serial": 4,
+     "bytes": 65536,
+     "gap_ms": 6.459,
+     "write_ms": 0.079,
+     "total_ms": 6.538
+    },
+    {
+     "cycle": 4,
+     "serial": 5,
+     "bytes": 65536,
+     "gap_ms": 6.408,
+     "write_ms": 0.04,
+     "total_ms": 6.448
+    },
+    {
+     "cycle": 4,
+     "serial": 6,
+     "bytes": 65536,
+     "gap_ms": 6.456,
+     "write_ms": 0.03,
+     "total_ms": 6.487
+    },
+    {
+     "cycle": 4,
+     "serial": 7,
+     "bytes": 65536,
+     "gap_ms": 6.271,
+     "write_ms": 0.031,
+     "total_ms": 6.301
+    },
+    {
+     "cycle": 4,
+     "serial": 8,
+     "bytes": 65536,
+     "gap_ms": 6.166,
+     "write_ms": 0.071,
+     "total_ms": 6.237
+    },
+    {
+     "cycle": 4,
+     "serial": 9,
+     "bytes": 65536,
+     "gap_ms": 6.405,
+     "write_ms": 0.072,
+     "total_ms": 6.477
+    },
+    {
+     "cycle": 4,
+     "serial": 10,
+     "bytes": 65536,
+     "gap_ms": 6.432,
+     "write_ms": 0.028,
+     "total_ms": 6.461
+    },
+    {
+     "cycle": 4,
+     "serial": 11,
+     "bytes": 65536,
+     "gap_ms": 6.485,
+     "write_ms": 0.031,
+     "total_ms": 6.516
+    },
+    {
+     "cycle": 4,
+     "serial": 12,
+     "bytes": 65536,
+     "gap_ms": 6.464,
+     "write_ms": 0.039,
+     "total_ms": 6.503
+    },
+    {
+     "cycle": 4,
+     "serial": 13,
+     "bytes": 65536,
+     "gap_ms": 6.45,
+     "write_ms": 0.035,
+     "total_ms": 6.485
+    },
+    {
+     "cycle": 4,
+     "serial": 14,
+     "bytes": 65536,
+     "gap_ms": 6.487,
+     "write_ms": 0.032,
+     "total_ms": 6.519
+    },
+    {
+     "cycle": 4,
+     "serial": 15,
+     "bytes": 65536,
+     "gap_ms": 6.392,
+     "write_ms": 0.035,
+     "total_ms": 6.427
+    },
+    {
+     "cycle": 4,
+     "serial": 16,
+     "bytes": 65536,
+     "gap_ms": 6.522,
+     "write_ms": 0.032,
+     "total_ms": 6.554
+    },
+    {
+     "cycle": 4,
+     "serial": 17,
+     "bytes": 65536,
+     "gap_ms": 6.52,
+     "write_ms": 0.062,
+     "total_ms": 6.581
+    },
+    {
+     "cycle": 4,
+     "serial": 18,
+     "bytes": 65536,
+     "gap_ms": 6.476,
+     "write_ms": 0.032,
+     "total_ms": 6.507
+    },
+    {
+     "cycle": 4,
+     "serial": 19,
+     "bytes": 65536,
+     "gap_ms": 6.483,
+     "write_ms": 0.034,
+     "total_ms": 6.517
+    },
+    {
+     "cycle": 4,
+     "serial": 20,
+     "bytes": 65536,
+     "gap_ms": 6.366,
+     "write_ms": 0.037,
+     "total_ms": 6.403
+    },
+    {
+     "cycle": 4,
+     "serial": 21,
+     "bytes": 65536,
+     "gap_ms": 6.468,
+     "write_ms": 0.035,
+     "total_ms": 6.503
+    },
+    {
+     "cycle": 4,
+     "serial": 22,
+     "bytes": 65536,
+     "gap_ms": 6.475,
+     "write_ms": 0.046,
+     "total_ms": 6.521
+    },
+    {
+     "cycle": 4,
+     "serial": 23,
+     "bytes": 65536,
+     "gap_ms": 6.441,
+     "write_ms": 0.031,
+     "total_ms": 6.473
+    },
+    {
+     "cycle": 4,
+     "serial": 24,
+     "bytes": 65536,
+     "gap_ms": 6.478,
+     "write_ms": 0.029,
+     "total_ms": 6.507
+    },
+    {
+     "cycle": 4,
+     "serial": 25,
+     "bytes": 65536,
+     "gap_ms": 6.389,
+     "write_ms": 0.084,
+     "total_ms": 6.473
+    },
+    {
+     "cycle": 4,
+     "serial": 26,
+     "bytes": 65536,
+     "gap_ms": 6.513,
+     "write_ms": 0.03,
+     "total_ms": 6.543
+    },
+    {
+     "cycle": 4,
+     "serial": 27,
+     "bytes": 65536,
+     "gap_ms": 6.429,
+     "write_ms": 0.027,
+     "total_ms": 6.456
+    },
+    {
+     "cycle": 4,
+     "serial": 28,
+     "bytes": 65536,
+     "gap_ms": 6.523,
+     "write_ms": 0.056,
+     "total_ms": 6.58
+    },
+    {
+     "cycle": 4,
+     "serial": 29,
+     "bytes": 65536,
+     "gap_ms": 6.413,
+     "write_ms": 0.034,
+     "total_ms": 6.447
+    },
+    {
+     "cycle": 4,
+     "serial": 30,
+     "bytes": 65536,
+     "gap_ms": 6.461,
+     "write_ms": 0.029,
+     "total_ms": 6.49
+    },
+    {
+     "cycle": 4,
+     "serial": 31,
+     "bytes": 65536,
+     "gap_ms": 6.492,
+     "write_ms": 0.027,
+     "total_ms": 6.519
+    },
+    {
+     "cycle": 4,
+     "serial": 32,
+     "bytes": 65536,
+     "gap_ms": 6.426,
+     "write_ms": 0.035,
+     "total_ms": 6.461
+    },
+    {
+     "cycle": 4,
+     "serial": 33,
+     "bytes": 65536,
+     "gap_ms": 6.521,
+     "write_ms": 0.039,
+     "total_ms": 6.56
+    },
+    {
+     "cycle": 4,
+     "serial": 34,
+     "bytes": 65536,
+     "gap_ms": 6.066,
+     "write_ms": 0.031,
+     "total_ms": 6.097
+    },
+    {
+     "cycle": 4,
+     "serial": 35,
+     "bytes": 65536,
+     "gap_ms": 6.356,
+     "write_ms": 0.033,
+     "total_ms": 6.388
+    },
+    {
+     "cycle": 4,
+     "serial": 36,
+     "bytes": 65536,
+     "gap_ms": 6.461,
+     "write_ms": 0.037,
+     "total_ms": 6.498
+    },
+    {
+     "cycle": 4,
+     "serial": 37,
+     "bytes": 65536,
+     "gap_ms": 6.462,
+     "write_ms": 0.038,
+     "total_ms": 6.499
+    },
+    {
+     "cycle": 4,
+     "serial": 38,
+     "bytes": 65536,
+     "gap_ms": 6.477,
+     "write_ms": 0.034,
+     "total_ms": 6.511
+    },
+    {
+     "cycle": 4,
+     "serial": 39,
+     "bytes": 65536,
+     "gap_ms": 6.429,
+     "write_ms": 0.036,
+     "total_ms": 6.466
+    },
+    {
+     "cycle": 4,
+     "serial": 40,
+     "bytes": 65536,
+     "gap_ms": 6.063,
+     "write_ms": 0.046,
+     "total_ms": 6.11
+    },
+    {
+     "cycle": 4,
+     "serial": 41,
+     "bytes": 65536,
+     "gap_ms": 6.394,
+     "write_ms": 0.074,
+     "total_ms": 6.468
+    },
+    {
+     "cycle": 4,
+     "serial": 42,
+     "bytes": 65536,
+     "gap_ms": 6.429,
+     "write_ms": 0.032,
+     "total_ms": 6.461
+    },
+    {
+     "cycle": 4,
+     "serial": 43,
+     "bytes": 65536,
+     "gap_ms": 6.421,
+     "write_ms": 0.031,
+     "total_ms": 6.451
+    },
+    {
+     "cycle": 4,
+     "serial": 44,
+     "bytes": 65536,
+     "gap_ms": 6.472,
+     "write_ms": 0.03,
+     "total_ms": 6.502
+    },
+    {
+     "cycle": 4,
+     "serial": 45,
+     "bytes": 65536,
+     "gap_ms": 6.488,
+     "write_ms": 0.035,
+     "total_ms": 6.523
+    },
+    {
+     "cycle": 4,
+     "serial": 46,
+     "bytes": 65536,
+     "gap_ms": 6.173,
+     "write_ms": 0.078,
+     "total_ms": 6.251
+    },
+    {
+     "cycle": 4,
+     "serial": 47,
+     "bytes": 65536,
+     "gap_ms": 6.242,
+     "write_ms": 0.033,
+     "total_ms": 6.275
+    },
+    {
+     "cycle": 4,
+     "serial": 48,
+     "bytes": 65536,
+     "gap_ms": 6.419,
+     "write_ms": 0.029,
+     "total_ms": 6.449
+    },
+    {
+     "cycle": 4,
+     "serial": 49,
+     "bytes": 65536,
+     "gap_ms": 6.495,
+     "write_ms": 0.058,
+     "total_ms": 6.553
+    },
+    {
+     "cycle": 4,
+     "serial": 50,
+     "bytes": 65536,
+     "gap_ms": 6.422,
+     "write_ms": 0.029,
+     "total_ms": 6.452
+    },
+    {
+     "cycle": 4,
+     "serial": 51,
+     "bytes": 65536,
+     "gap_ms": 6.483,
+     "write_ms": 0.031,
+     "total_ms": 6.514
+    },
+    {
+     "cycle": 4,
+     "serial": 52,
+     "bytes": 65536,
+     "gap_ms": 6.206,
+     "write_ms": 0.04,
+     "total_ms": 6.246
+    },
+    {
+     "cycle": 4,
+     "serial": 53,
+     "bytes": 65536,
+     "gap_ms": 6.187,
+     "write_ms": 0.041,
+     "total_ms": 6.228
+    },
+    {
+     "cycle": 4,
+     "serial": 54,
+     "bytes": 65536,
+     "gap_ms": 6.487,
+     "write_ms": 0.036,
+     "total_ms": 6.523
+    },
+    {
+     "cycle": 4,
+     "serial": 55,
+     "bytes": 65536,
+     "gap_ms": 6.449,
+     "write_ms": 0.03,
+     "total_ms": 6.478
+    },
+    {
+     "cycle": 4,
+     "serial": 56,
+     "bytes": 65536,
+     "gap_ms": 6.484,
+     "write_ms": 0.026,
+     "total_ms": 6.51
+    },
+    {
+     "cycle": 4,
+     "serial": 57,
+     "bytes": 65536,
+     "gap_ms": 6.471,
+     "write_ms": 0.103,
+     "total_ms": 6.574
+    },
+    {
+     "cycle": 4,
+     "serial": 58,
+     "bytes": 65536,
+     "gap_ms": 6.412,
+     "write_ms": 0.06,
+     "total_ms": 6.472
+    },
+    {
+     "cycle": 4,
+     "serial": 59,
+     "bytes": 65536,
+     "gap_ms": 6.053,
+     "write_ms": 0.032,
+     "total_ms": 6.085
+    },
+    {
+     "cycle": 4,
+     "serial": 60,
+     "bytes": 65536,
+     "gap_ms": 6.279,
+     "write_ms": 0.037,
+     "total_ms": 6.316
+    },
+    {
+     "cycle": 4,
+     "serial": 61,
+     "bytes": 65536,
+     "gap_ms": 6.05,
+     "write_ms": 0.084,
+     "total_ms": 6.134
+    },
+    {
+     "cycle": 4,
+     "serial": 62,
+     "bytes": 65536,
+     "gap_ms": 6.387,
+     "write_ms": 0.068,
+     "total_ms": 6.456
+    },
+    {
+     "cycle": 4,
+     "serial": 63,
+     "bytes": 65536,
+     "gap_ms": 6.454,
+     "write_ms": 0.037,
+     "total_ms": 6.491
+    },
+    {
+     "cycle": 4,
+     "serial": 64,
+     "bytes": 65536,
+     "gap_ms": 6.442,
+     "write_ms": 0.038,
+     "total_ms": 6.479
+    },
+    {
+     "cycle": 4,
+     "serial": 65,
+     "bytes": 65536,
+     "gap_ms": 6.455,
+     "write_ms": 0.038,
+     "total_ms": 6.493
+    },
+    {
+     "cycle": 4,
+     "serial": 66,
+     "bytes": 65536,
+     "gap_ms": 6.548,
+     "write_ms": 0.067,
+     "total_ms": 6.615
+    },
+    {
+     "cycle": 4,
+     "serial": 67,
+     "bytes": 65536,
+     "gap_ms": 6.293,
+     "write_ms": 0.035,
+     "total_ms": 6.328
+    },
+    {
+     "cycle": 4,
+     "serial": 68,
+     "bytes": 65536,
+     "gap_ms": 6.058,
+     "write_ms": 0.033,
+     "total_ms": 6.09
+    },
+    {
+     "cycle": 4,
+     "serial": 69,
+     "bytes": 65536,
+     "gap_ms": 6.438,
+     "write_ms": 0.033,
+     "total_ms": 6.471
+    },
+    {
+     "cycle": 4,
+     "serial": 70,
+     "bytes": 65536,
+     "gap_ms": 6.489,
+     "write_ms": 0.032,
+     "total_ms": 6.52
+    },
+    {
+     "cycle": 4,
+     "serial": 71,
+     "bytes": 65536,
+     "gap_ms": 6.45,
+     "write_ms": 0.036,
+     "total_ms": 6.486
+    },
+    {
+     "cycle": 4,
+     "serial": 72,
+     "bytes": 65536,
+     "gap_ms": 6.485,
+     "write_ms": 0.045,
+     "total_ms": 6.53
+    },
+    {
+     "cycle": 4,
+     "serial": 73,
+     "bytes": 65536,
+     "gap_ms": 6.498,
+     "write_ms": 0.046,
+     "total_ms": 6.544
+    },
+    {
+     "cycle": 4,
+     "serial": 74,
+     "bytes": 65536,
+     "gap_ms": 6.339,
+     "write_ms": 0.044,
+     "total_ms": 6.384
+    },
+    {
+     "cycle": 4,
+     "serial": 75,
+     "bytes": 65536,
+     "gap_ms": 6.503,
+     "write_ms": 0.031,
+     "total_ms": 6.534
+    },
+    {
+     "cycle": 4,
+     "serial": 76,
+     "bytes": 65536,
+     "gap_ms": 6.47,
+     "write_ms": 0.03,
+     "total_ms": 6.5
+    },
+    {
+     "cycle": 4,
+     "serial": 77,
+     "bytes": 65536,
+     "gap_ms": 6.482,
+     "write_ms": 0.032,
+     "total_ms": 6.514
+    },
+    {
+     "cycle": 4,
+     "serial": 78,
+     "bytes": 65536,
+     "gap_ms": 6.447,
+     "write_ms": 0.079,
+     "total_ms": 6.526
+    },
+    {
+     "cycle": 4,
+     "serial": 79,
+     "bytes": 65536,
+     "gap_ms": 6.422,
+     "write_ms": 0.027,
+     "total_ms": 6.449
+    },
+    {
+     "cycle": 4,
+     "serial": 80,
+     "bytes": 47044,
+     "gap_ms": 6.498,
+     "write_ms": 0.028,
+     "total_ms": 6.526
+    },
+    {
+     "cycle": 5,
+     "serial": 1,
+     "bytes": 65536,
+     "gap_ms": 0.0,
+     "write_ms": 0.103,
+     "total_ms": 0.103
+    },
+    {
+     "cycle": 5,
+     "serial": 2,
+     "bytes": 65536,
+     "gap_ms": 6.096,
+     "write_ms": 0.083,
+     "total_ms": 6.179
+    },
+    {
+     "cycle": 5,
+     "serial": 3,
+     "bytes": 65536,
+     "gap_ms": 6.412,
+     "write_ms": 0.031,
+     "total_ms": 6.443
+    },
+    {
+     "cycle": 5,
+     "serial": 4,
+     "bytes": 65536,
+     "gap_ms": 6.484,
+     "write_ms": 0.07,
+     "total_ms": 6.554
+    },
+    {
+     "cycle": 5,
+     "serial": 5,
+     "bytes": 65536,
+     "gap_ms": 6.345,
+     "write_ms": 0.037,
+     "total_ms": 6.382
+    },
+    {
+     "cycle": 5,
+     "serial": 6,
+     "bytes": 65536,
+     "gap_ms": 6.53,
+     "write_ms": 0.031,
+     "total_ms": 6.561
+    },
+    {
+     "cycle": 5,
+     "serial": 7,
+     "bytes": 65536,
+     "gap_ms": 6.505,
+     "write_ms": 0.031,
+     "total_ms": 6.536
+    },
+    {
+     "cycle": 5,
+     "serial": 8,
+     "bytes": 65536,
+     "gap_ms": 6.436,
+     "write_ms": 0.078,
+     "total_ms": 6.514
+    },
+    {
+     "cycle": 5,
+     "serial": 9,
+     "bytes": 65536,
+     "gap_ms": 6.428,
+     "write_ms": 0.089,
+     "total_ms": 6.517
+    },
+    {
+     "cycle": 5,
+     "serial": 10,
+     "bytes": 65536,
+     "gap_ms": 6.414,
+     "write_ms": 0.032,
+     "total_ms": 6.447
+    },
+    {
+     "cycle": 5,
+     "serial": 11,
+     "bytes": 65536,
+     "gap_ms": 6.499,
+     "write_ms": 0.038,
+     "total_ms": 6.537
+    },
+    {
+     "cycle": 5,
+     "serial": 12,
+     "bytes": 65536,
+     "gap_ms": 6.425,
+     "write_ms": 0.04,
+     "total_ms": 6.465
+    },
+    {
+     "cycle": 5,
+     "serial": 13,
+     "bytes": 65536,
+     "gap_ms": 7.969,
+     "write_ms": 0.036,
+     "total_ms": 8.005
+    },
+    {
+     "cycle": 5,
+     "serial": 14,
+     "bytes": 65536,
+     "gap_ms": 6.39,
+     "write_ms": 0.045,
+     "total_ms": 6.435
+    },
+    {
+     "cycle": 5,
+     "serial": 15,
+     "bytes": 65536,
+     "gap_ms": 6.49,
+     "write_ms": 0.031,
+     "total_ms": 6.521
+    },
+    {
+     "cycle": 5,
+     "serial": 16,
+     "bytes": 65536,
+     "gap_ms": 6.5,
+     "write_ms": 0.029,
+     "total_ms": 6.53
+    },
+    {
+     "cycle": 5,
+     "serial": 17,
+     "bytes": 65536,
+     "gap_ms": 6.466,
+     "write_ms": 0.048,
+     "total_ms": 6.514
+    },
+    {
+     "cycle": 5,
+     "serial": 18,
+     "bytes": 65536,
+     "gap_ms": 6.445,
+     "write_ms": 0.036,
+     "total_ms": 6.481
+    },
+    {
+     "cycle": 5,
+     "serial": 19,
+     "bytes": 65536,
+     "gap_ms": 6.473,
+     "write_ms": 0.029,
+     "total_ms": 6.503
+    },
+    {
+     "cycle": 5,
+     "serial": 20,
+     "bytes": 65536,
+     "gap_ms": 6.481,
+     "write_ms": 0.037,
+     "total_ms": 6.518
+    },
+    {
+     "cycle": 5,
+     "serial": 21,
+     "bytes": 65536,
+     "gap_ms": 6.453,
+     "write_ms": 0.033,
+     "total_ms": 6.486
+    },
+    {
+     "cycle": 5,
+     "serial": 22,
+     "bytes": 65536,
+     "gap_ms": 6.446,
+     "write_ms": 0.032,
+     "total_ms": 6.478
+    },
+    {
+     "cycle": 5,
+     "serial": 23,
+     "bytes": 65536,
+     "gap_ms": 6.493,
+     "write_ms": 0.029,
+     "total_ms": 6.522
+    },
+    {
+     "cycle": 5,
+     "serial": 24,
+     "bytes": 65536,
+     "gap_ms": 6.404,
+     "write_ms": 0.037,
+     "total_ms": 6.441
+    },
+    {
+     "cycle": 5,
+     "serial": 25,
+     "bytes": 65536,
+     "gap_ms": 6.513,
+     "write_ms": 0.085,
+     "total_ms": 6.598
+    },
+    {
+     "cycle": 5,
+     "serial": 26,
+     "bytes": 65536,
+     "gap_ms": 6.42,
+     "write_ms": 0.03,
+     "total_ms": 6.45
+    },
+    {
+     "cycle": 5,
+     "serial": 27,
+     "bytes": 65536,
+     "gap_ms": 6.475,
+     "write_ms": 0.03,
+     "total_ms": 6.506
+    },
+    {
+     "cycle": 5,
+     "serial": 28,
+     "bytes": 65536,
+     "gap_ms": 6.469,
+     "write_ms": 0.034,
+     "total_ms": 6.503
+    },
+    {
+     "cycle": 5,
+     "serial": 29,
+     "bytes": 65536,
+     "gap_ms": 6.469,
+     "write_ms": 0.032,
+     "total_ms": 6.501
+    },
+    {
+     "cycle": 5,
+     "serial": 30,
+     "bytes": 65536,
+     "gap_ms": 6.462,
+     "write_ms": 0.031,
+     "total_ms": 6.492
+    },
+    {
+     "cycle": 5,
+     "serial": 31,
+     "bytes": 65536,
+     "gap_ms": 6.455,
+     "write_ms": 0.04,
+     "total_ms": 6.495
+    },
+    {
+     "cycle": 5,
+     "serial": 32,
+     "bytes": 65536,
+     "gap_ms": 6.464,
+     "write_ms": 0.033,
+     "total_ms": 6.497
+    },
+    {
+     "cycle": 5,
+     "serial": 33,
+     "bytes": 65536,
+     "gap_ms": 6.495,
+     "write_ms": 0.042,
+     "total_ms": 6.537
+    },
+    {
+     "cycle": 5,
+     "serial": 34,
+     "bytes": 65536,
+     "gap_ms": 6.393,
+     "write_ms": 0.033,
+     "total_ms": 6.425
+    },
+    {
+     "cycle": 5,
+     "serial": 35,
+     "bytes": 65536,
+     "gap_ms": 6.513,
+     "write_ms": 0.03,
+     "total_ms": 6.543
+    },
+    {
+     "cycle": 5,
+     "serial": 36,
+     "bytes": 65536,
+     "gap_ms": 6.469,
+     "write_ms": 0.028,
+     "total_ms": 6.497
+    },
+    {
+     "cycle": 5,
+     "serial": 37,
+     "bytes": 65536,
+     "gap_ms": 6.469,
+     "write_ms": 0.032,
+     "total_ms": 6.501
+    },
+    {
+     "cycle": 5,
+     "serial": 38,
+     "bytes": 65536,
+     "gap_ms": 6.472,
+     "write_ms": 0.032,
+     "total_ms": 6.504
+    },
+    {
+     "cycle": 5,
+     "serial": 39,
+     "bytes": 65536,
+     "gap_ms": 6.473,
+     "write_ms": 0.034,
+     "total_ms": 6.507
+    },
+    {
+     "cycle": 5,
+     "serial": 40,
+     "bytes": 65536,
+     "gap_ms": 6.48,
+     "write_ms": 0.036,
+     "total_ms": 6.516
+    },
+    {
+     "cycle": 5,
+     "serial": 41,
+     "bytes": 65536,
+     "gap_ms": 6.386,
+     "write_ms": 0.078,
+     "total_ms": 6.464
+    },
+    {
+     "cycle": 5,
+     "serial": 42,
+     "bytes": 65536,
+     "gap_ms": 6.501,
+     "write_ms": 0.036,
+     "total_ms": 6.538
+    },
+    {
+     "cycle": 5,
+     "serial": 43,
+     "bytes": 65536,
+     "gap_ms": 6.491,
+     "write_ms": 0.03,
+     "total_ms": 6.521
+    },
+    {
+     "cycle": 5,
+     "serial": 44,
+     "bytes": 65536,
+     "gap_ms": 6.363,
+     "write_ms": 0.037,
+     "total_ms": 6.4
+    },
+    {
+     "cycle": 5,
+     "serial": 45,
+     "bytes": 65536,
+     "gap_ms": 6.516,
+     "write_ms": 0.032,
+     "total_ms": 6.547
+    },
+    {
+     "cycle": 5,
+     "serial": 46,
+     "bytes": 65536,
+     "gap_ms": 6.158,
+     "write_ms": 0.038,
+     "total_ms": 6.197
+    },
+    {
+     "cycle": 5,
+     "serial": 47,
+     "bytes": 65536,
+     "gap_ms": 6.258,
+     "write_ms": 0.029,
+     "total_ms": 6.287
+    },
+    {
+     "cycle": 5,
+     "serial": 48,
+     "bytes": 65536,
+     "gap_ms": 6.486,
+     "write_ms": 0.035,
+     "total_ms": 6.522
+    },
+    {
+     "cycle": 5,
+     "serial": 49,
+     "bytes": 65536,
+     "gap_ms": 6.461,
+     "write_ms": 0.045,
+     "total_ms": 6.506
+    },
+    {
+     "cycle": 5,
+     "serial": 50,
+     "bytes": 65536,
+     "gap_ms": 6.453,
+     "write_ms": 0.028,
+     "total_ms": 6.481
+    },
+    {
+     "cycle": 5,
+     "serial": 51,
+     "bytes": 65536,
+     "gap_ms": 6.424,
+     "write_ms": 0.033,
+     "total_ms": 6.456
+    },
+    {
+     "cycle": 5,
+     "serial": 52,
+     "bytes": 65536,
+     "gap_ms": 6.533,
+     "write_ms": 0.036,
+     "total_ms": 6.569
+    },
+    {
+     "cycle": 5,
+     "serial": 53,
+     "bytes": 65536,
+     "gap_ms": 6.474,
+     "write_ms": 0.03,
+     "total_ms": 6.504
+    },
+    {
+     "cycle": 5,
+     "serial": 54,
+     "bytes": 65536,
+     "gap_ms": 6.45,
+     "write_ms": 0.031,
+     "total_ms": 6.481
+    },
+    {
+     "cycle": 5,
+     "serial": 55,
+     "bytes": 65536,
+     "gap_ms": 6.486,
+     "write_ms": 0.036,
+     "total_ms": 6.522
+    },
+    {
+     "cycle": 5,
+     "serial": 56,
+     "bytes": 65536,
+     "gap_ms": 6.445,
+     "write_ms": 0.029,
+     "total_ms": 6.473
+    },
+    {
+     "cycle": 5,
+     "serial": 57,
+     "bytes": 65536,
+     "gap_ms": 6.333,
+     "write_ms": 0.076,
+     "total_ms": 6.409
+    },
+    {
+     "cycle": 5,
+     "serial": 58,
+     "bytes": 65536,
+     "gap_ms": 6.069,
+     "write_ms": 0.047,
+     "total_ms": 6.117
+    },
+    {
+     "cycle": 5,
+     "serial": 59,
+     "bytes": 65536,
+     "gap_ms": 6.451,
+     "write_ms": 0.034,
+     "total_ms": 6.485
+    },
+    {
+     "cycle": 5,
+     "serial": 60,
+     "bytes": 65536,
+     "gap_ms": 6.485,
+     "write_ms": 0.029,
+     "total_ms": 6.514
+    },
+    {
+     "cycle": 5,
+     "serial": 61,
+     "bytes": 65536,
+     "gap_ms": 6.446,
+     "write_ms": 0.036,
+     "total_ms": 6.482
+    },
+    {
+     "cycle": 5,
+     "serial": 62,
+     "bytes": 65536,
+     "gap_ms": 6.482,
+     "write_ms": 0.041,
+     "total_ms": 6.523
+    },
+    {
+     "cycle": 5,
+     "serial": 63,
+     "bytes": 65536,
+     "gap_ms": 6.458,
+     "write_ms": 0.034,
+     "total_ms": 6.491
+    },
+    {
+     "cycle": 5,
+     "serial": 64,
+     "bytes": 65536,
+     "gap_ms": 6.462,
+     "write_ms": 0.029,
+     "total_ms": 6.491
+    },
+    {
+     "cycle": 5,
+     "serial": 65,
+     "bytes": 65536,
+     "gap_ms": 6.47,
+     "write_ms": 0.043,
+     "total_ms": 6.513
+    },
+    {
+     "cycle": 5,
+     "serial": 66,
+     "bytes": 65536,
+     "gap_ms": 6.449,
+     "write_ms": 0.082,
+     "total_ms": 6.531
+    },
+    {
+     "cycle": 5,
+     "serial": 67,
+     "bytes": 65536,
+     "gap_ms": 6.456,
+     "write_ms": 0.031,
+     "total_ms": 6.487
+    },
+    {
+     "cycle": 5,
+     "serial": 68,
+     "bytes": 65536,
+     "gap_ms": 6.385,
+     "write_ms": 0.034,
+     "total_ms": 6.419
+    },
+    {
+     "cycle": 5,
+     "serial": 69,
+     "bytes": 65536,
+     "gap_ms": 6.518,
+     "write_ms": 0.038,
+     "total_ms": 6.556
+    },
+    {
+     "cycle": 5,
+     "serial": 70,
+     "bytes": 65536,
+     "gap_ms": 6.47,
+     "write_ms": 0.029,
+     "total_ms": 6.5
+    },
+    {
+     "cycle": 5,
+     "serial": 71,
+     "bytes": 65536,
+     "gap_ms": 6.482,
+     "write_ms": 0.033,
+     "total_ms": 6.515
+    },
+    {
+     "cycle": 5,
+     "serial": 72,
+     "bytes": 65536,
+     "gap_ms": 6.442,
+     "write_ms": 0.042,
+     "total_ms": 6.484
+    },
+    {
+     "cycle": 5,
+     "serial": 73,
+     "bytes": 65536,
+     "gap_ms": 6.477,
+     "write_ms": 0.097,
+     "total_ms": 6.575
+    },
+    {
+     "cycle": 5,
+     "serial": 74,
+     "bytes": 65536,
+     "gap_ms": 6.399,
+     "write_ms": 0.031,
+     "total_ms": 6.43
+    },
+    {
+     "cycle": 5,
+     "serial": 75,
+     "bytes": 65536,
+     "gap_ms": 6.459,
+     "write_ms": 0.037,
+     "total_ms": 6.495
+    },
+    {
+     "cycle": 5,
+     "serial": 76,
+     "bytes": 65536,
+     "gap_ms": 6.463,
+     "write_ms": 0.03,
+     "total_ms": 6.493
+    },
+    {
+     "cycle": 5,
+     "serial": 77,
+     "bytes": 65536,
+     "gap_ms": 6.451,
+     "write_ms": 0.033,
+     "total_ms": 6.485
+    },
+    {
+     "cycle": 5,
+     "serial": 78,
+     "bytes": 65536,
+     "gap_ms": 6.445,
+     "write_ms": 0.035,
+     "total_ms": 6.48
+    },
+    {
+     "cycle": 5,
+     "serial": 79,
+     "bytes": 65536,
+     "gap_ms": 6.497,
+     "write_ms": 0.038,
+     "total_ms": 6.535
+    },
+    {
+     "cycle": 5,
+     "serial": 80,
+     "bytes": 47044,
+     "gap_ms": 6.474,
+     "write_ms": 0.031,
+     "total_ms": 6.506
+    }
+   ]
+  },
+  "A_preheated": {
+   "tag": "A_preheated",
+   "target": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_preheated\\target.kvmem",
+   "total_5cycles_s": 5.164,
+   "rounds": [
+    {
+     "cycle": 1,
+     "total_s": 1.026,
+     "n_chunks": 80,
+     "slowest_chunk": {
+      "cycle": 1,
+      "serial": 4,
+      "bytes": 65536,
+      "gap_ms": 6.537,
+      "write_ms": 0.079,
+      "total_ms": 6.617
+     },
+     "chunks_over_1s": [],
+     "stall_near_64_72": false
+    },
+    {
+     "cycle": 2,
+     "total_s": 1.026,
+     "n_chunks": 80,
+     "slowest_chunk": {
+      "cycle": 2,
+      "serial": 66,
+      "bytes": 65536,
+      "gap_ms": 7.977,
+      "write_ms": 0.055,
+      "total_ms": 8.032
+     },
+     "chunks_over_1s": [],
+     "stall_near_64_72": false
+    },
+    {
+     "cycle": 3,
+     "total_s": 1.023,
+     "n_chunks": 80,
+     "slowest_chunk": {
+      "cycle": 3,
+      "serial": 38,
+      "bytes": 65536,
+      "gap_ms": 6.555,
+      "write_ms": 0.142,
+      "total_ms": 6.698
+     },
+     "chunks_over_1s": [],
+     "stall_near_64_72": false
+    },
+    {
+     "cycle": 4,
+     "total_s": 1.026,
+     "n_chunks": 80,
+     "slowest_chunk": {
+      "cycle": 4,
+      "serial": 41,
+      "bytes": 65536,
+      "gap_ms": 6.548,
+      "write_ms": 0.042,
+      "total_ms": 6.591
+     },
+     "chunks_over_1s": [],
+     "stall_near_64_72": false
+    },
+    {
+     "cycle": 5,
+     "total_s": 1.026,
+     "n_chunks": 80,
+     "slowest_chunk": {
+      "cycle": 5,
+      "serial": 52,
+      "bytes": 65536,
+      "gap_ms": 9.799,
+      "write_ms": 0.058,
+      "total_ms": 9.857
+     },
+     "chunks_over_1s": [],
+     "stall_near_64_72": false
+    }
+   ],
+   "replace_events": [
+    {
+     "cycle": 1,
+     "ms": 0.909,
+     "mode": "write_through"
+    },
+    {
+     "cycle": 2,
+     "ms": 0.884,
+     "mode": "write_through"
+    },
+    {
+     "cycle": 3,
+     "ms": 0.889,
+     "mode": "write_through"
+    },
+    {
+     "cycle": 4,
+     "ms": 0.914,
+     "mode": "write_through"
+    },
+    {
+     "cycle": 5,
+     "ms": 0.84,
+     "mode": "write_through"
+    }
+   ],
+   "save_result": {
+    "source": {
+     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5-KILL-before.kvmem",
+     "sha16": "3b046c8ee3fb3b53",
+     "bytes": 5224388,
+     "n_tokens": 50
+    },
+    "target_initial": {
+     "n_tokens": 50,
+     "bytes": 5224388,
+     "sha16": "3b046c8ee3fb3b53"
+    },
+    "saves": [
+     {
+      "cycle": 1,
+      "target_sha16": "3b046c8ee3fb3b53",
+      "target_bytes": 5224388,
+      "target_n_tokens": 50,
+      "third": false,
+      "replace_mode": "write_through",
+      "tmp_removed": true
+     },
+     {
+      "cycle": 2,
+      "target_sha16": "3b046c8ee3fb3b53",
+      "target_bytes": 5224388,
+      "target_n_tokens": 50,
+      "third": false,
+      "replace_mode": "write_through",
+      "tmp_removed": true
+     },
+     {
+      "cycle": 3,
+      "target_sha16": "3b046c8ee3fb3b53",
+      "target_bytes": 5224388,
+      "target_n_tokens": 50,
+      "third": false,
+      "replace_mode": "write_through",
+      "tmp_removed": true
+     },
+     {
+      "cycle": 4,
+      "target_sha16": "3b046c8ee3fb3b53",
+      "target_bytes": 5224388,
+      "target_n_tokens": 50,
+      "third": false,
+      "replace_mode": "write_through",
+      "tmp_removed": true
+     },
+     {
+      "cycle": 5,
+      "target_sha16": "3b046c8ee3fb3b53",
+      "target_bytes": 5224388,
+      "target_n_tokens": 50,
+      "third": false,
+      "replace_mode": "write_through",
+      "tmp_removed": true
+     }
+    ],
+    "all_third_zero": true
+   },
+   "events": [
+    {
+     "state": "target_initialized",
+     "t_perf": 32896.4351512,
+     "target": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_preheated\\target.kvmem",
+     "sha16": "3b046c8ee3fb3b53",
+     "n_tokens": 50,
+     "bytes": 5224388
+    },
+    {
+     "state": "save_loop",
+     "t_perf": 32896.4353099,
+     "cycle": 1,
+     "of": 5
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32896.4353664,
+     "cycle": 1,
+     "phase": "pre_tmp"
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32896.4858113,
+     "cycle": 1,
+     "frac": 0.0,
+     "chunk_bytes": 65536
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32896.4863278,
+     "cycle": 1,
+     "frac": 0.0125,
+     "chunk": 1,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32896.5319052,
+     "cycle": 1,
+     "frac": 0.1004,
+     "chunk": 8,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32896.5838549,
+     "cycle": 1,
+     "frac": 0.2007,
+     "chunk": 16,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32896.6358428,
+     "cycle": 1,
+     "frac": 0.3011,
+     "chunk": 24,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32896.6878121,
+     "cycle": 1,
+     "frac": 0.4014,
+     "chunk": 32,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32896.7398474,
+     "cycle": 1,
+     "frac": 0.5018,
+     "chunk": 40,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32896.7913339,
+     "cycle": 1,
+     "frac": 0.6021,
+     "chunk": 48,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32896.843363,
+     "cycle": 1,
+     "frac": 0.7025,
+     "chunk": 56,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32896.8953251,
+     "cycle": 1,
+     "frac": 0.8028,
+     "chunk": 64,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32896.9473427,
+     "cycle": 1,
+     "frac": 0.9032,
+     "chunk": 72,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32896.9992367,
+     "cycle": 1,
+     "frac": 1.0,
+     "chunk": 80,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_ready",
+     "t_perf": 32897.020144,
+     "cycle": 1,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_preheated\\target.kvmem.tmp-9300-1",
+     "bytes": 5224388
+    },
+    {
+     "state": "fsynced",
+     "t_perf": 32897.0202332,
+     "cycle": 1,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_preheated\\target.kvmem.tmp-9300-1"
+    },
+    {
+     "state": "replaced",
+     "t_perf": 32897.051212,
+     "cycle": 1,
+     "mode": "write_through"
+    },
+    {
+     "state": "hold",
+     "t_perf": 32897.0611842,
+     "cycle": 1,
+     "hold_s": 0.4
+    },
+    {
+     "state": "hold_end",
+     "t_perf": 32897.4613237,
+     "cycle": 1
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32897.4614267,
+     "cycle": 1,
+     "phase": "done",
+     "third": false
+    },
+    {
+     "state": "save_loop",
+     "t_perf": 32897.4614553,
+     "cycle": 2,
+     "of": 5
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32897.461477,
+     "cycle": 2,
+     "phase": "pre_tmp"
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32897.5118136,
+     "cycle": 2,
+     "frac": 0.0,
+     "chunk_bytes": 65536
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32897.5121868,
+     "cycle": 2,
+     "frac": 0.0125,
+     "chunk": 1,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32897.5573637,
+     "cycle": 2,
+     "frac": 0.1004,
+     "chunk": 8,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32897.6092608,
+     "cycle": 2,
+     "frac": 0.2007,
+     "chunk": 16,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32897.6613207,
+     "cycle": 2,
+     "frac": 0.3011,
+     "chunk": 24,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32897.7134192,
+     "cycle": 2,
+     "frac": 0.4014,
+     "chunk": 32,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32897.7649731,
+     "cycle": 2,
+     "frac": 0.5018,
+     "chunk": 40,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32897.8168728,
+     "cycle": 2,
+     "frac": 0.6021,
+     "chunk": 48,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32897.8688721,
+     "cycle": 2,
+     "frac": 0.7025,
+     "chunk": 56,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32897.9199099,
+     "cycle": 2,
+     "frac": 0.8028,
+     "chunk": 64,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32897.9734578,
+     "cycle": 2,
+     "frac": 0.9032,
+     "chunk": 72,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32898.0248663,
+     "cycle": 2,
+     "frac": 1.0,
+     "chunk": 80,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_ready",
+     "t_perf": 32898.0421019,
+     "cycle": 2,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_preheated\\target.kvmem.tmp-9300-2",
+     "bytes": 5224388
+    },
+    {
+     "state": "fsynced",
+     "t_perf": 32898.0422225,
+     "cycle": 2,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_preheated\\target.kvmem.tmp-9300-2"
+    },
+    {
+     "state": "replaced",
+     "t_perf": 32898.0732044,
+     "cycle": 2,
+     "mode": "write_through"
+    },
+    {
+     "state": "hold",
+     "t_perf": 32898.0874092,
+     "cycle": 2,
+     "hold_s": 0.4
+    },
+    {
+     "state": "hold_end",
+     "t_perf": 32898.4878223,
+     "cycle": 2
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32898.487922,
+     "cycle": 2,
+     "phase": "done",
+     "third": false
+    },
+    {
+     "state": "save_loop",
+     "t_perf": 32898.4879505,
+     "cycle": 3,
+     "of": 5
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32898.4879711,
+     "cycle": 3,
+     "phase": "pre_tmp"
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32898.5381842,
+     "cycle": 3,
+     "frac": 0.0,
+     "chunk_bytes": 65536
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32898.5385844,
+     "cycle": 3,
+     "frac": 0.0125,
+     "chunk": 1,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32898.5838822,
+     "cycle": 3,
+     "frac": 0.1004,
+     "chunk": 8,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32898.635361,
+     "cycle": 3,
+     "frac": 0.2007,
+     "chunk": 16,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32898.687311,
+     "cycle": 3,
+     "frac": 0.3011,
+     "chunk": 24,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32898.7390638,
+     "cycle": 3,
+     "frac": 0.4014,
+     "chunk": 32,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32898.7903163,
+     "cycle": 3,
+     "frac": 0.5018,
+     "chunk": 40,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32898.8418165,
+     "cycle": 3,
+     "frac": 0.6021,
+     "chunk": 48,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32898.8932957,
+     "cycle": 3,
+     "frac": 0.7025,
+     "chunk": 56,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32898.9448688,
+     "cycle": 3,
+     "frac": 0.8028,
+     "chunk": 64,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32898.9962999,
+     "cycle": 3,
+     "frac": 0.9032,
+     "chunk": 72,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32899.0478193,
+     "cycle": 3,
+     "frac": 1.0,
+     "chunk": 80,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_ready",
+     "t_perf": 32899.0697764,
+     "cycle": 3,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_preheated\\target.kvmem.tmp-9300-3",
+     "bytes": 5224388
+    },
+    {
+     "state": "fsynced",
+     "t_perf": 32899.0698896,
+     "cycle": 3,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_preheated\\target.kvmem.tmp-9300-3"
+    },
+    {
+     "state": "replaced",
+     "t_perf": 32899.1008617,
+     "cycle": 3,
+     "mode": "write_through"
+    },
+    {
+     "state": "hold",
+     "t_perf": 32899.1106709,
+     "cycle": 3,
+     "hold_s": 0.4
+    },
+    {
+     "state": "hold_end",
+     "t_perf": 32899.5108536,
+     "cycle": 3
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32899.5109576,
+     "cycle": 3,
+     "phase": "done",
+     "third": false
+    },
+    {
+     "state": "save_loop",
+     "t_perf": 32899.5109863,
+     "cycle": 4,
+     "of": 5
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32899.5110069,
+     "cycle": 4,
+     "phase": "pre_tmp"
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32899.5613164,
+     "cycle": 4,
+     "frac": 0.0,
+     "chunk_bytes": 65536
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32899.5617407,
+     "cycle": 4,
+     "frac": 0.0125,
+     "chunk": 1,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32899.6068523,
+     "cycle": 4,
+     "frac": 0.1004,
+     "chunk": 8,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32899.6585431,
+     "cycle": 4,
+     "frac": 0.2007,
+     "chunk": 16,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32899.7103056,
+     "cycle": 4,
+     "frac": 0.3011,
+     "chunk": 24,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32899.7623212,
+     "cycle": 4,
+     "frac": 0.4014,
+     "chunk": 32,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32899.8142284,
+     "cycle": 4,
+     "frac": 0.5018,
+     "chunk": 40,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32899.8662958,
+     "cycle": 4,
+     "frac": 0.6021,
+     "chunk": 48,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32899.9183049,
+     "cycle": 4,
+     "frac": 0.7025,
+     "chunk": 56,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32899.9703231,
+     "cycle": 4,
+     "frac": 0.8028,
+     "chunk": 64,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32900.0222775,
+     "cycle": 4,
+     "frac": 0.9032,
+     "chunk": 72,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32900.0742003,
+     "cycle": 4,
+     "frac": 1.0,
+     "chunk": 80,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_ready",
+     "t_perf": 32900.0954064,
+     "cycle": 4,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_preheated\\target.kvmem.tmp-9300-4",
+     "bytes": 5224388
+    },
+    {
+     "state": "fsynced",
+     "t_perf": 32900.0954954,
+     "cycle": 4,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_preheated\\target.kvmem.tmp-9300-4"
+    },
+    {
+     "state": "replaced",
+     "t_perf": 32900.1266663,
+     "cycle": 4,
+     "mode": "write_through"
+    },
+    {
+     "state": "hold",
+     "t_perf": 32900.1369039,
+     "cycle": 4,
+     "hold_s": 0.4
+    },
+    {
+     "state": "hold_end",
+     "t_perf": 32900.5372808,
+     "cycle": 4
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32900.5373753,
+     "cycle": 4,
+     "phase": "done",
+     "third": false
+    },
+    {
+     "state": "save_loop",
+     "t_perf": 32900.5374031,
+     "cycle": 5,
+     "of": 5
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32900.5374245,
+     "cycle": 5,
+     "phase": "pre_tmp"
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32900.5877467,
+     "cycle": 5,
+     "frac": 0.0,
+     "chunk_bytes": 65536
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32900.5881232,
+     "cycle": 5,
+     "frac": 0.0125,
+     "chunk": 1,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32900.6333373,
+     "cycle": 5,
+     "frac": 0.1004,
+     "chunk": 8,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32900.6853424,
+     "cycle": 5,
+     "frac": 0.2007,
+     "chunk": 16,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32900.7374539,
+     "cycle": 5,
+     "frac": 0.3011,
+     "chunk": 24,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32900.7888649,
+     "cycle": 5,
+     "frac": 0.4014,
+     "chunk": 32,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32900.8403397,
+     "cycle": 5,
+     "frac": 0.5018,
+     "chunk": 40,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32900.8922887,
+     "cycle": 5,
+     "frac": 0.6021,
+     "chunk": 48,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32900.9468003,
+     "cycle": 5,
+     "frac": 0.7025,
+     "chunk": 56,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32900.9987046,
+     "cycle": 5,
+     "frac": 0.8028,
+     "chunk": 64,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32901.0508,
+     "cycle": 5,
+     "frac": 0.9032,
+     "chunk": 72,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_writing",
+     "t_perf": 32901.1028359,
+     "cycle": 5,
+     "frac": 1.0,
+     "chunk": 80,
+     "chunks": 80
+    },
+    {
+     "state": "tmp_ready",
+     "t_perf": 32901.1218912,
+     "cycle": 5,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_preheated\\target.kvmem.tmp-9300-5",
+     "bytes": 5224388
+    },
+    {
+     "state": "fsynced",
+     "t_perf": 32901.1219751,
+     "cycle": 5,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\A_preheated\\target.kvmem.tmp-9300-5"
+    },
+    {
+     "state": "replaced",
+     "t_perf": 32901.1530951,
+     "cycle": 5,
+     "mode": "write_through"
+    },
+    {
+     "state": "hold",
+     "t_perf": 32901.1626615,
+     "cycle": 5,
+     "hold_s": 0.4
+    },
+    {
+     "state": "hold_end",
+     "t_perf": 32901.5632282,
+     "cycle": 5
+    },
+    {
+     "state": "saving_cycle",
+     "t_perf": 32901.5633359,
+     "cycle": 5,
+     "phase": "done",
+     "third": false
+    }
+   ],
+   "chunks": [
+    {
+     "cycle": 1,
+     "serial": 1,
+     "bytes": 65536,
+     "gap_ms": 0.0,
+     "write_ms": 0.112,
+     "total_ms": 0.112
+    },
+    {
+     "cycle": 1,
+     "serial": 2,
+     "bytes": 65536,
+     "gap_ms": 6.507,
+     "write_ms": 0.066,
+     "total_ms": 6.573
+    },
+    {
+     "cycle": 1,
+     "serial": 3,
+     "bytes": 65536,
+     "gap_ms": 6.337,
+     "write_ms": 0.037,
+     "total_ms": 6.374
+    },
+    {
+     "cycle": 1,
+     "serial": 4,
+     "bytes": 65536,
+     "gap_ms": 6.537,
+     "write_ms": 0.079,
+     "total_ms": 6.617
+    },
+    {
+     "cycle": 1,
+     "serial": 5,
+     "bytes": 65536,
+     "gap_ms": 6.431,
+     "write_ms": 0.032,
+     "total_ms": 6.463
+    },
+    {
+     "cycle": 1,
+     "serial": 6,
+     "bytes": 65536,
+     "gap_ms": 6.454,
+     "write_ms": 0.031,
+     "total_ms": 6.486
+    },
+    {
+     "cycle": 1,
+     "serial": 7,
+     "bytes": 65536,
+     "gap_ms": 6.481,
+     "write_ms": 0.033,
+     "total_ms": 6.515
+    },
+    {
+     "cycle": 1,
+     "serial": 8,
+     "bytes": 65536,
+     "gap_ms": 6.463,
+     "write_ms": 0.083,
+     "total_ms": 6.546
+    },
+    {
+     "cycle": 1,
+     "serial": 9,
+     "bytes": 65536,
+     "gap_ms": 6.394,
+     "write_ms": 0.081,
+     "total_ms": 6.475
+    },
+    {
+     "cycle": 1,
+     "serial": 10,
+     "bytes": 65536,
+     "gap_ms": 6.431,
+     "write_ms": 0.037,
+     "total_ms": 6.468
+    },
+    {
+     "cycle": 1,
+     "serial": 11,
+     "bytes": 65536,
+     "gap_ms": 6.475,
+     "write_ms": 0.034,
+     "total_ms": 6.509
+    },
+    {
+     "cycle": 1,
+     "serial": 12,
+     "bytes": 65536,
+     "gap_ms": 6.47,
+     "write_ms": 0.03,
+     "total_ms": 6.5
+    },
+    {
+     "cycle": 1,
+     "serial": 13,
+     "bytes": 65536,
+     "gap_ms": 6.394,
+     "write_ms": 0.039,
+     "total_ms": 6.433
+    },
+    {
+     "cycle": 1,
+     "serial": 14,
+     "bytes": 65536,
+     "gap_ms": 6.527,
+     "write_ms": 0.039,
+     "total_ms": 6.566
+    },
+    {
+     "cycle": 1,
+     "serial": 15,
+     "bytes": 65536,
+     "gap_ms": 6.489,
+     "write_ms": 0.032,
+     "total_ms": 6.521
+    },
+    {
+     "cycle": 1,
+     "serial": 16,
+     "bytes": 65536,
+     "gap_ms": 6.448,
+     "write_ms": 0.031,
+     "total_ms": 6.478
+    },
+    {
+     "cycle": 1,
+     "serial": 17,
+     "bytes": 65536,
+     "gap_ms": 6.481,
+     "write_ms": 0.054,
+     "total_ms": 6.535
+    },
+    {
+     "cycle": 1,
+     "serial": 18,
+     "bytes": 65536,
+     "gap_ms": 6.425,
+     "write_ms": 0.029,
+     "total_ms": 6.455
+    },
+    {
+     "cycle": 1,
+     "serial": 19,
+     "bytes": 65536,
+     "gap_ms": 6.502,
+     "write_ms": 0.033,
+     "total_ms": 6.535
+    },
+    {
+     "cycle": 1,
+     "serial": 20,
+     "bytes": 65536,
+     "gap_ms": 6.449,
+     "write_ms": 0.042,
+     "total_ms": 6.491
+    },
+    {
+     "cycle": 1,
+     "serial": 21,
+     "bytes": 65536,
+     "gap_ms": 6.47,
+     "write_ms": 0.035,
+     "total_ms": 6.506
+    },
+    {
+     "cycle": 1,
+     "serial": 22,
+     "bytes": 65536,
+     "gap_ms": 6.43,
+     "write_ms": 0.028,
+     "total_ms": 6.458
+    },
+    {
+     "cycle": 1,
+     "serial": 23,
+     "bytes": 65536,
+     "gap_ms": 6.452,
+     "write_ms": 0.037,
+     "total_ms": 6.489
+    },
+    {
+     "cycle": 1,
+     "serial": 24,
+     "bytes": 65536,
+     "gap_ms": 6.487,
+     "write_ms": 0.033,
+     "total_ms": 6.52
+    },
+    {
+     "cycle": 1,
+     "serial": 25,
+     "bytes": 65536,
+     "gap_ms": 6.467,
+     "write_ms": 0.066,
+     "total_ms": 6.533
+    },
+    {
+     "cycle": 1,
+     "serial": 26,
+     "bytes": 65536,
+     "gap_ms": 6.448,
+     "write_ms": 0.032,
+     "total_ms": 6.48
+    },
+    {
+     "cycle": 1,
+     "serial": 27,
+     "bytes": 65536,
+     "gap_ms": 6.461,
+     "write_ms": 0.032,
+     "total_ms": 6.492
+    },
+    {
+     "cycle": 1,
+     "serial": 28,
+     "bytes": 65536,
+     "gap_ms": 6.452,
+     "write_ms": 0.027,
+     "total_ms": 6.479
+    },
+    {
+     "cycle": 1,
+     "serial": 29,
+     "bytes": 65536,
+     "gap_ms": 6.474,
+     "write_ms": 0.03,
+     "total_ms": 6.504
+    },
+    {
+     "cycle": 1,
+     "serial": 30,
+     "bytes": 65536,
+     "gap_ms": 6.5,
+     "write_ms": 0.031,
+     "total_ms": 6.531
+    },
+    {
+     "cycle": 1,
+     "serial": 31,
+     "bytes": 65536,
+     "gap_ms": 6.452,
+     "write_ms": 0.032,
+     "total_ms": 6.484
+    },
+    {
+     "cycle": 1,
+     "serial": 32,
+     "bytes": 65536,
+     "gap_ms": 6.441,
+     "write_ms": 0.026,
+     "total_ms": 6.467
+    },
+    {
+     "cycle": 1,
+     "serial": 33,
+     "bytes": 65536,
+     "gap_ms": 6.425,
+     "write_ms": 0.038,
+     "total_ms": 6.463
+    },
+    {
+     "cycle": 1,
+     "serial": 34,
+     "bytes": 65536,
+     "gap_ms": 6.513,
+     "write_ms": 0.029,
+     "total_ms": 6.542
+    },
+    {
+     "cycle": 1,
+     "serial": 35,
+     "bytes": 65536,
+     "gap_ms": 6.493,
+     "write_ms": 0.03,
+     "total_ms": 6.522
+    },
+    {
+     "cycle": 1,
+     "serial": 36,
+     "bytes": 65536,
+     "gap_ms": 6.49,
+     "write_ms": 0.03,
+     "total_ms": 6.52
+    },
+    {
+     "cycle": 1,
+     "serial": 37,
+     "bytes": 65536,
+     "gap_ms": 6.467,
+     "write_ms": 0.035,
+     "total_ms": 6.502
+    },
+    {
+     "cycle": 1,
+     "serial": 38,
+     "bytes": 65536,
+     "gap_ms": 6.456,
+     "write_ms": 0.032,
+     "total_ms": 6.488
+    },
+    {
+     "cycle": 1,
+     "serial": 39,
+     "bytes": 65536,
+     "gap_ms": 6.463,
+     "write_ms": 0.032,
+     "total_ms": 6.495
+    },
+    {
+     "cycle": 1,
+     "serial": 40,
+     "bytes": 65536,
+     "gap_ms": 6.463,
+     "write_ms": 0.037,
+     "total_ms": 6.499
+    },
+    {
+     "cycle": 1,
+     "serial": 41,
+     "bytes": 65536,
+     "gap_ms": 6.251,
+     "write_ms": 0.097,
+     "total_ms": 6.347
+    },
+    {
+     "cycle": 1,
+     "serial": 42,
+     "bytes": 65536,
+     "gap_ms": 6.13,
+     "write_ms": 0.029,
+     "total_ms": 6.159
+    },
+    {
+     "cycle": 1,
+     "serial": 43,
+     "bytes": 65536,
+     "gap_ms": 6.486,
+     "write_ms": 0.032,
+     "total_ms": 6.518
+    },
+    {
+     "cycle": 1,
+     "serial": 44,
+     "bytes": 65536,
+     "gap_ms": 6.442,
+     "write_ms": 0.036,
+     "total_ms": 6.479
+    },
+    {
+     "cycle": 1,
+     "serial": 45,
+     "bytes": 65536,
+     "gap_ms": 6.456,
+     "write_ms": 0.031,
+     "total_ms": 6.487
+    },
+    {
+     "cycle": 1,
+     "serial": 46,
+     "bytes": 65536,
+     "gap_ms": 6.504,
+     "write_ms": 0.038,
+     "total_ms": 6.541
+    },
+    {
+     "cycle": 1,
+     "serial": 47,
+     "bytes": 65536,
+     "gap_ms": 6.425,
+     "write_ms": 0.043,
+     "total_ms": 6.468
+    },
+    {
+     "cycle": 1,
+     "serial": 48,
+     "bytes": 65536,
+     "gap_ms": 6.455,
+     "write_ms": 0.032,
+     "total_ms": 6.487
+    },
+    {
+     "cycle": 1,
+     "serial": 49,
+     "bytes": 65536,
+     "gap_ms": 6.483,
+     "write_ms": 0.06,
+     "total_ms": 6.543
+    },
+    {
+     "cycle": 1,
+     "serial": 50,
+     "bytes": 65536,
+     "gap_ms": 6.35,
+     "write_ms": 0.03,
+     "total_ms": 6.38
+    },
+    {
+     "cycle": 1,
+     "serial": 51,
+     "bytes": 65536,
+     "gap_ms": 6.542,
+     "write_ms": 0.033,
+     "total_ms": 6.575
+    },
+    {
+     "cycle": 1,
+     "serial": 52,
+     "bytes": 65536,
+     "gap_ms": 6.478,
+     "write_ms": 0.031,
+     "total_ms": 6.509
+    },
+    {
+     "cycle": 1,
+     "serial": 53,
+     "bytes": 65536,
+     "gap_ms": 6.482,
+     "write_ms": 0.031,
+     "total_ms": 6.513
+    },
+    {
+     "cycle": 1,
+     "serial": 54,
+     "bytes": 65536,
+     "gap_ms": 6.45,
+     "write_ms": 0.033,
+     "total_ms": 6.482
+    },
+    {
+     "cycle": 1,
+     "serial": 55,
+     "bytes": 65536,
+     "gap_ms": 6.457,
+     "write_ms": 0.029,
+     "total_ms": 6.486
+    },
+    {
+     "cycle": 1,
+     "serial": 56,
+     "bytes": 65536,
+     "gap_ms": 6.509,
+     "write_ms": 0.034,
+     "total_ms": 6.542
+    },
+    {
+     "cycle": 1,
+     "serial": 57,
+     "bytes": 65536,
+     "gap_ms": 6.449,
+     "write_ms": 0.072,
+     "total_ms": 6.52
+    },
+    {
+     "cycle": 1,
+     "serial": 58,
+     "bytes": 65536,
+     "gap_ms": 6.443,
+     "write_ms": 0.099,
+     "total_ms": 6.542
+    },
+    {
+     "cycle": 1,
+     "serial": 59,
+     "bytes": 65536,
+     "gap_ms": 6.385,
+     "write_ms": 0.07,
+     "total_ms": 6.454
+    },
+    {
+     "cycle": 1,
+     "serial": 60,
+     "bytes": 65536,
+     "gap_ms": 6.399,
+     "write_ms": 0.038,
+     "total_ms": 6.437
+    },
+    {
+     "cycle": 1,
+     "serial": 61,
+     "bytes": 65536,
+     "gap_ms": 6.493,
+     "write_ms": 0.04,
+     "total_ms": 6.533
+    },
+    {
+     "cycle": 1,
+     "serial": 62,
+     "bytes": 65536,
+     "gap_ms": 6.474,
+     "write_ms": 0.031,
+     "total_ms": 6.505
+    },
+    {
+     "cycle": 1,
+     "serial": 63,
+     "bytes": 65536,
+     "gap_ms": 6.483,
+     "write_ms": 0.033,
+     "total_ms": 6.516
+    },
+    {
+     "cycle": 1,
+     "serial": 64,
+     "bytes": 65536,
+     "gap_ms": 6.42,
+     "write_ms": 0.033,
+     "total_ms": 6.453
+    },
+    {
+     "cycle": 1,
+     "serial": 65,
+     "bytes": 65536,
+     "gap_ms": 6.491,
+     "write_ms": 0.034,
+     "total_ms": 6.526
+    },
+    {
+     "cycle": 1,
+     "serial": 66,
+     "bytes": 65536,
+     "gap_ms": 6.451,
+     "write_ms": 0.028,
+     "total_ms": 6.478
+    },
+    {
+     "cycle": 1,
+     "serial": 67,
+     "bytes": 65536,
+     "gap_ms": 6.482,
+     "write_ms": 0.042,
+     "total_ms": 6.524
+    },
+    {
+     "cycle": 1,
+     "serial": 68,
+     "bytes": 65536,
+     "gap_ms": 6.473,
+     "write_ms": 0.03,
+     "total_ms": 6.503
+    },
+    {
+     "cycle": 1,
+     "serial": 69,
+     "bytes": 65536,
+     "gap_ms": 6.481,
+     "write_ms": 0.033,
+     "total_ms": 6.514
+    },
+    {
+     "cycle": 1,
+     "serial": 70,
+     "bytes": 65536,
+     "gap_ms": 6.376,
+     "write_ms": 0.033,
+     "total_ms": 6.409
+    },
+    {
+     "cycle": 1,
+     "serial": 71,
+     "bytes": 65536,
+     "gap_ms": 6.521,
+     "write_ms": 0.034,
+     "total_ms": 6.555
+    },
+    {
+     "cycle": 1,
+     "serial": 72,
+     "bytes": 65536,
+     "gap_ms": 6.48,
+     "write_ms": 0.031,
+     "total_ms": 6.511
+    },
+    {
+     "cycle": 1,
+     "serial": 73,
+     "bytes": 65536,
+     "gap_ms": 6.544,
+     "write_ms": 0.032,
+     "total_ms": 6.576
+    },
+    {
+     "cycle": 1,
+     "serial": 74,
+     "bytes": 65536,
+     "gap_ms": 6.412,
+     "write_ms": 0.029,
+     "total_ms": 6.441
+    },
+    {
+     "cycle": 1,
+     "serial": 75,
+     "bytes": 65536,
+     "gap_ms": 6.44,
+     "write_ms": 0.062,
+     "total_ms": 6.501
+    },
+    {
+     "cycle": 1,
+     "serial": 76,
+     "bytes": 65536,
+     "gap_ms": 6.457,
+     "write_ms": 0.031,
+     "total_ms": 6.488
+    },
+    {
+     "cycle": 1,
+     "serial": 77,
+     "bytes": 65536,
+     "gap_ms": 6.433,
+     "write_ms": 0.035,
+     "total_ms": 6.469
+    },
+    {
+     "cycle": 1,
+     "serial": 78,
+     "bytes": 65536,
+     "gap_ms": 6.465,
+     "write_ms": 0.027,
+     "total_ms": 6.492
+    },
+    {
+     "cycle": 1,
+     "serial": 79,
+     "bytes": 65536,
+     "gap_ms": 6.48,
+     "write_ms": 0.024,
+     "total_ms": 6.504
+    },
+    {
+     "cycle": 1,
+     "serial": 80,
+     "bytes": 47044,
+     "gap_ms": 6.399,
+     "write_ms": 0.025,
+     "total_ms": 6.423
+    },
+    {
+     "cycle": 2,
+     "serial": 1,
+     "bytes": 65536,
+     "gap_ms": 0.0,
+     "write_ms": 0.083,
+     "total_ms": 0.083
+    },
+    {
+     "cycle": 2,
+     "serial": 2,
+     "bytes": 65536,
+     "gap_ms": 6.214,
+     "write_ms": 0.085,
+     "total_ms": 6.299
+    },
+    {
+     "cycle": 2,
+     "serial": 3,
+     "bytes": 65536,
+     "gap_ms": 6.37,
+     "write_ms": 0.041,
+     "total_ms": 6.411
+    },
+    {
+     "cycle": 2,
+     "serial": 4,
+     "bytes": 65536,
+     "gap_ms": 6.421,
+     "write_ms": 0.07,
+     "total_ms": 6.492
+    },
+    {
+     "cycle": 2,
+     "serial": 5,
+     "bytes": 65536,
+     "gap_ms": 6.413,
+     "write_ms": 0.031,
+     "total_ms": 6.445
+    },
+    {
+     "cycle": 2,
+     "serial": 6,
+     "bytes": 65536,
+     "gap_ms": 6.384,
+     "write_ms": 0.03,
+     "total_ms": 6.414
+    },
+    {
+     "cycle": 2,
+     "serial": 7,
+     "bytes": 65536,
+     "gap_ms": 6.529,
+     "write_ms": 0.03,
+     "total_ms": 6.559
+    },
+    {
+     "cycle": 2,
+     "serial": 8,
+     "bytes": 65536,
+     "gap_ms": 6.48,
+     "write_ms": 0.072,
+     "total_ms": 6.551
+    },
+    {
+     "cycle": 2,
+     "serial": 9,
+     "bytes": 65536,
+     "gap_ms": 6.427,
+     "write_ms": 0.074,
+     "total_ms": 6.501
+    },
+    {
+     "cycle": 2,
+     "serial": 10,
+     "bytes": 65536,
+     "gap_ms": 6.428,
+     "write_ms": 0.032,
+     "total_ms": 6.46
+    },
+    {
+     "cycle": 2,
+     "serial": 11,
+     "bytes": 65536,
+     "gap_ms": 6.466,
+     "write_ms": 0.031,
+     "total_ms": 6.497
+    },
+    {
+     "cycle": 2,
+     "serial": 12,
+     "bytes": 65536,
+     "gap_ms": 6.471,
+     "write_ms": 0.028,
+     "total_ms": 6.499
+    },
+    {
+     "cycle": 2,
+     "serial": 13,
+     "bytes": 65536,
+     "gap_ms": 6.496,
+     "write_ms": 0.038,
+     "total_ms": 6.533
+    },
+    {
+     "cycle": 2,
+     "serial": 14,
+     "bytes": 65536,
+     "gap_ms": 6.444,
+     "write_ms": 0.026,
+     "total_ms": 6.47
+    },
+    {
+     "cycle": 2,
+     "serial": 15,
+     "bytes": 65536,
+     "gap_ms": 6.468,
+     "write_ms": 0.027,
+     "total_ms": 6.494
+    },
+    {
+     "cycle": 2,
+     "serial": 16,
+     "bytes": 65536,
+     "gap_ms": 6.41,
+     "write_ms": 0.033,
+     "total_ms": 6.443
+    },
+    {
+     "cycle": 2,
+     "serial": 17,
+     "bytes": 65536,
+     "gap_ms": 6.51,
+     "write_ms": 0.046,
+     "total_ms": 6.556
+    },
+    {
+     "cycle": 2,
+     "serial": 18,
+     "bytes": 65536,
+     "gap_ms": 6.491,
+     "write_ms": 0.028,
+     "total_ms": 6.519
+    },
+    {
+     "cycle": 2,
+     "serial": 19,
+     "bytes": 65536,
+     "gap_ms": 6.475,
+     "write_ms": 0.03,
+     "total_ms": 6.504
+    },
+    {
+     "cycle": 2,
+     "serial": 20,
+     "bytes": 65536,
+     "gap_ms": 6.457,
+     "write_ms": 0.032,
+     "total_ms": 6.489
+    },
+    {
+     "cycle": 2,
+     "serial": 21,
+     "bytes": 65536,
+     "gap_ms": 6.462,
+     "write_ms": 0.029,
+     "total_ms": 6.492
+    },
+    {
+     "cycle": 2,
+     "serial": 22,
+     "bytes": 65536,
+     "gap_ms": 6.49,
+     "write_ms": 0.031,
+     "total_ms": 6.521
+    },
+    {
+     "cycle": 2,
+     "serial": 23,
+     "bytes": 65536,
+     "gap_ms": 6.462,
+     "write_ms": 0.043,
+     "total_ms": 6.505
+    },
+    {
+     "cycle": 2,
+     "serial": 24,
+     "bytes": 65536,
+     "gap_ms": 6.448,
+     "write_ms": 0.028,
+     "total_ms": 6.476
+    },
+    {
+     "cycle": 2,
+     "serial": 25,
+     "bytes": 65536,
+     "gap_ms": 6.486,
+     "write_ms": 0.07,
+     "total_ms": 6.556
+    },
+    {
+     "cycle": 2,
+     "serial": 26,
+     "bytes": 65536,
+     "gap_ms": 6.366,
+     "write_ms": 0.032,
+     "total_ms": 6.398
+    },
+    {
+     "cycle": 2,
+     "serial": 27,
+     "bytes": 65536,
+     "gap_ms": 6.518,
+     "write_ms": 0.029,
+     "total_ms": 6.547
+    },
+    {
+     "cycle": 2,
+     "serial": 28,
+     "bytes": 65536,
+     "gap_ms": 6.481,
+     "write_ms": 0.032,
+     "total_ms": 6.513
+    },
+    {
+     "cycle": 2,
+     "serial": 29,
+     "bytes": 65536,
+     "gap_ms": 6.483,
+     "write_ms": 0.079,
+     "total_ms": 6.561
+    },
+    {
+     "cycle": 2,
+     "serial": 30,
+     "bytes": 65536,
+     "gap_ms": 6.389,
+     "write_ms": 0.082,
+     "total_ms": 6.471
+    },
+    {
+     "cycle": 2,
+     "serial": 31,
+     "bytes": 65536,
+     "gap_ms": 6.465,
+     "write_ms": 0.039,
+     "total_ms": 6.504
+    },
+    {
+     "cycle": 2,
+     "serial": 32,
+     "bytes": 65536,
+     "gap_ms": 6.513,
+     "write_ms": 0.031,
+     "total_ms": 6.544
+    },
+    {
+     "cycle": 2,
+     "serial": 33,
+     "bytes": 65536,
+     "gap_ms": 6.452,
+     "write_ms": 0.07,
+     "total_ms": 6.522
+    },
+    {
+     "cycle": 2,
+     "serial": 34,
+     "bytes": 65536,
+     "gap_ms": 6.399,
+     "write_ms": 0.036,
+     "total_ms": 6.435
+    },
+    {
+     "cycle": 2,
+     "serial": 35,
+     "bytes": 65536,
+     "gap_ms": 6.455,
+     "write_ms": 0.034,
+     "total_ms": 6.489
+    },
+    {
+     "cycle": 2,
+     "serial": 36,
+     "bytes": 65536,
+     "gap_ms": 6.368,
+     "write_ms": 0.049,
+     "total_ms": 6.418
+    },
+    {
+     "cycle": 2,
+     "serial": 37,
+     "bytes": 65536,
+     "gap_ms": 6.117,
+     "write_ms": 0.055,
+     "total_ms": 6.172
+    },
+    {
+     "cycle": 2,
+     "serial": 38,
+     "bytes": 65536,
+     "gap_ms": 6.415,
+     "write_ms": 0.04,
+     "total_ms": 6.455
+    },
+    {
+     "cycle": 2,
+     "serial": 39,
+     "bytes": 65536,
+     "gap_ms": 6.522,
+     "write_ms": 0.035,
+     "total_ms": 6.556
+    },
+    {
+     "cycle": 2,
+     "serial": 40,
+     "bytes": 65536,
+     "gap_ms": 6.435,
+     "write_ms": 0.061,
+     "total_ms": 6.497
+    },
+    {
+     "cycle": 2,
+     "serial": 41,
+     "bytes": 65536,
+     "gap_ms": 6.383,
+     "write_ms": 0.039,
+     "total_ms": 6.423
+    },
+    {
+     "cycle": 2,
+     "serial": 42,
+     "bytes": 65536,
+     "gap_ms": 6.447,
+     "write_ms": 0.031,
+     "total_ms": 6.478
+    },
+    {
+     "cycle": 2,
+     "serial": 43,
+     "bytes": 65536,
+     "gap_ms": 6.395,
+     "write_ms": 0.046,
+     "total_ms": 6.441
+    },
+    {
+     "cycle": 2,
+     "serial": 44,
+     "bytes": 65536,
+     "gap_ms": 6.539,
+     "write_ms": 0.032,
+     "total_ms": 6.571
+    },
+    {
+     "cycle": 2,
+     "serial": 45,
+     "bytes": 65536,
+     "gap_ms": 6.466,
+     "write_ms": 0.035,
+     "total_ms": 6.501
+    },
+    {
+     "cycle": 2,
+     "serial": 46,
+     "bytes": 65536,
+     "gap_ms": 6.483,
+     "write_ms": 0.087,
+     "total_ms": 6.571
+    },
+    {
+     "cycle": 2,
+     "serial": 47,
+     "bytes": 65536,
+     "gap_ms": 6.404,
+     "write_ms": 0.049,
+     "total_ms": 6.453
+    },
+    {
+     "cycle": 2,
+     "serial": 48,
+     "bytes": 65536,
+     "gap_ms": 6.436,
+     "write_ms": 0.036,
+     "total_ms": 6.472
+    },
+    {
+     "cycle": 2,
+     "serial": 49,
+     "bytes": 65536,
+     "gap_ms": 6.464,
+     "write_ms": 0.052,
+     "total_ms": 6.515
+    },
+    {
+     "cycle": 2,
+     "serial": 50,
+     "bytes": 65536,
+     "gap_ms": 6.442,
+     "write_ms": 0.052,
+     "total_ms": 6.494
+    },
+    {
+     "cycle": 2,
+     "serial": 51,
+     "bytes": 65536,
+     "gap_ms": 6.515,
+     "write_ms": 0.103,
+     "total_ms": 6.618
+    },
+    {
+     "cycle": 2,
+     "serial": 52,
+     "bytes": 65536,
+     "gap_ms": 6.351,
+     "write_ms": 0.034,
+     "total_ms": 6.385
+    },
+    {
+     "cycle": 2,
+     "serial": 53,
+     "bytes": 65536,
+     "gap_ms": 6.358,
+     "write_ms": 0.039,
+     "total_ms": 6.397
+    },
+    {
+     "cycle": 2,
+     "serial": 54,
+     "bytes": 65536,
+     "gap_ms": 6.535,
+     "write_ms": 0.033,
+     "total_ms": 6.568
+    },
+    {
+     "cycle": 2,
+     "serial": 55,
+     "bytes": 65536,
+     "gap_ms": 6.508,
+     "write_ms": 0.034,
+     "total_ms": 6.542
+    },
+    {
+     "cycle": 2,
+     "serial": 56,
+     "bytes": 65536,
+     "gap_ms": 6.448,
+     "write_ms": 0.036,
+     "total_ms": 6.484
+    },
+    {
+     "cycle": 2,
+     "serial": 57,
+     "bytes": 65536,
+     "gap_ms": 6.458,
+     "write_ms": 0.039,
+     "total_ms": 6.497
+    },
+    {
+     "cycle": 2,
+     "serial": 58,
+     "bytes": 65536,
+     "gap_ms": 6.068,
+     "write_ms": 0.039,
+     "total_ms": 6.107
+    },
+    {
+     "cycle": 2,
+     "serial": 59,
+     "bytes": 65536,
+     "gap_ms": 6.35,
+     "write_ms": 0.036,
+     "total_ms": 6.386
+    },
+    {
+     "cycle": 2,
+     "serial": 60,
+     "bytes": 65536,
+     "gap_ms": 6.378,
+     "write_ms": 0.038,
+     "total_ms": 6.417
+    },
+    {
+     "cycle": 2,
+     "serial": 61,
+     "bytes": 65536,
+     "gap_ms": 6.061,
+     "write_ms": 0.04,
+     "total_ms": 6.1
+    },
+    {
+     "cycle": 2,
+     "serial": 62,
+     "bytes": 65536,
+     "gap_ms": 6.461,
+     "write_ms": 0.088,
+     "total_ms": 6.549
+    },
+    {
+     "cycle": 2,
+     "serial": 63,
+     "bytes": 65536,
+     "gap_ms": 6.395,
+     "write_ms": 0.035,
+     "total_ms": 6.431
+    },
+    {
+     "cycle": 2,
+     "serial": 64,
+     "bytes": 65536,
+     "gap_ms": 6.504,
+     "write_ms": 0.041,
+     "total_ms": 6.545
+    },
+    {
+     "cycle": 2,
+     "serial": 65,
+     "bytes": 65536,
+     "gap_ms": 6.537,
+     "write_ms": 0.083,
+     "total_ms": 6.62
+    },
+    {
+     "cycle": 2,
+     "serial": 66,
+     "bytes": 65536,
+     "gap_ms": 7.977,
+     "write_ms": 0.055,
+     "total_ms": 8.032
+    },
+    {
+     "cycle": 2,
+     "serial": 67,
+     "bytes": 65536,
+     "gap_ms": 6.262,
+     "write_ms": 0.039,
+     "total_ms": 6.301
+    },
+    {
+     "cycle": 2,
+     "serial": 68,
+     "bytes": 65536,
+     "gap_ms": 6.471,
+     "write_ms": 0.035,
+     "total_ms": 6.506
+    },
+    {
+     "cycle": 2,
+     "serial": 69,
+     "bytes": 65536,
+     "gap_ms": 6.456,
+     "write_ms": 0.036,
+     "total_ms": 6.492
+    },
+    {
+     "cycle": 2,
+     "serial": 70,
+     "bytes": 65536,
+     "gap_ms": 6.472,
+     "write_ms": 0.04,
+     "total_ms": 6.512
+    },
+    {
+     "cycle": 2,
+     "serial": 71,
+     "bytes": 65536,
+     "gap_ms": 6.505,
+     "write_ms": 0.04,
+     "total_ms": 6.545
+    },
+    {
+     "cycle": 2,
+     "serial": 72,
+     "bytes": 65536,
+     "gap_ms": 6.507,
+     "write_ms": 0.037,
+     "total_ms": 6.544
+    },
+    {
+     "cycle": 2,
+     "serial": 73,
+     "bytes": 65536,
+     "gap_ms": 6.386,
+     "write_ms": 0.052,
+     "total_ms": 6.438
+    },
+    {
+     "cycle": 2,
+     "serial": 74,
+     "bytes": 65536,
+     "gap_ms": 6.442,
+     "write_ms": 0.047,
+     "total_ms": 6.49
+    },
+    {
+     "cycle": 2,
+     "serial": 75,
+     "bytes": 65536,
+     "gap_ms": 6.446,
+     "write_ms": 0.034,
+     "total_ms": 6.48
+    },
+    {
+     "cycle": 2,
+     "serial": 76,
+     "bytes": 65536,
+     "gap_ms": 6.372,
+     "write_ms": 0.036,
+     "total_ms": 6.408
+    },
+    {
+     "cycle": 2,
+     "serial": 77,
+     "bytes": 65536,
+     "gap_ms": 6.066,
+     "write_ms": 0.043,
+     "total_ms": 6.108
+    },
+    {
+     "cycle": 2,
+     "serial": 78,
+     "bytes": 65536,
+     "gap_ms": 6.542,
+     "write_ms": 0.085,
+     "total_ms": 6.626
+    },
+    {
+     "cycle": 2,
+     "serial": 79,
+     "bytes": 65536,
+     "gap_ms": 6.352,
+     "write_ms": 0.037,
+     "total_ms": 6.389
+    },
+    {
+     "cycle": 2,
+     "serial": 80,
+     "bytes": 47044,
+     "gap_ms": 6.438,
+     "write_ms": 0.031,
+     "total_ms": 6.469
+    },
+    {
+     "cycle": 3,
+     "serial": 1,
+     "bytes": 65536,
+     "gap_ms": 0.0,
+     "write_ms": 0.09,
+     "total_ms": 0.09
+    },
+    {
+     "cycle": 3,
+     "serial": 2,
+     "bytes": 65536,
+     "gap_ms": 6.204,
+     "write_ms": 0.094,
+     "total_ms": 6.297
+    },
+    {
+     "cycle": 3,
+     "serial": 3,
+     "bytes": 65536,
+     "gap_ms": 6.412,
+     "write_ms": 0.028,
+     "total_ms": 6.441
+    },
+    {
+     "cycle": 3,
+     "serial": 4,
+     "bytes": 65536,
+     "gap_ms": 6.484,
+     "write_ms": 0.097,
+     "total_ms": 6.582
+    },
+    {
+     "cycle": 3,
+     "serial": 5,
+     "bytes": 65536,
+     "gap_ms": 6.334,
+     "write_ms": 0.037,
+     "total_ms": 6.37
+    },
+    {
+     "cycle": 3,
+     "serial": 6,
+     "bytes": 65536,
+     "gap_ms": 6.505,
+     "write_ms": 0.032,
+     "total_ms": 6.537
+    },
+    {
+     "cycle": 3,
+     "serial": 7,
+     "bytes": 65536,
+     "gap_ms": 6.466,
+     "write_ms": 0.03,
+     "total_ms": 6.496
+    },
+    {
+     "cycle": 3,
+     "serial": 8,
+     "bytes": 65536,
+     "gap_ms": 6.486,
+     "write_ms": 0.081,
+     "total_ms": 6.567
+    },
+    {
+     "cycle": 3,
+     "serial": 9,
+     "bytes": 65536,
+     "gap_ms": 6.413,
+     "write_ms": 0.04,
+     "total_ms": 6.453
+    },
+    {
+     "cycle": 3,
+     "serial": 10,
+     "bytes": 65536,
+     "gap_ms": 6.448,
+     "write_ms": 0.029,
+     "total_ms": 6.476
+    },
+    {
+     "cycle": 3,
+     "serial": 11,
+     "bytes": 65536,
+     "gap_ms": 6.457,
+     "write_ms": 0.029,
+     "total_ms": 6.486
+    },
+    {
+     "cycle": 3,
+     "serial": 12,
+     "bytes": 65536,
+     "gap_ms": 6.068,
+     "write_ms": 0.052,
+     "total_ms": 6.12
+    },
+    {
+     "cycle": 3,
+     "serial": 13,
+     "bytes": 65536,
+     "gap_ms": 6.359,
+     "write_ms": 0.035,
+     "total_ms": 6.394
+    },
+    {
+     "cycle": 3,
+     "serial": 14,
+     "bytes": 65536,
+     "gap_ms": 6.456,
+     "write_ms": 0.031,
+     "total_ms": 6.487
+    },
+    {
+     "cycle": 3,
+     "serial": 15,
+     "bytes": 65536,
+     "gap_ms": 6.492,
+     "write_ms": 0.033,
+     "total_ms": 6.525
+    },
+    {
+     "cycle": 3,
+     "serial": 16,
+     "bytes": 65536,
+     "gap_ms": 6.452,
+     "write_ms": 0.084,
+     "total_ms": 6.535
+    },
+    {
+     "cycle": 3,
+     "serial": 17,
+     "bytes": 65536,
+     "gap_ms": 6.438,
+     "write_ms": 0.046,
+     "total_ms": 6.484
+    },
+    {
+     "cycle": 3,
+     "serial": 18,
+     "bytes": 65536,
+     "gap_ms": 6.459,
+     "write_ms": 0.061,
+     "total_ms": 6.519
+    },
+    {
+     "cycle": 3,
+     "serial": 19,
+     "bytes": 65536,
+     "gap_ms": 6.434,
+     "write_ms": 0.036,
+     "total_ms": 6.47
+    },
+    {
+     "cycle": 3,
+     "serial": 20,
+     "bytes": 65536,
+     "gap_ms": 6.435,
+     "write_ms": 0.079,
+     "total_ms": 6.515
+    },
+    {
+     "cycle": 3,
+     "serial": 21,
+     "bytes": 65536,
+     "gap_ms": 6.438,
+     "write_ms": 0.031,
+     "total_ms": 6.469
+    },
+    {
+     "cycle": 3,
+     "serial": 22,
+     "bytes": 65536,
+     "gap_ms": 6.401,
+     "write_ms": 0.088,
+     "total_ms": 6.488
+    },
+    {
+     "cycle": 3,
+     "serial": 23,
+     "bytes": 65536,
+     "gap_ms": 6.46,
+     "write_ms": 0.032,
+     "total_ms": 6.491
+    },
+    {
+     "cycle": 3,
+     "serial": 24,
+     "bytes": 65536,
+     "gap_ms": 6.489,
+     "write_ms": 0.03,
+     "total_ms": 6.519
+    },
+    {
+     "cycle": 3,
+     "serial": 25,
+     "bytes": 65536,
+     "gap_ms": 6.467,
+     "write_ms": 0.042,
+     "total_ms": 6.509
+    },
+    {
+     "cycle": 3,
+     "serial": 26,
+     "bytes": 65536,
+     "gap_ms": 6.471,
+     "write_ms": 0.035,
+     "total_ms": 6.506
+    },
+    {
+     "cycle": 3,
+     "serial": 27,
+     "bytes": 65536,
+     "gap_ms": 6.44,
+     "write_ms": 0.031,
+     "total_ms": 6.471
+    },
+    {
+     "cycle": 3,
+     "serial": 28,
+     "bytes": 65536,
+     "gap_ms": 6.474,
+     "write_ms": 0.029,
+     "total_ms": 6.503
+    },
+    {
+     "cycle": 3,
+     "serial": 29,
+     "bytes": 65536,
+     "gap_ms": 6.49,
+     "write_ms": 0.035,
+     "total_ms": 6.525
+    },
+    {
+     "cycle": 3,
+     "serial": 30,
+     "bytes": 65536,
+     "gap_ms": 6.554,
+     "write_ms": 0.058,
+     "total_ms": 6.612
+    },
+    {
+     "cycle": 3,
+     "serial": 31,
+     "bytes": 65536,
+     "gap_ms": 6.368,
+     "write_ms": 0.028,
+     "total_ms": 6.396
+    },
+    {
+     "cycle": 3,
+     "serial": 32,
+     "bytes": 65536,
+     "gap_ms": 6.201,
+     "write_ms": 0.026,
+     "total_ms": 6.228
+    },
+    {
+     "cycle": 3,
+     "serial": 33,
+     "bytes": 65536,
+     "gap_ms": 6.315,
+     "write_ms": 0.039,
+     "total_ms": 6.354
+    },
+    {
+     "cycle": 3,
+     "serial": 34,
+     "bytes": 65536,
+     "gap_ms": 6.36,
+     "write_ms": 0.028,
+     "total_ms": 6.388
+    },
+    {
+     "cycle": 3,
+     "serial": 35,
+     "bytes": 65536,
+     "gap_ms": 6.506,
+     "write_ms": 0.044,
+     "total_ms": 6.55
+    },
+    {
+     "cycle": 3,
+     "serial": 36,
+     "bytes": 65536,
+     "gap_ms": 6.419,
+     "write_ms": 0.034,
+     "total_ms": 6.454
+    },
+    {
+     "cycle": 3,
+     "serial": 37,
+     "bytes": 65536,
+     "gap_ms": 6.462,
+     "write_ms": 0.033,
+     "total_ms": 6.495
+    },
+    {
+     "cycle": 3,
+     "serial": 38,
+     "bytes": 65536,
+     "gap_ms": 6.555,
+     "write_ms": 0.142,
+     "total_ms": 6.698
+    },
+    {
+     "cycle": 3,
+     "serial": 39,
+     "bytes": 65536,
+     "gap_ms": 6.212,
+     "write_ms": 0.03,
+     "total_ms": 6.242
+    },
+    {
+     "cycle": 3,
+     "serial": 40,
+     "bytes": 65536,
+     "gap_ms": 6.045,
+     "write_ms": 0.029,
+     "total_ms": 6.074
+    },
+    {
+     "cycle": 3,
+     "serial": 41,
+     "bytes": 65536,
+     "gap_ms": 6.465,
+     "write_ms": 0.029,
+     "total_ms": 6.494
+    },
+    {
+     "cycle": 3,
+     "serial": 42,
+     "bytes": 65536,
+     "gap_ms": 6.506,
+     "write_ms": 0.03,
+     "total_ms": 6.536
+    },
+    {
+     "cycle": 3,
+     "serial": 43,
+     "bytes": 65536,
+     "gap_ms": 6.435,
+     "write_ms": 0.038,
+     "total_ms": 6.473
+    },
+    {
+     "cycle": 3,
+     "serial": 44,
+     "bytes": 65536,
+     "gap_ms": 6.448,
+     "write_ms": 0.03,
+     "total_ms": 6.477
+    },
+    {
+     "cycle": 3,
+     "serial": 45,
+     "bytes": 65536,
+     "gap_ms": 6.13,
+     "write_ms": 0.033,
+     "total_ms": 6.163
+    },
+    {
+     "cycle": 3,
+     "serial": 46,
+     "bytes": 65536,
+     "gap_ms": 6.351,
+     "write_ms": 0.031,
+     "total_ms": 6.382
+    },
+    {
+     "cycle": 3,
+     "serial": 47,
+     "bytes": 65536,
+     "gap_ms": 6.456,
+     "write_ms": 0.032,
+     "total_ms": 6.488
+    },
+    {
+     "cycle": 3,
+     "serial": 48,
+     "bytes": 65536,
+     "gap_ms": 6.459,
+     "write_ms": 0.029,
+     "total_ms": 6.487
+    },
+    {
+     "cycle": 3,
+     "serial": 49,
+     "bytes": 65536,
+     "gap_ms": 6.493,
+     "write_ms": 0.046,
+     "total_ms": 6.539
+    },
+    {
+     "cycle": 3,
+     "serial": 50,
+     "bytes": 65536,
+     "gap_ms": 6.453,
+     "write_ms": 0.035,
+     "total_ms": 6.487
+    },
+    {
+     "cycle": 3,
+     "serial": 51,
+     "bytes": 65536,
+     "gap_ms": 6.462,
+     "write_ms": 0.031,
+     "total_ms": 6.493
+    },
+    {
+     "cycle": 3,
+     "serial": 52,
+     "bytes": 65536,
+     "gap_ms": 6.49,
+     "write_ms": 0.074,
+     "total_ms": 6.564
+    },
+    {
+     "cycle": 3,
+     "serial": 53,
+     "bytes": 65536,
+     "gap_ms": 6.309,
+     "write_ms": 0.036,
+     "total_ms": 6.344
+    },
+    {
+     "cycle": 3,
+     "serial": 54,
+     "bytes": 65536,
+     "gap_ms": 6.043,
+     "write_ms": 0.076,
+     "total_ms": 6.119
+    },
+    {
+     "cycle": 3,
+     "serial": 55,
+     "bytes": 65536,
+     "gap_ms": 6.4,
+     "write_ms": 0.026,
+     "total_ms": 6.426
+    },
+    {
+     "cycle": 3,
+     "serial": 56,
+     "bytes": 65536,
+     "gap_ms": 6.482,
+     "write_ms": 0.029,
+     "total_ms": 6.51
+    },
+    {
+     "cycle": 3,
+     "serial": 57,
+     "bytes": 65536,
+     "gap_ms": 6.464,
+     "write_ms": 0.034,
+     "total_ms": 6.498
+    },
+    {
+     "cycle": 3,
+     "serial": 58,
+     "bytes": 65536,
+     "gap_ms": 6.451,
+     "write_ms": 0.061,
+     "total_ms": 6.512
+    },
+    {
+     "cycle": 3,
+     "serial": 59,
+     "bytes": 65536,
+     "gap_ms": 6.461,
+     "write_ms": 0.027,
+     "total_ms": 6.488
+    },
+    {
+     "cycle": 3,
+     "serial": 60,
+     "bytes": 65536,
+     "gap_ms": 6.404,
+     "write_ms": 0.028,
+     "total_ms": 6.433
+    },
+    {
+     "cycle": 3,
+     "serial": 61,
+     "bytes": 65536,
+     "gap_ms": 6.034,
+     "write_ms": 0.08,
+     "total_ms": 6.114
+    },
+    {
+     "cycle": 3,
+     "serial": 62,
+     "bytes": 65536,
+     "gap_ms": 6.407,
+     "write_ms": 0.024,
+     "total_ms": 6.431
+    },
+    {
+     "cycle": 3,
+     "serial": 63,
+     "bytes": 65536,
+     "gap_ms": 6.497,
+     "write_ms": 0.027,
+     "total_ms": 6.524
+    },
+    {
+     "cycle": 3,
+     "serial": 64,
+     "bytes": 65536,
+     "gap_ms": 6.541,
+     "write_ms": 0.03,
+     "total_ms": 6.572
+    },
+    {
+     "cycle": 3,
+     "serial": 65,
+     "bytes": 65536,
+     "gap_ms": 6.383,
+     "write_ms": 0.031,
+     "total_ms": 6.414
+    },
+    {
+     "cycle": 3,
+     "serial": 66,
+     "bytes": 65536,
+     "gap_ms": 6.473,
+     "write_ms": 0.027,
+     "total_ms": 6.5
+    },
+    {
+     "cycle": 3,
+     "serial": 67,
+     "bytes": 65536,
+     "gap_ms": 6.446,
+     "write_ms": 0.026,
+     "total_ms": 6.472
+    },
+    {
+     "cycle": 3,
+     "serial": 68,
+     "bytes": 65536,
+     "gap_ms": 6.054,
+     "write_ms": 0.03,
+     "total_ms": 6.085
+    },
+    {
+     "cycle": 3,
+     "serial": 69,
+     "bytes": 65536,
+     "gap_ms": 6.485,
+     "write_ms": 0.03,
+     "total_ms": 6.515
+    },
+    {
+     "cycle": 3,
+     "serial": 70,
+     "bytes": 65536,
+     "gap_ms": 6.432,
+     "write_ms": 0.026,
+     "total_ms": 6.458
+    },
+    {
+     "cycle": 3,
+     "serial": 71,
+     "bytes": 65536,
+     "gap_ms": 6.511,
+     "write_ms": 0.037,
+     "total_ms": 6.548
+    },
+    {
+     "cycle": 3,
+     "serial": 72,
+     "bytes": 65536,
+     "gap_ms": 6.411,
+     "write_ms": 0.028,
+     "total_ms": 6.439
+    },
+    {
+     "cycle": 3,
+     "serial": 73,
+     "bytes": 65536,
+     "gap_ms": 6.515,
+     "write_ms": 0.029,
+     "total_ms": 6.544
+    },
+    {
+     "cycle": 3,
+     "serial": 74,
+     "bytes": 65536,
+     "gap_ms": 6.394,
+     "write_ms": 0.032,
+     "total_ms": 6.426
+    },
+    {
+     "cycle": 3,
+     "serial": 75,
+     "bytes": 65536,
+     "gap_ms": 6.161,
+     "write_ms": 0.028,
+     "total_ms": 6.19
+    },
+    {
+     "cycle": 3,
+     "serial": 76,
+     "bytes": 65536,
+     "gap_ms": 6.35,
+     "write_ms": 0.035,
+     "total_ms": 6.385
+    },
+    {
+     "cycle": 3,
+     "serial": 77,
+     "bytes": 65536,
+     "gap_ms": 6.497,
+     "write_ms": 0.069,
+     "total_ms": 6.566
+    },
+    {
+     "cycle": 3,
+     "serial": 78,
+     "bytes": 65536,
+     "gap_ms": 6.432,
+     "write_ms": 0.039,
+     "total_ms": 6.471
+    },
+    {
+     "cycle": 3,
+     "serial": 79,
+     "bytes": 65536,
+     "gap_ms": 6.421,
+     "write_ms": 0.033,
+     "total_ms": 6.453
+    },
+    {
+     "cycle": 3,
+     "serial": 80,
+     "bytes": 47044,
+     "gap_ms": 6.458,
+     "write_ms": 0.025,
+     "total_ms": 6.483
+    },
+    {
+     "cycle": 4,
+     "serial": 1,
+     "bytes": 65536,
+     "gap_ms": 0.0,
+     "write_ms": 0.096,
+     "total_ms": 0.096
+    },
+    {
+     "cycle": 4,
+     "serial": 2,
+     "bytes": 65536,
+     "gap_ms": 6.118,
+     "write_ms": 0.143,
+     "total_ms": 6.261
+    },
+    {
+     "cycle": 4,
+     "serial": 3,
+     "bytes": 65536,
+     "gap_ms": 6.445,
+     "write_ms": 0.065,
+     "total_ms": 6.51
+    },
+    {
+     "cycle": 4,
+     "serial": 4,
+     "bytes": 65536,
+     "gap_ms": 6.318,
+     "write_ms": 0.131,
+     "total_ms": 6.449
+    },
+    {
+     "cycle": 4,
+     "serial": 5,
+     "bytes": 65536,
+     "gap_ms": 6.413,
+     "write_ms": 0.049,
+     "total_ms": 6.462
+    },
+    {
+     "cycle": 4,
+     "serial": 6,
+     "bytes": 65536,
+     "gap_ms": 6.456,
+     "write_ms": 0.041,
+     "total_ms": 6.497
+    },
+    {
+     "cycle": 4,
+     "serial": 7,
+     "bytes": 65536,
+     "gap_ms": 6.396,
+     "write_ms": 0.034,
+     "total_ms": 6.43
+    },
+    {
+     "cycle": 4,
+     "serial": 8,
+     "bytes": 65536,
+     "gap_ms": 6.425,
+     "write_ms": 0.071,
+     "total_ms": 6.496
+    },
+    {
+     "cycle": 4,
+     "serial": 9,
+     "bytes": 65536,
+     "gap_ms": 6.444,
+     "write_ms": 0.03,
+     "total_ms": 6.473
+    },
+    {
+     "cycle": 4,
+     "serial": 10,
+     "bytes": 65536,
+     "gap_ms": 6.471,
+     "write_ms": 0.049,
+     "total_ms": 6.52
+    },
+    {
+     "cycle": 4,
+     "serial": 11,
+     "bytes": 65536,
+     "gap_ms": 6.448,
+     "write_ms": 0.037,
+     "total_ms": 6.485
+    },
+    {
+     "cycle": 4,
+     "serial": 12,
+     "bytes": 65536,
+     "gap_ms": 6.475,
+     "write_ms": 0.031,
+     "total_ms": 6.507
+    },
+    {
+     "cycle": 4,
+     "serial": 13,
+     "bytes": 65536,
+     "gap_ms": 6.381,
+     "write_ms": 0.04,
+     "total_ms": 6.421
+    },
+    {
+     "cycle": 4,
+     "serial": 14,
+     "bytes": 65536,
+     "gap_ms": 6.527,
+     "write_ms": 0.032,
+     "total_ms": 6.559
+    },
+    {
+     "cycle": 4,
+     "serial": 15,
+     "bytes": 65536,
+     "gap_ms": 6.474,
+     "write_ms": 0.03,
+     "total_ms": 6.504
+    },
+    {
+     "cycle": 4,
+     "serial": 16,
+     "bytes": 65536,
+     "gap_ms": 6.15,
+     "write_ms": 0.072,
+     "total_ms": 6.222
+    },
+    {
+     "cycle": 4,
+     "serial": 17,
+     "bytes": 65536,
+     "gap_ms": 6.23,
+     "write_ms": 0.054,
+     "total_ms": 6.284
+    },
+    {
+     "cycle": 4,
+     "serial": 18,
+     "bytes": 65536,
+     "gap_ms": 6.448,
+     "write_ms": 0.03,
+     "total_ms": 6.479
+    },
+    {
+     "cycle": 4,
+     "serial": 19,
+     "bytes": 65536,
+     "gap_ms": 6.49,
+     "write_ms": 0.027,
+     "total_ms": 6.517
+    },
+    {
+     "cycle": 4,
+     "serial": 20,
+     "bytes": 65536,
+     "gap_ms": 6.38,
+     "write_ms": 0.077,
+     "total_ms": 6.457
+    },
+    {
+     "cycle": 4,
+     "serial": 21,
+     "bytes": 65536,
+     "gap_ms": 6.493,
+     "write_ms": 0.036,
+     "total_ms": 6.53
+    },
+    {
+     "cycle": 4,
+     "serial": 22,
+     "bytes": 65536,
+     "gap_ms": 6.497,
+     "write_ms": 0.067,
+     "total_ms": 6.564
+    },
+    {
+     "cycle": 4,
+     "serial": 23,
+     "bytes": 65536,
+     "gap_ms": 6.4,
+     "write_ms": 0.027,
+     "total_ms": 6.427
+    },
+    {
+     "cycle": 4,
+     "serial": 24,
+     "bytes": 65536,
+     "gap_ms": 6.473,
+     "write_ms": 0.031,
+     "total_ms": 6.504
+    },
+    {
+     "cycle": 4,
+     "serial": 25,
+     "bytes": 65536,
+     "gap_ms": 6.475,
+     "write_ms": 0.033,
+     "total_ms": 6.507
+    },
+    {
+     "cycle": 4,
+     "serial": 26,
+     "bytes": 65536,
+     "gap_ms": 6.46,
+     "write_ms": 0.029,
+     "total_ms": 6.489
+    },
+    {
+     "cycle": 4,
+     "serial": 27,
+     "bytes": 65536,
+     "gap_ms": 6.483,
+     "write_ms": 0.038,
+     "total_ms": 6.521
+    },
+    {
+     "cycle": 4,
+     "serial": 28,
+     "bytes": 65536,
+     "gap_ms": 6.472,
+     "write_ms": 0.033,
+     "total_ms": 6.505
+    },
+    {
+     "cycle": 4,
+     "serial": 29,
+     "bytes": 65536,
+     "gap_ms": 6.453,
+     "write_ms": 0.035,
+     "total_ms": 6.488
+    },
+    {
+     "cycle": 4,
+     "serial": 30,
+     "bytes": 65536,
+     "gap_ms": 6.393,
+     "write_ms": 0.036,
+     "total_ms": 6.429
+    },
+    {
+     "cycle": 4,
+     "serial": 31,
+     "bytes": 65536,
+     "gap_ms": 6.539,
+     "write_ms": 0.036,
+     "total_ms": 6.575
+    },
+    {
+     "cycle": 4,
+     "serial": 32,
+     "bytes": 65536,
+     "gap_ms": 6.474,
+     "write_ms": 0.03,
+     "total_ms": 6.504
+    },
+    {
+     "cycle": 4,
+     "serial": 33,
+     "bytes": 65536,
+     "gap_ms": 6.458,
+     "write_ms": 0.041,
+     "total_ms": 6.499
+    },
+    {
+     "cycle": 4,
+     "serial": 34,
+     "bytes": 65536,
+     "gap_ms": 6.495,
+     "write_ms": 0.036,
+     "total_ms": 6.532
+    },
+    {
+     "cycle": 4,
+     "serial": 35,
+     "bytes": 65536,
+     "gap_ms": 6.427,
+     "write_ms": 0.031,
+     "total_ms": 6.459
+    },
+    {
+     "cycle": 4,
+     "serial": 36,
+     "bytes": 65536,
+     "gap_ms": 6.455,
+     "write_ms": 0.029,
+     "total_ms": 6.484
+    },
+    {
+     "cycle": 4,
+     "serial": 37,
+     "bytes": 65536,
+     "gap_ms": 6.519,
+     "write_ms": 0.037,
+     "total_ms": 6.556
+    },
+    {
+     "cycle": 4,
+     "serial": 38,
+     "bytes": 65536,
+     "gap_ms": 6.429,
+     "write_ms": 0.078,
+     "total_ms": 6.507
+    },
+    {
+     "cycle": 4,
+     "serial": 39,
+     "bytes": 65536,
+     "gap_ms": 6.408,
+     "write_ms": 0.029,
+     "total_ms": 6.437
+    },
+    {
+     "cycle": 4,
+     "serial": 40,
+     "bytes": 65536,
+     "gap_ms": 6.402,
+     "write_ms": 0.032,
+     "total_ms": 6.434
+    },
+    {
+     "cycle": 4,
+     "serial": 41,
+     "bytes": 65536,
+     "gap_ms": 6.548,
+     "write_ms": 0.042,
+     "total_ms": 6.591
+    },
+    {
+     "cycle": 4,
+     "serial": 42,
+     "bytes": 65536,
+     "gap_ms": 6.467,
+     "write_ms": 0.027,
+     "total_ms": 6.494
+    },
+    {
+     "cycle": 4,
+     "serial": 43,
+     "bytes": 65536,
+     "gap_ms": 6.467,
+     "write_ms": 0.031,
+     "total_ms": 6.498
+    },
+    {
+     "cycle": 4,
+     "serial": 44,
+     "bytes": 65536,
+     "gap_ms": 6.488,
+     "write_ms": 0.036,
+     "total_ms": 6.524
+    },
+    {
+     "cycle": 4,
+     "serial": 45,
+     "bytes": 65536,
+     "gap_ms": 6.432,
+     "write_ms": 0.031,
+     "total_ms": 6.464
+    },
+    {
+     "cycle": 4,
+     "serial": 46,
+     "bytes": 65536,
+     "gap_ms": 6.456,
+     "write_ms": 0.028,
+     "total_ms": 6.484
+    },
+    {
+     "cycle": 4,
+     "serial": 47,
+     "bytes": 65536,
+     "gap_ms": 6.503,
+     "write_ms": 0.039,
+     "total_ms": 6.542
+    },
+    {
+     "cycle": 4,
+     "serial": 48,
+     "bytes": 65536,
+     "gap_ms": 6.439,
+     "write_ms": 0.029,
+     "total_ms": 6.468
+    },
+    {
+     "cycle": 4,
+     "serial": 49,
+     "bytes": 65536,
+     "gap_ms": 6.49,
+     "write_ms": 0.043,
+     "total_ms": 6.533
+    },
+    {
+     "cycle": 4,
+     "serial": 50,
+     "bytes": 65536,
+     "gap_ms": 6.394,
+     "write_ms": 0.043,
+     "total_ms": 6.436
+    },
+    {
+     "cycle": 4,
+     "serial": 51,
+     "bytes": 65536,
+     "gap_ms": 6.535,
+     "write_ms": 0.034,
+     "total_ms": 6.569
+    },
+    {
+     "cycle": 4,
+     "serial": 52,
+     "bytes": 65536,
+     "gap_ms": 6.453,
+     "write_ms": 0.032,
+     "total_ms": 6.485
+    },
+    {
+     "cycle": 4,
+     "serial": 53,
+     "bytes": 65536,
+     "gap_ms": 6.458,
+     "write_ms": 0.034,
+     "total_ms": 6.492
+    },
+    {
+     "cycle": 4,
+     "serial": 54,
+     "bytes": 65536,
+     "gap_ms": 6.489,
+     "write_ms": 0.074,
+     "total_ms": 6.563
+    },
+    {
+     "cycle": 4,
+     "serial": 55,
+     "bytes": 65536,
+     "gap_ms": 6.395,
+     "write_ms": 0.03,
+     "total_ms": 6.426
+    },
+    {
+     "cycle": 4,
+     "serial": 56,
+     "bytes": 65536,
+     "gap_ms": 6.482,
+     "write_ms": 0.027,
+     "total_ms": 6.509
+    },
+    {
+     "cycle": 4,
+     "serial": 57,
+     "bytes": 65536,
+     "gap_ms": 6.461,
+     "write_ms": 0.038,
+     "total_ms": 6.499
+    },
+    {
+     "cycle": 4,
+     "serial": 58,
+     "bytes": 65536,
+     "gap_ms": 6.46,
+     "write_ms": 0.031,
+     "total_ms": 6.491
+    },
+    {
+     "cycle": 4,
+     "serial": 59,
+     "bytes": 65536,
+     "gap_ms": 6.481,
+     "write_ms": 0.028,
+     "total_ms": 6.509
+    },
+    {
+     "cycle": 4,
+     "serial": 60,
+     "bytes": 65536,
+     "gap_ms": 6.411,
+     "write_ms": 0.035,
+     "total_ms": 6.446
+    },
+    {
+     "cycle": 4,
+     "serial": 61,
+     "bytes": 65536,
+     "gap_ms": 6.513,
+     "write_ms": 0.036,
+     "total_ms": 6.549
+    },
+    {
+     "cycle": 4,
+     "serial": 62,
+     "bytes": 65536,
+     "gap_ms": 6.492,
+     "write_ms": 0.033,
+     "total_ms": 6.525
+    },
+    {
+     "cycle": 4,
+     "serial": 63,
+     "bytes": 65536,
+     "gap_ms": 6.466,
+     "write_ms": 0.031,
+     "total_ms": 6.497
+    },
+    {
+     "cycle": 4,
+     "serial": 64,
+     "bytes": 65536,
+     "gap_ms": 6.458,
+     "write_ms": 0.038,
+     "total_ms": 6.496
+    },
+    {
+     "cycle": 4,
+     "serial": 65,
+     "bytes": 65536,
+     "gap_ms": 6.543,
+     "write_ms": 0.046,
+     "total_ms": 6.589
+    },
+    {
+     "cycle": 4,
+     "serial": 66,
+     "bytes": 65536,
+     "gap_ms": 6.369,
+     "write_ms": 0.03,
+     "total_ms": 6.399
+    },
+    {
+     "cycle": 4,
+     "serial": 67,
+     "bytes": 65536,
+     "gap_ms": 6.465,
+     "write_ms": 0.033,
+     "total_ms": 6.498
+    },
+    {
+     "cycle": 4,
+     "serial": 68,
+     "bytes": 65536,
+     "gap_ms": 6.448,
+     "write_ms": 0.027,
+     "total_ms": 6.475
+    },
+    {
+     "cycle": 4,
+     "serial": 69,
+     "bytes": 65536,
+     "gap_ms": 6.47,
+     "write_ms": 0.028,
+     "total_ms": 6.498
+    },
+    {
+     "cycle": 4,
+     "serial": 70,
+     "bytes": 65536,
+     "gap_ms": 6.422,
+     "write_ms": 0.076,
+     "total_ms": 6.498
+    },
+    {
+     "cycle": 4,
+     "serial": 71,
+     "bytes": 65536,
+     "gap_ms": 6.452,
+     "write_ms": 0.027,
+     "total_ms": 6.478
+    },
+    {
+     "cycle": 4,
+     "serial": 72,
+     "bytes": 65536,
+     "gap_ms": 6.5,
+     "write_ms": 0.026,
+     "total_ms": 6.526
+    },
+    {
+     "cycle": 4,
+     "serial": 73,
+     "bytes": 65536,
+     "gap_ms": 6.476,
+     "write_ms": 0.029,
+     "total_ms": 6.506
+    },
+    {
+     "cycle": 4,
+     "serial": 74,
+     "bytes": 65536,
+     "gap_ms": 6.48,
+     "write_ms": 0.033,
+     "total_ms": 6.513
+    },
+    {
+     "cycle": 4,
+     "serial": 75,
+     "bytes": 65536,
+     "gap_ms": 6.456,
+     "write_ms": 0.026,
+     "total_ms": 6.482
+    },
+    {
+     "cycle": 4,
+     "serial": 76,
+     "bytes": 65536,
+     "gap_ms": 6.485,
+     "write_ms": 0.025,
+     "total_ms": 6.51
+    },
+    {
+     "cycle": 4,
+     "serial": 77,
+     "bytes": 65536,
+     "gap_ms": 6.44,
+     "write_ms": 0.033,
+     "total_ms": 6.473
+    },
+    {
+     "cycle": 4,
+     "serial": 78,
+     "bytes": 65536,
+     "gap_ms": 6.467,
+     "write_ms": 0.028,
+     "total_ms": 6.495
+    },
+    {
+     "cycle": 4,
+     "serial": 79,
+     "bytes": 65536,
+     "gap_ms": 6.513,
+     "write_ms": 0.025,
+     "total_ms": 6.538
+    },
+    {
+     "cycle": 4,
+     "serial": 80,
+     "bytes": 47044,
+     "gap_ms": 6.379,
+     "write_ms": 0.025,
+     "total_ms": 6.404
+    },
+    {
+     "cycle": 5,
+     "serial": 1,
+     "bytes": 65536,
+     "gap_ms": 0.0,
+     "write_ms": 0.093,
+     "total_ms": 0.093
+    },
+    {
+     "cycle": 5,
+     "serial": 2,
+     "bytes": 65536,
+     "gap_ms": 6.133,
+     "write_ms": 0.111,
+     "total_ms": 6.244
+    },
+    {
+     "cycle": 5,
+     "serial": 3,
+     "bytes": 65536,
+     "gap_ms": 6.387,
+     "write_ms": 0.031,
+     "total_ms": 6.419
+    },
+    {
+     "cycle": 5,
+     "serial": 4,
+     "bytes": 65536,
+     "gap_ms": 6.484,
+     "write_ms": 0.065,
+     "total_ms": 6.549
+    },
+    {
+     "cycle": 5,
+     "serial": 5,
+     "bytes": 65536,
+     "gap_ms": 6.413,
+     "write_ms": 0.034,
+     "total_ms": 6.447
+    },
+    {
+     "cycle": 5,
+     "serial": 6,
+     "bytes": 65536,
+     "gap_ms": 6.505,
+     "write_ms": 0.034,
+     "total_ms": 6.539
+    },
+    {
+     "cycle": 5,
+     "serial": 7,
+     "bytes": 65536,
+     "gap_ms": 6.451,
+     "write_ms": 0.029,
+     "total_ms": 6.48
+    },
+    {
+     "cycle": 5,
+     "serial": 8,
+     "bytes": 65536,
+     "gap_ms": 6.459,
+     "write_ms": 0.071,
+     "total_ms": 6.53
+    },
+    {
+     "cycle": 5,
+     "serial": 9,
+     "bytes": 65536,
+     "gap_ms": 6.457,
+     "write_ms": 0.094,
+     "total_ms": 6.551
+    },
+    {
+     "cycle": 5,
+     "serial": 10,
+     "bytes": 65536,
+     "gap_ms": 6.379,
+     "write_ms": 0.029,
+     "total_ms": 6.408
+    },
+    {
+     "cycle": 5,
+     "serial": 11,
+     "bytes": 65536,
+     "gap_ms": 6.484,
+     "write_ms": 0.027,
+     "total_ms": 6.511
+    },
+    {
+     "cycle": 5,
+     "serial": 12,
+     "bytes": 65536,
+     "gap_ms": 6.403,
+     "write_ms": 0.034,
+     "total_ms": 6.437
+    },
+    {
+     "cycle": 5,
+     "serial": 13,
+     "bytes": 65536,
+     "gap_ms": 6.519,
+     "write_ms": 0.042,
+     "total_ms": 6.561
+    },
+    {
+     "cycle": 5,
+     "serial": 14,
+     "bytes": 65536,
+     "gap_ms": 6.465,
+     "write_ms": 0.03,
+     "total_ms": 6.495
+    },
+    {
+     "cycle": 5,
+     "serial": 15,
+     "bytes": 65536,
+     "gap_ms": 6.485,
+     "write_ms": 0.031,
+     "total_ms": 6.516
+    },
+    {
+     "cycle": 5,
+     "serial": 16,
+     "bytes": 65536,
+     "gap_ms": 6.464,
+     "write_ms": 0.052,
+     "total_ms": 6.515
+    },
+    {
+     "cycle": 5,
+     "serial": 17,
+     "bytes": 65536,
+     "gap_ms": 6.443,
+     "write_ms": 0.054,
+     "total_ms": 6.497
+    },
+    {
+     "cycle": 5,
+     "serial": 18,
+     "bytes": 65536,
+     "gap_ms": 6.526,
+     "write_ms": 0.03,
+     "total_ms": 6.555
+    },
+    {
+     "cycle": 5,
+     "serial": 19,
+     "bytes": 65536,
+     "gap_ms": 6.521,
+     "write_ms": 0.044,
+     "total_ms": 6.565
+    },
+    {
+     "cycle": 5,
+     "serial": 20,
+     "bytes": 65536,
+     "gap_ms": 6.352,
+     "write_ms": 0.033,
+     "total_ms": 6.385
+    },
+    {
+     "cycle": 5,
+     "serial": 21,
+     "bytes": 65536,
+     "gap_ms": 6.483,
+     "write_ms": 0.036,
+     "total_ms": 6.519
+    },
+    {
+     "cycle": 5,
+     "serial": 22,
+     "bytes": 65536,
+     "gap_ms": 6.394,
+     "write_ms": 0.046,
+     "total_ms": 6.44
+    },
+    {
+     "cycle": 5,
+     "serial": 23,
+     "bytes": 65536,
+     "gap_ms": 6.557,
+     "write_ms": 0.056,
+     "total_ms": 6.613
+    },
+    {
+     "cycle": 5,
+     "serial": 24,
+     "bytes": 65536,
+     "gap_ms": 6.48,
+     "write_ms": 0.054,
+     "total_ms": 6.534
+    },
+    {
+     "cycle": 5,
+     "serial": 25,
+     "bytes": 65536,
+     "gap_ms": 6.426,
+     "write_ms": 0.073,
+     "total_ms": 6.5
+    },
+    {
+     "cycle": 5,
+     "serial": 26,
+     "bytes": 65536,
+     "gap_ms": 6.398,
+     "write_ms": 0.04,
+     "total_ms": 6.438
+    },
+    {
+     "cycle": 5,
+     "serial": 27,
+     "bytes": 65536,
+     "gap_ms": 6.484,
+     "write_ms": 0.046,
+     "total_ms": 6.53
+    },
+    {
+     "cycle": 5,
+     "serial": 28,
+     "bytes": 65536,
+     "gap_ms": 6.397,
+     "write_ms": 0.033,
+     "total_ms": 6.43
+    },
+    {
+     "cycle": 5,
+     "serial": 29,
+     "bytes": 65536,
+     "gap_ms": 6.473,
+     "write_ms": 0.057,
+     "total_ms": 6.53
+    },
+    {
+     "cycle": 5,
+     "serial": 30,
+     "bytes": 65536,
+     "gap_ms": 6.128,
+     "write_ms": 0.039,
+     "total_ms": 6.168
+    },
+    {
+     "cycle": 5,
+     "serial": 31,
+     "bytes": 65536,
+     "gap_ms": 6.26,
+     "write_ms": 0.034,
+     "total_ms": 6.294
+    },
+    {
+     "cycle": 5,
+     "serial": 32,
+     "bytes": 65536,
+     "gap_ms": 6.496,
+     "write_ms": 0.036,
+     "total_ms": 6.532
+    },
+    {
+     "cycle": 5,
+     "serial": 33,
+     "bytes": 65536,
+     "gap_ms": 6.425,
+     "write_ms": 0.042,
+     "total_ms": 6.467
+    },
+    {
+     "cycle": 5,
+     "serial": 34,
+     "bytes": 65536,
+     "gap_ms": 6.477,
+     "write_ms": 0.032,
+     "total_ms": 6.508
+    },
+    {
+     "cycle": 5,
+     "serial": 35,
+     "bytes": 65536,
+     "gap_ms": 6.456,
+     "write_ms": 0.031,
+     "total_ms": 6.486
+    },
+    {
+     "cycle": 5,
+     "serial": 36,
+     "bytes": 65536,
+     "gap_ms": 6.46,
+     "write_ms": 0.034,
+     "total_ms": 6.494
+    },
+    {
+     "cycle": 5,
+     "serial": 37,
+     "bytes": 65536,
+     "gap_ms": 6.461,
+     "write_ms": 0.038,
+     "total_ms": 6.499
+    },
+    {
+     "cycle": 5,
+     "serial": 38,
+     "bytes": 65536,
+     "gap_ms": 6.453,
+     "write_ms": 0.036,
+     "total_ms": 6.488
+    },
+    {
+     "cycle": 5,
+     "serial": 39,
+     "bytes": 65536,
+     "gap_ms": 6.399,
+     "write_ms": 0.034,
+     "total_ms": 6.432
+    },
+    {
+     "cycle": 5,
+     "serial": 40,
+     "bytes": 65536,
+     "gap_ms": 6.057,
+     "write_ms": 0.037,
+     "total_ms": 6.095
+    },
+    {
+     "cycle": 5,
+     "serial": 41,
+     "bytes": 65536,
+     "gap_ms": 6.443,
+     "write_ms": 0.075,
+     "total_ms": 6.518
+    },
+    {
+     "cycle": 5,
+     "serial": 42,
+     "bytes": 65536,
+     "gap_ms": 6.403,
+     "write_ms": 0.028,
+     "total_ms": 6.431
+    },
+    {
+     "cycle": 5,
+     "serial": 43,
+     "bytes": 65536,
+     "gap_ms": 6.503,
+     "write_ms": 0.041,
+     "total_ms": 6.544
+    },
+    {
+     "cycle": 5,
+     "serial": 44,
+     "bytes": 65536,
+     "gap_ms": 6.436,
+     "write_ms": 0.034,
+     "total_ms": 6.47
+    },
+    {
+     "cycle": 5,
+     "serial": 45,
+     "bytes": 65536,
+     "gap_ms": 6.477,
+     "write_ms": 0.032,
+     "total_ms": 6.509
+    },
+    {
+     "cycle": 5,
+     "serial": 46,
+     "bytes": 65536,
+     "gap_ms": 6.402,
+     "write_ms": 0.04,
+     "total_ms": 6.442
+    },
+    {
+     "cycle": 5,
+     "serial": 47,
+     "bytes": 65536,
+     "gap_ms": 6.524,
+     "write_ms": 0.032,
+     "total_ms": 6.557
+    },
+    {
+     "cycle": 5,
+     "serial": 48,
+     "bytes": 65536,
+     "gap_ms": 6.457,
+     "write_ms": 0.03,
+     "total_ms": 6.487
+    },
+    {
+     "cycle": 5,
+     "serial": 49,
+     "bytes": 65536,
+     "gap_ms": 6.471,
+     "write_ms": 0.05,
+     "total_ms": 6.521
+    },
+    {
+     "cycle": 5,
+     "serial": 50,
+     "bytes": 65536,
+     "gap_ms": 6.462,
+     "write_ms": 0.031,
+     "total_ms": 6.493
+    },
+    {
+     "cycle": 5,
+     "serial": 51,
+     "bytes": 65536,
+     "gap_ms": 6.464,
+     "write_ms": 0.03,
+     "total_ms": 6.494
+    },
+    {
+     "cycle": 5,
+     "serial": 52,
+     "bytes": 65536,
+     "gap_ms": 9.799,
+     "write_ms": 0.058,
+     "total_ms": 9.857
+    },
+    {
+     "cycle": 5,
+     "serial": 53,
+     "bytes": 65536,
+     "gap_ms": 6.099,
+     "write_ms": 0.032,
+     "total_ms": 6.131
+    },
+    {
+     "cycle": 5,
+     "serial": 54,
+     "bytes": 65536,
+     "gap_ms": 6.413,
+     "write_ms": 0.032,
+     "total_ms": 6.445
+    },
+    {
+     "cycle": 5,
+     "serial": 55,
+     "bytes": 65536,
+     "gap_ms": 6.053,
+     "write_ms": 0.036,
+     "total_ms": 6.088
+    },
+    {
+     "cycle": 5,
+     "serial": 56,
+     "bytes": 65536,
+     "gap_ms": 6.45,
+     "write_ms": 0.031,
+     "total_ms": 6.481
+    },
+    {
+     "cycle": 5,
+     "serial": 57,
+     "bytes": 65536,
+     "gap_ms": 6.46,
+     "write_ms": 0.071,
+     "total_ms": 6.531
+    },
+    {
+     "cycle": 5,
+     "serial": 58,
+     "bytes": 65536,
+     "gap_ms": 6.446,
+     "write_ms": 0.043,
+     "total_ms": 6.489
+    },
+    {
+     "cycle": 5,
+     "serial": 59,
+     "bytes": 65536,
+     "gap_ms": 6.46,
+     "write_ms": 0.034,
+     "total_ms": 6.493
+    },
+    {
+     "cycle": 5,
+     "serial": 60,
+     "bytes": 65536,
+     "gap_ms": 6.445,
+     "write_ms": 0.031,
+     "total_ms": 6.476
+    },
+    {
+     "cycle": 5,
+     "serial": 61,
+     "bytes": 65536,
+     "gap_ms": 6.409,
+     "write_ms": 0.044,
+     "total_ms": 6.452
+    },
+    {
+     "cycle": 5,
+     "serial": 62,
+     "bytes": 65536,
+     "gap_ms": 6.513,
+     "write_ms": 0.037,
+     "total_ms": 6.55
+    },
+    {
+     "cycle": 5,
+     "serial": 63,
+     "bytes": 65536,
+     "gap_ms": 6.476,
+     "write_ms": 0.031,
+     "total_ms": 6.508
+    },
+    {
+     "cycle": 5,
+     "serial": 64,
+     "bytes": 65536,
+     "gap_ms": 6.373,
+     "write_ms": 0.033,
+     "total_ms": 6.406
+    },
+    {
+     "cycle": 5,
+     "serial": 65,
+     "bytes": 65536,
+     "gap_ms": 6.585,
+     "write_ms": 0.042,
+     "total_ms": 6.628
+    },
+    {
+     "cycle": 5,
+     "serial": 66,
+     "bytes": 65536,
+     "gap_ms": 6.439,
+     "write_ms": 0.03,
+     "total_ms": 6.469
+    },
+    {
+     "cycle": 5,
+     "serial": 67,
+     "bytes": 65536,
+     "gap_ms": 6.446,
+     "write_ms": 0.028,
+     "total_ms": 6.474
+    },
+    {
+     "cycle": 5,
+     "serial": 68,
+     "bytes": 65536,
+     "gap_ms": 6.48,
+     "write_ms": 0.037,
+     "total_ms": 6.517
+    },
+    {
+     "cycle": 5,
+     "serial": 69,
+     "bytes": 65536,
+     "gap_ms": 6.461,
+     "write_ms": 0.036,
+     "total_ms": 6.496
+    },
+    {
+     "cycle": 5,
+     "serial": 70,
+     "bytes": 65536,
+     "gap_ms": 6.469,
+     "write_ms": 0.029,
+     "total_ms": 6.498
+    },
+    {
+     "cycle": 5,
+     "serial": 71,
+     "bytes": 65536,
+     "gap_ms": 6.413,
+     "write_ms": 0.034,
+     "total_ms": 6.447
+    },
+    {
+     "cycle": 5,
+     "serial": 72,
+     "bytes": 65536,
+     "gap_ms": 6.53,
+     "write_ms": 0.032,
+     "total_ms": 6.562
+    },
+    {
+     "cycle": 5,
+     "serial": 73,
+     "bytes": 65536,
+     "gap_ms": 6.465,
+     "write_ms": 0.07,
+     "total_ms": 6.535
+    },
+    {
+     "cycle": 5,
+     "serial": 74,
+     "bytes": 65536,
+     "gap_ms": 6.425,
+     "write_ms": 0.032,
+     "total_ms": 6.457
+    },
+    {
+     "cycle": 5,
+     "serial": 75,
+     "bytes": 65536,
+     "gap_ms": 6.493,
+     "write_ms": 0.032,
+     "total_ms": 6.525
+    },
+    {
+     "cycle": 5,
+     "serial": 76,
+     "bytes": 65536,
+     "gap_ms": 6.448,
+     "write_ms": 0.032,
+     "total_ms": 6.48
+    },
+    {
+     "cycle": 5,
+     "serial": 77,
+     "bytes": 65536,
+     "gap_ms": 6.487,
+     "write_ms": 0.032,
+     "total_ms": 6.52
+    },
+    {
+     "cycle": 5,
+     "serial": 78,
+     "bytes": 65536,
+     "gap_ms": 6.477,
+     "write_ms": 0.045,
+     "total_ms": 6.522
+    },
+    {
+     "cycle": 5,
+     "serial": 79,
+     "bytes": 65536,
+     "gap_ms": 6.529,
+     "write_ms": 0.039,
+     "total_ms": 6.568
+    },
+    {
+     "cycle": 5,
+     "serial": 80,
+     "bytes": 47044,
+     "gap_ms": 6.401,
+     "write_ms": 0.028,
+     "total_ms": 6.429
+    }
+   ]
+  },
+  "B_one_fsync": {
+   "tag": "B_one_fsync",
+   "target": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_diag\\B_one_fsync\\target.kvmem",
+   "total_5cycles_s": 5.034,
+   "rounds": [
+    {
+     "cycle": 1,
+     "total_s": 0.998,
+     "n_chunks": 80,
+     "slowest_chunk": {
+      "serial": 16,
+      "bytes": 65536,
+      "gap_ms": 6.49,
+      "write_ms": 0.122,
+      "total_ms": 6.612
+     },
+     "chunks_over_1s": [],
+     "stall_near_64_72": false
+    },
+    {
+     "cycle": 2,
+     "total_s": 1.018,
+     "n_chunks": 80,
+     "slowest_chunk": {
+      "serial": 40,
+      "bytes": 65536,
+      "gap_ms": 22.495,
+      "write_ms": 0.281,
+      "total_ms": 22.776
+     },
+     "chunks_over_1s": [],
+     "stall_near_64_72": false
+    },
+    {
+     "cycle": 3,
+     "total_s": 1.001,
+     "n_chunks": 80,
+     "slowest_chunk": {
+      "serial": 79,
+      "bytes": 65536,
+      "gap_ms": 6.563,
+      "write_ms": 0.089,
+      "total_ms": 6.652
+     },
+     "chunks_over_1s": [],
+     "stall_near_64_72": false
+    },
+    {
+     "cycle": 4,
+     "total_s": 1.001,
+     "n_chunks": 80,
+     "slowest_chunk": {
+      "serial": 9,
+      "bytes": 65536,
+      "gap_ms": 6.506,
+      "write_ms": 0.084,
+      "total_ms": 6.59
+     },
+     "chunks_over_1s": [],
+     "stall_near_64_72": false
+    },
+    {
+     "cycle": 5,
+     "total_s": 1.001,
+     "n_chunks": 80,
+     "slowest_chunk": {
+      "serial": 51,
+      "bytes": 65536,
+      "gap_ms": 6.469,
+      "write_ms": 0.219,
+      "total_ms": 6.688
+     },
+     "chunks_over_1s": [],
+     "stall_near_64_72": false
+    }
+   ],
+   "replace_events": [
+    {
+     "cycle": 1,
+     "ms": 2.017,
+     "mode": "write_through"
+    },
+    {
+     "cycle": 2,
+     "ms": 0.814,
+     "mode": "write_through"
+    },
+    {
+     "cycle": 3,
+     "ms": 3.116,
+     "mode": "write_through"
+    },
+    {
+     "cycle": 4,
+     "ms": 2.386,
+     "mode": "write_through"
+    },
+    {
+     "cycle": 5,
+     "ms": 2.811,
+     "mode": "write_through"
+    }
+   ],
+   "final_fsync_only": true,
+   "target_sha16": "3b046c8ee3fb3b53",
+   "target_bytes": 5224388,
+   "target_n_tokens": 50
+  }
+ },
+ "judgment": {
+  "A_cold_stall_near_64_72": false,
+  "A_preheated_stall_near_64_72": false,
+  "B_one_fsync_stall_near_64_72": false,
+  "conclusion": "neither A nor B reproduces => child's Vulkan prelude interaction is the remaining suspect",
+  "preheat_effect": "no cold stall to compare"
+ },
+ "status": "completed",
+ "preheat": {
+  "bytes": 8388608,
+  "sha16": "2daeb1f36095b44b",
+  "elapsed_s": 0.537,
+  "read_once": true
+ },
+ "finished_at": "2026-10-26T12:33:44+0800",
+ "child_module": {
+  "path": "kvmem\\m2_visibility\\m5\\out\\_k1_park_child.py",
+  "sha16": "9339107866cbc84c",
+  "bytes": 24243
+ },
+ "no_vulkan": true,
+ "no_model": true,
+ "signals_sent": 0,
+ "kill_attempts": 0,
+ "diagnosis_scope": "A/B skip Vulkan; only child (with Vulkan prelude) has shown the stall; per pre-agreed rule this points to Vulkan-prelude/write interaction, not save loop or per-cycle fsync alone."
+}

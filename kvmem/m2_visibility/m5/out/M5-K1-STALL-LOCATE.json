@@ -1,0 +1,7471 @@
+{
+ "schema": "m5_k1_stall_locate_v1",
+ "at": "2026-10-26T12:44:14+0800",
+ "fixture": {
+  "path": "kvmem\\m2_visibility\\m5\\out\\_k1_park_child.py",
+  "sha16": "023c7106a32e1c42",
+  "bytes": 30132,
+  "old_uninstrumented": {
+   "path": "kvmem\\m2_visibility\\m5\\out\\_k1_park_child.pre-instrument.py",
+   "sha16": "9339107866cbc84c",
+   "bytes": 24243
+  },
+  "note": "instrumented fixture; logging/timing only, no semantic change to save or Vulkan"
+ },
+ "instrumentation": {
+  "heartbeat": "independent thread, 200 ms, phase snapshot; writes [HEARTBEAT ...] to state log",
+  "phases": [
+   "vulkan_init",
+   "device_ready",
+   "park_waitIdle",
+   "park_destroyDevice",
+   "park_destroyInstance",
+   "holding",
+   "save_pre_tmp",
+   "save_write(chunk_i)",
+   "save_flush",
+   "save_fsync",
+   "save_replace",
+   "save_post",
+   "sleep",
+   "graceful_exit"
+  ],
+  "chunk_timing": "write_ms/gap_ms/total_ms per chunk; flush_ms/fsync_ms/replace_ms per cycle",
+  "syscall_boundaries": [
+   "write",
+   "flush",
+   "fsync",
+   "MoveFileExW via patched session_state._movefile_ex_write_through",
+   "durable_replace"
+  ],
+  "syscall_trace_note": "kept in memory and written to child result only on graceful exit; vk=on was hard-stopped, so its trace did not survive",
+  "armed_rejected": true,
+  "armed_child_rc": 2,
+  "armed_child_stdout": "K1_CHILD_REFUSED: --armed is not accepted by the instrumented child",
+  "vk_off": "same process shape, skips Vulkan object; still save_cycles 5 cycles"
+ },
+ "timeout_policy": {
+  "soft_s": 90.0,
+  "hard_s": 180.0,
+  "soft_note": "recorded at 90 s; process allowed to finish the stall",
+  "hard_note": "TerminateProcess only if still alive at 180 s"
+ },
+ "runs": [
+  {
+   "mode": "on",
+   "elapsed_s": 180.01,
+   "soft_timeout_90s": true,
+   "hard_timeout_180s": true,
+   "returncode": 1,
+   "signals_sent": 1,
+   "armed": false,
+   "kill_attempts": 0,
+   "emergency_stop": true,
+   "status_from_child": null,
+   "result": null,
+   "state_log": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\kill_state_locate_vk_on.log",
+    "sha16": "1e9b66d0e7373018",
+    "bytes": 4216
+   },
+   "heartbeat_count": 2,
+   "heartbeat_tail": [
+    "[HEARTBEAT t_mono=0.203000 t_wall=2026-10-26T12:37:16.489+0800 phase=save_write(chunk_6)] {\"cycle\":1,\"chunk\":6}",
+    "[HEARTBEAT t_mono=0.406000 t_wall=2026-10-26T12:37:16.689+0800 phase=save_write(chunk_37)] {\"cycle\":1,\"chunk\":37}"
+   ],
+   "phase_timeline": [
+    "save_write(chunk_6)",
+    "save_write(chunk_37)"
+   ],
+   "last_heartbeat": "[HEARTBEAT t_mono=0.406000 t_wall=2026-10-26T12:37:16.689+0800 phase=save_write(chunk_37)] {\"cycle\":1,\"chunk\":37}",
+   "last_state": "[STATE tmp_writing t_mono=0.516000 t_wall=2026-10-26T12:37:16.808+0800] {\"cycle\":1,\"frac\":0.7025,\"chunk\":56,\"chunks\":80}",
+   "states_tail": [
+    "[STATE saving_cycle t_mono=0.109000 t_wall=2026-10-26T12:37:16.399+0800] {\"cycle\":1,\"phase\":\"pre_tmp\"}",
+    "[STATE tmp_writing t_mono=0.172000 t_wall=2026-10-26T12:37:16.454+0800] {\"cycle\":1,\"frac\":0.0,\"chunk_bytes\":65536}",
+    "[STATE tmp_writing t_mono=0.172000 t_wall=2026-10-26T12:37:16.454+0800] {\"cycle\":1,\"frac\":0.0125,\"chunk\":1,\"chunks\":80}",
+    "[STATE tmp_writing t_mono=0.219000 t_wall=2026-10-26T12:37:16.499+0800] {\"cycle\":1,\"frac\":0.1004,\"chunk\":8,\"chunks\":80}",
+    "[STATE tmp_writing t_mono=0.266000 t_wall=2026-10-26T12:37:16.551+0800] {\"cycle\":1,\"frac\":0.2007,\"chunk\":16,\"chunks\":80}",
+    "[STATE tmp_writing t_mono=0.313000 t_wall=2026-10-26T12:37:16.602+0800] {\"cycle\":1,\"frac\":0.3011,\"chunk\":24,\"chunks\":80}",
+    "[STATE tmp_writing t_mono=0.375000 t_wall=2026-10-26T12:37:16.653+0800] {\"cycle\":1,\"frac\":0.4014,\"chunk\":32,\"chunks\":80}",
+    "[STATE tmp_writing t_mono=0.422000 t_wall=2026-10-26T12:37:16.705+0800] {\"cycle\":1,\"frac\":0.5018,\"chunk\":40,\"chunks\":80}",
+    "[STATE tmp_writing t_mono=0.469000 t_wall=2026-10-26T12:37:16.756+0800] {\"cycle\":1,\"frac\":0.6021,\"chunk\":48,\"chunks\":80}",
+    "[STATE tmp_writing t_mono=0.516000 t_wall=2026-10-26T12:37:16.808+0800] {\"cycle\":1,\"frac\":0.7025,\"chunk\":56,\"chunks\":80}"
+   ],
+   "n_cycles_completed": 0,
+   "save_ok": null,
+   "slowest_chunk": null,
+   "chunks_over_1s": [],
+   "syscall_trace": null,
+   "phase_history": null,
+   "target": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\_k1_stall_locate\\vk_on\\target.kvmem",
+    "sha16": "3b046c8ee3fb3b53",
+    "bytes": 5224388
+   },
+   "target_n_tokens": 50,
+   "target_third": false,
+   "tmp_remaining": [
+    {
+     "name": "target.kvmem.tmp-2420-1",
+     "sha16": "2650fd7d86b35c66",
+     "bytes": 4194304
+    }
+   ],
+   "note": "tmp is exactly 64*65536=4,194,304 B; last state chunk56 @0.516 s; last heartbeat chunk37 @0.406 s; no heartbeat after; process likely frozen whole."
+  },
+  {
+   "mode": "off",
+   "elapsed_s": 5.299,
+   "soft_timeout_90s": false,
+   "hard_timeout_180s": false,
+   "returncode": 0,
+   "signals_sent": 0,
+   "armed": false,
+   "kill_attempts": 0,
+   "emergency_stop": false,
+   "status_from_child": "completed",
+   "result": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\_k1_stall_locate_result_vk_off.json",
+    "sha16": "ca6abf1654856322",
+    "bytes": 296594
+   },
+   "state_log": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\kill_state_locate_vk_off.log",
+    "sha16": "fc04eaa13b27700a",
+    "bytes": 15552
+   },
+   "heartbeat_count": 25,
+   "heartbeat_tail": [
+    "[HEARTBEAT t_mono=3.671000 t_wall=2026-10-26T12:43:07.020+0800 phase=save_write(chunk_79)] {\"cycle\":4,\"chunk\":79}",
+    "[HEARTBEAT t_mono=3.890000 t_wall=2026-10-26T12:43:07.232+0800 phase=sleep] {\"cycle\":4,\"sleep_s\":0.4}",
+    "[HEARTBEAT t_mono=4.093000 t_wall=2026-10-26T12:43:07.436+0800 phase=sleep] {\"cycle\":4,\"sleep_s\":0.4}",
+    "[HEARTBEAT t_mono=4.296000 t_wall=2026-10-26T12:43:07.640+0800 phase=save_write(chunk_17)] {\"cycle\":5,\"chunk\":17}",
+    "[HEARTBEAT t_mono=4.500000 t_wall=2026-10-26T12:43:07.847+0800 phase=save_write(chunk_49)] {\"cycle\":5,\"chunk\":49}",
+    "[HEARTBEAT t_mono=4.703000 t_wall=2026-10-26T12:43:08.050+0800 phase=save_write(chunk_78)] {\"cycle\":5,\"chunk\":78}",
+    "[HEARTBEAT t_mono=4.906000 t_wall=2026-10-26T12:43:08.250+0800 phase=sleep] {\"cycle\":5,\"sleep_s\":0.4}",
+    "[HEARTBEAT t_mono=5.109000 t_wall=2026-10-26T12:43:08.455+0800 phase=sleep] {\"cycle\":5,\"sleep_s\":0.4}"
+   ],
+   "phase_timeline": [
+    "save_write(chunk_17)",
+    "save_write(chunk_49)",
+    "save_fsync",
+    "sleep",
+    "sleep",
+    "save_write(chunk_17)",
+    "save_write(chunk_49)",
+    "save_write(chunk_80)",
+    "sleep",
+    "sleep",
+    "save_write(chunk_16)",
+    "save_write(chunk_47)",
+    "save_write(chunk_79)",
+    "sleep",
+    "sleep",
+    "save_write(chunk_15)",
+    "save_write(chunk_47)",
+    "save_write(chunk_79)",
+    "sleep",
+    "sleep",
+    "save_write(chunk_17)",
+    "save_write(chunk_49)",
+    "save_write(chunk_78)",
+    "sleep",
+    "sleep"
+   ],
+   "last_heartbeat": "[HEARTBEAT t_mono=5.109000 t_wall=2026-10-26T12:43:08.455+0800 phase=sleep] {\"cycle\":5,\"sleep_s\":0.4}",
+   "last_state": "[STATE graceful_exit t_mono=5.171000 t_wall=2026-10-26T12:43:08.518+0800] {\"status\":\"completed\",\"model_loaded\":false,\"armed\":false,\"signals_sent\":0}",
+   "states_tail": [
+    "[STATE tmp_writing t_mono=4.703000 t_wall=2026-10-26T12:43:08.057+0800] {\"cycle\":5,\"frac\":1.0,\"chunk\":80,\"chunks\":80}",
+    "[STATE tmp_ready t_mono=4.734000 t_wall=2026-10-26T12:43:08.075+0800] {\"cycle\":5,\"tmp\":\"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m5\\\\out\\\\_k1_stall_locate\\\\vk_off\\\\target.kvmem.tmp-13184-5\",\"bytes\":5224388}",
+    "[STATE fsynced t_mono=4.734000 t_wall=2026-10-26T12:43:08.075+0800] {\"cycle\":5,\"tmp\":\"D:\\\\llama-mem\\\\kvmem\\\\m2_visibility\\\\m5\\\\out\\\\_k1_stall_locate\\\\vk_off\\\\target.kvmem.tmp-13184-5\"}",
+    "[STATE replaced t_mono=4.765000 t_wall=2026-10-26T12:43:08.106+0800] {\"cycle\":5,\"mode\":\"write_through\"}",
+    "[STATE hold t_mono=4.765000 t_wall=2026-10-26T12:43:08.115+0800] {\"cycle\":5,\"hold_s\":0.4}",
+    "[STATE hold_end t_mono=5.171000 t_wall=2026-10-26T12:43:08.518+0800] {\"cycle\":5}",
+    "[STATE saving_cycle t_mono=5.171000 t_wall=2026-10-26T12:43:08.518+0800] {\"cycle\":5,\"phase\":\"done\",\"third\":false}",
+    "[STATE graceful_exit t_mono=5.171000 t_wall=2026-10-26T12:43:08.518+0800] {\"status\":\"completed\",\"model_loaded\":false,\"armed\":false,\"signals_sent\":0}"
+   ],
+   "n_cycles_completed": 5,
+   "save_ok": true,
+   "slowest_chunk": {
+    "cycle": 5,
+    "chunk": 52,
+    "bytes": 65536,
+    "gap_ms": 19.016,
+    "write_ms": 0.062,
+    "total_ms": 19.078
+   },
+   "chunks_over_1s": [],
+   "syscall_trace": [
+    {
+     "op": "write",
+     "t0": 33491.2516368,
+     "t1": 33491.2517322,
+     "elapsed_ms": 0.095,
+     "cycle": 1,
+     "chunk": 1,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.257903,
+     "t1": 33491.257967,
+     "elapsed_ms": 0.064,
+     "cycle": 1,
+     "chunk": 2,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.2642746,
+     "t1": 33491.264306,
+     "elapsed_ms": 0.031,
+     "cycle": 1,
+     "chunk": 3,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.2708402,
+     "t1": 33491.2709128,
+     "elapsed_ms": 0.073,
+     "cycle": 1,
+     "chunk": 4,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.2770675,
+     "t1": 33491.2771016,
+     "elapsed_ms": 0.034,
+     "cycle": 1,
+     "chunk": 5,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.2832665,
+     "t1": 33491.2832949,
+     "elapsed_ms": 0.028,
+     "cycle": 1,
+     "chunk": 6,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.289379,
+     "t1": 33491.28941,
+     "elapsed_ms": 0.031,
+     "cycle": 1,
+     "chunk": 7,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.2958801,
+     "t1": 33491.2959483,
+     "elapsed_ms": 0.068,
+     "cycle": 1,
+     "chunk": 8,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.3022285,
+     "t1": 33491.3022956,
+     "elapsed_ms": 0.067,
+     "cycle": 1,
+     "chunk": 9,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.3083401,
+     "t1": 33491.3083662,
+     "elapsed_ms": 0.026,
+     "cycle": 1,
+     "chunk": 10,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.3146316,
+     "t1": 33491.3146617,
+     "elapsed_ms": 0.03,
+     "cycle": 1,
+     "chunk": 11,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.3208156,
+     "t1": 33491.3208423,
+     "elapsed_ms": 0.027,
+     "cycle": 1,
+     "chunk": 12,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.3273232,
+     "t1": 33491.3273588,
+     "elapsed_ms": 0.036,
+     "cycle": 1,
+     "chunk": 13,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.3338442,
+     "t1": 33491.3338746,
+     "elapsed_ms": 0.03,
+     "cycle": 1,
+     "chunk": 14,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.3403089,
+     "t1": 33491.3403379,
+     "elapsed_ms": 0.029,
+     "cycle": 1,
+     "chunk": 15,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.3468114,
+     "t1": 33491.3468366,
+     "elapsed_ms": 0.025,
+     "cycle": 1,
+     "chunk": 16,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.353253,
+     "t1": 33491.3532999,
+     "elapsed_ms": 0.047,
+     "cycle": 1,
+     "chunk": 17,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.3598309,
+     "t1": 33491.3598546,
+     "elapsed_ms": 0.024,
+     "cycle": 1,
+     "chunk": 18,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.3663643,
+     "t1": 33491.3663892,
+     "elapsed_ms": 0.025,
+     "cycle": 1,
+     "chunk": 19,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.3728103,
+     "t1": 33491.3728337,
+     "elapsed_ms": 0.023,
+     "cycle": 1,
+     "chunk": 20,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.3793063,
+     "t1": 33491.3793417,
+     "elapsed_ms": 0.035,
+     "cycle": 1,
+     "chunk": 21,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.3858102,
+     "t1": 33491.3858363,
+     "elapsed_ms": 0.026,
+     "cycle": 1,
+     "chunk": 22,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.3923164,
+     "t1": 33491.3923407,
+     "elapsed_ms": 0.024,
+     "cycle": 1,
+     "chunk": 23,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.3988191,
+     "t1": 33491.3988507,
+     "elapsed_ms": 0.032,
+     "cycle": 1,
+     "chunk": 24,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.4051494,
+     "t1": 33491.4052134,
+     "elapsed_ms": 0.064,
+     "cycle": 1,
+     "chunk": 25,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.4117242,
+     "t1": 33491.4117531,
+     "elapsed_ms": 0.029,
+     "cycle": 1,
+     "chunk": 26,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.4178295,
+     "t1": 33491.4178583,
+     "elapsed_ms": 0.029,
+     "cycle": 1,
+     "chunk": 27,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.4242486,
+     "t1": 33491.424279,
+     "elapsed_ms": 0.03,
+     "cycle": 1,
+     "chunk": 28,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.4308165,
+     "t1": 33491.4308459,
+     "elapsed_ms": 0.029,
+     "cycle": 1,
+     "chunk": 29,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.4373172,
+     "t1": 33491.4373453,
+     "elapsed_ms": 0.028,
+     "cycle": 1,
+     "chunk": 30,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.4438145,
+     "t1": 33491.4438444,
+     "elapsed_ms": 0.03,
+     "cycle": 1,
+     "chunk": 31,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.4503128,
+     "t1": 33491.4503396,
+     "elapsed_ms": 0.027,
+     "cycle": 1,
+     "chunk": 32,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.4568233,
+     "t1": 33491.4568549,
+     "elapsed_ms": 0.032,
+     "cycle": 1,
+     "chunk": 33,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.4632424,
+     "t1": 33491.4632718,
+     "elapsed_ms": 0.029,
+     "cycle": 1,
+     "chunk": 34,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.4695545,
+     "t1": 33491.4695798,
+     "elapsed_ms": 0.025,
+     "cycle": 1,
+     "chunk": 35,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.4760897,
+     "t1": 33491.4761168,
+     "elapsed_ms": 0.027,
+     "cycle": 1,
+     "chunk": 36,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.4823927,
+     "t1": 33491.4824242,
+     "elapsed_ms": 0.031,
+     "cycle": 1,
+     "chunk": 37,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.4888668,
+     "t1": 33491.4889044,
+     "elapsed_ms": 0.038,
+     "cycle": 1,
+     "chunk": 38,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.4953507,
+     "t1": 33491.4953787,
+     "elapsed_ms": 0.028,
+     "cycle": 1,
+     "chunk": 39,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.5019061,
+     "t1": 33491.5019311,
+     "elapsed_ms": 0.025,
+     "cycle": 1,
+     "chunk": 40,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.5082698,
+     "t1": 33491.5083493,
+     "elapsed_ms": 0.08,
+     "cycle": 1,
+     "chunk": 41,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.5148486,
+     "t1": 33491.5148765,
+     "elapsed_ms": 0.028,
+     "cycle": 1,
+     "chunk": 42,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.521357,
+     "t1": 33491.5213848,
+     "elapsed_ms": 0.028,
+     "cycle": 1,
+     "chunk": 43,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.5278749,
+     "t1": 33491.5279051,
+     "elapsed_ms": 0.03,
+     "cycle": 1,
+     "chunk": 44,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.5343802,
+     "t1": 33491.5344117,
+     "elapsed_ms": 0.031,
+     "cycle": 1,
+     "chunk": 45,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.5408563,
+     "t1": 33491.5408845,
+     "elapsed_ms": 0.028,
+     "cycle": 1,
+     "chunk": 46,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.5474242,
+     "t1": 33491.5474564,
+     "elapsed_ms": 0.032,
+     "cycle": 1,
+     "chunk": 47,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.5538791,
+     "t1": 33491.5539185,
+     "elapsed_ms": 0.039,
+     "cycle": 1,
+     "chunk": 48,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.5604286,
+     "t1": 33491.5605145,
+     "elapsed_ms": 0.086,
+     "cycle": 1,
+     "chunk": 49,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.5668585,
+     "t1": 33491.5668878,
+     "elapsed_ms": 0.029,
+     "cycle": 1,
+     "chunk": 50,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.5732602,
+     "t1": 33491.5732916,
+     "elapsed_ms": 0.031,
+     "cycle": 1,
+     "chunk": 51,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.5793576,
+     "t1": 33491.5794347,
+     "elapsed_ms": 0.077,
+     "cycle": 1,
+     "chunk": 52,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.5858336,
+     "t1": 33491.5859049,
+     "elapsed_ms": 0.071,
+     "cycle": 1,
+     "chunk": 53,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.5923635,
+     "t1": 33491.5923931,
+     "elapsed_ms": 0.03,
+     "cycle": 1,
+     "chunk": 54,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.598834,
+     "t1": 33491.5988658,
+     "elapsed_ms": 0.032,
+     "cycle": 1,
+     "chunk": 55,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.6053394,
+     "t1": 33491.6053694,
+     "elapsed_ms": 0.03,
+     "cycle": 1,
+     "chunk": 56,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.6118516,
+     "t1": 33491.6118797,
+     "elapsed_ms": 0.028,
+     "cycle": 1,
+     "chunk": 57,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.618259,
+     "t1": 33491.6182876,
+     "elapsed_ms": 0.029,
+     "cycle": 1,
+     "chunk": 58,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.6243547,
+     "t1": 33491.6243866,
+     "elapsed_ms": 0.032,
+     "cycle": 1,
+     "chunk": 59,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.6304868,
+     "t1": 33491.6305141,
+     "elapsed_ms": 0.027,
+     "cycle": 1,
+     "chunk": 60,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.6368729,
+     "t1": 33491.6369016,
+     "elapsed_ms": 0.029,
+     "cycle": 1,
+     "chunk": 61,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.643259,
+     "t1": 33491.6432878,
+     "elapsed_ms": 0.029,
+     "cycle": 1,
+     "chunk": 62,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.6498287,
+     "t1": 33491.6498572,
+     "elapsed_ms": 0.028,
+     "cycle": 1,
+     "chunk": 63,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.6563419,
+     "t1": 33491.65637,
+     "elapsed_ms": 0.028,
+     "cycle": 1,
+     "chunk": 64,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.6628546,
+     "t1": 33491.6628916,
+     "elapsed_ms": 0.037,
+     "cycle": 1,
+     "chunk": 65,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.669354,
+     "t1": 33491.6693875,
+     "elapsed_ms": 0.034,
+     "cycle": 1,
+     "chunk": 66,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.6758426,
+     "t1": 33491.6758722,
+     "elapsed_ms": 0.03,
+     "cycle": 1,
+     "chunk": 67,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.6823447,
+     "t1": 33491.6823743,
+     "elapsed_ms": 0.03,
+     "cycle": 1,
+     "chunk": 68,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.6888742,
+     "t1": 33491.6889577,
+     "elapsed_ms": 0.083,
+     "cycle": 1,
+     "chunk": 69,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.6953648,
+     "t1": 33491.6953942,
+     "elapsed_ms": 0.029,
+     "cycle": 1,
+     "chunk": 70,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.7018311,
+     "t1": 33491.7018581,
+     "elapsed_ms": 0.027,
+     "cycle": 1,
+     "chunk": 71,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.7079328,
+     "t1": 33491.7079604,
+     "elapsed_ms": 0.028,
+     "cycle": 1,
+     "chunk": 72,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.7143271,
+     "t1": 33491.7143623,
+     "elapsed_ms": 0.035,
+     "cycle": 1,
+     "chunk": 73,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.7208164,
+     "t1": 33491.7208467,
+     "elapsed_ms": 0.03,
+     "cycle": 1,
+     "chunk": 74,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.7273686,
+     "t1": 33491.7273963,
+     "elapsed_ms": 0.028,
+     "cycle": 1,
+     "chunk": 75,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.7338631,
+     "t1": 33491.7338978,
+     "elapsed_ms": 0.035,
+     "cycle": 1,
+     "chunk": 76,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.7403533,
+     "t1": 33491.7403895,
+     "elapsed_ms": 0.036,
+     "cycle": 1,
+     "chunk": 77,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.746853,
+     "t1": 33491.7468869,
+     "elapsed_ms": 0.034,
+     "cycle": 1,
+     "chunk": 78,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.7533259,
+     "t1": 33491.7533671,
+     "elapsed_ms": 0.041,
+     "cycle": 1,
+     "chunk": 79,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33491.7598716,
+     "t1": 33491.7599041,
+     "elapsed_ms": 0.033,
+     "cycle": 1,
+     "chunk": 80,
+     "bytes": 47044
+    },
+    {
+     "op": "flush",
+     "t0": 33491.7663834,
+     "t1": 33491.7663851,
+     "elapsed_ms": 0.002,
+     "cycle": 1
+    },
+    {
+     "op": "fsync",
+     "t0": 33491.7663997,
+     "t1": 33491.7796913,
+     "elapsed_ms": 13.292,
+     "cycle": 1
+    },
+    {
+     "op": "MoveFileExW",
+     "t0": 33491.8103852,
+     "t1": 33491.8114533,
+     "elapsed_ms": 1.068,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_locate\\vk_off\\target.kvmem.tmp-13184-1",
+     "dst": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_locate\\vk_off\\target.kvmem"
+    },
+    {
+     "op": "durable_replace",
+     "t0": 33491.8103798,
+     "t1": 33491.8114721,
+     "elapsed_ms": 1.092,
+     "cycle": 1,
+     "mode": "write_through"
+    },
+    {
+     "op": "write",
+     "t0": 33492.2741393,
+     "t1": 33492.2742378,
+     "elapsed_ms": 0.098,
+     "cycle": 2,
+     "chunk": 1,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.2803732,
+     "t1": 33492.2804412,
+     "elapsed_ms": 0.068,
+     "cycle": 2,
+     "chunk": 2,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.2868477,
+     "t1": 33492.2868805,
+     "elapsed_ms": 0.033,
+     "cycle": 2,
+     "chunk": 3,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.2932565,
+     "t1": 33492.2933434,
+     "elapsed_ms": 0.087,
+     "cycle": 2,
+     "chunk": 4,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.2998377,
+     "t1": 33492.2998746,
+     "elapsed_ms": 0.037,
+     "cycle": 2,
+     "chunk": 5,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.3061523,
+     "t1": 33492.3061831,
+     "elapsed_ms": 0.031,
+     "cycle": 2,
+     "chunk": 6,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.3123448,
+     "t1": 33492.3123766,
+     "elapsed_ms": 0.032,
+     "cycle": 2,
+     "chunk": 7,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.3188235,
+     "t1": 33492.3189064,
+     "elapsed_ms": 0.083,
+     "cycle": 2,
+     "chunk": 8,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.3253453,
+     "t1": 33492.325396,
+     "elapsed_ms": 0.051,
+     "cycle": 2,
+     "chunk": 9,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.3318603,
+     "t1": 33492.3318938,
+     "elapsed_ms": 0.034,
+     "cycle": 2,
+     "chunk": 10,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.3382905,
+     "t1": 33492.338327,
+     "elapsed_ms": 0.036,
+     "cycle": 2,
+     "chunk": 11,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.3448868,
+     "t1": 33492.344929,
+     "elapsed_ms": 0.042,
+     "cycle": 2,
+     "chunk": 12,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.3513526,
+     "t1": 33492.3513934,
+     "elapsed_ms": 0.041,
+     "cycle": 2,
+     "chunk": 13,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.3578843,
+     "t1": 33492.3579178,
+     "elapsed_ms": 0.034,
+     "cycle": 2,
+     "chunk": 14,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.364393,
+     "t1": 33492.3644311,
+     "elapsed_ms": 0.038,
+     "cycle": 2,
+     "chunk": 15,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.3708446,
+     "t1": 33492.3709201,
+     "elapsed_ms": 0.076,
+     "cycle": 2,
+     "chunk": 16,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.377372,
+     "t1": 33492.3774176,
+     "elapsed_ms": 0.046,
+     "cycle": 2,
+     "chunk": 17,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.3838416,
+     "t1": 33492.3839166,
+     "elapsed_ms": 0.075,
+     "cycle": 2,
+     "chunk": 18,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.3903757,
+     "t1": 33492.3904158,
+     "elapsed_ms": 0.04,
+     "cycle": 2,
+     "chunk": 19,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.3968504,
+     "t1": 33492.3969496,
+     "elapsed_ms": 0.099,
+     "cycle": 2,
+     "chunk": 20,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.4032687,
+     "t1": 33492.4033084,
+     "elapsed_ms": 0.04,
+     "cycle": 2,
+     "chunk": 21,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.4098401,
+     "t1": 33492.4098746,
+     "elapsed_ms": 0.035,
+     "cycle": 2,
+     "chunk": 22,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.4163105,
+     "t1": 33492.4163402,
+     "elapsed_ms": 0.03,
+     "cycle": 2,
+     "chunk": 23,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.4228596,
+     "t1": 33492.422888,
+     "elapsed_ms": 0.028,
+     "cycle": 2,
+     "chunk": 24,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.4293627,
+     "t1": 33492.4293917,
+     "elapsed_ms": 0.029,
+     "cycle": 2,
+     "chunk": 25,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.4356863,
+     "t1": 33492.4357244,
+     "elapsed_ms": 0.038,
+     "cycle": 2,
+     "chunk": 26,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.4418892,
+     "t1": 33492.4419205,
+     "elapsed_ms": 0.031,
+     "cycle": 2,
+     "chunk": 27,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.4482731,
+     "t1": 33492.4483052,
+     "elapsed_ms": 0.032,
+     "cycle": 2,
+     "chunk": 28,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.4548757,
+     "t1": 33492.4549261,
+     "elapsed_ms": 0.05,
+     "cycle": 2,
+     "chunk": 29,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.4613776,
+     "t1": 33492.46141,
+     "elapsed_ms": 0.032,
+     "cycle": 2,
+     "chunk": 30,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.4678568,
+     "t1": 33492.4678846,
+     "elapsed_ms": 0.028,
+     "cycle": 2,
+     "chunk": 31,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.4742624,
+     "t1": 33492.4742971,
+     "elapsed_ms": 0.035,
+     "cycle": 2,
+     "chunk": 32,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.4808938,
+     "t1": 33492.4809417,
+     "elapsed_ms": 0.048,
+     "cycle": 2,
+     "chunk": 33,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.4873772,
+     "t1": 33492.4874096,
+     "elapsed_ms": 0.032,
+     "cycle": 2,
+     "chunk": 34,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.4938745,
+     "t1": 33492.4939115,
+     "elapsed_ms": 0.037,
+     "cycle": 2,
+     "chunk": 35,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.5003512,
+     "t1": 33492.5004399,
+     "elapsed_ms": 0.089,
+     "cycle": 2,
+     "chunk": 36,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.5068503,
+     "t1": 33492.5068843,
+     "elapsed_ms": 0.034,
+     "cycle": 2,
+     "chunk": 37,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.5132659,
+     "t1": 33492.5132994,
+     "elapsed_ms": 0.034,
+     "cycle": 2,
+     "chunk": 38,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.5198525,
+     "t1": 33492.5198857,
+     "elapsed_ms": 0.033,
+     "cycle": 2,
+     "chunk": 39,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.5263481,
+     "t1": 33492.5263827,
+     "elapsed_ms": 0.035,
+     "cycle": 2,
+     "chunk": 40,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.5328596,
+     "t1": 33492.5328883,
+     "elapsed_ms": 0.029,
+     "cycle": 2,
+     "chunk": 41,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.539288,
+     "t1": 33492.5393217,
+     "elapsed_ms": 0.034,
+     "cycle": 2,
+     "chunk": 42,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.5458638,
+     "t1": 33492.5458934,
+     "elapsed_ms": 0.03,
+     "cycle": 2,
+     "chunk": 43,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.5523265,
+     "t1": 33492.5523523,
+     "elapsed_ms": 0.026,
+     "cycle": 2,
+     "chunk": 44,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.5587879,
+     "t1": 33492.5588201,
+     "elapsed_ms": 0.032,
+     "cycle": 2,
+     "chunk": 45,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.5653411,
+     "t1": 33492.5653691,
+     "elapsed_ms": 0.028,
+     "cycle": 2,
+     "chunk": 46,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.5718027,
+     "t1": 33492.5718313,
+     "elapsed_ms": 0.029,
+     "cycle": 2,
+     "chunk": 47,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.5782538,
+     "t1": 33492.5782851,
+     "elapsed_ms": 0.031,
+     "cycle": 2,
+     "chunk": 48,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.5848125,
+     "t1": 33492.5848568,
+     "elapsed_ms": 0.044,
+     "cycle": 2,
+     "chunk": 49,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.5911537,
+     "t1": 33492.5911781,
+     "elapsed_ms": 0.024,
+     "cycle": 2,
+     "chunk": 50,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.5976846,
+     "t1": 33492.5977147,
+     "elapsed_ms": 0.03,
+     "cycle": 2,
+     "chunk": 51,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.6038598,
+     "t1": 33492.6039369,
+     "elapsed_ms": 0.077,
+     "cycle": 2,
+     "chunk": 52,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.6103167,
+     "t1": 33492.6103446,
+     "elapsed_ms": 0.028,
+     "cycle": 2,
+     "chunk": 53,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.6168117,
+     "t1": 33492.6168397,
+     "elapsed_ms": 0.028,
+     "cycle": 2,
+     "chunk": 54,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.6232684,
+     "t1": 33492.6232982,
+     "elapsed_ms": 0.03,
+     "cycle": 2,
+     "chunk": 55,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.6298142,
+     "t1": 33492.6298436,
+     "elapsed_ms": 0.029,
+     "cycle": 2,
+     "chunk": 56,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.6363117,
+     "t1": 33492.6363405,
+     "elapsed_ms": 0.029,
+     "cycle": 2,
+     "chunk": 57,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.6428276,
+     "t1": 33492.6428553,
+     "elapsed_ms": 0.028,
+     "cycle": 2,
+     "chunk": 58,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.6492993,
+     "t1": 33492.6493358,
+     "elapsed_ms": 0.037,
+     "cycle": 2,
+     "chunk": 59,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.6557998,
+     "t1": 33492.6558683,
+     "elapsed_ms": 0.068,
+     "cycle": 2,
+     "chunk": 60,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.6622927,
+     "t1": 33492.6623199,
+     "elapsed_ms": 0.027,
+     "cycle": 2,
+     "chunk": 61,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.6688081,
+     "t1": 33492.66884,
+     "elapsed_ms": 0.032,
+     "cycle": 2,
+     "chunk": 62,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.6752879,
+     "t1": 33492.6753141,
+     "elapsed_ms": 0.026,
+     "cycle": 2,
+     "chunk": 63,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.6818014,
+     "t1": 33492.6818274,
+     "elapsed_ms": 0.026,
+     "cycle": 2,
+     "chunk": 64,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.6882423,
+     "t1": 33492.688327,
+     "elapsed_ms": 0.085,
+     "cycle": 2,
+     "chunk": 65,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.6948065,
+     "t1": 33492.6948671,
+     "elapsed_ms": 0.061,
+     "cycle": 2,
+     "chunk": 66,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.7013129,
+     "t1": 33492.7013778,
+     "elapsed_ms": 0.065,
+     "cycle": 2,
+     "chunk": 67,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.7077966,
+     "t1": 33492.7078241,
+     "elapsed_ms": 0.027,
+     "cycle": 2,
+     "chunk": 68,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.7143473,
+     "t1": 33492.7143827,
+     "elapsed_ms": 0.035,
+     "cycle": 2,
+     "chunk": 69,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.7207914,
+     "t1": 33492.7208187,
+     "elapsed_ms": 0.027,
+     "cycle": 2,
+     "chunk": 70,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.7272991,
+     "t1": 33492.7273256,
+     "elapsed_ms": 0.026,
+     "cycle": 2,
+     "chunk": 71,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.7337955,
+     "t1": 33492.7338301,
+     "elapsed_ms": 0.035,
+     "cycle": 2,
+     "chunk": 72,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.7402914,
+     "t1": 33492.740319,
+     "elapsed_ms": 0.028,
+     "cycle": 2,
+     "chunk": 73,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.7467891,
+     "t1": 33492.7468138,
+     "elapsed_ms": 0.025,
+     "cycle": 2,
+     "chunk": 74,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.7533222,
+     "t1": 33492.7533532,
+     "elapsed_ms": 0.031,
+     "cycle": 2,
+     "chunk": 75,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.7598263,
+     "t1": 33492.7598564,
+     "elapsed_ms": 0.03,
+     "cycle": 2,
+     "chunk": 76,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.7663012,
+     "t1": 33492.7663311,
+     "elapsed_ms": 0.03,
+     "cycle": 2,
+     "chunk": 77,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.7727941,
+     "t1": 33492.7728228,
+     "elapsed_ms": 0.029,
+     "cycle": 2,
+     "chunk": 78,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.7792914,
+     "t1": 33492.7793252,
+     "elapsed_ms": 0.034,
+     "cycle": 2,
+     "chunk": 79,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33492.7857936,
+     "t1": 33492.7858178,
+     "elapsed_ms": 0.024,
+     "cycle": 2,
+     "chunk": 80,
+     "bytes": 47044
+    },
+    {
+     "op": "flush",
+     "t0": 33492.7923192,
+     "t1": 33492.7923204,
+     "elapsed_ms": 0.001,
+     "cycle": 2
+    },
+    {
+     "op": "fsync",
+     "t0": 33492.7923282,
+     "t1": 33492.8056193,
+     "elapsed_ms": 13.291,
+     "cycle": 2
+    },
+    {
+     "op": "MoveFileExW",
+     "t0": 33492.8363269,
+     "t1": 33492.8371755,
+     "elapsed_ms": 0.849,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_locate\\vk_off\\target.kvmem.tmp-13184-2",
+     "dst": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_locate\\vk_off\\target.kvmem"
+    },
+    {
+     "op": "durable_replace",
+     "t0": 33492.8363237,
+     "t1": 33492.8371909,
+     "elapsed_ms": 0.867,
+     "cycle": 2,
+     "mode": "write_through"
+    },
+    {
+     "op": "write",
+     "t0": 33493.2986153,
+     "t1": 33493.2987123,
+     "elapsed_ms": 0.097,
+     "cycle": 3,
+     "chunk": 1,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.3048885,
+     "t1": 33493.3050074,
+     "elapsed_ms": 0.119,
+     "cycle": 3,
+     "chunk": 2,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.3112203,
+     "t1": 33493.3112699,
+     "elapsed_ms": 0.05,
+     "cycle": 3,
+     "chunk": 3,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.3174904,
+     "t1": 33493.3175701,
+     "elapsed_ms": 0.08,
+     "cycle": 3,
+     "chunk": 4,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.3238583,
+     "t1": 33493.3239178,
+     "elapsed_ms": 0.06,
+     "cycle": 3,
+     "chunk": 5,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.3303853,
+     "t1": 33493.3304399,
+     "elapsed_ms": 0.055,
+     "cycle": 3,
+     "chunk": 6,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.3368949,
+     "t1": 33493.3369274,
+     "elapsed_ms": 0.033,
+     "cycle": 3,
+     "chunk": 7,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.3432921,
+     "t1": 33493.3433817,
+     "elapsed_ms": 0.09,
+     "cycle": 3,
+     "chunk": 8,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.3498046,
+     "t1": 33493.3498974,
+     "elapsed_ms": 0.093,
+     "cycle": 3,
+     "chunk": 9,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.3563754,
+     "t1": 33493.3564344,
+     "elapsed_ms": 0.059,
+     "cycle": 3,
+     "chunk": 10,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.3628539,
+     "t1": 33493.3628903,
+     "elapsed_ms": 0.036,
+     "cycle": 3,
+     "chunk": 11,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.3693707,
+     "t1": 33493.3694133,
+     "elapsed_ms": 0.043,
+     "cycle": 3,
+     "chunk": 12,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.3758705,
+     "t1": 33493.375918,
+     "elapsed_ms": 0.047,
+     "cycle": 3,
+     "chunk": 13,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.3823382,
+     "t1": 33493.3823703,
+     "elapsed_ms": 0.032,
+     "cycle": 3,
+     "chunk": 14,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.3888305,
+     "t1": 33493.3888624,
+     "elapsed_ms": 0.032,
+     "cycle": 3,
+     "chunk": 15,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.395328,
+     "t1": 33493.3953618,
+     "elapsed_ms": 0.034,
+     "cycle": 3,
+     "chunk": 16,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.4018223,
+     "t1": 33493.4018684,
+     "elapsed_ms": 0.046,
+     "cycle": 3,
+     "chunk": 17,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.4082593,
+     "t1": 33493.4082989,
+     "elapsed_ms": 0.04,
+     "cycle": 3,
+     "chunk": 18,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.4148421,
+     "t1": 33493.4148722,
+     "elapsed_ms": 0.03,
+     "cycle": 3,
+     "chunk": 19,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.4213574,
+     "t1": 33493.4213885,
+     "elapsed_ms": 0.031,
+     "cycle": 3,
+     "chunk": 20,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.4278564,
+     "t1": 33493.4278869,
+     "elapsed_ms": 0.03,
+     "cycle": 3,
+     "chunk": 21,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.434368,
+     "t1": 33493.4343978,
+     "elapsed_ms": 0.03,
+     "cycle": 3,
+     "chunk": 22,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.4408558,
+     "t1": 33493.4408856,
+     "elapsed_ms": 0.03,
+     "cycle": 3,
+     "chunk": 23,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.4473526,
+     "t1": 33493.4473892,
+     "elapsed_ms": 0.037,
+     "cycle": 3,
+     "chunk": 24,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.4538347,
+     "t1": 33493.4539352,
+     "elapsed_ms": 0.101,
+     "cycle": 3,
+     "chunk": 25,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.4603342,
+     "t1": 33493.4603661,
+     "elapsed_ms": 0.032,
+     "cycle": 3,
+     "chunk": 26,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.4668577,
+     "t1": 33493.4668917,
+     "elapsed_ms": 0.034,
+     "cycle": 3,
+     "chunk": 27,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.4732351,
+     "t1": 33493.4732671,
+     "elapsed_ms": 0.032,
+     "cycle": 3,
+     "chunk": 28,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.4794049,
+     "t1": 33493.4794374,
+     "elapsed_ms": 0.033,
+     "cycle": 3,
+     "chunk": 29,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.4866417,
+     "t1": 33493.4866845,
+     "elapsed_ms": 0.043,
+     "cycle": 3,
+     "chunk": 30,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.4928285,
+     "t1": 33493.4928591,
+     "elapsed_ms": 0.031,
+     "cycle": 3,
+     "chunk": 31,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.4993231,
+     "t1": 33493.4993596,
+     "elapsed_ms": 0.037,
+     "cycle": 3,
+     "chunk": 32,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.5058463,
+     "t1": 33493.5058812,
+     "elapsed_ms": 0.035,
+     "cycle": 3,
+     "chunk": 33,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.5123383,
+     "t1": 33493.5123701,
+     "elapsed_ms": 0.032,
+     "cycle": 3,
+     "chunk": 34,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.5188237,
+     "t1": 33493.5188635,
+     "elapsed_ms": 0.04,
+     "cycle": 3,
+     "chunk": 35,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.5253447,
+     "t1": 33493.5253876,
+     "elapsed_ms": 0.043,
+     "cycle": 3,
+     "chunk": 36,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.5318444,
+     "t1": 33493.5318788,
+     "elapsed_ms": 0.034,
+     "cycle": 3,
+     "chunk": 37,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.5382461,
+     "t1": 33493.5382779,
+     "elapsed_ms": 0.032,
+     "cycle": 3,
+     "chunk": 38,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.5443482,
+     "t1": 33493.5443773,
+     "elapsed_ms": 0.029,
+     "cycle": 3,
+     "chunk": 39,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.5505002,
+     "t1": 33493.5505266,
+     "elapsed_ms": 0.026,
+     "cycle": 3,
+     "chunk": 40,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.5568273,
+     "t1": 33493.5569037,
+     "elapsed_ms": 0.076,
+     "cycle": 3,
+     "chunk": 41,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.5633444,
+     "t1": 33493.5633923,
+     "elapsed_ms": 0.048,
+     "cycle": 3,
+     "chunk": 42,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.5698718,
+     "t1": 33493.5699104,
+     "elapsed_ms": 0.039,
+     "cycle": 3,
+     "chunk": 43,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.5763482,
+     "t1": 33493.576381,
+     "elapsed_ms": 0.033,
+     "cycle": 3,
+     "chunk": 44,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.5828508,
+     "t1": 33493.5828848,
+     "elapsed_ms": 0.034,
+     "cycle": 3,
+     "chunk": 45,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.5893445,
+     "t1": 33493.5893779,
+     "elapsed_ms": 0.033,
+     "cycle": 3,
+     "chunk": 46,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.5958593,
+     "t1": 33493.5958905,
+     "elapsed_ms": 0.031,
+     "cycle": 3,
+     "chunk": 47,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.6021595,
+     "t1": 33493.6021881,
+     "elapsed_ms": 0.029,
+     "cycle": 3,
+     "chunk": 48,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.6083979,
+     "t1": 33493.6084573,
+     "elapsed_ms": 0.059,
+     "cycle": 3,
+     "chunk": 49,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.6148313,
+     "t1": 33493.6148603,
+     "elapsed_ms": 0.029,
+     "cycle": 3,
+     "chunk": 50,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.6213523,
+     "t1": 33493.6213818,
+     "elapsed_ms": 0.03,
+     "cycle": 3,
+     "chunk": 51,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.6278612,
+     "t1": 33493.6278881,
+     "elapsed_ms": 0.027,
+     "cycle": 3,
+     "chunk": 52,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.6343764,
+     "t1": 33493.6344124,
+     "elapsed_ms": 0.036,
+     "cycle": 3,
+     "chunk": 53,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.6408815,
+     "t1": 33493.6409097,
+     "elapsed_ms": 0.028,
+     "cycle": 3,
+     "chunk": 54,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.6473816,
+     "t1": 33493.6474088,
+     "elapsed_ms": 0.027,
+     "cycle": 3,
+     "chunk": 55,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.6538514,
+     "t1": 33493.653895,
+     "elapsed_ms": 0.044,
+     "cycle": 3,
+     "chunk": 56,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.660353,
+     "t1": 33493.6604264,
+     "elapsed_ms": 0.073,
+     "cycle": 3,
+     "chunk": 57,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.6668371,
+     "t1": 33493.6668665,
+     "elapsed_ms": 0.029,
+     "cycle": 3,
+     "chunk": 58,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.6732752,
+     "t1": 33493.6733067,
+     "elapsed_ms": 0.031,
+     "cycle": 3,
+     "chunk": 59,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.6793911,
+     "t1": 33493.6794263,
+     "elapsed_ms": 0.035,
+     "cycle": 3,
+     "chunk": 60,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.6858409,
+     "t1": 33493.6858819,
+     "elapsed_ms": 0.041,
+     "cycle": 3,
+     "chunk": 61,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.6923421,
+     "t1": 33493.6923714,
+     "elapsed_ms": 0.029,
+     "cycle": 3,
+     "chunk": 62,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.6988157,
+     "t1": 33493.6988517,
+     "elapsed_ms": 0.036,
+     "cycle": 3,
+     "chunk": 63,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.7053347,
+     "t1": 33493.7053729,
+     "elapsed_ms": 0.038,
+     "cycle": 3,
+     "chunk": 64,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.711944,
+     "t1": 33493.7119785,
+     "elapsed_ms": 0.035,
+     "cycle": 3,
+     "chunk": 65,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.7182413,
+     "t1": 33493.7182737,
+     "elapsed_ms": 0.032,
+     "cycle": 3,
+     "chunk": 66,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.7248223,
+     "t1": 33493.7248628,
+     "elapsed_ms": 0.041,
+     "cycle": 3,
+     "chunk": 67,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.7313256,
+     "t1": 33493.7313563,
+     "elapsed_ms": 0.031,
+     "cycle": 3,
+     "chunk": 68,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.7378476,
+     "t1": 33493.7378795,
+     "elapsed_ms": 0.032,
+     "cycle": 3,
+     "chunk": 69,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.7443042,
+     "t1": 33493.7443524,
+     "elapsed_ms": 0.048,
+     "cycle": 3,
+     "chunk": 70,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.750845,
+     "t1": 33493.7508798,
+     "elapsed_ms": 0.035,
+     "cycle": 3,
+     "chunk": 71,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.7573612,
+     "t1": 33493.7573916,
+     "elapsed_ms": 0.03,
+     "cycle": 3,
+     "chunk": 72,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.7638372,
+     "t1": 33493.7639108,
+     "elapsed_ms": 0.074,
+     "cycle": 3,
+     "chunk": 73,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.7703694,
+     "t1": 33493.7703996,
+     "elapsed_ms": 0.03,
+     "cycle": 3,
+     "chunk": 74,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.7768423,
+     "t1": 33493.776873,
+     "elapsed_ms": 0.031,
+     "cycle": 3,
+     "chunk": 75,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.7832479,
+     "t1": 33493.7832833,
+     "elapsed_ms": 0.035,
+     "cycle": 3,
+     "chunk": 76,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.789822,
+     "t1": 33493.7898621,
+     "elapsed_ms": 0.04,
+     "cycle": 3,
+     "chunk": 77,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.7963457,
+     "t1": 33493.7963765,
+     "elapsed_ms": 0.031,
+     "cycle": 3,
+     "chunk": 78,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.8028134,
+     "t1": 33493.8028442,
+     "elapsed_ms": 0.031,
+     "cycle": 3,
+     "chunk": 79,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33493.8093308,
+     "t1": 33493.8093562,
+     "elapsed_ms": 0.025,
+     "cycle": 3,
+     "chunk": 80,
+     "bytes": 47044
+    },
+    {
+     "op": "flush",
+     "t0": 33493.8158471,
+     "t1": 33493.8158482,
+     "elapsed_ms": 0.001,
+     "cycle": 3
+    },
+    {
+     "op": "fsync",
+     "t0": 33493.8158584,
+     "t1": 33493.8288251,
+     "elapsed_ms": 12.967,
+     "cycle": 3
+    },
+    {
+     "op": "MoveFileExW",
+     "t0": 33493.8593448,
+     "t1": 33493.860262,
+     "elapsed_ms": 0.917,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_locate\\vk_off\\target.kvmem.tmp-13184-3",
+     "dst": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_locate\\vk_off\\target.kvmem"
+    },
+    {
+     "op": "durable_replace",
+     "t0": 33493.8593412,
+     "t1": 33493.8602838,
+     "elapsed_ms": 0.943,
+     "cycle": 3,
+     "mode": "write_through"
+    },
+    {
+     "op": "write",
+     "t0": 33494.3221243,
+     "t1": 33494.3222185,
+     "elapsed_ms": 0.094,
+     "cycle": 4,
+     "chunk": 1,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.3288285,
+     "t1": 33494.3289188,
+     "elapsed_ms": 0.09,
+     "cycle": 4,
+     "chunk": 2,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.3353473,
+     "t1": 33494.3353783,
+     "elapsed_ms": 0.031,
+     "cycle": 4,
+     "chunk": 3,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.3414726,
+     "t1": 33494.3415512,
+     "elapsed_ms": 0.079,
+     "cycle": 4,
+     "chunk": 4,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.3478423,
+     "t1": 33494.3478753,
+     "elapsed_ms": 0.033,
+     "cycle": 4,
+     "chunk": 5,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.3542994,
+     "t1": 33494.3543327,
+     "elapsed_ms": 0.033,
+     "cycle": 4,
+     "chunk": 6,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.3608102,
+     "t1": 33494.360841,
+     "elapsed_ms": 0.031,
+     "cycle": 4,
+     "chunk": 7,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.367308,
+     "t1": 33494.3673804,
+     "elapsed_ms": 0.072,
+     "cycle": 4,
+     "chunk": 8,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.3737943,
+     "t1": 33494.3738315,
+     "elapsed_ms": 0.037,
+     "cycle": 4,
+     "chunk": 9,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.3803477,
+     "t1": 33494.380427,
+     "elapsed_ms": 0.079,
+     "cycle": 4,
+     "chunk": 10,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.3868253,
+     "t1": 33494.3868551,
+     "elapsed_ms": 0.03,
+     "cycle": 4,
+     "chunk": 11,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.3932373,
+     "t1": 33494.3932721,
+     "elapsed_ms": 0.035,
+     "cycle": 4,
+     "chunk": 12,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.3993297,
+     "t1": 33494.3993675,
+     "elapsed_ms": 0.038,
+     "cycle": 4,
+     "chunk": 13,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.4058036,
+     "t1": 33494.405835,
+     "elapsed_ms": 0.031,
+     "cycle": 4,
+     "chunk": 14,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.412332,
+     "t1": 33494.4123644,
+     "elapsed_ms": 0.032,
+     "cycle": 4,
+     "chunk": 15,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.4189226,
+     "t1": 33494.4190744,
+     "elapsed_ms": 0.152,
+     "cycle": 4,
+     "chunk": 16,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.4253128,
+     "t1": 33494.4253595,
+     "elapsed_ms": 0.047,
+     "cycle": 4,
+     "chunk": 17,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.4317977,
+     "t1": 33494.4318265,
+     "elapsed_ms": 0.029,
+     "cycle": 4,
+     "chunk": 18,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.4382558,
+     "t1": 33494.4382899,
+     "elapsed_ms": 0.034,
+     "cycle": 4,
+     "chunk": 19,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.4448052,
+     "t1": 33494.4448796,
+     "elapsed_ms": 0.074,
+     "cycle": 4,
+     "chunk": 20,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.4512979,
+     "t1": 33494.4513304,
+     "elapsed_ms": 0.033,
+     "cycle": 4,
+     "chunk": 21,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.4578444,
+     "t1": 33494.4579207,
+     "elapsed_ms": 0.076,
+     "cycle": 4,
+     "chunk": 22,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.4642883,
+     "t1": 33494.4643265,
+     "elapsed_ms": 0.038,
+     "cycle": 4,
+     "chunk": 23,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.4708057,
+     "t1": 33494.4708371,
+     "elapsed_ms": 0.031,
+     "cycle": 4,
+     "chunk": 24,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.4773157,
+     "t1": 33494.4773463,
+     "elapsed_ms": 0.031,
+     "cycle": 4,
+     "chunk": 25,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.4838143,
+     "t1": 33494.4838481,
+     "elapsed_ms": 0.034,
+     "cycle": 4,
+     "chunk": 26,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.490343,
+     "t1": 33494.4903731,
+     "elapsed_ms": 0.03,
+     "cycle": 4,
+     "chunk": 27,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.4968148,
+     "t1": 33494.4968428,
+     "elapsed_ms": 0.028,
+     "cycle": 4,
+     "chunk": 28,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.5029629,
+     "t1": 33494.5029972,
+     "elapsed_ms": 0.034,
+     "cycle": 4,
+     "chunk": 29,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.5091648,
+     "t1": 33494.5091923,
+     "elapsed_ms": 0.027,
+     "cycle": 4,
+     "chunk": 30,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.5153037,
+     "t1": 33494.5153342,
+     "elapsed_ms": 0.03,
+     "cycle": 4,
+     "chunk": 31,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.5218118,
+     "t1": 33494.5218427,
+     "elapsed_ms": 0.031,
+     "cycle": 4,
+     "chunk": 32,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.5282268,
+     "t1": 33494.5282653,
+     "elapsed_ms": 0.039,
+     "cycle": 4,
+     "chunk": 33,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.5347953,
+     "t1": 33494.5348345,
+     "elapsed_ms": 0.039,
+     "cycle": 4,
+     "chunk": 34,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.5413401,
+     "t1": 33494.541394,
+     "elapsed_ms": 0.054,
+     "cycle": 4,
+     "chunk": 35,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.5474699,
+     "t1": 33494.5474995,
+     "elapsed_ms": 0.03,
+     "cycle": 4,
+     "chunk": 36,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.5538081,
+     "t1": 33494.5538454,
+     "elapsed_ms": 0.037,
+     "cycle": 4,
+     "chunk": 37,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.5603278,
+     "t1": 33494.5604033,
+     "elapsed_ms": 0.076,
+     "cycle": 4,
+     "chunk": 38,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.5668151,
+     "t1": 33494.5668472,
+     "elapsed_ms": 0.032,
+     "cycle": 4,
+     "chunk": 39,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.5732575,
+     "t1": 33494.5732953,
+     "elapsed_ms": 0.038,
+     "cycle": 4,
+     "chunk": 40,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.5797996,
+     "t1": 33494.5798332,
+     "elapsed_ms": 0.034,
+     "cycle": 4,
+     "chunk": 41,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.5859348,
+     "t1": 33494.5859776,
+     "elapsed_ms": 0.043,
+     "cycle": 4,
+     "chunk": 42,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.5923349,
+     "t1": 33494.5923693,
+     "elapsed_ms": 0.034,
+     "cycle": 4,
+     "chunk": 43,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.5987958,
+     "t1": 33494.5988317,
+     "elapsed_ms": 0.036,
+     "cycle": 4,
+     "chunk": 44,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.6053062,
+     "t1": 33494.6053385,
+     "elapsed_ms": 0.032,
+     "cycle": 4,
+     "chunk": 45,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.6118014,
+     "t1": 33494.6118307,
+     "elapsed_ms": 0.029,
+     "cycle": 4,
+     "chunk": 46,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.6182329,
+     "t1": 33494.6182698,
+     "elapsed_ms": 0.037,
+     "cycle": 4,
+     "chunk": 47,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.6243737,
+     "t1": 33494.6244161,
+     "elapsed_ms": 0.042,
+     "cycle": 4,
+     "chunk": 48,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.630817,
+     "t1": 33494.6308696,
+     "elapsed_ms": 0.053,
+     "cycle": 4,
+     "chunk": 49,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.6373183,
+     "t1": 33494.6373473,
+     "elapsed_ms": 0.029,
+     "cycle": 4,
+     "chunk": 50,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.6438062,
+     "t1": 33494.6438411,
+     "elapsed_ms": 0.035,
+     "cycle": 4,
+     "chunk": 51,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.6503206,
+     "t1": 33494.6503531,
+     "elapsed_ms": 0.033,
+     "cycle": 4,
+     "chunk": 52,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.6567989,
+     "t1": 33494.6568327,
+     "elapsed_ms": 0.034,
+     "cycle": 4,
+     "chunk": 53,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.6632471,
+     "t1": 33494.663332,
+     "elapsed_ms": 0.085,
+     "cycle": 4,
+     "chunk": 54,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.669828,
+     "t1": 33494.6698565,
+     "elapsed_ms": 0.028,
+     "cycle": 4,
+     "chunk": 55,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.6763658,
+     "t1": 33494.6763982,
+     "elapsed_ms": 0.032,
+     "cycle": 4,
+     "chunk": 56,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.6828043,
+     "t1": 33494.682832,
+     "elapsed_ms": 0.028,
+     "cycle": 4,
+     "chunk": 57,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.6893028,
+     "t1": 33494.6893345,
+     "elapsed_ms": 0.032,
+     "cycle": 4,
+     "chunk": 58,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.6957932,
+     "t1": 33494.695822,
+     "elapsed_ms": 0.029,
+     "cycle": 4,
+     "chunk": 59,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.702287,
+     "t1": 33494.7023143,
+     "elapsed_ms": 0.027,
+     "cycle": 4,
+     "chunk": 60,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.7087955,
+     "t1": 33494.7088285,
+     "elapsed_ms": 0.033,
+     "cycle": 4,
+     "chunk": 61,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.7152925,
+     "t1": 33494.7153195,
+     "elapsed_ms": 0.027,
+     "cycle": 4,
+     "chunk": 62,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.7213799,
+     "t1": 33494.7214268,
+     "elapsed_ms": 0.047,
+     "cycle": 4,
+     "chunk": 63,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.7278877,
+     "t1": 33494.7279201,
+     "elapsed_ms": 0.032,
+     "cycle": 4,
+     "chunk": 64,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.7343548,
+     "t1": 33494.7343983,
+     "elapsed_ms": 0.044,
+     "cycle": 4,
+     "chunk": 65,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.7408968,
+     "t1": 33494.7409358,
+     "elapsed_ms": 0.039,
+     "cycle": 4,
+     "chunk": 66,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.7474726,
+     "t1": 33494.7475158,
+     "elapsed_ms": 0.043,
+     "cycle": 4,
+     "chunk": 67,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.7538821,
+     "t1": 33494.7539259,
+     "elapsed_ms": 0.044,
+     "cycle": 4,
+     "chunk": 68,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.7604316,
+     "t1": 33494.7604729,
+     "elapsed_ms": 0.041,
+     "cycle": 4,
+     "chunk": 69,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.7668635,
+     "t1": 33494.7669324,
+     "elapsed_ms": 0.069,
+     "cycle": 4,
+     "chunk": 70,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.7733102,
+     "t1": 33494.7733542,
+     "elapsed_ms": 0.044,
+     "cycle": 4,
+     "chunk": 71,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.7798555,
+     "t1": 33494.7798885,
+     "elapsed_ms": 0.033,
+     "cycle": 4,
+     "chunk": 72,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.7863842,
+     "t1": 33494.7864206,
+     "elapsed_ms": 0.036,
+     "cycle": 4,
+     "chunk": 73,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.7928654,
+     "t1": 33494.7929349,
+     "elapsed_ms": 0.069,
+     "cycle": 4,
+     "chunk": 74,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.7993855,
+     "t1": 33494.7994229,
+     "elapsed_ms": 0.037,
+     "cycle": 4,
+     "chunk": 75,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.8058456,
+     "t1": 33494.8058783,
+     "elapsed_ms": 0.033,
+     "cycle": 4,
+     "chunk": 76,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.8123384,
+     "t1": 33494.8124189,
+     "elapsed_ms": 0.081,
+     "cycle": 4,
+     "chunk": 77,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.8188508,
+     "t1": 33494.8188847,
+     "elapsed_ms": 0.034,
+     "cycle": 4,
+     "chunk": 78,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.8253411,
+     "t1": 33494.8253727,
+     "elapsed_ms": 0.032,
+     "cycle": 4,
+     "chunk": 79,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33494.8316078,
+     "t1": 33494.8316331,
+     "elapsed_ms": 0.025,
+     "cycle": 4,
+     "chunk": 80,
+     "bytes": 47044
+    },
+    {
+     "op": "flush",
+     "t0": 33494.8378923,
+     "t1": 33494.8378935,
+     "elapsed_ms": 0.001,
+     "cycle": 4
+    },
+    {
+     "op": "fsync",
+     "t0": 33494.8379025,
+     "t1": 33494.8510159,
+     "elapsed_ms": 13.113,
+     "cycle": 4
+    },
+    {
+     "op": "MoveFileExW",
+     "t0": 33494.8814599,
+     "t1": 33494.8824317,
+     "elapsed_ms": 0.972,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_locate\\vk_off\\target.kvmem.tmp-13184-4",
+     "dst": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_locate\\vk_off\\target.kvmem"
+    },
+    {
+     "op": "durable_replace",
+     "t0": 33494.8814557,
+     "t1": 33494.8824482,
+     "elapsed_ms": 0.992,
+     "cycle": 4,
+     "mode": "write_through"
+    },
+    {
+     "op": "write",
+     "t0": 33495.343619,
+     "t1": 33495.3437514,
+     "elapsed_ms": 0.132,
+     "cycle": 5,
+     "chunk": 1,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.3503772,
+     "t1": 33495.3504878,
+     "elapsed_ms": 0.111,
+     "cycle": 5,
+     "chunk": 2,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.3569571,
+     "t1": 33495.357,
+     "elapsed_ms": 0.043,
+     "cycle": 5,
+     "chunk": 3,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.3632877,
+     "t1": 33495.3633931,
+     "elapsed_ms": 0.105,
+     "cycle": 5,
+     "chunk": 4,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.3698716,
+     "t1": 33495.3699106,
+     "elapsed_ms": 0.039,
+     "cycle": 5,
+     "chunk": 5,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.3763853,
+     "t1": 33495.3764314,
+     "elapsed_ms": 0.046,
+     "cycle": 5,
+     "chunk": 6,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.3828865,
+     "t1": 33495.3829275,
+     "elapsed_ms": 0.041,
+     "cycle": 5,
+     "chunk": 7,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.3892756,
+     "t1": 33495.3893825,
+     "elapsed_ms": 0.107,
+     "cycle": 5,
+     "chunk": 8,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.3959589,
+     "t1": 33495.3959938,
+     "elapsed_ms": 0.035,
+     "cycle": 5,
+     "chunk": 9,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.4023918,
+     "t1": 33495.4024245,
+     "elapsed_ms": 0.033,
+     "cycle": 5,
+     "chunk": 10,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.4089138,
+     "t1": 33495.4089971,
+     "elapsed_ms": 0.083,
+     "cycle": 5,
+     "chunk": 11,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.415452,
+     "t1": 33495.4154974,
+     "elapsed_ms": 0.045,
+     "cycle": 5,
+     "chunk": 12,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.4219634,
+     "t1": 33495.4220006,
+     "elapsed_ms": 0.037,
+     "cycle": 5,
+     "chunk": 13,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.4282646,
+     "t1": 33495.4283033,
+     "elapsed_ms": 0.039,
+     "cycle": 5,
+     "chunk": 14,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.4343713,
+     "t1": 33495.43441,
+     "elapsed_ms": 0.039,
+     "cycle": 5,
+     "chunk": 15,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.4408483,
+     "t1": 33495.4409527,
+     "elapsed_ms": 0.104,
+     "cycle": 5,
+     "chunk": 16,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.4473466,
+     "t1": 33495.447397,
+     "elapsed_ms": 0.05,
+     "cycle": 5,
+     "chunk": 17,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.4538631,
+     "t1": 33495.4539017,
+     "elapsed_ms": 0.039,
+     "cycle": 5,
+     "chunk": 18,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.4604024,
+     "t1": 33495.460441,
+     "elapsed_ms": 0.039,
+     "cycle": 5,
+     "chunk": 19,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.4668485,
+     "t1": 33495.4669477,
+     "elapsed_ms": 0.099,
+     "cycle": 5,
+     "chunk": 20,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.4732062,
+     "t1": 33495.4732511,
+     "elapsed_ms": 0.045,
+     "cycle": 5,
+     "chunk": 21,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.4796297,
+     "t1": 33495.4797102,
+     "elapsed_ms": 0.081,
+     "cycle": 5,
+     "chunk": 22,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.4858317,
+     "t1": 33495.4858677,
+     "elapsed_ms": 0.036,
+     "cycle": 5,
+     "chunk": 23,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.4923306,
+     "t1": 33495.4923613,
+     "elapsed_ms": 0.031,
+     "cycle": 5,
+     "chunk": 24,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.498819,
+     "t1": 33495.4988555,
+     "elapsed_ms": 0.037,
+     "cycle": 5,
+     "chunk": 25,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.5053308,
+     "t1": 33495.50536,
+     "elapsed_ms": 0.029,
+     "cycle": 5,
+     "chunk": 26,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.5118365,
+     "t1": 33495.5118658,
+     "elapsed_ms": 0.029,
+     "cycle": 5,
+     "chunk": 27,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.5182297,
+     "t1": 33495.5182586,
+     "elapsed_ms": 0.029,
+     "cycle": 5,
+     "chunk": 28,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.524328,
+     "t1": 33495.5243702,
+     "elapsed_ms": 0.042,
+     "cycle": 5,
+     "chunk": 29,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.5308091,
+     "t1": 33495.5308405,
+     "elapsed_ms": 0.031,
+     "cycle": 5,
+     "chunk": 30,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.5373186,
+     "t1": 33495.5373484,
+     "elapsed_ms": 0.03,
+     "cycle": 5,
+     "chunk": 31,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.5438268,
+     "t1": 33495.543862,
+     "elapsed_ms": 0.035,
+     "cycle": 5,
+     "chunk": 32,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.5503131,
+     "t1": 33495.5503531,
+     "elapsed_ms": 0.04,
+     "cycle": 5,
+     "chunk": 33,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.5568001,
+     "t1": 33495.5568289,
+     "elapsed_ms": 0.029,
+     "cycle": 5,
+     "chunk": 34,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.5632554,
+     "t1": 33495.5632912,
+     "elapsed_ms": 0.036,
+     "cycle": 5,
+     "chunk": 35,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.56935,
+     "t1": 33495.5693877,
+     "elapsed_ms": 0.038,
+     "cycle": 5,
+     "chunk": 36,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.5758254,
+     "t1": 33495.5758631,
+     "elapsed_ms": 0.038,
+     "cycle": 5,
+     "chunk": 37,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.5823295,
+     "t1": 33495.5823976,
+     "elapsed_ms": 0.068,
+     "cycle": 5,
+     "chunk": 38,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.5888316,
+     "t1": 33495.5888679,
+     "elapsed_ms": 0.036,
+     "cycle": 5,
+     "chunk": 39,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.5953069,
+     "t1": 33495.5953368,
+     "elapsed_ms": 0.03,
+     "cycle": 5,
+     "chunk": 40,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.6017941,
+     "t1": 33495.6018237,
+     "elapsed_ms": 0.03,
+     "cycle": 5,
+     "chunk": 41,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.6082435,
+     "t1": 33495.6082768,
+     "elapsed_ms": 0.033,
+     "cycle": 5,
+     "chunk": 42,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.6148198,
+     "t1": 33495.6148529,
+     "elapsed_ms": 0.033,
+     "cycle": 5,
+     "chunk": 43,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.6212597,
+     "t1": 33495.6212946,
+     "elapsed_ms": 0.035,
+     "cycle": 5,
+     "chunk": 44,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.6277869,
+     "t1": 33495.6278201,
+     "elapsed_ms": 0.033,
+     "cycle": 5,
+     "chunk": 45,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.6343317,
+     "t1": 33495.6343681,
+     "elapsed_ms": 0.036,
+     "cycle": 5,
+     "chunk": 46,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.6408107,
+     "t1": 33495.6408418,
+     "elapsed_ms": 0.031,
+     "cycle": 5,
+     "chunk": 47,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.6469106,
+     "t1": 33495.6469404,
+     "elapsed_ms": 0.03,
+     "cycle": 5,
+     "chunk": 48,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.653229,
+     "t1": 33495.6532788,
+     "elapsed_ms": 0.05,
+     "cycle": 5,
+     "chunk": 49,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.6598113,
+     "t1": 33495.6598499,
+     "elapsed_ms": 0.039,
+     "cycle": 5,
+     "chunk": 50,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.666288,
+     "t1": 33495.6663197,
+     "elapsed_ms": 0.032,
+     "cycle": 5,
+     "chunk": 51,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.6853355,
+     "t1": 33495.6853979,
+     "elapsed_ms": 0.062,
+     "cycle": 5,
+     "chunk": 52,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.6916964,
+     "t1": 33495.6917405,
+     "elapsed_ms": 0.044,
+     "cycle": 5,
+     "chunk": 53,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.6978607,
+     "t1": 33495.69795,
+     "elapsed_ms": 0.089,
+     "cycle": 5,
+     "chunk": 54,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.7044398,
+     "t1": 33495.7044863,
+     "elapsed_ms": 0.046,
+     "cycle": 5,
+     "chunk": 55,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.7107188,
+     "t1": 33495.7107683,
+     "elapsed_ms": 0.049,
+     "cycle": 5,
+     "chunk": 56,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.7171561,
+     "t1": 33495.7172011,
+     "elapsed_ms": 0.045,
+     "cycle": 5,
+     "chunk": 57,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.7233287,
+     "t1": 33495.7234197,
+     "elapsed_ms": 0.091,
+     "cycle": 5,
+     "chunk": 58,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.7299824,
+     "t1": 33495.7300298,
+     "elapsed_ms": 0.047,
+     "cycle": 5,
+     "chunk": 59,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.7362291,
+     "t1": 33495.7362837,
+     "elapsed_ms": 0.055,
+     "cycle": 5,
+     "chunk": 60,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.74254,
+     "t1": 33495.7425877,
+     "elapsed_ms": 0.048,
+     "cycle": 5,
+     "chunk": 61,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.7488594,
+     "t1": 33495.7488928,
+     "elapsed_ms": 0.033,
+     "cycle": 5,
+     "chunk": 62,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.7553742,
+     "t1": 33495.7554115,
+     "elapsed_ms": 0.037,
+     "cycle": 5,
+     "chunk": 63,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.7615184,
+     "t1": 33495.7615492,
+     "elapsed_ms": 0.031,
+     "cycle": 5,
+     "chunk": 64,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.7677298,
+     "t1": 33495.767767,
+     "elapsed_ms": 0.037,
+     "cycle": 5,
+     "chunk": 65,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.7743291,
+     "t1": 33495.7743658,
+     "elapsed_ms": 0.037,
+     "cycle": 5,
+     "chunk": 66,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.780809,
+     "t1": 33495.7808415,
+     "elapsed_ms": 0.033,
+     "cycle": 5,
+     "chunk": 67,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.7872966,
+     "t1": 33495.7873257,
+     "elapsed_ms": 0.029,
+     "cycle": 5,
+     "chunk": 68,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.7938121,
+     "t1": 33495.7938521,
+     "elapsed_ms": 0.04,
+     "cycle": 5,
+     "chunk": 69,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.8002988,
+     "t1": 33495.8003766,
+     "elapsed_ms": 0.078,
+     "cycle": 5,
+     "chunk": 70,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.8068036,
+     "t1": 33495.8068353,
+     "elapsed_ms": 0.032,
+     "cycle": 5,
+     "chunk": 71,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.8132371,
+     "t1": 33495.8132665,
+     "elapsed_ms": 0.029,
+     "cycle": 5,
+     "chunk": 72,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.8198465,
+     "t1": 33495.8198783,
+     "elapsed_ms": 0.032,
+     "cycle": 5,
+     "chunk": 73,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.8263008,
+     "t1": 33495.8263272,
+     "elapsed_ms": 0.026,
+     "cycle": 5,
+     "chunk": 74,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.8327861,
+     "t1": 33495.8328141,
+     "elapsed_ms": 0.028,
+     "cycle": 5,
+     "chunk": 75,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.8392725,
+     "t1": 33495.8393028,
+     "elapsed_ms": 0.03,
+     "cycle": 5,
+     "chunk": 76,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.8457671,
+     "t1": 33495.8457958,
+     "elapsed_ms": 0.029,
+     "cycle": 5,
+     "chunk": 77,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.8522972,
+     "t1": 33495.8523226,
+     "elapsed_ms": 0.025,
+     "cycle": 5,
+     "chunk": 78,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.8587671,
+     "t1": 33495.8587919,
+     "elapsed_ms": 0.025,
+     "cycle": 5,
+     "chunk": 79,
+     "bytes": 65536
+    },
+    {
+     "op": "write",
+     "t0": 33495.8652664,
+     "t1": 33495.8652911,
+     "elapsed_ms": 0.025,
+     "cycle": 5,
+     "chunk": 80,
+     "bytes": 47044
+    },
+    {
+     "op": "flush",
+     "t0": 33495.8717563,
+     "t1": 33495.8717573,
+     "elapsed_ms": 0.001,
+     "cycle": 5
+    },
+    {
+     "op": "fsync",
+     "t0": 33495.8717637,
+     "t1": 33495.8834793,
+     "elapsed_ms": 11.716,
+     "cycle": 5
+    },
+    {
+     "op": "MoveFileExW",
+     "t0": 33495.9142746,
+     "t1": 33495.9151275,
+     "elapsed_ms": 0.853,
+     "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_locate\\vk_off\\target.kvmem.tmp-13184-5",
+     "dst": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_stall_locate\\vk_off\\target.kvmem"
+    },
+    {
+     "op": "durable_replace",
+     "t0": 33495.9142717,
+     "t1": 33495.9151416,
+     "elapsed_ms": 0.87,
+     "cycle": 5,
+     "mode": "write_through"
+    }
+   ],
+   "phase_history": [
+    {
+     "t": 33491.1568868,
+     "phase": "start",
+     "detail": {
+      "vk": "off",
+      "cycles": 5
+     }
+    },
+    {
+     "t": 33491.1620928,
+     "phase": "holding",
+     "detail": {
+      "device_destroyed": true,
+      "instance_destroyed": true,
+      "vulkan_skipped": true
+     }
+    },
+    {
+     "t": 33491.1712413,
+     "phase": "save_pre_tmp",
+     "detail": {
+      "cycle": 1
+     }
+    },
+    {
+     "t": 33491.2009947,
+     "phase": "save_pre_tmp",
+     "detail": {
+      "cycle": 1
+     }
+    },
+    {
+     "t": 33491.2516303,
+     "phase": "save_write(chunk_1)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 1
+     }
+    },
+    {
+     "t": 33491.2578977,
+     "phase": "save_write(chunk_2)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 2
+     }
+    },
+    {
+     "t": 33491.264268,
+     "phase": "save_write(chunk_3)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 3
+     }
+    },
+    {
+     "t": 33491.2708347,
+     "phase": "save_write(chunk_4)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 4
+     }
+    },
+    {
+     "t": 33491.2770599,
+     "phase": "save_write(chunk_5)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 5
+     }
+    },
+    {
+     "t": 33491.2832611,
+     "phase": "save_write(chunk_6)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 6
+     }
+    },
+    {
+     "t": 33491.289372,
+     "phase": "save_write(chunk_7)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 7
+     }
+    },
+    {
+     "t": 33491.2958733,
+     "phase": "save_write(chunk_8)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 8
+     }
+    },
+    {
+     "t": 33491.3022239,
+     "phase": "save_write(chunk_9)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 9
+     }
+    },
+    {
+     "t": 33491.3083334,
+     "phase": "save_write(chunk_10)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 10
+     }
+    },
+    {
+     "t": 33491.3146264,
+     "phase": "save_write(chunk_11)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 11
+     }
+    },
+    {
+     "t": 33491.3208116,
+     "phase": "save_write(chunk_12)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 12
+     }
+    },
+    {
+     "t": 33491.3273191,
+     "phase": "save_write(chunk_13)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 13
+     }
+    },
+    {
+     "t": 33491.333839,
+     "phase": "save_write(chunk_14)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 14
+     }
+    },
+    {
+     "t": 33491.3403049,
+     "phase": "save_write(chunk_15)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 15
+     }
+    },
+    {
+     "t": 33491.3468069,
+     "phase": "save_write(chunk_16)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 16
+     }
+    },
+    {
+     "t": 33491.3532484,
+     "phase": "save_write(chunk_17)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 17
+     }
+    },
+    {
+     "t": 33491.3598274,
+     "phase": "save_write(chunk_18)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 18
+     }
+    },
+    {
+     "t": 33491.3663604,
+     "phase": "save_write(chunk_19)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 19
+     }
+    },
+    {
+     "t": 33491.3728063,
+     "phase": "save_write(chunk_20)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 20
+     }
+    },
+    {
+     "t": 33491.3793009,
+     "phase": "save_write(chunk_21)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 21
+     }
+    },
+    {
+     "t": 33491.3858055,
+     "phase": "save_write(chunk_22)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 22
+     }
+    },
+    {
+     "t": 33491.3923125,
+     "phase": "save_write(chunk_23)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 23
+     }
+    },
+    {
+     "t": 33491.3988138,
+     "phase": "save_write(chunk_24)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 24
+     }
+    },
+    {
+     "t": 33491.4051458,
+     "phase": "save_write(chunk_25)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 25
+     }
+    },
+    {
+     "t": 33491.4117193,
+     "phase": "save_write(chunk_26)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 26
+     }
+    },
+    {
+     "t": 33491.4178247,
+     "phase": "save_write(chunk_27)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 27
+     }
+    },
+    {
+     "t": 33491.4242434,
+     "phase": "save_write(chunk_28)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 28
+     }
+    },
+    {
+     "t": 33491.430811,
+     "phase": "save_write(chunk_29)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 29
+     }
+    },
+    {
+     "t": 33491.4373105,
+     "phase": "save_write(chunk_30)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 30
+     }
+    },
+    {
+     "t": 33491.4438058,
+     "phase": "save_write(chunk_31)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 31
+     }
+    },
+    {
+     "t": 33491.4503083,
+     "phase": "save_write(chunk_32)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 32
+     }
+    },
+    {
+     "t": 33491.4568193,
+     "phase": "save_write(chunk_33)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 33
+     }
+    },
+    {
+     "t": 33491.4632376,
+     "phase": "save_write(chunk_34)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 34
+     }
+    },
+    {
+     "t": 33491.4695503,
+     "phase": "save_write(chunk_35)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 35
+     }
+    },
+    {
+     "t": 33491.4760849,
+     "phase": "save_write(chunk_36)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 36
+     }
+    },
+    {
+     "t": 33491.4823877,
+     "phase": "save_write(chunk_37)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 37
+     }
+    },
+    {
+     "t": 33491.4888594,
+     "phase": "save_write(chunk_38)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 38
+     }
+    },
+    {
+     "t": 33491.4953432,
+     "phase": "save_write(chunk_39)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 39
+     }
+    },
+    {
+     "t": 33491.5018992,
+     "phase": "save_write(chunk_40)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 40
+     }
+    },
+    {
+     "t": 33491.5082638,
+     "phase": "save_write(chunk_41)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 41
+     }
+    },
+    {
+     "t": 33491.5148431,
+     "phase": "save_write(chunk_42)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 42
+     }
+    },
+    {
+     "t": 33491.5213508,
+     "phase": "save_write(chunk_43)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 43
+     }
+    },
+    {
+     "t": 33491.5278673,
+     "phase": "save_write(chunk_44)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 44
+     }
+    },
+    {
+     "t": 33491.5343727,
+     "phase": "save_write(chunk_45)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 45
+     }
+    },
+    {
+     "t": 33491.5408501,
+     "phase": "save_write(chunk_46)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 46
+     }
+    },
+    {
+     "t": 33491.5474151,
+     "phase": "save_write(chunk_47)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 47
+     }
+    },
+    {
+     "t": 33491.5538703,
+     "phase": "save_write(chunk_48)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 48
+     }
+    },
+    {
+     "t": 33491.5604195,
+     "phase": "save_write(chunk_49)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 49
+     }
+    },
+    {
+     "t": 33491.566853,
+     "phase": "save_write(chunk_50)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 50
+     }
+    },
+    {
+     "t": 33491.573255,
+     "phase": "save_write(chunk_51)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 51
+     }
+    },
+    {
+     "t": 33491.5793516,
+     "phase": "save_write(chunk_52)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 52
+     }
+    },
+    {
+     "t": 33491.5858293,
+     "phase": "save_write(chunk_53)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 53
+     }
+    },
+    {
+     "t": 33491.5923588,
+     "phase": "save_write(chunk_54)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 54
+     }
+    },
+    {
+     "t": 33491.5988282,
+     "phase": "save_write(chunk_55)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 55
+     }
+    },
+    {
+     "t": 33491.605334,
+     "phase": "save_write(chunk_56)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 56
+     }
+    },
+    {
+     "t": 33491.6118464,
+     "phase": "save_write(chunk_57)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 57
+     }
+    },
+    {
+     "t": 33491.6182548,
+     "phase": "save_write(chunk_58)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 58
+     }
+    },
+    {
+     "t": 33491.6243493,
+     "phase": "save_write(chunk_59)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 59
+     }
+    },
+    {
+     "t": 33491.6304824,
+     "phase": "save_write(chunk_60)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 60
+     }
+    },
+    {
+     "t": 33491.6368638,
+     "phase": "save_write(chunk_61)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 61
+     }
+    },
+    {
+     "t": 33491.6432521,
+     "phase": "save_write(chunk_62)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 62
+     }
+    },
+    {
+     "t": 33491.6498238,
+     "phase": "save_write(chunk_63)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 63
+     }
+    },
+    {
+     "t": 33491.6563368,
+     "phase": "save_write(chunk_64)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 64
+     }
+    },
+    {
+     "t": 33491.6628495,
+     "phase": "save_write(chunk_65)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 65
+     }
+    },
+    {
+     "t": 33491.6693484,
+     "phase": "save_write(chunk_66)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 66
+     }
+    },
+    {
+     "t": 33491.6758377,
+     "phase": "save_write(chunk_67)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 67
+     }
+    },
+    {
+     "t": 33491.6823405,
+     "phase": "save_write(chunk_68)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 68
+     }
+    },
+    {
+     "t": 33491.688867,
+     "phase": "save_write(chunk_69)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 69
+     }
+    },
+    {
+     "t": 33491.6953594,
+     "phase": "save_write(chunk_70)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 70
+     }
+    },
+    {
+     "t": 33491.7018268,
+     "phase": "save_write(chunk_71)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 71
+     }
+    },
+    {
+     "t": 33491.7079281,
+     "phase": "save_write(chunk_72)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 72
+     }
+    },
+    {
+     "t": 33491.7143177,
+     "phase": "save_write(chunk_73)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 73
+     }
+    },
+    {
+     "t": 33491.720812,
+     "phase": "save_write(chunk_74)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 74
+     }
+    },
+    {
+     "t": 33491.727364,
+     "phase": "save_write(chunk_75)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 75
+     }
+    },
+    {
+     "t": 33491.7338564,
+     "phase": "save_write(chunk_76)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 76
+     }
+    },
+    {
+     "t": 33491.7403472,
+     "phase": "save_write(chunk_77)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 77
+     }
+    },
+    {
+     "t": 33491.7468451,
+     "phase": "save_write(chunk_78)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 78
+     }
+    },
+    {
+     "t": 33491.7533181,
+     "phase": "save_write(chunk_79)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 79
+     }
+    },
+    {
+     "t": 33491.7598655,
+     "phase": "save_write(chunk_80)",
+     "detail": {
+      "cycle": 1,
+      "chunk": 80
+     }
+    },
+    {
+     "t": 33491.7663729,
+     "phase": "save_flush",
+     "detail": {
+      "cycle": 1
+     }
+    },
+    {
+     "t": 33491.7663981,
+     "phase": "save_fsync",
+     "detail": {
+      "cycle": 1
+     }
+    },
+    {
+     "t": 33491.7800221,
+     "phase": "sleep",
+     "detail": {
+      "cycle": 1,
+      "sleep_s": 0.03
+     }
+    },
+    {
+     "t": 33491.810368,
+     "phase": "save_replace",
+     "detail": {
+      "cycle": 1
+     }
+    },
+    {
+     "t": 33491.8115706,
+     "phase": "save_post",
+     "detail": {
+      "cycle": 1
+     }
+    },
+    {
+     "t": 33491.8227001,
+     "phase": "sleep",
+     "detail": {
+      "cycle": 1,
+      "sleep_s": 0.4
+     }
+    },
+    {
+     "t": 33492.2232976,
+     "phase": "save_pre_tmp",
+     "detail": {
+      "cycle": 2
+     }
+    },
+    {
+     "t": 33492.2741341,
+     "phase": "save_write(chunk_1)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 1
+     }
+    },
+    {
+     "t": 33492.2803657,
+     "phase": "save_write(chunk_2)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 2
+     }
+    },
+    {
+     "t": 33492.2868426,
+     "phase": "save_write(chunk_3)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 3
+     }
+    },
+    {
+     "t": 33492.2932519,
+     "phase": "save_write(chunk_4)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 4
+     }
+    },
+    {
+     "t": 33492.2998318,
+     "phase": "save_write(chunk_5)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 5
+     }
+    },
+    {
+     "t": 33492.3061482,
+     "phase": "save_write(chunk_6)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 6
+     }
+    },
+    {
+     "t": 33492.3123399,
+     "phase": "save_write(chunk_7)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 7
+     }
+    },
+    {
+     "t": 33492.3188176,
+     "phase": "save_write(chunk_8)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 8
+     }
+    },
+    {
+     "t": 33492.325339,
+     "phase": "save_write(chunk_9)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 9
+     }
+    },
+    {
+     "t": 33492.3318538,
+     "phase": "save_write(chunk_10)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 10
+     }
+    },
+    {
+     "t": 33492.3382835,
+     "phase": "save_write(chunk_11)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 11
+     }
+    },
+    {
+     "t": 33492.3448792,
+     "phase": "save_write(chunk_12)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 12
+     }
+    },
+    {
+     "t": 33492.3513464,
+     "phase": "save_write(chunk_13)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 13
+     }
+    },
+    {
+     "t": 33492.3578788,
+     "phase": "save_write(chunk_14)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 14
+     }
+    },
+    {
+     "t": 33492.3643846,
+     "phase": "save_write(chunk_15)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 15
+     }
+    },
+    {
+     "t": 33492.3708373,
+     "phase": "save_write(chunk_16)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 16
+     }
+    },
+    {
+     "t": 33492.3773661,
+     "phase": "save_write(chunk_17)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 17
+     }
+    },
+    {
+     "t": 33492.3838348,
+     "phase": "save_write(chunk_18)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 18
+     }
+    },
+    {
+     "t": 33492.3903688,
+     "phase": "save_write(chunk_19)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 19
+     }
+    },
+    {
+     "t": 33492.3968437,
+     "phase": "save_write(chunk_20)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 20
+     }
+    },
+    {
+     "t": 33492.4032628,
+     "phase": "save_write(chunk_21)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 21
+     }
+    },
+    {
+     "t": 33492.409835,
+     "phase": "save_write(chunk_22)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 22
+     }
+    },
+    {
+     "t": 33492.4163046,
+     "phase": "save_write(chunk_23)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 23
+     }
+    },
+    {
+     "t": 33492.4228541,
+     "phase": "save_write(chunk_24)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 24
+     }
+    },
+    {
+     "t": 33492.429358,
+     "phase": "save_write(chunk_25)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 25
+     }
+    },
+    {
+     "t": 33492.4356735,
+     "phase": "save_write(chunk_26)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 26
+     }
+    },
+    {
+     "t": 33492.4418834,
+     "phase": "save_write(chunk_27)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 27
+     }
+    },
+    {
+     "t": 33492.4482674,
+     "phase": "save_write(chunk_28)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 28
+     }
+    },
+    {
+     "t": 33492.4548655,
+     "phase": "save_write(chunk_29)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 29
+     }
+    },
+    {
+     "t": 33492.4613705,
+     "phase": "save_write(chunk_30)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 30
+     }
+    },
+    {
+     "t": 33492.4678511,
+     "phase": "save_write(chunk_31)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 31
+     }
+    },
+    {
+     "t": 33492.4742558,
+     "phase": "save_write(chunk_32)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 32
+     }
+    },
+    {
+     "t": 33492.4808862,
+     "phase": "save_write(chunk_33)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 33
+     }
+    },
+    {
+     "t": 33492.4873722,
+     "phase": "save_write(chunk_34)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 34
+     }
+    },
+    {
+     "t": 33492.4938671,
+     "phase": "save_write(chunk_35)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 35
+     }
+    },
+    {
+     "t": 33492.5003453,
+     "phase": "save_write(chunk_36)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 36
+     }
+    },
+    {
+     "t": 33492.5068451,
+     "phase": "save_write(chunk_37)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 37
+     }
+    },
+    {
+     "t": 33492.5132569,
+     "phase": "save_write(chunk_38)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 38
+     }
+    },
+    {
+     "t": 33492.5198448,
+     "phase": "save_write(chunk_39)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 39
+     }
+    },
+    {
+     "t": 33492.52634,
+     "phase": "save_write(chunk_40)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 40
+     }
+    },
+    {
+     "t": 33492.5328538,
+     "phase": "save_write(chunk_41)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 41
+     }
+    },
+    {
+     "t": 33492.5392806,
+     "phase": "save_write(chunk_42)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 42
+     }
+    },
+    {
+     "t": 33492.5458581,
+     "phase": "save_write(chunk_43)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 43
+     }
+    },
+    {
+     "t": 33492.5523225,
+     "phase": "save_write(chunk_44)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 44
+     }
+    },
+    {
+     "t": 33492.558783,
+     "phase": "save_write(chunk_45)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 45
+     }
+    },
+    {
+     "t": 33492.5653363,
+     "phase": "save_write(chunk_46)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 46
+     }
+    },
+    {
+     "t": 33492.5717984,
+     "phase": "save_write(chunk_47)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 47
+     }
+    },
+    {
+     "t": 33492.5782491,
+     "phase": "save_write(chunk_48)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 48
+     }
+    },
+    {
+     "t": 33492.5848071,
+     "phase": "save_write(chunk_49)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 49
+     }
+    },
+    {
+     "t": 33492.5911505,
+     "phase": "save_write(chunk_50)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 50
+     }
+    },
+    {
+     "t": 33492.5976791,
+     "phase": "save_write(chunk_51)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 51
+     }
+    },
+    {
+     "t": 33492.6038532,
+     "phase": "save_write(chunk_52)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 52
+     }
+    },
+    {
+     "t": 33492.6103098,
+     "phase": "save_write(chunk_53)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 53
+     }
+    },
+    {
+     "t": 33492.6168066,
+     "phase": "save_write(chunk_54)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 54
+     }
+    },
+    {
+     "t": 33492.6232625,
+     "phase": "save_write(chunk_55)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 55
+     }
+    },
+    {
+     "t": 33492.6298098,
+     "phase": "save_write(chunk_56)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 56
+     }
+    },
+    {
+     "t": 33492.6363077,
+     "phase": "save_write(chunk_57)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 57
+     }
+    },
+    {
+     "t": 33492.6428218,
+     "phase": "save_write(chunk_58)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 58
+     }
+    },
+    {
+     "t": 33492.6492941,
+     "phase": "save_write(chunk_59)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 59
+     }
+    },
+    {
+     "t": 33492.6557958,
+     "phase": "save_write(chunk_60)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 60
+     }
+    },
+    {
+     "t": 33492.6622886,
+     "phase": "save_write(chunk_61)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 61
+     }
+    },
+    {
+     "t": 33492.668803,
+     "phase": "save_write(chunk_62)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 62
+     }
+    },
+    {
+     "t": 33492.6752837,
+     "phase": "save_write(chunk_63)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 63
+     }
+    },
+    {
+     "t": 33492.681797,
+     "phase": "save_write(chunk_64)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 64
+     }
+    },
+    {
+     "t": 33492.6882313,
+     "phase": "save_write(chunk_65)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 65
+     }
+    },
+    {
+     "t": 33492.6948015,
+     "phase": "save_write(chunk_66)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 66
+     }
+    },
+    {
+     "t": 33492.7013087,
+     "phase": "save_write(chunk_67)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 67
+     }
+    },
+    {
+     "t": 33492.7077925,
+     "phase": "save_write(chunk_68)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 68
+     }
+    },
+    {
+     "t": 33492.7143417,
+     "phase": "save_write(chunk_69)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 69
+     }
+    },
+    {
+     "t": 33492.7207867,
+     "phase": "save_write(chunk_70)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 70
+     }
+    },
+    {
+     "t": 33492.7272955,
+     "phase": "save_write(chunk_71)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 71
+     }
+    },
+    {
+     "t": 33492.7337901,
+     "phase": "save_write(chunk_72)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 72
+     }
+    },
+    {
+     "t": 33492.7402877,
+     "phase": "save_write(chunk_73)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 73
+     }
+    },
+    {
+     "t": 33492.7467853,
+     "phase": "save_write(chunk_74)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 74
+     }
+    },
+    {
+     "t": 33492.7533176,
+     "phase": "save_write(chunk_75)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 75
+     }
+    },
+    {
+     "t": 33492.7598216,
+     "phase": "save_write(chunk_76)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 76
+     }
+    },
+    {
+     "t": 33492.7662973,
+     "phase": "save_write(chunk_77)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 77
+     }
+    },
+    {
+     "t": 33492.77279,
+     "phase": "save_write(chunk_78)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 78
+     }
+    },
+    {
+     "t": 33492.7792864,
+     "phase": "save_write(chunk_79)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 79
+     }
+    },
+    {
+     "t": 33492.7857889,
+     "phase": "save_write(chunk_80)",
+     "detail": {
+      "cycle": 2,
+      "chunk": 80
+     }
+    },
+    {
+     "t": 33492.7923158,
+     "phase": "save_flush",
+     "detail": {
+      "cycle": 2
+     }
+    },
+    {
+     "t": 33492.792325,
+     "phase": "save_fsync",
+     "detail": {
+      "cycle": 2
+     }
+    },
+    {
+     "t": 33492.8058807,
+     "phase": "sleep",
+     "detail": {
+      "cycle": 2,
+      "sleep_s": 0.03
+     }
+    },
+    {
+     "t": 33492.8363147,
+     "phase": "save_replace",
+     "detail": {
+      "cycle": 2
+     }
+    },
+    {
+     "t": 33492.8372718,
+     "phase": "save_post",
+     "detail": {
+      "cycle": 2
+     }
+    },
+    {
+     "t": 33492.8477217,
+     "phase": "sleep",
+     "detail": {
+      "cycle": 2,
+      "sleep_s": 0.4
+     }
+    },
+    {
+     "t": 33493.2480071,
+     "phase": "save_pre_tmp",
+     "detail": {
+      "cycle": 3
+     }
+    },
+    {
+     "t": 33493.2986097,
+     "phase": "save_write(chunk_1)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 1
+     }
+    },
+    {
+     "t": 33493.3048785,
+     "phase": "save_write(chunk_2)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 2
+     }
+    },
+    {
+     "t": 33493.3112084,
+     "phase": "save_write(chunk_3)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 3
+     }
+    },
+    {
+     "t": 33493.3174839,
+     "phase": "save_write(chunk_4)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 4
+     }
+    },
+    {
+     "t": 33493.3238482,
+     "phase": "save_write(chunk_5)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 5
+     }
+    },
+    {
+     "t": 33493.3303745,
+     "phase": "save_write(chunk_6)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 6
+     }
+    },
+    {
+     "t": 33493.3368859,
+     "phase": "save_write(chunk_7)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 7
+     }
+    },
+    {
+     "t": 33493.3432837,
+     "phase": "save_write(chunk_8)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 8
+     }
+    },
+    {
+     "t": 33493.3497961,
+     "phase": "save_write(chunk_9)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 9
+     }
+    },
+    {
+     "t": 33493.3563665,
+     "phase": "save_write(chunk_10)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 10
+     }
+    },
+    {
+     "t": 33493.3628472,
+     "phase": "save_write(chunk_11)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 11
+     }
+    },
+    {
+     "t": 33493.3693635,
+     "phase": "save_write(chunk_12)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 12
+     }
+    },
+    {
+     "t": 33493.3758615,
+     "phase": "save_write(chunk_13)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 13
+     }
+    },
+    {
+     "t": 33493.3823319,
+     "phase": "save_write(chunk_14)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 14
+     }
+    },
+    {
+     "t": 33493.3888253,
+     "phase": "save_write(chunk_15)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 15
+     }
+    },
+    {
+     "t": 33493.3953216,
+     "phase": "save_write(chunk_16)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 16
+     }
+    },
+    {
+     "t": 33493.4018178,
+     "phase": "save_write(chunk_17)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 17
+     }
+    },
+    {
+     "t": 33493.4082522,
+     "phase": "save_write(chunk_18)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 18
+     }
+    },
+    {
+     "t": 33493.4148365,
+     "phase": "save_write(chunk_19)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 19
+     }
+    },
+    {
+     "t": 33493.421349,
+     "phase": "save_write(chunk_20)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 20
+     }
+    },
+    {
+     "t": 33493.4278514,
+     "phase": "save_write(chunk_21)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 21
+     }
+    },
+    {
+     "t": 33493.4343615,
+     "phase": "save_write(chunk_22)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 22
+     }
+    },
+    {
+     "t": 33493.4408479,
+     "phase": "save_write(chunk_23)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 23
+     }
+    },
+    {
+     "t": 33493.447347,
+     "phase": "save_write(chunk_24)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 24
+     }
+    },
+    {
+     "t": 33493.4538285,
+     "phase": "save_write(chunk_25)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 25
+     }
+    },
+    {
+     "t": 33493.4603296,
+     "phase": "save_write(chunk_26)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 26
+     }
+    },
+    {
+     "t": 33493.4668521,
+     "phase": "save_write(chunk_27)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 27
+     }
+    },
+    {
+     "t": 33493.47323,
+     "phase": "save_write(chunk_28)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 28
+     }
+    },
+    {
+     "t": 33493.4793982,
+     "phase": "save_write(chunk_29)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 29
+     }
+    },
+    {
+     "t": 33493.4866341,
+     "phase": "save_write(chunk_30)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 30
+     }
+    },
+    {
+     "t": 33493.4928229,
+     "phase": "save_write(chunk_31)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 31
+     }
+    },
+    {
+     "t": 33493.4993168,
+     "phase": "save_write(chunk_32)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 32
+     }
+    },
+    {
+     "t": 33493.5058407,
+     "phase": "save_write(chunk_33)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 33
+     }
+    },
+    {
+     "t": 33493.5123334,
+     "phase": "save_write(chunk_34)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 34
+     }
+    },
+    {
+     "t": 33493.5188173,
+     "phase": "save_write(chunk_35)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 35
+     }
+    },
+    {
+     "t": 33493.5253377,
+     "phase": "save_write(chunk_36)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 36
+     }
+    },
+    {
+     "t": 33493.5318385,
+     "phase": "save_write(chunk_37)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 37
+     }
+    },
+    {
+     "t": 33493.538241,
+     "phase": "save_write(chunk_38)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 38
+     }
+    },
+    {
+     "t": 33493.544343,
+     "phase": "save_write(chunk_39)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 39
+     }
+    },
+    {
+     "t": 33493.5504933,
+     "phase": "save_write(chunk_40)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 40
+     }
+    },
+    {
+     "t": 33493.5568227,
+     "phase": "save_write(chunk_41)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 41
+     }
+    },
+    {
+     "t": 33493.5633366,
+     "phase": "save_write(chunk_42)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 42
+     }
+    },
+    {
+     "t": 33493.5698646,
+     "phase": "save_write(chunk_43)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 43
+     }
+    },
+    {
+     "t": 33493.5763423,
+     "phase": "save_write(chunk_44)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 44
+     }
+    },
+    {
+     "t": 33493.5828209,
+     "phase": "save_write(chunk_45)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 45
+     }
+    },
+    {
+     "t": 33493.5893387,
+     "phase": "save_write(chunk_46)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 46
+     }
+    },
+    {
+     "t": 33493.5958531,
+     "phase": "save_write(chunk_47)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 47
+     }
+    },
+    {
+     "t": 33493.6021549,
+     "phase": "save_write(chunk_48)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 48
+     }
+    },
+    {
+     "t": 33493.6083883,
+     "phase": "save_write(chunk_49)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 49
+     }
+    },
+    {
+     "t": 33493.6148265,
+     "phase": "save_write(chunk_50)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 50
+     }
+    },
+    {
+     "t": 33493.6213469,
+     "phase": "save_write(chunk_51)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 51
+     }
+    },
+    {
+     "t": 33493.6278558,
+     "phase": "save_write(chunk_52)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 52
+     }
+    },
+    {
+     "t": 33493.634369,
+     "phase": "save_write(chunk_53)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 53
+     }
+    },
+    {
+     "t": 33493.6408753,
+     "phase": "save_write(chunk_54)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 54
+     }
+    },
+    {
+     "t": 33493.6473744,
+     "phase": "save_write(chunk_55)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 55
+     }
+    },
+    {
+     "t": 33493.6538398,
+     "phase": "save_write(chunk_56)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 56
+     }
+    },
+    {
+     "t": 33493.6603461,
+     "phase": "save_write(chunk_57)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 57
+     }
+    },
+    {
+     "t": 33493.6668297,
+     "phase": "save_write(chunk_58)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 58
+     }
+    },
+    {
+     "t": 33493.6732687,
+     "phase": "save_write(chunk_59)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 59
+     }
+    },
+    {
+     "t": 33493.6793843,
+     "phase": "save_write(chunk_60)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 60
+     }
+    },
+    {
+     "t": 33493.6858353,
+     "phase": "save_write(chunk_61)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 61
+     }
+    },
+    {
+     "t": 33493.6923361,
+     "phase": "save_write(chunk_62)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 62
+     }
+    },
+    {
+     "t": 33493.6988091,
+     "phase": "save_write(chunk_63)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 63
+     }
+    },
+    {
+     "t": 33493.705329,
+     "phase": "save_write(chunk_64)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 64
+     }
+    },
+    {
+     "t": 33493.711939,
+     "phase": "save_write(chunk_65)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 65
+     }
+    },
+    {
+     "t": 33493.7182353,
+     "phase": "save_write(chunk_66)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 66
+     }
+    },
+    {
+     "t": 33493.7248151,
+     "phase": "save_write(chunk_67)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 67
+     }
+    },
+    {
+     "t": 33493.7313192,
+     "phase": "save_write(chunk_68)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 68
+     }
+    },
+    {
+     "t": 33493.7378426,
+     "phase": "save_write(chunk_69)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 69
+     }
+    },
+    {
+     "t": 33493.7442978,
+     "phase": "save_write(chunk_70)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 70
+     }
+    },
+    {
+     "t": 33493.7508328,
+     "phase": "save_write(chunk_71)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 71
+     }
+    },
+    {
+     "t": 33493.7573534,
+     "phase": "save_write(chunk_72)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 72
+     }
+    },
+    {
+     "t": 33493.7638303,
+     "phase": "save_write(chunk_73)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 73
+     }
+    },
+    {
+     "t": 33493.7703634,
+     "phase": "save_write(chunk_74)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 74
+     }
+    },
+    {
+     "t": 33493.776837,
+     "phase": "save_write(chunk_75)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 75
+     }
+    },
+    {
+     "t": 33493.7832426,
+     "phase": "save_write(chunk_76)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 76
+     }
+    },
+    {
+     "t": 33493.7898166,
+     "phase": "save_write(chunk_77)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 77
+     }
+    },
+    {
+     "t": 33493.7963414,
+     "phase": "save_write(chunk_78)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 78
+     }
+    },
+    {
+     "t": 33493.8028086,
+     "phase": "save_write(chunk_79)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 79
+     }
+    },
+    {
+     "t": 33493.8093265,
+     "phase": "save_write(chunk_80)",
+     "detail": {
+      "cycle": 3,
+      "chunk": 80
+     }
+    },
+    {
+     "t": 33493.8158404,
+     "phase": "save_flush",
+     "detail": {
+      "cycle": 3
+     }
+    },
+    {
+     "t": 33493.8158575,
+     "phase": "save_fsync",
+     "detail": {
+      "cycle": 3
+     }
+    },
+    {
+     "t": 33493.829157,
+     "phase": "sleep",
+     "detail": {
+      "cycle": 3,
+      "sleep_s": 0.03
+     }
+    },
+    {
+     "t": 33493.8593315,
+     "phase": "save_replace",
+     "detail": {
+      "cycle": 3
+     }
+    },
+    {
+     "t": 33493.8603906,
+     "phase": "save_post",
+     "detail": {
+      "cycle": 3
+     }
+    },
+    {
+     "t": 33493.8709018,
+     "phase": "sleep",
+     "detail": {
+      "cycle": 3,
+      "sleep_s": 0.4
+     }
+    },
+    {
+     "t": 33494.2714165,
+     "phase": "save_pre_tmp",
+     "detail": {
+      "cycle": 4
+     }
+    },
+    {
+     "t": 33494.3221197,
+     "phase": "save_write(chunk_1)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 1
+     }
+    },
+    {
+     "t": 33494.3288203,
+     "phase": "save_write(chunk_2)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 2
+     }
+    },
+    {
+     "t": 33494.3353418,
+     "phase": "save_write(chunk_3)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 3
+     }
+    },
+    {
+     "t": 33494.3414653,
+     "phase": "save_write(chunk_4)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 4
+     }
+    },
+    {
+     "t": 33494.3478377,
+     "phase": "save_write(chunk_5)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 5
+     }
+    },
+    {
+     "t": 33494.3542946,
+     "phase": "save_write(chunk_6)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 6
+     }
+    },
+    {
+     "t": 33494.3608052,
+     "phase": "save_write(chunk_7)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 7
+     }
+    },
+    {
+     "t": 33494.3673034,
+     "phase": "save_write(chunk_8)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 8
+     }
+    },
+    {
+     "t": 33494.3737892,
+     "phase": "save_write(chunk_9)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 9
+     }
+    },
+    {
+     "t": 33494.3803393,
+     "phase": "save_write(chunk_10)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 10
+     }
+    },
+    {
+     "t": 33494.3868202,
+     "phase": "save_write(chunk_11)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 11
+     }
+    },
+    {
+     "t": 33494.393232,
+     "phase": "save_write(chunk_12)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 12
+     }
+    },
+    {
+     "t": 33494.3993237,
+     "phase": "save_write(chunk_13)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 13
+     }
+    },
+    {
+     "t": 33494.4057979,
+     "phase": "save_write(chunk_14)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 14
+     }
+    },
+    {
+     "t": 33494.4123247,
+     "phase": "save_write(chunk_15)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 15
+     }
+    },
+    {
+     "t": 33494.4189159,
+     "phase": "save_write(chunk_16)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 16
+     }
+    },
+    {
+     "t": 33494.4253077,
+     "phase": "save_write(chunk_17)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 17
+     }
+    },
+    {
+     "t": 33494.4317931,
+     "phase": "save_write(chunk_18)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 18
+     }
+    },
+    {
+     "t": 33494.4382497,
+     "phase": "save_write(chunk_19)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 19
+     }
+    },
+    {
+     "t": 33494.4447985,
+     "phase": "save_write(chunk_20)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 20
+     }
+    },
+    {
+     "t": 33494.4512929,
+     "phase": "save_write(chunk_21)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 21
+     }
+    },
+    {
+     "t": 33494.4578398,
+     "phase": "save_write(chunk_22)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 22
+     }
+    },
+    {
+     "t": 33494.4642816,
+     "phase": "save_write(chunk_23)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 23
+     }
+    },
+    {
+     "t": 33494.470801,
+     "phase": "save_write(chunk_24)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 24
+     }
+    },
+    {
+     "t": 33494.4773117,
+     "phase": "save_write(chunk_25)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 25
+     }
+    },
+    {
+     "t": 33494.4838084,
+     "phase": "save_write(chunk_26)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 26
+     }
+    },
+    {
+     "t": 33494.4903365,
+     "phase": "save_write(chunk_27)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 27
+     }
+    },
+    {
+     "t": 33494.4968101,
+     "phase": "save_write(chunk_28)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 28
+     }
+    },
+    {
+     "t": 33494.5029568,
+     "phase": "save_write(chunk_29)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 29
+     }
+    },
+    {
+     "t": 33494.5091605,
+     "phase": "save_write(chunk_30)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 30
+     }
+    },
+    {
+     "t": 33494.5152982,
+     "phase": "save_write(chunk_31)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 31
+     }
+    },
+    {
+     "t": 33494.5218072,
+     "phase": "save_write(chunk_32)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 32
+     }
+    },
+    {
+     "t": 33494.5282218,
+     "phase": "save_write(chunk_33)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 33
+     }
+    },
+    {
+     "t": 33494.5347901,
+     "phase": "save_write(chunk_34)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 34
+     }
+    },
+    {
+     "t": 33494.5413313,
+     "phase": "save_write(chunk_35)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 35
+     }
+    },
+    {
+     "t": 33494.5474652,
+     "phase": "save_write(chunk_36)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 36
+     }
+    },
+    {
+     "t": 33494.5538015,
+     "phase": "save_write(chunk_37)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 37
+     }
+    },
+    {
+     "t": 33494.5603203,
+     "phase": "save_write(chunk_38)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 38
+     }
+    },
+    {
+     "t": 33494.5668107,
+     "phase": "save_write(chunk_39)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 39
+     }
+    },
+    {
+     "t": 33494.573252,
+     "phase": "save_write(chunk_40)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 40
+     }
+    },
+    {
+     "t": 33494.5797938,
+     "phase": "save_write(chunk_41)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 41
+     }
+    },
+    {
+     "t": 33494.5859268,
+     "phase": "save_write(chunk_42)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 42
+     }
+    },
+    {
+     "t": 33494.5923274,
+     "phase": "save_write(chunk_43)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 43
+     }
+    },
+    {
+     "t": 33494.5987868,
+     "phase": "save_write(chunk_44)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 44
+     }
+    },
+    {
+     "t": 33494.6053021,
+     "phase": "save_write(chunk_45)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 45
+     }
+    },
+    {
+     "t": 33494.6117966,
+     "phase": "save_write(chunk_46)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 46
+     }
+    },
+    {
+     "t": 33494.6182277,
+     "phase": "save_write(chunk_47)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 47
+     }
+    },
+    {
+     "t": 33494.6243693,
+     "phase": "save_write(chunk_48)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 48
+     }
+    },
+    {
+     "t": 33494.630812,
+     "phase": "save_write(chunk_49)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 49
+     }
+    },
+    {
+     "t": 33494.6373134,
+     "phase": "save_write(chunk_50)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 50
+     }
+    },
+    {
+     "t": 33494.6438008,
+     "phase": "save_write(chunk_51)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 51
+     }
+    },
+    {
+     "t": 33494.6503156,
+     "phase": "save_write(chunk_52)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 52
+     }
+    },
+    {
+     "t": 33494.6567936,
+     "phase": "save_write(chunk_53)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 53
+     }
+    },
+    {
+     "t": 33494.6632415,
+     "phase": "save_write(chunk_54)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 54
+     }
+    },
+    {
+     "t": 33494.669824,
+     "phase": "save_write(chunk_55)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 55
+     }
+    },
+    {
+     "t": 33494.6763603,
+     "phase": "save_write(chunk_56)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 56
+     }
+    },
+    {
+     "t": 33494.6828001,
+     "phase": "save_write(chunk_57)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 57
+     }
+    },
+    {
+     "t": 33494.6892977,
+     "phase": "save_write(chunk_58)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 58
+     }
+    },
+    {
+     "t": 33494.6957884,
+     "phase": "save_write(chunk_59)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 59
+     }
+    },
+    {
+     "t": 33494.7022831,
+     "phase": "save_write(chunk_60)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 60
+     }
+    },
+    {
+     "t": 33494.708791,
+     "phase": "save_write(chunk_61)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 61
+     }
+    },
+    {
+     "t": 33494.7152875,
+     "phase": "save_write(chunk_62)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 62
+     }
+    },
+    {
+     "t": 33494.7213706,
+     "phase": "save_write(chunk_63)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 63
+     }
+    },
+    {
+     "t": 33494.7278777,
+     "phase": "save_write(chunk_64)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 64
+     }
+    },
+    {
+     "t": 33494.7343471,
+     "phase": "save_write(chunk_65)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 65
+     }
+    },
+    {
+     "t": 33494.7408882,
+     "phase": "save_write(chunk_66)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 66
+     }
+    },
+    {
+     "t": 33494.7474624,
+     "phase": "save_write(chunk_67)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 67
+     }
+    },
+    {
+     "t": 33494.7538726,
+     "phase": "save_write(chunk_68)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 68
+     }
+    },
+    {
+     "t": 33494.760423,
+     "phase": "save_write(chunk_69)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 69
+     }
+    },
+    {
+     "t": 33494.7668561,
+     "phase": "save_write(chunk_70)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 70
+     }
+    },
+    {
+     "t": 33494.7733006,
+     "phase": "save_write(chunk_71)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 71
+     }
+    },
+    {
+     "t": 33494.779848,
+     "phase": "save_write(chunk_72)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 72
+     }
+    },
+    {
+     "t": 33494.7863771,
+     "phase": "save_write(chunk_73)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 73
+     }
+    },
+    {
+     "t": 33494.7928585,
+     "phase": "save_write(chunk_74)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 74
+     }
+    },
+    {
+     "t": 33494.7993779,
+     "phase": "save_write(chunk_75)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 75
+     }
+    },
+    {
+     "t": 33494.8058365,
+     "phase": "save_write(chunk_76)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 76
+     }
+    },
+    {
+     "t": 33494.8123328,
+     "phase": "save_write(chunk_77)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 77
+     }
+    },
+    {
+     "t": 33494.8188436,
+     "phase": "save_write(chunk_78)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 78
+     }
+    },
+    {
+     "t": 33494.825331,
+     "phase": "save_write(chunk_79)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 79
+     }
+    },
+    {
+     "t": 33494.8316035,
+     "phase": "save_write(chunk_80)",
+     "detail": {
+      "cycle": 4,
+      "chunk": 80
+     }
+    },
+    {
+     "t": 33494.8378857,
+     "phase": "save_flush",
+     "detail": {
+      "cycle": 4
+     }
+    },
+    {
+     "t": 33494.8379016,
+     "phase": "save_fsync",
+     "detail": {
+      "cycle": 4
+     }
+    },
+    {
+     "t": 33494.8512812,
+     "phase": "sleep",
+     "detail": {
+      "cycle": 4,
+      "sleep_s": 0.03
+     }
+    },
+    {
+     "t": 33494.881442,
+     "phase": "save_replace",
+     "detail": {
+      "cycle": 4
+     }
+    },
+    {
+     "t": 33494.882532,
+     "phase": "save_post",
+     "detail": {
+      "cycle": 4
+     }
+    },
+    {
+     "t": 33494.8927011,
+     "phase": "sleep",
+     "detail": {
+      "cycle": 4,
+      "sleep_s": 0.4
+     }
+    },
+    {
+     "t": 33495.2931075,
+     "phase": "save_pre_tmp",
+     "detail": {
+      "cycle": 5
+     }
+    },
+    {
+     "t": 33495.3436095,
+     "phase": "save_write(chunk_1)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 1
+     }
+    },
+    {
+     "t": 33495.3503645,
+     "phase": "save_write(chunk_2)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 2
+     }
+    },
+    {
+     "t": 33495.3569478,
+     "phase": "save_write(chunk_3)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 3
+     }
+    },
+    {
+     "t": 33495.3632778,
+     "phase": "save_write(chunk_4)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 4
+     }
+    },
+    {
+     "t": 33495.3698596,
+     "phase": "save_write(chunk_5)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 5
+     }
+    },
+    {
+     "t": 33495.3763762,
+     "phase": "save_write(chunk_6)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 6
+     }
+    },
+    {
+     "t": 33495.3828744,
+     "phase": "save_write(chunk_7)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 7
+     }
+    },
+    {
+     "t": 33495.3892687,
+     "phase": "save_write(chunk_8)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 8
+     }
+    },
+    {
+     "t": 33495.3959528,
+     "phase": "save_write(chunk_9)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 9
+     }
+    },
+    {
+     "t": 33495.4023861,
+     "phase": "save_write(chunk_10)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 10
+     }
+    },
+    {
+     "t": 33495.4088965,
+     "phase": "save_write(chunk_11)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 11
+     }
+    },
+    {
+     "t": 33495.4154409,
+     "phase": "save_write(chunk_12)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 12
+     }
+    },
+    {
+     "t": 33495.4219561,
+     "phase": "save_write(chunk_13)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 13
+     }
+    },
+    {
+     "t": 33495.4282585,
+     "phase": "save_write(chunk_14)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 14
+     }
+    },
+    {
+     "t": 33495.4343644,
+     "phase": "save_write(chunk_15)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 15
+     }
+    },
+    {
+     "t": 33495.440839,
+     "phase": "save_write(chunk_16)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 16
+     }
+    },
+    {
+     "t": 33495.4473372,
+     "phase": "save_write(chunk_17)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 17
+     }
+    },
+    {
+     "t": 33495.4538554,
+     "phase": "save_write(chunk_18)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 18
+     }
+    },
+    {
+     "t": 33495.460393,
+     "phase": "save_write(chunk_19)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 19
+     }
+    },
+    {
+     "t": 33495.4668408,
+     "phase": "save_write(chunk_20)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 20
+     }
+    },
+    {
+     "t": 33495.4731972,
+     "phase": "save_write(chunk_21)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 21
+     }
+    },
+    {
+     "t": 33495.4796229,
+     "phase": "save_write(chunk_22)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 22
+     }
+    },
+    {
+     "t": 33495.4858205,
+     "phase": "save_write(chunk_23)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 23
+     }
+    },
+    {
+     "t": 33495.4923256,
+     "phase": "save_write(chunk_24)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 24
+     }
+    },
+    {
+     "t": 33495.4988117,
+     "phase": "save_write(chunk_25)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 25
+     }
+    },
+    {
+     "t": 33495.5053261,
+     "phase": "save_write(chunk_26)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 26
+     }
+    },
+    {
+     "t": 33495.5118313,
+     "phase": "save_write(chunk_27)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 27
+     }
+    },
+    {
+     "t": 33495.5182243,
+     "phase": "save_write(chunk_28)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 28
+     }
+    },
+    {
+     "t": 33495.524318,
+     "phase": "save_write(chunk_29)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 29
+     }
+    },
+    {
+     "t": 33495.5308039,
+     "phase": "save_write(chunk_30)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 30
+     }
+    },
+    {
+     "t": 33495.537313,
+     "phase": "save_write(chunk_31)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 31
+     }
+    },
+    {
+     "t": 33495.5438201,
+     "phase": "save_write(chunk_32)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 32
+     }
+    },
+    {
+     "t": 33495.5503081,
+     "phase": "save_write(chunk_33)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 33
+     }
+    },
+    {
+     "t": 33495.5567953,
+     "phase": "save_write(chunk_34)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 34
+     }
+    },
+    {
+     "t": 33495.5632492,
+     "phase": "save_write(chunk_35)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 35
+     }
+    },
+    {
+     "t": 33495.569343,
+     "phase": "save_write(chunk_36)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 36
+     }
+    },
+    {
+     "t": 33495.5758201,
+     "phase": "save_write(chunk_37)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 37
+     }
+    },
+    {
+     "t": 33495.5823237,
+     "phase": "save_write(chunk_38)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 38
+     }
+    },
+    {
+     "t": 33495.5888218,
+     "phase": "save_write(chunk_39)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 39
+     }
+    },
+    {
+     "t": 33495.5953015,
+     "phase": "save_write(chunk_40)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 40
+     }
+    },
+    {
+     "t": 33495.6017895,
+     "phase": "save_write(chunk_41)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 41
+     }
+    },
+    {
+     "t": 33495.6082385,
+     "phase": "save_write(chunk_42)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 42
+     }
+    },
+    {
+     "t": 33495.6148103,
+     "phase": "save_write(chunk_43)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 43
+     }
+    },
+    {
+     "t": 33495.6212543,
+     "phase": "save_write(chunk_44)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 44
+     }
+    },
+    {
+     "t": 33495.6277818,
+     "phase": "save_write(chunk_45)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 45
+     }
+    },
+    {
+     "t": 33495.6343257,
+     "phase": "save_write(chunk_46)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 46
+     }
+    },
+    {
+     "t": 33495.6408056,
+     "phase": "save_write(chunk_47)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 47
+     }
+    },
+    {
+     "t": 33495.6469057,
+     "phase": "save_write(chunk_48)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 48
+     }
+    },
+    {
+     "t": 33495.6532212,
+     "phase": "save_write(chunk_49)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 49
+     }
+    },
+    {
+     "t": 33495.6598057,
+     "phase": "save_write(chunk_50)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 50
+     }
+    },
+    {
+     "t": 33495.6662814,
+     "phase": "save_write(chunk_51)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 51
+     }
+    },
+    {
+     "t": 33495.6853224,
+     "phase": "save_write(chunk_52)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 52
+     }
+    },
+    {
+     "t": 33495.6916876,
+     "phase": "save_write(chunk_53)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 53
+     }
+    },
+    {
+     "t": 33495.6978534,
+     "phase": "save_write(chunk_54)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 54
+     }
+    },
+    {
+     "t": 33495.7044296,
+     "phase": "save_write(chunk_55)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 55
+     }
+    },
+    {
+     "t": 33495.7107055,
+     "phase": "save_write(chunk_56)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 56
+     }
+    },
+    {
+     "t": 33495.7171479,
+     "phase": "save_write(chunk_57)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 57
+     }
+    },
+    {
+     "t": 33495.7233184,
+     "phase": "save_write(chunk_58)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 58
+     }
+    },
+    {
+     "t": 33495.7299715,
+     "phase": "save_write(chunk_59)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 59
+     }
+    },
+    {
+     "t": 33495.7362194,
+     "phase": "save_write(chunk_60)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 60
+     }
+    },
+    {
+     "t": 33495.7425287,
+     "phase": "save_write(chunk_61)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 61
+     }
+    },
+    {
+     "t": 33495.7488531,
+     "phase": "save_write(chunk_62)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 62
+     }
+    },
+    {
+     "t": 33495.7553654,
+     "phase": "save_write(chunk_63)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 63
+     }
+    },
+    {
+     "t": 33495.7615144,
+     "phase": "save_write(chunk_64)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 64
+     }
+    },
+    {
+     "t": 33495.7677243,
+     "phase": "save_write(chunk_65)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 65
+     }
+    },
+    {
+     "t": 33495.7743208,
+     "phase": "save_write(chunk_66)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 66
+     }
+    },
+    {
+     "t": 33495.7808031,
+     "phase": "save_write(chunk_67)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 67
+     }
+    },
+    {
+     "t": 33495.7872919,
+     "phase": "save_write(chunk_68)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 68
+     }
+    },
+    {
+     "t": 33495.7938044,
+     "phase": "save_write(chunk_69)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 69
+     }
+    },
+    {
+     "t": 33495.8002928,
+     "phase": "save_write(chunk_70)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 70
+     }
+    },
+    {
+     "t": 33495.8067972,
+     "phase": "save_write(chunk_71)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 71
+     }
+    },
+    {
+     "t": 33495.813232,
+     "phase": "save_write(chunk_72)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 72
+     }
+    },
+    {
+     "t": 33495.8198399,
+     "phase": "save_write(chunk_73)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 73
+     }
+    },
+    {
+     "t": 33495.8262968,
+     "phase": "save_write(chunk_74)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 74
+     }
+    },
+    {
+     "t": 33495.8327819,
+     "phase": "save_write(chunk_75)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 75
+     }
+    },
+    {
+     "t": 33495.839268,
+     "phase": "save_write(chunk_76)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 76
+     }
+    },
+    {
+     "t": 33495.8457629,
+     "phase": "save_write(chunk_77)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 77
+     }
+    },
+    {
+     "t": 33495.8522934,
+     "phase": "save_write(chunk_78)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 78
+     }
+    },
+    {
+     "t": 33495.8587645,
+     "phase": "save_write(chunk_79)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 79
+     }
+    },
+    {
+     "t": 33495.8652628,
+     "phase": "save_write(chunk_80)",
+     "detail": {
+      "cycle": 5,
+      "chunk": 80
+     }
+    },
+    {
+     "t": 33495.8717523,
+     "phase": "save_flush",
+     "detail": {
+      "cycle": 5
+     }
+    },
+    {
+     "t": 33495.8717627,
+     "phase": "save_fsync",
+     "detail": {
+      "cycle": 5
+     }
+    },
+    {
+     "t": 33495.8837824,
+     "phase": "sleep",
+     "detail": {
+      "cycle": 5,
+      "sleep_s": 0.03
+     }
+    },
+    {
+     "t": 33495.9142634,
+     "phase": "save_replace",
+     "detail": {
+      "cycle": 5
+     }
+    },
+    {
+     "t": 33495.915221,
+     "phase": "save_post",
+     "detail": {
+      "cycle": 5
+     }
+    },
+    {
+     "t": 33495.925657,
+     "phase": "sleep",
+     "detail": {
+      "cycle": 5,
+      "sleep_s": 0.4
+     }
+    },
+    {
+     "t": 33496.3260874,
+     "phase": "graceful_exit",
+     "detail": {
+      "status": "completed"
+     }
+    }
+   ],
+   "target": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\_k1_stall_locate\\vk_off\\target.kvmem",
+    "sha16": "3b046c8ee3fb3b53",
+    "bytes": 5224388
+   },
+   "target_n_tokens": 50,
+   "tmp_remaining": [],
+   "note": "5 cycles completed; vk=off no stall"
+  }
+ ],
+ "comparison": {
+  "vk_on_stall": true,
+  "vk_off_stall": false,
+  "conclusion": "only vk=on stalls => Vulkan-prelude interaction",
+  "location": "save_write loop, at the 4 MiB tmp boundary (64 chunks); heartbeat stops entirely, so this is a process-wide freeze, not a proven single syscall; not park_*/holding, not fsync/replace",
+  "last_on_phase": "save_write(chunk_37) @0.406 s (heartbeat); last state chunk56 @0.516 s",
+  "heartbeat_evidence": "vk=on: 2 heartbeats then silence; vk=off: 25 heartbeats through completion",
+  "syscall_evidence": "vk=off max syscall 13.292 ms fsync; no >1 s; vk=on syscall trace lost at hard stop",
+  "interpretation": "Vulkan prelude makes the process freeze at a ~4 MiB write-loop point; off-arm proves it is not general environment/IO alone. Exact syscall inside the frozen window is not measurable because the whole process stopped heartbeating; likely a process-wide suspension (filter driver/AV/memory reclaim), but that mechanism is not proven."
+ },
+ "status": "completed",
+ "armed": false,
+ "kill_attempts": 0,
+ "no_model": true,
+ "signals_sent": 1,
+ "signal_breakdown": {
+  "formal_stage_kills": 0,
+  "hard_timeout_terminate": 1
+ },
+ "l1_runs": 0,
+ "warmups": 0,
+ "upper_bound_changed": false,
+ "finished_at": "2026-10-26T12:44:14+0800"
+}

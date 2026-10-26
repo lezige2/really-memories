@@ -1,0 +1,193 @@
+{
+  "selftest": [
+    {
+      "id": "invariants",
+      "pass": true,
+      "detail": "v2.2 constants, six entity patterns, ordinal exclusion, predicate longest, neg binding"
+    },
+    {
+      "id": "S4_unsupported",
+      "pass": true,
+      "detail": {
+        "verdict": "unsupported",
+        "uncovered": [
+          "是",
+          "杭州"
+        ]
+      }
+    },
+    {
+      "id": "S5_unsupported",
+      "pass": true,
+      "detail": {
+        "verdict": "unsupported",
+        "uncovered": [
+          "停在",
+          "地下停车场的第2层"
+        ]
+      }
+    },
+    {
+      "id": "S1_shi_unsupported",
+      "pass": true,
+      "detail": {
+        "verdict": "unsupported",
+        "uncovered": [
+          "地址",
+          "是",
+          "12号2十单元"
+        ]
+      }
+    },
+    {
+      "id": "S1_supported",
+      "pass": true,
+      "detail": {
+        "verdict": "supported",
+        "uncovered": []
+      }
+    },
+    {
+      "id": "list_ordinal_excluded",
+      "pass": true,
+      "detail": {
+        "components": [
+          "在",
+          "回答我的家庭地址",
+          "是"
+        ],
+        "extraction_fp": [
+          {
+            "kind": "list_ordinal_removed",
+            "sentence": 0,
+            "text": "1. "
+          }
+        ]
+      }
+    },
+    {
+      "id": "truncated_tail_undecidable",
+      "pass": true,
+      "detail": {
+        "verdict": "undecidable",
+        "truncated_cut": true,
+        "components": [
+          "地址",
+          "是",
+          "广陵路"
+        ],
+        "extraction_fp": [
+          {
+            "kind": "truncation_cut",
+            "sentence": 0,
+            "text": "1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "branch5_structural_gap",
+      "pass": true,
+      "detail": {
+        "verdict": "unsupported",
+        "branch": "5a_2gram_negative",
+        "sentence_verdicts": [
+          "supported"
+        ],
+        "gap_n": 1
+      }
+    },
+    {
+      "id": "six_entity_patterns",
+      "pass": true,
+      "detail": {
+        "patterns": [
+          "suffix",
+          "time",
+          "code",
+          "plate",
+          "loc",
+          "obj"
+        ],
+        "matches": [
+          {
+            "pattern": "suffix",
+            "matches": [
+              "我住在广陵路12号2单元",
+              "项目代号"
+            ]
+          },
+          {
+            "pattern": "time",
+            "matches": [
+              "3月14日"
+            ]
+          },
+          {
+            "pattern": "code",
+            "matches": [
+              "代号蓝鲸"
+            ]
+          },
+          {
+            "pattern": "plate",
+            "matches": [
+              "苏A12345"
+            ]
+          },
+          {
+            "pattern": "loc",
+            "matches": [
+              "在广陵路",
+              "在地下停车场"
+            ]
+          },
+          {
+            "pattern": "obj",
+            "matches": [
+              "停在地下停车场"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate_longest",
+      "pass": true,
+      "detail": [
+        "住在"
+      ]
+    },
+    {
+      "id": "negation_binding",
+      "pass": true,
+      "detail": [
+        "只喝",
+        "不加糖"
+      ]
+    },
+    {
+      "id": "known_fp_10_10",
+      "pass": true,
+      "detail": {
+        "n": 10,
+        "known_fp": 5,
+        "matches": 10
+      }
+    },
+    {
+      "id": "no_fact_sentence",
+      "pass": true,
+      "detail": {
+        "verdict": "no_fact"
+      }
+    }
+  ],
+  "all_pass": true,
+  "freeze": {
+    "v21_sha16": "5e11e1ac06f022c7",
+    "v21_bytes": 66413,
+    "prereg_sha16": "fdf7ca2ae939a3a4",
+    "prereg_bytes": 9351
+  }
+}
