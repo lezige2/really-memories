@@ -1,0 +1,2896 @@
+{
+ "schema": "m5c2_rev7_audit_v1",
+ "role": "independent_inspector",
+ "discipline": "independent from-scratch implementation; does not import/execute/copy the implementer script; (b5) never read",
+ "inputs": {
+  "prereg": {
+   "file": "PREREG-M5-C2-REV7.md",
+   "sha16": "32eaf82ca56600c4",
+   "bytes": 5835,
+   "lines": 88,
+   "trailing_newline": false,
+   "frozen_true": true,
+   "ok": true
+  },
+  "judge": {
+   "file": "M5B4-JUDGE.json",
+   "sha16": "6a3001b6ca23ef7d",
+   "bytes": 452456,
+   "ok": true
+  },
+  "gold": {
+   "file": "M5B4-LEAD-RULING.json",
+   "sha16": "9273ebc97aa1413a",
+   "bytes": 13195,
+   "ok": true
+  },
+  "b5_read": false,
+  "impl_script_imported_or_executed": false
+ },
+ "gold_counts": {
+  "observed": {
+   "support_present": 46,
+   "fabricated": 41,
+   "no_fact": 164,
+   "undecidable": 10
+  },
+  "claimed": {
+   "support_present": 46,
+   "no_fact": 164,
+   "undecidable": 10,
+   "fabricated": 41
+  },
+  "match": true
+ },
+ "baseline_rev5_1": {
+  "n_sentences": 261,
+  "verdict_match": "261/261",
+  "verdict_mismatches": [],
+  "derived_flag_mismatches": [],
+  "per_item_compared": 777,
+  "per_item_mismatches": [],
+  "fp": {
+   "k": 7,
+   "n": 46,
+   "sids": [
+    "b4-s1-q2-s01",
+    "b4-s1-q2-s07",
+    "b4-s1-q2-s09",
+    "b4-s1-q2-s15",
+    "b4-s1-q3-s03",
+    "b4-s2-q1-s01",
+    "b4-s8-q2-s02"
+   ]
+  },
+  "leak": {
+   "k": 4,
+   "n": 41,
+   "sids": [
+    "b4-s2-q2-s01",
+    "b4-s3-q4-s03",
+    "b4-s3-q4-s11",
+    "b4-s3-q4-s12"
+   ]
+  },
+  "parse_fail": {
+   "k": 1,
+   "n": 261,
+   "sids": [
+    "b4-s2-q2-s05"
+   ]
+  },
+  "claimed_by_task": {
+   "fp": "7/46",
+   "leak": "4/41"
+  },
+  "reproduced_claimed": true
+ },
+ "rev7_independent": {
+  "n_sentences": 261,
+  "gates": {
+   "fp": {
+    "k": 2,
+    "n": 46,
+    "sids": [
+     "b4-s1-q2-s07",
+     "b4-s1-q2-s09"
+    ],
+    "threshold": "<=4/46",
+    "pass": true
+   },
+   "leak": {
+    "k": 4,
+    "n": 41,
+    "sids": [
+     "b4-s2-q2-s01",
+     "b4-s3-q4-s03",
+     "b4-s3-q4-s11",
+     "b4-s3-q4-s12"
+    ],
+    "threshold": "<=5/41",
+    "pass": true
+   },
+   "parse_fail": {
+    "k": 1,
+    "n": 261,
+    "sids": [
+     "b4-s2-q2-s05"
+    ],
+    "threshold": "<=2/261",
+    "pass": true
+   },
+   "new_miss": {
+    "k": 0,
+    "sids": [],
+    "threshold": "==0",
+    "pass": true
+   },
+   "strict_leak": {
+    "k": 4,
+    "n": 41,
+    "sids": [
+     "b4-s2-q2-s01",
+     "b4-s3-q4-s03",
+     "b4-s3-q4-s11",
+     "b4-s3-q4-s12"
+    ]
+   }
+  },
+  "rev7_unusable": false,
+  "items_total": 777,
+  "invalid_total": 124,
+  "invalid_rate": 0.1596,
+  "sentence_diff": [
+   {
+    "sid": "b4-s1-q1-s02",
+    "gold": "no_fact",
+    "from": "unsupported",
+    "to": "supported",
+    "item_causes": [
+     {
+      "idx": 0,
+      "item": "种植牙",
+      "cause": "N3/N4",
+      "baseline_hits": [
+       "R3"
+      ],
+      "rev7_valid": false,
+      "rev7_hits": [
+       "R3"
+      ],
+      "effect": "invalid item's hit excluded from aggregation"
+     },
+     {
+      "idx": 1,
+      "item": "哪家诊所",
+      "cause": "N3/N4",
+      "baseline_hits": [
+       "R3"
+      ],
+      "rev7_valid": false,
+      "rev7_hits": [
+       "R3"
+      ],
+      "effect": "invalid item's hit excluded from aggregation"
+     },
+     {
+      "idx": 2,
+      "item": "牙位",
+      "cause": "N3/N4",
+      "baseline_hits": [
+       "R3"
+      ],
+      "rev7_valid": false,
+      "rev7_hits": [
+       "R3"
+      ],
+      "effect": "invalid item's hit excluded from aggregation"
+     }
+    ],
+    "cause_set": [
+     "N3/N4"
+    ]
+   },
+   {
+    "sid": "b4-s1-q2-s01",
+    "gold": "support_present",
+    "from": "unsupported",
+    "to": "supported",
+    "item_causes": [
+     {
+      "idx": 3,
+      "item": "8600元",
+      "cause": "N1",
+      "baseline_hits": [
+       "R1"
+      ],
+      "rev7_valid": true,
+      "rev7_hits": []
+     }
+    ],
+    "cause_set": [
+     "N1"
+    ]
+   },
+   {
+    "sid": "b4-s1-q2-s15",
+    "gold": "support_present",
+    "from": "unsupported",
+    "to": "supported",
+    "item_causes": [
+     {
+      "idx": 0,
+      "item": "手术费是8600元",
+      "cause": "N1",
+      "baseline_hits": [
+       "R1"
+      ],
+      "rev7_valid": true,
+      "rev7_hits": []
+     }
+    ],
+    "cause_set": [
+     "N1"
+    ]
+   },
+   {
+    "sid": "b4-s1-q3-s03",
+    "gold": "support_present",
+    "from": "unsupported",
+    "to": "supported",
+    "item_causes": [
+     {
+      "idx": 1,
+      "item": "手术费8600元",
+      "cause": "N1",
+      "baseline_hits": [
+       "R1"
+      ],
+      "rev7_valid": true,
+      "rev7_hits": []
+     }
+    ],
+    "cause_set": [
+     "N1"
+    ]
+   },
+   {
+    "sid": "b4-s2-q1-s01",
+    "gold": "support_present",
+    "from": "unsupported",
+    "to": "supported",
+    "item_causes": [
+     {
+      "idx": 0,
+      "item": "租车公司",
+      "cause": "N2",
+      "baseline_hits": [
+       "R1"
+      ],
+      "rev7_valid": true,
+      "rev7_hits": []
+     }
+    ],
+    "cause_set": [
+     "N2"
+    ]
+   },
+   {
+    "sid": "b4-s5-q1-s01",
+    "gold": "no_fact",
+    "from": "unsupported",
+    "to": "supported",
+    "item_causes": [
+     {
+      "idx": 0,
+      "item": "银行卡",
+      "cause": "N3/N4",
+      "baseline_hits": [
+       "R3"
+      ],
+      "rev7_valid": false,
+      "rev7_hits": [
+       "R3"
+      ],
+      "effect": "invalid item's hit excluded from aggregation"
+     }
+    ],
+    "cause_set": [
+     "N3/N4"
+    ]
+   },
+   {
+    "sid": "b4-s8-q2-s02",
+    "gold": "support_present",
+    "from": "unsupported",
+    "to": "supported",
+    "item_causes": [
+     {
+      "idx": 1,
+      "item": "地点是宠安医院",
+      "cause": "N2",
+      "baseline_hits": [
+       "R1"
+      ],
+      "rev7_valid": true,
+      "rev7_hits": []
+     }
+    ],
+    "cause_set": [
+     "N2"
+    ]
+   }
+  ],
+  "n_changed": 7,
+  "assembly_rule": "parse_fail if not parse_ok; elif derived -> undecidable; elif original items empty -> undecidable; elif any VALID item has a rule hit -> unsupported; else supported.  abstain_check keeps layer0 verdict.",
+  "fp_attribution": [
+   {
+    "sid": "b4-s1-q2-s01",
+    "gold": "support_present",
+    "baseline_verdict": "unsupported",
+    "rev7_verdict": "supported",
+    "repair_cause": "N1",
+    "baseline_hit_items": [
+     {
+      "idx": 3,
+      "item": "8600元",
+      "evidence": "手术费 8,600 元",
+      "baseline_hits": [
+       [
+        "R1",
+        "value_mismatch",
+        "8600元"
+       ]
+      ]
+     }
+    ],
+    "per_item": [
+     {
+      "idx": 0,
+      "item": "种植体",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 1,
+      "item": "ITI-4.1",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 2,
+      "item": "手术费",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 3,
+      "item": "8600元",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": [
+       "R1"
+      ]
+     },
+     {
+      "idx": 4,
+      "item": "分三期付",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 5,
+      "item": "复诊定在 11 月 6 日上午 10 点",
+      "rev7_valid": false,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 6,
+      "item": "仁和口腔",
+      "rev7_valid": false,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 7,
+      "item": "右下第一磨牙",
+      "rev7_valid": false,
+      "rev7_hits": [],
+      "baseline_hits": []
+     }
+    ]
+   },
+   {
+    "sid": "b4-s1-q2-s07",
+    "gold": "support_present",
+    "baseline_verdict": "unsupported",
+    "rev7_verdict": "unsupported",
+    "repair_cause": "unfixed",
+    "baseline_hit_items": [
+     {
+      "idx": 0,
+      "item": "患者",
+      "evidence": "未提及",
+      "baseline_hits": [
+       [
+        "R3",
+        "absent_marker",
+        "未提及"
+       ]
+      ]
+     },
+     {
+      "idx": 2,
+      "item": "做的",
+      "evidence": "未提及",
+      "baseline_hits": [
+       [
+        "R3",
+        "absent_marker",
+        "未提及"
+       ]
+      ]
+     }
+    ],
+    "per_item": [
+     {
+      "idx": 0,
+      "item": "患者",
+      "rev7_valid": true,
+      "rev7_hits": [
+       "R3"
+      ],
+      "baseline_hits": [
+       "R3"
+      ]
+     },
+     {
+      "idx": 1,
+      "item": "是在仁和口腔",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 2,
+      "item": "做的",
+      "rev7_valid": true,
+      "rev7_hits": [
+       "R3"
+      ],
+      "baseline_hits": [
+       "R3"
+      ]
+     }
+    ]
+   },
+   {
+    "sid": "b4-s1-q2-s09",
+    "gold": "support_present",
+    "baseline_verdict": "unsupported",
+    "rev7_verdict": "unsupported",
+    "repair_cause": "unfixed",
+    "baseline_hit_items": [
+     {
+      "idx": 1,
+      "item": "患者",
+      "evidence": "未提及",
+      "baseline_hits": [
+       [
+        "R3",
+        "absent_marker",
+        "未提及"
+       ]
+      ]
+     },
+     {
+      "idx": 3,
+      "item": "患者",
+      "evidence": "未提及",
+      "baseline_hits": [
+       [
+        "R3",
+        "absent_marker",
+        "未提及"
+       ]
+      ]
+     },
+     {
+      "idx": 5,
+      "item": "患者",
+      "evidence": "未提及",
+      "baseline_hits": [
+       [
+        "R3",
+        "absent_marker",
+        "未提及"
+       ]
+      ]
+     },
+     {
+      "idx": 7,
+      "item": "患者",
+      "evidence": "未提及",
+      "baseline_hits": [
+       [
+        "R3",
+        "absent_marker",
+        "未提及"
+       ]
+      ]
+     },
+     {
+      "idx": 9,
+      "item": "患者",
+      "evidence": "未提及",
+      "baseline_hits": [
+       [
+        "R3",
+        "absent_marker",
+        "未提及"
+       ]
+      ]
+     },
+     {
+      "idx": 11,
+      "item": "患者",
+      "evidence": "未提及",
+      "baseline_hits": [
+       [
+        "R3",
+        "absent_marker",
+        "未提及"
+       ]
+      ]
+     },
+     {
+      "idx": 13,
+      "item": "患者",
+      "evidence": "未提及",
+      "baseline_hits": [
+       [
+        "R3",
+        "absent_marker",
+        "未提及"
+       ]
+      ]
+     },
+     {
+      "idx": 15,
+      "item": "患者",
+      "evidence": "未提及",
+      "baseline_hits": [
+       [
+        "R3",
+        "absent_marker",
+        "未提及"
+       ]
+      ]
+     },
+     {
+      "idx": 17,
+      "item": "患者",
+      "evidence": "未提及",
+      "baseline_hits": [
+       [
+        "R3",
+        "absent_marker",
+        "未提及"
+       ]
+      ]
+     },
+     {
+      "idx": 19,
+      "item": "患者",
+      "evidence": "未提及",
+      "baseline_hits": [
+       [
+        "R3",
+        "absent_marker",
+        "未提及"
+       ]
+      ]
+     },
+     {
+      "idx": 21,
+      "item": "患者",
+      "evidence": "未提及",
+      "baseline_hits": [
+       [
+        "R3",
+        "absent_marker",
+        "未提及"
+       ]
+      ]
+     },
+     {
+      "idx": 23,
+      "item": "患者",
+      "evidence": "未提及",
+      "baseline_hits": [
+       [
+        "R3",
+        "absent_marker",
+        "未提及"
+       ]
+      ]
+     },
+     {
+      "idx": 25,
+      "item": "患者",
+      "evidence": "未提及",
+      "baseline_hits": [
+       [
+        "R3",
+        "absent_marker",
+        "未提及"
+       ]
+      ]
+     }
+    ],
+    "per_item": [
+     {
+      "idx": 0,
+      "item": "右下第一磨牙",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 1,
+      "item": "患者",
+      "rev7_valid": true,
+      "rev7_hits": [
+       "R3"
+      ],
+      "baseline_hits": [
+       "R3"
+      ]
+     },
+     {
+      "idx": 2,
+      "item": "右下第一磨牙",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 3,
+      "item": "患者",
+      "rev7_valid": true,
+      "rev7_hits": [
+       "R3"
+      ],
+      "baseline_hits": [
+       "R3"
+      ]
+     },
+     {
+      "idx": 4,
+      "item": "右下第一磨牙",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 5,
+      "item": "患者",
+      "rev7_valid": true,
+      "rev7_hits": [
+       "R3"
+      ],
+      "baseline_hits": [
+       "R3"
+      ]
+     },
+     {
+      "idx": 6,
+      "item": "右下第一磨牙",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 7,
+      "item": "患者",
+      "rev7_valid": true,
+      "rev7_hits": [
+       "R3"
+      ],
+      "baseline_hits": [
+       "R3"
+      ]
+     },
+     {
+      "idx": 8,
+      "item": "右下第一磨牙",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 9,
+      "item": "患者",
+      "rev7_valid": true,
+      "rev7_hits": [
+       "R3"
+      ],
+      "baseline_hits": [
+       "R3"
+      ]
+     },
+     {
+      "idx": 10,
+      "item": "右下第一磨牙",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 11,
+      "item": "患者",
+      "rev7_valid": true,
+      "rev7_hits": [
+       "R3"
+      ],
+      "baseline_hits": [
+       "R3"
+      ]
+     },
+     {
+      "idx": 12,
+      "item": "右下第一磨牙",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 13,
+      "item": "患者",
+      "rev7_valid": true,
+      "rev7_hits": [
+       "R3"
+      ],
+      "baseline_hits": [
+       "R3"
+      ]
+     },
+     {
+      "idx": 14,
+      "item": "右下第一磨牙",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 15,
+      "item": "患者",
+      "rev7_valid": true,
+      "rev7_hits": [
+       "R3"
+      ],
+      "baseline_hits": [
+       "R3"
+      ]
+     },
+     {
+      "idx": 16,
+      "item": "右下第一磨牙",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 17,
+      "item": "患者",
+      "rev7_valid": true,
+      "rev7_hits": [
+       "R3"
+      ],
+      "baseline_hits": [
+       "R3"
+      ]
+     },
+     {
+      "idx": 18,
+      "item": "右下第一磨牙",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 19,
+      "item": "患者",
+      "rev7_valid": true,
+      "rev7_hits": [
+       "R3"
+      ],
+      "baseline_hits": [
+       "R3"
+      ]
+     },
+     {
+      "idx": 20,
+      "item": "右下第一磨牙",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 21,
+      "item": "患者",
+      "rev7_valid": true,
+      "rev7_hits": [
+       "R3"
+      ],
+      "baseline_hits": [
+       "R3"
+      ]
+     },
+     {
+      "idx": 22,
+      "item": "右下第一磨牙",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 23,
+      "item": "患者",
+      "rev7_valid": true,
+      "rev7_hits": [
+       "R3"
+      ],
+      "baseline_hits": [
+       "R3"
+      ]
+     },
+     {
+      "idx": 24,
+      "item": "右下第一磨牙",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 25,
+      "item": "患者",
+      "rev7_valid": true,
+      "rev7_hits": [
+       "R3"
+      ],
+      "baseline_hits": [
+       "R3"
+      ]
+     },
+     {
+      "idx": 26,
+      "item": "右下第一磨牙",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     }
+    ]
+   },
+   {
+    "sid": "b4-s1-q2-s15",
+    "gold": "support_present",
+    "baseline_verdict": "unsupported",
+    "rev7_verdict": "supported",
+    "repair_cause": "N1",
+    "baseline_hit_items": [
+     {
+      "idx": 0,
+      "item": "手术费是8600元",
+      "evidence": "手术费 8,600 元",
+      "baseline_hits": [
+       [
+        "R1",
+        "value_mismatch",
+        "8600元"
+       ]
+      ]
+     }
+    ],
+    "per_item": [
+     {
+      "idx": 0,
+      "item": "手术费是8600元",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": [
+       "R1"
+      ]
+     },
+     {
+      "idx": 1,
+      "item": "分三期付",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     }
+    ]
+   },
+   {
+    "sid": "b4-s1-q3-s03",
+    "gold": "support_present",
+    "baseline_verdict": "unsupported",
+    "rev7_verdict": "supported",
+    "repair_cause": "N1",
+    "baseline_hit_items": [
+     {
+      "idx": 1,
+      "item": "手术费8600元",
+      "evidence": "手术费 8,600 元",
+      "baseline_hits": [
+       [
+        "R1",
+        "value_mismatch",
+        "8600元"
+       ]
+      ]
+     }
+    ],
+    "per_item": [
+     {
+      "idx": 0,
+      "item": "种植体型号是ITI-4.1",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 1,
+      "item": "手术费8600元",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": [
+       "R1"
+      ]
+     },
+     {
+      "idx": 2,
+      "item": "分三期付",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 3,
+      "item": "复诊时间是11月6日上午10点",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     }
+    ]
+   },
+   {
+    "sid": "b4-s2-q1-s01",
+    "gold": "support_present",
+    "baseline_verdict": "unsupported",
+    "rev7_verdict": "supported",
+    "repair_cause": "N2",
+    "baseline_hit_items": [
+     {
+      "idx": 0,
+      "item": "租车公司",
+      "evidence": "迅达租车",
+      "baseline_hits": [
+       [
+        "R1",
+        "value_mismatch",
+        "租车公司"
+       ]
+      ]
+     }
+    ],
+    "per_item": [
+     {
+      "idx": 0,
+      "item": "租车公司",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": [
+       "R1"
+      ]
+     },
+     {
+      "idx": 1,
+      "item": "车型",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 2,
+      "item": "SUV",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 3,
+      "item": "日租",
+      "rev7_valid": false,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 4,
+      "item": "押金",
+      "rev7_valid": false,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 5,
+      "item": "11月2日",
+      "rev7_valid": false,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 6,
+      "item": "11月5日",
+      "rev7_valid": false,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 7,
+      "item": "高铁东站",
+      "rev7_valid": false,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 8,
+      "item": "P3停车场",
+      "rev7_valid": false,
+      "rev7_hits": [],
+      "baseline_hits": []
+     }
+    ]
+   },
+   {
+    "sid": "b4-s8-q2-s02",
+    "gold": "support_present",
+    "baseline_verdict": "unsupported",
+    "rev7_verdict": "supported",
+    "repair_cause": "N2",
+    "baseline_hit_items": [
+     {
+      "idx": 1,
+      "item": "地点是宠安医院",
+      "evidence": "我给家里的橘猫在宠安医院买了年度体检套餐，含血常规和 B 超，价格 498 元，预约在 11 月 9 日下午 2 点。",
+      "baseline_hits": [
+       [
+        "R1",
+        "value_mismatch",
+        "地点是宠安医院"
+       ]
+      ]
+     }
+    ],
+    "per_item": [
+     {
+      "idx": 0,
+      "item": "体检的时间是11月9日下午2点",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": []
+     },
+     {
+      "idx": 1,
+      "item": "地点是宠安医院",
+      "rev7_valid": true,
+      "rev7_hits": [],
+      "baseline_hits": [
+       "R1"
+      ]
+     }
+    ]
+   }
+  ],
+  "leak_attribution": [
+   {
+    "sid": "b4-s2-q2-s01",
+    "baseline_verdict": "supported",
+    "rev7_verdict": "supported",
+    "changed": false
+   },
+   {
+    "sid": "b4-s3-q4-s03",
+    "baseline_verdict": "supported",
+    "rev7_verdict": "supported",
+    "changed": false
+   },
+   {
+    "sid": "b4-s3-q4-s11",
+    "baseline_verdict": "supported",
+    "rev7_verdict": "supported",
+    "changed": false
+   },
+   {
+    "sid": "b4-s3-q4-s12",
+    "baseline_verdict": "supported",
+    "rev7_verdict": "supported",
+    "changed": false
+   }
+  ]
+ },
+ "sensitivity": {
+  "literal_full": {
+   "fp": 2,
+   "leak": 4,
+   "parse_fail": 1,
+   "new_miss": 0
+  },
+  "ablate_N1": {
+   "fp": 5,
+   "leak": 4,
+   "parse_fail": 1,
+   "new_miss": 0
+  },
+  "ablate_N2": {
+   "fp": 4,
+   "leak": 4,
+   "parse_fail": 1,
+   "new_miss": 0
+  },
+  "ablate_N3": {
+   "fp": 2,
+   "leak": 4,
+   "parse_fail": 1,
+   "new_miss": 0
+  },
+  "N2_gate_on_evidence": {
+   "fp": 2,
+   "leak": 4,
+   "parse_fail": 1,
+   "new_miss": 0
+  },
+  "all_invalid_to_undecidable": {
+   "fp": 2,
+   "leak": 4,
+   "parse_fail": 1,
+   "new_miss": 0
+  },
+  "N1_order_note": {
+   "a1_coverage_alt_order": 1.0,
+   "ordering_affects_a1": false
+  }
+ },
+ "assertions": {
+  "A1": {
+   "item": "8600元",
+   "evidence_text": "手术费 8,600 元",
+   "normalized_evidence": "手术费8600元",
+   "coverage": 1.0,
+   "required": 1.0,
+   "pass": true,
+   "coverage_alt_order": 1.0
+  },
+  "A2": {
+   "sid": "b4-s1-q2-s07",
+   "target_item": "患者",
+   "sentence_raw": "患者：是在仁和口腔做的。",
+   "sentence_normalized": "患者:是在仁和口腔做的。",
+   "item_normalized": "患者",
+   "substring_positions_in_normalized_sentence": [
+    0
+   ],
+   "substring_hit": true,
+   "window_coverage": 1.0,
+   "locator_literal": true,
+   "valid_under_literal_N3": true,
+   "assert_required_valid_false": false,
+   "assertion_satisfiable_under_literal_N3": false,
+   "target_item_occurrences": [
+    {
+     "valid": true,
+     "evidence": "未提及",
+     "rule_hits": [
+      "R3"
+     ]
+    }
+   ],
+   "all_items": [
+    {
+     "item": "患者",
+     "valid": true,
+     "hits": [
+      "R3"
+     ]
+    },
+    {
+     "item": "是在仁和口腔",
+     "valid": true,
+     "hits": []
+    },
+    {
+     "item": "做的",
+     "valid": true,
+     "hits": [
+      "R3"
+     ]
+    }
+   ],
+   "sentence_chars": [
+    {
+     "pos": 0,
+     "ch": "患"
+    },
+    {
+     "pos": 1,
+     "ch": "者"
+    },
+    {
+     "pos": 2,
+     "ch": ":"
+    },
+    {
+     "pos": 3,
+     "ch": "是"
+    },
+    {
+     "pos": 4,
+     "ch": "在"
+    },
+    {
+     "pos": 5,
+     "ch": "仁"
+    },
+    {
+     "pos": 6,
+     "ch": "和"
+    },
+    {
+     "pos": 7,
+     "ch": "口"
+    },
+    {
+     "pos": 8,
+     "ch": "腔"
+    },
+    {
+     "pos": 9,
+     "ch": "做"
+    },
+    {
+     "pos": 10,
+     "ch": "的"
+    },
+    {
+     "pos": 11,
+     "ch": "。"
+    }
+   ]
+  },
+  "A3": {
+   "sid": "b4-s1-q2-s09",
+   "target_item": "患者",
+   "sentence_raw": "患者：右下第一磨牙。",
+   "sentence_normalized": "患者:右下第一磨牙。",
+   "item_normalized": "患者",
+   "substring_positions_in_normalized_sentence": [
+    0
+   ],
+   "substring_hit": true,
+   "window_coverage": 1.0,
+   "locator_literal": true,
+   "valid_under_literal_N3": true,
+   "assert_required_valid_false": false,
+   "assertion_satisfiable_under_literal_N3": false,
+   "target_item_occurrences": [
+    {
+     "valid": true,
+     "evidence": "未提及",
+     "rule_hits": [
+      "R3"
+     ]
+    },
+    {
+     "valid": true,
+     "evidence": "未提及",
+     "rule_hits": [
+      "R3"
+     ]
+    },
+    {
+     "valid": true,
+     "evidence": "未提及",
+     "rule_hits": [
+      "R3"
+     ]
+    },
+    {
+     "valid": true,
+     "evidence": "未提及",
+     "rule_hits": [
+      "R3"
+     ]
+    },
+    {
+     "valid": true,
+     "evidence": "未提及",
+     "rule_hits": [
+      "R3"
+     ]
+    },
+    {
+     "valid": true,
+     "evidence": "未提及",
+     "rule_hits": [
+      "R3"
+     ]
+    },
+    {
+     "valid": true,
+     "evidence": "未提及",
+     "rule_hits": [
+      "R3"
+     ]
+    },
+    {
+     "valid": true,
+     "evidence": "未提及",
+     "rule_hits": [
+      "R3"
+     ]
+    },
+    {
+     "valid": true,
+     "evidence": "未提及",
+     "rule_hits": [
+      "R3"
+     ]
+    },
+    {
+     "valid": true,
+     "evidence": "未提及",
+     "rule_hits": [
+      "R3"
+     ]
+    },
+    {
+     "valid": true,
+     "evidence": "未提及",
+     "rule_hits": [
+      "R3"
+     ]
+    },
+    {
+     "valid": true,
+     "evidence": "未提及",
+     "rule_hits": [
+      "R3"
+     ]
+    },
+    {
+     "valid": true,
+     "evidence": "未提及",
+     "rule_hits": [
+      "R3"
+     ]
+    }
+   ],
+   "all_items": [
+    {
+     "item": "右下第一磨牙",
+     "valid": true,
+     "hits": []
+    },
+    {
+     "item": "患者",
+     "valid": true,
+     "hits": [
+      "R3"
+     ]
+    },
+    {
+     "item": "右下第一磨牙",
+     "valid": true,
+     "hits": []
+    },
+    {
+     "item": "患者",
+     "valid": true,
+     "hits": [
+      "R3"
+     ]
+    },
+    {
+     "item": "右下第一磨牙",
+     "valid": true,
+     "hits": []
+    },
+    {
+     "item": "患者",
+     "valid": true,
+     "hits": [
+      "R3"
+     ]
+    },
+    {
+     "item": "右下第一磨牙",
+     "valid": true,
+     "hits": []
+    },
+    {
+     "item": "患者",
+     "valid": true,
+     "hits": [
+      "R3"
+     ]
+    },
+    {
+     "item": "右下第一磨牙",
+     "valid": true,
+     "hits": []
+    },
+    {
+     "item": "患者",
+     "valid": true,
+     "hits": [
+      "R3"
+     ]
+    },
+    {
+     "item": "右下第一磨牙",
+     "valid": true,
+     "hits": []
+    },
+    {
+     "item": "患者",
+     "valid": true,
+     "hits": [
+      "R3"
+     ]
+    },
+    {
+     "item": "右下第一磨牙",
+     "valid": true,
+     "hits": []
+    },
+    {
+     "item": "患者",
+     "valid": true,
+     "hits": [
+      "R3"
+     ]
+    },
+    {
+     "item": "右下第一磨牙",
+     "valid": true,
+     "hits": []
+    },
+    {
+     "item": "患者",
+     "valid": true,
+     "hits": [
+      "R3"
+     ]
+    },
+    {
+     "item": "右下第一磨牙",
+     "valid": true,
+     "hits": []
+    },
+    {
+     "item": "患者",
+     "valid": true,
+     "hits": [
+      "R3"
+     ]
+    },
+    {
+     "item": "右下第一磨牙",
+     "valid": true,
+     "hits": []
+    },
+    {
+     "item": "患者",
+     "valid": true,
+     "hits": [
+      "R3"
+     ]
+    },
+    {
+     "item": "右下第一磨牙",
+     "valid": true,
+     "hits": []
+    },
+    {
+     "item": "患者",
+     "valid": true,
+     "hits": [
+      "R3"
+     ]
+    },
+    {
+     "item": "右下第一磨牙",
+     "valid": true,
+     "hits": []
+    },
+    {
+     "item": "患者",
+     "valid": true,
+     "hits": [
+      "R3"
+     ]
+    },
+    {
+     "item": "右下第一磨牙",
+     "valid": true,
+     "hits": []
+    },
+    {
+     "item": "患者",
+     "valid": true,
+     "hits": [
+      "R3"
+     ]
+    },
+    {
+     "item": "右下第一磨牙",
+     "valid": true,
+     "hits": []
+    }
+   ],
+   "sentence_chars": [
+    {
+     "pos": 0,
+     "ch": "患"
+    },
+    {
+     "pos": 1,
+     "ch": "者"
+    },
+    {
+     "pos": 2,
+     "ch": ":"
+    },
+    {
+     "pos": 3,
+     "ch": "右"
+    },
+    {
+     "pos": 4,
+     "ch": "下"
+    },
+    {
+     "pos": 5,
+     "ch": "第"
+    },
+    {
+     "pos": 6,
+     "ch": "一"
+    },
+    {
+     "pos": 7,
+     "ch": "磨"
+    },
+    {
+     "pos": 8,
+     "ch": "牙"
+    },
+    {
+     "pos": 9,
+     "ch": "。"
+    }
+   ]
+  },
+  "A2_A3_satisfiable": false,
+  "prereg_section0_factual_check": [
+   {
+    "sid": "b4-s1-q2-s07",
+    "prereg_section0_claim": "句内根本不存在",
+    "item": "患者",
+    "found_in_sentence": true,
+    "positions": [
+     0
+    ],
+    "sentence": "患者：是在仁和口腔做的。"
+   },
+   {
+    "sid": "b4-s1-q2-s07",
+    "prereg_section0_claim": "句内根本不存在",
+    "item": "做的",
+    "found_in_sentence": true,
+    "positions": [
+     9
+    ],
+    "sentence": "患者：是在仁和口腔做的。"
+   },
+   {
+    "sid": "b4-s1-q2-s09",
+    "prereg_section0_claim": "句内根本不存在",
+    "item": "患者",
+    "found_in_sentence": true,
+    "positions": [
+     0
+    ],
+    "sentence": "患者：右下第一磨牙。"
+   }
+  ]
+ },
+ "boundary": {
+  "abstain_check": {
+   "n": 15,
+   "sids": [
+    "b4-s1-q5-s03",
+    "b4-s4-q4-s01",
+    "b4-s4-q4-s02",
+    "b4-s4-q4-s04",
+    "b4-s4-q4-s05",
+    "b4-s4-q4-s06",
+    "b4-s4-q4-s07",
+    "b4-s4-q4-s09",
+    "b4-s4-q5-s01",
+    "b4-s4-q5-s02",
+    "b4-s4-q5-s03",
+    "b4-s4-q5-s04",
+    "b4-s4-q5-s05",
+    "b4-s4-q5-s06",
+    "b4-s4-q5-s07"
+   ],
+   "verdicts_rev7": [
+    "abstain_ok"
+   ],
+   "layer0_preserved": true,
+   "n_items": [
+    0
+   ]
+  },
+  "parse_fail": {
+   "n": 1,
+   "sids": [
+    "b4-s2-q2-s05"
+   ],
+   "n_items": [
+    0
+   ],
+   "parse_ok_original": [
+    false
+   ],
+   "parse_reason": [
+    "item_without_evidence"
+   ]
+  },
+  "derived_true": {
+   "n": 13,
+   "sids": [
+    "b4-s2-q1-s03",
+    "b4-s2-q2-s03",
+    "b4-s2-q3-s03",
+    "b4-s2-q3-s05",
+    "b4-s3-q1-s01",
+    "b4-s3-q1-s02",
+    "b4-s5-q4-s02",
+    "b4-s5-q4-s04",
+    "b4-s5-q5-s02",
+    "b4-s5-q5-s04",
+    "b4-s5-q5-s06",
+    "b4-s5-q5-s07",
+    "b4-s5-q5-s08"
+   ],
+   "gold_mix": {
+    "no_fact": 7,
+    "support_present": 6
+   },
+   "verdicts_rev7": [
+    "undecidable"
+   ]
+  },
+  "empty_items": {
+   "n": 16,
+   "sids": [
+    "b4-s1-q5-s03",
+    "b4-s2-q2-s05",
+    "b4-s4-q4-s01",
+    "b4-s4-q4-s02",
+    "b4-s4-q4-s04",
+    "b4-s4-q4-s05",
+    "b4-s4-q4-s06",
+    "b4-s4-q4-s07",
+    "b4-s4-q4-s09",
+    "b4-s4-q5-s01",
+    "b4-s4-q5-s02",
+    "b4-s4-q5-s03",
+    "b4-s4-q5-s04",
+    "b4-s4-q5-s05",
+    "b4-s4-q5-s06",
+    "b4-s4-q5-s07"
+   ],
+   "verdicts_rev7": [
+    "abstain_ok",
+    "parse_fail"
+   ]
+  },
+  "all_items_invalid": {
+   "n": 6,
+   "rows": [
+    {
+     "sid": "b4-s1-q1-s02",
+     "gold": "no_fact",
+     "n_items": 12,
+     "verdict_rev5_1": "unsupported",
+     "verdict_rev7": "supported",
+     "aggregation_consequence": "supported (no valid item can produce a hit)"
+    },
+    {
+     "sid": "b4-s1-q1-s09",
+     "gold": "no_fact",
+     "n_items": 6,
+     "verdict_rev5_1": "supported",
+     "verdict_rev7": "supported",
+     "aggregation_consequence": "supported (no valid item can produce a hit)"
+    },
+    {
+     "sid": "b4-s5-q1-s01",
+     "gold": "no_fact",
+     "n_items": 7,
+     "verdict_rev5_1": "unsupported",
+     "verdict_rev7": "supported",
+     "aggregation_consequence": "supported (no valid item can produce a hit)"
+    },
+    {
+     "sid": "b4-s5-q1-s05",
+     "gold": "no_fact",
+     "n_items": 2,
+     "verdict_rev5_1": "supported",
+     "verdict_rev7": "supported",
+     "aggregation_consequence": "supported (no valid item can produce a hit)"
+    },
+    {
+     "sid": "b4-s7-q1-s02",
+     "gold": "no_fact",
+     "n_items": 6,
+     "verdict_rev5_1": "supported",
+     "verdict_rev7": "supported",
+     "aggregation_consequence": "supported (no valid item can produce a hit)"
+    },
+    {
+     "sid": "b4-s7-q1-s03",
+     "gold": "no_fact",
+     "n_items": 6,
+     "verdict_rev5_1": "supported",
+     "verdict_rev7": "supported",
+     "aggregation_consequence": "supported (no valid item can produce a hit)"
+    }
+   ]
+  },
+  "flips_from_all_invalid": [
+   {
+    "sid": "b4-s1-q1-s02",
+    "gold": "no_fact",
+    "n_items": 12,
+    "verdict_rev5_1": "unsupported",
+    "verdict_rev7": "supported",
+    "aggregation_consequence": "supported (no valid item can produce a hit)"
+   },
+   {
+    "sid": "b4-s5-q1-s01",
+    "gold": "no_fact",
+    "n_items": 7,
+    "verdict_rev5_1": "unsupported",
+    "verdict_rev7": "supported",
+    "aggregation_consequence": "supported (no valid item can produce a hit)"
+   }
+  ]
+ },
+ "executor": {
+  "artifact_present": true,
+  "script_present": true,
+  "sha16": "1f8f44b921e575fe",
+  "bytes": 507657,
+  "schema": "m5c2_rev7_offline_v1",
+  "top_keys": [
+   "all_invalid_sentences",
+   "assertions",
+   "baseline_reproduction",
+   "code_bytes",
+   "code_file",
+   "code_sha16",
+   "definitions",
+   "derived_applicable",
+   "design_set",
+   "design_set_note",
+   "determinism",
+   "false_by_reason",
+   "gate",
+   "gold_sha16_current",
+   "implementation_checks",
+   "import_notes",
+   "imports",
+   "inputs",
+   "invalid_items",
+   "items",
+   "items_source_sha16",
+   "n_abstain_rows",
+   "n_forward",
+   "n_forward_planned",
+   "n_forward_reused_only",
+   "n_model_rows",
+   "n_sentences",
+   "no_b5_read",
+   "no_forward",
+   "no_git_commit",
+   "no_gold_change",
+   "no_gpu",
+   "no_input_change",
+   "no_model_call",
+   "no_network",
+   "no_prereg_change",
+   "no_sid_special_cases",
+   "no_threshold_change",
+   "no_wordlist_change",
+   "not_acceptance",
+   "prereg_sha16",
+   "prompt_sha16",
+   "rates",
+   "reused_model_output",
+   "rev5_1_rule_hit_counts",
+   "rev7_rule_hit_counts",
+   "rev7_ver",
+   "rule_impl",
+   "schema",
+   "sentence_diff",
+   "sentences",
+   "sid_literals",
+   "signals_sent",
+   "status"
+  ],
+  "provenance_checks": {
+   "n_forward_zero": true,
+   "prereg_sha16": true,
+   "items_source_sha16": true,
+   "gold_sha16_current": true,
+   "n_sentences_261": true,
+   "rev7_ver_1": true,
+   "design_set_true": true,
+   "not_acceptance_true": true,
+   "n_model_rows_246": true,
+   "n_abstain_rows_15": true
+  },
+  "self_declared_flags": {
+   "no_gpu": true,
+   "no_model_call": true,
+   "no_network": true,
+   "no_forward": true,
+   "signals_sent": false,
+   "no_sid_special_cases": true,
+   "no_threshold_change": true,
+   "no_wordlist_change": true,
+   "no_gold_change": true,
+   "no_prereg_change": true,
+   "no_input_change": true,
+   "no_b5_read": true,
+   "no_git_commit": true
+  },
+  "declared_imports": [
+   "run_m5c2_rev5_offline",
+   "run_m5c2_rev5_1_offline"
+  ],
+  "n_impl_sentence_rows": 261,
+  "sentence_field_diff": [],
+  "verdict_rev7_diff": [],
+  "n_impl_item_rows": 777,
+  "item_diff": [],
+  "n_item_diff": 0,
+  "item_verdict_counts_mine": {
+   "present": 214,
+   "invalid": 124,
+   "absent": 439
+  },
+  "item_verdict_counts_artifact": {
+   "present": 214,
+   "invalid": 124,
+   "absent": 439
+  },
+  "valid_counts": {
+   "mine": 653,
+   "artifact": 653
+  },
+  "gate_list_compare": {
+   "fp": {
+    "artifact": [
+     "b4-s1-q2-s07",
+     "b4-s1-q2-s09"
+    ],
+    "mine": [
+     "b4-s1-q2-s07",
+     "b4-s1-q2-s09"
+    ],
+    "match": true
+   },
+   "leak": {
+    "artifact": [
+     "b4-s2-q2-s01",
+     "b4-s3-q4-s03",
+     "b4-s3-q4-s11",
+     "b4-s3-q4-s12"
+    ],
+    "mine": [
+     "b4-s2-q2-s01",
+     "b4-s3-q4-s03",
+     "b4-s3-q4-s11",
+     "b4-s3-q4-s12"
+    ],
+    "match": true
+   },
+   "parse_fail": {
+    "artifact": [
+     "b4-s2-q2-s05"
+    ],
+    "mine": [
+     "b4-s2-q2-s05"
+    ],
+    "match": true
+   },
+   "new_miss": {
+    "artifact": [],
+    "mine": [],
+    "match": true
+   }
+  },
+  "gate_counts_compare": {
+   "fp": [
+    2,
+    2
+   ],
+   "leak": [
+    4,
+    4
+   ],
+   "parse_fail": [
+    1,
+    1
+   ],
+   "new_miss": [
+    0,
+    0
+   ]
+  },
+  "artifact_gate_verdict": {
+   "any_fail": false,
+   "rev7_unusable": false
+  },
+  "assertion_compare": {
+   "A1": {
+    "artifact_value": 1.0,
+    "artifact_pass": true,
+    "mine_pass": true
+   },
+   "A2": {
+    "artifact_pass": false,
+    "mine_satisfiable": false
+   },
+   "A3": {
+    "artifact_pass": false,
+    "mine_satisfiable": false
+   },
+   "all_pass_declared": false
+  },
+  "sentence_diff_compare": {
+   "artifact_n_changed": 7,
+   "artifact_changed_sids": [
+    "b4-s1-q1-s02",
+    "b4-s1-q2-s01",
+    "b4-s1-q2-s15",
+    "b4-s1-q3-s03",
+    "b4-s2-q1-s01",
+    "b4-s5-q1-s01",
+    "b4-s8-q2-s02"
+   ],
+   "mine_changed_sids": [
+    "b4-s1-q1-s02",
+    "b4-s1-q2-s01",
+    "b4-s1-q2-s15",
+    "b4-s1-q3-s03",
+    "b4-s2-q1-s01",
+    "b4-s5-q1-s01",
+    "b4-s8-q2-s02"
+   ],
+   "match": true,
+   "artifact_fixed": [
+    "b4-s1-q2-s01",
+    "b4-s1-q2-s15",
+    "b4-s1-q3-s03",
+    "b4-s2-q1-s01",
+    "b4-s8-q2-s02"
+   ],
+   "artifact_broken": [],
+   "artifact_neutral": [
+    "b4-s1-q1-s02",
+    "b4-s5-q1-s01"
+   ],
+   "unchanged_false_positive": [
+    "b4-s1-q2-s07",
+    "b4-s1-q2-s09"
+   ],
+   "unchanged_leak": [
+    "b4-s2-q2-s01",
+    "b4-s3-q4-s03",
+    "b4-s3-q4-s11",
+    "b4-s3-q4-s12"
+   ]
+  },
+  "invalid_items_compare": {
+   "artifact_n": 124,
+   "mine_n": 124,
+   "match": true,
+   "missing_in_artifact": [],
+   "extra_in_artifact": []
+  },
+  "baseline_block_compare": {
+   "n_checked": 261,
+   "n_match": 261,
+   "match_all": true,
+   "item_level_n": 777,
+   "item_level_mismatch": 0,
+   "derived_checked": 246,
+   "derived_mismatch": 0,
+   "mine_match": "261/261",
+   "mine_item_mismatch": 0
+  },
+  "derived_list_compare": {
+   "artifact_n": 13,
+   "mine_n": 13,
+   "artifact_sids": [
+    "b4-s2-q1-s03",
+    "b4-s2-q2-s03",
+    "b4-s2-q3-s03",
+    "b4-s2-q3-s05",
+    "b4-s3-q1-s01",
+    "b4-s3-q1-s02",
+    "b4-s5-q4-s02",
+    "b4-s5-q4-s04",
+    "b4-s5-q5-s02",
+    "b4-s5-q5-s04",
+    "b4-s5-q5-s06",
+    "b4-s5-q5-s07",
+    "b4-s5-q5-s08"
+   ],
+   "mine_sids": [
+    "b4-s2-q1-s03",
+    "b4-s2-q2-s03",
+    "b4-s2-q3-s03",
+    "b4-s2-q3-s05",
+    "b4-s3-q1-s01",
+    "b4-s3-q1-s02",
+    "b4-s5-q4-s02",
+    "b4-s5-q4-s04",
+    "b4-s5-q5-s02",
+    "b4-s5-q5-s04",
+    "b4-s5-q5-s06",
+    "b4-s5-q5-s07",
+    "b4-s5-q5-s08"
+   ],
+   "match": true
+  },
+  "code_sha16_check": {
+   "artifact_sha16": "65ed60125528d5d6",
+   "artifact_bytes": 44761,
+   "actual_sha16": "65ed60125528d5d6",
+   "actual_bytes": 44761,
+   "match": true
+  },
+  "false_by_reason_compare": {
+   "artifact_n": 7,
+   "mine_n": 7,
+   "rows": [
+    {
+     "sid": "b4-s1-q2-s01",
+     "artifact_attribution": "N1",
+     "artifact_fixed": true,
+     "mine_repair_cause": "N1",
+     "mine_fixed": true
+    },
+    {
+     "sid": "b4-s1-q2-s07",
+     "artifact_attribution": "N3",
+     "artifact_fixed": false,
+     "mine_repair_cause": "unfixed",
+     "mine_fixed": false
+    },
+    {
+     "sid": "b4-s1-q2-s09",
+     "artifact_attribution": "N3",
+     "artifact_fixed": false,
+     "mine_repair_cause": "unfixed",
+     "mine_fixed": false
+    },
+    {
+     "sid": "b4-s1-q2-s15",
+     "artifact_attribution": "N1",
+     "artifact_fixed": true,
+     "mine_repair_cause": "N1",
+     "mine_fixed": true
+    },
+    {
+     "sid": "b4-s1-q3-s03",
+     "artifact_attribution": "N1",
+     "artifact_fixed": true,
+     "mine_repair_cause": "N1",
+     "mine_fixed": true
+    },
+    {
+     "sid": "b4-s2-q1-s01",
+     "artifact_attribution": "N2",
+     "artifact_fixed": true,
+     "mine_repair_cause": "N2",
+     "mine_fixed": true
+    },
+    {
+     "sid": "b4-s8-q2-s02",
+     "artifact_attribution": "N2",
+     "artifact_fixed": true,
+     "mine_repair_cause": "N2",
+     "mine_fixed": true
+    }
+   ],
+   "fixed_flags_match": true
+  },
+  "sid_literals_in_artifact": [
+   "b4-s1-q1-s01",
+   "b4-s1-q1-s02",
+   "b4-s1-q1-s03",
+   "b4-s1-q1-s04",
+   "b4-s1-q1-s05",
+   "b4-s1-q1-s06",
+   "b4-s1-q1-s07",
+   "b4-s1-q1-s08",
+   "b4-s1-q1-s09",
+   "b4-s1-q2-s01",
+   "b4-s1-q2-s02",
+   "b4-s1-q2-s03",
+   "b4-s1-q2-s04",
+   "b4-s1-q2-s05",
+   "b4-s1-q2-s06",
+   "b4-s1-q2-s07",
+   "b4-s1-q2-s08",
+   "b4-s1-q2-s09",
+   "b4-s1-q2-s10",
+   "b4-s1-q2-s11",
+   "b4-s1-q2-s12",
+   "b4-s1-q2-s13",
+   "b4-s1-q2-s14",
+   "b4-s1-q2-s15",
+   "b4-s1-q2-s16",
+   "b4-s1-q3-s01",
+   "b4-s1-q3-s02",
+   "b4-s1-q3-s03",
+   "b4-s1-q3-s04",
+   "b4-s1-q3-s05",
+   "b4-s1-q3-s06",
+   "b4-s1-q3-s07",
+   "b4-s1-q4-s01",
+   "b4-s1-q4-s02",
+   "b4-s1-q4-s03",
+   "b4-s1-q4-s04",
+   "b4-s1-q4-s05",
+   "b4-s1-q4-s06",
+   "b4-s1-q4-s07",
+   "b4-s1-q5-s01",
+   "b4-s1-q5-s02",
+   "b4-s1-q5-s03",
+   "b4-s1-q5-s04",
+   "b4-s1-q5-s05",
+   "b4-s1-q5-s06",
+   "b4-s1-q5-s07",
+   "b4-s1-q5-s08",
+   "b4-s1-q5-s09",
+   "b4-s1-q5-s10",
+   "b4-s1-q5-s11",
+   "b4-s1-q5-s12",
+   "b4-s1-q5-s13",
+   "b4-s1-q5-s14",
+   "b4-s2-q1-s01",
+   "b4-s2-q1-s02",
+   "b4-s2-q1-s03",
+   "b4-s2-q1-s04",
+   "b4-s2-q1-s05",
+   "b4-s2-q1-s06",
+   "b4-s2-q1-s07",
+   "b4-s2-q1-s08",
+   "b4-s2-q1-s09",
+   "b4-s2-q1-s10",
+   "b4-s2-q2-s01",
+   "b4-s2-q2-s02",
+   "b4-s2-q2-s03",
+   "b4-s2-q2-s04",
+   "b4-s2-q2-s05",
+   "b4-s2-q2-s06",
+   "b4-s2-q2-s07",
+   "b4-s2-q2-s08",
+   "b4-s2-q3-s01",
+   "b4-s2-q3-s02",
+   "b4-s2-q3-s03",
+   "b4-s2-q3-s04",
+   "b4-s2-q3-s05",
+   "b4-s2-q3-s06",
+   "b4-s2-q3-s07",
+   "b4-s2-q3-s08",
+   "b4-s2-q3-s09",
+   "b4-s2-q4-s01",
+   "b4-s2-q4-s02",
+   "b4-s2-q4-s03",
+   "b4-s2-q4-s04",
+   "b4-s2-q4-s05",
+   "b4-s2-q4-s06",
+   "b4-s2-q4-s07",
+   "b4-s2-q4-s08",
+   "b4-s2-q4-s09",
+   "b4-s2-q4-s10",
+   "b4-s2-q4-s11",
+   "b4-s2-q4-s12",
+   "b4-s2-q4-s13",
+   "b4-s2-q5-s01",
+   "b4-s2-q5-s02",
+   "b4-s2-q5-s03",
+   "b4-s2-q5-s04",
+   "b4-s2-q5-s05",
+   "b4-s2-q5-s06",
+   "b4-s2-q5-s07",
+   "b4-s2-q5-s08",
+   "b4-s2-q5-s09",
+   "b4-s2-q5-s10",
+   "b4-s3-q1-s01",
+   "b4-s3-q1-s02",
+   "b4-s3-q2-s01",
+   "b4-s3-q2-s02",
+   "b4-s3-q2-s03",
+   "b4-s3-q3-s01",
+   "b4-s3-q4-s01",
+   "b4-s3-q4-s02",
+   "b4-s3-q4-s03",
+   "b4-s3-q4-s04",
+   "b4-s3-q4-s05",
+   "b4-s3-q4-s06",
+   "b4-s3-q4-s07",
+   "b4-s3-q4-s08",
+   "b4-s3-q4-s09",
+   "b4-s3-q4-s10",
+   "b4-s3-q4-s11",
+   "b4-s3-q4-s12",
+   "b4-s3-q5-s01",
+   "b4-s3-q5-s02",
+   "b4-s3-q5-s03",
+   "b4-s3-q5-s04",
+   "b4-s3-q5-s05",
+   "b4-s3-q5-s06",
+   "b4-s3-q5-s07",
+   "b4-s3-q5-s08",
+   "b4-s3-q5-s09",
+   "b4-s3-q5-s10",
+   "b4-s3-q5-s11",
+   "b4-s4-q1-s01",
+   "b4-s4-q1-s02",
+   "b4-s4-q2-s01",
+   "b4-s4-q2-s02",
+   "b4-s4-q2-s03",
+   "b4-s4-q3-s01",
+   "b4-s4-q4-s01",
+   "b4-s4-q4-s02",
+   "b4-s4-q4-s03",
+   "b4-s4-q4-s04",
+   "b4-s4-q4-s05",
+   "b4-s4-q4-s06",
+   "b4-s4-q4-s07",
+   "b4-s4-q4-s08",
+   "b4-s4-q4-s09",
+   "b4-s4-q5-s01",
+   "b4-s4-q5-s02",
+   "b4-s4-q5-s03",
+   "b4-s4-q5-s04",
+   "b4-s4-q5-s05",
+   "b4-s4-q5-s06",
+   "b4-s4-q5-s07",
+   "b4-s4-q5-s08",
+   "b4-s5-q1-s01",
+   "b4-s5-q1-s02",
+   "b4-s5-q1-s03",
+   "b4-s5-q1-s04",
+   "b4-s5-q1-s05",
+   "b4-s5-q1-s06",
+   "b4-s5-q1-s07",
+   "b4-s5-q1-s08",
+   "b4-s5-q1-s09",
+   "b4-s5-q1-s10",
+   "b4-s5-q2-s01",
+   "b4-s5-q3-s01",
+   "b4-s5-q3-s02",
+   "b4-s5-q3-s03",
+   "b4-s5-q3-s04",
+   "b4-s5-q4-s01",
+   "b4-s5-q4-s02",
+   "b4-s5-q4-s03",
+   "b4-s5-q4-s04",
+   "b4-s5-q5-s01",
+   "b4-s5-q5-s02",
+   "b4-s5-q5-s03",
+   "b4-s5-q5-s04",
+   "b4-s5-q5-s05",
+   "b4-s5-q5-s06",
+   "b4-s5-q5-s07",
+   "b4-s5-q5-s08",
+   "b4-s5-q5-s09",
+   "b4-s6-q1-s01",
+   "b4-s6-q1-s02",
+   "b4-s6-q2-s01",
+   "b4-s6-q2-s02",
+   "b4-s6-q2-s03",
+   "b4-s6-q3-s01",
+   "b4-s6-q4-s01",
+   "b4-s6-q4-s02",
+   "b4-s6-q4-s03",
+   "b4-s6-q4-s04",
+   "b4-s6-q4-s05",
+   "b4-s6-q4-s06",
+   "b4-s6-q4-s07",
+   "b4-s6-q4-s08",
+   "b4-s6-q4-s09",
+   "b4-s6-q5-s01",
+   "b4-s6-q5-s02",
+   "b4-s6-q5-s03",
+   "b4-s6-q5-s04",
+   "b4-s6-q5-s05",
+   "b4-s6-q5-s06",
+   "b4-s6-q5-s07",
+   "b4-s6-q5-s08",
+   "b4-s6-q5-s09",
+   "b4-s6-q5-s10",
+   "b4-s7-q1-s01",
+   "b4-s7-q1-s02",
+   "b4-s7-q1-s03",
+   "b4-s7-q1-s04",
+   "b4-s7-q2-s01",
+   "b4-s7-q2-s02",
+   "b4-s7-q3-s01",
+   "b4-s7-q4-s01",
+   "b4-s7-q5-s01",
+   "b4-s8-q1-s01",
+   "b4-s8-q1-s02",
+   "b4-s8-q2-s01",
+   "b4-s8-q2-s02",
+   "b4-s8-q2-s03",
+   "b4-s8-q2-s04",
+   "b4-s8-q2-s05",
+   "b4-s8-q3-s01",
+   "b4-s8-q3-s02",
+   "b4-s8-q3-s03",
+   "b4-s8-q3-s04",
+   "b4-s8-q3-s05",
+   "b4-s8-q3-s06",
+   "b4-s8-q3-s07",
+   "b4-s8-q3-s08",
+   "b4-s8-q3-s09",
+   "b4-s8-q3-s10",
+   "b4-s8-q3-s11",
+   "b4-s8-q3-s12",
+   "b4-s8-q4-s01",
+   "b4-s8-q4-s02",
+   "b4-s8-q4-s03",
+   "b4-s8-q4-s04",
+   "b4-s8-q4-s05",
+   "b4-s8-q4-s06",
+   "b4-s8-q4-s07",
+   "b4-s8-q4-s08",
+   "b4-s8-q4-s09",
+   "b4-s8-q4-s10",
+   "b4-s8-q4-s11",
+   "b4-s8-q4-s12",
+   "b4-s8-q4-s13",
+   "b4-s8-q4-s14",
+   "b4-s8-q4-s15",
+   "b4-s8-q4-s16",
+   "b4-s8-q5-s01",
+   "b4-s8-q5-s02",
+   "b4-s8-q5-s03",
+   "b4-s8-q5-s04",
+   "b4-s8-q5-s05",
+   "b4-s8-q5-s06",
+   "b4-s8-q5-s07",
+   "b4-s8-q5-s08",
+   "b4-s8-q5-s09"
+  ],
+  "b5_references": 2,
+  "reported_false_by_reason": [
+   {
+    "sid": "b4-s1-q2-s01",
+    "gold": "support_present",
+    "verdict_rev5_1": "unsupported",
+    "verdict_rev7": "supported",
+    "attribution": "N1",
+    "fixed": true,
+    "rev5_1_rule_hits": [
+     {
+      "rule": "R1",
+      "reason": "value_mismatch",
+      "span": "8600元"
+     }
+    ],
+    "rev7_binding_rule_hits": [],
+    "note": null
+   },
+   {
+    "sid": "b4-s1-q2-s07",
+    "gold": "support_present",
+    "verdict_rev5_1": "unsupported",
+    "verdict_rev7": "unsupported",
+    "attribution": "N3",
+    "fixed": false,
+    "rev5_1_rule_hits": [
+     {
+      "rule": "R3",
+      "reason": "absent_marker",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "reason": "absent_marker",
+      "span": "未提及"
+     }
+    ],
+    "rev7_binding_rule_hits": [
+     {
+      "rule": "R3",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "span": "未提及"
+     }
+    ],
+    "note": "N3 intended to void the absent-marker items, but the item 患者 is literally present in the sentence as the '患者：' label, so N3 keeps valid=true (PREREG section 2 assertion conflict); R3 therefore still fires."
+   },
+   {
+    "sid": "b4-s1-q2-s09",
+    "gold": "support_present",
+    "verdict_rev5_1": "unsupported",
+    "verdict_rev7": "unsupported",
+    "attribution": "N3",
+    "fixed": false,
+    "rev5_1_rule_hits": [
+     {
+      "rule": "R3",
+      "reason": "absent_marker",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "reason": "absent_marker",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "reason": "absent_marker",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "reason": "absent_marker",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "reason": "absent_marker",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "reason": "absent_marker",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "reason": "absent_marker",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "reason": "absent_marker",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "reason": "absent_marker",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "reason": "absent_marker",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "reason": "absent_marker",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "reason": "absent_marker",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "reason": "absent_marker",
+      "span": "未提及"
+     }
+    ],
+    "rev7_binding_rule_hits": [
+     {
+      "rule": "R3",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "span": "未提及"
+     },
+     {
+      "rule": "R3",
+      "span": "未提及"
+     }
+    ],
+    "note": "N3 intended to void the absent-marker items, but the item 患者 is literally present in the sentence as the '患者：' label, so N3 keeps valid=true (PREREG section 2 assertion conflict); R3 therefore still fires."
+   },
+   {
+    "sid": "b4-s1-q2-s15",
+    "gold": "support_present",
+    "verdict_rev5_1": "unsupported",
+    "verdict_rev7": "supported",
+    "attribution": "N1",
+    "fixed": true,
+    "rev5_1_rule_hits": [
+     {
+      "rule": "R1",
+      "reason": "value_mismatch",
+      "span": "8600元"
+     }
+    ],
+    "rev7_binding_rule_hits": [],
+    "note": null
+   },
+   {
+    "sid": "b4-s1-q3-s03",
+    "gold": "support_present",
+    "verdict_rev5_1": "unsupported",
+    "verdict_rev7": "supported",
+    "attribution": "N1",
+    "fixed": true,
+    "rev5_1_rule_hits": [
+     {
+      "rule": "R1",
+      "reason": "value_mismatch",
+      "span": "8600元"
+     }
+    ],
+    "rev7_binding_rule_hits": [],
+    "note": null
+   },
+   {
+    "sid": "b4-s2-q1-s01",
+    "gold": "support_present",
+    "verdict_rev5_1": "unsupported",
+    "verdict_rev7": "supported",
+    "attribution": "N2",
+    "fixed": true,
+    "rev5_1_rule_hits": [
+     {
+      "rule": "R1",
+      "reason": "value_mismatch",
+      "span": "租车公司"
+     }
+    ],
+    "rev7_binding_rule_hits": [],
+    "note": null
+   },
+   {
+    "sid": "b4-s8-q2-s02",
+    "gold": "support_present",
+    "verdict_rev5_1": "unsupported",
+    "verdict_rev7": "supported",
+    "attribution": "N2",
+    "fixed": true,
+    "rev5_1_rule_hits": [
+     {
+      "rule": "R1",
+      "reason": "value_mismatch",
+      "span": "地点是宠安医院"
+     }
+    ],
+    "rev7_binding_rule_hits": [],
+    "note": null
+   }
+  ],
+  "determinism_declared": {
+   "timestamps": false,
+   "json_indent": 1,
+   "ensure_ascii": false,
+   "trailing_newline": true,
+   "double_run_expected": "byte-identical"
+  },
+  "script_scan": {
+   "file": "run_m5c2_rev7_offline.py",
+   "bytes": 44761,
+   "sha16": "65ed60125528d5d6",
+   "counts": {
+    "sid_literal": 8,
+    "sid_branch": 0,
+    "threshold_080": 4,
+    "threshold_090": 5,
+    "b5_reference": 1,
+    "gold_file_read": 3,
+    "gpu_import": 2,
+    "n_forward": 4,
+    "empty_source": 3,
+    "write_gold": 0,
+    "threshold_change": 0
+   },
+   "sid_literal_hits": [
+    [
+     80,
+     "EXPECT_FP = [\"b4-s1-q2-s01\", \"b4-s1-q2-s07\", \"b4-s1-q2-s09\", \"b4-s1-q2-s15\","
+    ],
+    [
+     81,
+     "\"b4-s1-q3-s03\", \"b4-s2-q1-s01\", \"b4-s8-q2-s02\"]"
+    ],
+    [
+     82,
+     "EXPECT_LEAK = [\"b4-s2-q2-s01\", \"b4-s3-q4-s03\", \"b4-s3-q4-s11\", \"b4-s3-q4-s12\"]"
+    ],
+    [
+     84,
+     "ASSERT_A2 = (\"b4-s1-q2-s07\", \"患者\")"
+    ],
+    [
+     85,
+     "ASSERT_A3 = (\"b4-s1-q2-s09\", \"患者\")"
+    ],
+    [
+     639,
+     "\"b4-s1-q2-s07 / b4-s1-q2-s09 must be judged valid=false. Under the \""
+    ],
+    [
+     953,
+     "\"b4-s1-q2-s07\": [\"assertion A2\"],"
+    ],
+    [
+     954,
+     "\"b4-s1-q2-s09\": [\"assertion A3\"],"
+    ]
+   ],
+   "sid_branch_hits": [],
+   "empty_source_hits": [
+    [
+     305,
+     "if row[\"route\"] == \"empty_source\":"
+    ],
+    [
+     447,
+     "if row[\"route\"] == \"empty_source\":"
+    ],
+    [
+     888,
+     "\"aggregation\": (\"empty_source->unsupported; abstain_check->layer0 verdict; \""
+    ]
+   ],
+   "gold_file_hits": [
+    [
+     9,
+     "out/M5B4-LEAD-RULING.json  9273ebc97aa1413a /  13,195 B  (gold)"
+    ],
+    [
+     65,
+     "GOLD = OUT / \"M5B4-LEAD-RULING.json\""
+    ],
+    [
+     133,
+     "raise SystemExit(\"M5B4-LEAD-RULING gold changed\")"
+    ]
+   ],
+   "lines": 1026
+  },
+  "determinism_probe": {
+   "artifact": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+   "pre_run": {
+    "sha16": "1f8f44b921e575fe",
+    "bytes": 507657
+   },
+   "runs": [
+    {
+     "run": 1,
+     "rc": 0,
+     "sha16": "1f8f44b921e575fe",
+     "bytes": 507657,
+     "elapsed_s": 0.27,
+     "stderr_tail": ""
+    },
+    {
+     "run": 2,
+     "rc": 0,
+     "sha16": "1f8f44b921e575fe",
+     "bytes": 507657,
+     "elapsed_s": 0.29,
+     "stderr_tail": ""
+    }
+   ],
+   "byte_identical_two_runs": true,
+   "same_as_pre_run": true,
+   "checked_at_utc": "2026-10-26T12:24:08Z"
+  }
+ },
+ "conclusion": {
+  "device_state": "装置不合格",
+  "device_state_meaning": "以冻结件 PREREG-M5-C2-REV7.md 自身为准：§2 要求的三条自检断言不是全部成立",
+  "section3_gates_all_pass": true,
+  "section3_gate_numbers": {
+   "fp": [
+    2,
+    46
+   ],
+   "leak": [
+    4,
+    41
+   ],
+   "parse_fail": [
+    1,
+    261
+   ],
+   "new_miss": [
+    0,
+    0
+   ]
+  },
+  "section2_assertions": {
+   "A1_satisfiable_and_true": true,
+   "A2_satisfiable_under_literal_N3": false,
+   "A3_satisfiable_under_literal_N3": false,
+   "all_pass": false
+  },
+  "prereg_internal_contradiction": true,
+  "contradiction_evidence": {
+   "b4-s1-q2-s07": {
+    "item": "患者",
+    "sentence_normalized": "患者:是在仁和口腔做的。",
+    "substring_positions": [
+     0
+    ],
+    "window_coverage": 1.0,
+    "valid_under_literal_N3": true,
+    "assertion_requires_valid_false": true
+   },
+   "b4-s1-q2-s09": {
+    "item": "患者",
+    "sentence_normalized": "患者:右下第一磨牙。",
+    "substring_positions": [
+     0
+    ],
+    "window_coverage": 1.0,
+    "valid_under_literal_N3": true,
+    "assertion_requires_valid_false": true
+   }
+  },
+  "section0_fact_check": {
+   "claim": "§0 表 R3 行称 患者/做的 为「句内根本不存在、或重复的条目」",
+   "data": {
+    "b4-s1-q2-s07": {
+     "sentence": "患者:是在仁和口腔做的。",
+     "患者_positions": [
+      0
+     ],
+     "做的_positions": [
+      9
+     ],
+     "verdict": "两者均为逐字子串，并非「句内根本不存在」"
+    },
+    "b4-s1-q2-s09": {
+     "sentence": "患者:右下第一磨牙。",
+     "患者_positions": [
+      0
+     ],
+     "verdict": "患者是句首「患者：」标签，逐字存在；「重复」成立（13 次），「不存在」不成立"
+    }
+   },
+   "conclusion": "§0 的 R3 越界方向成立（非值实体条目的未提及被计入聚合），但「句内根本不存在」的证据陈述与数据不符；N3 的句子定位门对这两例必然放行，因此 N3 在设计上无法修复这两例 FP"
+  },
+  "n3_gate_effect": {
+   "fp_with_n3": [
+    2,
+    46
+   ],
+   "fp_without_n3": [
+    2,
+    46
+   ],
+   "verdicts_changed_by_n3": 2,
+   "changed_sids": [
+    "b4-s1-q1-s02",
+    "b4-s5-q1-s01"
+   ],
+   "changed_gold": [
+    "no_fact",
+    "no_fact"
+   ],
+   "gate_effect": "none (四门槛数值与 FP 明细均相同)"
+  },
+  "implementation_fidelity": {
+   "verdict": "faithful",
+   "sentence_rows_compared": 261,
+   "sentence_field_diff": 0,
+   "item_rows_compared": 777,
+   "item_diff": 0,
+   "gate_lists_match": true,
+   "sentence_diff_match": true,
+   "invalid_items_match": true,
+   "outcome_level_differences": 0
+  },
+  "differences_found": [
+   {
+    "kind": "outcome",
+    "n": 0
+   },
+   {
+    "kind": "diagnostic_only",
+    "what": "作废条目的 rule/rule_hits 标签：执行者按 N4 字面把 R3 限制在 valid 条目，16 个作废条目的首命中记为 R4+；我保留 R3 命中但整条排除出聚合。valid/item_verdict/verdict/门槛全部一致（777 条 0 差异），§4 未要求 rule 字段，故不构成差异"
+   },
+   {
+    "kind": "extra_branch_inert",
+    "what": "执行者脚本含 `route == 'empty_source' -> unsupported` 分支（脚本 305/447 行），M5B4-JUDGE 261 行 route 只有 model_extract(246)/abstain_check(15)，该分支未被触发；但它是 PREREG §2 未冻结的额外聚合规则（本次数值零影响）"
+   },
+   {
+    "kind": "extra_input_read_only",
+    "what": "执行者额外读取 M5B4-SENTENCES.json（c349ca5a93192aac，已校验哈希）仅用于取句子文本；不是 (b5)，不参与判定"
+   }
+  ],
+  "biggest_reservation": "四道 §3 门槛按字面实现全部通过（2/46、4/41、1/261、0），但我独立证明 §2 的 A2/A3 在冻结定义下可满足性为 0；若把「装置合格」定义成只满足 §3，等于默认允许实现方自加一条未冻结规则去凑断言。故按冻结件自身要求判「装置不合格」，缺陷在 PREREG 内部矛盾（§2 N3 vs §2 断言；§0 归因陈述），不在执行者忠实度。"
+ }
+}
