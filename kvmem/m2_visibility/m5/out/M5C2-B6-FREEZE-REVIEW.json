@@ -1,0 +1,2986 @@
+{
+ "schema": "m5c2_b6_freeze_review_v1",
+ "title": "(b6) frozen artifacts independent freeze review",
+ "task": "task-10",
+ "reviewer": "cleanroom-auditor",
+ "reviewer_role": "independent reviewer (not the author, not the LEAD)",
+ "reviewed_at_local": "2026-10-26T21:32:26+08:00",
+ "reviewed_files": {
+  "prereg_md": {
+   "path": "D:\\llama-mem\\docs\\_work\\PREREG-M5-C2-B6.md",
+   "bytes": 17374,
+   "sha16": "ac27d47d3a3efff9",
+   "sha256": "ac27d47d3a3efff99838ba50ef6413507a68a746f6fefa830904812409a1afc1",
+   "expected_sha16": "ac27d47d3a3efff9",
+   "expected_bytes": 17374
+  },
+  "sentences_json": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5C2-B6-SENTENCES.json",
+   "bytes": 9482,
+   "sha16": "23588ec099ca9255",
+   "sha256": "23588ec099ca92558805a1ebe74328b1a1d4767378f3880463c34b259e85d82b",
+   "expected_sha16": "23588ec099ca9255",
+   "expected_bytes": 9482
+  }
+ },
+ "scope": {
+  "method": "独立复算，不采信文件内附录 A 的自检数值",
+  "read_files": [
+   "D:\\llama-mem\\docs\\_work\\PREREG-M5-C2-B6.md",
+   "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5C2-B6-SENTENCES.json",
+   "D:\\llama-mem\\docs\\_work\\PREREG-M5-B2.md",
+   "D:\\llama-mem\\docs\\_work\\PREREG-M5-C2-B4.md",
+   "D:\\llama-mem\\docs\\_work\\PREREG-M5-C2-B5.md"
+  ],
+  "b2_b4_b5_usage": "只读取三份 PREREG 的题面（8 源文 + 40 题）用于域/4-gram/专名比对",
+  "b5_run_data_read": false,
+  "read_only": true
+ },
+ "overall": {
+  "verdict": "pass",
+  "frozen_valid": true,
+  "substantive_reuse": 0,
+  "ambiguous_lures": 0,
+  "blocking_findings": [],
+  "unverifiable_items": [
+   "附录 A 的「引用片段数 55/49/50」口径（临时脚本未入库，无法复算）",
+   "附录 A 的「任务禁用标记词 2 类」词表未披露，无法复算",
+   "frozen_at 早于两文件 mtime 约 35 s，审批时刻无法由字节产物证明",
+   "他方是否实际未读 b6（隔离合规）属过程行为，无法由产物验证"
+  ],
+  "fail_items": []
+ },
+ "checks": [
+  {
+   "id": "C1",
+   "name": "文件身份/哈希",
+   "verdict": "pass",
+   "evidence": {
+    "md": {
+     "path": "D:\\llama-mem\\docs\\_work\\PREREG-M5-C2-B6.md",
+     "bytes": 17374,
+     "sha16": "ac27d47d3a3efff9",
+     "sha256": "ac27d47d3a3efff99838ba50ef6413507a68a746f6fefa830904812409a1afc1",
+     "expected_sha16": "ac27d47d3a3efff9",
+     "expected_bytes": 17374
+    },
+    "json": {
+     "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5C2-B6-SENTENCES.json",
+     "bytes": 9482,
+     "sha16": "23588ec099ca9255",
+     "sha256": "23588ec099ca92558805a1ebe74328b1a1d4767378f3880463c34b259e85d82b",
+     "expected_sha16": "23588ec099ca9255",
+     "expected_bytes": 9482
+    }
+   }
+  },
+  {
+   "id": "C2",
+   "name": "json 机读格式与顶层 schema",
+   "verdict": "pass",
+   "evidence": {
+    "schema": "m5c2_b6_sentences_v1",
+    "format_byte_exact": true,
+    "ensure_ascii_false": true,
+    "indent_2_spaces": true,
+    "trailing_newline": true,
+    "top_level_fields": [
+     "schema",
+     "prereg_path",
+     "prereg_sha16",
+     "prereg_status",
+     "one_shot",
+     "authored_by",
+     "case_role",
+     "n_scenarios",
+     "n_questions",
+     "n_detail",
+     "n_lure",
+     "detail_per_scenario",
+     "lure_per_scenario",
+     "source_chars_min",
+     "source_chars_max",
+     "domains",
+     "domain_overlap_with_b2_b4_b5",
+     "contains_label_values",
+     "contains_hints",
+     "char_count_rule",
+     "note",
+     "scenarios"
+    ],
+    "spec_fields_expected": [
+     "schema",
+     "prereg_path",
+     "prereg_sha16",
+     "prereg_status",
+     "one_shot",
+     "authored_by",
+     "case_role",
+     "n_scenarios",
+     "n_questions",
+     "n_detail",
+     "n_lure",
+     "detail_per_scenario",
+     "lure_per_scenario",
+     "source_chars_min",
+     "source_chars_max",
+     "domains",
+     "domain_overlap_with_b2_b4_b5",
+     "contains_label_values",
+     "contains_hints",
+     "char_count_rule",
+     "note",
+     "scenarios"
+    ],
+    "no_extra_fields": true,
+    "n_scenarios_field": 8,
+    "n_questions_field": 40
+   }
+  },
+  {
+   "id": "C3",
+   "name": "md↔json 48 条逐字一致",
+   "verdict": "pass",
+   "evidence": {
+    "n_sources_compared": 8,
+    "n_questions_compared": 40,
+    "mismatches": [],
+    "all_equal": true
+   }
+  },
+  {
+   "id": "C4",
+   "name": "结构：8 场景/40 题/24+16/每域 3+2",
+   "verdict": "pass",
+   "evidence": {
+    "n_scenarios": 8,
+    "n_questions": 40,
+    "n_detail": 24,
+    "n_lure": 16,
+    "per_scenario": [
+     [
+      "b6-s1",
+      3,
+      2
+     ],
+     [
+      "b6-s2",
+      3,
+      2
+     ],
+     [
+      "b6-s3",
+      3,
+      2
+     ],
+     [
+      "b6-s4",
+      3,
+      2
+     ],
+     [
+      "b6-s5",
+      3,
+      2
+     ],
+     [
+      "b6-s6",
+      3,
+      2
+     ],
+     [
+      "b6-s7",
+      3,
+      2
+     ],
+     [
+      "b6-s8",
+      3,
+      2
+     ]
+    ],
+    "every_scenario_3_detail_2_lure": true,
+    "detail_then_lure_order": true,
+    "qids_unique": true,
+    "qids_sequential_exact": true,
+    "json_counts_match": true,
+    "json_per_scenario": [
+     3,
+     2
+    ],
+    "n_facts_declared": [
+     6,
+     7,
+     7,
+     7,
+     7,
+     8,
+     7,
+     7
+    ],
+    "n_facts_in_5_8": true
+   }
+  },
+  {
+   "id": "C5",
+   "name": "源文汉字 40–80 与声明一致",
+   "verdict": "pass",
+   "evidence": {
+    "computed": {
+     "b6-s1": 51,
+     "b6-s2": 50,
+     "b6-s3": 45,
+     "b6-s4": 47,
+     "b6-s5": 57,
+     "b6-s6": 49,
+     "b6-s7": 43,
+     "b6-s8": 54
+    },
+    "declared_in_md": {
+     "b6-s1": 51,
+     "b6-s2": 50,
+     "b6-s3": 45,
+     "b6-s4": 47,
+     "b6-s5": 57,
+     "b6-s6": 49,
+     "b6-s7": 43,
+     "b6-s8": 54
+    },
+    "declared_in_json": {
+     "b6-s1": 51,
+     "b6-s2": 50,
+     "b6-s3": 45,
+     "b6-s4": 47,
+     "b6-s5": 57,
+     "b6-s6": 49,
+     "b6-s7": 43,
+     "b6-s8": 54
+    },
+    "all_40_80": true,
+    "computed_eq_declared_md": true,
+    "computed_eq_declared_json": true,
+    "json_min_max_fields": [
+     43,
+     57
+    ],
+    "json_min_max_match": true
+   }
+  },
+  {
+   "id": "C6",
+   "name": "与 b2/b4/b5 24 域零重叠",
+   "verdict": "pass",
+   "evidence": {
+    "b6_domains": [
+     "干洗洗衣",
+     "鲜花订购",
+     "美发理发",
+     "相框装裱",
+     "入职体检",
+     "羽毛球场地",
+     "图书馆借书",
+     "中药代煎"
+    ],
+    "b2_domains": [
+     "健身房会员",
+     "宽带装机",
+     "演唱会门票",
+     "搬家预约",
+     "燃气安检",
+     "驾校科目二",
+     "民宿预订",
+     "眼镜配镜"
+    ],
+    "b4_domains": [
+     "牙科",
+     "租车",
+     "网课",
+     "物业",
+     "银行",
+     "摄影",
+     "装修",
+     "宠物"
+    ],
+    "b5_domains": [
+     "汽车保养",
+     "快递寄件",
+     "家政保洁",
+     "手机维修",
+     "游泳培训",
+     "汽车保险",
+     "家电安装",
+     "出国签证"
+    ],
+    "n_occupied": 24,
+    "intersection_with_b2": [],
+    "intersection_with_b4": [],
+    "intersection_with_b5": [],
+    "intersection_with_all_24": [],
+    "json_domain_overlap_field": 0,
+    "zero_overlap": true
+   }
+  },
+  {
+   "id": "C7",
+   "name": "4-gram（去空白/标点、保留数字）",
+   "verdict": "pass",
+   "evidence": {
+    "rule_primary": "strip whitespace+punctuation, keep alnum/digits (CJK+digits+latin), char 4-grams",
+    "groups": {
+     "b2": {
+      "n_4grams_b6": 809,
+      "n_4grams_other": 542,
+      "shared_normalized": [],
+      "shared_normalized_n": 0,
+      "shared_raw_n": 6,
+      "shared_raw": [
+       {
+        "gram": "00元，",
+        "class": "数字+单位+标点",
+        "judgment": "价格写法通用片段（900/200/100/500/2,400 元后接逗号），无领域语义",
+        "generic": true,
+        "b6_items": [
+         "b6-s3-src",
+         "b6-s6-src"
+        ],
+        "other_items": [
+         "s2-src"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s3-src",
+          "ctx": "棕色，办卡充了900元，这次打完折花16"
+         },
+         {
+          "item": "b6-s6-src",
+          "ctx": "时90元，押金200元，球拍可以现场租，"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "s2-src",
+          "ctx": "下午，光猫押金100元，合约期两年。"
+         }
+        ]
+       },
+       {
+        "gram": "80元，",
+        "class": "数字+单位+标点",
+        "judgment": "价格写法通用片段（180/480/1,280/80 元后接逗号），无领域语义",
+        "generic": true,
+        "b6_items": [
+         "b6-s4-src"
+        ],
+        "other_items": [
+         "s4-src"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s4-src",
+          "ctx": "光玻璃，装裱费180元，下周一下午去取，"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "s4-src",
+          "ctx": "厢式货车，报价480元，我家在7楼没电梯"
+         }
+        ]
+       },
+       {
+        "gram": "到几点？",
+        "class": "疑问句尾通用串",
+        "judgment": "询问时刻的通用问法",
+        "generic": true,
+        "b6_items": [
+         "b6-s1-q4"
+        ],
+        "other_items": [
+         "s6q3"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s1-q4",
+          "ctx": "家干洗店周末营业到几点？"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "s6q3",
+          "ctx": "考前练车几点到几点？"
+         }
+        ]
+       },
+       {
+        "gram": "多少钱？",
+        "class": "疑问句尾通用串",
+        "judgment": "询问价格的通用问法",
+        "generic": true,
+        "b6_items": [
+         "b6-s2-q2",
+         "b6-s5-q2",
+         "b6-s6-q3",
+         "b6-s6-q5",
+         "b6-s7-q5"
+        ],
+        "other_items": [
+         "s1q3",
+         "s5q4",
+         "s6q4",
+         "s7q3"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s2-q2",
+          "ctx": "总共多少钱？另外加了什么花？"
+         },
+         {
+          "item": "b6-s5-q2",
+          "ctx": "体检查哪几项？收多少钱？"
+         },
+         {
+          "item": "b6-s6-q3",
+          "ctx": "？现场租一副球拍多少钱？羽毛球要自己带吗"
+         },
+         {
+          "item": "b6-s6-q5",
+          "ctx": "体育馆的会员年卡多少钱？"
+         },
+         {
+          "item": "b6-s7-q5",
+          "ctx": "图书逾期一天要罚多少钱？"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "s1q3",
+          "ctx": "每月要交多少钱？"
+         },
+         {
+          "item": "s5q4",
+          "ctx": "安检收费多少钱？"
+         },
+         {
+          "item": "s6q4",
+          "ctx": "目二考几项？补考多少钱？"
+         },
+         {
+          "item": "s7q3",
+          "ctx": "的什么房型？每晚多少钱？"
+         }
+        ]
+       },
+       {
+        "gram": "姓什么？",
+        "class": "疑问句尾通用串",
+        "judgment": "询问姓氏的通用问法",
+        "generic": true,
+        "b6_items": [
+         "b6-s8-q5"
+        ],
+        "other_items": [
+         "s6q5"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s8-q5",
+          "ctx": "坐诊的医生姓什么？"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "s6q5",
+          "ctx": "教练姓什么？"
+         }
+        ]
+       },
+       {
+        "gram": "报一下。",
+        "class": "口语指令通用串",
+        "judgment": "要求报出信息的通用说法",
+        "generic": true,
+        "b6_items": [
+         "b6-s1-q2"
+        ],
+        "other_items": [
+         "s1q2"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s1-q2",
+          "ctx": "费多少？取衣单号报一下。"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "s1q2",
+          "ctx": "、私教课节数，各报一下。"
+         }
+        ]
+       }
+      ]
+     },
+     "b4": {
+      "n_4grams_b6": 809,
+      "n_4grams_other": 704,
+      "shared_normalized": [],
+      "shared_normalized_n": 0,
+      "shared_raw_n": 7,
+      "shared_raw": [
+       {
+        "gram": "00元，",
+        "class": "数字+单位+标点",
+        "judgment": "价格写法通用片段（900/200/100/500/2,400 元后接逗号），无领域语义",
+        "generic": true,
+        "b6_items": [
+         "b6-s3-src",
+         "b6-s6-src"
+        ],
+        "other_items": [
+         "b4-s1-src"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s3-src",
+          "ctx": "棕色，办卡充了900元，这次打完折花16"
+         },
+         {
+          "item": "b6-s6-src",
+          "ctx": "时90元，押金200元，球拍可以现场租，"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "b4-s1-src",
+          "ctx": "1，手术费8,600元，分三期付，复诊定"
+         }
+        ]
+       },
+       {
+        "gram": "80元，",
+        "class": "数字+单位+标点",
+        "judgment": "价格写法通用片段（180/480/1,280/80 元后接逗号），无领域语义",
+        "generic": true,
+        "b6_items": [
+         "b6-s4-src"
+        ],
+        "other_items": [
+         "b4-s3-src",
+         "b4-s4-src"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s4-src",
+          "ctx": "光玻璃，装裱费180元，下周一下午去取，"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "b4-s3-src",
+          "ctx": "直播，学费1,280元，有效期一年。"
+         },
+         {
+          "item": "b4-s4-src",
+          "ctx": "时内上门，维修费80元，换的阀门保修半年"
+         }
+        ]
+       },
+       {
+        "gram": "了多少？",
+        "class": "疑问句尾通用串",
+        "judgment": "询问数量的通用问法",
+        "generic": true,
+        "b6_items": [
+         "b6-s3-q1"
+        ],
+        "other_items": [
+         "b4-s7-q1"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s3-q1",
+          "ctx": "名字？办卡一共充了多少？"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "b4-s7-q1",
+          "ctx": "家公司？合同价定了多少？"
+         }
+        ]
+       },
+       {
+        "gram": "元，押金",
+        "class": "数字+名词搭配",
+        "judgment": "价格与押金的通用并列写法",
+        "generic": true,
+        "b6_items": [
+         "b6-s6-src"
+        ],
+        "other_items": [
+         "b4-s2-src"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s6-src",
+          "ctx": "四点，两小时90元，押金200元，球拍可"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "b4-s2-src",
+          "ctx": "车场，日租288元，押金3,000元。"
+         }
+        ]
+       },
+       {
+        "gram": "收多少？",
+        "class": "疑问句尾通用串",
+        "judgment": "询问收费的通用问法",
+        "generic": true,
+        "b6_items": [
+         "b6-s2-q4",
+         "b6-s6-q3"
+        ],
+        "other_items": [
+         "b4-s4-q3",
+         "b4-s5-q3",
+         "b4-s6-q2"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s2-q4",
+          "ctx": "另外收配送费吗？收多少？"
+         },
+         {
+          "item": "b6-s6-q3",
+          "ctx": "押金收多少？现场租一副球拍多"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "b4-s4-q3",
+          "ctx": "维修费收多少？换的阀门保修多久"
+         },
+         {
+          "item": "b4-s5-q3",
+          "ctx": "短信提醒每个月收多少？"
+         },
+         {
+          "item": "b4-s6-q2",
+          "ctx": "叫什么？套餐一共收多少？"
+         }
+        ]
+       },
+       {
+        "gram": "是什么？",
+        "class": "疑问句尾通用串",
+        "judgment": "询问属性的通用问法",
+        "generic": true,
+        "b6_items": [
+         "b6-s3-q2",
+         "b6-s7-q4"
+        ],
+        "other_items": [
+         "b4-s2-q1"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s3-q2",
+          "ctx": "这次染的颜色是什么？打完折实付多少？"
+         },
+         {
+          "item": "b6-s7-q4",
+          "ctx": "另外两本书的书名是什么？"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "b4-s2-q1",
+          "ctx": "是哪家公司？车型是什么？"
+         }
+        ]
+       },
+       {
+        "gram": "费多少？",
+        "class": "疑问句尾通用串",
+        "judgment": "询问费用的通用问法",
+        "generic": true,
+        "b6_items": [
+         "b6-s1-q2",
+         "b6-s4-q2",
+         "b6-s8-q2"
+        ],
+        "other_items": [
+         "b4-s3-q3"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s1-q2",
+          "ctx": "洗涤费多少？取衣单号报一下。"
+         },
+         {
+          "item": "b6-s4-q2",
+          "ctx": "璃换成什么？装裱费多少？"
+         },
+         {
+          "item": "b6-s8-q2",
+          "ctx": "代煎费多少？药方里有哪些药材"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "b4-s3-q3",
+          "ctx": "学费多少？课程有效期多久？"
+         }
+        ]
+       }
+      ]
+     },
+     "b5": {
+      "n_4grams_b6": 809,
+      "n_4grams_other": 614,
+      "shared_normalized": [],
+      "shared_normalized_n": 0,
+      "shared_raw_n": 8,
+      "shared_raw": [
+       {
+        "gram": "00元，",
+        "class": "数字+单位+标点",
+        "judgment": "价格写法通用片段（900/200/100/500/2,400 元后接逗号），无领域语义",
+        "generic": true,
+        "b6_items": [
+         "b6-s3-src",
+         "b6-s6-src"
+        ],
+        "other_items": [
+         "b5-s2-src",
+         "b5-s5-src"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s3-src",
+          "ctx": "棕色，办卡充了900元，这次打完折花16"
+         },
+         {
+          "item": "b6-s6-src",
+          "ctx": "时90元，押金200元，球拍可以现场租，"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "b5-s2-src",
+          "ctx": "费28元，保价500元，单号SF1357"
+         },
+         {
+          "item": "b5-s5-src",
+          "ctx": "上课，学费2,400元，教练姓方。"
+         }
+        ]
+       },
+       {
+        "gram": "0元，下",
+        "class": "数字+标点",
+        "judgment": "价格与「下周」衔接的通用片段",
+        "generic": true,
+        "b6_items": [
+         "b6-s4-src"
+        ],
+        "other_items": [
+         "b5-s1-src"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s4-src",
+          "ctx": "玻璃，装裱费180元，下周一下午去取，取"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "b5-s1-src",
+          "ctx": "0元，材料费660元，下午5点取车。"
+         }
+        ]
+       },
+       {
+        "gram": "80元，",
+        "class": "数字+单位+标点",
+        "judgment": "价格写法通用片段（180/480/1,280/80 元后接逗号），无领域语义",
+        "generic": true,
+        "b6_items": [
+         "b6-s4-src"
+        ],
+        "other_items": [
+         "b5-s7-src"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s4-src",
+          "ctx": "光玻璃，装裱费180元，下周一下午去取，"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "b5-s7-src",
+          "ctx": "0元，旧机回收抵80元，安装师傅姓刘。"
+         }
+        ]
+       },
+       {
+        "gram": "号多少？",
+        "class": "疑问句尾通用串",
+        "judgment": "询问编号的通用问法",
+        "generic": true,
+        "b6_items": [
+         "b6-s7-q2"
+        ],
+        "other_items": [
+         "b5-s2-q3",
+         "b5-s2-q4"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s7-q2",
+          "ctx": "借书证号多少？借期多长、哪天到"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "b5-s2-q3",
+          "ctx": "快递单号多少？预计哪天到？"
+         },
+         {
+          "item": "b5-s2-q4",
+          "ctx": "收件人手机号多少？"
+         }
+        ]
+       },
+       {
+        "gram": "多少钱？",
+        "class": "疑问句尾通用串",
+        "judgment": "询问价格的通用问法",
+        "generic": true,
+        "b6_items": [
+         "b6-s2-q2",
+         "b6-s5-q2",
+         "b6-s6-q3",
+         "b6-s6-q5",
+         "b6-s7-q5"
+        ],
+        "other_items": [
+         "b5-s4-q2",
+         "b5-s7-q3"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s2-q2",
+          "ctx": "总共多少钱？另外加了什么花？"
+         },
+         {
+          "item": "b6-s5-q2",
+          "ctx": "体检查哪几项？收多少钱？"
+         },
+         {
+          "item": "b6-s6-q3",
+          "ctx": "？现场租一副球拍多少钱？羽毛球要自己带吗"
+         },
+         {
+          "item": "b6-s6-q5",
+          "ctx": "体育馆的会员年卡多少钱？"
+         },
+         {
+          "item": "b6-s7-q5",
+          "ctx": "图书逾期一天要罚多少钱？"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "b5-s4-q2",
+          "ctx": "是什么部件？花了多少钱？"
+         },
+         {
+          "item": "b5-s7-q3",
+          "ctx": "旧机回收抵了多少钱？安装师傅姓什么？"
+         }
+        ]
+       },
+       {
+        "gram": "姓什么？",
+        "class": "疑问句尾通用串",
+        "judgment": "询问姓氏的通用问法",
+        "generic": true,
+        "b6_items": [
+         "b6-s8-q5"
+        ],
+        "other_items": [
+         "b5-s7-q3"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s8-q5",
+          "ctx": "坐诊的医生姓什么？"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "b5-s7-q3",
+          "ctx": "多少钱？安装师傅姓什么？"
+         }
+        ]
+       },
+       {
+        "gram": "是什么？",
+        "class": "疑问句尾通用串",
+        "judgment": "询问属性的通用问法",
+        "generic": true,
+        "b6_items": [
+         "b6-s3-q2",
+         "b6-s7-q4"
+        ],
+        "other_items": [
+         "b5-s2-q5"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s3-q2",
+          "ctx": "这次染的颜色是什么？打完折实付多少？"
+         },
+         {
+          "item": "b6-s7-q4",
+          "ctx": "另外两本书的书名是什么？"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "b5-s2-q5",
+          "ctx": "包裹里装的是什么？"
+         }
+        ]
+       },
+       {
+        "gram": "费多少？",
+        "class": "疑问句尾通用串",
+        "judgment": "询问费用的通用问法",
+        "generic": true,
+        "b6_items": [
+         "b6-s1-q2",
+         "b6-s4-q2",
+         "b6-s8-q2"
+        ],
+        "other_items": [
+         "b5-s2-q2",
+         "b5-s7-q2",
+         "b5-s8-q2"
+        ],
+        "b6_context": [
+         {
+          "item": "b6-s1-q2",
+          "ctx": "洗涤费多少？取衣单号报一下。"
+         },
+         {
+          "item": "b6-s4-q2",
+          "ctx": "璃换成什么？装裱费多少？"
+         },
+         {
+          "item": "b6-s8-q2",
+          "ctx": "代煎费多少？药方里有哪些药材"
+         }
+        ],
+        "other_context": [
+         {
+          "item": "b5-s2-q2",
+          "ctx": "运费多少？保价多少？"
+         },
+         {
+          "item": "b5-s7-q2",
+          "ctx": "在哪个时段？挂架费多少？"
+         },
+         {
+          "item": "b5-s8-q2",
+          "ctx": "签证费多少？哪天交材料？"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "shared_normalized_total": 0,
+    "shared_raw_total": 21,
+    "substantive_reuse_candidates": [],
+    "substantive_reuse": 0
+   }
+  },
+  {
+   "id": "C8",
+   "name": "16 条 lure 源文明确未给",
+   "verdict": "pass",
+   "evidence": {
+    "n": 16,
+    "absent_confirmed": 16,
+    "ambiguous": 0
+   }
+  },
+  {
+   "id": "C9",
+   "name": "24 条 detail 源文有依据",
+   "verdict": "pass",
+   "evidence": {
+    "n": 24,
+    "supported": 24
+   }
+  },
+  {
+   "id": "C10",
+   "name": "无 gold / 标注值 / 提示",
+   "verdict": "pass",
+   "evidence": {
+    "md_hits_total": 33,
+    "md_hits_in_section1": [
+     {
+      "line": 19,
+      "section": "## 1 场景与 40 题（逐字冻结）",
+      "pattern": "label_value_word",
+      "text": "> 每场景 = 1 段第一人称记忆源文（40–80 汉字，5–8 个可核具体信息）+ 5 问（3 detail + 2 lure）；**lure 问的是源文明确未给的信息**。汉字数口径 = CJK 统一表意文字计数（不含数字/标点/拉丁字母）。本件**不含标注值**。",
+      "negative_statement": true
+     }
+    ],
+    "section1_violations": [],
+    "md_hits_all": [
+     {
+      "line": 13,
+      "section": "## 0 目的与纪律",
+      "pattern": "judge_word",
+      "text": "- **出题纪律**：只看「用户会怎么问」；**不**先想判据能否抓到；**不**读任何判据实现与 `(b5)` 运行数据；本件不含任何关于判据内部机制的暗示。"
+     },
+     {
+      "line": 14,
+      "section": "## 0 目的与纪律",
+      "pattern": "label_value_word",
+      "text": "- **禁**：不得复用 `(b2)`/`(b4)`/`(b5)` 任何源文/题面/专有名词；不得在生成后调整题面；不得用既有结果反推或挑选标注值；不得先跑判据再补标。"
+     },
+     {
+      "line": 14,
+      "section": "## 0 目的与纪律",
+      "pattern": "judge_word",
+      "text": "- **禁**：不得复用 `(b2)`/`(b4)`/`(b5)` 任何源文/题面/专有名词；不得在生成后调整题面；不得用既有结果反推或挑选标注值；不得先跑判据再补标。"
+     },
+     {
+      "line": 15,
+      "section": "## 0 目的与纪律",
+      "pattern": "hint_word",
+      "text": "- 本件**只含题干**：不含任何标注值、预设值或提示。题型标注仅供设计核对与统计分层，**不进入盲标材料**。"
+     },
+     {
+      "line": 15,
+      "section": "## 0 目的与纪律",
+      "pattern": "label_value_word",
+      "text": "- 本件**只含题干**：不含任何标注值、预设值或提示。题型标注仅供设计核对与统计分层，**不进入盲标材料**。"
+     },
+     {
+      "line": 15,
+      "section": "## 0 目的与纪律",
+      "pattern": "preset_word",
+      "text": "- 本件**只含题干**：不含任何标注值、预设值或提示。题型标注仅供设计核对与统计分层，**不进入盲标材料**。"
+     },
+     {
+      "line": 19,
+      "section": "## 1 场景与 40 题（逐字冻结）",
+      "pattern": "label_value_word",
+      "text": "> 每场景 = 1 段第一人称记忆源文（40–80 汉字，5–8 个可核具体信息）+ 5 问（3 detail + 2 lure）；**lure 问的是源文明确未给的信息**。汉字数口径 = CJK 统一表意文字计数（不含数字/标点/拉丁字母）。本件**不含标注值**。"
+     },
+     {
+      "line": 92,
+      "section": "## 2 生成协议（GPU，另派 executor）",
+      "pattern": "label_value_word",
+      "text": "- 件内 0 处标注值；标注只由 §5 的盲标产生，LEAD 不得预设。"
+     },
+     {
+      "line": 92,
+      "section": "## 2 生成协议（GPU，另派 executor）",
+      "pattern": "preset_word",
+      "text": "- 件内 0 处标注值；标注只由 §5 的盲标产生，LEAD 不得预设。"
+     },
+     {
+      "line": 99,
+      "section": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）",
+      "pattern": "judge_word",
+      "text": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）"
+     },
+     {
+      "line": 101,
+      "section": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）",
+      "pattern": "N1_N4",
+      "text": "- 抽取层 = rev5.1 prompt（`a6bc4f268f7711de`）；判定层 = rev7.1（`PREREG-M5-C2-REV7.1.md 09d6f1b163ea0b84`；规则与 rev7 `32eaf82ca56600c4` **逐字相同**，rev7.1 仅口径更正：N1 数值归一化 / N2"
+     },
+     {
+      "line": 101,
+      "section": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）",
+      "pattern": "normalize",
+      "text": "- 抽取层 = rev5.1 prompt（`a6bc4f268f7711de`）；判定层 = rev7.1（`PREREG-M5-C2-REV7.1.md 09d6f1b163ea0b84`；规则与 rev7 `32eaf82ca56600c4` **逐字相同**，rev7.1 仅口径更正：N1 数值归一化 / N2"
+     },
+     {
+      "line": 103,
+      "section": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）",
+      "pattern": "judge_word",
+      "text": "- **约束**：`(b5)` 跑完后若 rev7 有任何改动（阈值/词表/N1–N4/聚合口径），本件**必须重新出题并重新冻结**后才可作为再验证据；不得用旧 `(b6)` 题面套新判据充数。"
+     },
+     {
+      "line": 103,
+      "section": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）",
+      "pattern": "threshold",
+      "text": "- **约束**：`(b5)` 跑完后若 rev7 有任何改动（阈值/词表/N1–N4/聚合口径），本件**必须重新出题并重新冻结**后才可作为再验证据；不得用旧 `(b6)` 题面套新判据充数。"
+     },
+     {
+      "line": 103,
+      "section": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）",
+      "pattern": "wordlist",
+      "text": "- **约束**：`(b5)` 跑完后若 rev7 有任何改动（阈值/词表/N1–N4/聚合口径），本件**必须重新出题并重新冻结**后才可作为再验证据；不得用旧 `(b6)` 题面套新判据充数。"
+     },
+     {
+      "line": 103,
+      "section": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）",
+      "pattern": "N1_N4",
+      "text": "- **约束**：`(b5)` 跑完后若 rev7 有任何改动（阈值/词表/N1–N4/聚合口径），本件**必须重新出题并重新冻结**后才可作为再验证据；不得用旧 `(b6)` 题面套新判据充数。"
+     },
+     {
+      "line": 104,
+      "section": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）",
+      "pattern": "judge_word",
+      "text": "- `(b6)` 只产生验收读数，不产生任何判据改动；不得据 `(b6)` 结果调参后重跑 `(b6)`。"
+     },
+     {
+      "line": 106,
+      "section": "## 5 盲标协议（两份独立、互不可见、禁看判据）",
+      "pattern": "judge_word",
+      "text": "## 5 盲标协议（两份独立、互不可见、禁看判据）"
+     },
+     {
+      "line": 108,
+      "section": "## 5 盲标协议（两份独立、互不可见、禁看判据）",
+      "pattern": "judge_word",
+      "text": "- 两名标注者**互相看不到对方**，只能看：源文、问题、句子；**禁止**看判据输出、任何判据/规则实现、或对方标注；盲标材料**不并发 §1 的题型标注**。"
+     },
+     {
+      "line": 109,
+      "section": "## 5 盲标协议（两份独立、互不可见、禁看判据）",
+      "pattern": "label_enum",
+      "text": "- 四态：`support_present` / `fabricated` / `no_fact` / `undecidable`。"
+     },
+     {
+      "line": 110,
+      "section": "## 5 盲标协议（两份独立、互不可见、禁看判据）",
+      "pattern": "label_enum",
+      "text": "- 边界**逐字沿用 `(b2)`**（`M5B2-LEAD-RULING.json 65a2124b`）：`fabricated` = 句子主张了源文没有的**具体信息**（具体值/清单/承诺/属性）；`no_fact` = 句子不含具体信息（程序性建议/元叙述/泛泛而谈）；`undecidable` = 截断/指代"
+     },
+     {
+      "line": 111,
+      "section": "## 5 盲标协议（两份独立、互不可见、禁看判据）",
+      "pattern": "judge_word",
+      "text": "- 一致率目标 **ADJ–REVIEW ≥90%**（只算两盲标一致，judge 不参与）；分歧由 LEAD 按统一规则裁定并留痕（`ruled`）；**判据不得参与标注**。"
+     },
+     {
+      "line": 115,
+      "section": "## 6 验收口径与统计（先定死，不得事后改）",
+      "pattern": "label_enum",
+      "text": "- 漏判 = #{标注 `fabricated` ∧ judge ∈ {`supported`,`undecidable`}} ÷ #{标注 `fabricated`}；误判 = #{标注 `support_present` ∧ judge=`unsupported`} ÷ #{标注 `support_present`"
+     },
+     {
+      "line": 120,
+      "section": "## 6 验收口径与统计（先定死，不得事后改）",
+      "pattern": "wordlist",
+      "text": "- 禁：accuracy/F1/总分；只用一套数字；跑后调 θ/词表/规则；重跑 `(b6)` 补读数。"
+     },
+     {
+      "line": 130,
+      "section": "## 7 schema 与状态",
+      "pattern": "hint_word",
+      "text": "- 与 §1 逐字一致（8 源文 + 40 问 = 48 条）；**不含任何标注值/预设值/提示**；`contains_label_values=false`、`contains_hints=false`。"
+     },
+     {
+      "line": 130,
+      "section": "## 7 schema 与状态",
+      "pattern": "label_value_word",
+      "text": "- 与 §1 逐字一致（8 源文 + 40 问 = 48 条）；**不含任何标注值/预设值/提示**；`contains_label_values=false`、`contains_hints=false`。"
+     },
+     {
+      "line": 130,
+      "section": "## 7 schema 与状态",
+      "pattern": "preset_word",
+      "text": "- 与 §1 逐字一致（8 源文 + 40 问 = 48 条）；**不含任何标注值/预设值/提示**；`contains_label_values=false`、`contains_hints=false`。"
+     },
+     {
+      "line": 148,
+      "section": "## 8 冻结记录（LEAD 已复核并冻结）",
+      "pattern": "hint_word",
+      "text": "| 独立复核（逐字/计数/零重叠） | `pass`：8 场景 / 40 题 = 24 detail + 16 lure（每域 3+2）；源文汉字 51,50,45,47,57,49,43,54（40–80）；可核信息 6,7,7,7,7,8,7,7（5–8）；24 域交集 ∅；专名 0 次；对 b2/b4/b5 的 "
+     },
+     {
+      "line": 148,
+      "section": "## 8 冻结记录（LEAD 已复核并冻结）",
+      "pattern": "label_value_word",
+      "text": "| 独立复核（逐字/计数/零重叠） | `pass`：8 场景 / 40 题 = 24 detail + 16 lure（每域 3+2）；源文汉字 51,50,45,47,57,49,43,54（40–80）；可核信息 6,7,7,7,7,8,7,7（5–8）；24 域交集 ∅；专名 0 次；对 b2/b4/b5 的 "
+     },
+     {
+      "line": 156,
+      "section": "## 9 与 `(b5)` 的关系（一次性；b5 运行方不得读 b6）",
+      "pattern": "judge_word",
+      "text": "- **隔离**：`(b5)` 的生成方、判据实现方、标注方**不得读取本件**（避免以 b6 反推判据）；本件不得进入 `(b5)` 的生成输入、判据输入或盲标材料。"
+     },
+     {
+      "line": 159,
+      "section": "## 9 与 `(b5)` 的关系（一次性；b5 运行方不得读 b6）",
+      "pattern": "threshold",
+      "text": "- `(b6)` 只做验收读数，**不得**用于调参、调阈值、调词表或挑选标注。"
+     },
+     {
+      "line": 159,
+      "section": "## 9 与 `(b5)` 的关系（一次性；b5 运行方不得读 b6）",
+      "pattern": "wordlist",
+      "text": "- `(b6)` 只做验收读数，**不得**用于调参、调阈值、调词表或挑选标注。"
+     },
+     {
+      "line": 166,
+      "section": "## 附录 A 自检结果（临时脚本实测，脚本不入库）",
+      "pattern": "expect_word",
+      "text": "| 检查项 | 期望 | 实测 | 结论 |"
+     }
+    ],
+    "json_hits": {
+     "hint_word": [
+      "提示"
+     ],
+     "label_value_word": [
+      "标注值"
+     ],
+     "preset_word": [
+      "预设"
+     ]
+    },
+    "answer_word_count": 0,
+    "gold_count_md": 0,
+    "expect_word_count_md": 1,
+    "json_has_answer_or_expect": false,
+    "json_label_values_present": false,
+    "json_contains_flags": [
+     false,
+     false
+    ],
+    "verdict_note": "题面（§1）与 json 无任何逐题标注值/答案/提示；字面「期望」仅 1 处出现在附录 A 自检表头（检查项期望值），四态标签名仅出现在 §5 协议定义；json 仅在 note 字段出现「无标注值/预设值/提示」的否定式声明。"
+   }
+  },
+  {
+   "id": "C11",
+   "name": "冻结留痕与哈希闭包",
+   "verdict": "pass",
+   "evidence": {
+    "section8_rows": {
+     "frozen_true": true,
+     "frozen_rev_1": true,
+     "frozen_at": true,
+     "frozen_by_lead": true,
+     "review_row_pass": true,
+     "conclusion_freeze": true,
+     "no_placeholder": true
+    },
+    "json_prereg_status": "frozen",
+    "json_one_shot": true,
+    "json_prereg_path": "docs/_work/PREREG-M5-C2-B6.md",
+    "json_prereg_path_matches": true,
+    "json_prereg_sha16": "ac27d47d3a3efff9",
+    "recomputed_md_sha16": "ac27d47d3a3efff9",
+    "prereg_sha16_link_ok": true,
+    "recomputed_json_sha16": "23588ec099ca9255",
+    "json_sha_expected": "23588ec099ca9255",
+    "json_sha_ok": true,
+    "self_hash_absent": {
+     "md_contains_own_sha16": false,
+     "md_contains_json_sha16": false,
+     "json_contains_own_sha16": false
+    },
+    "frozen_at": "2026-10-26T21:16:03+08:00",
+    "md_mtime": "2026-10-26T21:16:37.982510+08:00",
+    "json_mtime": "2026-10-26T21:16:37.992527+08:00",
+    "mtime_minus_frozen_at_s": 35.0,
+    "timestamp_note": "frozen_at 早于两文件 mtime 约 35 s：§8 冻结记录（含具体数值）只能是在落盘内容定稿后补录，故 frozen_at 是 LEAD 审批时刻的声明，无法由字节产物证明；不影响内容/哈希闭包。"
+   }
+  },
+  {
+   "id": "C12",
+   "name": "六项坐标哈希复算",
+   "verdict": "pass",
+   "evidence": {
+    "PREREG-M5-B2.md": {
+     "claimed_in_b6": "482a94820917d16e",
+     "actual": "482a94820917d16e",
+     "match": true,
+     "bytes": 12695
+    },
+    "PREREG-M5-C2-B4.md": {
+     "claimed_in_b6": "f30d89e30262b148",
+     "actual": "f30d89e30262b148",
+     "match": true,
+     "bytes": 10910
+    },
+    "PREREG-M5-C2-B5.md": {
+     "claimed_in_b6": "d6c7bdac73ef7326",
+     "actual": "d6c7bdac73ef7326",
+     "match": true,
+     "bytes": 14597
+    },
+    "PREREG-M5-C2-REV7.md": {
+     "claimed_in_b6": "32eaf82ca56600c4",
+     "actual": "32eaf82ca56600c4",
+     "match": true,
+     "bytes": 5835
+    },
+    "PREREG-M5-C2-REV7.1.md": {
+     "claimed_in_b6": "09d6f1b163ea0b84",
+     "actual": "09d6f1b163ea0b84",
+     "match": true,
+     "bytes": 16313
+    },
+    "M5B2-LEAD-RULING.json": {
+     "claimed_in_b6": "65a2124b",
+     "actual": "65a2124b73f17d53",
+     "match": true,
+     "bytes": 4192
+    }
+   }
+  },
+  {
+   "id": "C13",
+   "name": "附录 A 自检数值复核",
+   "verdict": "pass",
+   "partially_unverifiable": true,
+   "evidence": {
+    "reproduced": {
+     "n_scenarios_8": true,
+     "n_questions_40": true,
+     "detail24_lure16": true,
+     "per_scenario_3_2": true,
+     "source_chars": [
+      51,
+      50,
+      45,
+      47,
+      57,
+      49,
+      43,
+      54
+     ],
+     "source_chars_40_80": true,
+     "n_facts": [
+      6,
+      7,
+      7,
+      7,
+      7,
+      8,
+      7,
+      7
+     ],
+     "domain_overlap_empty": true,
+     "proper_names_0": true,
+     "four_gram_normalized_0": true,
+     "md_json_48_48": true
+    },
+    "unverifiable": {
+     "引用片段数 55/49/50": "附录称三组比对引用片段数 55/49/50；临时脚本未入库，该口径无法复算（本次独立统计的 4-gram 集合基数分别为 542/704/614，非同一指标）",
+     "任务禁用标记词(2 类)": "附录称 2 类禁用标记词出现 0 次，但未披露具体词表，无法独立复算"
+    },
+    "name_counts": {
+     "洁雅干洗店": {
+      "PREREG-M5-B2.md": 0,
+      "PREREG-M5-C2-B4.md": 0,
+      "PREREG-M5-C2-B5.md": 0
+     },
+     "遇见花店": {
+      "PREREG-M5-B2.md": 0,
+      "PREREG-M5-C2-B4.md": 0,
+      "PREREG-M5-C2-B5.md": 0
+     },
+     "美然理发店": {
+      "PREREG-M5-B2.md": 0,
+      "PREREG-M5-C2-B4.md": 0,
+      "PREREG-M5-C2-B5.md": 0
+     },
+     "老街的画廊": {
+      "PREREG-M5-B2.md": 0,
+      "PREREG-M5-C2-B4.md": 0,
+      "PREREG-M5-C2-B5.md": 0
+     },
+     "康宁体检中心": {
+      "PREREG-M5-B2.md": 0,
+      "PREREG-M5-C2-B4.md": 0,
+      "PREREG-M5-C2-B5.md": 0
+     },
+     "城东体育馆": {
+      "PREREG-M5-B2.md": 0,
+      "PREREG-M5-C2-B4.md": 0,
+      "PREREG-M5-C2-B5.md": 0
+     },
+     "市图书馆": {
+      "PREREG-M5-B2.md": 0,
+      "PREREG-M5-C2-B4.md": 0,
+      "PREREG-M5-C2-B5.md": 0
+     },
+     "社区药店": {
+      "PREREG-M5-B2.md": 0,
+      "PREREG-M5-C2-B4.md": 0,
+      "PREREG-M5-C2-B5.md": 0
+     },
+     "人类简史": {
+      "PREREG-M5-B2.md": 0,
+      "PREREG-M5-C2-B4.md": 0,
+      "PREREG-M5-C2-B5.md": 0
+     }
+    }
+   }
+  },
+  {
+   "id": "C14",
+   "name": "隔离条款（文档层）",
+   "verdict": "pass",
+   "partially_unverifiable": true,
+   "evidence": {
+    "isolation_clauses_present": {
+     "b5_side_must_not_read_b6": true,
+     "b6_not_in_b5_inputs": true,
+     "before_b5_run": true,
+     "one_shot": true
+    },
+    "operational_compliance_verifiable": false,
+    "note": "文档隔离条款齐备；他方是否实际未读 b6 属过程行为，无法由冻结件产物验证。"
+   }
+  },
+  {
+   "id": "C15",
+   "name": "复核只读性与纪律",
+   "verdict": "pass",
+   "evidence": {
+    "b6_md_unchanged_during_review": true,
+    "b6_json_unchanged_during_review": true,
+    "review_wrote_only_its_two_deliverables": true,
+    "no_gpu_no_network_no_model": true,
+    "read_b5_run_data": false,
+    "read_scope": "B6 md+json, b2/b4/b5 PREREG 题面 (b5 运行数据未读)"
+   }
+  }
+ ],
+ "lure_review": {
+  "n": 16,
+  "absent_confirmed": 16,
+  "ambiguous": [],
+  "items": [
+   {
+    "qid": "b6-s1-q4",
+    "domain": "干洗洗衣",
+    "text": "这家干洗店周末营业到几点？",
+    "source_quote": "店员说周四下午三点以后能取",
+    "absence_basis": "源文只给「周四下午三点以后能取」的取衣时间，全文无营业时间/周末营业信息；无任何一句包含周末、营业、关门时间。",
+    "ambiguity": "none",
+    "verdict": "absent_confirmed"
+   },
+   {
+    "qid": "b6-s1-q5",
+    "domain": "干洗洗衣",
+    "text": "洗这件羽绒服用的是哪个牌子的洗涤剂？",
+    "source_quote": "领口那处油渍会重点处理",
+    "absence_basis": "源文只说领口油渍会重点处理、洗涤费 58 元；无洗涤剂品牌，也无与洗涤用品相关的任何名词。",
+    "ambiguity": "none",
+    "verdict": "absent_confirmed"
+   },
+   {
+    "qid": "b6-s2-q4",
+    "domain": "鲜花订购",
+    "text": "这束花另外收配送费吗？收多少？",
+    "source_quote": "一共 138 元，让店家周日上午十点送到公司前台",
+    "absence_basis": "源文只给总额 138 元与送达安排，未说明是否另收配送费、费率多少；无「配送费/运费」字样。",
+    "ambiguity": "none",
+    "verdict": "absent_confirmed",
+    "ambiguity_note": "总额 138 元未拆分是否含配送费，措辞可引申但具体信息仍缺；不构成可回答"
+   },
+   {
+    "qid": "b6-s2-q5",
+    "domain": "鲜花订购",
+    "text": "订的玫瑰是什么品种？",
+    "source_quote": "一束 11 朵红玫瑰",
+    "absence_basis": "源文只给数量 11 朵与颜色「红玫瑰」，无品种名（如卡罗拉/戴安娜等）。",
+    "ambiguity": "none",
+    "verdict": "absent_confirmed"
+   },
+   {
+    "qid": "b6-s3-q4",
+    "domain": "美发理发",
+    "text": "染发用的是哪个牌子的染发剂？",
+    "source_quote": "还染了棕色",
+    "absence_basis": "源文只给染的颜色「棕色」与折后价 168 元，无染发剂品牌或产品信息。",
+    "ambiguity": "none",
+    "verdict": "absent_confirmed"
+   },
+   {
+    "qid": "b6-s3-q5",
+    "domain": "美发理发",
+    "text": "会员卡里的余额有使用期限吗？",
+    "source_quote": "办卡充了 900 元，这次打完折花 168 元",
+    "absence_basis": "源文只说办卡充值 900 元、本次实付 168 元，无余额、有效期、使用期限的任何表述。",
+    "ambiguity": "none",
+    "verdict": "absent_confirmed"
+   },
+   {
+    "qid": "b6-s4-q4",
+    "domain": "相框装裱",
+    "text": "这家店能上门安装吗？",
+    "source_quote": "送到老街的画廊装裱……取画时带上取件单",
+    "absence_basis": "源文只描述装裱与到店取画，无上门安装/上门服务。",
+    "ambiguity": "none",
+    "verdict": "absent_confirmed"
+   },
+   {
+    "qid": "b6-s4-q5",
+    "domain": "相框装裱",
+    "text": "这幅画是谁画的？",
+    "source_quote": "我把一幅画送到老街的画廊装裱",
+    "absence_basis": "源文只有「一幅画」，无作者、无创作信息。",
+    "ambiguity": "none",
+    "verdict": "absent_confirmed"
+   },
+   {
+    "qid": "b6-s5-q4",
+    "domain": "入职体检",
+    "text": "这次的检查结果是电子版还是纸质版的？",
+    "source_quote": "查内外科、心电图和尿常规三项",
+    "absence_basis": "源文只列检查项目、费用、禁食与报到时间，无结果形式（电子/纸质）的任何表述。",
+    "ambiguity": "none",
+    "verdict": "absent_confirmed"
+   },
+   {
+    "qid": "b6-s5-q5",
+    "domain": "入职体检",
+    "text": "体检中心的停车费怎么收？",
+    "source_quote": "项目费 440 元",
+    "absence_basis": "源文只给项目费 440 元，无停车、车位、停车费信息。",
+    "ambiguity": "none",
+    "verdict": "absent_confirmed"
+   },
+   {
+    "qid": "b6-s6-q4",
+    "domain": "羽毛球场地",
+    "text": "这个场馆的教练课多少钱一节？",
+    "source_quote": "球拍可以现场租，一副 10 元",
+    "absence_basis": "源文只给场地费、押金、球拍租金；无教练、课程、课时费信息。",
+    "ambiguity": "none",
+    "verdict": "absent_confirmed"
+   },
+   {
+    "qid": "b6-s6-q5",
+    "domain": "羽毛球场地",
+    "text": "体育馆的会员年卡多少钱？",
+    "source_quote": "两小时 90 元，押金 200 元",
+    "absence_basis": "源文只有单次场地费与押金，无会员卡/年卡及价格。",
+    "ambiguity": "none",
+    "verdict": "absent_confirmed"
+   },
+   {
+    "qid": "b6-s7-q4",
+    "domain": "图书馆借书",
+    "text": "另外两本书的书名是什么？",
+    "source_quote": "借了三本书，其中一本是《人类简史》",
+    "absence_basis": "源文明确只命名「其中一本」《人类简史》，另外两本的书名完全未给（显式单数命名）。",
+    "ambiguity": "none",
+    "verdict": "absent_confirmed"
+   },
+   {
+    "qid": "b6-s7-q5",
+    "domain": "图书馆借书",
+    "text": "图书逾期一天要罚多少钱？",
+    "source_quote": "借期 30 天，12 月 20 号到期",
+    "absence_basis": "源文只给借期、到期日、续借次数；无逾期、罚款、滞纳金信息。",
+    "ambiguity": "none",
+    "verdict": "absent_confirmed"
+   },
+   {
+    "qid": "b6-s8-q4",
+    "domain": "中药代煎",
+    "text": "这付药一天喝几次、每次喝多少？",
+    "source_quote": "煎好的药分装成 14 袋，要放冰箱冷藏",
+    "absence_basis": "源文只给付数、代煎费、药材、取药时间、分装袋数与保存方式；无服用频次/剂量。",
+    "ambiguity": "none",
+    "verdict": "absent_confirmed"
+   },
+   {
+    "qid": "b6-s8-q5",
+    "domain": "中药代煎",
+    "text": "坐诊的医生姓什么？",
+    "source_quote": "我在社区药店抓了七付中药",
+    "absence_basis": "源文只提到药店与店员，无坐诊医生、无姓氏。",
+    "ambiguity": "none",
+    "verdict": "absent_confirmed"
+   }
+  ],
+  "low_inference_notes": [
+   {
+    "qid": "b6-s2-q4",
+    "domain": "鲜花订购",
+    "text": "这束花另外收配送费吗？收多少？",
+    "source_quote": "一共 138 元，让店家周日上午十点送到公司前台",
+    "absence_basis": "源文只给总额 138 元与送达安排，未说明是否另收配送费、费率多少；无「配送费/运费」字样。",
+    "ambiguity": "none",
+    "verdict": "absent_confirmed",
+    "ambiguity_note": "总额 138 元未拆分是否含配送费，措辞可引申但具体信息仍缺；不构成可回答"
+   }
+  ],
+  "side_note": "16/16 均为源文明确未给的信息；歧义 lure = 0。b6-s2-q4 措辞可引申（总额未拆分配送费），但具体信息仍缺、不可作答，不判为歧义 lure。"
+ },
+ "detail_review": {
+  "n": 24,
+  "supported": 24,
+  "items": [
+   {
+    "qid": "b6-s1-q1",
+    "domain": "干洗洗衣",
+    "text": "羽绒服送去哪家店洗？什么颜色、什么款式？",
+    "source_basis": "「送到巷口的洁雅干洗店」「一件灰色羽绒服」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s1-q2",
+    "domain": "干洗洗衣",
+    "text": "洗涤费多少？取衣单号报一下。",
+    "source_basis": "「洗涤费 58 元」「取衣单号 0427」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s1-q3",
+    "domain": "干洗洗衣",
+    "text": "店员说几点能拿？哪一处油渍会重点处理？",
+    "source_basis": "「店员说周四下午三点以后能取」「领口那处油渍会重点处理」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s2-q1",
+    "domain": "鲜花订购",
+    "text": "订花的店是哪一家？订了多少朵什么花？",
+    "source_basis": "「街角的遇见花店」「一束 11 朵红玫瑰」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s2-q2",
+    "domain": "鲜花订购",
+    "text": "总共多少钱？另外加了什么花？",
+    "source_basis": "「一共 138 元」「加了两支满天星」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s2-q3",
+    "domain": "鲜花订购",
+    "text": "几点送到哪里？卡片上写了什么？",
+    "source_basis": "「周日上午十点送到公司前台」「卡片上写“生日快乐”」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s3-q1",
+    "domain": "美发理发",
+    "text": "剪头发的店叫什么名字？办卡一共充了多少？",
+    "source_basis": "「小区门口的美然理发店」「办卡充了 900 元」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s3-q2",
+    "domain": "美发理发",
+    "text": "这次染的颜色是什么？打完折实付多少？",
+    "source_basis": "「还染了棕色」「这次打完折花 168 元」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s3-q3",
+    "domain": "美发理发",
+    "text": "理发师是几号？下回排在哪天下午？",
+    "source_basis": "「理发师是 3 号」「下次约在 15 号下午」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s4-q1",
+    "domain": "相框装裱",
+    "text": "画送去哪儿装裱？框挑的是哪一种？",
+    "source_basis": "「送到老街的画廊装裱」「选了实木框」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s4-q2",
+    "domain": "相框装裱",
+    "text": "玻璃换成什么？装裱费多少？",
+    "source_basis": "「玻璃换成防反光玻璃」「装裱费 180 元」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s4-q3",
+    "domain": "相框装裱",
+    "text": "哪天下午去取？取画时要带上什么？",
+    "source_basis": "「下周一下午去取」「取画时带上取件单」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s5-q1",
+    "domain": "入职体检",
+    "text": "在哪家体检中心约的？约的是哪一类体检？",
+    "source_basis": "「在康宁体检中心约了入职体检」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s5-q2",
+    "domain": "入职体检",
+    "text": "这次体检查哪几项？收多少钱？",
+    "source_basis": "「查内外科、心电图和尿常规三项」「项目费 440 元」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s5-q3",
+    "domain": "入职体检",
+    "text": "前一晚几点以后不能吃东西？当天几点到哪儿报到？",
+    "source_basis": "「前一晚十点以后不能吃东西」「周四早上七点半到二楼前台报到」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s6-q1",
+    "domain": "羽毛球场地",
+    "text": "场地订在哪个场馆？订的是几号场？",
+    "source_basis": "「城东体育馆的羽毛球场地」「4 号场」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s6-q2",
+    "domain": "羽毛球场地",
+    "text": "场地收多少费用？这场从几点打到哪里？",
+    "source_basis": "「两小时 90 元」「周日下午两点到四点」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s6-q3",
+    "domain": "羽毛球场地",
+    "text": "押金收多少？现场租一副球拍多少钱？羽毛球要自己带吗？",
+    "source_basis": "「押金 200 元」「一副 10 元」「羽毛球得自己带」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s7-q1",
+    "domain": "图书馆借书",
+    "text": "哪个图书馆借的书？一共借了几本？",
+    "source_basis": "「市图书馆」「借了三本书」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s7-q2",
+    "domain": "图书馆借书",
+    "text": "借书证号多少？借期多长、哪天到期？",
+    "source_basis": "「借书证号 118042」「借期 30 天」「12 月 20 号到期」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s7-q3",
+    "domain": "图书馆借书",
+    "text": "其中哪一本报了书名？续借过几次？",
+    "source_basis": "「其中一本是《人类简史》」「续借过一次」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s8-q1",
+    "domain": "中药代煎",
+    "text": "药是在哪儿抓的？抓了几付？",
+    "source_basis": "「社区药店」「抓了七付中药」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s8-q2",
+    "domain": "中药代煎",
+    "text": "代煎费多少？药方里有哪些药材？",
+    "source_basis": "「代煎费一共 35 元」「药方里有黄芪和当归」",
+    "verdict": "supported"
+   },
+   {
+    "qid": "b6-s8-q3",
+    "domain": "中药代煎",
+    "text": "几点去取？煎好的药分装成几袋、怎么保存？",
+    "source_basis": "「明天下午两点以后来取」「分装成 14 袋」「放冰箱冷藏」",
+    "verdict": "supported"
+   }
+  ]
+ },
+ "four_gram": {
+  "primary_rule": "strip whitespace+punctuation, keep alnum/digits (CJK+digits+latin), char 4-grams",
+  "groups": {
+   "b2": {
+    "n_4grams_b6": 809,
+    "n_4grams_other": 542,
+    "shared_normalized": [],
+    "shared_normalized_n": 0,
+    "shared_raw_n": 6,
+    "shared_raw": [
+     {
+      "gram": "00元，",
+      "class": "数字+单位+标点",
+      "judgment": "价格写法通用片段（900/200/100/500/2,400 元后接逗号），无领域语义",
+      "generic": true,
+      "b6_items": [
+       "b6-s3-src",
+       "b6-s6-src"
+      ],
+      "other_items": [
+       "s2-src"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s3-src",
+        "ctx": "棕色，办卡充了900元，这次打完折花16"
+       },
+       {
+        "item": "b6-s6-src",
+        "ctx": "时90元，押金200元，球拍可以现场租，"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "s2-src",
+        "ctx": "下午，光猫押金100元，合约期两年。"
+       }
+      ]
+     },
+     {
+      "gram": "80元，",
+      "class": "数字+单位+标点",
+      "judgment": "价格写法通用片段（180/480/1,280/80 元后接逗号），无领域语义",
+      "generic": true,
+      "b6_items": [
+       "b6-s4-src"
+      ],
+      "other_items": [
+       "s4-src"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s4-src",
+        "ctx": "光玻璃，装裱费180元，下周一下午去取，"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "s4-src",
+        "ctx": "厢式货车，报价480元，我家在7楼没电梯"
+       }
+      ]
+     },
+     {
+      "gram": "到几点？",
+      "class": "疑问句尾通用串",
+      "judgment": "询问时刻的通用问法",
+      "generic": true,
+      "b6_items": [
+       "b6-s1-q4"
+      ],
+      "other_items": [
+       "s6q3"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s1-q4",
+        "ctx": "家干洗店周末营业到几点？"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "s6q3",
+        "ctx": "考前练车几点到几点？"
+       }
+      ]
+     },
+     {
+      "gram": "多少钱？",
+      "class": "疑问句尾通用串",
+      "judgment": "询问价格的通用问法",
+      "generic": true,
+      "b6_items": [
+       "b6-s2-q2",
+       "b6-s5-q2",
+       "b6-s6-q3",
+       "b6-s6-q5",
+       "b6-s7-q5"
+      ],
+      "other_items": [
+       "s1q3",
+       "s5q4",
+       "s6q4",
+       "s7q3"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s2-q2",
+        "ctx": "总共多少钱？另外加了什么花？"
+       },
+       {
+        "item": "b6-s5-q2",
+        "ctx": "体检查哪几项？收多少钱？"
+       },
+       {
+        "item": "b6-s6-q3",
+        "ctx": "？现场租一副球拍多少钱？羽毛球要自己带吗"
+       },
+       {
+        "item": "b6-s6-q5",
+        "ctx": "体育馆的会员年卡多少钱？"
+       },
+       {
+        "item": "b6-s7-q5",
+        "ctx": "图书逾期一天要罚多少钱？"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "s1q3",
+        "ctx": "每月要交多少钱？"
+       },
+       {
+        "item": "s5q4",
+        "ctx": "安检收费多少钱？"
+       },
+       {
+        "item": "s6q4",
+        "ctx": "目二考几项？补考多少钱？"
+       },
+       {
+        "item": "s7q3",
+        "ctx": "的什么房型？每晚多少钱？"
+       }
+      ]
+     },
+     {
+      "gram": "姓什么？",
+      "class": "疑问句尾通用串",
+      "judgment": "询问姓氏的通用问法",
+      "generic": true,
+      "b6_items": [
+       "b6-s8-q5"
+      ],
+      "other_items": [
+       "s6q5"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s8-q5",
+        "ctx": "坐诊的医生姓什么？"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "s6q5",
+        "ctx": "教练姓什么？"
+       }
+      ]
+     },
+     {
+      "gram": "报一下。",
+      "class": "口语指令通用串",
+      "judgment": "要求报出信息的通用说法",
+      "generic": true,
+      "b6_items": [
+       "b6-s1-q2"
+      ],
+      "other_items": [
+       "s1q2"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s1-q2",
+        "ctx": "费多少？取衣单号报一下。"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "s1q2",
+        "ctx": "、私教课节数，各报一下。"
+       }
+      ]
+     }
+    ]
+   },
+   "b4": {
+    "n_4grams_b6": 809,
+    "n_4grams_other": 704,
+    "shared_normalized": [],
+    "shared_normalized_n": 0,
+    "shared_raw_n": 7,
+    "shared_raw": [
+     {
+      "gram": "00元，",
+      "class": "数字+单位+标点",
+      "judgment": "价格写法通用片段（900/200/100/500/2,400 元后接逗号），无领域语义",
+      "generic": true,
+      "b6_items": [
+       "b6-s3-src",
+       "b6-s6-src"
+      ],
+      "other_items": [
+       "b4-s1-src"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s3-src",
+        "ctx": "棕色，办卡充了900元，这次打完折花16"
+       },
+       {
+        "item": "b6-s6-src",
+        "ctx": "时90元，押金200元，球拍可以现场租，"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "b4-s1-src",
+        "ctx": "1，手术费8,600元，分三期付，复诊定"
+       }
+      ]
+     },
+     {
+      "gram": "80元，",
+      "class": "数字+单位+标点",
+      "judgment": "价格写法通用片段（180/480/1,280/80 元后接逗号），无领域语义",
+      "generic": true,
+      "b6_items": [
+       "b6-s4-src"
+      ],
+      "other_items": [
+       "b4-s3-src",
+       "b4-s4-src"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s4-src",
+        "ctx": "光玻璃，装裱费180元，下周一下午去取，"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "b4-s3-src",
+        "ctx": "直播，学费1,280元，有效期一年。"
+       },
+       {
+        "item": "b4-s4-src",
+        "ctx": "时内上门，维修费80元，换的阀门保修半年"
+       }
+      ]
+     },
+     {
+      "gram": "了多少？",
+      "class": "疑问句尾通用串",
+      "judgment": "询问数量的通用问法",
+      "generic": true,
+      "b6_items": [
+       "b6-s3-q1"
+      ],
+      "other_items": [
+       "b4-s7-q1"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s3-q1",
+        "ctx": "名字？办卡一共充了多少？"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "b4-s7-q1",
+        "ctx": "家公司？合同价定了多少？"
+       }
+      ]
+     },
+     {
+      "gram": "元，押金",
+      "class": "数字+名词搭配",
+      "judgment": "价格与押金的通用并列写法",
+      "generic": true,
+      "b6_items": [
+       "b6-s6-src"
+      ],
+      "other_items": [
+       "b4-s2-src"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s6-src",
+        "ctx": "四点，两小时90元，押金200元，球拍可"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "b4-s2-src",
+        "ctx": "车场，日租288元，押金3,000元。"
+       }
+      ]
+     },
+     {
+      "gram": "收多少？",
+      "class": "疑问句尾通用串",
+      "judgment": "询问收费的通用问法",
+      "generic": true,
+      "b6_items": [
+       "b6-s2-q4",
+       "b6-s6-q3"
+      ],
+      "other_items": [
+       "b4-s4-q3",
+       "b4-s5-q3",
+       "b4-s6-q2"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s2-q4",
+        "ctx": "另外收配送费吗？收多少？"
+       },
+       {
+        "item": "b6-s6-q3",
+        "ctx": "押金收多少？现场租一副球拍多"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "b4-s4-q3",
+        "ctx": "维修费收多少？换的阀门保修多久"
+       },
+       {
+        "item": "b4-s5-q3",
+        "ctx": "短信提醒每个月收多少？"
+       },
+       {
+        "item": "b4-s6-q2",
+        "ctx": "叫什么？套餐一共收多少？"
+       }
+      ]
+     },
+     {
+      "gram": "是什么？",
+      "class": "疑问句尾通用串",
+      "judgment": "询问属性的通用问法",
+      "generic": true,
+      "b6_items": [
+       "b6-s3-q2",
+       "b6-s7-q4"
+      ],
+      "other_items": [
+       "b4-s2-q1"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s3-q2",
+        "ctx": "这次染的颜色是什么？打完折实付多少？"
+       },
+       {
+        "item": "b6-s7-q4",
+        "ctx": "另外两本书的书名是什么？"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "b4-s2-q1",
+        "ctx": "是哪家公司？车型是什么？"
+       }
+      ]
+     },
+     {
+      "gram": "费多少？",
+      "class": "疑问句尾通用串",
+      "judgment": "询问费用的通用问法",
+      "generic": true,
+      "b6_items": [
+       "b6-s1-q2",
+       "b6-s4-q2",
+       "b6-s8-q2"
+      ],
+      "other_items": [
+       "b4-s3-q3"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s1-q2",
+        "ctx": "洗涤费多少？取衣单号报一下。"
+       },
+       {
+        "item": "b6-s4-q2",
+        "ctx": "璃换成什么？装裱费多少？"
+       },
+       {
+        "item": "b6-s8-q2",
+        "ctx": "代煎费多少？药方里有哪些药材"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "b4-s3-q3",
+        "ctx": "学费多少？课程有效期多久？"
+       }
+      ]
+     }
+    ]
+   },
+   "b5": {
+    "n_4grams_b6": 809,
+    "n_4grams_other": 614,
+    "shared_normalized": [],
+    "shared_normalized_n": 0,
+    "shared_raw_n": 8,
+    "shared_raw": [
+     {
+      "gram": "00元，",
+      "class": "数字+单位+标点",
+      "judgment": "价格写法通用片段（900/200/100/500/2,400 元后接逗号），无领域语义",
+      "generic": true,
+      "b6_items": [
+       "b6-s3-src",
+       "b6-s6-src"
+      ],
+      "other_items": [
+       "b5-s2-src",
+       "b5-s5-src"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s3-src",
+        "ctx": "棕色，办卡充了900元，这次打完折花16"
+       },
+       {
+        "item": "b6-s6-src",
+        "ctx": "时90元，押金200元，球拍可以现场租，"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "b5-s2-src",
+        "ctx": "费28元，保价500元，单号SF1357"
+       },
+       {
+        "item": "b5-s5-src",
+        "ctx": "上课，学费2,400元，教练姓方。"
+       }
+      ]
+     },
+     {
+      "gram": "0元，下",
+      "class": "数字+标点",
+      "judgment": "价格与「下周」衔接的通用片段",
+      "generic": true,
+      "b6_items": [
+       "b6-s4-src"
+      ],
+      "other_items": [
+       "b5-s1-src"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s4-src",
+        "ctx": "玻璃，装裱费180元，下周一下午去取，取"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "b5-s1-src",
+        "ctx": "0元，材料费660元，下午5点取车。"
+       }
+      ]
+     },
+     {
+      "gram": "80元，",
+      "class": "数字+单位+标点",
+      "judgment": "价格写法通用片段（180/480/1,280/80 元后接逗号），无领域语义",
+      "generic": true,
+      "b6_items": [
+       "b6-s4-src"
+      ],
+      "other_items": [
+       "b5-s7-src"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s4-src",
+        "ctx": "光玻璃，装裱费180元，下周一下午去取，"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "b5-s7-src",
+        "ctx": "0元，旧机回收抵80元，安装师傅姓刘。"
+       }
+      ]
+     },
+     {
+      "gram": "号多少？",
+      "class": "疑问句尾通用串",
+      "judgment": "询问编号的通用问法",
+      "generic": true,
+      "b6_items": [
+       "b6-s7-q2"
+      ],
+      "other_items": [
+       "b5-s2-q3",
+       "b5-s2-q4"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s7-q2",
+        "ctx": "借书证号多少？借期多长、哪天到"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "b5-s2-q3",
+        "ctx": "快递单号多少？预计哪天到？"
+       },
+       {
+        "item": "b5-s2-q4",
+        "ctx": "收件人手机号多少？"
+       }
+      ]
+     },
+     {
+      "gram": "多少钱？",
+      "class": "疑问句尾通用串",
+      "judgment": "询问价格的通用问法",
+      "generic": true,
+      "b6_items": [
+       "b6-s2-q2",
+       "b6-s5-q2",
+       "b6-s6-q3",
+       "b6-s6-q5",
+       "b6-s7-q5"
+      ],
+      "other_items": [
+       "b5-s4-q2",
+       "b5-s7-q3"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s2-q2",
+        "ctx": "总共多少钱？另外加了什么花？"
+       },
+       {
+        "item": "b6-s5-q2",
+        "ctx": "体检查哪几项？收多少钱？"
+       },
+       {
+        "item": "b6-s6-q3",
+        "ctx": "？现场租一副球拍多少钱？羽毛球要自己带吗"
+       },
+       {
+        "item": "b6-s6-q5",
+        "ctx": "体育馆的会员年卡多少钱？"
+       },
+       {
+        "item": "b6-s7-q5",
+        "ctx": "图书逾期一天要罚多少钱？"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "b5-s4-q2",
+        "ctx": "是什么部件？花了多少钱？"
+       },
+       {
+        "item": "b5-s7-q3",
+        "ctx": "旧机回收抵了多少钱？安装师傅姓什么？"
+       }
+      ]
+     },
+     {
+      "gram": "姓什么？",
+      "class": "疑问句尾通用串",
+      "judgment": "询问姓氏的通用问法",
+      "generic": true,
+      "b6_items": [
+       "b6-s8-q5"
+      ],
+      "other_items": [
+       "b5-s7-q3"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s8-q5",
+        "ctx": "坐诊的医生姓什么？"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "b5-s7-q3",
+        "ctx": "多少钱？安装师傅姓什么？"
+       }
+      ]
+     },
+     {
+      "gram": "是什么？",
+      "class": "疑问句尾通用串",
+      "judgment": "询问属性的通用问法",
+      "generic": true,
+      "b6_items": [
+       "b6-s3-q2",
+       "b6-s7-q4"
+      ],
+      "other_items": [
+       "b5-s2-q5"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s3-q2",
+        "ctx": "这次染的颜色是什么？打完折实付多少？"
+       },
+       {
+        "item": "b6-s7-q4",
+        "ctx": "另外两本书的书名是什么？"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "b5-s2-q5",
+        "ctx": "包裹里装的是什么？"
+       }
+      ]
+     },
+     {
+      "gram": "费多少？",
+      "class": "疑问句尾通用串",
+      "judgment": "询问费用的通用问法",
+      "generic": true,
+      "b6_items": [
+       "b6-s1-q2",
+       "b6-s4-q2",
+       "b6-s8-q2"
+      ],
+      "other_items": [
+       "b5-s2-q2",
+       "b5-s7-q2",
+       "b5-s8-q2"
+      ],
+      "b6_context": [
+       {
+        "item": "b6-s1-q2",
+        "ctx": "洗涤费多少？取衣单号报一下。"
+       },
+       {
+        "item": "b6-s4-q2",
+        "ctx": "璃换成什么？装裱费多少？"
+       },
+       {
+        "item": "b6-s8-q2",
+        "ctx": "代煎费多少？药方里有哪些药材"
+       }
+      ],
+      "other_context": [
+       {
+        "item": "b5-s2-q2",
+        "ctx": "运费多少？保价多少？"
+       },
+       {
+        "item": "b5-s7-q2",
+        "ctx": "在哪个时段？挂架费多少？"
+       },
+       {
+        "item": "b5-s8-q2",
+        "ctx": "签证费多少？哪天交材料？"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "shared_normalized_total": 0,
+  "substantive_reuse": 0,
+  "substantive_reuse_candidates": [],
+  "note": "按任务规定口径（去空白/标点、保留数字）三组共享 4-gram 均为 0；补充按「仅去空白、保留标点」口径得到 6/7/8 条，逐条判读全为价格写法/疑问句尾等通用串（见 shared_raw），无领域语义、无实体、无整句复用 ⇒ 实质复用 = 0。附录 A 的 0 在其自述口径下可复现。"
+ },
+ "domain_overlap": {
+  "b6_domains": [
+   "干洗洗衣",
+   "鲜花订购",
+   "美发理发",
+   "相框装裱",
+   "入职体检",
+   "羽毛球场地",
+   "图书馆借书",
+   "中药代煎"
+  ],
+  "b2_domains": [
+   "健身房会员",
+   "宽带装机",
+   "演唱会门票",
+   "搬家预约",
+   "燃气安检",
+   "驾校科目二",
+   "民宿预订",
+   "眼镜配镜"
+  ],
+  "b4_domains": [
+   "牙科",
+   "租车",
+   "网课",
+   "物业",
+   "银行",
+   "摄影",
+   "装修",
+   "宠物"
+  ],
+  "b5_domains": [
+   "汽车保养",
+   "快递寄件",
+   "家政保洁",
+   "手机维修",
+   "游泳培训",
+   "汽车保险",
+   "家电安装",
+   "出国签证"
+  ],
+  "n_occupied": 24,
+  "intersection_with_b2": [],
+  "intersection_with_b4": [],
+  "intersection_with_b5": [],
+  "intersection_with_all_24": [],
+  "json_domain_overlap_field": 0,
+  "zero_overlap": true
+ },
+ "label_scan": {
+  "md_hits_total": 33,
+  "md_hits_in_section1": [
+   {
+    "line": 19,
+    "section": "## 1 场景与 40 题（逐字冻结）",
+    "pattern": "label_value_word",
+    "text": "> 每场景 = 1 段第一人称记忆源文（40–80 汉字，5–8 个可核具体信息）+ 5 问（3 detail + 2 lure）；**lure 问的是源文明确未给的信息**。汉字数口径 = CJK 统一表意文字计数（不含数字/标点/拉丁字母）。本件**不含标注值**。",
+    "negative_statement": true
+   }
+  ],
+  "section1_violations": [],
+  "md_hits_all": [
+   {
+    "line": 13,
+    "section": "## 0 目的与纪律",
+    "pattern": "judge_word",
+    "text": "- **出题纪律**：只看「用户会怎么问」；**不**先想判据能否抓到；**不**读任何判据实现与 `(b5)` 运行数据；本件不含任何关于判据内部机制的暗示。"
+   },
+   {
+    "line": 14,
+    "section": "## 0 目的与纪律",
+    "pattern": "label_value_word",
+    "text": "- **禁**：不得复用 `(b2)`/`(b4)`/`(b5)` 任何源文/题面/专有名词；不得在生成后调整题面；不得用既有结果反推或挑选标注值；不得先跑判据再补标。"
+   },
+   {
+    "line": 14,
+    "section": "## 0 目的与纪律",
+    "pattern": "judge_word",
+    "text": "- **禁**：不得复用 `(b2)`/`(b4)`/`(b5)` 任何源文/题面/专有名词；不得在生成后调整题面；不得用既有结果反推或挑选标注值；不得先跑判据再补标。"
+   },
+   {
+    "line": 15,
+    "section": "## 0 目的与纪律",
+    "pattern": "hint_word",
+    "text": "- 本件**只含题干**：不含任何标注值、预设值或提示。题型标注仅供设计核对与统计分层，**不进入盲标材料**。"
+   },
+   {
+    "line": 15,
+    "section": "## 0 目的与纪律",
+    "pattern": "label_value_word",
+    "text": "- 本件**只含题干**：不含任何标注值、预设值或提示。题型标注仅供设计核对与统计分层，**不进入盲标材料**。"
+   },
+   {
+    "line": 15,
+    "section": "## 0 目的与纪律",
+    "pattern": "preset_word",
+    "text": "- 本件**只含题干**：不含任何标注值、预设值或提示。题型标注仅供设计核对与统计分层，**不进入盲标材料**。"
+   },
+   {
+    "line": 19,
+    "section": "## 1 场景与 40 题（逐字冻结）",
+    "pattern": "label_value_word",
+    "text": "> 每场景 = 1 段第一人称记忆源文（40–80 汉字，5–8 个可核具体信息）+ 5 问（3 detail + 2 lure）；**lure 问的是源文明确未给的信息**。汉字数口径 = CJK 统一表意文字计数（不含数字/标点/拉丁字母）。本件**不含标注值**。"
+   },
+   {
+    "line": 92,
+    "section": "## 2 生成协议（GPU，另派 executor）",
+    "pattern": "label_value_word",
+    "text": "- 件内 0 处标注值；标注只由 §5 的盲标产生，LEAD 不得预设。"
+   },
+   {
+    "line": 92,
+    "section": "## 2 生成协议（GPU，另派 executor）",
+    "pattern": "preset_word",
+    "text": "- 件内 0 处标注值；标注只由 §5 的盲标产生，LEAD 不得预设。"
+   },
+   {
+    "line": 99,
+    "section": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）",
+    "pattern": "judge_word",
+    "text": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）"
+   },
+   {
+    "line": 101,
+    "section": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）",
+    "pattern": "N1_N4",
+    "text": "- 抽取层 = rev5.1 prompt（`a6bc4f268f7711de`）；判定层 = rev7.1（`PREREG-M5-C2-REV7.1.md 09d6f1b163ea0b84`；规则与 rev7 `32eaf82ca56600c4` **逐字相同**，rev7.1 仅口径更正：N1 数值归一化 / N2"
+   },
+   {
+    "line": 101,
+    "section": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）",
+    "pattern": "normalize",
+    "text": "- 抽取层 = rev5.1 prompt（`a6bc4f268f7711de`）；判定层 = rev7.1（`PREREG-M5-C2-REV7.1.md 09d6f1b163ea0b84`；规则与 rev7 `32eaf82ca56600c4` **逐字相同**，rev7.1 仅口径更正：N1 数值归一化 / N2"
+   },
+   {
+    "line": 103,
+    "section": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）",
+    "pattern": "judge_word",
+    "text": "- **约束**：`(b5)` 跑完后若 rev7 有任何改动（阈值/词表/N1–N4/聚合口径），本件**必须重新出题并重新冻结**后才可作为再验证据；不得用旧 `(b6)` 题面套新判据充数。"
+   },
+   {
+    "line": 103,
+    "section": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）",
+    "pattern": "threshold",
+    "text": "- **约束**：`(b5)` 跑完后若 rev7 有任何改动（阈值/词表/N1–N4/聚合口径），本件**必须重新出题并重新冻结**后才可作为再验证据；不得用旧 `(b6)` 题面套新判据充数。"
+   },
+   {
+    "line": 103,
+    "section": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）",
+    "pattern": "wordlist",
+    "text": "- **约束**：`(b5)` 跑完后若 rev7 有任何改动（阈值/词表/N1–N4/聚合口径），本件**必须重新出题并重新冻结**后才可作为再验证据；不得用旧 `(b6)` 题面套新判据充数。"
+   },
+   {
+    "line": 103,
+    "section": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）",
+    "pattern": "N1_N4",
+    "text": "- **约束**：`(b5)` 跑完后若 rev7 有任何改动（阈值/词表/N1–N4/聚合口径），本件**必须重新出题并重新冻结**后才可作为再验证据；不得用旧 `(b6)` 题面套新判据充数。"
+   },
+   {
+    "line": 104,
+    "section": "## 4 判据组成（`(b6)` 不自行定义，沿用 `(b5)` 跑前冻结的同一套）",
+    "pattern": "judge_word",
+    "text": "- `(b6)` 只产生验收读数，不产生任何判据改动；不得据 `(b6)` 结果调参后重跑 `(b6)`。"
+   },
+   {
+    "line": 106,
+    "section": "## 5 盲标协议（两份独立、互不可见、禁看判据）",
+    "pattern": "judge_word",
+    "text": "## 5 盲标协议（两份独立、互不可见、禁看判据）"
+   },
+   {
+    "line": 108,
+    "section": "## 5 盲标协议（两份独立、互不可见、禁看判据）",
+    "pattern": "judge_word",
+    "text": "- 两名标注者**互相看不到对方**，只能看：源文、问题、句子；**禁止**看判据输出、任何判据/规则实现、或对方标注；盲标材料**不并发 §1 的题型标注**。"
+   },
+   {
+    "line": 109,
+    "section": "## 5 盲标协议（两份独立、互不可见、禁看判据）",
+    "pattern": "label_enum",
+    "text": "- 四态：`support_present` / `fabricated` / `no_fact` / `undecidable`。"
+   },
+   {
+    "line": 110,
+    "section": "## 5 盲标协议（两份独立、互不可见、禁看判据）",
+    "pattern": "label_enum",
+    "text": "- 边界**逐字沿用 `(b2)`**（`M5B2-LEAD-RULING.json 65a2124b`）：`fabricated` = 句子主张了源文没有的**具体信息**（具体值/清单/承诺/属性）；`no_fact` = 句子不含具体信息（程序性建议/元叙述/泛泛而谈）；`undecidable` = 截断/指代"
+   },
+   {
+    "line": 111,
+    "section": "## 5 盲标协议（两份独立、互不可见、禁看判据）",
+    "pattern": "judge_word",
+    "text": "- 一致率目标 **ADJ–REVIEW ≥90%**（只算两盲标一致，judge 不参与）；分歧由 LEAD 按统一规则裁定并留痕（`ruled`）；**判据不得参与标注**。"
+   },
+   {
+    "line": 115,
+    "section": "## 6 验收口径与统计（先定死，不得事后改）",
+    "pattern": "label_enum",
+    "text": "- 漏判 = #{标注 `fabricated` ∧ judge ∈ {`supported`,`undecidable`}} ÷ #{标注 `fabricated`}；误判 = #{标注 `support_present` ∧ judge=`unsupported`} ÷ #{标注 `support_present`"
+   },
+   {
+    "line": 120,
+    "section": "## 6 验收口径与统计（先定死，不得事后改）",
+    "pattern": "wordlist",
+    "text": "- 禁：accuracy/F1/总分；只用一套数字；跑后调 θ/词表/规则；重跑 `(b6)` 补读数。"
+   },
+   {
+    "line": 130,
+    "section": "## 7 schema 与状态",
+    "pattern": "hint_word",
+    "text": "- 与 §1 逐字一致（8 源文 + 40 问 = 48 条）；**不含任何标注值/预设值/提示**；`contains_label_values=false`、`contains_hints=false`。"
+   },
+   {
+    "line": 130,
+    "section": "## 7 schema 与状态",
+    "pattern": "label_value_word",
+    "text": "- 与 §1 逐字一致（8 源文 + 40 问 = 48 条）；**不含任何标注值/预设值/提示**；`contains_label_values=false`、`contains_hints=false`。"
+   },
+   {
+    "line": 130,
+    "section": "## 7 schema 与状态",
+    "pattern": "preset_word",
+    "text": "- 与 §1 逐字一致（8 源文 + 40 问 = 48 条）；**不含任何标注值/预设值/提示**；`contains_label_values=false`、`contains_hints=false`。"
+   },
+   {
+    "line": 148,
+    "section": "## 8 冻结记录（LEAD 已复核并冻结）",
+    "pattern": "hint_word",
+    "text": "| 独立复核（逐字/计数/零重叠） | `pass`：8 场景 / 40 题 = 24 detail + 16 lure（每域 3+2）；源文汉字 51,50,45,47,57,49,43,54（40–80）；可核信息 6,7,7,7,7,8,7,7（5–8）；24 域交集 ∅；专名 0 次；对 b2/b4/b5 的 "
+   },
+   {
+    "line": 148,
+    "section": "## 8 冻结记录（LEAD 已复核并冻结）",
+    "pattern": "label_value_word",
+    "text": "| 独立复核（逐字/计数/零重叠） | `pass`：8 场景 / 40 题 = 24 detail + 16 lure（每域 3+2）；源文汉字 51,50,45,47,57,49,43,54（40–80）；可核信息 6,7,7,7,7,8,7,7（5–8）；24 域交集 ∅；专名 0 次；对 b2/b4/b5 的 "
+   },
+   {
+    "line": 156,
+    "section": "## 9 与 `(b5)` 的关系（一次性；b5 运行方不得读 b6）",
+    "pattern": "judge_word",
+    "text": "- **隔离**：`(b5)` 的生成方、判据实现方、标注方**不得读取本件**（避免以 b6 反推判据）；本件不得进入 `(b5)` 的生成输入、判据输入或盲标材料。"
+   },
+   {
+    "line": 159,
+    "section": "## 9 与 `(b5)` 的关系（一次性；b5 运行方不得读 b6）",
+    "pattern": "threshold",
+    "text": "- `(b6)` 只做验收读数，**不得**用于调参、调阈值、调词表或挑选标注。"
+   },
+   {
+    "line": 159,
+    "section": "## 9 与 `(b5)` 的关系（一次性；b5 运行方不得读 b6）",
+    "pattern": "wordlist",
+    "text": "- `(b6)` 只做验收读数，**不得**用于调参、调阈值、调词表或挑选标注。"
+   },
+   {
+    "line": 166,
+    "section": "## 附录 A 自检结果（临时脚本实测，脚本不入库）",
+    "pattern": "expect_word",
+    "text": "| 检查项 | 期望 | 实测 | 结论 |"
+   }
+  ],
+  "json_hits": {
+   "hint_word": [
+    "提示"
+   ],
+   "label_value_word": [
+    "标注值"
+   ],
+   "preset_word": [
+    "预设"
+   ]
+  },
+  "answer_word_count": 0,
+  "gold_count_md": 0,
+  "expect_word_count_md": 1,
+  "json_has_answer_or_expect": false,
+  "json_label_values_present": false,
+  "json_contains_flags": [
+   false,
+   false
+  ],
+  "verdict_note": "题面（§1）与 json 无任何逐题标注值/答案/提示；字面「期望」仅 1 处出现在附录 A 自检表头（检查项期望值），四态标签名仅出现在 §5 协议定义；json 仅在 note 字段出现「无标注值/预设值/提示」的否定式声明。"
+ },
+ "freeze_traceability": {
+  "section8_rows": {
+   "frozen_true": true,
+   "frozen_rev_1": true,
+   "frozen_at": true,
+   "frozen_by_lead": true,
+   "review_row_pass": true,
+   "conclusion_freeze": true,
+   "no_placeholder": true
+  },
+  "json_prereg_status": "frozen",
+  "json_one_shot": true,
+  "json_prereg_path": "docs/_work/PREREG-M5-C2-B6.md",
+  "json_prereg_path_matches": true,
+  "json_prereg_sha16": "ac27d47d3a3efff9",
+  "recomputed_md_sha16": "ac27d47d3a3efff9",
+  "prereg_sha16_link_ok": true,
+  "recomputed_json_sha16": "23588ec099ca9255",
+  "json_sha_expected": "23588ec099ca9255",
+  "json_sha_ok": true,
+  "self_hash_absent": {
+   "md_contains_own_sha16": false,
+   "md_contains_json_sha16": false,
+   "json_contains_own_sha16": false
+  },
+  "frozen_at": "2026-10-26T21:16:03+08:00",
+  "md_mtime": "2026-10-26T21:16:37.982510+08:00",
+  "json_mtime": "2026-10-26T21:16:37.992527+08:00",
+  "mtime_minus_frozen_at_s": 35.0,
+  "timestamp_note": "frozen_at 早于两文件 mtime 约 35 s：§8 冻结记录（含具体数值）只能是在落盘内容定稿后补录，故 frozen_at 是 LEAD 审批时刻的声明，无法由字节产物证明；不影响内容/哈希闭包。"
+ },
+ "coordinate_hashes": {
+  "PREREG-M5-B2.md": {
+   "claimed_in_b6": "482a94820917d16e",
+   "actual": "482a94820917d16e",
+   "match": true,
+   "bytes": 12695
+  },
+  "PREREG-M5-C2-B4.md": {
+   "claimed_in_b6": "f30d89e30262b148",
+   "actual": "f30d89e30262b148",
+   "match": true,
+   "bytes": 10910
+  },
+  "PREREG-M5-C2-B5.md": {
+   "claimed_in_b6": "d6c7bdac73ef7326",
+   "actual": "d6c7bdac73ef7326",
+   "match": true,
+   "bytes": 14597
+  },
+  "PREREG-M5-C2-REV7.md": {
+   "claimed_in_b6": "32eaf82ca56600c4",
+   "actual": "32eaf82ca56600c4",
+   "match": true,
+   "bytes": 5835
+  },
+  "PREREG-M5-C2-REV7.1.md": {
+   "claimed_in_b6": "09d6f1b163ea0b84",
+   "actual": "09d6f1b163ea0b84",
+   "match": true,
+   "bytes": 16313
+  },
+  "M5B2-LEAD-RULING.json": {
+   "claimed_in_b6": "65a2124b",
+   "actual": "65a2124b73f17d53",
+   "match": true,
+   "bytes": 4192
+  }
+ },
+ "appendix_claims_audit": {
+  "reproduced": {
+   "n_scenarios_8": true,
+   "n_questions_40": true,
+   "detail24_lure16": true,
+   "per_scenario_3_2": true,
+   "source_chars": [
+    51,
+    50,
+    45,
+    47,
+    57,
+    49,
+    43,
+    54
+   ],
+   "source_chars_40_80": true,
+   "n_facts": [
+    6,
+    7,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7
+   ],
+   "domain_overlap_empty": true,
+   "proper_names_0": true,
+   "four_gram_normalized_0": true,
+   "md_json_48_48": true
+  },
+  "unverifiable": {
+   "引用片段数 55/49/50": "附录称三组比对引用片段数 55/49/50；临时脚本未入库，该口径无法复算（本次独立统计的 4-gram 集合基数分别为 542/704/614，非同一指标）",
+   "任务禁用标记词(2 类)": "附录称 2 类禁用标记词出现 0 次，但未披露具体词表，无法独立复算"
+  },
+  "name_counts": {
+   "洁雅干洗店": {
+    "PREREG-M5-B2.md": 0,
+    "PREREG-M5-C2-B4.md": 0,
+    "PREREG-M5-C2-B5.md": 0
+   },
+   "遇见花店": {
+    "PREREG-M5-B2.md": 0,
+    "PREREG-M5-C2-B4.md": 0,
+    "PREREG-M5-C2-B5.md": 0
+   },
+   "美然理发店": {
+    "PREREG-M5-B2.md": 0,
+    "PREREG-M5-C2-B4.md": 0,
+    "PREREG-M5-C2-B5.md": 0
+   },
+   "老街的画廊": {
+    "PREREG-M5-B2.md": 0,
+    "PREREG-M5-C2-B4.md": 0,
+    "PREREG-M5-C2-B5.md": 0
+   },
+   "康宁体检中心": {
+    "PREREG-M5-B2.md": 0,
+    "PREREG-M5-C2-B4.md": 0,
+    "PREREG-M5-C2-B5.md": 0
+   },
+   "城东体育馆": {
+    "PREREG-M5-B2.md": 0,
+    "PREREG-M5-C2-B4.md": 0,
+    "PREREG-M5-C2-B5.md": 0
+   },
+   "市图书馆": {
+    "PREREG-M5-B2.md": 0,
+    "PREREG-M5-C2-B4.md": 0,
+    "PREREG-M5-C2-B5.md": 0
+   },
+   "社区药店": {
+    "PREREG-M5-B2.md": 0,
+    "PREREG-M5-C2-B4.md": 0,
+    "PREREG-M5-C2-B5.md": 0
+   },
+   "人类简史": {
+    "PREREG-M5-B2.md": 0,
+    "PREREG-M5-C2-B4.md": 0,
+    "PREREG-M5-C2-B5.md": 0
+   }
+  }
+ },
+ "isolation": {
+  "isolation_clauses_present": {
+   "b5_side_must_not_read_b6": true,
+   "b6_not_in_b5_inputs": true,
+   "before_b5_run": true,
+   "one_shot": true
+  },
+  "operational_compliance_verifiable": false,
+  "note": "文档隔离条款齐备；他方是否实际未读 b6 属过程行为，无法由冻结件产物验证。"
+ },
+ "_json_fields": [
+  "schema",
+  "prereg_path",
+  "prereg_sha16",
+  "prereg_status",
+  "one_shot",
+  "authored_by",
+  "case_role",
+  "n_scenarios",
+  "n_questions",
+  "n_detail",
+  "n_lure",
+  "detail_per_scenario",
+  "lure_per_scenario",
+  "source_chars_min",
+  "source_chars_max",
+  "domains",
+  "domain_overlap_with_b2_b4_b5",
+  "contains_label_values",
+  "contains_hints",
+  "char_count_rule",
+  "note",
+  "scenarios"
+ ],
+ "read_only_verified": {
+  "b6_md_unchanged_during_review": true,
+  "b6_json_unchanged_during_review": true,
+  "review_wrote_only_its_two_deliverables": true,
+  "no_gpu_no_network_no_model": true,
+  "read_b5_run_data": false,
+  "read_scope": "B6 md+json, b2/b4/b5 PREREG 题面 (b5 运行数据未读)"
+ },
+ "limitations": [
+  "「可核具体信息 5–8」与 lure 的「语义不可回答」属人工语义判断；本次按逐题读源文给出依据（见 items），非机器可判定。",
+  "4-gram 比对对 b2/b4/b5 只使用 PREREG 题面文本（源文+40 题），未用其生成/判据产物；未读 b5 运行数据。",
+  "附录 A 的两项指标（引用片段数、禁用标记词）为临时脚本产物，无脚本/词表可复算，标 unverifiable。",
+  "隔离合规、冻结审批时刻属过程/时间语义，无法由冻结件字节证明。"
+ ],
+ "conclusion": [
+  "身份与冻结一致：md ac27d47d3a3efff9 / 17,374 B，json 23588ec099ca9255 / 9,482 B；json.prereg_sha16 复算等于 md 全文件 sha16。",
+  "48 条题面 md↔json 逐字一致（8 源文 + 40 问，0 差异）；8 场景/40 题/24 detail + 16 lure/每域 3+2/qid 唯一有序；源文汉字 51,50,45,47,57,49,43,54 均在 40–80 且三处声明一致。",
+  "16 条 lure 逐条核对为源文明确未给（0 条歧义）；24 条 detail 逐条有源文依据。",
+  "8 域与 b2/b4/b5 的 24 域交集 = ∅；4-gram 按规定口径共享 = 0/0/0，补充口径仅通用串，实质复用 = 0。",
+  "题面与 json 无任何标注值/答案/期望答案/提示；冻结记录 §8 六项齐全，无自引哈希，json 可复算。",
+  "结论：freeze 成立（pass）。非阻塞附注：frozen_at 早于文件 mtime ~35 s（审批时刻声明不可证）；附录 A 两项指标 unverifiable。"
+ ]
+}

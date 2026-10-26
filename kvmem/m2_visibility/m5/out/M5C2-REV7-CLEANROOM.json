@@ -1,0 +1,1417 @@
+{
+ "schema": "m5c2_rev7_cleanroom_v1",
+ "title": "M5-C2 REV7 cleanroom reproduction audit (committed files only)",
+ "task": "task-4",
+ "auditor": "cleanroom-auditor",
+ "generated_at_local": "2026-10-26T21:05:18+0800",
+ "cleanroom_root": "D:\\rev7-cleanroom-20261026-205205",
+ "repository": "D:\\llama-mem",
+ "environment": {
+  "python": "3.14.5 (tags/v3.14.5:5607950, May 10 2026, 10:43:50) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+  "platform": "win32",
+  "invocation": "python -X utf8 (Windows, cwd inside the clean tree)"
+ },
+ "verdict": {
+  "byte_identical_reproduction": true,
+  "artifact_sha16": "1f8f44b921e575fe",
+  "artifact_bytes": 507657,
+  "committed_artifact_sha16": "1f8f44b921e575fe",
+  "committed_artifact_bytes": 507657,
+  "reproduced_from": "committed blobs only (zero source edits)",
+  "deterministic_two_runs": true,
+  "fail_closed_all_inputs": "PASS",
+  "hidden_uncommitted_code_dependency": false,
+  "repo_files_modified": false
+ },
+ "provenance": {
+  "c32_commit": "96eeefc3e932660c11b20e268e40c39533bc0346",
+  "c32_subject": "96eeefc3e932660c11b20e268e40c39533bc0346 evidence(main): C32——rev7 判定层离线复算：§3 四门槛全过（误判 2/46、漏判 4/41、parse_fail 1/261、新增漏判 0），独立审计零结果差异；§2 A2/A3 断言不可满足，冻结 PREREG 自相矛盾（装置不合格）",
+  "head_at_audit": "96eeefc3e932660c11b20e268e40c39533bc0346",
+  "prereg_commit": "5574253",
+  "prereg_branch": "full",
+  "prereg_blob_sha1": "eb1db627520020c2ba2b17ab96f58be8b2de19ec",
+  "prereg_sha16": "32eaf82ca56600c4",
+  "prereg_bytes": 5835,
+  "prereg_provenance": {
+   "c32_contains_prereg": {
+    "command": "git cat-file -p 96eeefc:docs/_work/PREREG-M5-C2-REV7.md",
+    "rc": 128,
+    "stdout": "",
+    "stderr": "fatal: path 'docs/_work/PREREG-M5-C2-REV7.md' exists on disk, but not in '96eeefc'"
+   },
+   "prereg_branch_contains_5574253": {
+    "command": "git branch -a --contains 5574253",
+    "rc": 0,
+    "stdout": "full",
+    "stderr": ""
+   },
+   "prereg_is_ancestor_of_c32": {
+    "command": "git merge-base --is-ancestor 5574253 96eeefc",
+    "rc": 1,
+    "stdout": "",
+    "stderr": ""
+   },
+   "prereg_gitignore_rule": {
+    "command": "git check-ignore -v docs/_work/PREREG-M5-C2-REV7.md",
+    "rc": 0,
+    "stdout": ".gitignore:180:*.md\tdocs/_work/PREREG-M5-C2-REV7.md",
+    "stderr": ""
+   },
+   "prereg_source_commit": "5574253",
+   "prereg_blob_sha1": "eb1db627520020c2ba2b17ab96f58be8b2de19ec",
+   "worktree_path": "D:\\llama-mem\\docs\\_work\\PREREG-M5-C2-REV7.md",
+   "worktree_exists": true,
+   "materialized": {
+    "path": "docs/_work/PREREG-M5-C2-REV7.md",
+    "source_commit": "5574253",
+    "dest": "D:\\rev7-cleanroom-20261026-205205\\tree\\docs\\_work\\PREREG-M5-C2-REV7.md",
+    "command": "git cat-file -p 5574253:docs/_work/PREREG-M5-C2-REV7.md",
+    "git_blob_sha1": "eb1db627520020c2ba2b17ab96f58be8b2de19ec",
+    "sha256": "32eaf82ca56600c444f99498609977ea608f0475b23498de4ab1abc66cc6b36d",
+    "sha16": "32eaf82ca56600c4",
+    "bytes": 5835,
+    "expected_sha16": "32eaf82ca56600c4",
+    "expected_bytes": 5835,
+    "sha16_match": true,
+    "bytes_match": true,
+    "written_bytes_equal_blob": true,
+    "worktree_copy_exists": true,
+    "worktree_sha16": "32eaf82ca56600c4",
+    "worktree_equals_blob": true
+   }
+  },
+  "finding": "docs/_work/PREREG-M5-C2-REV7.md is NOT in C32's tree: the rule .gitignore:180 *.md keeps docs/_work/*.md out of git on main, and the file is committed only on branch `full` at 5574253 (blob eb1db62..., sha16 32eaf82ca56600c4 / 5,835 B). The working-tree copy used by the original run is byte-identical to that committed blob. So: one frozen input required for reproduction is committed, but not by C32/main."
+ },
+ "input_manifest": [
+  {
+   "path": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "b1d3b8e732f91982358ee0e824dca63fc5501216",
+   "sha16": "65ed60125528d5d6",
+   "sha256": "65ed60125528d5d65ffac830df859ef1fdff1dc83bb3ac2e48eb6f1ff5f1272d",
+   "bytes": 44761,
+   "expected_sha16": "65ed60125528d5d6",
+   "expected_bytes": 44761,
+   "sha16_match": true,
+   "bytes_match": true,
+   "command": "git cat-file -p 96eeefc:kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_rev7_offline.py"
+  },
+  {
+   "path": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "16af027f20816a7c6dfe5d23b72a6d7a269cae7c",
+   "sha16": "1f8f44b921e575fe",
+   "sha256": "1f8f44b921e575fe609c64bf4861ec3714f78cc31b92728793fd3963196a7f73",
+   "bytes": 507657,
+   "expected_sha16": "1f8f44b921e575fe",
+   "expected_bytes": 507657,
+   "sha16_match": true,
+   "bytes_match": true,
+   "command": "git cat-file -p 96eeefc:kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\_reference\\kvmem\\m2_visibility\\m5\\out\\M5C2-REV7-OFFLINE.json"
+  },
+  {
+   "path": "kvmem/m2_visibility/m5/out/_rev7_audit.py",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "be2c399c1183734f59198b941e37ce72d711745a",
+   "sha16": "6695a4b4de403870",
+   "sha256": "6695a4b4de4038700aed61d6f7da078073e47e1bb9befbd287e6639211139a8e",
+   "bytes": 57234,
+   "expected_sha16": "6695a4b4de403870",
+   "expected_bytes": null,
+   "sha16_match": true,
+   "bytes_match": null,
+   "command": "git cat-file -p 96eeefc:kvmem/m2_visibility/m5/out/_rev7_audit.py",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\_reference\\kvmem\\m2_visibility\\m5\\out\\_rev7_audit.py"
+  },
+  {
+   "path": "kvmem/m2_visibility/m5/out/M5C2-REV7-AUDIT.json",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "308eae8da5dfd912ce710b944f9ee7d3ebc20b3e",
+   "sha16": "de80cd38a7147f0f",
+   "sha256": "de80cd38a7147f0f8df5215de6eee2de9dfa2d8d1e123368b3bbe29142d2a6e5",
+   "bytes": 55523,
+   "expected_sha16": "de80cd38a7147f0f",
+   "expected_bytes": null,
+   "sha16_match": true,
+   "bytes_match": null,
+   "command": "git cat-file -p 96eeefc:kvmem/m2_visibility/m5/out/M5C2-REV7-AUDIT.json",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\_reference\\kvmem\\m2_visibility\\m5\\out\\M5C2-REV7-AUDIT.json"
+  },
+  {
+   "path": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "9b7fd909ce0224dd2aa59a11996d93e994cdb526",
+   "sha16": "6a3001b6ca23ef7d",
+   "sha256": "6a3001b6ca23ef7dbd4fa7e4c241e3f78bf078e50cceb9e852ca462946885214",
+   "bytes": 452456,
+   "expected_sha16": "6a3001b6ca23ef7d",
+   "expected_bytes": 452456,
+   "sha16_match": true,
+   "bytes_match": true,
+   "command": "git cat-file -p 96eeefc:kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\out\\M5B4-JUDGE.json"
+  },
+  {
+   "path": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "97c13e62c8a4991fc4cac4023291ada8ff9680e2",
+   "sha16": "9273ebc97aa1413a",
+   "sha256": "9273ebc97aa1413ad7629bb0598f0e071580a9d0c85eb4a92f9a7827cd814c9a",
+   "bytes": 13195,
+   "expected_sha16": "9273ebc97aa1413a",
+   "expected_bytes": 13195,
+   "sha16_match": true,
+   "bytes_match": true,
+   "command": "git cat-file -p 96eeefc:kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\out\\M5B4-LEAD-RULING.json"
+  },
+  {
+   "path": "kvmem/m2_visibility/m5/out/M5B4-SENTENCES.json",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "11af4621702c3cd539f0272478b70e880609ba13",
+   "sha16": "c349ca5a93192aac",
+   "sha256": "c349ca5a93192aac41f560c19c2c11567112e23d0de29ef0e4e52c5ebf8c25e4",
+   "bytes": 99636,
+   "expected_sha16": "c349ca5a93192aac",
+   "expected_bytes": 99636,
+   "sha16_match": true,
+   "bytes_match": true,
+   "command": "git cat-file -p 96eeefc:kvmem/m2_visibility/m5/out/M5B4-SENTENCES.json",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\out\\M5B4-SENTENCES.json"
+  },
+  {
+   "path": "docs/_work/PREREG-M5-C2-REV7.md",
+   "source_commit": "5574253",
+   "git_blob_sha1": "eb1db627520020c2ba2b17ab96f58be8b2de19ec",
+   "sha16": "32eaf82ca56600c4",
+   "sha256": "32eaf82ca56600c444f99498609977ea608f0475b23498de4ab1abc66cc6b36d",
+   "bytes": 5835,
+   "expected_sha16": "32eaf82ca56600c4",
+   "expected_bytes": 5835,
+   "sha16_match": true,
+   "bytes_match": true,
+   "command": "git cat-file -p 5574253:docs/_work/PREREG-M5-C2-REV7.md",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\tree\\docs\\_work\\PREREG-M5-C2-REV7.md"
+  },
+  {
+   "path": "kvmem/m2_visibility/m5/run_m5c2_rev5_offline.py",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "f0554529c5b043e06e2ca38fd4df28a0b22ca1d3",
+   "sha16": "9f113de9e5e355b0",
+   "sha256": "9f113de9e5e355b00acfb60f34f8da2a7feaef8dcf306f4f8ffb5006ece08651",
+   "bytes": 17540,
+   "expected_sha16": null,
+   "expected_bytes": 17540,
+   "sha16_match": null,
+   "bytes_match": true,
+   "command": "git cat-file -p 96eeefc:kvmem/m2_visibility/m5/run_m5c2_rev5_offline.py",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_rev5_offline.py"
+  },
+  {
+   "path": "kvmem/m2_visibility/m5/run_m5c2_rev5_1_offline.py",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "9c9c7131abc351d430a14d33571bc37b9ebcff7a",
+   "sha16": "26d81e2a2f14abd0",
+   "sha256": "26d81e2a2f14abd06001fc1d1ab4a0949d45288838994d34ef1c7b76d351acb8",
+   "bytes": 11276,
+   "expected_sha16": null,
+   "expected_bytes": 11276,
+   "sha16_match": null,
+   "bytes_match": true,
+   "command": "git cat-file -p 96eeefc:kvmem/m2_visibility/m5/run_m5c2_rev5_1_offline.py",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_rev5_1_offline.py"
+  },
+  {
+   "path": "kvmem/m2_visibility/m5/run_m5c2_rev4_1.py",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "8a3c78f21e45a32684a6b0fdf1e4b478c705058f",
+   "sha16": "0976b4aa4bcd7646",
+   "sha256": "0976b4aa4bcd7646bddde4b93a7868310b300d12f9692be0fb9cdb8558dfce66",
+   "bytes": 20039,
+   "expected_sha16": null,
+   "expected_bytes": 20039,
+   "sha16_match": null,
+   "bytes_match": true,
+   "command": "git cat-file -p 96eeefc:kvmem/m2_visibility/m5/run_m5c2_rev4_1.py",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_rev4_1.py"
+  },
+  {
+   "path": "kvmem/m2_visibility/m5/run_m5c2_r2.py",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "b7f400bdfe0c452513a024bec2a6b105cf3d0eca",
+   "sha16": "9947ac1e61c0145c",
+   "sha256": "9947ac1e61c0145c287fca2080d481932734e0c0c66321b2c0ce3f6bfae41561",
+   "bytes": 28546,
+   "expected_sha16": null,
+   "expected_bytes": 28546,
+   "sha16_match": null,
+   "bytes_match": true,
+   "command": "git cat-file -p 96eeefc:kvmem/m2_visibility/m5/run_m5c2_r2.py",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_r2.py"
+  },
+  {
+   "path": "kvmem/m2_visibility/m5/run_m5c2_floor.py",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "4b570de0e66d1358a4dd8df13843e0c36d62a418",
+   "sha16": "b7d393fc4fbe8d5f",
+   "sha256": "b7d393fc4fbe8d5fbb47cca273c381cf6d9e31b449d9d897d0fd411ecd2e527b",
+   "bytes": 25815,
+   "expected_sha16": null,
+   "expected_bytes": 25815,
+   "sha16_match": null,
+   "bytes_match": true,
+   "command": "git cat-file -p 96eeefc:kvmem/m2_visibility/m5/run_m5c2_floor.py",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_floor.py"
+  },
+  {
+   "path": "kvmem/m2_visibility/m5/run_m5c2_floor_rev2.py",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "de8a05336722ffda794cfd9c9216522cdd5a863e",
+   "sha16": "175b5a33d007223b",
+   "sha256": "175b5a33d007223b9d075993dfc2b42a072bb3cbedf5808e9919810c5775cd76",
+   "bytes": 14226,
+   "expected_sha16": null,
+   "expected_bytes": 14226,
+   "sha16_match": null,
+   "bytes_match": true,
+   "command": "git cat-file -p 96eeefc:kvmem/m2_visibility/m5/run_m5c2_floor_rev2.py",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_floor_rev2.py"
+  },
+  {
+   "path": "kvmem/m2_visibility/m5/run_m5c2_rev4.py",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "459a75dd15268716bd2f8e49af2846d350028a08",
+   "sha16": "9f605d44183f8f67",
+   "sha256": "9f605d44183f8f67a8b1f536ddc818c3ce1401557fc158994125790a499879a4",
+   "bytes": 16235,
+   "expected_sha16": null,
+   "expected_bytes": 16235,
+   "sha16_match": null,
+   "bytes_match": true,
+   "command": "git cat-file -p 96eeefc:kvmem/m2_visibility/m5/run_m5c2_rev4.py",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_rev4.py"
+  },
+  {
+   "path": "kvmem/m2_visibility/m5/run_m5c2_rev2_order.py",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "c7512445f285101c336f0125ae09037a3cfeeade",
+   "sha16": "dca8d7f71c5cb934",
+   "sha256": "dca8d7f71c5cb9343632e75454842333ed25bc2ca850a34bd40a65af466c19c2",
+   "bytes": 22809,
+   "expected_sha16": null,
+   "expected_bytes": 22809,
+   "sha16_match": null,
+   "bytes_match": true,
+   "command": "git cat-file -p 96eeefc:kvmem/m2_visibility/m5/run_m5c2_rev2_order.py",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_rev2_order.py"
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out/_e3gpu_run.py",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "aac1b2898c2646ac0017627f920fdb3a1b133218",
+   "sha16": "2c166ec71921585b",
+   "sha256": "2c166ec71921585b63d68ac04f8e4e8f26e2d3bbd96d26cb559ed48e70b530a4",
+   "bytes": 48970,
+   "expected_sha16": null,
+   "expected_bytes": 48970,
+   "sha16_match": null,
+   "bytes_match": true,
+   "command": "git cat-file -p 96eeefc:kvmem/m2_visibility/m7/out/_e3gpu_run.py",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_run.py"
+  },
+  {
+   "path": "tools/kvslots.py",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "2d2e5a7110f10d27333ba12f65e1470f35b9710c",
+   "sha16": "cfec958c19c62563",
+   "sha256": "cfec958c19c6256337d547e2fc3c773acb7052d6726bccd9570e718c6358e3be",
+   "bytes": 27016,
+   "expected_sha16": null,
+   "expected_bytes": 27016,
+   "sha16_match": null,
+   "bytes_match": true,
+   "command": "git cat-file -p 96eeefc:tools/kvslots.py",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\tree\\tools\\kvslots.py"
+  },
+  {
+   "path": "tools/memory_source.py",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "86b41f18b25285e68011d4c1c81e97bbe7d9a3df",
+   "sha16": "af380cca548e8112",
+   "sha256": "af380cca548e81120899d43faba05417b40bbf9fdea9d4664cdfbbe2426aed47",
+   "bytes": 33867,
+   "expected_sha16": null,
+   "expected_bytes": 33867,
+   "sha16_match": null,
+   "bytes_match": true,
+   "command": "git cat-file -p 96eeefc:tools/memory_source.py",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\tree\\tools\\memory_source.py"
+  },
+  {
+   "path": "tools/session_state.py",
+   "source_commit": "96eeefc",
+   "git_blob_sha1": "bb310fb92a63587e40cd385fd25b74eddad0596c",
+   "sha16": "44b508a886dfb8f8",
+   "sha256": "44b508a886dfb8f89210f3e817e8b9ba33827312323c6b67e4bce3550d6a21da",
+   "bytes": 24005,
+   "expected_sha16": null,
+   "expected_bytes": 24005,
+   "sha16_match": null,
+   "bytes_match": true,
+   "command": "git cat-file -p 96eeefc:tools/session_state.py",
+   "written_to": "D:\\rev7-cleanroom-20261026-205205\\tree\\tools\\session_state.py"
+  }
+ ],
+ "commands": [
+  {
+   "label": "P1 materialize from git blobs",
+   "command": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\rev7-cleanroom-20261026-205205\\_tools\\materialize.py",
+   "cwd": "D:\\rev7-cleanroom-20261026-205205",
+   "env_extra": {},
+   "rc": 0,
+   "elapsed_s": 1.333,
+   "stdout_bytes": 113,
+   "stdout_sha256": "fbd2fc5bbfafb80fd82dbc22e0f3204a615978fcc6f01785a407da6a70157fe6",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stderr": "",
+   "logs": {
+    "stdout": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\materialize.stdout.txt",
+    "stderr": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\materialize.stderr.txt"
+   }
+  },
+  {
+   "label": "P2 static import graph",
+   "command": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\rev7-cleanroom-20261026-205205\\_tools\\import_graph.py",
+   "cwd": "D:\\rev7-cleanroom-20261026-205205",
+   "env_extra": {},
+   "rc": 0,
+   "elapsed_s": 1.98,
+   "stdout_bytes": 119,
+   "stdout_sha256": "88497bb87b33d4fa81f4e3736f81943c0eb22cabbf86e73e5a8274fb37806da3",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stderr": "",
+   "logs": {
+    "stdout": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\import_graph.stdout.txt",
+    "stderr": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\import_graph.stderr.txt"
+   }
+  },
+  {
+   "label": "P4/B run1: zero-edit tree, shim, audit hook on",
+   "command": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\rev7-cleanroom-20261026-205205\\_tools\\root_shim.py --clean-root D:\\rev7-cleanroom-20261026-205205\\tree --script D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_rev7_offline.py --audit-log D:\\rev7-cleanroom-20261026-205205\\_evidence\\audit_run1.jsonl --cwd D:\\rev7-cleanroom-20261026-205205\\tree",
+   "cwd": "D:\\rev7-cleanroom-20261026-205205\\tree",
+   "env_extra": {},
+   "rc": 0,
+   "elapsed_s": 0.336,
+   "stdout_bytes": 17135,
+   "stdout_sha256": "6992f05682017cd3062aead90cba11b6b1f3b432fac22e7a442bf222819669be",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stderr": "",
+   "logs": {
+    "stdout": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\run1_shim_audit.stdout.txt",
+    "stderr": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\run1_shim_audit.stderr.txt"
+   }
+  },
+  {
+   "label": "P4/B run2: zero-edit tree, shim, determinism",
+   "command": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\rev7-cleanroom-20261026-205205\\_tools\\root_shim.py --clean-root D:\\rev7-cleanroom-20261026-205205\\tree --script D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_rev7_offline.py --cwd D:\\rev7-cleanroom-20261026-205205\\tree",
+   "cwd": "D:\\rev7-cleanroom-20261026-205205\\tree",
+   "env_extra": {},
+   "rc": 0,
+   "elapsed_s": 0.33,
+   "stdout_bytes": 17135,
+   "stdout_sha256": "6992f05682017cd3062aead90cba11b6b1f3b432fac22e7a442bf222819669be",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stderr": "",
+   "logs": {
+    "stdout": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\run2_shim.stdout.txt",
+    "stderr": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\run2_shim.stderr.txt"
+   }
+  },
+  {
+   "label": "P5 method A: apply prescribed single-line ROOT substitution",
+   "command": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\rev7-cleanroom-20261026-205205\\_tools\\patch_root.py",
+   "cwd": "D:\\rev7-cleanroom-20261026-205205",
+   "env_extra": {},
+   "rc": 0,
+   "elapsed_s": 0.188,
+   "stdout_bytes": 562,
+   "stdout_sha256": "9da4af2b4d11e3ced42257be73ff7b1258c563384582934c718b81621f20f801",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stderr": "",
+   "logs": {
+    "stdout": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\patch_root.stdout.txt",
+    "stderr": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\patch_root.stderr.txt"
+   }
+  },
+  {
+   "label": "P5/A run: patched tree, native python",
+   "command": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\rev7-cleanroom-20261026-205205\\tree_patched\\kvmem\\m2_visibility\\m5\\run_m5c2_rev7_offline.py",
+   "cwd": "D:\\rev7-cleanroom-20261026-205205\\tree_patched",
+   "env_extra": {},
+   "rc": 0,
+   "elapsed_s": 0.448,
+   "stdout_bytes": 17135,
+   "stdout_sha256": "be122240e62696ac4137894201c66c82d3441ba53afd2560ca1d561dfa61c879",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stderr": "",
+   "logs": {
+    "stdout": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\runA_patched_root.stdout.txt",
+    "stderr": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\runA_patched_root.stderr.txt"
+   }
+  },
+  {
+   "label": "P6 fail-closed PREREG_1byte",
+   "command": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\rev7-cleanroom-20261026-205205\\_tools\\root_shim.py --clean-root D:\\rev7-cleanroom-20261026-205205\\tree_fc --script D:\\rev7-cleanroom-20261026-205205\\tree_fc\\kvmem\\m2_visibility\\m5\\run_m5c2_rev7_offline.py --cwd D:\\rev7-cleanroom-20261026-205205\\tree_fc",
+   "cwd": "D:\\rev7-cleanroom-20261026-205205\\tree_fc",
+   "env_extra": {},
+   "rc": 1,
+   "elapsed_s": 0.236,
+   "stdout_bytes": 0,
+   "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stderr_bytes": 46,
+   "stderr_sha256": "f6d30d52eae1bfa943a295e60bb3a0a6c98e30396024d2807752d4cf04c34a88",
+   "stderr": "REV7 prereg changed (sha16 0c46f6f81bb9bc44)",
+   "logs": {
+    "stdout": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\failclosed_PREREG_1byte.stdout.txt",
+    "stderr": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\failclosed_PREREG_1byte.stderr.txt"
+   }
+  },
+  {
+   "label": "P6 fail-closed JUDGE_1byte",
+   "command": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\rev7-cleanroom-20261026-205205\\_tools\\root_shim.py --clean-root D:\\rev7-cleanroom-20261026-205205\\tree_fc --script D:\\rev7-cleanroom-20261026-205205\\tree_fc\\kvmem\\m2_visibility\\m5\\run_m5c2_rev7_offline.py --cwd D:\\rev7-cleanroom-20261026-205205\\tree_fc",
+   "cwd": "D:\\rev7-cleanroom-20261026-205205\\tree_fc",
+   "env_extra": {},
+   "rc": 1,
+   "elapsed_s": 0.134,
+   "stdout_bytes": 0,
+   "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stderr_bytes": 20,
+   "stderr_sha256": "fe17d1e97197228b9030fd5c2c4926e8b26f4e0921d76dd12d75250ffdb962dd",
+   "stderr": "M5B4-JUDGE changed",
+   "logs": {
+    "stdout": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\failclosed_JUDGE_1byte.stdout.txt",
+    "stderr": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\failclosed_JUDGE_1byte.stderr.txt"
+   }
+  },
+  {
+   "label": "P6 fail-closed GOLD_1byte",
+   "command": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\rev7-cleanroom-20261026-205205\\_tools\\root_shim.py --clean-root D:\\rev7-cleanroom-20261026-205205\\tree_fc --script D:\\rev7-cleanroom-20261026-205205\\tree_fc\\kvmem\\m2_visibility\\m5\\run_m5c2_rev7_offline.py --cwd D:\\rev7-cleanroom-20261026-205205\\tree_fc",
+   "cwd": "D:\\rev7-cleanroom-20261026-205205\\tree_fc",
+   "env_extra": {},
+   "rc": 1,
+   "elapsed_s": 0.13,
+   "stdout_bytes": 0,
+   "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stderr_bytes": 31,
+   "stderr_sha256": "adb6afa25de525a881758f92d4a56c3252aec72eb331b6404c3f3b9e188ea3c5",
+   "stderr": "M5B4-LEAD-RULING gold changed",
+   "logs": {
+    "stdout": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\failclosed_GOLD_1byte.stdout.txt",
+    "stderr": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\failclosed_GOLD_1byte.stderr.txt"
+   }
+  },
+  {
+   "label": "P6 fail-closed SENTENCES_1char",
+   "command": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\rev7-cleanroom-20261026-205205\\_tools\\root_shim.py --clean-root D:\\rev7-cleanroom-20261026-205205\\tree_fc --script D:\\rev7-cleanroom-20261026-205205\\tree_fc\\kvmem\\m2_visibility\\m5\\run_m5c2_rev7_offline.py --cwd D:\\rev7-cleanroom-20261026-205205\\tree_fc",
+   "cwd": "D:\\rev7-cleanroom-20261026-205205\\tree_fc",
+   "env_extra": {},
+   "rc": 1,
+   "elapsed_s": 0.133,
+   "stdout_bytes": 0,
+   "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stderr_bytes": 24,
+   "stderr_sha256": "d13d8ad470d82abc873cc41238cf64afb06c4994c48a3a1dbde86e3a98ccbc12",
+   "stderr": "M5B4-SENTENCES changed",
+   "logs": {
+    "stdout": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\failclosed_SENTENCES_1char.stdout.txt",
+    "stderr": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\failclosed_SENTENCES_1char.stderr.txt"
+   }
+  },
+  {
+   "label": "P6b fail-closed: inputs restored, regenerate",
+   "command": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\rev7-cleanroom-20261026-205205\\_tools\\root_shim.py --clean-root D:\\rev7-cleanroom-20261026-205205\\tree_fc --script D:\\rev7-cleanroom-20261026-205205\\tree_fc\\kvmem\\m2_visibility\\m5\\run_m5c2_rev7_offline.py --cwd D:\\rev7-cleanroom-20261026-205205\\tree_fc",
+   "cwd": "D:\\rev7-cleanroom-20261026-205205\\tree_fc",
+   "env_extra": {},
+   "rc": 0,
+   "elapsed_s": 0.4,
+   "stdout_bytes": 17135,
+   "stdout_sha256": "6992f05682017cd3062aead90cba11b6b1f3b432fac22e7a442bf222819669be",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stderr": "",
+   "logs": {
+    "stdout": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\failclosed_final_regen.stdout.txt",
+    "stderr": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\failclosed_final_regen.stderr.txt"
+   }
+  },
+  {
+   "label": "P7 fail-closed: one input missing",
+   "command": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\rev7-cleanroom-20261026-205205\\_tools\\root_shim.py --clean-root D:\\rev7-cleanroom-20261026-205205\\tree_fc --script D:\\rev7-cleanroom-20261026-205205\\tree_fc\\kvmem\\m2_visibility\\m5\\run_m5c2_rev7_offline.py --cwd D:\\rev7-cleanroom-20261026-205205\\tree_fc",
+   "cwd": "D:\\rev7-cleanroom-20261026-205205\\tree_fc",
+   "env_extra": {},
+   "rc": 1,
+   "elapsed_s": 0.14,
+   "stdout_bytes": 0,
+   "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stderr_bytes": 1581,
+   "stderr_sha256": "93f55f94dc79915f1bd83ff5eb015b33d1394638723727d368021a9c4cb0d0f1",
+   "stderr": "...94, in run_path\r\n  File \"<frozen runpy>\", line 98, in _run_module_code\r\n  File \"<frozen runpy>\", line 88, in _run_code\r\n  File \"D:\\rev7-cleanroom-20261026-205205\\tree_fc\\kvmem\\m2_visibility\\m5\\run_m5c2_rev7_offline.py\", line 1026, in <module>\r\n    sys.exit(main())\r\n             ~~~~^^\r\n  File \"D:\\rev7-cleanroom-20261026-205205\\tree_fc\\kvmem\\m2_visibility\\m5\\run_m5c2_rev7_offline.py\", line 566, in main\r\n    meta = verify_inputs()\r\n  File \"D:\\rev7-cleanroom-20261026-205205\\tree_fc\\kvmem\\m2_visibility\\m5\\run_m5c2_rev7_offline.py\", line 128, in verify_inputs\r\n    jb = JUDGE.read_bytes()\r\n  File \"C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\pathlib\\__init__.py\", line 777, in read_bytes\r\n    with self.open(mode='rb', buffering=0) as f:\r\n         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\pathlib\\__init__.py\", line 771, in open\r\n    return io.open(self, mode, buffering, encoding, errors, newline)\r\n           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\nFileNotFoundError: [Errno 2] No such file or directory: 'D:\\\\rev7-cleanroom-20261026-205205\\\\tree_fc\\\\kvmem\\\\m2_visibility\\\\m5\\\\out\\\\M5B4-JUDGE.json'",
+   "logs": {
+    "stdout": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\failclosed_missing_input.stdout.txt",
+    "stderr": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\failclosed_missing_input.stderr.txt"
+   }
+  },
+  {
+   "label": "P9 bonus: independent audit product (_rev7_audit.py)",
+   "command": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\rev7-cleanroom-20261026-205205\\_tools\\root_shim.py --clean-root D:\\rev7-cleanroom-20261026-205205\\tree_audit --script D:\\rev7-cleanroom-20261026-205205\\tree_audit\\kvmem\\m2_visibility\\m5\\out\\_rev7_audit.py --cwd D:\\rev7-cleanroom-20261026-205205\\tree_audit",
+   "cwd": "D:\\rev7-cleanroom-20261026-205205\\tree_audit",
+   "env_extra": {
+    "TEMP": "D:\\rev7-cleanroom-20261026-205205\\_tmp_audit",
+    "TMP": "D:\\rev7-cleanroom-20261026-205205\\_tmp_audit",
+    "PYTHONDONTWRITEBYTECODE": "1"
+   },
+   "rc": 0,
+   "elapsed_s": 0.739,
+   "stdout_bytes": 4327,
+   "stdout_sha256": "750dc5639106b8f8185eb5a9deeba0a0aafaafae6578835eb00bb4b99fe2bc53",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stderr": "",
+   "logs": {
+    "stdout": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\run_audit_product.stdout.txt",
+    "stderr": "D:\\rev7-cleanroom-20261026-205205\\_evidence\\logs\\run_audit_product.stderr.txt"
+   }
+  }
+ ],
+ "run_tree_initial_contents": {
+  "n_files": 17,
+  "files": [
+   "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+   "kvmem/m2_visibility/m5/out/M5B4-SENTENCES.json",
+   "docs/_work/PREREG-M5-C2-REV7.md",
+   "kvmem/m2_visibility/m5/run_m5c2_rev5_offline.py",
+   "kvmem/m2_visibility/m5/run_m5c2_rev5_1_offline.py",
+   "kvmem/m2_visibility/m5/run_m5c2_rev4_1.py",
+   "kvmem/m2_visibility/m5/run_m5c2_r2.py",
+   "kvmem/m2_visibility/m5/run_m5c2_floor.py",
+   "kvmem/m2_visibility/m5/run_m5c2_floor_rev2.py",
+   "kvmem/m2_visibility/m5/run_m5c2_rev4.py",
+   "kvmem/m2_visibility/m5/run_m5c2_rev2_order.py",
+   "kvmem/m2_visibility/m7/out/_e3gpu_run.py",
+   "tools/kvslots.py",
+   "tools/memory_source.py",
+   "tools/session_state.py"
+  ],
+  "artifact_absent_before_first_run": true,
+  "note": "the run tree contains only committed files; the rev7 artifact is not pre-placed and is produced by the run"
+ },
+ "artifact_reproduction": {
+  "committed": {
+   "sha16": "1f8f44b921e575fe",
+   "bytes": 507657,
+   "path": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json"
+  },
+  "reproduced": {
+   "sha16": "1f8f44b921e575fe",
+   "sha256": "1f8f44b921e575fe609c64bf4861ec3714f78cc31b92728793fd3963196a7f73",
+   "bytes": 507657,
+   "byte_identical_to_committed": true,
+   "run2_sha16": "1f8f44b921e575fe",
+   "run2_byte_identical_to_committed": true,
+   "run1_run2_identical": true,
+   "byte_diff_ranges_vs_committed": {
+    "identical": true,
+    "ranges": [],
+    "n_diff_bytes": 0
+   }
+  },
+  "method_b_zero_edit": {
+   "description": "committed script + 12 committed modules + 4 committed frozen inputs placed in the clean tree byte-for-byte; entry script sha16 65ed60125528d5d6; run under _tools/root_shim.py which redirects exactly the literal pathlib string r\"D:\\llama-mem\" to the clean root (10 redirects) and changes no file",
+   "script_sha16_in_tree": "65ed60125528d5d6",
+   "script_bytes_in_tree": 44761,
+   "path_redirects": 10,
+   "run1": {
+    "rc": 0,
+    "elapsed_s": 0.336,
+    "artifact_sha16": "1f8f44b921e575fe",
+    "artifact_bytes": 507657
+   },
+   "run2": {
+    "rc": 0,
+    "elapsed_s": 0.33,
+    "artifact_sha16": "1f8f44b921e575fe",
+    "artifact_bytes": 507657
+   }
+  },
+  "method_a_prescribed_edit": {
+   "description": "the task's prescribed method: copy the clean tree and replace ONLY the hardcoded ROOT line. The identical single-line substitution had to be applied in all 10 modules that hardcode ROOT (entry + 9 transitive imports); every file has exactly one such line and no other byte was touched. The artifact embeds sha16(script bytes) and len(script bytes), so this edit necessarily changes exactly those two self-referential fields and nothing else.",
+   "replacement": {
+    "old": "ROOT = Path(r\"D:\\llama-mem\")",
+    "new": "ROOT = Path(r\"D:\\rev7-cleanroom-20261026-205205\\tree_patched\")"
+   },
+   "n_files_changed": 10,
+   "files": [
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_floor.py",
+     "line_number": 28,
+     "old_line": "ROOT = Path(r\"D:\\llama-mem\")",
+     "new_line": "ROOT = Path(r\"D:\\rev7-cleanroom-20261026-205205\\tree_patched\")",
+     "sha16_before": "b7d393fc4fbe8d5f",
+     "sha16_after": "a290050254020af9",
+     "only_that_line_differs": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_floor_rev2.py",
+     "line_number": 22,
+     "old_line": "ROOT = Path(r\"D:\\llama-mem\")",
+     "new_line": "ROOT = Path(r\"D:\\rev7-cleanroom-20261026-205205\\tree_patched\")",
+     "sha16_before": "175b5a33d007223b",
+     "sha16_after": "c95837188323a8c1",
+     "only_that_line_differs": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_r2.py",
+     "line_number": 41,
+     "old_line": "ROOT = Path(r\"D:\\llama-mem\")",
+     "new_line": "ROOT = Path(r\"D:\\rev7-cleanroom-20261026-205205\\tree_patched\")",
+     "sha16_before": "9947ac1e61c0145c",
+     "sha16_after": "0727a4cfca8c3be9",
+     "only_that_line_differs": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_rev2_order.py",
+     "line_number": 22,
+     "old_line": "ROOT = Path(r\"D:\\llama-mem\")",
+     "new_line": "ROOT = Path(r\"D:\\rev7-cleanroom-20261026-205205\\tree_patched\")",
+     "sha16_before": "dca8d7f71c5cb934",
+     "sha16_after": "e7f3f17729124477",
+     "only_that_line_differs": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_rev4.py",
+     "line_number": 31,
+     "old_line": "ROOT = Path(r\"D:\\llama-mem\")",
+     "new_line": "ROOT = Path(r\"D:\\rev7-cleanroom-20261026-205205\\tree_patched\")",
+     "sha16_before": "9f605d44183f8f67",
+     "sha16_after": "9cc409edcc6ab902",
+     "only_that_line_differs": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_rev4_1.py",
+     "line_number": 23,
+     "old_line": "ROOT = Path(r\"D:\\llama-mem\")",
+     "new_line": "ROOT = Path(r\"D:\\rev7-cleanroom-20261026-205205\\tree_patched\")",
+     "sha16_before": "0976b4aa4bcd7646",
+     "sha16_after": "4eaafc78d703d9b7",
+     "only_that_line_differs": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_rev5_1_offline.py",
+     "line_number": 18,
+     "old_line": "ROOT = Path(r\"D:\\llama-mem\")",
+     "new_line": "ROOT = Path(r\"D:\\rev7-cleanroom-20261026-205205\\tree_patched\")",
+     "sha16_before": "26d81e2a2f14abd0",
+     "sha16_after": "cb8477a3f9e8d29c",
+     "only_that_line_differs": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_rev5_offline.py",
+     "line_number": 17,
+     "old_line": "ROOT = Path(r\"D:\\llama-mem\")",
+     "new_line": "ROOT = Path(r\"D:\\rev7-cleanroom-20261026-205205\\tree_patched\")",
+     "sha16_before": "9f113de9e5e355b0",
+     "sha16_after": "2287bef2128aac4d",
+     "only_that_line_differs": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+     "line_number": 44,
+     "old_line": "ROOT = Path(r\"D:\\llama-mem\")",
+     "new_line": "ROOT = Path(r\"D:\\rev7-cleanroom-20261026-205205\\tree_patched\")",
+     "sha16_before": "65ed60125528d5d6",
+     "sha16_after": "4b1a7e919bf5c24c",
+     "only_that_line_differs": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m7/out/_e3gpu_run.py",
+     "line_number": 37,
+     "old_line": "ROOT = Path(r\"D:\\llama-mem\")",
+     "new_line": "ROOT = Path(r\"D:\\rev7-cleanroom-20261026-205205\\tree_patched\")",
+     "sha16_before": "2c166ec71921585b",
+     "sha16_after": "fd41e90f75b97f92",
+     "only_that_line_differs": true
+    }
+   ],
+   "artifact": {
+    "sha16": "60720d97b414e991",
+    "sha256": "60720d97b414e991a12421e550a95cee76625d0e209a3fab33fcb3510792c0f2",
+    "bytes": 507657,
+    "embedded_code_sha16": "4b1a7e919bf5c24c",
+    "embedded_code_bytes": 44795,
+    "embedded_code_sha16_equals_patched_script": true
+   },
+   "vs_committed": {
+    "byte_identical": false,
+    "n_diff_bytes": 18,
+    "n_identical_bytes": 507639,
+    "diff_ranges": [
+     {
+      "offset": 514,
+      "len": 16,
+      "artifact": "65ed60125528d5d6",
+      "cleanroom": "4b1a7e919bf5c24c"
+     },
+     {
+      "offset": 616,
+      "len": 2,
+      "artifact": "61",
+      "cleanroom": "95"
+     }
+    ],
+    "json_field_diff": [
+     {
+      "path": "/code_bytes",
+      "a": "44761",
+      "b": "44795"
+     },
+     {
+      "path": "/code_sha16",
+      "a": "'65ed60125528d5d6'",
+      "b": "'4b1a7e919bf5c24c'"
+     }
+    ],
+    "explanation": "all 507,639 other bytes are identical; the only delta is the self-hash/code-length of the edited script (16 hex bytes at offset 514 and 2 bytes at offset 616). This is a mathematical necessity of the script's anti-tamper self-hash, not a data difference."
+   }
+  }
+ },
+ "fail_closed": {
+  "result": "PASS",
+  "tests": [
+   {
+    "name": "PREREG_1byte",
+    "desc": "PREREG-M5-C2-REV7.md: single-byte semantic edit 0.90 -> 0.80 (N3 threshold)",
+    "target_file": "docs/_work/PREREG-M5-C2-REV7.md",
+    "perturbation": {
+     "old_bytes_hex": "302e3930",
+     "new_bytes_hex": "302e3830",
+     "old_text": "0.90",
+     "new_text": "0.80",
+     "offset": 3615,
+     "n_bytes_changed": 4,
+     "json_still_valid": null
+    },
+    "original_sha16": "32eaf82ca56600c4",
+    "perturbed_sha16": "0c46f6f81bb9bc44",
+    "exit_code": 1,
+    "rejection_message": "REV7 prereg changed (sha16 0c46f6f81bb9bc44)",
+    "artifact_written_by_rejected_run": false,
+    "restored_sha16": "32eaf82ca56600c4",
+    "restore_ok": true,
+    "elapsed_s": 0.236,
+    "status": "PASS"
+   },
+   {
+    "name": "JUDGE_1byte",
+    "desc": "M5B4-JUDGE.json: single-byte semantic edit of the n_sentences count",
+    "target_file": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+    "perturbation": {
+     "old_bytes_hex": "226e5f73656e74656e636573223a20323631",
+     "new_bytes_hex": "226e5f73656e74656e636573223a20323630",
+     "old_text": "\"n_sentences\": 261",
+     "new_text": "\"n_sentences\": 260",
+     "offset": 276,
+     "n_bytes_changed": 18,
+     "json_still_valid": true
+    },
+    "original_sha16": "6a3001b6ca23ef7d",
+    "perturbed_sha16": "0b8307a188fef904",
+    "exit_code": 1,
+    "rejection_message": "M5B4-JUDGE changed",
+    "artifact_written_by_rejected_run": false,
+    "restored_sha16": "6a3001b6ca23ef7d",
+    "restore_ok": true,
+    "elapsed_s": 0.134,
+    "status": "PASS"
+   },
+   {
+    "name": "GOLD_1byte",
+    "desc": "M5B4-LEAD-RULING.json: one gold label character changed",
+    "target_file": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+    "perturbation": {
+     "old_bytes_hex": "737570706f72745f70726573656e74",
+     "new_bytes_hex": "737570706f72745f70726573656e58",
+     "old_text": "support_present",
+     "new_text": "support_presenX",
+     "offset": 265,
+     "n_bytes_changed": 15,
+     "json_still_valid": true
+    },
+    "original_sha16": "9273ebc97aa1413a",
+    "perturbed_sha16": "d691c311de99c182",
+    "exit_code": 1,
+    "rejection_message": "M5B4-LEAD-RULING gold changed",
+    "artifact_written_by_rejected_run": false,
+    "restored_sha16": "9273ebc97aa1413a",
+    "restore_ok": true,
+    "elapsed_s": 0.13,
+    "status": "PASS"
+   },
+   {
+    "name": "SENTENCES_1char",
+    "desc": "M5B4-SENTENCES.json: one Chinese character of sentences[0].source_text changed (型 -> 囧)",
+    "target_file": "kvmem/m2_visibility/m5/out/M5B4-SENTENCES.json",
+    "perturbation": {
+     "old_bytes_hex": "e59e8b",
+     "new_bytes_hex": "e59ba7",
+     "old_text": "型",
+     "new_text": "囧",
+     "offset": 351,
+     "n_bytes_changed": 3,
+     "json_still_valid": true
+    },
+    "original_sha16": "c349ca5a93192aac",
+    "perturbed_sha16": "5b8c54d297f1e8ae",
+    "exit_code": 1,
+    "rejection_message": "M5B4-SENTENCES changed",
+    "artifact_written_by_rejected_run": false,
+    "restored_sha16": "c349ca5a93192aac",
+    "restore_ok": true,
+    "elapsed_s": 0.133,
+    "status": "PASS"
+   }
+  ],
+  "after_restore_regeneration": {
+   "run_rc": 0,
+   "artifact_sha16": "1f8f44b921e575fe",
+   "artifact_bytes": 507657,
+   "byte_identical_to_committed": true
+  },
+  "missing_input": {
+   "removed_file": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "exit_code": 1,
+   "rejection_message_tail": "...94, in run_path\r\n  File \"<frozen runpy>\", line 98, in _run_module_code\r\n  File \"<frozen runpy>\", line 88, in _run_code\r\n  File \"D:\\rev7-cleanroom-20261026-205205\\tree_fc\\kvmem\\m2_visibility\\m5\\run_m5c2_rev7_offline.py\", line 1026, in <module>\r\n    sys.exit(main())\r\n             ~~~~^^\r\n  File \"D:\\rev7-cleanroom-20261026-205205\\tree_fc\\kvmem\\m2_visibility\\m5\\run_m5c2_rev7_offline.py\", line 566, in main\r\n    meta = verify_inputs()\r\n  File \"D:\\rev7-cleanroom-20261026-205205\\tree_fc\\kvmem\\m2_visibility\\m5\\run_m5c2_rev7_offline.py\", line 128, in verify_inputs\r\n    jb = JUDGE.read_bytes()\r\n  File \"C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\pathlib\\__init__.py\", line 777, in read_bytes\r\n    with self.open(mode='rb', buffering=0) as f:\r\n         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\pathlib\\__init__.py\", line 771, in open\r\n    return io.open(self, mode, buffering, encoding, errors, newline)\r\n           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\nFileNotFoundError: [Errno 2] No such file or directory: 'D:\\\\rev7-cleanroom-20261026-205205\\\\tree_fc\\\\kvmem\\\\m2_visibility\\\\m5\\\\out\\\\M5B4-JUDGE.json'",
+   "artifact_written_by_rejected_run": false,
+   "restored_sha16": "6a3001b6ca23ef7d",
+   "restored_ok": true,
+   "status": "PASS"
+  }
+ },
+ "file_access_audit": {
+  "static": {
+   "scan": "AST scan of every .py in the clean tree: file-access API call sites plus module-level absolute path constants",
+   "n_py_files": 13,
+   "n_call_sites": 163,
+   "absolute_path_constants": {
+    "kvmem/m2_visibility/m7/out/_e3gpu_run.py": [
+     {
+      "line": 42,
+      "name": "MODEL",
+      "value": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf"
+     }
+    ],
+    "tools/memory_source.py": [
+     {
+      "line": 51,
+      "name": "MODEL",
+      "value": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf"
+     }
+    ]
+   },
+   "note_absolute_paths": "the only absolute path constants are D:\\models\\... (model weights, never opened by this run) in _e3gpu_run.py / memory_source.py; every path actually used is built from ROOT",
+   "entry_script_file_access_sites": [
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+     "line": 114,
+     "api": "read_bytes",
+     "target_expr": "",
+     "source_line": "pb = PRE.read_bytes()"
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+     "line": 128,
+     "api": "read_bytes",
+     "target_expr": "",
+     "source_line": "jb = JUDGE.read_bytes()"
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+     "line": 131,
+     "api": "read_bytes",
+     "target_expr": "",
+     "source_line": "gb = GOLD.read_bytes()"
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+     "line": 134,
+     "api": "read_bytes",
+     "target_expr": "",
+     "source_line": "sb = SENT.read_bytes()"
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+     "line": 854,
+     "api": "read_bytes",
+     "target_expr": "",
+     "source_line": "code_bytes = Path(__file__).read_bytes()"
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+     "line": 106,
+     "api": "open",
+     "target_expr": "tmp",
+     "source_line": "with open(tmp, \"w\", encoding=\"utf-8\", newline=\"\\n\") as f:"
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+     "line": 1018,
+     "api": "read_bytes",
+     "target_expr": "",
+     "source_line": "\"artifact_sha16\": sha16(ART.read_bytes()),"
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+     "line": 1019,
+     "api": "stat",
+     "target_expr": "",
+     "source_line": "\"artifact_bytes\": ART.stat().st_size,"
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+     "line": 567,
+     "api": "read_bytes",
+     "target_expr": "",
+     "source_line": "judge = json.loads(JUDGE.read_bytes().decode(\"utf-8\"))"
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+     "line": 568,
+     "api": "read_bytes",
+     "target_expr": "",
+     "source_line": "gold_doc = json.loads(GOLD.read_bytes().decode(\"utf-8\"))"
+    }
+   ],
+   "entry_script_declared_inputs": {
+    "docs/_work/PREREG-M5-C2-REV7.md": "PRE (read_bytes, sha16/bytes/lines gate)",
+    "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json": "JUDGE (read_bytes, sha16/bytes gate)",
+    "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json": "GOLD (read_bytes, sha16/bytes gate)",
+    "kvmem/m2_visibility/m5/out/M5B4-SENTENCES.json": "SENT (read_bytes, sha16/bytes gate)",
+    "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py": "Path(__file__) self-hash",
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json": "ART (write + read back)"
+   }
+  },
+  "runtime": {
+   "how": "audit hook installed in the launcher before the script runs; every open/import/os.rename/os.listdir/ctypes.dlopen/subprocess/socket event is logged",
+   "n_events": 127,
+   "event_counts": {
+    "ctypes.dlopen": 1,
+    "import": 42,
+    "open": 64,
+    "os.listdir": 7,
+    "os.mkdir": 2,
+    "os.rename": 10,
+    "shim_summary": 1
+   },
+   "n_repo_path_opens": 0,
+   "repo_path_opens": [],
+   "opens_outside_cleanroom_and_stdlib": [],
+   "module_files_loaded_from_cleanroom": [
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_floor.py",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_floor_rev2.py",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_r2.py",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_rev2_order.py",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_rev4.py",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_rev4_1.py",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_rev5_1_offline.py",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5\\run_m5c2_rev5_offline.py",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_run.py"
+   ],
+   "module_files_loaded_from_repo": [],
+   "ctypes_dlopen_events": [
+    [
+     "kernel32"
+    ]
+   ],
+   "network_or_spawn_events": [],
+   "sys_path_after_run": [
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\tools",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\engine",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m7\\out",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\tools",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\engine",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m7\\out",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\tools",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\engine",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m7\\out",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\tools",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\engine",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m7\\out",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\tools",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\engine",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kmem\\m2_visibility\\engine",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m7\\out",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\tools",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\engine",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m7\\out",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5",
+    "D:\\rev7-cleanroom-20261026-205205\\tree\\kvmem\\m2_visibility\\m5",
+    "D:\\rev7-cleanroom-20261026-205205\\_tools",
+    "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python314.zip",
+    "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\DLLs",
+    "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\Lib",
+    "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314",
+    "C:\\Users\\lezige\\AppData\\Roaming\\Python\\Python314\\site-packages",
+    "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\site-packages"
+   ],
+   "verdict": {
+    "no_repo_file_read": true,
+    "no_open_outside_cleanroom_except_stdlib": true,
+    "no_network_no_spawn": true,
+    "only_os_dll_dlopen": true
+   }
+  },
+  "static_import_closure": {
+   "entry": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "n_committed_modules_in_closure": 13,
+   "closure": {
+    "kvmem/m2_visibility/m5/run_m5c2_floor.py": 25815,
+    "kvmem/m2_visibility/m5/run_m5c2_floor_rev2.py": 14226,
+    "kvmem/m2_visibility/m5/run_m5c2_r2.py": 28546,
+    "kvmem/m2_visibility/m5/run_m5c2_rev2_order.py": 22809,
+    "kvmem/m2_visibility/m5/run_m5c2_rev4.py": 16235,
+    "kvmem/m2_visibility/m5/run_m5c2_rev4_1.py": 20039,
+    "kvmem/m2_visibility/m5/run_m5c2_rev5_1_offline.py": 11276,
+    "kvmem/m2_visibility/m5/run_m5c2_rev5_offline.py": 17540,
+    "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py": 44761,
+    "kvmem/m2_visibility/m7/out/_e3gpu_run.py": 48970,
+    "tools/kvslots.py": 27016,
+    "tools/memory_source.py": 33867,
+    "tools/session_state.py": 24005
+   },
+   "unresolved_nonstdlib": {},
+   "module_level_side_effects": {
+    "kvmem/m2_visibility/m5/run_m5c2_floor.py": [
+     [
+      31,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      32,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      33,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      34,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ]
+    ],
+    "kvmem/m2_visibility/m5/run_m5c2_floor_rev2.py": [
+     [
+      25,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      26,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      27,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      28,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ]
+    ],
+    "kvmem/m2_visibility/m5/run_m5c2_r2.py": [
+     [
+      44,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      45,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      46,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      47,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ]
+    ],
+    "kvmem/m2_visibility/m5/run_m5c2_rev2_order.py": [
+     [
+      25,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      26,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      27,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      28,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ]
+    ],
+    "kvmem/m2_visibility/m5/run_m5c2_rev4.py": [
+     [
+      34,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      35,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      36,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      37,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ]
+    ],
+    "kvmem/m2_visibility/m5/run_m5c2_rev4_1.py": [
+     [
+      26,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      27,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      28,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ],
+     [
+      29,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ]
+    ],
+    "kvmem/m2_visibility/m5/run_m5c2_rev5_1_offline.py": [
+     [
+      21,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ]
+    ],
+    "kvmem/m2_visibility/m5/run_m5c2_rev5_offline.py": [
+     [
+      20,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ]
+    ],
+    "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py": [
+     [
+      47,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ]
+    ],
+    "tools/kvslots.py": [
+     [
+      48,
+      "if Call(func=Attribute(value=Attribute(value=Name(id='os', ctx=Load()), attr='path'"
+     ]
+    ],
+    "tools/memory_source.py": [
+     [
+      49,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ]
+    ],
+    "tools/session_state.py": [
+     [
+      34,
+      "Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='path', ctx=Load()), attr='insert', ctx=Load("
+     ]
+    ]
+   },
+   "nested_imports": {
+    "kvmem/m2_visibility/m7/out/_e3gpu_run.py": [
+     [
+      300,
+      "kvslots"
+     ],
+     [
+      420,
+      "session_state"
+     ],
+     [
+      422,
+      "contextlib"
+     ],
+     [
+      452,
+      "session_state"
+     ],
+     [
+      457,
+      "contextlib"
+     ],
+     [
+      473,
+      "session_state"
+     ],
+     [
+      520,
+      "session_state"
+     ],
+     [
+      532,
+      "contextlib"
+     ],
+     [
+      563,
+      "session_state"
+     ],
+     [
+      565,
+      "contextlib"
+     ]
+    ],
+    "tools/memory_source.py": [
+     [
+      675,
+      "kvslots"
+     ]
+    ]
+   },
+   "note": "run_m5c2_rev7_offline.py imports run_m5c2_rev5_offline and run_m5c2_rev5_1_offline; the former imports run_m5c2_rev4_1, which imports the GPU-era helper modules _e3gpu_run / r2 / floor / floor_rev2 / rev4 / rev2_order. Those modules are only imported (constants + function definitions); no GPU/engine function is called. All 13 modules are committed blobs."
+  }
+ },
+ "discipline_checks": {
+  "repo_files_modified": false,
+  "repo_untouched": {
+   "head_unchanged": true,
+   "status_porcelain_unchanged": true,
+   "per_file": {
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json": {
+     "sha16_before": "1f8f44b921e575fe",
+     "sha16_after": "1f8f44b921e575fe",
+     "unchanged": true
+    },
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-AUDIT.json": {
+     "sha16_before": "de80cd38a7147f0f",
+     "sha16_after": "de80cd38a7147f0f",
+     "unchanged": true
+    },
+    "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py": {
+     "sha16_before": "65ed60125528d5d6",
+     "sha16_after": "65ed60125528d5d6",
+     "unchanged": true
+    },
+    "kvmem/m2_visibility/m5/out/_rev7_audit.py": {
+     "sha16_before": "6695a4b4de403870",
+     "sha16_after": "6695a4b4de403870",
+     "unchanged": true
+    },
+    "docs/_work/PREREG-M5-C2-REV7.md": {
+     "sha16_before": "32eaf82ca56600c4",
+     "sha16_after": "32eaf82ca56600c4",
+     "unchanged": true
+    },
+    "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json": {
+     "sha16_before": "6a3001b6ca23ef7d",
+     "sha16_after": "6a3001b6ca23ef7d",
+     "unchanged": true
+    },
+    "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json": {
+     "sha16_before": "9273ebc97aa1413a",
+     "sha16_after": "9273ebc97aa1413a",
+     "unchanged": true
+    },
+    "kvmem/m2_visibility/m5/out/M5B4-SENTENCES.json": {
+     "sha16_before": "c349ca5a93192aac",
+     "sha16_after": "c349ca5a93192aac",
+     "unchanged": true
+    }
+   }
+  },
+  "git_commit_made": false,
+  "tested_script_executed_outside_repo": true,
+  "gpu": "none (no CUDA/Vulkan/model DLL dlopen; only kernel32 from ctypes init)",
+  "model_forwards": 0,
+  "network": "none (no socket/subprocess events)",
+  "b5_read": "none: the runtime audit shows exactly 5 files opened for reading (PREREG, JUDGE, LEAD-RULING, SENTENCES, the entry script); no (b5) file was opened",
+  "verified": {
+   "no_repo_path_opened_at_runtime": true,
+   "no_open_outside_cleanroom_except_stdlib": true,
+   "no_network_no_spawn": true,
+   "repo_head_and_working_tree_unchanged": true
+  }
+ },
+ "bonus_audit_product_reproduction": {
+  "audit_script": {
+   "path": "kvmem/m2_visibility/m5/out/_rev7_audit.py",
+   "sha16": "6695a4b4de403870",
+   "bytes": 57234,
+   "in_c32": true
+  },
+  "run": {
+   "rc": 0,
+   "elapsed_s": 0.739
+  },
+  "reproduced_audit_product": {
+   "sha16": "59ffb8e098e55562",
+   "bytes": 55109,
+   "committed_sha16": "de80cd38a7147f0f",
+   "committed_bytes": 55523,
+   "byte_identical": false
+  },
+  "difference": {
+   "json_field_diff_paths": [
+    "/executor/determinism_probe/artifact",
+    "/executor/determinism_probe/byte_identical_two_runs",
+    "/executor/determinism_probe/checked_at_utc",
+    "/executor/determinism_probe/note",
+    "/executor/determinism_probe/pre_run",
+    "/executor/determinism_probe/present",
+    "/executor/determinism_probe/runs",
+    "/executor/determinism_probe/same_as_pre_run"
+   ],
+   "note": "_rev7_audit.py embeds a determinism probe read from %TEMP%/rev7_determinism.json; that probe is environment state, so the audit product is compared modulo it.",
+   "interpretation": "the only difference is executor.determinism_probe, which the audit script reads from %TEMP%/rev7_determinism.json written by the original machine; every substantive audit field is identical."
+  }
+ },
+ "conclusion": [
+  "rev7 产物 M5C2-REV7-OFFLINE.json 可以由“零编辑”的已提交文件在仓库外从零重建，且与被提交产物 byte 级完全一致：sha16=1f8f44b921e575fe / 507,657 B，两次独立运行都一致，并与 C32 中提交的 blob 逐字节相同。",
+  "零编辑法之所以必要：产物内嵌 code_sha16 / code_bytes（脚本自哈希）。任务书规定的“只替换 ROOT 一行”在数学上必然改变这两个自指字段；实测该法产物与被提交产物只有 18 字节不同（偏移 514 的 16 字节 code_sha16 + 偏移 616 的 2 字节 code_bytes），其余 507,639 字节完全相同，且内嵌 code_sha16 等于被改脚本自身的 sha16 —— 证明产物确实由该脚本生成、无手改。",
+  "fail-closed 成立：PREREG 改 1 字节、M5B4-JUDGE 改 1 字节、金标改 1 字节、SENTENCES 改 1 个汉字，四次运行全部 rc=1、打印明确拒绝原因、且拒绝发生在写产物之前（产物未生成）；输入缺失时同样 rc=1 抛 FileNotFoundError，不静默降级。恢复输入后重新生成，产物仍是 1f8f44b921e575fe / 507,657 B。",
+  "依赖边界：脚本运行期只打开 5 个文件（PREREG、JUDGE、LEAD-RULING、SENTENCES、入口脚本自身）+ 写产物；运行时审计显示 0 个仓库路径被打开、0 个 cleanroom 外非 stdlib 打开、0 网络/子进程、只有 kernel32 一个 OS DLL dlopen。静态 import 闭包 13 个 .py 全部来自已提交 blob，无未入库代码依赖。",
+  "唯一“不在 C32 里”的依赖是冻结输入 PREREG-M5-C2-REV7.md：docs/_work/*.md 被 .gitignore:180 排除，该文件提交在另一分支 full 的 5574253（blob eb1db62...，sha16 32eaf82ca56600c4 / 5,835 B），工作区副本与该 blob 逐字节一致。它是已入库文件，但不随 C32/main 入库——这是本次审计对“只用 C32 已提交文件”这一前提的最重要限定。",
+  "额外复算：独立审计脚本 _rev7_audit.py（C32 提交，sha16 6695a4b4de403870）在干净房内重跑 rc=0，其审计产物与 C32 提交版唯一差异是 executor.determinism_probe 子树（该子树来自原机器的 %TEMP% 双跑探针，属环境状态），实质审计字段全部一致。",
+  "纪律：仓库文件零修改（HEAD、git status、8 个关键文件 sha16 前后一致），未 git 提交，零 GPU/零模型/零联网，未读 (b5)。"
+ ],
+ "limitations": [
+  "严格 byte 级复核使用的是“零编辑 + 运行时 ROOT 重定向启动器”（_tools/root_shim.py，把 pathlib.Path 对字面量 r\"D:\\llama-mem\" 的调用重定向到干净根，命中 10 次）。启动器是环境适配，不是对被测代码的修改；被测 13 个 .py 与被提交 blob 逐字节相同。任务书设想的“替换 ROOT 一行”法也完整执行并披露，但它在数学上无法达到 byte 一致（原因见 artifact_reproduction.method_a_prescribed_edit）。",
+  "入口脚本的 9 个传递 import 模块同样硬编码 ROOT，因此规定方法的“一行替换”实际作用于 10 个文件；每个文件只改这一行，逐文件 diff/sha16 已列。",
+  "运行时审计还记录到解释器启动时 site.py 从用户 site-packages 加载 _distutils_hack（Python 正常启动行为，与被测脚本无关）；对复现无影响（两次运行 byte 一致）。",
+  "干净房内的 __pycache__ 是 Python 导入时正常生成的字节码缓存；产物哈希不受其影响（两次运行 byte 一致）。",
+  "独立审计产物的 determinism_probe 字段依赖原机器 %TEMP%/rev7_determinism.json，本次干净房环境无该探针文件，故该子树无法 byte 复现；其余字段完全一致。"
+ ]
+}

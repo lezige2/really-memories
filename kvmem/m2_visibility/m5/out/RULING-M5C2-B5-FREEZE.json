@@ -1,0 +1,186 @@
+{
+ "schema": "ruling_m5c2_b5_freeze_v2",
+ "ruling_id": "RULING-M5C2-B5-FREEZE",
+ "version": "1.1",
+ "ruled_at": "2026-10-26T21:40:00+08:00",
+ "ruled_by": "LEAD",
+ "correction": {
+  "v1_at": "2026-10-26T21:18:00+08:00",
+  "v1_sha16": "aaddc50bfac7118b",
+  "v1_1_prev_sha16": "f35b91dcdfaafad6",
+  "wrong": [
+   "F5: 把 §9 判为冻结后 20:20 追加",
+   "R2: 把缺陷归因为冻结后追加之留痕，归责 B5 侧"
+  ],
+  "why_wrong": "B5 mtime=19:54:15 早于 frozen_at 19:55；full@5574253(19:59:10) 的 B5 blob=d6c7bdac 已含 §9 ⇒ §9 在冻结前已写入，冻结后追加不成立",
+  "evidence": [
+   "M5C2-FREEZE-DISCIPLINE.json 320f1c9732d0364a",
+   "M5C2-DOC-LEDGER-SPOTCHECK.json 8ea9f475238239ad",
+   "git cat-file -p full:docs/_work/PREREG-M5-C2-B5.md -> 14597 B 含 §9",
+   "ls --time-style=full-iso -> 2026-10-26 19:54:15"
+  ]
+ },
+ "ruling_md": {
+  "path": "docs/_work/RULING-M5C2-B5-FREEZE.md",
+  "sha16": "133256d41eb56a27",
+  "sha256": "133256d41eb56a27115139f2d4fcee00b204319b7beed43dd29ea87a7b3ba795",
+  "bytes": 6625,
+  "lines": 64
+ },
+ "objects": {
+  "b5_current": {
+   "sha16": "d6c7bdac73ef7326",
+   "bytes": 14597,
+   "mtime": "2026-10-26T19:54:15+08:00",
+   "frozen_at_declared": "2026-10-26T19:55:00+08:00"
+  },
+  "b5_pre_s9": {
+   "sha16": "e306ce994d306a84",
+   "bytes": 11388
+  },
+  "b5_raw_prefix": {
+   "sha16": "9c09ceaf99d37a23",
+   "bytes": 11390
+  },
+  "rev7": {
+   "sha16": "32eaf82ca56600c4",
+   "bytes": 5835,
+   "mtime": "2026-10-26T19:53:25+08:00"
+  },
+  "rev7_1": {
+   "sha16": "09d6f1b163ea0b84",
+   "bytes": 16313
+  },
+  "b6": {
+   "sha16": "ac27d47d3a3efff9",
+   "bytes": 17374
+  },
+  "b6_sentences": {
+   "sha16": "23588ec099ca9255",
+   "bytes": 9482
+  }
+ },
+ "facts": [
+  {
+   "id": "F1",
+   "claim": "B5 头注 frozen=true/frozen_rev=1/frozen_at=19:55/LEAD",
+   "evidence": "B5 第 3–4 行"
+  },
+  {
+   "id": "F2",
+   "claim": "B5 整文件 d6c7bdac73ef7326/14597 B/183 行，mtime 19:54:15",
+   "evidence": "sha256+ls"
+  },
+  {
+   "id": "F3",
+   "claim": "§9 在 143 行；§9 前 rstrip=e306ce/11388，raw 前缀=9c09ceaf/11390",
+   "evidence": "recompute_commands"
+  },
+  {
+   "id": "F4",
+   "claim": "B5 冻结体含 §9：full@5574253(19:59:10) B5 blob=d6c7bdac/14597",
+   "evidence": "git cat-file"
+  },
+  {
+   "id": "F5",
+   "claim": "REV7 第 7 行仍引 e306ce；REV7 mtime 19:53:25 < B5 §9 写入 19:54:15",
+   "evidence": "REV7 L7 + mtime"
+  },
+  {
+   "id": "F6",
+   "claim": "B5 §9 标题自称 20:20 与 mtime 19:54:15 / frozen_at 19:55 矛盾（声明时间不可采信）",
+   "evidence": "mtime vs 文本"
+  },
+  {
+   "id": "F7",
+   "claim": "e306ce 无对应 git blob，仅可截断重构；B5 历史仅 1 blob=d6c7bdac",
+   "evidence": "1,491 blob 扫描"
+  },
+  {
+   "id": "F8",
+   "claim": "B5 第 6 行 b4 e9a88fda stale（实际 f30d89e3/10910），全树+blob+变体 0 命中",
+   "evidence": "doc ledger+spotcheck"
+  }
+ ],
+ "rulings": [
+  {
+   "id": "R1",
+   "text": "e306ce/11388 = B5 §9 前字节前缀，不是冻结体；冻结体=d6c7bdac/14597（含 §9）"
+  },
+  {
+   "id": "R2",
+   "text": "B5 无冻结后追加；真实缺陷=REV7 于 20:15 声明冻结时引用 19:53 起草时旧哈希（未重钉），归 LEAD；附带 B5 §9 标题时间戳不实"
+  },
+  {
+   "id": "R3",
+   "text": "b5 运行以 d6c7bdac 为准；下游同时记录整文件与 §9 前子集，并注明子集不是冻结体"
+  },
+  {
+   "id": "R4",
+   "text": "§9 全部生效，判定层=rev7.1 09d6f1b163ea0b84（规则同 rev7 32eaf82ca56600c4，逐字同）"
+  },
+  {
+   "id": "R5",
+   "text": "不重跑、不改 B5 字节、不伪造旧哈希；改动另立 B5.1"
+  },
+  {
+   "id": "R6",
+   "text": "B5:6 stale e9a88fda 保持原样，以本裁定+doc ledger 为准"
+  },
+  {
+   "id": "R7",
+   "text": "冻结件今后双记 mtime+sha256+声明 frozen_at；三者不一致须显式注明；禁止只凭声明时间推断顺序"
+  }
+ ],
+ "other_inputs": {
+  "rev7_1_audit": "M5C2-REV7-1-AUDIT.json 64ad2b4e27c7812d",
+  "b6_review": "M5C2-B6-FREEZE-REVIEW.json 5e76a170d3372f5f",
+  "redline_ruling": "RULING-M5C2-REV7.1-REDLINE.md b88357c63b1775a7"
+ },
+ "b5_admission": [
+  {
+   "condition": "rev7.1 四门槛复现 + 独立复审计 diff=0",
+   "status": "done",
+   "note": "64ad2b4e27c7812d：diff=0、两次 byte 一致、装置合格；FP 2/46、漏判 4/41、parse_fail 1/261、new_miss 0/35"
+  },
+  {
+   "condition": "(b6) 冻结（B5 §9.5）",
+   "status": "done",
+   "note": "ac27d47d3a3efff9/17374 B @21:16；独立复核 5e76a170d3372f5f pass"
+  },
+  {
+   "condition": "b5 题面/协议冻结",
+   "status": "done",
+   "note": "R1/R3"
+  },
+  {
+   "condition": "判据层冻结",
+   "status": "done",
+   "note": "rev7.1 09d6f1b163ea0b84"
+  },
+  {
+   "condition": "GPU host gate",
+   "status": "not_done",
+   "note": "运行时记录；GPU 串行"
+  },
+  {
+   "condition": "LEAD/用户放行",
+   "status": "not_done",
+   "note": "b5 仍关闭"
+  }
+ ],
+ "expected_output": "whole d6c7bdac73ef7326 14597 / raw 9c09ceaf99d37a23 11390 / rstrip e306ce994d306a84 11388；full blob 14597 B 且含 §9",
+ "not_done": [
+  "不修改 B5/REV7/B6/rev7.1/输入",
+  "不重跑判据",
+  "不碰 GPU",
+  "b5 未开跑",
+  "§9 真实写入时刻只能由 mtime+git 推断，无签名时间戳"
+ ],
+ "discipline": {
+  "zero_gpu": true,
+  "no_model_call": true,
+  "no_network": true,
+  "no_git_commit": true
+ }
+}

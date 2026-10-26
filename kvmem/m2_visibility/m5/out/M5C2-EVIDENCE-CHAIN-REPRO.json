@@ -1,0 +1,1551 @@
+{
+ "schema": "m5c2_evidence_chain_repro_v1",
+ "title": "已提交代码能否复现已提交证据数字（M5C2 证据链复现审计）",
+ "audited_by": "chain-repro (shared task-8)",
+ "generated_at": "2026-10-26T21:11:34+08:00",
+ "discipline": "零 GPU / 零模型 / 零联网；不在 D:\\llama-mem 内执行任何生成脚本；不改仓库既有文件；只写本文件与 EVIDENCE-CHAIN-REPRO-M5C2.md",
+ "repo": {
+  "path": "D:\\llama-mem",
+  "branch": "main",
+  "commit": "96eeefc",
+  "commit_subject": "evidence(main): C32——rev7 判定层离线复算：§3 四门槛全过（误判 2/46、漏判 4/41、parse_fail 1/261、新增漏判 0），独立审计零结果差异；§2 A2/A3 断言不可满足，冻结 PREREG 自相矛盾（装置不合格）",
+  "origin_main": "800806446352cdaeb8f7141c891598406e9ebf3c",
+  "ahead_of_origin": 1,
+  "pushed": false,
+  "tracked_files_total": 797,
+  "tracked_md_total": 1,
+  "tracked_md_files": [
+   "README.md"
+  ],
+  "files_in_main_tree": 797,
+  "md_in_main_tree": 1,
+  "docs_files_in_main_tree": 0,
+  "docs_branch": {
+   "ref": "refs/heads/full",
+   "commit": "5574253",
+   "files": 668,
+   "md_files": 195,
+   "docs_files": 98,
+   "out_json_files": 0,
+   "main_out_json_files": 100,
+   "note": "main=代码 + m5/out 下 100 个 JSON 证据（全仓 tracked .json 共 192）；full=195 个 .md 文档、m5/out 下 0 个 JSON —— 两者不在同一提交，文档与其实证数字无法在同一 commit 内互相校验"
+  }
+ },
+ "clean_copy": {
+  "root": "D:\\m5c2-chain-repro-20261026-210154",
+  "src": "D:\\m5c2-chain-repro-20261026-210154\\_src",
+  "how_inputs_obtained": "逐文件 `git cat-file -p 96eeefc:<path>` 取已提交 blob 并校验 sha256；docs/_work/PREREG-*.md 在 main 未入库，取自磁盘并与 full@5574253 逐字节核对",
+  "manifest_file": "D:\\m5c2-chain-repro-20261026-210154\\_src\\_harness\\manifest.json",
+  "files": {
+   "kvmem/m2_visibility/m5/make_m5b4_rates.py": {
+    "origin": "git:96eeefc",
+    "sha256": "f1657a6d5193f387323828015e96eb21a262bf9e8f6fd4f4d8f2bf1b2eaefa97",
+    "sha16": "f1657a6d5193f387",
+    "bytes": 15321
+   },
+   "kvmem/m2_visibility/m5/make_m5b4_ab.py": {
+    "origin": "git:96eeefc",
+    "sha256": "9ae1827a865d73dcbde259cee3ae22f40383fa3d5db4db9ed4efa845546141b3",
+    "sha16": "9ae1827a865d73dc",
+    "bytes": 15329
+   },
+   "kvmem/m2_visibility/m5/make_m5c2_rev6_design_readout.py": {
+    "origin": "git:96eeefc",
+    "sha256": "aeea2a34db01644e9ee22d7c777a762767c81a8f3327489f89eca08cd4e9e24f",
+    "sha16": "aeea2a34db01644e",
+    "bytes": 11452
+   },
+   "kvmem/m2_visibility/m5/make_m5b3_v24_rates.py": {
+    "origin": "git:96eeefc",
+    "sha256": "7db2d320d3fe6b006a3d57850aa56fc1929dee9e8f102bc001887ebd61f983d0",
+    "sha16": "7db2d320d3fe6b00",
+    "bytes": 11998
+   },
+   "kvmem/m2_visibility/m5/make_m5b2_rates.py": {
+    "origin": "git:96eeefc",
+    "sha256": "3ae84401e35285a5490344f0004505f0a3bd8b66a7cbb39d9b1ae87b71036f80",
+    "sha16": "3ae84401e35285a5",
+    "bytes": 11232
+   },
+   "kvmem/m2_visibility/m5/make_m5b2_judge.py": {
+    "origin": "git:96eeefc",
+    "sha256": "74363f8c3ab9a8a8a0589a857a57c6c792c32d5bb26fcb89b3738f5bb463e99c",
+    "sha16": "74363f8c3ab9a8a8",
+    "bytes": 6061
+   },
+   "kvmem/m2_visibility/m5/make_m5b_judge.py": {
+    "origin": "git:96eeefc",
+    "sha256": "c7098764d6337d9608a4960cfda0a2507d675d35eae115532d2e9201a4bbb572",
+    "sha16": "c7098764d6337d96",
+    "bytes": 4319
+   },
+   "kvmem/m2_visibility/m5/m5_ground.py": {
+    "origin": "git:96eeefc",
+    "sha256": "86b7c501ab9904aa9873e21dab1ac253533708ef96f4e2d42799bf32da62410e",
+    "sha16": "86b7c501ab9904aa",
+    "bytes": 18496
+   },
+   "kvmem/m2_visibility/m5/m5_ground_v2.py": {
+    "origin": "git:96eeefc",
+    "sha256": "5e11e1ac06f022c70b5627a92f5552f383365adc5557673b6370832d170b83d6",
+    "sha16": "5e11e1ac06f022c7",
+    "bytes": 66413
+   },
+   "kvmem/m2_visibility/m5/m5_ground_v2_2.py": {
+    "origin": "git:96eeefc",
+    "sha256": "ae5ceea994c05691bb818cdccb513f74d4c72d748e572895de51b1461be7bcd8",
+    "sha16": "ae5ceea994c05691",
+    "bytes": 36005
+   },
+   "kvmem/m2_visibility/m5/m5_ground_v2_3.py": {
+    "origin": "git:96eeefc",
+    "sha256": "cc03e48c360ae0eed276b49e8abcfcca4cd061a367444741af3154cacfa79678",
+    "sha16": "cc03e48c360ae0ee",
+    "bytes": 44209
+   },
+   "kvmem/m2_visibility/m5/m5_ground_v2_4.py": {
+    "origin": "git:96eeefc",
+    "sha256": "1387b851450bde447e49a4522a0e7bb162bd1d8c04fc24c7fd380c5675e5c2fb",
+    "sha16": "1387b851450bde44",
+    "bytes": 44286
+   },
+   "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json": {
+    "origin": "git:96eeefc",
+    "sha256": "6a3001b6ca23ef7dbd4fa7e4c241e3f78bf078e50cceb9e852ca462946885214",
+    "sha16": "6a3001b6ca23ef7d",
+    "bytes": 452456
+   },
+   "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json": {
+    "origin": "git:96eeefc",
+    "sha256": "9273ebc97aa1413ad7629bb0598f0e071580a9d0c85eb4a92f9a7827cd814c9a",
+    "sha16": "9273ebc97aa1413a",
+    "bytes": 13195
+   },
+   "kvmem/m2_visibility/m5/out/M5B4-SENTENCES.json": {
+    "origin": "git:96eeefc",
+    "sha256": "c349ca5a93192aac41f560c19c2c11567112e23d0de29ef0e4e52c5ebf8c25e4",
+    "sha16": "c349ca5a93192aac",
+    "bytes": 99636
+   },
+   "kvmem/m2_visibility/m5/out/M5B4-RATES.json": {
+    "origin": "git:96eeefc",
+    "sha256": "783d423a39db02e349294812c839775806238ac586699a17c4233a59dddb1d22",
+    "sha16": "783d423a39db02e3",
+    "bytes": 121993
+   },
+   "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.json": {
+    "origin": "git:96eeefc",
+    "sha256": "0ff84d2617ab8b994ef9a85efc1f97dbc87a03dcde3a979a76dbc71dc7fcf03d",
+    "sha16": "0ff84d2617ab8b99",
+    "bytes": 68603
+   },
+   "kvmem/m2_visibility/m5/out/M5C2-REV6-B4DESIGN.json": {
+    "origin": "git:96eeefc",
+    "sha256": "024664c3c4186502918c7eafc2fb0295f88af029822de82fc35f18d7214136de",
+    "sha16": "024664c3c4186502",
+    "bytes": 536490
+   },
+   "kvmem/m2_visibility/m5/out/M5C2-REV6-B4DESIGN-READOUT.json": {
+    "origin": "git:96eeefc",
+    "sha256": "5c7812ce27fb0090f00f3bf2f0d3ddf098f70c7ede8a7ed8b7e3a606a8b94dab",
+    "sha16": "5c7812ce27fb0090",
+    "bytes": 19866
+   },
+   "kvmem/m2_visibility/m5/out/M5B2-LEAD-RULING.json": {
+    "origin": "git:96eeefc",
+    "sha256": "65a2124b73f17d530d45270a8fbdbd3f5069af127d3a1ba263b6a02a50ec355d",
+    "sha16": "65a2124b73f17d53",
+    "bytes": 4192
+   },
+   "kvmem/m2_visibility/m5/out/M5B2-SENTENCES.json": {
+    "origin": "git:96eeefc",
+    "sha256": "6529e151568dc593ecfe118f6a242cdef7af72d681a5990f2529bb6e989de1a9",
+    "sha16": "6529e151568dc593",
+    "bytes": 78825
+   },
+   "kvmem/m2_visibility/m5/out/M5B2-adj-labels.json": {
+    "origin": "git:96eeefc",
+    "sha256": "b08521482b88faa81dfa8e499d6150046fb86ccc9e0fb1cca75720752c238da2",
+    "sha16": "b08521482b88faa8",
+    "bytes": 50903
+   },
+   "kvmem/m2_visibility/m5/out/M5B2-review-labels.json": {
+    "origin": "git:96eeefc",
+    "sha256": "1dfbb60436133b93a7b298e9803b119c2a8c01b56597254f8f2c81e1d9a0bbe5",
+    "sha16": "1dfbb60436133b93",
+    "bytes": 50691
+   },
+   "kvmem/m2_visibility/m5/out/M5B2-JUDGE.json": {
+    "origin": "git:96eeefc",
+    "sha256": "5deead7180dbb6a8f41acbb58cace623d8f9717e18b33cfa80c96066da63a9f9",
+    "sha16": "5deead7180dbb6a8",
+    "bytes": 229930
+   },
+   "kvmem/m2_visibility/m5/out/M5B2-RATES.json": {
+    "origin": "git:96eeefc",
+    "sha256": "9ac66b6dfaf8f804e4c6b004995953b0f40da7d143a9a0e87529e5977c84600c",
+    "sha16": "9ac66b6dfaf8f804",
+    "bytes": 11407
+   },
+   "kvmem/m2_visibility/m5/out/M5B3-v24-RATES.json": {
+    "origin": "git:96eeefc",
+    "sha256": "3d5f5907e1e4e869d8131e962c5f41fea60c792dbad61c281943dce0b6696faa",
+    "sha16": "3d5f5907e1e4e869",
+    "bytes": 12830
+   },
+   "kvmem/m2_visibility/m5/out/_m5b3_selftest_v24.json": {
+    "origin": "git:96eeefc",
+    "sha256": "08e6e92c715fec5826827a08ce3f04beed090dd91865cd7dbdbcc4700ba9e010",
+    "sha16": "08e6e92c715fec58",
+    "bytes": 4467
+   },
+   "kvmem/m2_visibility/m5/out/M5B2-GEN.json": {
+    "origin": "git:96eeefc",
+    "sha256": "d8fd8149586993364517179b60093cdacb5bdde705554480f2ecdf965de3337a",
+    "sha16": "d8fd814958699336",
+    "bytes": 110382
+   },
+   "kvmem/m2_visibility/m5/out/M5B-GEN.json": {
+    "origin": "git:96eeefc",
+    "sha256": "e74ee1951aa41c31a43c14965a1f259bae58a5f124a9f882917e2a6692c7c411",
+    "sha16": "e74ee1951aa41c31",
+    "bytes": 47750
+   },
+   "kvmem/m2_visibility/m5/out/M5B-JUDGE.json": {
+    "origin": "git:96eeefc",
+    "sha256": "7acb93fd5373479fe864aa02c0ce33cdfd7b56ed8022e7b5f76293a0328292bf",
+    "sha16": "7acb93fd5373479f",
+    "bytes": 80628
+   },
+   "docs/_work/PREREG-M5-B2.md": {
+    "origin": "worktree(untracked)",
+    "sha256": "482a94820917d16eb0c4e84665f47ce6f38f4970351d104eb65c5185b4cc784e",
+    "sha16": "482a94820917d16e",
+    "bytes": 12695
+   },
+   "docs/_work/PREREG-M5-B3-v2.4.md": {
+    "origin": "worktree(untracked)",
+    "sha256": "37e3742c0e4056eff14635333f0656f023a2cad1bc3d2a3b2fd81baaf87521b8",
+    "sha16": "37e3742c0e4056ef",
+    "bytes": 5320
+   }
+  },
+  "patch_scope": "仅替换脚本内 ROOT = Path(r\"D:\\llama-mem\") 为副本根；数值实验另仅改 GOLD sha16/长度两个过期常量（已在 patch_diff 留痕）"
+ },
+ "git_recoverability_of_first_gold_version": {
+  "question": "首版金标 9054479b32b79eb1 / 10208 B 能否从 git 找回？",
+  "method": "遍历 git cat-file --batch-all-objects 全部 2963 个对象（其中 1491 blob），按字节数 10208 与该 sha256 前缀双重检索；并查 M5B4-LEAD-RULING.json 的全部提交历史",
+  "blobs_with_size_10208": 0,
+  "blobs_with_size_13195": 1,
+  "commits_touching_ruling_file": [
+   "01dc0cc4999930ad43f1b3adc77ce49fbc6a5d24"
+  ],
+  "found": false,
+  "verdict": "首版金标不在 git 对象库、也不在磁盘：该文件只有一个提交版本 9273ebc97aa1413a/13195。`M5B4-RATES.json`/`M5B4-AB-OLD-VS-NEW.json` 中记录的 9054… 目前仅为字符串留痕，无法用旧文件逐字节复核；『两版 gold 完全相同』只能通过 RATES.rows 的逐 sid 标签 + 当前金标比对（本审计已完成，261/261 一致）间接证明。"
+ },
+ "gold_crosscheck": {
+  "question": "M5B4-RATES 的 4/41 与 7/46 能否在‘当前金标’9273ebc97aa1413a 下复现？是否逐 sid 一致？",
+  "current_gold_sha16": "9273ebc97aa1413a",
+  "rates_recorded_gold_sha16": "9054479b32b79eb1",
+  "gold_sha16_match": false,
+  "per_sid_gold_compared": 261,
+  "per_sid_gold_diff_n": 0,
+  "per_sid_gold_diff": {},
+  "recomputed_from_committed_JUDGE_and_CURRENT_gold": {
+   "leak": {
+    "numerator": 4,
+    "denominator": 41,
+    "sids": [
+     "b4-s2-q2-s01",
+     "b4-s3-q4-s03",
+     "b4-s3-q4-s11",
+     "b4-s3-q4-s12"
+    ]
+   },
+   "false": {
+    "numerator": 7,
+    "denominator": 46,
+    "sids": [
+     "b4-s1-q2-s01",
+     "b4-s1-q2-s07",
+     "b4-s1-q2-s09",
+     "b4-s1-q2-s15",
+     "b4-s1-q3-s03",
+     "b4-s2-q1-s01",
+     "b4-s8-q2-s02"
+    ]
+   },
+   "parse_fail": {
+    "numerator": 1,
+    "denominator": 261,
+    "sids": [
+     "b4-s2-q2-s05"
+    ]
+   },
+   "gold_counts": {
+    "support_present": 46,
+    "fabricated": 41,
+    "no_fact": 164,
+    "undecidable": 10
+   },
+   "abstain_route_n": 15
+  },
+  "rates_artifact_claims": {
+   "leak": {
+    "numerator": 4,
+    "denominator": 41,
+    "rate": 0.097561
+   },
+   "false": {
+    "numerator": 7,
+    "denominator": 46,
+    "rate": 0.152174
+   },
+   "parse_fail": {
+    "numerator": 1,
+    "denominator": 261
+   },
+   "gold_counts": {
+    "support_present": 46,
+    "no_fact": 164,
+    "undecidable": 10,
+    "fabricated": 41
+   },
+   "question_level": {
+    "leak": {
+     "numerator": 2,
+     "denominator": 10
+    },
+    "false": {
+     "numerator": 4,
+     "denominator": 24
+    }
+   }
+  },
+  "verdict": "逐 sid 金标 261/261 完全一致（0 差异）；在当前金标下重算 leak=4/41、false=7/46、parse_fail=1/261、gold_counts 全同、分子 sid 名单逐项相同 ⇒ 数字不是碰巧相等。"
+ },
+ "scripts": [
+  {
+   "script": "kvmem/m2_visibility/m5/make_m5b4_rates.py",
+   "committed_sha16": {
+    "sha16": "f1657a6d5193f387",
+    "bytes": 15321
+   },
+   "cpu_only": true,
+   "import_graph": [
+    "hashlib",
+    "json",
+    "math",
+    "random",
+    "collections",
+    "pathlib",
+    "os"
+   ],
+   "touches_gpu_or_model": false,
+   "reads": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+     "script_expects_sha16": "6a3001b6ca23ef7d",
+     "current_sha16": "6a3001b6ca23ef7d",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+     "script_expects_sha16": "9054479b32b79eb1",
+     "script_expects_bytes": 10208,
+     "current_sha16": "9273ebc97aa1413a",
+     "current_bytes": 13195,
+     "match": false,
+     "mismatch_kind": "stale_hardcoded_gold_sha16_and_bytes"
+    }
+   ],
+   "hardcoded_constants": [
+    "ROOT = D:\\llama-mem",
+    "JUDGE_SHA16=6a3001b6ca23ef7d",
+    "GOLD_SHA16=9054479b32b79eb1",
+    "len(gold)==10208",
+    "Z=1.96",
+    "bootstrap seed=20261026 reps=10000",
+    "leak_max=0.20 false_max=0.15",
+    "n_sentences=261 / n_forward=246"
+   ],
+   "writes": [
+    "kvmem/m2_visibility/m5/out/M5B4-RATES.json"
+   ],
+   "experiments": [
+    {
+     "name": "E1_m5b4_rates_committed_consts",
+     "patch": "仅替换 ROOT 为副本根（其余保持已提交原样）",
+     "cmd": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\m5c2-chain-repro-20261026-210154\\runs\\E1_m5b4_rates_committed_consts\\kvmem\\m2_visibility\\m5\\make_m5b4_rates.py",
+     "cwd": "D:\\m5c2-chain-repro-20261026-210154\\runs\\E1_m5b4_rates_committed_consts",
+     "exit_code": 1,
+     "stderr": "M5B4-LEAD-RULING changed",
+     "artifact_written": false,
+     "artifact_expected_sha16": "783d423a39db02e3",
+     "artifact_actual_sha16": null,
+     "note": "exit 1 于写入前发生；副本目录中的 M5B4-RATES.json 只是自带的已提交原件，其 sha 相同不代表复现（artifact_written=false）",
+     "verdict": "失败（脚本自检拒绝运行）"
+    },
+    {
+     "name": "E2_m5b4_rates_gold_const_updated",
+     "patch": "ROOT + 仅更新 GOLD_SHA16→9273ebc97aa1413a 与 len 10208→13195（最小实验，不动逻辑）",
+     "patch_diff": [
+      "-ROOT = Path(r\"D:\\llama-mem\")",
+      "+ROOT = Path(r\"D:\\m5c2-chain-repro-20261026-210154\\runs\\E2_m5b4_rates_gold_const_updated\")",
+      "-GOLD_SHA16 = \"9054479b32b79eb1\"",
+      "+GOLD_SHA16 = \"9273ebc97aa1413a\"",
+      "-    if sha16(gb) != GOLD_SHA16 or len(gb) != 10208:",
+      "+    if sha16(gb) != GOLD_SHA16 or len(gb) != 13195:"
+     ],
+     "cmd": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\m5c2-chain-repro-20261026-210154\\runs\\E2_m5b4_rates_gold_const_updated\\kvmem\\m2_visibility\\m5\\make_m5b4_rates.py",
+     "cwd": "D:\\m5c2-chain-repro-20261026-210154\\runs\\E2_m5b4_rates_gold_const_updated",
+     "exit_code": 0,
+     "artifact_expected_sha16": "783d423a39db02e3",
+     "artifact_actual_sha16": "dea992869cebd7a2",
+     "artifact_expected_bytes": 121993,
+     "artifact_actual_bytes": 121993,
+     "byte_identical": false,
+     "field_diffs": [
+      {
+       "path": ".gold_sha16",
+       "expected": "9054479b32b79eb1",
+       "actual": "9273ebc97aa1413a",
+       "kind": "value"
+      }
+     ],
+     "note": "产物 121993 B 与已提交件同长；除 .gold_sha16 外所有字段逐字节相同",
+     "verdict": "可复现（数值全同；仅 gold_sha16 留痕字段不同）"
+    }
+   ],
+   "conclusion": "可复现（数值/全部字段 byte 级，除唯一 gold_sha16 留痕字段外全同）",
+   "failure_reason": "已提交版因过期硬编码 GOLD_SHA16=9054479b32b79eb1/10208 拒绝运行；金标已被 audit_fix 版 9273ebc97aa1413a/13195 替换。仅改该常量即复现全部读数。"
+  },
+  {
+   "script": "kvmem/m2_visibility/m5/make_m5b4_ab.py",
+   "committed_sha16": {
+    "sha16": "9ae1827a865d73dc",
+    "bytes": 15329
+   },
+   "cpu_only": true,
+   "import_graph": [
+    "hashlib",
+    "json",
+    "math",
+    "os",
+    "random",
+    "sys",
+    "collections",
+    "pathlib",
+    "m5_ground_v2_3 -> m5_ground, m5_ground_v2, m5_ground_v2_2 (stdlib+sqlite3, 纯规则)"
+   ],
+   "touches_gpu_or_model": false,
+   "reads": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+     "script_expects_sha16": "6a3001b6ca23ef7d",
+     "current_sha16": "6a3001b6ca23ef7d",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+     "script_expects_sha16": "9054479b32b79eb1",
+     "script_expects_bytes": 10208,
+     "current_sha16": "9273ebc97aa1413a",
+     "current_bytes": 13195,
+     "match": false,
+     "mismatch_kind": "stale_hardcoded_gold_sha16_and_bytes"
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-SENTENCES.json",
+     "script_expects_sha16": "c349ca5a93192aac",
+     "current_sha16": "c349ca5a93192aac",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-RATES.json",
+     "script_expects_sha16": "(仅读取，无校验)",
+     "current_sha16": "783d423a39db02e3",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/m5_ground_v2_3.py",
+     "script_expects_sha16": "cc03e48c360ae0ee",
+     "script_expects_bytes": 44209,
+     "current_sha16": "cc03e48c360ae0ee",
+     "current_bytes": 44209,
+     "match": true
+    }
+   ],
+   "hardcoded_constants": [
+    "ROOT = D:\\llama-mem",
+    "JUDGE_SHA=6a3001b6ca23ef7d",
+    "GOLD_SHA=9054479b32b79eb1",
+    "len(gold)==10208",
+    "SENT_SHA=c349ca5a93192aac",
+    "OLD_SHA=cc03e48c360ae0ee",
+    "OLD_BYTES=44209",
+    "bootstrap seed/reps 20261026/10000"
+   ],
+   "writes": [
+    "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.json"
+   ],
+   "experiments": [
+    {
+     "name": "E3_m5b4_ab_committed_consts",
+     "patch": "仅替换 ROOT 为副本根",
+     "cmd": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\m5c2-chain-repro-20261026-210154\\runs\\E3_m5b4_ab_committed_consts\\kvmem\\m2_visibility\\m5\\make_m5b4_ab.py",
+     "cwd": "D:\\m5c2-chain-repro-20261026-210154\\runs\\E3_m5b4_ab_committed_consts",
+     "exit_code": 1,
+     "stderr": "GOLD changed",
+     "artifact_written": false,
+     "artifact_expected_sha16": "0ff84d2617ab8b99",
+     "artifact_actual_sha16": null,
+     "note": "exit 1 于写入前发生；副本目录中的 AB 产物只是自带的已提交原件，其 sha 相同不代表复现（artifact_written=false）",
+     "verdict": "失败（脚本自检拒绝运行）"
+    },
+    {
+     "name": "E4_m5b4_ab_gold_const_updated",
+     "patch": "ROOT + 仅更新 GOLD_SHA→9273ebc97aa1413a 与 len 10208→13195",
+     "patch_diff": [
+      "-ROOT = Path(r\"D:\\llama-mem\")",
+      "+ROOT = Path(r\"D:\\m5c2-chain-repro-20261026-210154\\runs\\E4_m5b4_ab_gold_const_updated\")",
+      "-GOLD_SHA = \"9054479b32b79eb1\"",
+      "+GOLD_SHA = \"9273ebc97aa1413a\"",
+      "-    if sha16(gb) != GOLD_SHA or len(gb) != 10208: raise SystemExit(\"GOLD changed\")",
+      "+    if sha16(gb) != GOLD_SHA or len(gb) != 13195: raise SystemExit(\"GOLD changed\")"
+     ],
+     "cmd": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\m5c2-chain-repro-20261026-210154\\runs\\E4_m5b4_ab_gold_const_updated\\kvmem\\m2_visibility\\m5\\make_m5b4_ab.py",
+     "cwd": "D:\\m5c2-chain-repro-20261026-210154\\runs\\E4_m5b4_ab_gold_const_updated",
+     "exit_code": 0,
+     "artifact_expected_sha16": "0ff84d2617ab8b99",
+     "artifact_actual_sha16": "4a875b92728842d4",
+     "artifact_expected_bytes": 68603,
+     "artifact_actual_bytes": 68603,
+     "byte_identical": false,
+     "field_diffs": [
+      {
+       "path": ".same_gold",
+       "expected": "9054479b32b79eb1",
+       "actual": "9273ebc97aa1413a",
+       "kind": "value"
+      }
+     ],
+     "note": "产物 68603 B 与已提交件同长；除 .same_gold 外所有字段逐字节相同",
+     "verdict": "可复现（含旧判据 v2.3 arm 的逐句重算；仅 same_gold 留痕字段不同）"
+    }
+   ],
+   "conclusion": "可复现（数值/全部字段 byte 级，除 same_gold 留痕字段外全同；旧臂 v2.3 由冻结 m5_ground_v2_3.py 在 CPU 上逐句重算，结果与已提交 AB 产物一致）",
+   "failure_reason": "同 make_m5b4_rates.py：过期 GOLD_SHA/长度常量导致拒绝运行；更新常量即复现。"
+  },
+  {
+   "script": "kvmem/m2_visibility/m5/make_m5c2_rev6_design_readout.py",
+   "committed_sha16": {
+    "sha16": "aeea2a34db01644e",
+    "bytes": 11452
+   },
+   "cpu_only": true,
+   "import_graph": [
+    "hashlib",
+    "json",
+    "math",
+    "os",
+    "collections",
+    "pathlib"
+   ],
+   "touches_gpu_or_model": false,
+   "reads": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5C2-REV6-B4DESIGN.json",
+     "script_expects_sha16": "(仅校验 design_set/not_acceptance 与 261 条；不校验 sha)",
+     "current_sha16": "024664c3c4186502",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+     "script_expects_sha16": "6a3001b6ca23ef7d",
+     "current_sha16": "6a3001b6ca23ef7d",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+     "script_expects_sha16": "(不校验 sha；改为逐 sid 比较 gold 值 == M5B4-RATES.rows)",
+     "current_sha16": "9273ebc97aa1413a",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-RATES.json",
+     "script_expects_sha16": "(不校验 sha，用作 gold 快照)",
+     "current_sha16": "783d423a39db02e3",
+     "match": true
+    }
+   ],
+   "hardcoded_constants": [
+    "ROOT = D:\\llama-mem",
+    "OLD_SHA=6a3001b6ca23ef7d",
+    "GOLD_SHA=9054479b32b79eb1（仅写入 gold_sha16_original 字段）",
+    "EXPECT_SIDS=261",
+    "gate: parse_fail<=5, r4_false<=2, leak<=6"
+   ],
+   "writes": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV6-B4DESIGN-READOUT.json"
+   ],
+   "experiments": [
+    {
+     "name": "E5_rev6_design_readout",
+     "patch": "仅替换 ROOT 为副本根",
+     "cmd": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\m5c2-chain-repro-20261026-210154\\runs\\E5_rev6_design_readout\\kvmem\\m2_visibility\\m5\\make_m5c2_rev6_design_readout.py",
+     "cwd": "D:\\m5c2-chain-repro-20261026-210154\\runs\\E5_rev6_design_readout",
+     "exit_code": 0,
+     "artifact_expected_sha16": "5c7812ce27fb0090",
+     "artifact_actual_sha16": "5c7812ce27fb0090",
+     "byte_identical": true,
+     "verdict": "可复现（byte 级）"
+    }
+   ],
+   "conclusion": "可复现（byte 级，19866 B 全同）——该脚本对过期金标采用“逐 sid 值比较”而非哈希拒绝，因此不受 stale 常量影响；其产物自记 gold_sha16_current=9273（当前）/original=9054（历史）",
+   "failure_reason": null
+  },
+  {
+   "script": "kvmem/m2_visibility/m5/make_m5b3_v24_rates.py",
+   "committed_sha16": {
+    "sha16": "7db2d320d3fe6b00",
+    "bytes": 11998
+   },
+   "cpu_only": true,
+   "import_graph": [
+    "hashlib",
+    "json",
+    "os",
+    "sys",
+    "collections",
+    "pathlib"
+   ],
+   "touches_gpu_or_model": false,
+   "reads": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B2-LEAD-RULING.json",
+     "script_expects_sha16": "65a2124b73f17d53",
+     "current_sha16": "65a2124b73f17d53",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B2-SENTENCES.json",
+     "script_expects_sha16": "6529e151568dc593",
+     "current_sha16": "6529e151568dc593",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B2-adj-labels.json",
+     "script_expects_sha16": "b08521482b88faa8",
+     "current_sha16": "b08521482b88faa8",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B2-JUDGE.json",
+     "script_expects_sha16": "5deead7180dbb6a8",
+     "current_sha16": "5deead7180dbb6a8",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B2-RATES.json",
+     "script_expects_sha16": "9ac66b6dfaf8f804",
+     "current_sha16": "9ac66b6dfaf8f804",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/_m5b3_selftest_v24.json",
+     "script_expects": "all_pass + 17 项",
+     "current_sha16": "08e6e92c715fec58",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/m5_ground_v2_4.py",
+     "script_expects_sha16": "(仅记录，不校验)",
+     "current_sha16": "1387b851450bde44",
+     "match": true
+    },
+    {
+     "file": "docs/_work/PREREG-M5-B3-v2.4.md",
+     "script_expects_sha16": "(记录到产物)",
+     "current_sha16": "37e3742c0e4056ef",
+     "match": true,
+     "note": "main 未入库；full@5574253 与磁盘逐字节一致"
+    }
+   ],
+   "hardcoded_constants": [
+    "HERE-relative paths (无 ROOT 硬编码)",
+    "EXPECT 5 项 sha16+bytes",
+    "GOLD_EXPECT counts 71/35/385/19",
+    "14/35 与 10/71 断言",
+    "selftest 17/17 断言"
+   ],
+   "writes": [
+    "kvmem/m2_visibility/m5/out/M5B3-v24-RATES.json"
+   ],
+   "experiments": [
+    {
+     "name": "E6_m5b3_v24_rates",
+     "patch": "无需任何替换（脚本以 __file__ 相对定位）",
+     "cmd": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\m5c2-chain-repro-20261026-210154\\runs\\E6_m5b3_v24_rates\\kvmem\\m2_visibility\\m5\\make_m5b3_v24_rates.py",
+     "cwd": "D:\\m5c2-chain-repro-20261026-210154\\runs\\E6_m5b3_v24_rates",
+     "exit_code": 0,
+     "artifact_expected_sha16": "3d5f5907e1e4e869",
+     "artifact_actual_sha16": "3d5f5907e1e4e869",
+     "byte_identical": true,
+     "verdict": "可复现（byte 级）"
+    }
+   ],
+   "conclusion": "可复现（byte 级，12830 B 全同；14/35、10/71 等数字与文件内全部字段一致）",
+   "failure_reason": null
+  },
+  {
+   "script": "kvmem/m2_visibility/m5/make_m5b2_rates.py",
+   "committed_sha16": {
+    "sha16": "3ae84401e35285a5",
+    "bytes": 11232
+   },
+   "cpu_only": true,
+   "import_graph": [
+    "hashlib",
+    "json",
+    "os",
+    "sys",
+    "collections",
+    "pathlib"
+   ],
+   "touches_gpu_or_model": false,
+   "reads": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B2-LEAD-RULING.json",
+     "script_expects_sha16": "65a2124b73f17d53",
+     "current_sha16": "65a2124b73f17d53",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B2-SENTENCES.json",
+     "script_expects_sha16": "6529e151568dc593",
+     "current_sha16": "6529e151568dc593",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B2-adj-labels.json",
+     "script_expects_sha16": "b08521482b88faa8",
+     "current_sha16": "b08521482b88faa8",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B2-review-labels.json",
+     "script_expects_sha16": "1dfbb60436133b93",
+     "current_sha16": "1dfbb60436133b93",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B2-JUDGE.json",
+     "script_expects_sha16": "5deead7180dbb6a8",
+     "current_sha16": "5deead7180dbb6a8",
+     "match": true
+    },
+    {
+     "file": "docs/_work/PREREG-M5-B2.md",
+     "script_expects_sha16": "(记录到产物)",
+     "current_sha16": "482a94820917d16e",
+     "match": true,
+     "note": "main 未入库；full@5574253 与磁盘逐字节一致"
+    }
+   ],
+   "hardcoded_constants": [
+    "HERE-relative paths (无 ROOT 硬编码)",
+    "EXPECT 5 项 sha16+bytes",
+    "GOLD_EXPECT counts 71/35/385/19",
+    "ruling 必须恰 10 条"
+   ],
+   "writes": [
+    "kvmem/m2_visibility/m5/out/M5B2-RATES.json"
+   ],
+   "experiments": [
+    {
+     "name": "E7_m5b2_rates",
+     "patch": "无需任何替换",
+     "cmd": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\m5c2-chain-repro-20261026-210154\\runs\\E7_m5b2_rates\\kvmem\\m2_visibility\\m5\\make_m5b2_rates.py",
+     "cwd": "D:\\m5c2-chain-repro-20261026-210154\\runs\\E7_m5b2_rates",
+     "exit_code": 0,
+     "artifact_expected_sha16": "9ac66b6dfaf8f804",
+     "artifact_actual_sha16": "9ac66b6dfaf8f804",
+     "byte_identical": true,
+     "verdict": "可复现（byte 级）"
+    }
+   ],
+   "conclusion": "可复现（byte 级，11407 B 全同；14/35=40.00%、10/71=14.08% 等全部一致）",
+   "failure_reason": null
+  },
+  {
+   "script": "kvmem/m2_visibility/m5/make_m5b2_judge.py",
+   "committed_sha16": {
+    "sha16": "74363f8c3ab9a8a8",
+    "bytes": 6061
+   },
+   "cpu_only": true,
+   "import_graph": [
+    "argparse",
+    "hashlib",
+    "json",
+    "os",
+    "re",
+    "sys",
+    "collections",
+    "pathlib",
+    "m5_ground_v2_3 (纯规则, stdlib)"
+   ],
+   "touches_gpu_or_model": false,
+   "reads": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B2-GEN.json",
+     "script_expects_sha16": "(由产物记录 d8fd814958699336)",
+     "current_sha16": "d8fd814958699336",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/m5_ground_v2_3.py",
+     "script_expects_sha16": "cc03e48c360ae0ee",
+     "current_sha16": "cc03e48c360ae0ee",
+     "match": true
+    }
+   ],
+   "hardcoded_constants": [
+    "JUDGE_SHA16=cc03e48c360ae0ee",
+    "JUDGE_BYTES=44209"
+   ],
+   "writes": [
+    "kvmem/m2_visibility/m5/out/M5B2-JUDGE.json"
+   ],
+   "experiments": [
+    {
+     "name": "E8_m5b2_judge",
+     "patch": "无需替换（默认 --gen/--out 落在副本内）",
+     "cmd": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\m5c2-chain-repro-20261026-210154\\runs\\E8_m5b2_judge\\kvmem\\m2_visibility\\m5\\make_m5b2_judge.py",
+     "cwd": "D:\\m5c2-chain-repro-20261026-210154\\runs\\E8_m5b2_judge",
+     "exit_code": 0,
+     "artifact_expected_sha16": "5deead7180dbb6a8",
+     "artifact_actual_sha16": "b5ebe7db43c9a047",
+     "byte_identical": false,
+     "field_diffs": [
+      {
+       "path": ".gen.path",
+       "expected": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5B2-GEN.json",
+       "actual": "D:\\m5c2-chain-repro-20261026-210154\\runs\\E8_m5b2_judge\\kvmem\\m2_visibility\\m5\\out\\M5B2-GEN.json",
+       "kind": "value"
+      },
+      {
+       "path": ".judge.path",
+       "expected": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\m5_ground_v2_3.py",
+       "actual": "D:\\m5c2-chain-repro-20261026-210154\\runs\\E8_m5b2_judge\\kvmem\\m2_visibility\\m5\\m5_ground_v2_3.py",
+       "kind": "value"
+      }
+     ],
+     "verdict": "数据级可复现；byte 差异仅 2 个绝对路径字段（.gen.path/.judge.path 内嵌 D:\\llama-mem）"
+    }
+   ],
+   "conclusion": "数据级可复现（除 2 个内嵌绝对路径字段外全同）",
+   "failure_reason": null
+  },
+  {
+   "script": "kvmem/m2_visibility/m5/make_m5b_judge.py",
+   "committed_sha16": {
+    "sha16": "c7098764d6337d96",
+    "bytes": 4319
+   },
+   "cpu_only": true,
+   "import_graph": [
+    "argparse",
+    "hashlib",
+    "json",
+    "os",
+    "sys",
+    "pathlib",
+    "m5_ground_v2_3 (纯规则, stdlib)"
+   ],
+   "touches_gpu_or_model": false,
+   "reads": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B-GEN.json",
+     "script_expects_sha16": "(由产物记录 e74ee1951aa41c31)",
+     "current_sha16": "e74ee1951aa41c31",
+     "match": true
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/m5_ground_v2_3.py",
+     "script_expects_sha16": "cc03e48c360ae0ee",
+     "current_sha16": "cc03e48c360ae0ee",
+     "match": true
+    }
+   ],
+   "hardcoded_constants": [
+    "JUDGE_SHA16=cc03e48c360ae0ee",
+    "JUDGE_BYTES=44209"
+   ],
+   "writes": [
+    "kvmem/m2_visibility/m5/out/M5B-JUDGE.json"
+   ],
+   "experiments": [
+    {
+     "name": "E9_m5b_judge",
+     "patch": "无需替换",
+     "cmd": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 D:\\m5c2-chain-repro-20261026-210154\\runs\\E9_m5b_judge\\kvmem\\m2_visibility\\m5\\make_m5b_judge.py",
+     "cwd": "D:\\m5c2-chain-repro-20261026-210154\\runs\\E9_m5b_judge",
+     "exit_code": 0,
+     "artifact_expected_sha16": "7acb93fd5373479f",
+     "artifact_actual_sha16": "4133adbd0d9ca405",
+     "byte_identical": false,
+     "field_diffs": [
+      {
+       "path": ".gen.path",
+       "expected": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5B-GEN.json",
+       "actual": "D:\\m5c2-chain-repro-20261026-210154\\runs\\E9_m5b_judge\\kvmem\\m2_visibility\\m5\\out\\M5B-GEN.json",
+       "kind": "value"
+      },
+      {
+       "path": ".judge.path",
+       "expected": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\m5_ground_v2_3.py",
+       "actual": "D:\\m5c2-chain-repro-20261026-210154\\runs\\E9_m5b_judge\\kvmem\\m2_visibility\\m5\\m5_ground_v2_3.py",
+       "kind": "value"
+      }
+     ],
+     "verdict": "数据级可复现；byte 差异仅 2 个绝对路径字段"
+    }
+   ],
+   "conclusion": "数据级可复现（除 2 个内嵌绝对路径字段外全同）",
+   "failure_reason": null
+  }
+ ],
+ "not_done": [
+  {
+   "script": "kvmem/m2_visibility/m5/run_m5c2_rev5_offline.py",
+   "would_produce": "kvmem/m2_visibility/m5/out/M5C2-REV5-OFFLINE.json",
+   "cpu_by_own_imports": true,
+   "blocked_by": "间接 import _e3gpu_run：run_m5c2_rev5_offline.py:21 `import run_m5c2_rev4_1 as R41`；run_m5c2_rev4_1.py:31 `import _e3gpu_run as E`，:28 追加 engine sys.path；_e3gpu_run.py 顶部持有 MODEL=D:\\models\\...14B.gguf(8,988,110,240 B) 与 tools/kvshim_vk.dll(50,007,552 B)",
+   "verdict": "未做：需 GPU/模型（按纪律不运行）",
+   "static_provenance_check": {
+    "prereg": {
+     "recorded": "81a5bb3ea4df642e",
+     "current": "81a5bb3ea4df642e",
+     "match": true
+    },
+    "b2_input": {
+     "recorded": "553a96fc481fcf9c",
+     "current": "553a96fc481fcf9c",
+     "match": true
+    },
+    "prompt_sha16": {
+     "recorded": "a6bc4f268f7711de",
+     "sha16(REV4_TEMPLATE)": "a6bc4f268f7711de",
+     "match": true
+    }
+   }
+  },
+  {
+   "script": "kvmem/m2_visibility/m5/run_m5c2_rev5_1_offline.py",
+   "would_produce": "kvmem/m2_visibility/m5/out/M5C2-REV5-1-OFFLINE.json",
+   "cpu_by_own_imports": true,
+   "blocked_by": "run_m5c2_rev5_1_offline.py:22 `import run_m5c2_rev5_offline as R5` → 同一 run_m5c2_rev4_1 → _e3gpu_run 链路",
+   "verdict": "未做：需 GPU/模型（按纪律不运行）",
+   "static_provenance_check": {
+    "b2_input": {
+     "recorded": "553a96fc481fcf9c",
+     "current": "553a96fc481fcf9c",
+     "match": true
+    },
+    "rev5_input": {
+     "recorded": "f304690658cb328d",
+     "current": "f304690658cb328d",
+     "match": true
+    },
+    "prompt_sha16": {
+     "recorded": "a6bc4f268f7711de",
+     "match": true
+    }
+   }
+  },
+  {
+   "script": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "would_produce": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+   "cpu_by_own_imports": true,
+   "blocked_by": "run_m5c2_rev7_offline.py:53-54 `import run_m5c2_rev5_offline as R5` / `run_m5c2_rev5_1_offline as R51` → run_m5c2_rev4_1 → _e3gpu_run 链路",
+   "verdict": "未做：需 GPU/模型（按纪律不运行）；rev7 复现由 task 内 rev7-impl/rev7-auditor/cleanroom-auditor 承担",
+   "static_provenance_check": {
+    "prereg_sha16": {
+     "recorded": "32eaf82ca56600c4",
+     "current": "32eaf82ca56600c4",
+     "match": true
+    },
+    "items_source_sha16": {
+     "recorded": "6a3001b6ca23ef7d",
+     "current": "6a3001b6ca23ef7d",
+     "match": true
+    },
+    "gold_sha16_current": {
+     "recorded": "9273ebc97aa1413a",
+     "current": "9273ebc97aa1413a",
+     "match": true
+    },
+    "prompt_sha16": {
+     "recorded": "a6bc4f268f7711de",
+     "match": true
+    },
+    "code_sha16": {
+     "recorded": "65ed60125528d5d6",
+     "sha16(run_m5c2_rev7_offline.py)": "65ed60125528d5d6",
+     "match": true
+    },
+    "note": "rev7 产物的常量已全部指向当前金标 9273…，不含本项目发现的 stale 常量问题"
+   }
+  },
+  {
+   "script": "kvmem/m2_visibility/m5/run_m5c2_b4_gen.py",
+   "would_produce": "kvmem/m2_visibility/m5/out/M5B4-GEN.json + M5B4-SENTENCES.json",
+   "blocked_by": "run_m5c2_b4_gen.py:27-29 追加 engine/m7.our/tools sys.path；模型生成（llama DLL）",
+   "verdict": "未做：需 GPU/模型"
+  },
+  {
+   "script": "kvmem/m2_visibility/m5/run_m5c2_b4_judge.py",
+   "would_produce": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "blocked_by": "run_m5c2_b4_judge.py:32-38 直接 import _e3gpu_run 与 engine 运行脚本",
+   "verdict": "未做：需 GPU/模型"
+  },
+  {
+   "script": "kvmem/m2_visibility/m5/run_m5c2_b2eval.py",
+   "would_produce": "kvmem/m2_visibility/m5/out/M5C2-B2EVAL.json",
+   "blocked_by": "run_m5c2_b2eval.py:27 `import _e3gpu_run as E`",
+   "verdict": "未做：需 GPU/模型"
+  },
+  {
+   "script": "kvmem/m2_visibility/m5/run_m5c2_rev4.py / run_m5c2_rev4_1.py / run_m5c2_rev2_order.py / run_m5c2_floor*.py / run_m5c2_r2.py / run_m5c2_rev6_b4design.py / run_m5_b_v2.py / run_m5_b2_v2.py / run_m5_c_v2.py",
+   "would_produce": "M5C2-ORDER / REV4 / REV4-1 / FLOOR* / REV6-B4DESIGN / M5B* 等 GPU 产物",
+   "blocked_by": "均 import _e3gpu_run 或 engine/llama DLL 并加载模型",
+   "verdict": "未做：需 GPU/模型"
+  }
+ ],
+ "artifacts_provenance": [
+  {
+   "artifact": "kvmem/m2_visibility/m5/out/M5B4-RATES.json",
+   "artifact_sha16": "783d423a39db02e3",
+   "artifact_bytes": 121993,
+   "recorded": [
+    {
+     "field": "prereg_sha16",
+     "recorded": "f30d89e30262b148",
+     "current_file": "docs/_work/PREREG-M5-C2-B4.md",
+     "current": "f30d89e30262b148",
+     "match": true,
+     "committed_on": "full@5574253"
+    },
+    {
+     "field": "judge_sha16",
+     "recorded": "6a3001b6ca23ef7d",
+     "current_file": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+     "current": "6a3001b6ca23ef7d",
+     "match": true,
+     "committed_on": "main@96eeefc"
+    },
+    {
+     "field": "gold_sha16",
+     "recorded": "9054479b32b79eb1",
+     "current_file": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+     "current": "9273ebc97aa1413a",
+     "match": false,
+     "reason": "首版金标已被 audit_fix 版替换；该 sha 的文件在 git 对象库中不存在"
+    }
+   ],
+   "mismatches": [
+    {
+     "field": "gold_sha16",
+     "recorded": "9054479b32b79eb1",
+     "current_file": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+     "current": "9273ebc97aa1413a",
+     "match": false,
+     "reason": "首版金标已被 audit_fix 版替换；该 sha 的文件在 git 对象库中不存在"
+    }
+   ],
+   "note": "产物自记 gold_sha16 落后一个版本（留痕先后问题），数值不受影响"
+  },
+  {
+   "artifact": "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.json",
+   "artifact_sha16": "0ff84d2617ab8b99",
+   "artifact_bytes": 68603,
+   "recorded": [
+    {
+     "field": "same_gold",
+     "recorded": "9054479b32b79eb1",
+     "current_file": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+     "current": "9273ebc97aa1413a",
+     "match": false,
+     "reason": "同上：首版金标 sha"
+    },
+    {
+     "field": "old_judge.sha16",
+     "recorded": "cc03e48c360ae0ee",
+     "current_file": "kvmem/m2_visibility/m5/m5_ground_v2_3.py",
+     "current": "cc03e48c360ae0ee",
+     "match": true
+    },
+    {
+     "field": "new_judge.judge_sha16",
+     "recorded": "6a3001b6ca23ef7d",
+     "current_file": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+     "current": "6a3001b6ca23ef7d",
+     "match": true
+    },
+    {
+     "field": "new_judge.prompt_sha16",
+     "recorded": "a6bc4f268f7711de",
+     "current_file": "kvmem/m2_visibility/m5/run_m5c2_rev4.py::REV4_TEMPLATE（AST 提取，未执行）",
+     "current": "a6bc4f268f7711de",
+     "match": true
+    }
+   ],
+   "mismatches": [
+    {
+     "field": "same_gold",
+     "recorded": "9054479b32b79eb1",
+     "current_file": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+     "current": "9273ebc97aa1413a",
+     "match": false,
+     "reason": "同上：首版金标 sha"
+    }
+   ],
+   "note": null
+  },
+  {
+   "artifact": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "artifact_sha16": "6a3001b6ca23ef7d",
+   "artifact_bytes": 452456,
+   "recorded": [
+    {
+     "field": "prereg_sha16",
+     "recorded": "f30d89e30262b148",
+     "current_file": "docs/_work/PREREG-M5-C2-B4.md",
+     "current": "f30d89e30262b148",
+     "match": true,
+     "committed_on": "full@5574253"
+    },
+    {
+     "field": "sentences_sha16",
+     "recorded": "c349ca5a93192aac",
+     "current_file": "kvmem/m2_visibility/m5/out/M5B4-SENTENCES.json",
+     "current": "c349ca5a93192aac",
+     "match": true
+    },
+    {
+     "field": "prompt_sha16 / actual_prompt_sha16",
+     "recorded": "a6bc4f268f7711de",
+     "current_file": "REV4_TEMPLATE",
+     "current": "a6bc4f268f7711de",
+     "match": true
+    }
+   ],
+   "mismatches": [],
+   "note": null
+  },
+  {
+   "artifact": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+   "artifact_sha16": "9273ebc97aa1413a",
+   "artifact_bytes": 13195,
+   "recorded": [
+    {
+     "field": "prereg_sha16",
+     "recorded": "f30d89e30262b148",
+     "current_file": "docs/_work/PREREG-M5-C2-B4.md",
+     "current": "f30d89e30262b148",
+     "match": true
+    }
+   ],
+   "mismatches": [],
+   "note": "audit_fix.gold_changed=false（首版→修版仅补 ruled 留痕，gold 值不变）"
+  },
+  {
+   "artifact": "kvmem/m2_visibility/m5/out/M5B2-RATES.json",
+   "artifact_sha16": "9ac66b6dfaf8f804",
+   "artifact_bytes": 11407,
+   "recorded": [
+    {
+     "field": "inputs.*.sha16",
+     "recorded": "65a2124b73f17d53/6529e151568dc593/b08521482b88faa8/1dfbb60436133b93/5deead7180dbb6a8",
+     "current_file": "M5B2-LEAD-RULING / SENTENCES / adj-labels / review-labels / JUDGE",
+     "current": "65a2124b73f17d53/6529e151568dc593/b08521482b88faa8/1dfbb60436133b93/5deead7180dbb6a8",
+     "match": true
+    },
+    {
+     "field": "prereg.sha16",
+     "recorded": "482a94820917d16e",
+     "current_file": "docs/_work/PREREG-M5-B2.md",
+     "current": "482a94820917d16e",
+     "match": true,
+     "committed_on": "full@5574253"
+    }
+   ],
+   "mismatches": [],
+   "note": null
+  },
+  {
+   "artifact": "kvmem/m2_visibility/m5/out/M5B3-v24-RATES.json",
+   "artifact_sha16": "3d5f5907e1e4e869",
+   "artifact_bytes": 12830,
+   "recorded": [
+    {
+     "field": "inputs.*.sha16",
+     "recorded": "65a2…/6529…/b085…/5dee…/9ac6…",
+     "current": "65a2124b73f17d53/6529e151568dc593/b08521482b88faa8/5deead7180dbb6a8/9ac66b6dfaf8f804",
+     "match": true
+    },
+    {
+     "field": "prereg.sha16",
+     "recorded": "37e3742c0e4056ef",
+     "current_file": "docs/_work/PREREG-M5-B3-v2.4.md",
+     "current": "37e3742c0e4056ef",
+     "match": true
+    },
+    {
+     "field": "v24_impl.sha16",
+     "recorded": "1387b851450bde44",
+     "current_file": "kvmem/m2_visibility/m5/m5_ground_v2_4.py",
+     "current": "1387b851450bde44",
+     "match": true
+    },
+    {
+     "field": "v24_selftest.sha16",
+     "recorded": "08e6e92c715fec58",
+     "current_file": "kvmem/m2_visibility/m5/out/_m5b3_selftest_v24.json",
+     "current": "08e6e92c715fec58",
+     "match": true
+    }
+   ],
+   "mismatches": [],
+   "note": null
+  },
+  {
+   "artifact": "kvmem/m2_visibility/m5/out/M5C2-REV6-B4DESIGN-READOUT.json",
+   "artifact_sha16": "5c7812ce27fb0090",
+   "artifact_bytes": 19866,
+   "recorded": [
+    {
+     "field": "b4_judge_sha16",
+     "recorded": "6a3001b6ca23ef7d",
+     "current_file": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+     "current": "6a3001b6ca23ef7d",
+     "match": true
+    },
+    {
+     "field": "gold_sha16_current",
+     "recorded": "9273ebc97aa1413a",
+     "current_file": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+     "current": "9273ebc97aa1413a",
+     "match": true
+    },
+    {
+     "field": "gold_sha16_original",
+     "recorded": "9054479b32b79eb1",
+     "current_file": "（历史首版，已不在磁盘/git 中）",
+     "current": null,
+     "match": null,
+     "reason": "历史留痕字段，非当前一致性要求"
+    },
+    {
+     "field": "rev6_prompt_sha16",
+     "recorded": "162f680de2f5812e",
+     "current_file": "kvmem/m2_visibility/m5/run_m5c2_rev6_b4design.py::REV6_TEMPLATE（AST 提取）",
+     "current": "162f680de2f5812e",
+     "match": true
+    }
+   ],
+   "mismatches": [],
+   "note": "该产物用“逐 sid gold 值比较”而非哈希校验，因此复跑不受 stale 常量影响（E5 已 byte 级复现）"
+  },
+  {
+   "artifact": "kvmem/m2_visibility/m5/out/M5C2-REV5-OFFLINE.json",
+   "artifact_sha16": "f304690658cb328d",
+   "artifact_bytes": 138974,
+   "recorded": [
+    {
+     "field": "prereg.sha16",
+     "recorded": "81a5bb3ea4df642e",
+     "current_file": "docs/_work/PREREG-M5-C2-REV5.md",
+     "current": "81a5bb3ea4df642e",
+     "match": true,
+     "committed_on": "full@5574253"
+    },
+    {
+     "field": "b2_input.sha16",
+     "recorded": "553a96fc481fcf9c",
+     "current_file": "kvmem/m2_visibility/m5/out/M5C2-B2EVAL.json",
+     "current": "553a96fc481fcf9c",
+     "match": true
+    },
+    {
+     "field": "prompt_sha16",
+     "recorded": "a6bc4f268f7711de",
+     "current": "a6bc4f268f7711de",
+     "match": true
+    }
+   ],
+   "mismatches": [],
+   "note": "脚本未由本任务复跑（import 链触碰 _e3gpu_run），仅做静态溯源核对"
+  },
+  {
+   "artifact": "kvmem/m2_visibility/m5/out/M5C2-REV5-1-OFFLINE.json",
+   "artifact_sha16": "fb2d54a2cc502183",
+   "artifact_bytes": 141242,
+   "recorded": [
+    {
+     "field": "b2_input.sha16",
+     "recorded": "553a96fc481fcf9c",
+     "current_file": "kvmem/m2_visibility/m5/out/M5C2-B2EVAL.json",
+     "current": "553a96fc481fcf9c",
+     "match": true
+    },
+    {
+     "field": "rev5_input.sha16",
+     "recorded": "f304690658cb328d",
+     "current_file": "kvmem/m2_visibility/m5/out/M5C2-REV5-OFFLINE.json",
+     "current": "f304690658cb328d",
+     "match": true
+    },
+    {
+     "field": "prompt_sha16",
+     "recorded": "a6bc4f268f7711de",
+     "current": "a6bc4f268f7711de",
+     "match": true
+    }
+   ],
+   "mismatches": [],
+   "note": "同 REV5：未复跑（import 链），仅静态溯源"
+  },
+  {
+   "artifact": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+   "artifact_sha16": "1f8f44b921e575fe",
+   "artifact_bytes": 507657,
+   "recorded": [
+    {
+     "field": "prereg_sha16",
+     "recorded": "32eaf82ca56600c4",
+     "current_file": "docs/_work/PREREG-M5-C2-REV7.md",
+     "current": "32eaf82ca56600c4",
+     "match": true,
+     "committed_on": "full@5574253"
+    },
+    {
+     "field": "items_source_sha16",
+     "recorded": "6a3001b6ca23ef7d",
+     "current_file": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+     "current": "6a3001b6ca23ef7d",
+     "match": true
+    },
+    {
+     "field": "gold_sha16_current",
+     "recorded": "9273ebc97aa1413a",
+     "current_file": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+     "current": "9273ebc97aa1413a",
+     "match": true
+    },
+    {
+     "field": "code_sha16",
+     "recorded": "65ed60125528d5d6",
+     "current_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+     "current": "65ed60125528d5d6",
+     "match": true
+    },
+    {
+     "field": "prompt_sha16",
+     "recorded": "a6bc4f268f7711de",
+     "current": "a6bc4f268f7711de",
+     "match": true
+    }
+   ],
+   "mismatches": [],
+   "note": "rev7 产物常量全部与当前文件一致（无 stale 问题）；复现由 rev7 任务承担"
+  },
+  {
+   "artifact": "kvmem/m2_visibility/m5/out/M5B2-JUDGE.json",
+   "artifact_sha16": "5deead7180dbb6a8",
+   "artifact_bytes": 229930,
+   "recorded": [
+    {
+     "field": "judge.sha16",
+     "recorded": "cc03e48c360ae0ee",
+     "current_file": "kvmem/m2_visibility/m5/m5_ground_v2_3.py",
+     "current": "cc03e48c360ae0ee",
+     "match": true
+    },
+    {
+     "field": "gen.sha16",
+     "recorded": "d8fd814958699336",
+     "current_file": "kvmem/m2_visibility/m5/out/M5B2-GEN.json",
+     "current": "d8fd814958699336",
+     "match": true
+    }
+   ],
+   "mismatches": [],
+   "note": "E8 重跑后除内嵌绝对路径外全部数据字段一致"
+  },
+  {
+   "artifact": "kvmem/m2_visibility/m5/out/M5B-JUDGE.json",
+   "artifact_sha16": "7acb93fd5373479f",
+   "artifact_bytes": 80628,
+   "recorded": [
+    {
+     "field": "judge.sha16",
+     "recorded": "cc03e48c360ae0ee",
+     "current_file": "kvmem/m2_visibility/m5/m5_ground_v2_3.py",
+     "current": "cc03e48c360ae0ee",
+     "match": true
+    },
+    {
+     "field": "gen.sha16",
+     "recorded": "e74ee1951aa41c31",
+     "current_file": "kvmem/m2_visibility/m5/out/M5B-GEN.json",
+     "current": "e74ee1951aa41c31",
+     "match": true
+    }
+   ],
+   "mismatches": [],
+   "note": "E9 重跑后除内嵌绝对路径外全部数据字段一致"
+  },
+  {
+   "artifact": "kvmem/m2_visibility/m5/out/M5B4-GEN.json",
+   "artifact_sha16": "6eef5955bdf04e8e",
+   "artifact_bytes": 77903,
+   "recorded": [
+    {
+     "field": "prereg.sha16",
+     "recorded": "f30d89e30262b148",
+     "current_file": "docs/_work/PREREG-M5-C2-B4.md",
+     "current": "f30d89e30262b148",
+     "match": true
+    },
+    {
+     "field": "frozen_dll_sha16",
+     "recorded": "9edbafa150700614",
+     "current_file": "tools/kvshim_vk.dll",
+     "current": "9edbafa150700614",
+     "match": true
+    },
+    {
+     "field": "prompt_template_sha16",
+     "recorded": "96ab1c08d6b1b21f",
+     "current_file": "kvmem/m2_visibility/m5/run_m5c2_b4_gen.py::TURN_TEMPLATE（AST 提取）",
+     "current": "96ab1c08d6b1b21f",
+     "match": true
+    }
+   ],
+   "mismatches": [],
+   "note": "GPU 产物本身不可离线复现；其冻结依赖（DLL/预登记/prompt 模板）与当前文件一致"
+  }
+ ],
+ "doc_numbers_support": [
+  {
+   "doc": "kvmem/m2_visibility/m5/out/M5B4-RATES.md（+ PROGRESS-AND-ROADMAP.md §13.32）",
+   "claim": "(b4) 漏判 4/41 = 9.76%（CI 3.86–22.55%）、误判 7/46 = 15.22%（CI 7.57–28.22%）、题级 2/10、4/24、parse_fail 1/261、pass=false",
+   "code_path": "M5B4-JUDGE.json + 当前 LEAD-RULING.json -> make_m5b4_rates.py（E2）",
+   "verdict": "有代码支撑：更新唯一过期常量后产物除 gold_sha16 外 byte 级全同",
+   "caveat": "文档头部引用的 gold sha 9054479b32b79eb1/10,208 是首版，已过期"
+  },
+  {
+   "doc": "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.md",
+   "claim": "受控 A/B：v2.3 3/41→rev5.1 4/41（+2.44pp）、v2.3 11/46→7/46（-8.70pp），CI 重叠、Δ 不显著、McNemar",
+   "code_path": "make_m5b4_ab.py + 冻结 m5_ground_v2_3.py（E4）",
+   "verdict": "有代码支撑：E4 除 same_gold 外 byte 级全同（旧臂逐句重算一致）",
+   "caveat": "产物 same_gold 记首版 sha 9054…"
+  },
+  {
+   "doc": "kvmem/m2_visibility/m5/out/M5B2-RATES.md（+ PROGRESS §13.30）",
+   "claim": "(b2) in-sample 漏判 14/35 = 40.00%、误判 10/71 = 14.08%，four_state 未通过",
+   "code_path": "make_m5b2_rates.py（E7）",
+   "verdict": "有代码支撑：byte 级复现（9ac66b6dfaf8f804，11407 B）",
+   "caveat": null
+  },
+  {
+   "doc": "kvmem/m2_visibility/m5/out/M5B3-v24-RATES.md（+ PROGRESS §13.31）",
+   "claim": "v2.4 重读仍 14/35、10/71；only undecidable 重标；four_state 未通过",
+   "code_path": "make_m5b3_v24_rates.py（E6）",
+   "verdict": "有代码支撑：byte 级复现（3d5f5907e1e4e869，12830 B）",
+   "caveat": null
+  },
+  {
+   "doc": "kvmem/m2_visibility/m5/out/M5C2-REV6-B4DESIGN.md / M5C2-REV6-B4DESIGN-READOUT.json",
+   "claim": "rev6 design set：parse_fail 3/261、false 4/46、leak 6/41、r4_fab 0、evidence_verbatim -7.57pp、gate 三阈值全过（design_set，非验收）",
+   "code_path": "make_m5c2_rev6_design_readout.py（E5）",
+   "verdict": "有代码支撑：byte 级复现（5c7812ce27fb0090，19866 B）",
+   "caveat": null
+  },
+  {
+   "doc": "kvmem/m2_visibility/m5/out/M5B2-JUDGE.json / M5B-JUDGE.json（判据读数上游）",
+   "claim": "judge 产物由冻结 v2.3 规则生成（sha cc03e48c360ae0ee）",
+   "code_path": "make_m5b2_judge.py（E8）/ make_m5b_judge.py（E9）",
+   "verdict": "数据级有代码支撑：重跑后除内嵌绝对路径字段外全同",
+   "caveat": "byte 级不可在非 D:\\llama-mem 路径复现（产物内嵌绝对路径）"
+  },
+  {
+   "doc": "M5C2-REV5-OFFLINE / REV5-1-OFFLINE 及其文档",
+   "claim": "rev5 / rev5.1 离线读数（判定层指标）",
+   "code_path": "run_m5c2_rev5_offline.py / run_m5c2_rev5_1_offline.py",
+   "verdict": "本次未复现：脚本自身 CPU，但 import 链含 _e3gpu_run/engine（GPU 运行器），按纪律不运行；静态溯源 prereg/B2EVAL/prompt 全部匹配当前文件",
+   "caveat": "尚无零 GPU 独立复算证据（可由后续剥离 import 的脚本补）"
+  },
+  {
+   "doc": "PROGRESS-AND-ROADMAP.md C32 / rev7 段落",
+   "claim": "rev7：(b4) 误判 2/46、漏判 4/41、parse_fail 1/261、新增漏判 0",
+   "code_path": "run_m5c2_rev7_offline.py（import 链含 _e3gpu_run）",
+   "verdict": "本任务未复现（同 GPU import 链）；产物常量与当前金标/代码逐项一致，复现由 rev7 任务负责",
+   "caveat": null
+  },
+  {
+   "doc": "所有 GEN 级数字（M5B4-GEN / M5B-GEN / M5B2-GEN / M5C2-B2EVAL / REV4* / ORDER / FLOOR* 等）",
+   "claim": "模型实际输出与抽取结果",
+   "code_path": "需 GPU/模型（llama DLL + 14B gguf）",
+   "verdict": "无离线代码支撑（只能核冻结依赖：DLL 9edbafa150700614 与磁盘一致、prompt 模板一致）",
+   "caveat": "这类数字在纯 CPU 下不可能复现，属物理限制而非代码缺陷"
+  }
+ ],
+ "summary": {
+  "scripts_audited": 7,
+  "reproducible_byte_identical_as_committed": 3,
+  "reproducible_byte_identical_after_stale_const_update": 2,
+  "reproducible_data_level_path_field_only": 2,
+  "failed": 0,
+  "not_done_gpu_model": 7,
+  "stale_constants_found": [
+   {
+    "file": "kvmem/m2_visibility/m5/out/M5B4-RATES.json",
+    "field": "gold_sha16",
+    "recorded": "9054479b32b79eb1",
+    "current": "9273ebc97aa1413a"
+   },
+   {
+    "file": "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.json",
+    "field": "same_gold",
+    "recorded": "9054479b32b79eb1",
+    "current": "9273ebc97aa1413a"
+   },
+   {
+    "file": "kvmem/m2_visibility/m5/make_m5b4_rates.py",
+    "constant": "GOLD_SHA16/len=10208",
+    "recorded": "9054479b32b79eb1/10208",
+    "current": "9273ebc97aa1413a/13195"
+   },
+   {
+    "file": "kvmem/m2_visibility/m5/make_m5b4_ab.py",
+    "constant": "GOLD_SHA/len=10208",
+    "recorded": "9054479b32b79eb1/10208",
+    "current": "9273ebc97aa1413a/13195"
+   }
+  ],
+  "all_other_recorded_sha16_match_current": true
+ },
+ "key_findings": [
+  "1) (b4) 的 4/41=9.76%、7/46=15.22% 等全部读数有代码支撑：在当前金标下重算逐项一致，并在干净副本内复现为 byte 级产物（唯一差异是产物里记录的 gold_sha16 留痕字段）。",
+  "2) 已提交脚本对 b4 读数按原样运行会 exit 1：make_m5b4_rates.py / make_m5b4_ab.py 里 GOLD_SHA16=9054479b32b79eb1 与 len(gold)==10208 已过期（当前 9273ebc97aa1413a/13195）。这是“常量过期造成的假不一致”，不是逻辑/数值对不上。",
+  "3) 首版金标 9054479b32b79eb1/10208 已不可恢复（git 全对象扫描 0 命中，磁盘无该文件）；其 gold 值与当前版逐 sid 完全相同（261/261），故数值不受影响，但“旧文件可复核”不成立。",
+  "4) M5B2-RATES / M5B3-v24-RATES / M5C2-REV6-B4DESIGN-READOUT 三个产物可原样 byte 级复现（其中 REV6 readout 对过陈旧 sha 有免疫设计：比较 gold 值而非哈希）。",
+  "5) 文档数字与 JSON 证据分居 main / full 两个分支：main（96eeefc）无任何 docs 文件，full@5574253 有 195 个 md 但几乎没有 m5 out JSON —— 任一 commit 都无法同时检阅“结论 + 证据”。",
+  "6) rev5/rev5.1/rev7 的离线复算脚本自身是 CPU 逻辑，但 import 链触碰 _e3gpu_run/engine，按纪律未运行；其产物记录的 prereg/gold/judge/prompt/code sha16 与当前文件逐项一致（rev7 尤其已改用当前 gold 9273…，无 stale 问题）。",
+  "7) .gitignore 第 62 行 `*.json` 与第 180 行 `*.md` 使证据/文档默认不可入库；现有 192 个 JSON 与 full 分支 195 个 md 都是 `git add -f` 强加跟踪，新增证据容易被漏提交。"
+ ]
+}

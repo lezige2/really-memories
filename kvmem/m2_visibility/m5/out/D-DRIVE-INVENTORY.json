@@ -1,0 +1,1464 @@
+{
+ "schema": "d-drive-inventory/v1",
+ "task": "task-14",
+ "auditor": "doc-ledger",
+ "generated_at": "2026-10-26T21:35:48+0800",
+ "discipline": {
+  "read_only": true,
+  "no_delete": true,
+  "no_move": true,
+  "no_compress": true,
+  "no_gpu": true,
+  "no_network": true,
+  "no_git_commit": true
+ },
+ "method": {
+  "size": "os.scandir 递归 st_size 求和（apparent size）",
+  "hash": "sha256(file bytes)",
+  "git": "git rev-parse/ls-files/status",
+  "disk": "shutil.disk_usage"
+ },
+ "disk": {
+  "volume": "D:",
+  "total_bytes": 256059109376,
+  "used_bytes": 25731407872,
+  "free_bytes": 230327701504,
+  "used_gib": 23.96,
+  "free_gib": 214.51,
+  "total_gib": 238.47,
+  "used_gb_dec": 25.73,
+  "free_gb_dec": 230.33,
+  "total_gb_dec": 256.06,
+  "used_pct": 10.05,
+  "method": "shutil.disk_usage(\"D:/\")"
+ },
+ "repo": {
+  "head": "96eeefc",
+  "branch": "main",
+  "ahead": "1",
+  "origin_main": "8008064",
+  "full": "5574253",
+  "tracked_files": 797,
+  "untracked_items": 60,
+  "docs_work_md": 102,
+  "kvmem_json": 1300,
+  "kvmem_py": 370,
+  "main_ahead_of_origin": "1"
+ },
+ "baseline_check": [
+  {
+   "item": "D: used",
+   "claimed": "25.73 GB",
+   "measured": "23.96 GiB = 25.73 GB(十进制)",
+   "verdict": "match",
+   "note": "口径不同：你给的是十进制 GB（25.73e9 B），我按 GiB 记 23.96；同一状态"
+  },
+  {
+   "item": "D: free",
+   "claimed": "230.33 GB",
+   "measured": "214.51 GiB = 230.33 GB(十进制)",
+   "verdict": "match",
+   "note": "同上，25.73+230.33=256.06 GB(十进制)=238.47 GiB，与本卷 total 一致"
+  },
+  {
+   "item": "llama-mem",
+   "claimed": "8.72 GB",
+   "measured": "8.23 GB (8.83 GB 十进制)",
+   "verdict": "close",
+   "note": "差值来自本会话新增产物（账本 json/md、session 目录等仍在写）"
+  },
+  {
+   "item": "D:\\models",
+   "claimed": "13.67 GB",
+   "measured": "12.73 GB (13.67 GB 十进制)",
+   "verdict": "match",
+   "note": "2 个 GGUF：14B-Q4_K_M 8571.73 MB + 7B-Q4_K_M 4466.13 MB"
+  },
+  {
+   "item": "git main",
+   "claimed": "96eeefc（ahead origin/main 1）",
+   "measured": "96eeefc（ahead 1）",
+   "verdict": "match",
+   "note": ""
+  },
+  {
+   "item": "git full / origin/main",
+   "claimed": "5574253 / 8008064",
+   "measured": "5574253 / 8008064",
+   "verdict": "match",
+   "note": ""
+  },
+  {
+   "item": "tracked 文件",
+   "claimed": "797",
+   "measured": "797",
+   "verdict": "match",
+   "note": ""
+  },
+  {
+   "item": "docs/_work md",
+   "claimed": "96",
+   "measured": "102",
+   "verdict": "diff",
+   "note": "审计写入导致：+6（本盘点 md、对账账本 md 等会话产物）"
+  },
+  {
+   "item": "kvmem json / py",
+   "claimed": "1294 / 369",
+   "measured": "1300 / 370",
+   "verdict": "diff",
+   "note": "审计写入导致：json +6 / py +1（本清单、账本、session 证据脚本；仓库外证据不计）"
+  },
+  {
+   "item": "未跟踪项",
+   "claimed": "59",
+   "measured": "60（含本盘点 md 新增 1 项）",
+   "verdict": "diff",
+   "note": "基线 59 为审计开始时；本盘点新增 `docs/_work/D-DRIVE-INVENTORY.md` 未跟踪项"
+  }
+ ],
+ "root_items": [
+  {
+   "name": "models",
+   "kind": "dir",
+   "bytes": 13671183744,
+   "human": "12.73 GiB",
+   "files": 2,
+   "last_mtime": "2026-10-25T00:22",
+   "category": "项目资产（模型权重）",
+   "attribution": "本项目：M5 复现所需 GGUF，必须保留",
+   "top_level_file": false
+  },
+  {
+   "name": "llama-mem",
+   "kind": "dir",
+   "bytes": 8833656195,
+   "human": "8.23 GiB",
+   "files": 15386,
+   "last_mtime": "2026-10-26T21:30",
+   "category": "项目仓库（含构建产物）",
+   "attribution": "本项目主仓库",
+   "top_level_file": false
+  },
+  {
+   "name": "agents",
+   "kind": "dir",
+   "bytes": 1391117651,
+   "human": "1.30 GiB",
+   "files": 1391,
+   "last_mtime": "2026-10-24T23:10",
+   "category": "第三方应用（非本项目）",
+   "attribution": "Agents Anywhere 安装目录，不属于 llama-mem",
+   "top_level_file": false
+  },
+  {
+   "name": "DSH",
+   "kind": "dir",
+   "bytes": 1269488533,
+   "human": "1.18 GiB",
+   "files": 8557,
+   "last_mtime": "2026-10-25T09:22",
+   "category": "第三方应用（非本项目）",
+   "attribution": "DeepSeek Harness 安装目录（当前会话运行时）",
+   "top_level_file": false
+  },
+  {
+   "name": "m5c2-chain-repro-20261026-210154",
+   "kind": "dir",
+   "bytes": 24107622,
+   "human": "22.99 MiB",
+   "files": 358,
+   "last_mtime": "2026-10-26T21:11",
+   "category": "本会话证据（链复现）",
+   "attribution": "M5C2 链复现 9 个 run + 日志 + results.json",
+   "top_level_file": false
+  },
+  {
+   "name": "crashdumps",
+   "kind": "dir",
+   "bytes": 22259632,
+   "human": "21.23 MiB",
+   "files": 30,
+   "last_mtime": "2026-10-26T07:39",
+   "category": "诊断资产",
+   "attribution": "10-26 崩溃转储（含 minidump/evtx）",
+   "top_level_file": false
+  },
+  {
+   "name": "m5c2-freeze-verify-20261026-212752",
+   "kind": "dir",
+   "bytes": 12930122,
+   "human": "12.33 MiB",
+   "files": 269,
+   "last_mtime": "2026-10-26T21:27",
+   "category": "本会话证据（冻结复核）",
+   "attribution": "冻结校验副本（kvmem+docs 拷贝 + _verify_meta）",
+   "top_level_file": false
+  },
+  {
+   "name": "rev7-cleanroom-20261026-205205",
+   "kind": "dir",
+   "bytes": 9864806,
+   "human": "9.41 MiB",
+   "files": 153,
+   "last_mtime": "2026-10-26T21:05",
+   "category": "本会话证据（cleanroom）",
+   "attribution": "rev7 干净房复现：4 棵树 + fail-closed 测试日志",
+   "top_level_file": false
+  },
+  {
+   "name": "llama-mem-verify-inspector-c3b",
+   "kind": "dir",
+   "bytes": 8434665,
+   "human": "8.04 MiB",
+   "files": 595,
+   "last_mtime": "2026-10-26T21:24",
+   "category": "验证克隆（证据）",
+   "attribution": "inspector 验证克隆，HEAD caa9760，clean",
+   "top_level_file": false
+  },
+  {
+   "name": "llama-mem-verify-clone",
+   "kind": "dir",
+   "bytes": 8056356,
+   "human": "7.68 MiB",
+   "files": 510,
+   "last_mtime": "2026-10-26T21:24",
+   "category": "验证克隆（证据）",
+   "attribution": "隔离验证克隆，HEAD d7020b2，clean",
+   "top_level_file": false
+  },
+  {
+   "name": "llama-mem-verify-inspector-2326",
+   "kind": "dir",
+   "bytes": 7987935,
+   "human": "7.62 MiB",
+   "files": 566,
+   "last_mtime": "2026-10-26T21:24",
+   "category": "验证克隆（证据）",
+   "attribution": "inspector 验证克隆，HEAD 867cd8d，clean",
+   "top_level_file": false
+  },
+  {
+   "name": "m5c2-chain-repro-20261026-210125",
+   "kind": "dir",
+   "bytes": 2279365,
+   "human": "2.17 MiB",
+   "files": 30,
+   "last_mtime": "2026-10-26T21:01",
+   "category": "本会话证据（链复现）",
+   "attribution": "M5C2 链复现 E1–E9 源快照",
+   "top_level_file": false
+  },
+  {
+   "name": "llama-mem-backup-2026-10-25",
+   "kind": "dir",
+   "bytes": 1707063,
+   "human": "1.63 MiB",
+   "files": 85,
+   "last_mtime": "2026-10-25T10:36",
+   "category": "项目备份",
+   "attribution": "本项目 10-25 备份快照（体积小，疑为部分目录备份）",
+   "top_level_file": false
+  },
+  {
+   "name": "m3fix-tmp",
+   "kind": "dir",
+   "bytes": 405891,
+   "human": "396.4 KiB",
+   "files": 139,
+   "last_mtime": "2026-10-25T12:10",
+   "category": "散落临时（历史）",
+   "attribution": "10-25 M3 修复临时脚本",
+   "top_level_file": false
+  },
+  {
+   "name": "compare-verify",
+   "kind": "dir",
+   "bytes": 314608,
+   "human": "307.2 KiB",
+   "files": 57,
+   "last_mtime": "2026-10-25T11:59",
+   "category": "散落临时（历史）",
+   "attribution": "10-25 M3 对比验证脚本/产物",
+   "top_level_file": false
+  },
+  {
+   "name": "m3fix-tmp-insp",
+   "kind": "dir",
+   "bytes": 128871,
+   "human": "125.9 KiB",
+   "files": 67,
+   "last_mtime": "2026-10-25T11:46",
+   "category": "散落临时（历史）",
+   "attribution": "10-25 M3 修复 inspector 临时产物",
+   "top_level_file": false
+  },
+  {
+   "name": "crashfix",
+   "kind": "dir",
+   "bytes": 60397,
+   "human": "59.0 KiB",
+   "files": 6,
+   "last_mtime": "2026-10-26T09:14",
+   "category": "诊断资产",
+   "attribution": "10-26 BSOD 修复脚本与报告",
+   "top_level_file": false
+  },
+  {
+   "name": "b6-review-20261026",
+   "kind": "dir",
+   "bytes": 60221,
+   "human": "58.8 KiB",
+   "files": 3,
+   "last_mtime": "2026-10-26T21:27",
+   "category": "本会话证据（B6 复核）",
+   "attribution": "B6 复核 stage1/stage2 证据与脚本",
+   "top_level_file": false
+  },
+  {
+   "name": "llama-mem-stage",
+   "kind": "dir",
+   "bytes": 16279,
+   "human": "15.9 KiB",
+   "files": 22,
+   "last_mtime": "2026-10-26T19:58",
+   "category": "散落临时",
+   "attribution": "本会话临时截图/文本（main*.txt 等）",
+   "top_level_file": false
+  },
+  {
+   "name": "kvmem",
+   "kind": "dir",
+   "bytes": 187,
+   "human": "187 B",
+   "files": 1,
+   "last_mtime": "2026-10-25T23:22",
+   "category": "散落临时",
+   "attribution": "D 根误落目录：仅 lease_logs/guard_disabled.jsonl 187 B",
+   "top_level_file": false
+  },
+  {
+   "name": "$RECYCLE.BIN",
+   "kind": "dir",
+   "bytes": 129,
+   "human": "129 B",
+   "files": 1,
+   "last_mtime": "2026-10-26T21:20",
+   "category": "系统",
+   "attribution": "回收站",
+   "top_level_file": false
+  },
+  {
+   "name": "c",
+   "kind": "dir",
+   "bytes": 0,
+   "human": "0 B",
+   "files": 0,
+   "last_mtime": "2026-10-25T21:14",
+   "category": "散落临时",
+   "attribution": "空目录 D:\\c\\Users（误建）",
+   "top_level_file": false
+  },
+  {
+   "name": "tmp_audit.py",
+   "kind": "file",
+   "bytes": 57234,
+   "human": "55.9 KiB",
+   "files": 1,
+   "last_mtime": "2026-10-26T20:53",
+   "category": "未知",
+   "attribution": "",
+   "top_level_file": true
+  },
+  {
+   "name": "tmp_audit_art.json",
+   "kind": "file",
+   "bytes": 55523,
+   "human": "54.2 KiB",
+   "files": 1,
+   "last_mtime": "2026-10-26T20:54",
+   "category": "未知",
+   "attribution": "",
+   "top_level_file": true
+  },
+  {
+   "name": "tmp_prereg.md",
+   "kind": "file",
+   "bytes": 5835,
+   "human": "5.7 KiB",
+   "files": 1,
+   "last_mtime": "2026-10-26T20:56",
+   "category": "未知",
+   "attribution": "",
+   "top_level_file": true
+  },
+  {
+   "name": "tmp_rev4_1.py",
+   "kind": "file",
+   "bytes": 20039,
+   "human": "19.6 KiB",
+   "files": 1,
+   "last_mtime": "2026-10-26T20:51",
+   "category": "未知",
+   "attribution": "",
+   "top_level_file": true
+  },
+  {
+   "name": "tmp_rev5.py",
+   "kind": "file",
+   "bytes": 17540,
+   "human": "17.1 KiB",
+   "files": 1,
+   "last_mtime": "2026-10-26T20:51",
+   "category": "未知",
+   "attribution": "",
+   "top_level_file": true
+  },
+  {
+   "name": "tmp_rev5_1.py",
+   "kind": "file",
+   "bytes": 11276,
+   "human": "11.0 KiB",
+   "files": 1,
+   "last_mtime": "2026-10-26T20:51",
+   "category": "未知",
+   "attribution": "",
+   "top_level_file": true
+  },
+  {
+   "name": "tmp_rev7.py",
+   "kind": "file",
+   "bytes": 44761,
+   "human": "43.7 KiB",
+   "files": 1,
+   "last_mtime": "2026-10-26T20:51",
+   "category": "未知",
+   "attribution": "",
+   "top_level_file": true
+  },
+  {
+   "name": "tmp_rev7_art.json",
+   "kind": "file",
+   "bytes": 507657,
+   "human": "495.8 KiB",
+   "files": 1,
+   "last_mtime": "2026-10-26T20:53",
+   "category": "未知",
+   "attribution": "",
+   "top_level_file": true
+  }
+ ],
+ "llama_mem_items": [
+  {
+   "name": "build-vulkan",
+   "kind": "dir",
+   "bytes": 2543983396,
+   "human": "2.37 GiB",
+   "files": 2512,
+   "last_mtime": "2026-10-25T00:30",
+   "category": "可再生构建产物",
+   "note": "Vulkan 构建目录（约 2.4 GB）；可重跑构建恢复"
+  },
+  {
+   "name": "kvmem",
+   "kind": "dir",
+   "bytes": 1931544066,
+   "human": "1.80 GiB",
+   "files": 3228,
+   "last_mtime": "2026-10-26T21:30",
+   "category": "项目资产",
+   "note": "实验代码与全部运行产物（1.84 GB）"
+  },
+  {
+   "name": "vulkan-sdk",
+   "kind": "dir",
+   "bytes": 1846024159,
+   "human": "1.72 GiB",
+   "files": 460,
+   "last_mtime": "2026-10-24T12:48",
+   "category": "第三方源码/SDK",
+   "note": "Vulkan SDK 1.4.363 解压（可用 downloads 内安装包重装）"
+  },
+  {
+   "name": "tools",
+   "kind": "dir",
+   "bytes": 998541413,
+   "human": "952.28 MiB",
+   "files": 178,
+   "last_mtime": "2026-10-26T21:25",
+   "category": "项目资产",
+   "note": "GPU shim DLL 等工具（kvshim_vk.dll 50 MB + 其他）"
+  },
+  {
+   "name": "build-cpu",
+   "kind": "dir",
+   "bytes": 604736691,
+   "human": "576.72 MiB",
+   "files": 434,
+   "last_mtime": "2026-10-26T02:12",
+   "category": "可再生构建产物",
+   "note": "CPU 构建目录（约 0.58 GB）"
+  },
+  {
+   "name": "downloads",
+   "kind": "dir",
+   "bytes": 303138236,
+   "human": "289.10 MiB",
+   "files": 4,
+   "last_mtime": "2026-10-24T12:47",
+   "category": "第三方下载物",
+   "note": "vulkansdk 安装包 289 MB（可重下载）"
+  },
+  {
+   "name": "llama.cpp",
+   "kind": "dir",
+   "bytes": 220812871,
+   "human": "210.58 MiB",
+   "files": 3932,
+   "last_mtime": "2026-10-26T21:22",
+   "category": "第三方源码（已打补丁）",
+   "note": "上游代码 + persistent-memory 补丁（当前工作树，必须保留）"
+  },
+  {
+   "name": "llama.cpp-upstream",
+   "kind": "dir",
+   "bytes": 220787543,
+   "human": "210.56 MiB",
+   "files": 3930,
+   "last_mtime": "2026-10-25T21:16",
+   "category": "第三方源码（未打补丁镜像）",
+   "note": "上游干净镜像，与 llama.cpp 仅差 8 个补丁文件 + .git"
+  },
+  {
+   "name": "bin",
+   "kind": "dir",
+   "bytes": 103797533,
+   "human": "98.99 MiB",
+   "files": 53,
+   "last_mtime": "2026-10-24T11:29",
+   "category": "项目资产/构建产物",
+   "note": "llama 可执行与依赖 DLL（约 99 MB）"
+  },
+  {
+   "name": ".git",
+   "kind": "dir",
+   "bytes": 31244802,
+   "human": "29.80 MiB",
+   "files": 279,
+   "last_mtime": "2026-10-26T21:23",
+   "category": "仓库元数据",
+   "note": "git 对象库（29.8 MB）"
+  },
+  {
+   "name": "build-cpu-patched",
+   "kind": "dir",
+   "bytes": 25968349,
+   "human": "24.77 MiB",
+   "files": 219,
+   "last_mtime": "2026-10-26T02:14",
+   "category": "可再生构建产物",
+   "note": "CPU patched 构建缓存（约 25 MB）"
+  },
+  {
+   "name": "docs",
+   "kind": "dir",
+   "bytes": 2183169,
+   "human": "2.08 MiB",
+   "files": 108,
+   "last_mtime": "2026-10-26T21:29",
+   "category": "项目资产",
+   "note": "文档与 docs/_work（含本会话账本）"
+  },
+  {
+   "name": "legacy",
+   "kind": "dir",
+   "bytes": 382887,
+   "human": "373.9 KiB",
+   "files": 31,
+   "last_mtime": "2026-10-25T20:01",
+   "category": "项目资产",
+   "note": "旧版本代码"
+  },
+  {
+   "name": "PROGRESS-AND-ROADMAP.md",
+   "kind": "file",
+   "bytes": 300952,
+   "human": "293.9 KiB",
+   "files": 1,
+   "last_mtime": "1970-01-01T08:00",
+   "category": "项目资产（根文档）",
+   "note": "进度路线图"
+  },
+  {
+   "name": "patches",
+   "kind": "dir",
+   "bytes": 73105,
+   "human": "71.4 KiB",
+   "files": 5,
+   "last_mtime": "2026-10-25T22:39",
+   "category": "项目资产",
+   "note": "persistent-memory.patch（32,337 B）"
+  },
+  {
+   "name": "PROJECT-STATE.md",
+   "kind": "file",
+   "bytes": 52250,
+   "human": "51.0 KiB",
+   "files": 1,
+   "last_mtime": "1970-01-01T08:00",
+   "category": "项目资产（根文档）",
+   "note": "项目状态"
+  },
+  {
+   "name": "README.md",
+   "kind": "file",
+   "bytes": 25583,
+   "human": "25.0 KiB",
+   "files": 1,
+   "last_mtime": "1970-01-01T08:00",
+   "category": "项目资产（根文档）",
+   "note": "说明"
+  },
+  {
+   "name": "FEATURES.md",
+   "kind": "file",
+   "bytes": 16739,
+   "human": "16.3 KiB",
+   "files": 1,
+   "last_mtime": "1970-01-01T08:00",
+   "category": "项目资产（根文档）",
+   "note": "功能说明"
+  },
+  {
+   "name": "HANDOFF.md",
+   "kind": "file",
+   "bytes": 10228,
+   "human": "10.0 KiB",
+   "files": 1,
+   "last_mtime": "1970-01-01T08:00",
+   "category": "项目资产（根文档）",
+   "note": "交接"
+  },
+  {
+   "name": ".gitignore",
+   "kind": "file",
+   "bytes": 7088,
+   "human": "6.9 KiB",
+   "files": 1,
+   "last_mtime": "1970-01-01T08:00",
+   "category": "项目资产（根文档）",
+   "note": "忽略规则"
+  },
+  {
+   "name": "_rw3.log",
+   "kind": "file",
+   "bytes": 6938,
+   "human": "6.8 KiB",
+   "files": 1,
+   "last_mtime": "1970-01-01T08:00",
+   "category": "散落临时",
+   "note": "运行日志残留"
+  },
+  {
+   "name": "_rw2.log",
+   "kind": "file",
+   "bytes": 6936,
+   "human": "6.8 KiB",
+   "files": 1,
+   "last_mtime": "1970-01-01T08:00",
+   "category": "散落临时",
+   "note": "运行日志残留"
+  },
+  {
+   "name": "verify.sh",
+   "kind": "file",
+   "bytes": 6566,
+   "human": "6.4 KiB",
+   "files": 1,
+   "last_mtime": "1970-01-01T08:00",
+   "category": "项目资产（根文档）",
+   "note": "验证脚本"
+  },
+  {
+   "name": "_fc.log",
+   "kind": "file",
+   "bytes": 2372,
+   "human": "2.3 KiB",
+   "files": 1,
+   "last_mtime": "1970-01-01T08:00",
+   "category": "散落临时",
+   "note": "运行日志残留"
+  },
+  {
+   "name": ".gitattributes",
+   "kind": "file",
+   "bytes": 1204,
+   "human": "1.2 KiB",
+   "files": 1,
+   "last_mtime": "1970-01-01T08:00",
+   "category": "项目资产（根文档）",
+   "note": "属性"
+  },
+  {
+   "name": "LICENSE",
+   "kind": "file",
+   "bytes": 1085,
+   "human": "1.1 KiB",
+   "files": 1,
+   "last_mtime": "1970-01-01T08:00",
+   "category": "项目资产（根文档）",
+   "note": "许可证"
+  },
+  {
+   "name": "nul",
+   "kind": "file",
+   "bytes": 0,
+   "human": "0 B",
+   "files": 1,
+   "last_mtime": "1970-01-01T08:00",
+   "category": "散落临时",
+   "note": "Windows 保留名文件"
+  }
+ ],
+ "kvmem_breakdown": [
+  {
+   "name": "m2_visibility",
+   "bytes": 1685268128,
+   "human": "1.57 GB",
+   "files": 1732
+  },
+  {
+   "name": "variance",
+   "bytes": 106227986,
+   "human": "101.31 MB",
+   "files": 27
+  },
+  {
+   "name": "m2_7b",
+   "bytes": 77281144,
+   "human": "73.70 MB",
+   "files": 759
+  },
+  {
+   "name": "sessions",
+   "bytes": 24244162,
+   "human": "23.12 MB",
+   "files": 11
+  },
+  {
+   "name": "m2_v1_14b",
+   "bytes": 11080312,
+   "human": "10.57 MB",
+   "files": 6
+  },
+  {
+   "name": "blocks",
+   "bytes": 8986280,
+   "human": "8.57 MB",
+   "files": 2
+  },
+  {
+   "name": "m4c_leases",
+   "bytes": 4863464,
+   "human": "4.64 MB",
+   "files": 451
+  },
+  {
+   "name": "p0_1b_blocks",
+   "bytes": 3049416,
+   "human": "2.91 MB",
+   "files": 2
+  },
+  {
+   "name": "p0_1a_blocks",
+   "bytes": 2622696,
+   "human": "2.50 MB",
+   "files": 2
+  },
+  {
+   "name": "p0_2_blocks",
+   "bytes": 2622696,
+   "human": "2.50 MB",
+   "files": 2
+  },
+  {
+   "name": "p0_4_blocks",
+   "bytes": 2622696,
+   "human": "2.50 MB",
+   "files": 2
+  },
+  {
+   "name": "p0_4b_blocks",
+   "bytes": 1861404,
+   "human": "1.78 MB",
+   "files": 3
+  },
+  {
+   "name": "_backup_t005",
+   "bytes": 230012,
+   "human": "224.6 KB",
+   "files": 8
+  },
+  {
+   "name": "lease_logs",
+   "bytes": 129799,
+   "human": "126.8 KB",
+   "files": 209
+  }
+ ],
+ "session_temp_items": [
+  {
+   "name": "rev7-cleanroom-20261026-205205",
+   "kind": "dir",
+   "bytes": 9864806,
+   "human": "9.41 MiB",
+   "files": 153,
+   "last_mtime": "2026-10-26T21:05",
+   "created_after_2000": true,
+   "label": "keep_evidence",
+   "evidence_role": "rev7 干净房复现（4 棵树 + fail-closed 日志）；删除将破坏“独立复现”证据",
+   "owner": "cleanroom 执行方（本会话）"
+  },
+  {
+   "name": "m5c2-chain-repro-20261026-210125",
+   "kind": "dir",
+   "bytes": 2279365,
+   "human": "2.17 MiB",
+   "files": 30,
+   "last_mtime": "2026-10-26T21:01",
+   "created_after_2000": true,
+   "label": "keep_evidence",
+   "evidence_role": "M5C2 链复现源快照（_src）",
+   "owner": "chain-repro 执行方（本会话）"
+  },
+  {
+   "name": "m5c2-chain-repro-20261026-210154",
+   "kind": "dir",
+   "bytes": 24107622,
+   "human": "22.99 MiB",
+   "files": 358,
+   "last_mtime": "2026-10-26T21:11",
+   "created_after_2000": true,
+   "label": "keep_evidence",
+   "evidence_role": "M5C2 链复现 9 个 run 结果 + logs + results.json",
+   "owner": "chain-repro 执行方（本会话）"
+  },
+  {
+   "name": "m5c2-freeze-verify-20261026-212752",
+   "kind": "dir",
+   "bytes": 12930122,
+   "human": "12.33 MiB",
+   "files": 269,
+   "last_mtime": "2026-10-26T21:27",
+   "created_after_2000": true,
+   "label": "keep_evidence",
+   "evidence_role": "冻结校验副本（kvmem+docs 拷贝；证明“冻结后字节未变”）",
+   "owner": "freeze-verify 执行方（本会话）"
+  },
+  {
+   "name": "b6-review-20261026",
+   "kind": "dir",
+   "bytes": 60221,
+   "human": "58.8 KiB",
+   "files": 3,
+   "last_mtime": "2026-10-26T21:27",
+   "created_after_2000": true,
+   "label": "keep_evidence",
+   "evidence_role": "B6 复核 stage1/stage2 证据 json + 脚本",
+   "owner": "B6 复核方（本会话）"
+  },
+  {
+   "name": "llama-mem-verify-clone",
+   "kind": "dir",
+   "bytes": 8056356,
+   "human": "7.68 MiB",
+   "files": 510,
+   "last_mtime": "2026-10-26T21:24",
+   "created_after_2000": false,
+   "label": "delete_after_confirm",
+   "evidence_role": "验证克隆（HEAD d7020b2，clean）；复核结论已写入仓库后可删",
+   "owner": "（历史会话）"
+  },
+  {
+   "name": "llama-mem-verify-inspector-2326",
+   "kind": "dir",
+   "bytes": 7987935,
+   "human": "7.62 MiB",
+   "files": 566,
+   "last_mtime": "2026-10-26T21:24",
+   "created_after_2000": false,
+   "label": "delete_after_confirm",
+   "evidence_role": "inspector 验证克隆（HEAD 867cd8d，clean）",
+   "owner": "（历史会话）"
+  },
+  {
+   "name": "llama-mem-verify-inspector-c3b",
+   "kind": "dir",
+   "bytes": 8434665,
+   "human": "8.04 MiB",
+   "files": 595,
+   "last_mtime": "2026-10-26T21:24",
+   "created_after_2000": false,
+   "label": "delete_after_confirm",
+   "evidence_role": "inspector 验证克隆（HEAD caa9760，clean）",
+   "owner": "（历史会话）"
+  },
+  {
+   "name": "llama-mem-stage",
+   "kind": "dir",
+   "bytes": 16279,
+   "human": "15.9 KiB",
+   "files": 22,
+   "last_mtime": "2026-10-26T19:58",
+   "created_after_2000": false,
+   "label": "delete_after_confirm",
+   "evidence_role": "22 个 main*/full* 截图文本（本会话调试残留）",
+   "owner": "（历史会话）"
+  },
+  {
+   "name": "llama-mem-backup-2026-10-25",
+   "kind": "dir",
+   "bytes": 1707063,
+   "human": "1.63 MiB",
+   "files": 85,
+   "last_mtime": "2026-10-25T10:36",
+   "created_after_2000": false,
+   "label": "delete_after_confirm",
+   "evidence_role": "10-25 备份快照（仅 1.63 MB，疑为部分目录；删除前确认未含唯一副本）",
+   "owner": "（历史会话）"
+  },
+  {
+   "name": "m3fix-tmp",
+   "kind": "dir",
+   "bytes": 405891,
+   "human": "396.4 KiB",
+   "files": 139,
+   "last_mtime": "2026-10-25T12:10",
+   "created_after_2000": false,
+   "label": "delete_after_confirm",
+   "evidence_role": "10-25 M3 修复临时脚本（结论应在 docs/ 有记录）",
+   "owner": "（历史会话）"
+  },
+  {
+   "name": "m3fix-tmp-insp",
+   "kind": "dir",
+   "bytes": 128871,
+   "human": "125.9 KiB",
+   "files": 67,
+   "last_mtime": "2026-10-25T11:46",
+   "created_after_2000": false,
+   "label": "delete_after_confirm",
+   "evidence_role": "10-25 M3 inspector 临时产物",
+   "owner": "（历史会话）"
+  },
+  {
+   "name": "compare-verify",
+   "kind": "dir",
+   "bytes": 314608,
+   "human": "307.2 KiB",
+   "files": 57,
+   "last_mtime": "2026-10-25T11:59",
+   "created_after_2000": false,
+   "label": "delete_after_confirm",
+   "evidence_role": "10-25 M3 对比验证脚本/产物",
+   "owner": "（历史会话）"
+  },
+  {
+   "name": "crashfix",
+   "kind": "dir",
+   "bytes": 60397,
+   "human": "59.0 KiB",
+   "files": 6,
+   "last_mtime": "2026-10-26T09:14",
+   "created_after_2000": false,
+   "label": "keep_evidence",
+   "evidence_role": "10-26 BSOD 修复脚本与报告（结论文档；建议归档到 docs/ 后再删）",
+   "owner": "（历史会话）"
+  },
+  {
+   "name": "crashdumps",
+   "kind": "dir",
+   "bytes": 22259632,
+   "human": "21.23 MiB",
+   "files": 30,
+   "last_mtime": "2026-10-26T07:39",
+   "created_after_2000": false,
+   "label": "delete_after_confirm",
+   "evidence_role": "崩溃转储（2 个 .dmp + LiveKernelReports + evtx，21 MB；排障后无长期价值）",
+   "owner": "（历史会话）"
+  },
+  {
+   "name": "kvmem",
+   "kind": "dir",
+   "bytes": 187,
+   "human": "187 B",
+   "files": 1,
+   "last_mtime": "2026-10-25T23:22",
+   "created_after_2000": false,
+   "label": "delete_after_confirm",
+   "evidence_role": "D 根误落目录：仅 lease_logs/guard_disabled.jsonl（187 B，仓库内无同名文件）",
+   "owner": "（历史会话）"
+  },
+  {
+   "name": "c",
+   "kind": "dir",
+   "bytes": 0,
+   "human": "0 B",
+   "files": 0,
+   "last_mtime": "2026-10-25T21:14",
+   "created_after_2000": false,
+   "label": "delete_candidate",
+   "evidence_role": "空目录 D:\\c\\Users（0 字节，误建）",
+   "owner": "（历史会话）"
+  }
+ ],
+ "tmp_files": [
+  {
+   "name": "tmp_rev7_art.json",
+   "bytes": 507657,
+   "sha256": "1f8f44b921e575fe609c64bf4861ec3714f78cc31b92728793fd3963196a7f73",
+   "sha16": "1f8f44b921e575fe",
+   "dup_tracked": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json"
+   ],
+   "dup_frozen": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json"
+   ],
+   "human": "495.8 KiB",
+   "mtime": "1970-01-01T08:00:00",
+   "verdict": "可删但须先确认（与已入库/已冻结文件同 sha256）",
+   "note": "同字节副本：kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json"
+  },
+  {
+   "name": "tmp_audit.py",
+   "bytes": 57234,
+   "sha256": "6695a4b4de4038700aed61d6f7da078073e47e1bb9befbd287e6639211139a8e",
+   "sha16": "6695a4b4de403870",
+   "dup_tracked": [
+    "kvmem/m2_visibility/m5/out/_rev7_audit.py"
+   ],
+   "dup_frozen": null,
+   "human": "55.9 KiB",
+   "mtime": "1970-01-01T08:00:00",
+   "verdict": "可删但须先确认（与已入库/已冻结文件同 sha256）",
+   "note": "同字节副本：kvmem/m2_visibility/m5/out/_rev7_audit.py"
+  },
+  {
+   "name": "tmp_audit_art.json",
+   "bytes": 55523,
+   "sha256": "de80cd38a7147f0f8df5215de6eee2de9dfa2d8d1e123368b3bbe29142d2a6e5",
+   "sha16": "de80cd38a7147f0f",
+   "dup_tracked": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-AUDIT.json"
+   ],
+   "dup_frozen": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-AUDIT.json"
+   ],
+   "human": "54.2 KiB",
+   "mtime": "1970-01-01T08:00:00",
+   "verdict": "可删但须先确认（与已入库/已冻结文件同 sha256）",
+   "note": "同字节副本：kvmem/m2_visibility/m5/out/M5C2-REV7-AUDIT.json"
+  },
+  {
+   "name": "tmp_rev7.py",
+   "bytes": 44761,
+   "sha256": "65ed60125528d5d65ffac830df859ef1fdff1dc83bb3ac2e48eb6f1ff5f1272d",
+   "sha16": "65ed60125528d5d6",
+   "dup_tracked": [
+    "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py"
+   ],
+   "dup_frozen": null,
+   "human": "43.7 KiB",
+   "mtime": "1970-01-01T08:00:00",
+   "verdict": "可删但须先确认（与已入库/已冻结文件同 sha256）",
+   "note": "同字节副本：kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py"
+  },
+  {
+   "name": "tmp_rev4_1.py",
+   "bytes": 20039,
+   "sha256": "0976b4aa4bcd7646bddde4b93a7868310b300d12f9692be0fb9cdb8558dfce66",
+   "sha16": "0976b4aa4bcd7646",
+   "dup_tracked": [
+    "kvmem/m2_visibility/m5/run_m5c2_rev4_1.py"
+   ],
+   "dup_frozen": null,
+   "human": "19.6 KiB",
+   "mtime": "1970-01-01T08:00:00",
+   "verdict": "可删但须先确认（与已入库/已冻结文件同 sha256）",
+   "note": "同字节副本：kvmem/m2_visibility/m5/run_m5c2_rev4_1.py"
+  },
+  {
+   "name": "tmp_rev5.py",
+   "bytes": 17540,
+   "sha256": "9f113de9e5e355b00acfb60f34f8da2a7feaef8dcf306f4f8ffb5006ece08651",
+   "sha16": "9f113de9e5e355b0",
+   "dup_tracked": [
+    "kvmem/m2_visibility/m5/run_m5c2_rev5_offline.py"
+   ],
+   "dup_frozen": null,
+   "human": "17.1 KiB",
+   "mtime": "1970-01-01T08:00:00",
+   "verdict": "可删但须先确认（与已入库/已冻结文件同 sha256）",
+   "note": "同字节副本：kvmem/m2_visibility/m5/run_m5c2_rev5_offline.py"
+  },
+  {
+   "name": "tmp_rev5_1.py",
+   "bytes": 11276,
+   "sha256": "26d81e2a2f14abd06001fc1d1ab4a0949d45288838994d34ef1c7b76d351acb8",
+   "sha16": "26d81e2a2f14abd0",
+   "dup_tracked": [
+    "kvmem/m2_visibility/m5/run_m5c2_rev5_1_offline.py"
+   ],
+   "dup_frozen": null,
+   "human": "11.0 KiB",
+   "mtime": "1970-01-01T08:00:00",
+   "verdict": "可删但须先确认（与已入库/已冻结文件同 sha256）",
+   "note": "同字节副本：kvmem/m2_visibility/m5/run_m5c2_rev5_1_offline.py"
+  },
+  {
+   "name": "tmp_prereg.md",
+   "bytes": 5835,
+   "sha256": "32eaf82ca56600c444f99498609977ea608f0475b23498de4ab1abc66cc6b36d",
+   "sha16": "32eaf82ca56600c4",
+   "dup_tracked": null,
+   "dup_frozen": [
+    "docs/_work/PREREG-M5-C2-REV7.md"
+   ],
+   "human": "5.7 KiB",
+   "mtime": "1970-01-01T08:00:00",
+   "verdict": "可删但须先确认（与已入库/已冻结文件同 sha256）",
+   "note": "同字节副本：docs/_work/PREREG-M5-C2-REV7.md"
+  }
+ ],
+ "repo_stray_files": [
+  {
+   "name": "_fc.log",
+   "bytes": 2372,
+   "human": "2.3 KB",
+   "note": "运行日志残留（内容可由 out/ 产物重建）"
+  },
+  {
+   "name": "_rw2.log",
+   "bytes": 6936,
+   "human": "6.8 KB",
+   "note": "运行日志残留（内容可由 out/ 产物重建）"
+  },
+  {
+   "name": "_rw3.log",
+   "bytes": 6938,
+   "human": "6.8 KB",
+   "note": "运行日志残留（内容可由 out/ 产物重建）"
+  },
+  {
+   "name": "nul",
+   "bytes": 34,
+   "human": "34 B",
+   "note": "Windows 保留名文件（git 未跟踪，删除需 \\\\?\\ 前缀）"
+  }
+ ],
+ "clean_candidates": {
+  "A_keep": [
+   "D:\\models",
+   "D:\\llama-mem（除可回收项）",
+   "D:\\DSH",
+   "D:\\llama-mem\\.git",
+   "D:\\llama-mem\\kvmem",
+   "D:\\llama-mem\\docs",
+   "D:\\llama-mem\\tools",
+   "D:\\llama-mem\\patches",
+   "D:\\llama-mem\\llama.cpp",
+   "D:\\rev7-cleanroom-20261026-205205",
+   "D:\\m5c2-chain-repro-20261026-210125",
+   "D:\\m5c2-chain-repro-20261026-210154",
+   "D:\\m5c2-freeze-verify-20261026-212752",
+   "D:\\b6-review-20261026",
+   "D:\\crashfix"
+  ],
+  "B_delete_after_confirm": [
+   "D:\\tmp_*.py/json/md（8 个，全部同 sha256 副本）",
+   "D:\\llama-mem-verify-clone",
+   "D:\\llama-mem-verify-inspector-2326",
+   "D:\\llama-mem-verify-inspector-c3b",
+   "D:\\llama-mem-stage",
+   "D:\\llama-mem-backup-2026-10-25",
+   "D:\\m3fix-tmp",
+   "D:\\m3fix-tmp-insp",
+   "D:\\compare-verify",
+   "D:\\crashdumps",
+   "D:\\kvmem",
+   "D:\\llama-mem\\llama.cpp-upstream",
+   "D:\\llama-mem\\_fc.log/_rw2.log/_rw3.log/nul"
+  ],
+  "C_delete_candidate": [
+   "D:\\c（空目录）"
+  ],
+  "D_conditional_rebuild": [
+   "D:\\llama-mem\\build-vulkan",
+   "D:\\llama-mem\\build-cpu",
+   "D:\\llama-mem\\build-cpu-patched"
+  ],
+  "D_conditional_redownload": [
+   "D:\\llama-mem\\vulkan-sdk",
+   "D:\\llama-mem\\downloads"
+  ],
+  "E_never": [
+   "D:\\models",
+   "D:\\llama-mem\\.git",
+   "D:\\llama-mem\\kvmem",
+   "D:\\llama-mem\\docs",
+   "D:\\llama-mem\\tools"
+  ]
+ },
+ "top10": [
+  {
+   "rank": 1,
+   "item": "D:\\models（2 个 GGUF）",
+   "size": "12.73 GB",
+   "role": "模型权重：复现推理必需，不可删"
+  },
+  {
+   "rank": 2,
+   "item": "D:\\llama-mem 合计",
+   "size": "8.23 GB",
+   "role": "项目主仓库（含构建/第三方/产物）"
+  },
+  {
+   "rank": 3,
+   "item": "D:\\llama-mem\\build-vulkan",
+   "size": "2.37 GiB",
+   "role": "Vulkan 构建产物：可再生（需重建时间）"
+  },
+  {
+   "rank": 4,
+   "item": "D:\\llama-mem\\kvmem",
+   "size": "1.80 GiB",
+   "role": "实验代码+全部产物：项目资产，保留"
+  },
+  {
+   "rank": 5,
+   "item": "D:\\llama-mem\\vulkan-sdk",
+   "size": "1.72 GiB",
+   "role": "第三方 SDK：可用 downloads 安装包重装"
+  },
+  {
+   "rank": 6,
+   "item": "D:\\agents",
+   "size": "1.30 GiB",
+   "role": "第三方应用（非本项目）"
+  },
+  {
+   "rank": 7,
+   "item": "D:\\DSH",
+   "size": "1.18 GiB",
+   "role": "Harness 安装（当前运行时，勿动）"
+  },
+  {
+   "rank": 8,
+   "item": "D:\\llama-mem\\tools",
+   "size": "0.93 GiB",
+   "role": "shim DLL 等工具资产，保留"
+  },
+  {
+   "rank": 9,
+   "item": "D:\\llama-mem\\build-cpu",
+   "size": "0.56 GiB",
+   "role": "CPU 构建产物：可再生"
+  },
+  {
+   "rank": 10,
+   "item": "D:\\llama-mem\\downloads",
+   "size": "0.28 GiB",
+   "role": "第三方安装包：可重下载"
+  }
+ ],
+ "reclaim_estimate": {
+  "unit_note": "所有数值均为“估算”；未执行任何删除/移动/压缩",
+  "safe_bytes": 736332,
+  "safe_human": "719.1 KiB",
+  "delete_after_confirm_bytes": 49311487,
+  "delete_after_confirm_human": "47.03 MB",
+  "session_evidence_bytes": 49242136,
+  "session_evidence_human": "46.96 MB",
+  "conditional_rebuild_bytes": 3174688436,
+  "conditional_rebuild_human": "2.96 GB",
+  "conditional_redownload_bytes": 2369949938,
+  "conditional_redownload_human": "2.21 GB",
+  "aggressive_total_bytes": 5643928142,
+  "aggressive_total_human": "5.26 GB",
+  "ranges": {
+   "safe_gb": [
+    0.0,
+    0.001
+   ],
+   "after_confirm_gb": [
+    0.0,
+    0.047
+   ],
+   "with_evidence_gb": [
+    0.0,
+    0.092
+   ],
+   "with_rebuild_gb": [
+    2.96,
+    2.96
+   ],
+   "with_redownload_gb": [
+    2.21,
+    2.21
+   ],
+   "aggressive_upper_gb": 5.26
+  },
+  "notes": [
+   "D 盘总 238.47 GiB，其中 models 12.73 GiB + llama-mem 8.23 GiB + agents/DSH 2.48 GiB ≈ 23.4 GiB，可回收空间有限",
+   "安全可回收 ≈ 0（仅 ~0.7 MB 重复 tmp_* 与散落日志/空目录）",
+   "条件可回收（需重建/重下载）≈ 5.0–5.3 GiB，其中构建产物 2.96 GiB、第三方可重下载 2.21 GiB",
+   "证据类（cleanroom/repro/freeze/b6-review 49 MB）在外部专家复核前不得删除"
+  ]
+ },
+ "risk_list": [
+  {
+   "path": "D:\\rev7-cleanroom-20261026-205205",
+   "risk": "删除会丢失 rev7 独立复现证据（4 棵树 + fail-closed 测试日志）",
+   "severity": "high",
+   "keep_until": "外部专家复核完成"
+  },
+  {
+   "path": "D:\\m5c2-chain-repro-20261026-210125 / -210154",
+   "risk": "删除会丢失 M5C2 链复现的 9 个 run 与源快照（E1–E9 可复算性的对照证据）",
+   "severity": "high",
+   "keep_until": "外部专家复核完成"
+  },
+  {
+   "path": "D:\\m5c2-freeze-verify-20261026-212752",
+   "risk": "删除会丢失“冻结后字节未变”的校验副本与 _verify_meta",
+   "severity": "high",
+   "keep_until": "外部专家复核完成"
+  },
+  {
+   "path": "D:\\b6-review-20261026",
+   "risk": "删除会丢失 B6 复核 stage1/stage2 证据（复核结论的依据）",
+   "severity": "medium",
+   "keep_until": "B6 复核归档"
+  },
+  {
+   "path": "D:\\llama-mem-verify-clone / -verify-inspector-*",
+   "risk": "删除会丢失隔离验证克隆（可 git clone 重建，但当时 HEAD 的验证上下文会丢）",
+   "severity": "medium",
+   "keep_until": "复核结论入库"
+  },
+  {
+   "path": "D:\\llama-mem\\.git",
+   "risk": "删除 = 丢失全部 git 历史（main 96eeefc / full 5574253 / 未推送的 ahead 1 提交）",
+   "severity": "critical",
+   "keep_until": "永久保留/先推远端"
+  },
+  {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out",
+   "risk": "删除会丢失 270.9 MB 原子产物（JUDGE/RATES/REV7/REV7.1 等）与账本",
+   "severity": "critical",
+   "keep_until": "永久保留"
+  },
+  {
+   "path": "D:\\llama-mem\\docs\\_work",
+   "risk": "删除会丢失 99 个冻结/草稿 md（含 PREREG 与账本）",
+   "severity": "critical",
+   "keep_until": "永久保留"
+  },
+  {
+   "path": "D:\\llama-mem\\tools",
+   "risk": "删除会丢失 GPU shim DLL（kvshim_vk.dll 50 MB），复现依赖它",
+   "severity": "high",
+   "keep_until": "永久保留"
+  },
+  {
+   "path": "D:\\models",
+   "risk": "删除后无法复跑任何需要 GGUF 的推理/生成（b5/b6 尚未跑）",
+   "severity": "high",
+   "keep_until": "项目结束"
+  },
+  {
+   "path": "D:\\llama-mem\\build-cpu* / build-vulkan",
+   "risk": "删除只损失重建时间（数十分钟到数小时）；不影响证据，但删除期间无法复跑二进制",
+   "severity": "low",
+   "keep_until": "可删（重建即可）"
+  },
+  {
+   "path": "D:\\llama-mem\\llama.cpp-upstream",
+   "risk": "与 llama.cpp 差异仅 8 个补丁文件；删除不破坏补丁（patches/ 有 patch），但失去“上游原件”对照",
+   "severity": "medium",
+   "keep_until": "确认 patches/persistent-memory.patch 可 100% 重放后再删"
+  }
+ ],
+ "findings": [
+  {
+   "id": "F01",
+   "severity": "info",
+   "text": "D 根 8 个 tmp_* 全部与已入库/已冻结文件同 sha256（tmp_audit.py=_rev7_audit.py；tmp_prereg.md=PREREG-M5-C2-REV7.md；tmp_rev7_art.json=M5C2-REV7-OFFLINE.json …）⇒ 可删但须先确认，证据已在仓库"
+  },
+  {
+   "id": "F02",
+   "severity": "info",
+   "text": "rev7-cleanroom / chain-repro / freeze-verify / b6-review 均为本会话 20:00 后产生的“证据目录”，合计 49.2 MB；专家复核前不得删"
+  },
+  {
+   "id": "F03",
+   "severity": "info",
+   "text": "D:\\kvmem（187 B，仅 lease_logs/guard_disabled.jsonl）与 D:\\c（空目录）是误落/误建：可删候选"
+  },
+  {
+   "id": "F04",
+   "severity": "info",
+   "text": "llama.cpp 与 llama.cpp-upstream 仅差 8 个补丁源文件（llama-kv-cache.h/.cpp、llama-memory.h、llama-kv-cells.h 等）+ .git 元数据；upstream 是未打补丁镜像（可删，重取成本低，但会失去原件对照）"
+  },
+  {
+   "id": "F05",
+   "severity": "info",
+   "text": "仓库根有 Windows 保留名文件 nul（34 B，git 未跟踪，普通 open 会命中 NUL 设备；删除需 \\\\?\\ 前缀）与 _fc/_rw2/_rw3 日志残留"
+  },
+  {
+   "id": "F06",
+   "severity": "info",
+   "text": "D 盘可回收空间有限：安全可回收≈0，条件可回收（重建/重下载）≈5.0–5.3 GiB；真正占地的是 models 12.73 GiB（不可删）"
+  },
+  {
+   "id": "F07",
+   "severity": "info",
+   "text": "本会话审计写入导致基线漂移：docs/_work md 96→99、kvmem json 1294→1297、llama-mem 体积 +~0.1 GiB（均为账本/证据文件，非异常）"
+  }
+ ],
+ "summary": {
+  "disk_used_human": "23.96 GiB (25.73 GB 十进制)",
+  "disk_free_human": "214.51 GiB (230.33 GB 十进制)",
+  "root_items": 30,
+  "llama_mem_items": 27,
+  "temp_items": 17,
+  "tmp_stray_files": 8,
+  "stray_repo_files": 4,
+  "top_categories": {
+   "项目资产（模型权重）": 13671183744,
+   "项目仓库（含构建产物）": 8833656195,
+   "第三方应用（非本项目）": 2660606184,
+   "本会话证据（链复现）": 26386987,
+   "验证克隆（证据）": 24478956,
+   "诊断资产": 22320029,
+   "本会话证据（冻结复核）": 12930122,
+   "本会话证据（cleanroom）": 9864806,
+   "项目备份": 1707063,
+   "散落临时（历史）": 849370,
+   "本会话证据（B6 复核）": 60221,
+   "散落临时": 16466,
+   "系统": 129,
+   "未知": 0
+  },
+  "reclaim_safe": "719.1 KiB",
+  "reclaim_after_confirm": "47.03 MB",
+  "reclaim_with_evidence": "93.99 MB",
+  "reclaim_rebuild": "2.96 GB",
+  "reclaim_redownload": "2.21 GB",
+  "reclaim_aggressive_upper": "5.26 GB",
+  "evidence_must_keep": "46.96 MB",
+  "delete_no_move": true,
+  "read_only_run": true
+ }
+}

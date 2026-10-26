@@ -1,0 +1,4024 @@
+{
+ "schema": "m5c2_doc_hash_ledger_v1",
+ "generated_at": "2026-10-26T21:18:35+08:00",
+ "auditor": "doc-ledger (teammate)",
+ "purpose": "把 M5-C2 文档里每条哈希引用/关键数字落到真实文件与真实数据；判定 match / stale_reconstructible / stale_unresolved / unverifiable。只读审计，未改任何被审文件。",
+ "workspace": "D:\\llama-mem",
+ "repo_state": {
+  "branch": "main",
+  "head": "96eeefc",
+  "full_branch_head": "5574253",
+  "note": "docs/ 只在 full 分支且工作区为同内容（B4/B5/REV6/REV7/B2EVAL/REV4-1 逐字节比对通过）；out/ 产物 main 已跟踪"
+ },
+ "method": {
+  "hash": "sha256(bytes)[:16]，按工作区原始字节（不归一换行/编码）",
+  "citation_extract": "正则 (?<![0-9a-f])[0-9a-f]{16}|[0-9a-f]{8}(?![0-9a-f])；带行号+上下文",
+  "target_resolution": "同行/前两行文件名 → 按哈希命中选目标；其次全树内容哈希唯一命中；再次 (b2)/(b4)/(b5)/rev6/rev7 别名；最后最近左侧文件名（用于 stale 归因）",
+  "stale_reconstruction": "① 当前文件在任意行边界截断 × {raw, rstrip, rstrip+\\n, CRLF} 变体；② git rev-list --all --objects 的全部 blob 重算；③ 归档草稿；④ 二进制内容哈希全树查找",
+  "numbers": "从产物 JSON 复算（不采信文档转述）；4-gram/覆盖率/结构类按文档写明的口径本地重算",
+  "discipline": "只读；未改任何已有文件；未 git 提交；零 GPU/零模型/零联网；未读 b5 运行数据"
+ },
+ "scope": {
+  "sources": [
+   "docs/_work/PREREG-M5-B2.md",
+   "docs/_work/PREREG-M5-C2-B2EVAL.md",
+   "docs/_work/PREREG-M5-C2-B4.md",
+   "docs/_work/PREREG-M5-C2-B5.md",
+   "docs/_work/PREREG-M5-C2-B6.md",
+   "docs/_work/PREREG-M5-C2-FLOOR-REV2.md",
+   "docs/_work/PREREG-M5-C2-FLOOR.md",
+   "docs/_work/PREREG-M5-C2-ORDER.md",
+   "docs/_work/PREREG-M5-C2-R2.md",
+   "docs/_work/PREREG-M5-C2-REV4-1.md",
+   "docs/_work/PREREG-M5-C2-REV4.md",
+   "docs/_work/PREREG-M5-C2-REV5.md",
+   "docs/_work/PREREG-M5-C2-REV6-1.md",
+   "docs/_work/PREREG-M5-C2-REV6.md",
+   "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "docs/_work/PREREG-M5-C2-REV7.md",
+   "docs/_work/PREREG-M5-C2-SEMANTIC.md",
+   "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "kvmem/m2_visibility/m5/out/M5B4-RATES.md",
+   "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.md",
+   "README.md"
+  ],
+  "missing_scope_items": [
+   "docs/_work/INSPECTOR-M5C2-REV7.1.md（不存在）"
+  ],
+  "note": "PREREG-M5-C2-REV7.1.md 为审计期内出现、并于 2026-10-26T21:06:55 冻结的更正件（frozen=true）；PREREG-M5-C2-B6.md 于 21:07 出现、21:16:37 冻结。本账本所有哈希/行号均为截至 2026-10-26T21:18:35+08:00 的单次快照",
+  "rev7_1_snapshot": {
+   "path": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "sha16": "09d6f1b163ea0b84",
+   "bytes": 16313,
+   "mtime": "2026-10-26T21:07:03+08:00",
+   "frozen": true,
+   "frozen_at": "2026-10-26T21:06:55+08:00",
+   "note": "LEDGER 快照于 21:07:03 读取；文件随后于 21:07:27 前落盘重跑产物 55191eaf / 510,508 B。frozen=true 由原件头注 `frozen_at=2026-10-26T21:06:55+08:00` 证实。"
+  }
+ },
+ "file_state": {
+  "docs/_work/PREREG-M5-B2.md": {
+   "sha16": "482a94820917d16e",
+   "bytes": 12695,
+   "mtime": "2026-10-26T14:16:16+08:00"
+  },
+  "docs/_work/PREREG-M5-C2-B2EVAL.md": {
+   "sha16": "6b0d750abbd06b1b",
+   "bytes": 4113,
+   "mtime": "2026-10-26T17:18:48+08:00"
+  },
+  "docs/_work/PREREG-M5-C2-B4.md": {
+   "sha16": "f30d89e30262b148",
+   "bytes": 10910,
+   "mtime": "2026-10-26T17:59:27+08:00"
+  },
+  "docs/_work/PREREG-M5-C2-B5.md": {
+   "sha16": "d6c7bdac73ef7326",
+   "bytes": 14597,
+   "mtime": "2026-10-26T19:54:15+08:00"
+  },
+  "docs/_work/PREREG-M5-C2-B6.md": {
+   "sha16": "ac27d47d3a3efff9",
+   "bytes": 17374,
+   "mtime": "2026-10-26T21:16:37+08:00"
+  },
+  "docs/_work/PREREG-M5-C2-FLOOR-REV2.md": {
+   "sha16": "54faca9edb3a8daf",
+   "bytes": 6173,
+   "mtime": "2026-10-26T16:25:02+08:00"
+  },
+  "docs/_work/PREREG-M5-C2-FLOOR.md": {
+   "sha16": "dfc36bece621f871",
+   "bytes": 7242,
+   "mtime": "2026-10-26T15:57:33+08:00"
+  },
+  "docs/_work/PREREG-M5-C2-ORDER.md": {
+   "sha16": "fb0da1b792004fa2",
+   "bytes": 5453,
+   "mtime": "2026-10-26T16:26:12+08:00"
+  },
+  "docs/_work/PREREG-M5-C2-R2.md": {
+   "sha16": "d4ab619b59bfe6fb",
+   "bytes": 5830,
+   "mtime": "2026-10-26T15:34:51+08:00"
+  },
+  "docs/_work/PREREG-M5-C2-REV4-1.md": {
+   "sha16": "69c8d48ea026c50a",
+   "bytes": 6201,
+   "mtime": "2026-10-26T17:12:28+08:00"
+  },
+  "docs/_work/PREREG-M5-C2-REV4.md": {
+   "sha16": "be618108a82c2f42",
+   "bytes": 6996,
+   "mtime": "2026-10-26T17:01:01+08:00"
+  },
+  "docs/_work/PREREG-M5-C2-REV5.md": {
+   "sha16": "81a5bb3ea4df642e",
+   "bytes": 4807,
+   "mtime": "2026-10-26T17:49:24+08:00"
+  },
+  "docs/_work/PREREG-M5-C2-REV6-1.md": {
+   "sha16": "2696b94381585fb9",
+   "bytes": 6069,
+   "mtime": "2026-10-26T19:16:13+08:00"
+  },
+  "docs/_work/PREREG-M5-C2-REV6.md": {
+   "sha16": "faaf2605116bb594",
+   "bytes": 5773,
+   "mtime": "2026-10-26T19:12:45+08:00"
+  },
+  "docs/_work/PREREG-M5-C2-REV7.1.md": {
+   "sha16": "09d6f1b163ea0b84",
+   "bytes": 16313,
+   "mtime": "2026-10-26T21:07:03+08:00"
+  },
+  "docs/_work/PREREG-M5-C2-REV7.md": {
+   "sha16": "32eaf82ca56600c4",
+   "bytes": 5835,
+   "mtime": "2026-10-26T19:53:25+08:00"
+  },
+  "docs/_work/PREREG-M5-C2-SEMANTIC.md": {
+   "sha16": "4fc889483d4f49b3",
+   "bytes": 7115,
+   "mtime": "2026-10-26T15:05:27+08:00"
+  },
+  "docs/_work/INSPECTOR-M5C2-REV7.md": {
+   "sha16": "e5c8e17c8de0d553",
+   "bytes": 19360,
+   "mtime": "2026-10-26T20:28:35+08:00"
+  },
+  "kvmem/m2_visibility/m5/out/M5B4-RATES.md": {
+   "sha16": "661f44ceb9db6dac",
+   "bytes": 5401,
+   "mtime": "2026-10-26T18:51:42+08:00"
+  },
+  "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.md": {
+   "sha16": "f3562a624c1f927f",
+   "bytes": 4694,
+   "mtime": "2026-10-26T18:56:06+08:00"
+  },
+  "README.md": {
+   "sha16": "b7012ae73ebcc416",
+   "bytes": 25583,
+   "mtime": "2026-10-26T19:03:55+08:00"
+  },
+  "kvmem/m2_visibility/m5/out/M5C2-B6-SENTENCES.json": {
+   "sha16": "23588ec099ca9255",
+   "bytes": 9482,
+   "mtime": "2026-10-26T21:16:37+08:00"
+  }
+ },
+ "moving_target": {
+  "note": "本账本对活文件采用“单次快照”口径：先一次性读取字节，之后所有哈希/行号/引用判定都基于该快照，避免边改边审的不一致。",
+  "files": [
+   {
+    "file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+    "observed": [
+     {
+      "sha16": "370b6fcfa40479e3",
+      "bytes": 15193,
+      "mtime": "2026-10-26T20:58:50+08:00",
+      "state": "草稿(frozen=false)：§0 归因表仍是 N1=4 / “与上重叠 1 例”；正文已写“实测四门槛”但无产物"
+     },
+     {
+      "sha16": "09d6f1b163ea0b84",
+      "bytes": 16313,
+      "mtime": "2026-10-26T21:07:03+08:00",
+      "state": "frozen=true@2026-10-26T21:06:55（LEAD 复核通过）：N1 已改 3、“与上重叠”已改为“N3 未修好”；补充变更留痕表"
+     },
+     {
+      "sha16": "09d6f1b163ea0b84",
+      "bytes": 16313,
+      "mtime": "2026-10-26T21:07:03+08:00",
+      "state": "本账本快照"
+     }
+    ]
+   },
+   {
+    "file": "docs/_work/PREREG-M5-C2-B6.md",
+    "observed": [
+     {
+      "sha16": "d5604a8b7e64473d",
+      "bytes": 16637,
+      "mtime": "2026-10-26T21:07:00+08:00",
+      "state": "草稿：md 自钉 920333f2（按自身“剔除互引行”口径不可复算）；4-gram 报 b4=1/b5=1"
+     },
+     {
+      "sha16": "b6538e3cdca77bd1",
+      "bytes": 15434,
+      "mtime": "2026-10-26T21:10:32+08:00",
+      "state": "草稿：自钉改 9c256c16；4-gram 改 0/0/0"
+     },
+     {
+      "sha16": "d7b797bc5281b3cc",
+      "bytes": 17051,
+      "mtime": "2026-10-26T21:13:52+08:00",
+      "state": "草稿：改为“零自指”设计 —— md 内不再记录自身/json 哈希，改由 json.prereg_sha16 记 md 全文件哈希（可复算）"
+     },
+     {
+      "sha16": "ac27d47d3a3efff9",
+      "bytes": 17374,
+      "mtime": "2026-10-26T21:16:37+08:00",
+      "state": "frozen=true（LEAD 冻结）：json.prereg_sha16 = md sha16 = ac27d47d，零自指且可复算"
+     },
+     {
+      "sha16": "ac27d47d3a3efff9",
+      "bytes": 17374,
+      "mtime": "2026-10-26T21:16:37+08:00",
+      "state": "本账本快照（B6 已 frozen=true；json.prereg_sha16 = md sha16，可复算；一致性见 numbers N37/N42/N43）"
+     }
+    ]
+   }
+  ]
+ },
+ "citations": [
+  {
+   "id": "C001",
+   "source_file": "docs/_work/PREREG-M5-B2.md",
+   "line": 6,
+   "hex": "cc03e48c360ae0ee",
+   "hex_len": 16,
+   "context": "**判据**：v2.3 冻结件 `m5_ground_v2_3.py cc03e48c360ae0ee / 44,209 B`；θ=0.20 固档；`known_fp` 控制项 10/10 单列不进两率。",
+   "cited_target_name": "m5_ground_v2_3.py",
+   "target_path": "kvmem/m2_visibility/m5/m5_ground_v2_3.py",
+   "actual_sha16": "cc03e48c360ae0ee",
+   "actual_bytes": 44209,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C002",
+   "source_file": "docs/_work/PREREG-M5-B2.md",
+   "line": 10,
+   "hex": "8102950d9de660be",
+   "hex_len": 16,
+   "context": "- b rev1（`PREREG-M5-B.md 8102950d9de660be`）**失败于样本量设计**：16 题 × `n_predict=192`，实际每题只出 **~4.6 非空句** ⇒ 非空句 **74**（含纯标签 80）**< 150 硬门槛** ⇒ 记 `未接上（样本量不足）`，**未做验收盲标、未算两率**。",
+   "cited_target_name": "PREREG-M5-B.md",
+   "target_path": "docs/_work/PREREG-M5-B.md",
+   "actual_sha16": "8102950d9de660be",
+   "actual_bytes": 12053,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C003",
+   "source_file": "docs/_work/PREREG-M5-B2.md",
+   "line": 92,
+   "hex": "cc03e48c360ae0ee",
+   "hex_len": 16,
+   "context": "- 判据 = **v2.3 冻结件** `cc03e48c360ae0ee/44,209`；θ=0.20 固档；`known_fp` 10/10 单列不进两率。",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/m5_ground_v2_3.py",
+   "actual_sha16": "cc03e48c360ae0ee",
+   "actual_bytes": 44209,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C004",
+   "source_file": "docs/_work/PREREG-M5-B2.md",
+   "line": 127,
+   "hex": "5e11e1ac06f022c7",
+   "hex_len": 16,
+   "context": "| `m5_ground_v2.py`（v2.1，冻结） | `5e11e1ac06f022c7` / 66,413 |",
+   "cited_target_name": "m5_ground_v2.py",
+   "target_path": "kvmem/m2_visibility/m5/m5_ground_v2.py",
+   "actual_sha16": "5e11e1ac06f022c7",
+   "actual_bytes": 66413,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C005",
+   "source_file": "docs/_work/PREREG-M5-B2.md",
+   "line": 128,
+   "hex": "5a3f12f2a742a864",
+   "hex_len": 16,
+   "context": "| `PREREG-M5-JUDGE-v2.3.md` | `5a3f12f2a742a864` / 10,394 |",
+   "cited_target_name": "PREREG-M5-JUDGE-v2.3.md",
+   "target_path": "docs/_work/PREREG-M5-JUDGE-v2.3.md",
+   "actual_sha16": "5a3f12f2a742a864",
+   "actual_bytes": 10394,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C006",
+   "source_file": "docs/_work/PREREG-M5-B2.md",
+   "line": 129,
+   "hex": "cc03e48c360ae0ee",
+   "hex_len": 16,
+   "context": "| `m5_ground_v2_3.py`（v2.3 判据，冻结） | `cc03e48c360ae0ee` / 44,209 |",
+   "cited_target_name": "m5_ground_v2_3.py",
+   "target_path": "kvmem/m2_visibility/m5/m5_ground_v2_3.py",
+   "actual_sha16": "cc03e48c360ae0ee",
+   "actual_bytes": 44209,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C007",
+   "source_file": "docs/_work/PREREG-M5-B2.md",
+   "line": 130,
+   "hex": "8102950d9de660be",
+   "hex_len": 16,
+   "context": "| `PREREG-M5-B.md`（b rev1，`未接上（样本量不足）`） | `8102950d9de660be` / 12,053 |",
+   "cited_target_name": "PREREG-M5-B.md",
+   "target_path": "docs/_work/PREREG-M5-B.md",
+   "actual_sha16": "8102950d9de660be",
+   "actual_bytes": 12053,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C008",
+   "source_file": "docs/_work/PREREG-M5-B2.md",
+   "line": 131,
+   "hex": "0d882f20987fea70",
+   "hex_len": 16,
+   "context": "| `M5C-36-adj.json`（(c) ADJ 盲标） | `0d882f20987fea70` / 60,432 |",
+   "cited_target_name": "M5C-36-adj.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5C-36-adj.json",
+   "actual_sha16": "0d882f20987fea70",
+   "actual_bytes": 60432,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C009",
+   "source_file": "docs/_work/PREREG-M5-B2.md",
+   "line": 132,
+   "hex": "60fedd7d4bbf0556",
+   "hex_len": 16,
+   "context": "| `LEAD-M5-C-ADJUDICATION.md`（(c) 裁决） | `60fedd7d4bbf0556` / 10,023 |",
+   "cited_target_name": "LEAD-M5-C-ADJUDICATION.md",
+   "target_path": "docs/_work/LEAD-M5-C-ADJUDICATION.md",
+   "actual_sha16": "60fedd7d4bbf0556",
+   "actual_bytes": 10023,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C010",
+   "source_file": "docs/_work/PREREG-M5-C2-B2EVAL.md",
+   "line": 4,
+   "hex": "69c8d48ea026c50a",
+   "hex_len": 16,
+   "context": "> 前置：`PREREG-M5-C2-REV4-1.md 69c8d48ea026c50a`（`rev4_1_ok=true`）、`JUDGE-ROBUSTNESS-SPEC.md 5ad46f8efb762c6d`",
+   "cited_target_name": "PREREG-M5-C2-REV4-1.md",
+   "target_path": "docs/_work/PREREG-M5-C2-REV4-1.md",
+   "actual_sha16": "69c8d48ea026c50a",
+   "actual_bytes": 6201,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C011",
+   "source_file": "docs/_work/PREREG-M5-C2-B2EVAL.md",
+   "line": 4,
+   "hex": "5ad46f8efb762c6d",
+   "hex_len": 16,
+   "context": "> 前置：`PREREG-M5-C2-REV4-1.md 69c8d48ea026c50a`（`rev4_1_ok=true`）、`JUDGE-ROBUSTNESS-SPEC.md 5ad46f8efb762c6d`",
+   "cited_target_name": "JUDGE-ROBUSTNESS-SPEC.md",
+   "target_path": "docs/_work/JUDGE-ROBUSTNESS-SPEC.md",
+   "actual_sha16": "5ad46f8efb762c6d",
+   "actual_bytes": 8555,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C012",
+   "source_file": "docs/_work/PREREG-M5-C2-B2EVAL.md",
+   "line": 25,
+   "hex": "5ad46f8efb762c6d",
+   "hex_len": 16,
+   "context": "- 第 0 层确定性前置（空源文 / 弃答核查，见 `JUDGE-ROBUSTNESS-SPEC.md 5ad46f8efb762c6d` §2）",
+   "cited_target_name": "JUDGE-ROBUSTNESS-SPEC.md",
+   "target_path": "docs/_work/JUDGE-ROBUSTNESS-SPEC.md",
+   "actual_sha16": "5ad46f8efb762c6d",
+   "actual_bytes": 8555,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C013",
+   "source_file": "docs/_work/PREREG-M5-C2-B2EVAL.md",
+   "line": 26,
+   "hex": "be618108a82c2f42",
+   "hex_len": 16,
+   "context": "- 第 1 层模型抽取：prompt 逐字 = `PREREG-M5-C2-REV4.md be618108a82c2f42` §1 第 1 层（`prompt_sha16` 须 = `a6bc4f268f7711de`）",
+   "cited_target_name": "PREREG-M5-C2-REV4.md",
+   "target_path": "docs/_work/PREREG-M5-C2-REV4.md",
+   "actual_sha16": "be618108a82c2f42",
+   "actual_bytes": 6996,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C014",
+   "source_file": "docs/_work/PREREG-M5-C2-B2EVAL.md",
+   "line": 26,
+   "hex": "a6bc4f268f7711de",
+   "hex_len": 16,
+   "context": "- 第 1 层模型抽取：prompt 逐字 = `PREREG-M5-C2-REV4.md be618108a82c2f42` §1 第 1 层（`prompt_sha16` 须 = `a6bc4f268f7711de`）",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/run_m5c2_rev4.py#REV4_TEMPLATE",
+   "actual_sha16": "a6bc4f268f7711de",
+   "actual_bytes": null,
+   "verdict": "match",
+   "resolution_method": "prompt_template_recompute",
+   "note": "不是文件哈希，而是抽取 prompt 模板的 sha16；已从 run_m5c2_rev4.py 的 REV4_TEMPLATE 字面量重算",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C015",
+   "source_file": "docs/_work/PREREG-M5-C2-B2EVAL.md",
+   "line": 28,
+   "hex": "9edbafa150700614",
+   "hex_len": 16,
+   "context": "- 生成：`temperature=0`、`n_predict=384`、不挂 grammar、独立前向、`dll=kvshim_vk 9edbafa150700614`",
+   "cited_target_name": null,
+   "target_path": "tools/kvshim_vk.dll",
+   "actual_sha16": "9edbafa150700614",
+   "actual_bytes": 50007552,
+   "verdict": "match",
+   "resolution_method": "dll_prefix_recompute",
+   "note": "不是文档/产物哈希，而是 GPU shim DLL 的 sha256 前缀；tools/kvshim_vk.dll 现字节即此值",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C016",
+   "source_file": "docs/_work/PREREG-M5-C2-B2EVAL.md",
+   "line": 32,
+   "hex": "6529e151568dc593",
+   "hex_len": 16,
+   "context": "来源：`M5B2-SENTENCES.json 6529e151568dc593`（510 句）+ 金标 `M5B2-LEAD-RULING.json 65a2124b73f17d53`（`71/35/385/19`）。",
+   "cited_target_name": "M5B2-SENTENCES.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B2-SENTENCES.json",
+   "actual_sha16": "6529e151568dc593",
+   "actual_bytes": 78825,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C017",
+   "source_file": "docs/_work/PREREG-M5-C2-B2EVAL.md",
+   "line": 32,
+   "hex": "65a2124b73f17d53",
+   "hex_len": 16,
+   "context": "来源：`M5B2-SENTENCES.json 6529e151568dc593`（510 句）+ 金标 `M5B2-LEAD-RULING.json 65a2124b73f17d53`（`71/35/385/19`）。",
+   "cited_target_name": "M5B2-LEAD-RULING.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B2-LEAD-RULING.json",
+   "actual_sha16": "65a2124b73f17d53",
+   "actual_bytes": 4192,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C018",
+   "source_file": "docs/_work/PREREG-M5-C2-B4.md",
+   "line": 6,
+   "hex": "482a9482",
+   "hex_len": 8,
+   "context": "**坐标**：`PREREG-M5-B2.md 482a9482`（(b2) 原题面）；`M5B2-LEAD-RULING.json 65a2124b` / 4,192 B（盲标边界来源）。",
+   "cited_target_name": "PREREG-M5-B2.md",
+   "target_path": "docs/_work/PREREG-M5-B2.md",
+   "actual_sha16": "482a94820917d16e",
+   "actual_bytes": 12695,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C019",
+   "source_file": "docs/_work/PREREG-M5-C2-B4.md",
+   "line": 6,
+   "hex": "65a2124b",
+   "hex_len": 8,
+   "context": "**坐标**：`PREREG-M5-B2.md 482a9482`（(b2) 原题面）；`M5B2-LEAD-RULING.json 65a2124b` / 4,192 B（盲标边界来源）。",
+   "cited_target_name": "M5B2-LEAD-RULING.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B2-LEAD-RULING.json",
+   "actual_sha16": "65a2124b73f17d53",
+   "actual_bytes": 4192,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C020",
+   "source_file": "docs/_work/PREREG-M5-C2-B4.md",
+   "line": 91,
+   "hex": "9edbafa150700614",
+   "hex_len": 16,
+   "context": "- 模型/几何：14B Q4_K_M、36 层、`n_ctx=8192`、`N_SEQ=8`、`kv=q8_0`、`CHAT_START=4096`、`dll=kvshim_vk 9edbafa150700614`。",
+   "cited_target_name": null,
+   "target_path": "tools/kvshim_vk.dll",
+   "actual_sha16": "9edbafa150700614",
+   "actual_bytes": 50007552,
+   "verdict": "match",
+   "resolution_method": "dll_prefix_recompute",
+   "note": "不是文档/产物哈希，而是 GPU shim DLL 的 sha256 前缀；tools/kvshim_vk.dll 现字节即此值",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C021",
+   "source_file": "docs/_work/PREREG-M5-C2-B4.md",
+   "line": 104,
+   "hex": "65a2124b",
+   "hex_len": 8,
+   "context": "- 边界**逐字沿用 (b2)**（`M5B2-LEAD-RULING.json 65a2124b`）：`fabricated` = 句子主张了源文没有的**具体信息**（具体值/清单/承诺/属性）；`no_fact` = 句子不含具体信息（程序性建议/元叙述/泛泛而谈）；`undecidable` = 截断/指代不明。",
+   "cited_target_name": "M5B2-LEAD-RULING.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B2-LEAD-RULING.json",
+   "actual_sha16": "65a2124b73f17d53",
+   "actual_bytes": 4192,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C022",
+   "source_file": "docs/_work/PREREG-M5-C2-B4.md",
+   "line": 132,
+   "hex": "6f41f3d6ee318587",
+   "hex_len": 16,
+   "context": "- 归档：复核前存在一版非作者草稿，已原样存于 `docs/_work/_archive/PREREG-M5-C2-B4.draft-2026-10-26-before-analyst.md` = `6f41f3d6ee318587` / 7,823 B（未删除，仅归档）。",
+   "cited_target_name": "PREREG-M5-C2-B4.draft-2026-10-26-before-analyst.md",
+   "target_path": "docs/_work/_archive/PREREG-M5-C2-B4.draft-2026-10-26-before-analyst.md",
+   "actual_sha16": "6f41f3d6ee318587",
+   "actual_bytes": 7823,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C023",
+   "source_file": "docs/_work/PREREG-M5-C2-B5.md",
+   "line": 6,
+   "hex": "482a9482",
+   "hex_len": 8,
+   "context": "**坐标**：`PREREG-M5-B2.md 482a9482`（(b2) 原题面）；`PREREG-M5-C2-B4.md e9a88fda`（(b4) 原题面）；`M5B2-LEAD-RULING.json 65a2124b` / 4,192 B（盲标边界来源）。",
+   "cited_target_name": "PREREG-M5-B2.md",
+   "target_path": "docs/_work/PREREG-M5-B2.md",
+   "actual_sha16": "482a94820917d16e",
+   "actual_bytes": 12695,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C024",
+   "source_file": "docs/_work/PREREG-M5-C2-B5.md",
+   "line": 6,
+   "hex": "e9a88fda",
+   "hex_len": 8,
+   "context": "**坐标**：`PREREG-M5-B2.md 482a9482`（(b2) 原题面）；`PREREG-M5-C2-B4.md e9a88fda`（(b4) 原题面）；`M5B2-LEAD-RULING.json 65a2124b` / 4,192 B（盲标边界来源）。",
+   "cited_target_name": "PREREG-M5-C2-B4.md",
+   "target_path": "docs/_work/PREREG-M5-C2-B4.md",
+   "actual_sha16": "f30d89e30262b148",
+   "actual_bytes": 10910,
+   "verdict": "stale_unresolved",
+   "resolution_method": "forced_b4_by_value_context",
+   "note": "B5 引用的 B4 哈希：当前 B4、归档草稿、全部 git blob、各种截断/换行变体均不等于此值；REV6 同一 B4 引的是当前值 f30d89e3",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C025",
+   "source_file": "docs/_work/PREREG-M5-C2-B5.md",
+   "line": 6,
+   "hex": "65a2124b",
+   "hex_len": 8,
+   "context": "**坐标**：`PREREG-M5-B2.md 482a9482`（(b2) 原题面）；`PREREG-M5-C2-B4.md e9a88fda`（(b4) 原题面）；`M5B2-LEAD-RULING.json 65a2124b` / 4,192 B（盲标边界来源）。",
+   "cited_target_name": "M5B2-LEAD-RULING.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B2-LEAD-RULING.json",
+   "actual_sha16": "65a2124b73f17d53",
+   "actual_bytes": 4192,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C026",
+   "source_file": "docs/_work/PREREG-M5-C2-B5.md",
+   "line": 91,
+   "hex": "9edbafa150700614",
+   "hex_len": 16,
+   "context": "- 模型/几何：14B Q4_K_M、36 层、`n_ctx=8192`、`N_SEQ=8`、`kv=q8_0`、`CHAT_START=4096`、`dll=kvshim_vk 9edbafa150700614`。",
+   "cited_target_name": null,
+   "target_path": "tools/kvshim_vk.dll",
+   "actual_sha16": "9edbafa150700614",
+   "actual_bytes": 50007552,
+   "verdict": "match",
+   "resolution_method": "dll_prefix_recompute",
+   "note": "不是文档/产物哈希，而是 GPU shim DLL 的 sha256 前缀；tools/kvshim_vk.dll 现字节即此值",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C027",
+   "source_file": "docs/_work/PREREG-M5-C2-B5.md",
+   "line": 104,
+   "hex": "65a2124b",
+   "hex_len": 8,
+   "context": "- 边界**逐字沿用 (b2)**（`M5B2-LEAD-RULING.json 65a2124b`）：`fabricated` = 句子主张了源文没有的**具体信息**（具体值/清单/承诺/属性）；`no_fact` = 句子不含具体信息（程序性建议/元叙述/泛泛而谈）；`undecidable` = 截断/指代不明。",
+   "cited_target_name": "M5B2-LEAD-RULING.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B2-LEAD-RULING.json",
+   "actual_sha16": "65a2124b73f17d53",
+   "actual_bytes": 4192,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C028",
+   "source_file": "docs/_work/PREREG-M5-C2-B5.md",
+   "line": 146,
+   "hex": "a6bc4f268f7711de",
+   "hex_len": 16,
+   "context": "- **抽取层 = rev5.1 prompt**（`a6bc4f268f7711de`）",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/run_m5c2_rev4.py#REV4_TEMPLATE",
+   "actual_sha16": "a6bc4f268f7711de",
+   "actual_bytes": null,
+   "verdict": "match",
+   "resolution_method": "prompt_template_recompute",
+   "note": "不是文件哈希，而是抽取 prompt 模板的 sha16；已从 run_m5c2_rev4.py 的 REV4_TEMPLATE 字面量重算",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C029",
+   "source_file": "docs/_work/PREREG-M5-C2-B5.md",
+   "line": 147,
+   "hex": "32eaf82ca56600c4",
+   "hex_len": 16,
+   "context": "- **判定层 = rev7**（`PREREG-M5-C2-REV7.md 32eaf82ca56600c4`：N1 数值归一化 / N2 R1 值域收窄 / N3 条目原子性门 / N4 缺席词作用域）",
+   "cited_target_name": "PREREG-M5-C2-REV7.md",
+   "target_path": "docs/_work/PREREG-M5-C2-REV7.md",
+   "actual_sha16": "32eaf82ca56600c4",
+   "actual_bytes": 5835,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C030",
+   "source_file": "docs/_work/PREREG-M5-C2-B5.md",
+   "line": 148,
+   "hex": "faaf2605116bb594",
+   "hex_len": 16,
+   "context": "- **`PREREG-M5-C2-REV6.md faaf2605116bb594` 的抽取 prompt 永久排除**：其逐字率 98.45%→90.88%、漏判 4→6、`parse_fail` 1→3，已判 `not_adopted`；**不得**用于 `(b5)`，也不得与 rev5.1 prompt 混合",
+   "cited_target_name": "PREREG-M5-C2-REV6.md",
+   "target_path": "docs/_work/PREREG-M5-C2-REV6.md",
+   "actual_sha16": "faaf2605116bb594",
+   "actual_bytes": 5773,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C031",
+   "source_file": "docs/_work/PREREG-M5-C2-B6.md",
+   "line": 6,
+   "hex": "482a94820917d16e",
+   "hex_len": 16,
+   "context": "**坐标**（sha16 = sha256 前 16 位，本件生成时实测）：`PREREG-M5-B2.md 482a94820917d16e`；(b4) 原题面 `PREREG-M5-C2-B4.md f30d89e30262b148`；(b5) 原题面 `PREREG-M5-C2-B5.md d6c7bdac73ef7326`（B5 文内自引的 b4 值 `e9a88fda` 为更早版本，以本件实测为准）。",
+   "cited_target_name": "PREREG-M5-B2.md",
+   "target_path": "docs/_work/PREREG-M5-B2.md",
+   "actual_sha16": "482a94820917d16e",
+   "actual_bytes": 12695,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C032",
+   "source_file": "docs/_work/PREREG-M5-C2-B6.md",
+   "line": 6,
+   "hex": "f30d89e30262b148",
+   "hex_len": 16,
+   "context": "**坐标**（sha16 = sha256 前 16 位，本件生成时实测）：`PREREG-M5-B2.md 482a94820917d16e`；(b4) 原题面 `PREREG-M5-C2-B4.md f30d89e30262b148`；(b5) 原题面 `PREREG-M5-C2-B5.md d6c7bdac73ef7326`（B5 文内自引的 b4 值 `e9a88fda` 为更早版本，以本件实测为准）。",
+   "cited_target_name": "PREREG-M5-C2-B4.md",
+   "target_path": "docs/_work/PREREG-M5-C2-B4.md",
+   "actual_sha16": "f30d89e30262b148",
+   "actual_bytes": 10910,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C033",
+   "source_file": "docs/_work/PREREG-M5-C2-B6.md",
+   "line": 6,
+   "hex": "d6c7bdac73ef7326",
+   "hex_len": 16,
+   "context": "**坐标**（sha16 = sha256 前 16 位，本件生成时实测）：`PREREG-M5-B2.md 482a94820917d16e`；(b4) 原题面 `PREREG-M5-C2-B4.md f30d89e30262b148`；(b5) 原题面 `PREREG-M5-C2-B5.md d6c7bdac73ef7326`（B5 文内自引的 b4 值 `e9a88fda` 为更早版本，以本件实测为准）。",
+   "cited_target_name": "PREREG-M5-C2-B5.md",
+   "target_path": "docs/_work/PREREG-M5-C2-B5.md",
+   "actual_sha16": "d6c7bdac73ef7326",
+   "actual_bytes": 14597,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C034",
+   "source_file": "docs/_work/PREREG-M5-C2-B6.md",
+   "line": 6,
+   "hex": "e9a88fda",
+   "hex_len": 8,
+   "context": "**坐标**（sha16 = sha256 前 16 位，本件生成时实测）：`PREREG-M5-B2.md 482a94820917d16e`；(b4) 原题面 `PREREG-M5-C2-B4.md f30d89e30262b148`；(b5) 原题面 `PREREG-M5-C2-B5.md d6c7bdac73ef7326`（B5 文内自引的 b4 值 `e9a88fda` 为更早版本，以本件实测为准）。",
+   "cited_target_name": "PREREG-M5-C2-B4.md",
+   "target_path": "docs/_work/PREREG-M5-C2-B4.md",
+   "actual_sha16": "f30d89e30262b148",
+   "actual_bytes": 10910,
+   "verdict": "stale_unresolved",
+   "resolution_method": "forced_b4_by_value_context",
+   "note": "B5 引用的 B4 哈希：当前 B4、归档草稿、全部 git blob、各种截断/换行变体均不等于此值；REV6 同一 B4 引的是当前值 f30d89e3",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C035",
+   "source_file": "docs/_work/PREREG-M5-C2-B6.md",
+   "line": 89,
+   "hex": "9edbafa150700614",
+   "hex_len": 16,
+   "context": "- 模型/几何：14B Q4_K_M、36 层、`n_ctx=8192`、`N_SEQ=8`、`kv=q8_0`、`CHAT_START=4096`、`dll=kvshim_vk 9edbafa150700614`。",
+   "cited_target_name": null,
+   "target_path": "tools/kvshim_vk.dll",
+   "actual_sha16": "9edbafa150700614",
+   "actual_bytes": 50007552,
+   "verdict": "match",
+   "resolution_method": "dll_prefix_recompute",
+   "note": "不是文档/产物哈希，而是 GPU shim DLL 的 sha256 前缀；tools/kvshim_vk.dll 现字节即此值",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C036",
+   "source_file": "docs/_work/PREREG-M5-C2-B6.md",
+   "line": 101,
+   "hex": "a6bc4f268f7711de",
+   "hex_len": 16,
+   "context": "- 抽取层 = rev5.1 prompt（`a6bc4f268f7711de`）；判定层 = rev7.1（`PREREG-M5-C2-REV7.1.md 09d6f1b163ea0b84`；规则与 rev7 `32eaf82ca56600c4` **逐字相同**，rev7.1 仅口径更正：N1 数值归一化 / N2 R1 值域收窄 / N3 条目原子性门 / N4 缺席词作用域）。与 `(b5)` 完全同一套，`(b6)` 不引入任何新参数。",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/run_m5c2_rev4.py#REV4_TEMPLATE",
+   "actual_sha16": "a6bc4f268f7711de",
+   "actual_bytes": null,
+   "verdict": "match",
+   "resolution_method": "prompt_template_recompute",
+   "note": "不是文件哈希，而是抽取 prompt 模板的 sha16；已从 run_m5c2_rev4.py 的 REV4_TEMPLATE 字面量重算",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C037",
+   "source_file": "docs/_work/PREREG-M5-C2-B6.md",
+   "line": 101,
+   "hex": "09d6f1b163ea0b84",
+   "hex_len": 16,
+   "context": "- 抽取层 = rev5.1 prompt（`a6bc4f268f7711de`）；判定层 = rev7.1（`PREREG-M5-C2-REV7.1.md 09d6f1b163ea0b84`；规则与 rev7 `32eaf82ca56600c4` **逐字相同**，rev7.1 仅口径更正：N1 数值归一化 / N2 R1 值域收窄 / N3 条目原子性门 / N4 缺席词作用域）。与 `(b5)` 完全同一套，`(b6)` 不引入任何新参数。",
+   "cited_target_name": "PREREG-M5-C2-REV7.1.md",
+   "target_path": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "actual_sha16": "09d6f1b163ea0b84",
+   "actual_bytes": 16313,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C038",
+   "source_file": "docs/_work/PREREG-M5-C2-B6.md",
+   "line": 101,
+   "hex": "32eaf82ca56600c4",
+   "hex_len": 16,
+   "context": "- 抽取层 = rev5.1 prompt（`a6bc4f268f7711de`）；判定层 = rev7.1（`PREREG-M5-C2-REV7.1.md 09d6f1b163ea0b84`；规则与 rev7 `32eaf82ca56600c4` **逐字相同**，rev7.1 仅口径更正：N1 数值归一化 / N2 R1 值域收窄 / N3 条目原子性门 / N4 缺席词作用域）。与 `(b5)` 完全同一套，`(b6)` 不引入任何新参数。",
+   "cited_target_name": null,
+   "target_path": "docs/_work/PREREG-M5-C2-REV7.md",
+   "actual_sha16": "32eaf82ca56600c4",
+   "actual_bytes": 5835,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C039",
+   "source_file": "docs/_work/PREREG-M5-C2-B6.md",
+   "line": 102,
+   "hex": "faaf2605116bb594",
+   "hex_len": 16,
+   "context": "- **rev6 抽取 prompt（`faaf2605116bb594`）永久排除**，不得用于 `(b6)`。",
+   "cited_target_name": null,
+   "target_path": "docs/_work/PREREG-M5-C2-REV6.md",
+   "actual_sha16": "faaf2605116bb594",
+   "actual_bytes": 5773,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C040",
+   "source_file": "docs/_work/PREREG-M5-C2-B6.md",
+   "line": 110,
+   "hex": "65a2124b",
+   "hex_len": 8,
+   "context": "- 边界**逐字沿用 `(b2)`**（`M5B2-LEAD-RULING.json 65a2124b`）：`fabricated` = 句子主张了源文没有的**具体信息**（具体值/清单/承诺/属性）；`no_fact` = 句子不含具体信息（程序性建议/元叙述/泛泛而谈）；`undecidable` = 截断/指代不明。",
+   "cited_target_name": "M5B2-LEAD-RULING.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B2-LEAD-RULING.json",
+   "actual_sha16": "65a2124b73f17d53",
+   "actual_bytes": 4192,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C041",
+   "source_file": "docs/_work/PREREG-M5-C2-FLOOR-REV2.md",
+   "line": 4,
+   "hex": "dfc36bece621f871",
+   "hex_len": 16,
+   "context": "> 取代 `PREREG-M5-C2-FLOOR.md`（`dfc36bece621f871`）作为 **FLOOR 的正式协议**；旧件保留为历史",
+   "cited_target_name": "PREREG-M5-C2-FLOOR.md",
+   "target_path": "docs/_work/PREREG-M5-C2-FLOOR.md",
+   "actual_sha16": "dfc36bece621f871",
+   "actual_bytes": 7242,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C042",
+   "source_file": "docs/_work/PREREG-M5-C2-FLOOR-REV2.md",
+   "line": 10,
+   "hex": "a8e33701520a8d07",
+   "hex_len": 16,
+   "context": "FLOOR 31/31 全 A（含空源文 6/6 判 A）＝ 位置偏置，非判断。证据 `M5C2-FLOOR-ARTIFACT.json a8e33701520a8d07`",
+   "cited_target_name": "M5C2-FLOOR-ARTIFACT.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-FLOOR-ARTIFACT.json",
+   "actual_sha16": "a8e33701520a8d07",
+   "actual_bytes": 29679,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C043",
+   "source_file": "docs/_work/PREREG-M5-C2-FLOOR-REV2.md",
+   "line": 11,
+   "hex": "04fa29e14c2e7788",
+   "hex_len": 16,
+   "context": "+ `-AMEND.json 04fa29e14c2e7788`（`position_bias=true`，旧全 A 作废）。",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-FLOOR-ARTIFACT-AMEND.json",
+   "actual_sha16": "04fa29e14c2e7788",
+   "actual_bytes": 1506,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C044",
+   "source_file": "docs/_work/PREREG-M5-C2-FLOOR-REV2.md",
+   "line": 12,
+   "hex": "24003605732b3e36",
+   "hex_len": 16,
+   "context": "2. **给思考空间后能力出现**：`M5C2-T384.json 24003605732b3e36`，10 例（矛盾/显然否定）",
+   "cited_target_name": "M5C2-T384.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-T384.json",
+   "actual_sha16": "24003605732b3e36",
+   "actual_bytes": 23385,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C045",
+   "source_file": "docs/_work/PREREG-M5-C2-FLOOR-REV2.md",
+   "line": 39,
+   "hex": "9edbafa150700614",
+   "hex_len": 16,
+   "context": "- 模型/装置：14B Q4_K_M、36 层、`n_ctx=8192`、`N_SEQ=8`、`kv=q8_0`、`CHAT_START=4096`、`dll=kvshim_vk 9edbafa150700614`（**不用** `kvshim_gbnf_vk`）。",
+   "cited_target_name": null,
+   "target_path": "tools/kvshim_vk.dll",
+   "actual_sha16": "9edbafa150700614",
+   "actual_bytes": 50007552,
+   "verdict": "match",
+   "resolution_method": "dll_prefix_recompute",
+   "note": "不是文档/产物哈希，而是 GPU shim DLL 的 sha256 前缀；tools/kvshim_vk.dll 现字节即此值",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C046",
+   "source_file": "docs/_work/PREREG-M5-C2-FLOOR-REV2.md",
+   "line": 92,
+   "hex": "dfc36bece621f871",
+   "hex_len": 16,
+   "context": "`supersedes=PREREG-M5-C2-FLOOR.md dfc36bece621f871`（该件保留，其 FLOOR 结论 `未接上` 仍为历史事实）",
+   "cited_target_name": "PREREG-M5-C2-FLOOR.md",
+   "target_path": "docs/_work/PREREG-M5-C2-FLOOR.md",
+   "actual_sha16": "dfc36bece621f871",
+   "actual_bytes": 7242,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C047",
+   "source_file": "docs/_work/PREREG-M5-C2-FLOOR.md",
+   "line": 4,
+   "hex": "d4ab619b59bfe6fb",
+   "hex_len": 16,
+   "context": "> 冻结人：LEAD。判据 prompt 沿用 `PREREG-M5-C2-R2.md d4ab619b59bfe6fb` **§1 原文，一字不改**（本件只换输入，不换问法，以隔离变量）。",
+   "cited_target_name": "PREREG-M5-C2-R2.md",
+   "target_path": "docs/_work/PREREG-M5-C2-R2.md",
+   "actual_sha16": "d4ab619b59bfe6fb",
+   "actual_bytes": 5830,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C048",
+   "source_file": "docs/_work/PREREG-M5-C2-ORDER.md",
+   "line": 5,
+   "hex": "54faca9edb3a8daf",
+   "hex_len": 16,
+   "context": "> 前置：`PREREG-M5-C2-FLOOR-REV2.md 54faca9edb3a8daf`（rev2 主体测试，本件在其后跑，**不改 rev2**）",
+   "cited_target_name": "PREREG-M5-C2-FLOOR-REV2.md",
+   "target_path": "docs/_work/PREREG-M5-C2-FLOOR-REV2.md",
+   "actual_sha16": "54faca9edb3a8daf",
+   "actual_bytes": 6173,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C049",
+   "source_file": "docs/_work/PREREG-M5-C2-ORDER.md",
+   "line": 9,
+   "hex": "04fa29e14c2e7788",
+   "hex_len": 16,
+   "context": "rev1 已证 **首选项偏置**（两次测试都选位置 1，`M5C2-FLOOR-ARTIFACT-AMEND.json 04fa29e14c2e7788`）。",
+   "cited_target_name": "M5C2-FLOOR-ARTIFACT-AMEND.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-FLOOR-ARTIFACT-AMEND.json",
+   "actual_sha16": "04fa29e14c2e7788",
+   "actual_bytes": 1506,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C050",
+   "source_file": "docs/_work/PREREG-M5-C2-ORDER.md",
+   "line": 49,
+   "hex": "9edbafa150700614",
+   "hex_len": 16,
+   "context": "`dll=kvshim_vk 9edbafa150700614`。",
+   "cited_target_name": null,
+   "target_path": "tools/kvshim_vk.dll",
+   "actual_sha16": "9edbafa150700614",
+   "actual_bytes": 50007552,
+   "verdict": "match",
+   "resolution_method": "dll_prefix_recompute",
+   "note": "不是文档/产物哈希，而是 GPU shim DLL 的 sha256 前缀；tools/kvshim_vk.dll 现字节即此值",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C051",
+   "source_file": "docs/_work/PREREG-M5-C2-R2.md",
+   "line": 10,
+   "hex": "df1ae09cc9ecc0d2",
+   "hex_len": 16,
+   "context": "出处：`LEAD-M5-B-ADJUDICATION.md df1ae09cc9ecc0d2`、`M5B2-RATES.json 9ac66b6dfaf8f804`。",
+   "cited_target_name": "LEAD-M5-B-ADJUDICATION.md",
+   "target_path": "docs/_work/LEAD-M5-B-ADJUDICATION.md",
+   "actual_sha16": "df1ae09cc9ecc0d2",
+   "actual_bytes": 5627,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C052",
+   "source_file": "docs/_work/PREREG-M5-C2-R2.md",
+   "line": 10,
+   "hex": "9ac66b6dfaf8f804",
+   "hex_len": 16,
+   "context": "出处：`LEAD-M5-B-ADJUDICATION.md df1ae09cc9ecc0d2`、`M5B2-RATES.json 9ac66b6dfaf8f804`。",
+   "cited_target_name": "M5B2-RATES.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B2-RATES.json",
+   "actual_sha16": "9ac66b6dfaf8f804",
+   "actual_bytes": 11407,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C053",
+   "source_file": "docs/_work/PREREG-M5-C2-R2.md",
+   "line": 11,
+   "hex": "4fc889483d4f49b3",
+   "hex_len": 16,
+   "context": "- 路线件 `PREREG-M5-C2-SEMANTIC.md 4fc889483d4f49b3` 的 **R2 臂**：14B 自己当语义判据。",
+   "cited_target_name": "PREREG-M5-C2-SEMANTIC.md",
+   "target_path": "docs/_work/PREREG-M5-C2-SEMANTIC.md",
+   "actual_sha16": "4fc889483d4f49b3",
+   "actual_bytes": 7115,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C054",
+   "source_file": "docs/_work/PREREG-M5-C2-R2.md",
+   "line": 48,
+   "hex": "0d882f20987fea70",
+   "hex_len": 16,
+   "context": "（来源 `M5C-36-r1-adj.json 0d882f20987fea70`、`M5C-36-r1-alignment.json aaed082264712c59`；",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/out/M5C-36-adj.json",
+   "actual_sha16": "0d882f20987fea70",
+   "actual_bytes": 60432,
+   "verdict": "match",
+   "resolution_method": "content_hash_multi",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C055",
+   "source_file": "docs/_work/PREREG-M5-C2-R2.md",
+   "line": 48,
+   "hex": "aaed082264712c59",
+   "hex_len": 16,
+   "context": "（来源 `M5C-36-r1-adj.json 0d882f20987fea70`、`M5C-36-r1-alignment.json aaed082264712c59`；",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/out/M5C-36-alignment.json",
+   "actual_sha16": "aaed082264712c59",
+   "actual_bytes": 245640,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C056",
+   "source_file": "docs/_work/PREREG-M5-C2-R2.md",
+   "line": 52,
+   "hex": "20261026",
+   "hex_len": 8,
+   "context": "固定 `neg_control_seed=20261026`，配对表落盘。",
+   "cited_target_name": null,
+   "target_path": null,
+   "actual_sha16": null,
+   "actual_bytes": null,
+   "verdict": "unverifiable",
+   "resolution_method": "not_a_hash",
+   "note": "R2 §… 的 neg_control_seed=20261026 是随机种子，不是哈希；被 8-hex 正则误捕",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C057",
+   "source_file": "docs/_work/PREREG-M5-C2-R2.md",
+   "line": 63,
+   "hex": "6529e151568dc593",
+   "hex_len": 16,
+   "context": "- 对象：`(b2)` 的 **510 句**（`M5B2-SENTENCES.json 6529e151568dc593`），",
+   "cited_target_name": "M5B2-SENTENCES.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B2-SENTENCES.json",
+   "actual_sha16": "6529e151568dc593",
+   "actual_bytes": 78825,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C058",
+   "source_file": "docs/_work/PREREG-M5-C2-R2.md",
+   "line": 64,
+   "hex": "65a2124b73f17d53",
+   "hex_len": 16,
+   "context": "金标 = `M5B2-LEAD-RULING.json 65a2124b73f17d53` 的 `71/35/385/19`。",
+   "cited_target_name": "M5B2-LEAD-RULING.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B2-LEAD-RULING.json",
+   "actual_sha16": "65a2124b73f17d53",
+   "actual_bytes": 4192,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C059",
+   "source_file": "docs/_work/PREREG-M5-C2-R2.md",
+   "line": 89,
+   "hex": "4fc889483d4f49b3",
+   "hex_len": 16,
+   "context": "| `PREREG-M5-C2-SEMANTIC.md` | `4fc889483d4f49b3` | 7,115 |",
+   "cited_target_name": "PREREG-M5-C2-SEMANTIC.md",
+   "target_path": "docs/_work/PREREG-M5-C2-SEMANTIC.md",
+   "actual_sha16": "4fc889483d4f49b3",
+   "actual_bytes": 7115,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C060",
+   "source_file": "docs/_work/PREREG-M5-C2-R2.md",
+   "line": 90,
+   "hex": "df1ae09cc9ecc0d2",
+   "hex_len": 16,
+   "context": "| `LEAD-M5-B-ADJUDICATION.md` | `df1ae09cc9ecc0d2` | 5,627 |",
+   "cited_target_name": "LEAD-M5-B-ADJUDICATION.md",
+   "target_path": "docs/_work/LEAD-M5-B-ADJUDICATION.md",
+   "actual_sha16": "df1ae09cc9ecc0d2",
+   "actual_bytes": 5627,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C061",
+   "source_file": "docs/_work/PREREG-M5-C2-R2.md",
+   "line": 91,
+   "hex": "9ac66b6dfaf8f804",
+   "hex_len": 16,
+   "context": "| `M5B2-RATES.json` | `9ac66b6dfaf8f804` | 11,407 |",
+   "cited_target_name": "M5B2-RATES.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B2-RATES.json",
+   "actual_sha16": "9ac66b6dfaf8f804",
+   "actual_bytes": 11407,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C062",
+   "source_file": "docs/_work/PREREG-M5-C2-R2.md",
+   "line": 92,
+   "hex": "6529e151568dc593",
+   "hex_len": 16,
+   "context": "| `M5B2-SENTENCES.json` | `6529e151568dc593` | 78,825 |",
+   "cited_target_name": "M5B2-SENTENCES.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B2-SENTENCES.json",
+   "actual_sha16": "6529e151568dc593",
+   "actual_bytes": 78825,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C063",
+   "source_file": "docs/_work/PREREG-M5-C2-R2.md",
+   "line": 93,
+   "hex": "65a2124b73f17d53",
+   "hex_len": 16,
+   "context": "| `M5B2-LEAD-RULING.json` | `65a2124b73f17d53` | 4,192 |",
+   "cited_target_name": "M5B2-LEAD-RULING.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B2-LEAD-RULING.json",
+   "actual_sha16": "65a2124b73f17d53",
+   "actual_bytes": 4192,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C064",
+   "source_file": "docs/_work/PREREG-M5-C2-R2.md",
+   "line": 94,
+   "hex": "0d882f20987fea70",
+   "hex_len": 16,
+   "context": "| `M5C-36-r1-adj.json`（(c) 金标） | `0d882f20987fea70` | 60,432 |",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/out/M5C-36-adj.json",
+   "actual_sha16": "0d882f20987fea70",
+   "actual_bytes": 60432,
+   "verdict": "match",
+   "resolution_method": "content_hash_multi",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C065",
+   "source_file": "docs/_work/PREREG-M5-C2-R2.md",
+   "line": 95,
+   "hex": "aaed082264712c59",
+   "hex_len": 16,
+   "context": "| `M5C-36-r1-alignment.json` | `aaed082264712c59` | 245,640 |",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/out/M5C-36-alignment.json",
+   "actual_sha16": "aaed082264712c59",
+   "actual_bytes": 245640,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C066",
+   "source_file": "docs/_work/PREREG-M5-C2-REV4-1.md",
+   "line": 4,
+   "hex": "be618108a82c2f42",
+   "hex_len": 16,
+   "context": "> 前置：`PREREG-M5-C2-REV4.md be618108a82c2f42`（rev4，`rev4_arch_ok=false`）",
+   "cited_target_name": "PREREG-M5-C2-REV4.md",
+   "target_path": "docs/_work/PREREG-M5-C2-REV4.md",
+   "actual_sha16": "be618108a82c2f42",
+   "actual_bytes": 6996,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C067",
+   "source_file": "docs/_work/PREREG-M5-C2-REV4-1.md",
+   "line": 5,
+   "hex": "5ad46f8efb762c6d",
+   "hex_len": 16,
+   "context": "> 规范：`JUDGE-ROBUSTNESS-SPEC.md 5ad46f8efb762c6d` §4（**本件只实现 §4 的四条规则**）",
+   "cited_target_name": "JUDGE-ROBUSTNESS-SPEC.md",
+   "target_path": "docs/_work/JUDGE-ROBUSTNESS-SPEC.md",
+   "actual_sha16": "5ad46f8efb762c6d",
+   "actual_bytes": 8555,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C068",
+   "source_file": "docs/_work/PREREG-M5-C2-REV4-1.md",
+   "line": 9,
+   "hex": "8d36dbcd9605d68c",
+   "hex_len": 16,
+   "context": "rev4 实测（`M5C2-REV4.json 8d36dbcd9605d68c`）：",
+   "cited_target_name": "M5C2-REV4.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-REV4.json",
+   "actual_sha16": "8d36dbcd9605d68c",
+   "actual_bytes": 73938,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C069",
+   "source_file": "docs/_work/PREREG-M5-C2-REV4.md",
+   "line": 5,
+   "hex": "fb0da1b792004fa2",
+   "hex_len": 16,
+   "context": "> 前置与作废记录：`PREREG-M5-C2-ORDER.md fb0da1b792004fa2`（rev3，`order_robust=false`，rev2 结论作废）；",
+   "cited_target_name": "PREREG-M5-C2-ORDER.md",
+   "target_path": "docs/_work/PREREG-M5-C2-ORDER.md",
+   "actual_sha16": "fb0da1b792004fa2",
+   "actual_bytes": 5453,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C070",
+   "source_file": "docs/_work/PREREG-M5-C2-REV4.md",
+   "line": 11,
+   "hex": "a8e33701520a8d07",
+   "hex_len": 16,
+   "context": "`n_predict=4` + 只让吐 `A|B|C` ⇒ 31/31 全 A（含空源文）。证据 `M5C2-FLOOR-ARTIFACT.json a8e33701520a8d07`、`-AMEND.json 04fa29e14c2e7788`（`position_bias=true`）。",
+   "cited_target_name": "M5C2-FLOOR-ARTIFACT.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-FLOOR-ARTIFACT.json",
+   "actual_sha16": "a8e33701520a8d07",
+   "actual_bytes": 29679,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C071",
+   "source_file": "docs/_work/PREREG-M5-C2-REV4.md",
+   "line": 11,
+   "hex": "04fa29e14c2e7788",
+   "hex_len": 16,
+   "context": "`n_predict=4` + 只让吐 `A|B|C` ⇒ 31/31 全 A（含空源文）。证据 `M5C2-FLOOR-ARTIFACT.json a8e33701520a8d07`、`-AMEND.json 04fa29e14c2e7788`（`position_bias=true`）。",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-FLOOR-ARTIFACT-AMEND.json",
+   "actual_sha16": "04fa29e14c2e7788",
+   "actual_bytes": 1506,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C072",
+   "source_file": "docs/_work/PREREG-M5-C2-REV4.md",
+   "line": 14,
+   "hex": "521170d38c12206c",
+   "hex_len": 16,
+   "context": "39 例读数（`M5C2-FLOOR-REV2.json 521170d38c12206c`）：臂6 缺席 **8/8**、臂2 矛盾 6/6、臂3 替换 6/6、臂5 正对照 7/7；",
+   "cited_target_name": "M5C2-FLOOR-REV2.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-FLOOR-REV2.json",
+   "actual_sha16": "521170d38c12206c",
+   "actual_bytes": 97760,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C073",
+   "source_file": "docs/_work/PREREG-M5-C2-REV4.md",
+   "line": 67,
+   "hex": "9edbafa150700614",
+   "hex_len": 16,
+   "context": "- 生成：`temperature=0`、`n_predict=384`、**不挂 grammar**、每例独立前向、`dll=kvshim_vk 9edbafa150700614`。",
+   "cited_target_name": null,
+   "target_path": "tools/kvshim_vk.dll",
+   "actual_sha16": "9edbafa150700614",
+   "actual_bytes": 50007552,
+   "verdict": "match",
+   "resolution_method": "dll_prefix_recompute",
+   "note": "不是文档/产物哈希，而是 GPU shim DLL 的 sha256 前缀；tools/kvshim_vk.dll 现字节即此值",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C074",
+   "source_file": "docs/_work/PREREG-M5-C2-REV5.md",
+   "line": 4,
+   "hex": "6b0d750abbd06b1b",
+   "hex_len": 16,
+   "context": "> 前置：`PREREG-M5-C2-B2EVAL.md 6b0d750abbd06b1b`（读数 `M5C2-B2EVAL.json 553a96fc481fcf9c`）",
+   "cited_target_name": "PREREG-M5-C2-B2EVAL.md",
+   "target_path": "docs/_work/PREREG-M5-C2-B2EVAL.md",
+   "actual_sha16": "6b0d750abbd06b1b",
+   "actual_bytes": 4113,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C075",
+   "source_file": "docs/_work/PREREG-M5-C2-REV5.md",
+   "line": 4,
+   "hex": "553a96fc481fcf9c",
+   "hex_len": 16,
+   "context": "> 前置：`PREREG-M5-C2-B2EVAL.md 6b0d750abbd06b1b`（读数 `M5C2-B2EVAL.json 553a96fc481fcf9c`）",
+   "cited_target_name": "M5C2-B2EVAL.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-B2EVAL.json",
+   "actual_sha16": "553a96fc481fcf9c",
+   "actual_bytes": 153626,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C076",
+   "source_file": "docs/_work/PREREG-M5-C2-REV5.md",
+   "line": 36,
+   "hex": "553a96fc481fcf9c",
+   "hex_len": 16,
+   "context": "- **输入**：`M5C2-B2EVAL.json 553a96fc481fcf9c` 中 106 句的 `items[]`（模型抽取结果，**不重新生成**）",
+   "cited_target_name": "M5C2-B2EVAL.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-B2EVAL.json",
+   "actual_sha16": "553a96fc481fcf9c",
+   "actual_bytes": 153626,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C077",
+   "source_file": "docs/_work/PREREG-M5-C2-REV5.md",
+   "line": 38,
+   "hex": "a6bc4f268f7711de",
+   "hex_len": 16,
+   "context": "- **不变量**：`prompt_sha16=a6bc4f268f7711de`、`n_forward=0`、模型输出字节不变",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/run_m5c2_rev4.py#REV4_TEMPLATE",
+   "actual_sha16": "a6bc4f268f7711de",
+   "actual_bytes": null,
+   "verdict": "match",
+   "resolution_method": "prompt_template_recompute",
+   "note": "不是文件哈希，而是抽取 prompt 模板的 sha16；已从 run_m5c2_rev4.py 的 REV4_TEMPLATE 字面量重算",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C078",
+   "source_file": "docs/_work/PREREG-M5-C2-REV6-1.md",
+   "line": 4,
+   "hex": "faaf2605116bb594",
+   "hex_len": 16,
+   "context": "> 前置：`PREREG-M5-C2-REV6.md faaf2605116bb594`（抽取 prompt 改逐字复制）、`JUDGE-ROBUSTNESS-SPEC.md 5ad46f8efb762c6d`",
+   "cited_target_name": "PREREG-M5-C2-REV6.md",
+   "target_path": "docs/_work/PREREG-M5-C2-REV6.md",
+   "actual_sha16": "faaf2605116bb594",
+   "actual_bytes": 5773,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C079",
+   "source_file": "docs/_work/PREREG-M5-C2-REV6-1.md",
+   "line": 4,
+   "hex": "5ad46f8efb762c6d",
+   "hex_len": 16,
+   "context": "> 前置：`PREREG-M5-C2-REV6.md faaf2605116bb594`（抽取 prompt 改逐字复制）、`JUDGE-ROBUSTNESS-SPEC.md 5ad46f8efb762c6d`",
+   "cited_target_name": "JUDGE-ROBUSTNESS-SPEC.md",
+   "target_path": "docs/_work/JUDGE-ROBUSTNESS-SPEC.md",
+   "actual_sha16": "5ad46f8efb762c6d",
+   "actual_bytes": 8555,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C080",
+   "source_file": "docs/_work/PREREG-M5-C2-REV6.md",
+   "line": 4,
+   "hex": "5ad46f8efb762c6d",
+   "hex_len": 16,
+   "context": "> 前置：`JUDGE-ROBUSTNESS-SPEC.md 5ad46f8efb762c6d`、`PREREG-M5-C2-B4.md f30d89e30262b148`（`pass=false`）",
+   "cited_target_name": "JUDGE-ROBUSTNESS-SPEC.md",
+   "target_path": "docs/_work/JUDGE-ROBUSTNESS-SPEC.md",
+   "actual_sha16": "5ad46f8efb762c6d",
+   "actual_bytes": 8555,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C081",
+   "source_file": "docs/_work/PREREG-M5-C2-REV6.md",
+   "line": 4,
+   "hex": "f30d89e30262b148",
+   "hex_len": 16,
+   "context": "> 前置：`JUDGE-ROBUSTNESS-SPEC.md 5ad46f8efb762c6d`、`PREREG-M5-C2-B4.md f30d89e30262b148`（`pass=false`）",
+   "cited_target_name": "PREREG-M5-C2-B4.md",
+   "target_path": "docs/_work/PREREG-M5-C2-B4.md",
+   "actual_sha16": "f30d89e30262b148",
+   "actual_bytes": 10910,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C082",
+   "source_file": "docs/_work/PREREG-M5-C2-REV6.md",
+   "line": 9,
+   "hex": "783d423a39db02e3",
+   "hex_len": 16,
+   "context": "`(b4)` 261 句读数（`M5B4-RATES.json 783d423a39db02e3`）：漏判 4/41=9.76%、**误判 7/46=15.22%**。",
+   "cited_target_name": "M5B4-RATES.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-RATES.json",
+   "actual_sha16": "783d423a39db02e3",
+   "actual_bytes": 121993,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C083",
+   "source_file": "docs/_work/PREREG-M5-C2-REV6.md",
+   "line": 50,
+   "hex": "c349ca5a93192aac",
+   "hex_len": 16,
+   "context": "- 输入：`M5B4-SENTENCES.json c349ca5a93192aac` 的 261 句（照旧 15 句走第 0 层，实际前向 246）",
+   "cited_target_name": "M5B4-SENTENCES.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-SENTENCES.json",
+   "actual_sha16": "c349ca5a93192aac",
+   "actual_bytes": 99636,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C084",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 4,
+   "hex": "32eaf82ca56600c4",
+   "hex_len": 16,
+   "context": "> `rev7_1_ver=1` · `supersedes=32eaf82ca56600c4`（`docs/_work/PREREG-M5-C2-REV7.md`，5,835 B / 88 行）· `correction_type=statement_correction`（**口径更正，非规则变更**）",
+   "cited_target_name": "PREREG-M5-C2-REV7.md",
+   "target_path": "docs/_work/PREREG-M5-C2-REV7.md",
+   "actual_sha16": "32eaf82ca56600c4",
+   "actual_bytes": 5835,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C085",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 5,
+   "hex": "1f8f44b921e575fe",
+   "hex_len": 16,
+   "context": "> 性质：**口径更正（statement correction），不是规则变更**；本件**写于 rev7 结果之后**（rev7 产物 `M5C2-REV7-OFFLINE.json 1f8f44b921e575fe` / 507,657 B 已出；独立审计 `INSPECTOR-M5C2-REV7.md`、`M5C2-REV7-AUDIT.json`、`_rev7_audit.py 6695a4b4de403870` 已完成）",
+   "cited_target_name": "M5C2-REV7-OFFLINE.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+   "actual_sha16": "1f8f44b921e575fe",
+   "actual_bytes": 507657,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C086",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 5,
+   "hex": "6695a4b4de403870",
+   "hex_len": 16,
+   "context": "> 性质：**口径更正（statement correction），不是规则变更**；本件**写于 rev7 结果之后**（rev7 产物 `M5C2-REV7-OFFLINE.json 1f8f44b921e575fe` / 507,657 B 已出；独立审计 `INSPECTOR-M5C2-REV7.md`、`M5C2-REV7-AUDIT.json`、`_rev7_audit.py 6695a4b4de403870` 已完成）",
+   "cited_target_name": "_rev7_audit.py",
+   "target_path": "kvmem/m2_visibility/m5/out/_rev7_audit.py",
+   "actual_sha16": "6695a4b4de403870",
+   "actual_bytes": 57234,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C087",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 6,
+   "hex": "9273ebc97aa1413a",
+   "hex_len": 16,
+   "context": "> **规则 / 阈值 / 词表 / 金标 / 输入零改动**：N1–N4 定义、`0.80` / `0.90` 阈值、`NEG_WORDS` / `ABSENT_MARKERS` 词表、金标 `M5B4-LEAD-RULING.json 9273ebc97aa1413a`、输入 `M5B4-JUDGE.json 6a3001b6ca23ef7d` 全部沿用 rev7，**逐字未改**",
+   "cited_target_name": "M5B4-LEAD-RULING.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+   "actual_sha16": "9273ebc97aa1413a",
+   "actual_bytes": 13195,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C088",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 6,
+   "hex": "6a3001b6ca23ef7d",
+   "hex_len": 16,
+   "context": "> **规则 / 阈值 / 词表 / 金标 / 输入零改动**：N1–N4 定义、`0.80` / `0.90` 阈值、`NEG_WORDS` / `ABSENT_MARKERS` 词表、金标 `M5B4-LEAD-RULING.json 9273ebc97aa1413a`、输入 `M5B4-JUDGE.json 6a3001b6ca23ef7d` 全部沿用 rev7，**逐字未改**",
+   "cited_target_name": "M5B4-JUDGE.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "actual_sha16": "6a3001b6ca23ef7d",
+   "actual_bytes": 452456,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C089",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 7,
+   "hex": "65ed60125528d5d6",
+   "hex_len": 16,
+   "context": "> 判定代码零改动：`run_m5c2_rev7_offline.py 65ed60125528d5d6` 的判定函数**逐字节不变**（本件对应的重跑脚本 `kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py` 仅改头注 / PREREG 常量 / 断言块 / 产物字段，判定函数与 rev7 逐字节一致，见附录 B）",
+   "cited_target_name": "run_m5c2_rev7_offline.py",
+   "target_path": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "actual_sha16": "65ed60125528d5d6",
+   "actual_bytes": 44761,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C090",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 38,
+   "hex": "32eaf82ca56600c4",
+   "hex_len": 16,
+   "context": "本件 §2 的规则定义**就是** `docs/_work/PREREG-M5-C2-REV7.md`（sha16 `32eaf82ca56600c4`）§2 第 32–54 行原文，**逐字相同**，本件不重抄、不改写、不新增任何条件：",
+   "cited_target_name": "PREREG-M5-C2-REV7.md",
+   "target_path": "docs/_work/PREREG-M5-C2-REV7.md",
+   "actual_sha16": "32eaf82ca56600c4",
+   "actual_bytes": 5835,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C091",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 74,
+   "hex": "32eaf82ca56600c4",
+   "hex_len": 16,
+   "context": "- **与 `PREREG-M5-C2-B5.md` §9.1 的关系**：B5 §9.1 把「判定层 = rev7」钉在 `PREREG-M5-C2-REV7.md 32eaf82ca56600c4`。本件**仅在文档身份上取代**该引用（`supersedes_sha16=32eaf82ca56600c4`），**实质零变更**：判据组成（抽取层 = rev5.1 prompt `a6bc4f268f7711de` + 判定层 = N1–N4）、§3 四门槛、H1 与 9.2–9.6 全部不变。即 `(b5)` 的判据组成写成「判定层 = rev7.1」时，与 B5 §9.1 原意**等价**。",
+   "cited_target_name": "PREREG-M5-C2-REV7.md",
+   "target_path": "docs/_work/PREREG-M5-C2-REV7.md",
+   "actual_sha16": "32eaf82ca56600c4",
+   "actual_bytes": 5835,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C092",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 74,
+   "hex": "32eaf82ca56600c4",
+   "hex_len": 16,
+   "context": "- **与 `PREREG-M5-C2-B5.md` §9.1 的关系**：B5 §9.1 把「判定层 = rev7」钉在 `PREREG-M5-C2-REV7.md 32eaf82ca56600c4`。本件**仅在文档身份上取代**该引用（`supersedes_sha16=32eaf82ca56600c4`），**实质零变更**：判据组成（抽取层 = rev5.1 prompt `a6bc4f268f7711de` + 判定层 = N1–N4）、§3 四门槛、H1 与 9.2–9.6 全部不变。即 `(b5)` 的判据组成写成「判定层 = rev7.1」时，与 B5 §9.1 原意**等价**。",
+   "cited_target_name": "PREREG-M5-C2-REV7.md",
+   "target_path": "docs/_work/PREREG-M5-C2-REV7.md",
+   "actual_sha16": "32eaf82ca56600c4",
+   "actual_bytes": 5835,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C093",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 74,
+   "hex": "a6bc4f268f7711de",
+   "hex_len": 16,
+   "context": "- **与 `PREREG-M5-C2-B5.md` §9.1 的关系**：B5 §9.1 把「判定层 = rev7」钉在 `PREREG-M5-C2-REV7.md 32eaf82ca56600c4`。本件**仅在文档身份上取代**该引用（`supersedes_sha16=32eaf82ca56600c4`），**实质零变更**：判据组成（抽取层 = rev5.1 prompt `a6bc4f268f7711de` + 判定层 = N1–N4）、§3 四门槛、H1 与 9.2–9.6 全部不变。即 `(b5)` 的判据组成写成「判定层 = rev7.1」时，与 B5 §9.1 原意**等价**。",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/run_m5c2_rev4.py#REV4_TEMPLATE",
+   "actual_sha16": "a6bc4f268f7711de",
+   "actual_bytes": null,
+   "verdict": "match",
+   "resolution_method": "prompt_template_recompute",
+   "note": "不是文件哈希，而是抽取 prompt 模板的 sha16；已从 run_m5c2_rev4.py 的 REV4_TEMPLATE 字面量重算",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C094",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 81,
+   "hex": "6a3001b6ca23ef7d",
+   "hex_len": 16,
+   "context": "- **顶层沿用 REV7 §4 全部字段**：`rev7_ver=1`、`n_sentences=261`、`n_forward=0`、`design_set=true`、`not_acceptance=true`、`prereg_sha16`、`items_source_sha16=6a3001b6ca23ef7d`、`gold_sha16_current=9273ebc97aa1413a`",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "actual_sha16": "6a3001b6ca23ef7d",
+   "actual_bytes": 452456,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C095",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 81,
+   "hex": "9273ebc97aa1413a",
+   "hex_len": 16,
+   "context": "- **顶层沿用 REV7 §4 全部字段**：`rev7_ver=1`、`n_sentences=261`、`n_forward=0`、`design_set=true`、`not_acceptance=true`、`prereg_sha16`、`items_source_sha16=6a3001b6ca23ef7d`、`gold_sha16_current=9273ebc97aa1413a`",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+   "actual_sha16": "9273ebc97aa1413a",
+   "actual_bytes": 13195,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C096",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 82,
+   "hex": "32eaf82ca56600c4",
+   "hex_len": 16,
+   "context": "- **顶层新增（本件）**：`rev7_1_ver=1`、`prereg_sha16`（= **本件** sha16，取代 rev7 的 `prereg_sha16`）、`supersedes_sha16=32eaf82ca56600c4`、`correction_type=\"statement_correction\"`、`rule_code_unchanged=true`",
+   "cited_target_name": null,
+   "target_path": "docs/_work/PREREG-M5-C2-REV7.md",
+   "actual_sha16": "32eaf82ca56600c4",
+   "actual_bytes": 5835,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C097",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 140,
+   "hex": "65ed60125528d5d6",
+   "hex_len": 16,
+   "context": "`run_m5c2_rev7_1_offline.py` 与 `run_m5c2_rev7_offline.py`（`65ed60125528d5d6`）的**判定函数逐字节相同**。比对范围：两脚本的全部函数定义中，仅 `verify_inputs`（允许类别 ②⑤）、`main`（允许类别 ③④）与新增的 `item_assertion` / `verdict_assertion`（允许类别 ③）除外；其余 **14** 个函数逐字节相同 ——",
+   "cited_target_name": "run_m5c2_rev7_offline.py",
+   "target_path": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "actual_sha16": "65ed60125528d5d6",
+   "actual_bytes": 44761,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C098",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 152,
+   "hex": "1f8f44b921e575fe",
+   "hex_len": 16,
+   "context": "rev7.1 重跑产物与 rev7 产物（`1f8f44b921e575fe`）在 `verdict_rev7` / `items` / `gate` / `false_by_reason` / `sentence_diff` / `invalid_items` / `all_invalid_sentences` / `sentences` / 四门槛明细上**逐项相同**；只有 provenance（`prereg_sha16`、`code_sha16`、`code_file`、`code_bytes`、`schema`、`rev7_1_ver`、`supersedes_sha16`、`correction_type`、`rule_code_unchanged`）与 `assertions` 块不同。",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+   "actual_sha16": "1f8f44b921e575fe",
+   "actual_bytes": 507657,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C099",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 156,
+   "hex": "32eaf82ca56600c4",
+   "hex_len": 16,
+   "context": "`docs/_work/PREREG-M5-C2-REV7.md`（`32eaf82ca56600c4`）、`M5B4-JUDGE.json`（`6a3001b6ca23ef7d`）、`M5B4-LEAD-RULING.json`（`9273ebc97aa1413a`）、`M5B4-SENTENCES.json`（`c349ca5a93192aac`）**全部未改**；未读 `(b5)` 任何文件；未 git 提交。",
+   "cited_target_name": "PREREG-M5-C2-REV7.md",
+   "target_path": "docs/_work/PREREG-M5-C2-REV7.md",
+   "actual_sha16": "32eaf82ca56600c4",
+   "actual_bytes": 5835,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C100",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 156,
+   "hex": "6a3001b6ca23ef7d",
+   "hex_len": 16,
+   "context": "`docs/_work/PREREG-M5-C2-REV7.md`（`32eaf82ca56600c4`）、`M5B4-JUDGE.json`（`6a3001b6ca23ef7d`）、`M5B4-LEAD-RULING.json`（`9273ebc97aa1413a`）、`M5B4-SENTENCES.json`（`c349ca5a93192aac`）**全部未改**；未读 `(b5)` 任何文件；未 git 提交。",
+   "cited_target_name": "M5B4-JUDGE.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "actual_sha16": "6a3001b6ca23ef7d",
+   "actual_bytes": 452456,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C101",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 156,
+   "hex": "9273ebc97aa1413a",
+   "hex_len": 16,
+   "context": "`docs/_work/PREREG-M5-C2-REV7.md`（`32eaf82ca56600c4`）、`M5B4-JUDGE.json`（`6a3001b6ca23ef7d`）、`M5B4-LEAD-RULING.json`（`9273ebc97aa1413a`）、`M5B4-SENTENCES.json`（`c349ca5a93192aac`）**全部未改**；未读 `(b5)` 任何文件；未 git 提交。",
+   "cited_target_name": "M5B4-LEAD-RULING.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+   "actual_sha16": "9273ebc97aa1413a",
+   "actual_bytes": 13195,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C102",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 156,
+   "hex": "c349ca5a93192aac",
+   "hex_len": 16,
+   "context": "`docs/_work/PREREG-M5-C2-REV7.md`（`32eaf82ca56600c4`）、`M5B4-JUDGE.json`（`6a3001b6ca23ef7d`）、`M5B4-LEAD-RULING.json`（`9273ebc97aa1413a`）、`M5B4-SENTENCES.json`（`c349ca5a93192aac`）**全部未改**；未读 `(b5)` 任何文件；未 git 提交。",
+   "cited_target_name": "M5B4-SENTENCES.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-SENTENCES.json",
+   "actual_sha16": "c349ca5a93192aac",
+   "actual_bytes": 99636,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C103",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "line": 4,
+   "hex": "6a3001b6ca23ef7d",
+   "hex_len": 16,
+   "context": "> 前置：`M5B4-JUDGE.json 6a3001b6ca23ef7d`（rev5.1 输出）、`M5B4-LEAD-RULING.json 9273ebc97aa1413a`（金标）",
+   "cited_target_name": "M5B4-JUDGE.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "actual_sha16": "6a3001b6ca23ef7d",
+   "actual_bytes": 452456,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C104",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "line": 4,
+   "hex": "9273ebc97aa1413a",
+   "hex_len": 16,
+   "context": "> 前置：`M5B4-JUDGE.json 6a3001b6ca23ef7d`（rev5.1 输出）、`M5B4-LEAD-RULING.json 9273ebc97aa1413a`（金标）",
+   "cited_target_name": "M5B4-LEAD-RULING.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+   "actual_sha16": "9273ebc97aa1413a",
+   "actual_bytes": 13195,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C105",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "line": 5,
+   "hex": "faaf2605116bb594",
+   "hex_len": 16,
+   "context": "> **抽取层回退到 rev5.1 prompt**；`PREREG-M5-C2-REV6.md faaf2605116bb594` 的 prompt **撤回，不作采纳**（理由见 §1）",
+   "cited_target_name": "PREREG-M5-C2-REV6.md",
+   "target_path": "docs/_work/PREREG-M5-C2-REV6.md",
+   "actual_sha16": "faaf2605116bb594",
+   "actual_bytes": 5773,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C106",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "line": 7,
+   "hex": "e306ce994d306a84",
+   "hex_len": 16,
+   "context": "> **设计集 = `(b4)`**（`designed_on_b4=true`）；**验收集 = `(b5)` `e306ce994d306a84`（已冻结，未跑）**",
+   "cited_target_name": null,
+   "target_path": "docs/_work/PREREG-M5-C2-B5.md",
+   "actual_sha16": "e306ce994d306a84",
+   "actual_bytes": 14597,
+   "verdict": "stale_reconstructible",
+   "resolution_method": "alias_(b5)",
+   "note": "REV7 引用的 (b5) 哈希 = 现行 B5 去掉 §9 后的早期版本（B5 于 19:54:15 写入 §9、19:55 冻结；REV7 19:53 起草时 B5 尚无 §9，20:15 声明冻结时未重钉 ⇒ stale-at-freeze）。复算：截断后 rstrip = e306ce994d306a84 / 11,388 B（未 rstrip 的截断体 11,390 B，哈希 9c09ceaf99d37a23）。",
+   "reconstruction": {
+    "method": "truncate_at(\"## 9 LEAD 追加\") then rstrip()",
+    "variant_sha16": "e306ce994d306a84",
+    "variant_bytes": 11388,
+    "raw_truncation_bytes": 11390,
+    "current_file_sha16": "d6c7bdac73ef7326",
+    "current_file_bytes": 14597,
+    "verified": true
+   },
+   "filename_mismatch": null
+  },
+  {
+   "id": "C107",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "line": 30,
+   "hex": "a6bc4f268f7711de",
+   "hex_len": 16,
+   "context": "⇒ **rev6 prompt 撤回**，抽取层回 rev5.1 prompt（`a6bc4f268f7711de`）。rev6 产物保留为失败留痕，**不得**写成\"改进\"。",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/run_m5c2_rev4.py#REV4_TEMPLATE",
+   "actual_sha16": "a6bc4f268f7711de",
+   "actual_bytes": null,
+   "verdict": "match",
+   "resolution_method": "prompt_template_recompute",
+   "note": "不是文件哈希，而是抽取 prompt 模板的 sha16；已从 run_m5c2_rev4.py 的 REV4_TEMPLATE 字面量重算",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C108",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "line": 71,
+   "hex": "6a3001b6ca23ef7d",
+   "hex_len": 16,
+   "context": "`items_source_sha16=M5B4-JUDGE.json 6a3001b6ca23ef7d`、`gold_sha16_current=9273ebc97aa1413a`",
+   "cited_target_name": "M5B4-JUDGE.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "actual_sha16": "6a3001b6ca23ef7d",
+   "actual_bytes": 452456,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C109",
+   "source_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "line": 71,
+   "hex": "9273ebc97aa1413a",
+   "hex_len": 16,
+   "context": "`items_source_sha16=M5B4-JUDGE.json 6a3001b6ca23ef7d`、`gold_sha16_current=9273ebc97aa1413a`",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+   "actual_sha16": "9273ebc97aa1413a",
+   "actual_bytes": 13195,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C110",
+   "source_file": "docs/_work/PREREG-M5-C2-SEMANTIC.md",
+   "line": 11,
+   "hex": "df1ae09cc9ecc0d2",
+   "hex_len": 16,
+   "context": "- 坐标：`LEAD-M5-B-ADJUDICATION.md` = `df1ae09cc9ecc0d2` / 5,627 B；`M5B2-RATES.json` = `9ac66b6dfaf8f804` / 11,407 B；`PREREG-M5-B2.md` = `482a94820917d16e` / 12,695 B。",
+   "cited_target_name": "LEAD-M5-B-ADJUDICATION.md",
+   "target_path": "docs/_work/LEAD-M5-B-ADJUDICATION.md",
+   "actual_sha16": "df1ae09cc9ecc0d2",
+   "actual_bytes": 5627,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C111",
+   "source_file": "docs/_work/PREREG-M5-C2-SEMANTIC.md",
+   "line": 11,
+   "hex": "9ac66b6dfaf8f804",
+   "hex_len": 16,
+   "context": "- 坐标：`LEAD-M5-B-ADJUDICATION.md` = `df1ae09cc9ecc0d2` / 5,627 B；`M5B2-RATES.json` = `9ac66b6dfaf8f804` / 11,407 B；`PREREG-M5-B2.md` = `482a94820917d16e` / 12,695 B。",
+   "cited_target_name": "M5B2-RATES.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B2-RATES.json",
+   "actual_sha16": "9ac66b6dfaf8f804",
+   "actual_bytes": 11407,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C112",
+   "source_file": "docs/_work/PREREG-M5-C2-SEMANTIC.md",
+   "line": 11,
+   "hex": "482a94820917d16e",
+   "hex_len": 16,
+   "context": "- 坐标：`LEAD-M5-B-ADJUDICATION.md` = `df1ae09cc9ecc0d2` / 5,627 B；`M5B2-RATES.json` = `9ac66b6dfaf8f804` / 11,407 B；`PREREG-M5-B2.md` = `482a94820917d16e` / 12,695 B。",
+   "cited_target_name": "PREREG-M5-B2.md",
+   "target_path": "docs/_work/PREREG-M5-B2.md",
+   "actual_sha16": "482a94820917d16e",
+   "actual_bytes": 12695,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C113",
+   "source_file": "docs/_work/PREREG-M5-C2-SEMANTIC.md",
+   "line": 66,
+   "hex": "482a94820917d16e",
+   "hex_len": 16,
+   "context": "| `PREREG-M5-B2.md`（(b2) 预登记） | `482a94820917d16e` / 12,695 |",
+   "cited_target_name": "PREREG-M5-B2.md",
+   "target_path": "docs/_work/PREREG-M5-B2.md",
+   "actual_sha16": "482a94820917d16e",
+   "actual_bytes": 12695,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C114",
+   "source_file": "docs/_work/PREREG-M5-C2-SEMANTIC.md",
+   "line": 67,
+   "hex": "cc03e48c360ae0ee",
+   "hex_len": 16,
+   "context": "| `m5_ground_v2_3.py`（v2.3 判据，冻结） | `cc03e48c360ae0ee` / 44,209 |",
+   "cited_target_name": "m5_ground_v2_3.py",
+   "target_path": "kvmem/m2_visibility/m5/m5_ground_v2_3.py",
+   "actual_sha16": "cc03e48c360ae0ee",
+   "actual_bytes": 44209,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C115",
+   "source_file": "docs/_work/PREREG-M5-C2-SEMANTIC.md",
+   "line": 68,
+   "hex": "9ac66b6dfaf8f804",
+   "hex_len": 16,
+   "context": "| `M5B2-RATES.json`（(b2) 两率） | `9ac66b6dfaf8f804` / 11,407 |",
+   "cited_target_name": "M5B2-RATES.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B2-RATES.json",
+   "actual_sha16": "9ac66b6dfaf8f804",
+   "actual_bytes": 11407,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C116",
+   "source_file": "docs/_work/PREREG-M5-C2-SEMANTIC.md",
+   "line": 69,
+   "hex": "df1ae09cc9ecc0d2",
+   "hex_len": 16,
+   "context": "| `LEAD-M5-B-ADJUDICATION.md`（(b2) 裁定） | `df1ae09cc9ecc0d2` / 5,627 |",
+   "cited_target_name": "LEAD-M5-B-ADJUDICATION.md",
+   "target_path": "docs/_work/LEAD-M5-B-ADJUDICATION.md",
+   "actual_sha16": "df1ae09cc9ecc0d2",
+   "actual_bytes": 5627,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C117",
+   "source_file": "docs/_work/PREREG-M5-C2-SEMANTIC.md",
+   "line": 70,
+   "hex": "0d882f20987fea70",
+   "hex_len": 16,
+   "context": "| `M5C-36-adj.json`（(c) ADJ 盲标，标定参照） | `0d882f20987fea70` / 60,432 |",
+   "cited_target_name": "M5C-36-adj.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5C-36-adj.json",
+   "actual_sha16": "0d882f20987fea70",
+   "actual_bytes": 60432,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C118",
+   "source_file": "docs/_work/PREREG-M5-C2-SEMANTIC.md",
+   "line": 71,
+   "hex": "5a3f12f2a742a864",
+   "hex_len": 16,
+   "context": "| `PREREG-M5-JUDGE-v2.3.md` | `5a3f12f2a742a864` / 10,394 |",
+   "cited_target_name": "PREREG-M5-JUDGE-v2.3.md",
+   "target_path": "docs/_work/PREREG-M5-JUDGE-v2.3.md",
+   "actual_sha16": "5a3f12f2a742a864",
+   "actual_bytes": 10394,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C119",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 5,
+   "hex": "32eaf82ca56600c4",
+   "hex_len": 16,
+   "context": "> 冻结件：`docs/_work/PREREG-M5-C2-REV7.md` sha16=`32eaf82ca56600c4` / 5835 B / 88 行 / `frozen=true`",
+   "cited_target_name": "PREREG-M5-C2-REV7.md",
+   "target_path": "docs/_work/PREREG-M5-C2-REV7.md",
+   "actual_sha16": "32eaf82ca56600c4",
+   "actual_bytes": 5835,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C120",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 24,
+   "hex": "6695a4b4de403870",
+   "hex_len": 16,
+   "context": "1. 自写 `_rev7_audit.py`（57234 B，sha16 `6695a4b4de403870`）：从 PREREG §2 逐字实现 N1–N4（含 `normalize`、`value_tokens`、N3 定位门、N4 作用域、R1/R2/R3/R4+/derived、逐句聚合），**不 import、不复制、不执行**执行者脚本；在独立实现与交叉比对完成前没有读过 `run_m5c2_rev7_offline.py`。",
+   "cited_target_name": "_rev7_audit.py",
+   "target_path": "kvmem/m2_visibility/m5/out/_rev7_audit.py",
+   "actual_sha16": "6695a4b4de403870",
+   "actual_bytes": 57234,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C121",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 25,
+   "hex": "6a3001b6ca23ef7d",
+   "hex_len": 16,
+   "context": "2. 用冻结输入 `M5B4-JUDGE.json`（`6a3001b6ca23ef7d`）+ `M5B4-LEAD-RULING.json`（`9273ebc97aa1413a`）独立复算 rev5.1 基线（261 句 verdict + 777 条 per-item `absent`/`rule_hits`）与 rev7 字面结果。",
+   "cited_target_name": "M5B4-JUDGE.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "actual_sha16": "6a3001b6ca23ef7d",
+   "actual_bytes": 452456,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C122",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 25,
+   "hex": "9273ebc97aa1413a",
+   "hex_len": 16,
+   "context": "2. 用冻结输入 `M5B4-JUDGE.json`（`6a3001b6ca23ef7d`）+ `M5B4-LEAD-RULING.json`（`9273ebc97aa1413a`）独立复算 rev5.1 基线（261 句 verdict + 777 条 per-item `absent`/`rule_hits`）与 rev7 字面结果。",
+   "cited_target_name": "M5B4-LEAD-RULING.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+   "actual_sha16": "9273ebc97aa1413a",
+   "actual_bytes": 13195,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C123",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 39,
+   "hex": "32eaf82ca56600c4",
+   "hex_len": 16,
+   "context": "| `PREREG-M5-C2-REV7.md` | `32eaf82ca56600c4` / 5835 B / 88 行 / 无尾换行 / frozen=true | 全部符合 | ✓ |",
+   "cited_target_name": "PREREG-M5-C2-REV7.md",
+   "target_path": "docs/_work/PREREG-M5-C2-REV7.md",
+   "actual_sha16": "32eaf82ca56600c4",
+   "actual_bytes": 5835,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C124",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 40,
+   "hex": "6a3001b6ca23ef7d",
+   "hex_len": 16,
+   "context": "| `M5B4-JUDGE.json` | `6a3001b6ca23ef7d` / 452456 B / 261 行 | 符合 | ✓ |",
+   "cited_target_name": "M5B4-JUDGE.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "actual_sha16": "6a3001b6ca23ef7d",
+   "actual_bytes": 452456,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C125",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 41,
+   "hex": "9273ebc97aa1413a",
+   "hex_len": 16,
+   "context": "| `M5B4-LEAD-RULING.json` | `9273ebc97aa1413a` / 13195 B / `gold_counts` 46/41/164/10 | 符合，gold 计数逐项相等 | ✓ |",
+   "cited_target_name": "M5B4-LEAD-RULING.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+   "actual_sha16": "9273ebc97aa1413a",
+   "actual_bytes": 13195,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C126",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 143,
+   "hex": "1f8f44b921e575fe",
+   "hex_len": 16,
+   "context": "产物：sha16 `1f8f44b921e575fe` / 507657 B / schema `m5c2_rev7_offline_v1` / 261 句 / 777 条。",
+   "cited_target_name": "M5C2-REV7-OFFLINE.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+   "actual_sha16": "1f8f44b921e575fe",
+   "actual_bytes": 507657,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C127",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 158,
+   "hex": "65ed60125528d5d6",
+   "hex_len": 16,
+   "context": "| 代码溯源 | 产物 `code_sha16=65ed60125528d5d6` / `code_bytes=44761` | 与实际脚本哈希/字节**一致** |",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "actual_sha16": "65ed60125528d5d6",
+   "actual_bytes": 44761,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C128",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 174,
+   "hex": "c349ca5a93192aac",
+   "hex_len": 16,
+   "context": "| 额外输入 | 额外只读校验 `M5B4-SENTENCES.json`（`c349ca5a93192aac`，与 judge 内 `sentences_sha16` 一致）仅用于取句子原文；非 (b5)、不参与判定 |",
+   "cited_target_name": "M5B4-SENTENCES.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-SENTENCES.json",
+   "actual_sha16": "c349ca5a93192aac",
+   "actual_bytes": 99636,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C129",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 202,
+   "hex": "1f8f44b921e575fe",
+   "hex_len": 16,
+   "context": "| 改前已有产物 | `1f8f44b921e575fe` | 507657 | — |",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+   "actual_sha16": "1f8f44b921e575fe",
+   "actual_bytes": 507657,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C130",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 203,
+   "hex": "1f8f44b921e575fe",
+   "hex_len": 16,
+   "context": "| 第 1 次重跑 | `1f8f44b921e575fe` | 507657 | 0.27 s |",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+   "actual_sha16": "1f8f44b921e575fe",
+   "actual_bytes": 507657,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C131",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 204,
+   "hex": "1f8f44b921e575fe",
+   "hex_len": 16,
+   "context": "| 第 2 次重跑 | `1f8f44b921e575fe` | 507657 | 0.29 s |",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+   "actual_sha16": "1f8f44b921e575fe",
+   "actual_bytes": 507657,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C132",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 206,
+   "hex": "de80cd38a7147f0f",
+   "hex_len": 16,
+   "context": "两次输出与既有产物 **完全同字节**（不是「长得像」）。唯一副作用是产物 mtime 更新，内容零变化。我的审计脚本自身也连跑两次，输出 JSON sha16 均为 `de80cd38a7147f0f`（byte 级一致）。",
+   "cited_target_name": null,
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-REV7-AUDIT.json",
+   "actual_sha16": "de80cd38a7147f0f",
+   "actual_bytes": 55523,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C133",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 223,
+   "hex": "6695a4b4de403870",
+   "hex_len": 16,
+   "context": "| `kvmem/m2_visibility/m5/out/_rev7_audit.py` | `6695a4b4de403870` | 57234 | 我的独立实现 + 审计脚本（自包含，不 import 执行者） |",
+   "cited_target_name": "_rev7_audit.py",
+   "target_path": "kvmem/m2_visibility/m5/out/_rev7_audit.py",
+   "actual_sha16": "6695a4b4de403870",
+   "actual_bytes": 57234,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C134",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 224,
+   "hex": "de80cd38a7147f0f",
+   "hex_len": 16,
+   "context": "| `kvmem/m2_visibility/m5/out/M5C2-REV7-AUDIT.json` | `de80cd38a7147f0f` | 55523 | 审计产物（输入/基线/rev7/敏感性/断言/边界/执行者比对/结论） |",
+   "cited_target_name": "M5C2-REV7-AUDIT.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-REV7-AUDIT.json",
+   "actual_sha16": "de80cd38a7147f0f",
+   "actual_bytes": 55523,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C135",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 227,
+   "hex": "65ed60125528d5d6",
+   "hex_len": 16,
+   "context": "被审计对象（未改动内容）：执行者脚本 `run_m5c2_rev7_offline.py` sha16 `65ed60125528d5d6` / 44761 B；产物 `M5C2-REV7-OFFLINE.json` sha16 `1f8f44b921e575fe` / 507657 B。",
+   "cited_target_name": "run_m5c2_rev7_offline.py",
+   "target_path": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "actual_sha16": "65ed60125528d5d6",
+   "actual_bytes": 44761,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C136",
+   "source_file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 227,
+   "hex": "1f8f44b921e575fe",
+   "hex_len": 16,
+   "context": "被审计对象（未改动内容）：执行者脚本 `run_m5c2_rev7_offline.py` sha16 `65ed60125528d5d6` / 44761 B；产物 `M5C2-REV7-OFFLINE.json` sha16 `1f8f44b921e575fe` / 507657 B。",
+   "cited_target_name": "M5C2-REV7-OFFLINE.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+   "actual_sha16": "1f8f44b921e575fe",
+   "actual_bytes": 507657,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C137",
+   "source_file": "kvmem/m2_visibility/m5/out/M5B4-RATES.md",
+   "line": 3,
+   "hex": "6a3001b6ca23ef7d",
+   "hex_len": 16,
+   "context": "- 判据：`M5B4-JUDGE.json` `6a3001b6ca23ef7d` / 452,456 B",
+   "cited_target_name": "M5B4-JUDGE.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "actual_sha16": "6a3001b6ca23ef7d",
+   "actual_bytes": 452456,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C138",
+   "source_file": "kvmem/m2_visibility/m5/out/M5B4-RATES.md",
+   "line": 4,
+   "hex": "9054479b32b79eb1",
+   "hex_len": 16,
+   "context": "- 金标：`M5B4-LEAD-RULING.json` `9054479b32b79eb1` / 10,208 B",
+   "cited_target_name": "M5B4-LEAD-RULING.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+   "actual_sha16": "9273ebc97aa1413a",
+   "actual_bytes": 13195,
+   "verdict": "stale_unresolved",
+   "resolution_method": "filename_nearest",
+   "note": "RATES/AB 记录的“金标”历史坐标（10,208 B，19:00 audit_fix 前）；现文件为 9273ebc9（13,195 B）；旧版本字节未保留，但 gold 逐 sid 值未变（可证数值等价）",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C139",
+   "source_file": "kvmem/m2_visibility/m5/out/M5B4-RATES.md",
+   "line": 5,
+   "hex": "783d423a39db02e3",
+   "hex_len": 16,
+   "context": "- 读数：`M5B4-RATES.json` `783d423a39db02e3` / 121,993 B",
+   "cited_target_name": "M5B4-RATES.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-RATES.json",
+   "actual_sha16": "783d423a39db02e3",
+   "actual_bytes": 121993,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C140",
+   "source_file": "kvmem/m2_visibility/m5/out/M5B4-RATES.md",
+   "line": 6,
+   "hex": "f30d89e30262b148",
+   "hex_len": 16,
+   "context": "- 预登记：`PREREG-M5-C2-B4.md` `f30d89e30262b148`",
+   "cited_target_name": "PREREG-M5-C2-B4.md",
+   "target_path": "docs/_work/PREREG-M5-C2-B4.md",
+   "actual_sha16": "f30d89e30262b148",
+   "actual_bytes": 10910,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C141",
+   "source_file": "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.md",
+   "line": 5,
+   "hex": "9054479b32b79eb1",
+   "hex_len": 16,
+   "context": "- `same_gold = 9054479b32b79eb1`（`M5B4-LEAD-RULING.json`）",
+   "cited_target_name": "M5B4-LEAD-RULING.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+   "actual_sha16": "9273ebc97aa1413a",
+   "actual_bytes": 13195,
+   "verdict": "stale_unresolved",
+   "resolution_method": "filename_nearest",
+   "note": "RATES/AB 记录的“金标”历史坐标（10,208 B，19:00 audit_fix 前）；现文件为 9273ebc9（13,195 B）；旧版本字节未保留，但 gold 逐 sid 值未变（可证数值等价）",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C142",
+   "source_file": "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.md",
+   "line": 6,
+   "hex": "c349ca5a93192aac",
+   "hex_len": 16,
+   "context": "- 句表：`M5B4-SENTENCES.json c349ca5a93192aac`",
+   "cited_target_name": "M5B4-SENTENCES.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-SENTENCES.json",
+   "actual_sha16": "c349ca5a93192aac",
+   "actual_bytes": 99636,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C143",
+   "source_file": "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.md",
+   "line": 7,
+   "hex": "6a3001b6ca23ef7d",
+   "hex_len": 16,
+   "context": "- 新判据：`M5B4-JUDGE.json 6a3001b6ca23ef7d`",
+   "cited_target_name": "M5B4-JUDGE.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "actual_sha16": "6a3001b6ca23ef7d",
+   "actual_bytes": 452456,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C144",
+   "source_file": "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.md",
+   "line": 8,
+   "hex": "0ff84d2617ab8b99",
+   "hex_len": 16,
+   "context": "- 产物：`M5B4-AB-OLD-VS-NEW.json 0ff84d2617ab8b99 / 68,603 B`",
+   "cited_target_name": "M5B4-AB-OLD-VS-NEW.json",
+   "target_path": "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.json",
+   "actual_sha16": "0ff84d2617ab8b99",
+   "actual_bytes": 68603,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C145",
+   "source_file": "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.md",
+   "line": 13,
+   "hex": "cc03e48c360ae0ee",
+   "hex_len": 16,
+   "context": "**v2.3（`m5_ground_v2_3.py cc03e48c360ae0ee / 44,209 B`）**。",
+   "cited_target_name": "m5_ground_v2_3.py",
+   "target_path": "kvmem/m2_visibility/m5/m5_ground_v2_3.py",
+   "actual_sha16": "cc03e48c360ae0ee",
+   "actual_bytes": 44209,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C146",
+   "source_file": "README.md",
+   "line": 19,
+   "hex": "db32faae83bec9fc",
+   "hex_len": 16,
+   "context": "| 补丁规模 | **6 文件 / 600 insertions / 0 deletions**（`patches/persistent-memory.patch`，32,337 B，sha16 `db32faae83bec9fc`） |",
+   "cited_target_name": "persistent-memory.patch",
+   "target_path": "patches/persistent-memory.patch",
+   "actual_sha16": "db32faae83bec9fc",
+   "actual_bytes": 32337,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C147",
+   "source_file": "README.md",
+   "line": 70,
+   "hex": "6f26bce0",
+   "hex_len": 8,
+   "context": "| M2 规划器 / M2 完整 | **已验收** | 判决件 `M2-ACCEPT-lead.md`（已签 `6f26bce0`；现场 `21ec668df2171350`）/ `M2-FULL-FINAL-lead.md`（`84ec4e3f9b493cf7`） |",
+   "cited_target_name": "M2-ACCEPT-lead.md",
+   "target_path": "docs/_work/M2-ACCEPT-lead.md",
+   "actual_sha16": "21ec668df2171350",
+   "actual_bytes": 10479,
+   "verdict": "unverifiable",
+   "resolution_method": "filename_nearest",
+   "note": "M2-ACCEPT-lead.md 的“已签”历史坐标；签署版字节不在工作树/全部 git blob 中，不可复算；README/INDEX 已把它与现行 21ec668d 并列",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C148",
+   "source_file": "README.md",
+   "line": 70,
+   "hex": "21ec668df2171350",
+   "hex_len": 16,
+   "context": "| M2 规划器 / M2 完整 | **已验收** | 判决件 `M2-ACCEPT-lead.md`（已签 `6f26bce0`；现场 `21ec668df2171350`）/ `M2-FULL-FINAL-lead.md`（`84ec4e3f9b493cf7`） |",
+   "cited_target_name": "M2-ACCEPT-lead.md",
+   "target_path": "docs/_work/M2-ACCEPT-lead.md",
+   "actual_sha16": "21ec668df2171350",
+   "actual_bytes": 10479,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C149",
+   "source_file": "README.md",
+   "line": 70,
+   "hex": "84ec4e3f9b493cf7",
+   "hex_len": 16,
+   "context": "| M2 规划器 / M2 完整 | **已验收** | 判决件 `M2-ACCEPT-lead.md`（已签 `6f26bce0`；现场 `21ec668df2171350`）/ `M2-FULL-FINAL-lead.md`（`84ec4e3f9b493cf7`） |",
+   "cited_target_name": "M2-FULL-FINAL-lead.md",
+   "target_path": "docs/_work/M2-FULL-FINAL-lead.md",
+   "actual_sha16": "84ec4e3f9b493cf7",
+   "actual_bytes": 8368,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C150",
+   "source_file": "README.md",
+   "line": 158,
+   "hex": "c7c8b264f960daea",
+   "hex_len": 16,
+   "context": "脚本现为 **124 行 / 12 项关系断言**（sha16 `c7c8b264f960daea`）：4 项补丁关系断言（实时 == MANIFEST == 补丁快照，归档 500 另立基线）、2 项报告哈希边车一致性、4 项门禁臂（rc 6/6/0/0）、2 项可证伪（缺 `worker_counts` → rc=7；日志删 10 行 → rc=6）。",
+   "cited_target_name": null,
+   "target_path": "verify.sh",
+   "actual_sha16": "c7c8b264f960daea",
+   "actual_bytes": 6566,
+   "verdict": "match",
+   "resolution_method": "content_hash_unique",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  },
+  {
+   "id": "C151",
+   "source_file": "README.md",
+   "line": 220,
+   "hex": "cb11df4453756882",
+   "hex_len": 16,
+   "context": "| **仓库内可复算** | 文件在库里，任何人按 §6.4 即可复现前 16 位 | 可直接引用，例如 `kvmem/m2_visibility/ISOLATION-REPORT.md` = `cb11df4453756882` / 19,043 B |",
+   "cited_target_name": "ISOLATION-REPORT.md",
+   "target_path": "kvmem/m2_visibility/ISOLATION-REPORT.md",
+   "actual_sha16": "cb11df4453756882",
+   "actual_bytes": 19043,
+   "verdict": "match",
+   "resolution_method": "line_candidate_hash_match",
+   "note": "",
+   "reconstruction": null,
+   "filename_mismatch": null
+  }
+ ],
+ "numbers": [
+  {
+   "id": "N01",
+   "claim": "样本 261 句",
+   "where": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-RATES.md",
+     "line": 7,
+     "quote": "261 句"
+    },
+    {
+     "file": "docs/_work/PREREG-M5-C2-REV7.md",
+     "line": 70,
+     "quote": "n_sentences=261"
+    }
+   ],
+   "claimed": 261,
+   "computed": 261,
+   "verdict": "match",
+   "method": "count sentences[]",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5B4-SENTENCES.json",
+    "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+    "kvmem/m2_visibility/m5/out/M5B4-RATES.json"
+   ],
+   "note": "SENTENCES 261、JUDGE n_sentences 261、REV7 产物 261、RATES 261/261 已判"
+  },
+  {
+   "id": "N02",
+   "claim": "金标四态 46 / 41 / 164 / 10",
+   "where": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+     "line": 27,
+     "quote": "\"gold_counts\""
+    }
+   ],
+   "claimed": "support 46 / fabricated 41 / no_fact 164 / undecidable 10",
+   "computed": {
+    "support_present": 46,
+    "no_fact": 164,
+    "undecidable": 10,
+    "fabricated": 41
+   },
+   "verdict": "match",
+   "method": "Counter(gold dict 261 条)",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+    "kvmem/m2_visibility/m5/out/M5B4-RATES.json"
+   ],
+   "note": "与 RATES rows 的 gold 字段逐 sid 一致（0 差异）"
+  },
+  {
+   "id": "N03",
+   "claim": "rev5.1 误判 7/46 = 15.22%",
+   "where": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-RATES.md",
+     "line": 101,
+     "quote": "7/46"
+    }
+   ],
+   "claimed": "7/46 = 15.22%",
+   "computed": "recomputed 7/46 = 15.22%",
+   "verdict": "match",
+   "method": "from rows_full",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5B4-RATES.json",
+    "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json"
+   ],
+   "note": "JSON rates.false 7/46；AB rows new 亦 7/46"
+  },
+  {
+   "id": "N04",
+   "claim": "rev5.1 漏判 4/41 = 9.76%",
+   "where": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-RATES.md",
+     "line": 101,
+     "quote": "4/41"
+    }
+   ],
+   "claimed": "4/41 = 9.76%",
+   "computed": "recomputed 4/41 = 9.76%",
+   "verdict": "match",
+   "method": "from rows_full",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5B4-RATES.json",
+    "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json"
+   ],
+   "note": ""
+  },
+  {
+   "id": "N05",
+   "claim": "parse_fail 1/261",
+   "where": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-RATES.md",
+     "line": 49,
+     "quote": "1 / 261"
+    }
+   ],
+   "claimed": "1/261",
+   "computed": "recomputed 1/261",
+   "verdict": "match",
+   "method": "count judge_verdict==parse_fail",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5B4-RATES.json",
+    "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json"
+   ],
+   "note": "sid=b4-s2-q2-s05"
+  },
+  {
+   "id": "N06",
+   "claim": "rev7 误判 2/46",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-REV7.md",
+     "line": 60,
+     "quote": "≤ 4/46"
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+     "line": 96,
+     "quote": "false_positive"
+    }
+   ],
+   "claimed": "2/46",
+   "computed": "2/46",
+   "verdict": "match",
+   "method": "gate.false_positive",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json"
+   ],
+   "note": "includes 2 unchanged FP (N3 assertion conflict)"
+  },
+  {
+   "id": "N07",
+   "claim": "rev7 漏判 4/41",
+   "where": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+     "line": 443,
+     "quote": "leak_missed"
+    }
+   ],
+   "claimed": "4/41",
+   "computed": "4/41",
+   "verdict": "match",
+   "method": "gate.leak_missed",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json"
+   ],
+   "note": ""
+  },
+  {
+   "id": "N08",
+   "claim": "rev7 parse_fail 1/261",
+   "where": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+     "line": 52,
+     "quote": "parse_fail"
+    }
+   ],
+   "claimed": "1/261",
+   "computed": "1/261",
+   "verdict": "match",
+   "method": "gate.parse_fail",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json"
+   ],
+   "note": ""
+  },
+  {
+   "id": "N09",
+   "claim": "rev7 新增漏判 = 0",
+   "where": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+     "line": 455,
+     "quote": "new_miss"
+    }
+   ],
+   "claimed": "0/35",
+   "computed": "0/35",
+   "verdict": "match",
+   "method": "gate.new_miss",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json"
+   ],
+   "note": "35 = rev5.1 时仍 unsupported 的 gold=fabricated 句数"
+  },
+  {
+   "id": "N10",
+   "claim": "rev7 N3 作废条目 124/777",
+   "where": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+     "line": 495,
+     "quote": "invalid_items"
+    }
+   ],
+   "claimed": "124/777",
+   "computed": "124/777",
+   "verdict": "match",
+   "method": "len(invalid_items)/len(items)",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json"
+   ],
+   "note": "rates.invalid_items 0.1596"
+  },
+  {
+   "id": "N11",
+   "claim": "rev6 前逐字率 98.45% = 318/323",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-REV7.md",
+     "line": 25,
+     "quote": "98.45%"
+    }
+   ],
+   "claimed": "98.45% (318/323)",
+   "computed": "{\"quote_bearing_items\": 323, \"verbatim_hits\": 318, \"evidence_verbatim_rate\": 0.98452, \"all_items\": 777, \"all_items_verbatim_hits\": 318, \"all_items_verbatim_rate\": 0.409266, \"sentences_with_quote_items\": 98, \"sentences_all_verbatim\": 95, \"sentence_all_verbatim_rate\": 0.969388, \"definition\": \"quote-bearing = evidence non-empty and no explicit 未提及/未找到/找不到; exact substring in source_text\"}",
+   "verdict": "match",
+   "method": "READOUT.evidence_verbatim_rate.old",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV6-B4DESIGN-READOUT.json"
+   ],
+   "note": "rev5.1 prompt（a6bc4f26）"
+  },
+  {
+   "id": "N12",
+   "claim": "rev6 后逐字率 90.88% = 289/318",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-REV7.md",
+     "line": 25,
+     "quote": "90.88%"
+    }
+   ],
+   "claimed": "90.88% (289/318)",
+   "computed": "{\"quote_bearing_items\": 318, \"verbatim_hits\": 289, \"evidence_verbatim_rate\": 0.908805, \"all_items\": 513, \"all_items_verbatim_hits\": 289, \"all_items_verbatim_rate\": 0.563353, \"sentences_with_quote_items\": 105, \"sentences_all_verbatim\": 89, \"sentence_all_verbatim_rate\": 0.847619, \"definition\": \"quote-bearing = evidence non-empty and no explicit 未提及/未找到/找不到; exact substring in source_text\"}",
+   "verdict": "match",
+   "method": "READOUT.evidence_verbatim_rate.new",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV6-B4DESIGN-READOUT.json"
+   ],
+   "note": "rev6 prompt"
+  },
+  {
+   "id": "N13",
+   "claim": "rev6 读数：漏判 6/41、误判 4/46、parse_fail 3",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-REV7.md",
+     "line": 26,
+     "quote": "6/41"
+    }
+   ],
+   "claimed": "6/41 ; 4/46 ; 3",
+   "computed": "leak {\"n\": 6, \"denominator\": 41, \"rate\": 0.146341, \"sids\": [\"b4-s2-q1-s05\", \"b4-s2-q2-s01\", \"b4-s2-q3-s07\", \"b4-s3-q4-s11\", \"b4-s3-q5-s06\", \"b4-s3-q5-s08\"]} ; false_unsupported {\"n\": 4, \"denominator\": 46, \"rate\": 0.086957, \"wilson95\": {\"n\": 46, \"k\": 4, \"rate\": 0.086957, \"lo\": 0.034335, \"hi\": 0.203249}, \"sids\": [\"b4-s1-q2-s01\", \"b4-s1-q ; parse_fail {\"n\": 3, \"rate\": 0.011494, \"sids\": [\"b4-s1-q1-s02\", \"b4-s1-q1-s05\", \"b4-s1-q3-s04\"]}",
+   "verdict": "match",
+   "method": "READOUT.new_rev6",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV6-B4DESIGN-READOUT.json"
+   ],
+   "note": ""
+  },
+  {
+   "id": "N14",
+   "claim": "v2.3 在 b4 上 3/41=7.32% 与 11/46=23.91%",
+   "where": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.md",
+     "line": 22,
+     "quote": "7.32%"
+    }
+   ],
+   "claimed": "3/41 = 7.32% ; 11/46 = 23.91%",
+   "computed": "3/41 = 7.32% ; 11/46 = 23.91%",
+   "verdict": "match",
+   "method": "recompute from AB rows old_verdict",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.json"
+   ],
+   "note": "旧判据 m5_ground_v2_3.py cc03e48c"
+  },
+  {
+   "id": "N15",
+   "claim": "b2 时代口径：旧 29/41=70.73%、新 6/41=14.63%",
+   "where": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.md",
+     "line": 60,
+     "quote": "70.73%"
+    }
+   ],
+   "claimed": "29/41 = 70.73% ; 6/41 = 14.63%",
+   "computed": "29/41 = 70.73% ; 6/41 = 14.63%",
+   "verdict": "match",
+   "method": "recompute from AB rows (legacy def judge!=unsupported)",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.json"
+   ],
+   "note": ""
+  },
+  {
+   "id": "N16",
+   "claim": "FLOOR-REV2 39 例 + 臂6 8/8、臂2 6/6、臂3 6/6、臂5 7/7",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-REV4.md",
+     "line": 14,
+     "quote": "臂6 缺席"
+    },
+    {
+     "file": "docs/_work/PREREG-M5-C2-B5.md",
+     "line": 168,
+     "quote": "两率达标且 CI 上界不越线"
+    }
+   ],
+   "claimed": "39 例；8/8, 6/6, 6/6, 7/7",
+   "computed": "n=39；{\"arm2\": \"6/6\", \"arm3\": \"6/6\", \"arm5\": \"7/7\", \"arm6\": \"8/8\"}",
+   "verdict": "match",
+   "method": "FLOOR-REV2 arms",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5C2-FLOOR-REV2.json"
+   ],
+   "note": "注：同一数据的 arm1 空源文 A=4/6、arm4=3/6，故 all_table_gates=False（REV4 引用为选择性列举，未失真）"
+  },
+  {
+   "id": "N17",
+   "claim": "floor 31/31 全 A（含空源文 6/6 判 A）",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-REV4.md",
+     "line": 11,
+     "quote": "31/31"
+    }
+   ],
+   "claimed": "31/31 全 A",
+   "computed": "31/31 全 A（arm1 空源文 A=6/6）",
+   "verdict": "match_numeric_provenance_loose",
+   "method": "M5C2-FLOOR-GBNF-EXPLORATORY.arm_rate",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5C2-FLOOR-GBNF-EXPLORATORY.json"
+   ],
+   "note": "数值正确，但 REV4 把它归到 M5C2-FLOOR-ARTIFACT.json（15 例，另一件）+AMEND（否定该 31/31）；真正的 31 例在 EXPLORATORY 且未标 sha16 → 出处链不精确"
+  },
+  {
+   "id": "N18",
+   "claim": "B2EVAL 106 句",
+   "where": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-RATES.md",
+     "line": 7,
+     "quote": "261 句"
+    }
+   ],
+   "claimed": "106 句",
+   "computed": "106",
+   "verdict": "match",
+   "method": "B2EVAL n_done",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5C2-B2EVAL.json"
+   ],
+   "note": "n_planned=n_done=106"
+  },
+  {
+   "id": "N19",
+   "claim": "(b2) 510 句 + 金标 71/35/385/19",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-B2EVAL.md",
+     "line": 32,
+     "quote": "510 句"
+    }
+   ],
+   "claimed": "510 句；71/35/385/19",
+   "computed": "510 句；{\"support_present\": 71, \"fabricated\": 35, \"no_fact\": 385, \"undecidable\": 19}",
+   "verdict": "match",
+   "method": "M5B2-SENTENCES/M5B2-LEAD-RULING",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5B2-SENTENCES.json",
+    "kvmem/m2_visibility/m5/out/M5B2-LEAD-RULING.json"
+   ],
+   "note": ""
+  },
+  {
+   "id": "N20",
+   "claim": "补丁 6 文件 / 600 insertions / 0 deletions（32,337 B, db32faae）",
+   "where": [
+    {
+     "file": "README.md",
+     "line": 19,
+     "quote": "600 insertions"
+    }
+   ],
+   "claimed": "6 文件 / 600 / 0 / 32,337 B",
+   "computed": "6 文件 / 600 / 0 / 32337 B / db32faae83bec9fc",
+   "verdict": "match",
+   "method": "parse patch file",
+   "artifacts": [
+    "patches/persistent-memory.patch"
+   ],
+   "note": ""
+  },
+  {
+   "id": "N21",
+   "claim": "verify.sh 124 行 / 12 项关系断言（c7c8b264）",
+   "where": [
+    {
+     "file": "README.md",
+     "line": 158,
+     "quote": "124 行"
+    }
+   ],
+   "claimed": "124 行 / 12 项 / c7c8b264f960daea",
+   "computed": "124 行 / 12 项（4 补丁关系+2 边车+6 expect）/ c7c8b264f960daea",
+   "verdict": "match",
+   "method": "count lines/assert blocks",
+   "artifacts": [
+    "verify.sh"
+   ],
+   "note": ""
+  },
+  {
+   "id": "N22",
+   "claim": "ISOLATION-REPORT.md = cb11df44 / 19,043 B",
+   "where": [
+    {
+     "file": "README.md",
+     "line": 220,
+     "quote": "19,043 B"
+    }
+   ],
+   "claimed": "cb11df4453756882 / 19,043 B",
+   "computed": "cb11df4453756882 / 19043 B",
+   "verdict": "match",
+   "method": "hash+size",
+   "artifacts": [
+    "kvmem/m2_visibility/ISOLATION-REPORT.md"
+   ],
+   "note": ""
+  },
+  {
+   "id": "N23",
+   "claim": "B5 §8.1 LEAD 复测：4-gram 与 (b2) 共享 2 个（80元，/00元，）",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-B5.md",
+     "line": 128,
+     "quote": "4-gram 与 `(b2)`"
+    }
+   ],
+   "claimed": "2 个：80元， 00元，",
+   "computed": "2 个：00元， / 80元，",
+   "verdict": "match",
+   "method": "whitespace-stripped char 4-gram, 8 源文+40 题",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-B5.md",
+    "docs/_work/PREREG-M5-B2.md"
+   ],
+   "note": "多重集交集同为 2"
+  },
+  {
+   "id": "N24",
+   "claim": "B5 §8.1 LEAD 复测：4-gram 与 (b4) 共享 8 个",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-B5.md",
+     "line": 129,
+     "quote": "4-gram 与 `(b4)`"
+    }
+   ],
+   "claimed": "8 个：期多长？/90天，/发票吗？/80元，/是什么？/费多少？/00元，/是多少？",
+   "computed": "8 个：00元， / 80元， / 90天， / 发票吗？ / 是什么？ / 是多少？ / 期多长？ / 费多少？",
+   "verdict": "match",
+   "method": "whitespace-stripped char 4-gram, 8 源文+40 题",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-B5.md",
+    "docs/_work/PREREG-M5-C2-B4.md"
+   ],
+   "note": "多重集交集同为 8"
+  },
+  {
+   "id": "N25",
+   "claim": "B5 §8.1「16 个已占领域名出现次数 = 全 0」",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-B5.md",
+     "line": 130,
+     "quote": "16 个已占领域名出现次数"
+    }
+   ],
+   "claimed": "全 0",
+   "computed": "全文计数：{\"租车\": 1, \"物业\": 1}；§1 题面内计数：{}",
+   "verdict": "mismatch_literal_ok_within_section1",
+   "method": "substring count in whole file vs §1",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-B5.md"
+   ],
+   "note": "字面写「本文件/全 0」为假：租车、物业各 1 次（均出现在 §8.1 本行名单里）；若按「§1 题面」口径则为 0"
+  },
+  {
+   "id": "N26",
+   "claim": "B5 §8.1「关键专有名词 全 0」",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-B5.md",
+     "line": 119,
+     "quote": "关键专有名词"
+    }
+   ],
+   "claimed": "全 0",
+   "computed": "全文计数：{\"仁和口腔\": 1, \"迅达租车\": 1, \"华庭物业\": 1, \"北方联通\": 1, \"力量方舟\": 1}；§1 题面内计数：{\"仁和口腔\": 0, \"迅达租车\": 0, \"华庭物业\": 0, \"北方联通\": 0, \"力量方舟\": 0}",
+   "verdict": "mismatch_literal_ok_within_section1",
+   "method": "substring count in whole file vs §1",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-B5.md"
+   ],
+   "note": "同一行行名即含 5 个专名 ⇒ 字面计数各 1；题面内 0"
+  },
+  {
+   "id": "N27",
+   "claim": "B5 40 题 / 8 场景 / 3 detail + 2 lure / 源文字数",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-B5.md",
+     "line": 1,
+     "quote": "8 场景 × 5 题"
+    }
+   ],
+   "claimed": "8 场景、40 题、24 detail + 16 lure、字数 59/59/52/53/52/55/52/50",
+   "computed": "场景 8、题 40（detail 24 / lure 16）、字数 59/59/52/53/52/55/52/50",
+   "verdict": "match",
+   "method": "parse §1",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-B5.md"
+   ],
+   "note": "源文字数与文中标注逐条一致"
+  },
+  {
+   "id": "N28",
+   "claim": "B4 40 题 / 8 场景 / 源文字数 / 归档草稿 7,823 B",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-B4.md",
+     "line": 1,
+     "quote": "8 场景 × 5 题"
+    }
+   ],
+   "claimed": "8 场景、40 题、字数 69/68/60/57/55/59/51/59、草稿 6f41f3d6 / 7,823 B",
+   "computed": "场景 8、题 40、字数 69/68/60/57/55/59/51/59、草稿 6f41f3d6ee318587 / 7823 B",
+   "verdict": "match",
+   "method": "parse §1 + archive file",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-B4.md"
+   ],
+   "note": ""
+  },
+  {
+   "id": "N29",
+   "claim": "REV7 §0 归因表：N1=4、N2=2、N3=2（与上重叠 1 例）",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-REV7.md",
+     "line": 15,
+     "quote": "| **R1 数值归一化缺失**"
+    }
+   ],
+   "claimed": "N1 4 / N2 2 / N3 2（重叠 1）",
+   "computed": "N1 3 / N2 2 / N3 2（重叠 0，7 例互不重复）：[[\"b4-s1-q2-s01\", \"N1\"], [\"b4-s1-q2-s07\", \"N3\"], [\"b4-s1-q2-s09\", \"N3\"], [\"b4-s1-q2-s15\", \"N1\"], [\"b4-s1-q3-s03\", \"N1\"], [\"b4-s2-q1-s01\", \"N2\"], [\"b4-s8-q2-s02\", \"N2\"]]",
+   "verdict": "mismatch",
+   "method": "recompute from REV7 产物 false_by_reason.attribution + JUDGE rule_hits",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+    "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json"
+   ],
+   "note": "总数 7 正确，但分解不可复算：N1 实为 3（且该行只列 3 个 sid 却写 4）；N3 两例与 N2 无重叠；JUDGE 中 R1 value_mismatch 共 5 次 = 3 次标点型（8600元）+ 2 次实体贪心型"
+  },
+  {
+   "id": "N30",
+   "claim": "REV7 §0：7 例误判中 R4+ fabricated_evidence 命中 = 0",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-REV7.md",
+     "line": 11,
+     "quote": "`R4+ fabricated_evidence` 命中数 = 0"
+    }
+   ],
+   "claimed": "0",
+   "computed": "7 例 FP 的 rev5.1 rule_hits 中 R4+ 数 = 0",
+   "verdict": "match",
+   "method": "scan false_by_reason rev5_1_rule_hits",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json"
+   ],
+   "note": "（全 261 句中 R4+ 另有 3 次命中，但均不在 7 例 FP 内）"
+  },
+  {
+   "id": "N31",
+   "claim": "REV7 §0 覆盖率 0.75 / 0.333 / 0.5",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-REV7.md",
+     "line": 15,
+     "quote": "二元组覆盖 = **0.75"
+    }
+   ],
+   "claimed": "0.75；0.333；0.5",
+   "computed": "0.750；0.333；0.500（N1 修复后 8600元 = 1.0）",
+   "verdict": "match",
+   "method": "bigram coverage = |item bigrams ∩ evidence| / |item bigrams|（NFKC+去空白）",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-REV7.md",
+    "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json"
+   ],
+   "note": "与 matcher 定义一致；<0.80 故判 value_mismatch"
+  },
+  {
+   "id": "N32",
+   "claim": "INSPECTOR「M5B4-JUDGE.json / 452456 B / 261 行」",
+   "where": [
+    {
+     "file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+     "line": 40,
+     "quote": "261 行"
+    }
+   ],
+   "claimed": "452,456 B / 261 行",
+   "computed": "452,456 B / 17040 行（JSON pretty-print）",
+   "verdict": "mismatch",
+   "method": "line count",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json"
+   ],
+   "note": "字节与 sha 均对；“261 行”与文件实际行数不符（261 应是句数，单位写错）"
+  },
+  {
+   "id": "N33",
+   "claim": "REV7 §2 N3 自检断言：患者 必须 valid=false",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-REV7.md",
+     "line": 49,
+     "quote": "的 `患者` 必须被判 `valid=false`"
+    }
+   ],
+   "claimed": "valid=false",
+   "computed": "{\"A2_pass\": false, \"A3_pass\": false, \"A2_valid\": true, \"A3_n_occurrences\": 13}",
+   "verdict": "mismatch_unsatisfiable",
+   "method": "run product assertions A2/A3",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-REV7.md",
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json"
+   ],
+   "note": "按字面 N3（子串命中⇒valid=true），患者在句首「患者：」中逐字存在 ⇒ 断言不可满足；产物 A2/A3 pass=false。REV7.1 已撤回该断言"
+  },
+  {
+   "id": "N34",
+   "claim": "REV7.1 附录 B：14 个判定函数与 rev7 逐字节相同",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+     "line": 140,
+     "quote": "**14** 个函数逐字节相同"
+    }
+   ],
+   "claimed": "14 个函数逐字节相同；仅 verify_inputs/main 不同 + 新增 2 个断言函数",
+   "computed": "identical=14 ['sha16', 'write_json_atomic', 'normalize7', 'value_tokens', 'token_kind_of_span', 'matcher', 'r1_r2_r3_rev7', 'r4_plus_rev7', 'verdict_v51', 'baseline_reproduce', 'judge_row_rev7', 'pick_attribution', 'rev7_causes', 'char_evidence'] ; differ=['verify_inputs', 'main'] ; only_rev7.1=['item_assertion', 'verdict_assertion']",
+   "verdict": "match",
+   "method": "AST function-source diff",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-REV7.1.md",
+    "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+    "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py"
+   ],
+   "note": ""
+  },
+  {
+   "id": "N35",
+   "claim": "REV7.1：rev7.1 在 b4 上实测四门槛 2/46、4/41、1/261、new_miss 0/35",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+     "line": 72,
+     "quote": "rev7.1 在 `(b4)` 设计集上实测满足上述四门槛"
+    }
+   ],
+   "claimed": "2/46、4/41、1/261、0/35",
+   "computed": "产物 55191eaf2426f736 / 510,508 B，gate = 2/46、4/41、1/261、0/35；与 rev7 产物差异键 = ['assertions', 'code_bytes', 'code_file', 'code_sha16', 'inputs', 'prereg_sha16', 'schema']",
+   "verdict": "match",
+   "method": "compare gate + full-product diff",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+    "docs/_work/PREREG-M5-C2-REV7.1.md"
+   ],
+   "note": "产物存在且 gate 逐项等于 rev7；差异键仅 provenance/schema/inputs/assertions —— 与 REV7.1 “只有 provenance 与 assertions 不同”一致（inputs 块内含 prereg/code 哈希，属 provenance 类）"
+  },
+  {
+   "id": "N36",
+   "claim": "REV7.1：7 句变化 = 5 fixed / 0 broken / 2 neutral",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+     "line": 73,
+     "quote": "5 fixed"
+    }
+   ],
+   "claimed": "7 = 5 fixed + 0 broken + 2 neutral",
+   "computed": "n_changed=7, fixed=5, broken=0, neutral=2",
+   "verdict": "match",
+   "method": "REV7 产物 sentence_diff（rev7.1 重跑产物未落盘，故按 rev7 计）",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+    "docs/_work/PREREG-M5-C2-REV7.1.md"
+   ],
+   "note": ""
+  },
+  {
+   "id": "N37",
+   "claim": "B5 §9.5：要求 (b6) 在 (b5) 开跑前出题并冻结",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-B5.md",
+     "line": 173,
+     "quote": "必须现在出题、现在冻结"
+    }
+   ],
+   "claimed": "存在已冻结的 (b6) 题面",
+   "computed": "B6 已出题：ac27d47d3a3efff9 / 17,374 B（8 场景、40 题）；头注 frozen=true",
+   "verdict": "match",
+   "method": "snapshot B6 + header state",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-B6.md",
+    "docs/_work/PREREG-M5-C2-B5.md"
+   ],
+   "note": "“出题”与“冻结”均已满足：B6 头注 frozen=true@2026-10-26T21:16:37，md=ac27d47d3a3efff9 / 17,374 B；(b5) 尚未开跑，故 B5 §9.5 的前置条件已就绪且未违规。"
+  },
+  {
+   "id": "N38",
+   "claim": "INSPECTOR：两次重跑与既有产物完全同字节（1f8f44b9 / 507,657 B）",
+   "where": [
+    {
+     "file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+     "line": 27,
+     "quote": "两次输出与既有产物"
+    }
+   ],
+   "claimed": "同字节；1f8f44b9 / 507657 B",
+   "computed": "产物现值 1f8f44b921e575fe / 507657 B（与 git 已提交 blob 同字节）；“两次重跑一致”本次未复跑，无法验证",
+   "verdict": "unverifiable",
+   "method": "no rerun performed (discipline: read-only, zero execution of GPU/model runners)",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+    "docs/_work/INSPECTOR-M5C2-REV7.md"
+   ],
+   "note": "按纪律不执行执行者脚本；仅能确认落盘产物与提交 blob 一致"
+  },
+  {
+   "id": "N39",
+   "claim": "M5B4-RATES.md / AB：金标 = 9054479b32b79eb1 / 10,208 B",
+   "where": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-RATES.md",
+     "line": 4,
+     "quote": "9054479b32b79eb1"
+    },
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.md",
+     "line": 5,
+     "quote": "9054479b32b79eb1"
+    }
+   ],
+   "claimed": "9054479b32b79eb1 / 10,208 B",
+   "computed": "现文件 9273ebc97aa1413a / 13195 B",
+   "verdict": "stale_historical_snapshot_values_equivalent",
+   "method": "hash/size compare + gold values compare",
+   "artifacts": [
+    "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+    "kvmem/m2_visibility/m5/out/M5B4-RATES.json",
+    "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.json"
+   ],
+   "note": "旧版字节未保留（全树/全部 git blob 均无 9054479b）；但 RATES/AB 中 261 条 gold 与现文件逐 sid 相同（0 差异）⇒ 4/41、7/46 等数值不受影响"
+  },
+  {
+   "id": "N40",
+   "claim": "B6：8 场景 × 5 题 = 40（24 detail + 16 lure）",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-B6.md",
+     "line": 1,
+     "quote": "8 场景 × 5 题 = 40 题"
+    }
+   ],
+   "claimed": "8 场景 / 40 题 / 24 detail + 16 lure",
+   "computed": "md：8 场景 / 40 题（detail 24 / lure 16）；json：8 场景 / 40 题 / detail 24 / lure 16",
+   "verdict": "match",
+   "method": "count md headings/lines + json fields",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-B6.md",
+    "kvmem/m2_visibility/m5/out/M5C2-B6-SENTENCES.json"
+   ],
+   "note": "B6 为审计期内活文件，本项按快照计"
+  },
+  {
+   "id": "N41",
+   "claim": "B6 附录 A：与 (b2)/(b4)/(b5) 的共享 4-gram = 0 / 0 / 0",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-B6.md",
+     "line": 197,
+     "quote": "对 `(b2)`：共享 4-gram = **0**"
+    }
+   ],
+   "claimed": "0 / 0 / 0",
+   "computed": "0 / 0 / 0",
+   "verdict": "match",
+   "method": "去空白与标点后取连续 4 字，源文+题目并集",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-B6.md",
+    "docs/_work/PREREG-M5-B2.md",
+    "docs/_work/PREREG-M5-C2-B4.md",
+    "docs/_work/PREREG-M5-C2-B5.md"
+   ],
+   "note": "B6 为活文件；此项在 21:07 版本曾为 1/1（`定在哪天`、`几点能取`），21:10+ 修订后为 0/0/0"
+  },
+  {
+   "id": "N42",
+   "claim": "B6：json.prereg_sha16 = 本件 md 全文件 sha16（零自指口径）",
+   "where": [
+    {
+     "file": "kvmem/m2_visibility/m5/out/M5C2-B6-SENTENCES.json",
+     "line": 4,
+     "quote": "\"prereg_sha16\""
+    }
+   ],
+   "claimed": "json.prereg_sha16 = md sha256[:16]",
+   "computed": "md ac27d47d3a3efff9 / 17,374 B；json.prereg_sha16 = ac27d47d3a3efff9；json 本身 23588ec099ca9255 / 9,482 B",
+   "verdict": "match",
+   "method": "sha256(md bytes)[:16] vs json field",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-B6.md",
+    "kvmem/m2_visibility/m5/out/M5C2-B6-SENTENCES.json"
+   ],
+   "note": "这是 21:13 版改用的“零自指”设计：md 内不记任何自身/json 哈希，改由 json 记 md 全文件哈希，可被任何引用方直接复算"
+  },
+  {
+   "id": "N43",
+   "claim": "B6：md 内不含自身哈希、也不含 json 哈希（零自指）",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-B6.md",
+     "line": 7,
+     "quote": "**md 内不记录任何哈希**"
+    }
+   ],
+   "claimed": "md 不含自身/json 哈希",
+   "computed": "md 含自身哈希=False；含 json 哈希=False",
+   "verdict": "match",
+   "method": "substring search",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-B6.md"
+   ],
+   "note": "注：md §0 坐标行仍记 b2/b4/b5 三个**被引**哈希（不是自身，属正常引用）"
+  },
+  {
+   "id": "N44",
+   "claim": "B6：8 领域与已占 16 域交集 = ∅；自造专名在 b2/b4/b5 出现 0 次",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-B6.md",
+     "line": 135,
+     "quote": "与 `(b2)`+`(b4)`+`(b5)` 合计 24 个已占领域的**交集 = ∅**"
+    }
+   ],
+   "claimed": "交集 ∅；专名各 0 次",
+   "computed": "交集 []；已占域 16 个（b2 8 + b4 8 + b5 8 = 24）；专名命中 {\"洁雅干洗店\": 0, \"遇见花店\": 0, \"美然理发店\": 0, \"恒信修表店\": 0, \"康宁体检中心\": 0, \"城东体育馆\": 0, \"市图书馆\": 0, \"社区药店\": 0}",
+   "verdict": "match",
+   "method": "compare domain lists + substring counts",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-B6.md",
+    "docs/_work/PREREG-M5-B2.md",
+    "docs/_work/PREREG-M5-C2-B4.md",
+    "docs/_work/PREREG-M5-C2-B5.md"
+   ],
+   "note": "“24 个已占领域”核对：b2/b4/b5 各 8 个，合计 24 ✓"
+  },
+  {
+   "id": "N45",
+   "claim": "B6 附录 A：md↔json 逐字一致 48/48（8 源文 + 40 问）",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-B6.md",
+     "line": 176,
+     "quote": "md↔json 逐字一致"
+    }
+   ],
+   "claimed": "48/48",
+   "computed": "md 侧 48 条 / json 侧 48 条；json 字符串在 md 中找到 48，md 字符串在 json 中找到 48",
+   "verdict": "match",
+   "method": "set equality of 8 sources + 40 question texts",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-B6.md",
+    "kvmem/m2_visibility/m5/out/M5C2-B6-SENTENCES.json"
+   ],
+   "note": "B6 为活文件"
+  },
+  {
+   "id": "N46",
+   "claim": "REV7.1 附录 B：14 个判定函数与 rev7 逐字节相同；脚本 50,618 B / 88256d27",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+     "line": 140,
+     "quote": "**14** 个函数逐字节相同"
+    }
+   ],
+   "claimed": "14 个函数相同；code_sha16=88256d274c9993cc / 50,618 B",
+   "computed": "相同函数 14 个；脚本 88256d274c9993cc / 50,618 B",
+   "verdict": "match",
+   "method": "AST function-source diff + script hash",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-REV7.1.md",
+    "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py"
+   ],
+   "note": ""
+  },
+  {
+   "id": "N47",
+   "claim": "REV7.1 §6 状态行 executed=false，但重跑产物已存在",
+   "where": [
+    {
+     "file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+     "line": 160,
+     "quote": "`executed=false`"
+    }
+   ],
+   "claimed": "executed=false",
+   "computed": "产物 55191eaf2426f736 / 510,508 B（mtime 2026-10-26T21:07:27+08:00）存在；头注 frozen=true@21:06:55；即“已执行但状态未更新”",
+   "verdict": "mismatch",
+   "method": "compare status line vs artifact existence",
+   "artifacts": [
+    "docs/_work/PREREG-M5-C2-REV7.1.md",
+    "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json"
+   ],
+   "note": "不影响数值/判定，只是状态字段过期；建议把 executed 改为 true 并重钉产物 sha16"
+  }
+ ],
+ "corrections": [
+  {
+   "id": "X01",
+   "severity": "high",
+   "file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "line": 15,
+   "problem": "§0 归因表 N1 写 4 例，但只列 3 个 sid；冻结产物 false_by_reason 的 N1 归类是 3 例。总数 7 对，分解错。",
+   "evidence": "M5C2-REV7-OFFLINE.false_by_reason: N1=3（b4-s1-q2-s01/s15、b4-s1-q3-s03）、N2=2、N3=2，7 例互不重叠；JUDGE 中 R1 value_mismatch=5（3 标点型 + 2 实体贪心型）",
+   "suggested": "把「4」改为「3」；若想保留“4 处”请明确口径为“R1 命中数 5（含 N2 2 处）/ N1 句 3 例”。（REV7.1 已于 21:06:55 冻结版改为 3；本更只需改 REV7 或在 REV7 头注加 supersede→REV7.1。）"
+  },
+  {
+   "id": "X02",
+   "severity": "high",
+   "file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "line": 17,
+   "problem": "§0 写 N3「2（与上重叠 1 例）」，实际两例（s07/s09）与 N2 无重叠、且各自均为独立句。",
+   "evidence": "false_by_reason attribution: b4-s1-q2-s07=N3、b4-s1-q2-s09=N3，与 N2 的 b4-s2-q1-s01 / b4-s8-q2-s02 无交集",
+   "suggested": "删去「与上重叠 1 例」，改为「2（与 N1/N2 无重叠）」。（REV7.1 冻结版已改为「N3 未修好，仍为 FP」。）"
+  },
+  {
+   "id": "X03",
+   "severity": "high",
+   "file": "docs/_work/PREREG-M5-C2-B5.md",
+   "line": 6,
+   "problem": "B5 引用 (b4) 原题面为 e9a88fda，当前 B4 = f30d89e30262b148（10,910 B）；REV6 对同一文件引的是 f30d89e3。e9a88fda 在全树/git 全部 blob/截断变体中均无匹配。",
+   "evidence": "sha256(B4)=f30d89e30262b148；归档草稿=6f41f3d6（7,823 B，也不是 e9a88fda）；git rev-list --all --objects 仅 1 个 B4 blob=1982d167→f30d89e3",
+   "suggested": "改为 `PREREG-M5-C2-B4.md f30d89e30262b148`（或 `f30d89e3`）。"
+  },
+  {
+   "id": "X04",
+   "severity": "high",
+   "file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "line": 7,
+   "problem": "REV7 把 (b5) 钉成 e306ce994d306a84，但该值只等于「B5 去掉 §9 并 rstrip」的 11,388 B 版本；现 B5（含 20:20 追加的 §9）= d6c7bdac73ef7326 / 14,597 B。§9 是冻结（19:55）之后追加，未重钉。",
+   "evidence": "sha256(B5[:idx(\"## 9 LEAD 追加\")].rstrip())=e306ce994d306a84 / 11,388 B；raw 截断 11,390 B 的哈希是 9c09ceaf；sha256(B5 全文)=d6c7bdac73ef7326",
+   "suggested": "双坐标写清：题面冻结体 = e306ce994d306a84（§0–§8，11,388 B）；现行文件（含 2026-10-26T20:20 追加 §9）= d6c7bdac73ef7326。若 §9 也属冻结内容，必须重钉并把 frozen_at/§9 时间写进头注。"
+  },
+  {
+   "id": "X05",
+   "severity": "high",
+   "file": "docs/_work/PREREG-M5-C2-B5.md",
+   "line": 143,
+   "problem": "REV7（20:15 声明冻结）钉的 (b5)=e306ce994d306a84 只等于 B5 去掉 §9 后的早期版本；B5 于 19:54:15 就写入 §9 并在 19:55 冻结（full@5574253 的 blob 亦为含 §9 的 d6c7bdac / 14,597 B，commit 19:59:10）。即：不是“冻结后追加 §9”，而是 REV7 冻结时引用已过期（stale-at-freeze）；另 B5 §9 标题自称 2026-10-26T20:20+08:00，与 mtime 19:54:15 / frozen_at 19:55 矛盾（声明时间不实）。",
+   "evidence": "stat B5 mtime=2026-10-26T19:54:15；`git cat-file -p full:docs/_work/PREREG-M5-C2-B5.md` = sha16 d6c7bdac73ef7326 / 14,597 B 且含 `## 9 LEAD 追加`；full commit 时间 19:59:10；shad6c7bdac 早于 REV7 冻结（20:15）；REV7 引 e306ce = B5[:idx(\"## 9 LEAD 追加\")].rstrip() 11,388 B。",
+   "suggested": "两处都要改：(1) REV7 侧：把 (b5) 重钉为冻结版 d6c7bdac73ef7326 / 14,597 B（或注明“引用的是 19:53 的早期 B5 草稿、已被 19:55 冻结版取代”），并在冻结前重跑 pin 校验；(2) B5 侧：把 §9 标题时间从 20:20 改真（写入发生在 19:54:15，与 frozen_at 19:55 一致），或删除该时间戳、只保留“b5 跑前冻结”。不要把 §9 描述为“冻结后追加”。",
+   "lead_correction": {
+    "applied_at": "2026-10-26T21:38:01+0800",
+    "source": "LEAD v1.1 (RULING-M5C2-B5-FREEZE.md) + doc-ledger 独立复核",
+    "what": "删除 appended_at=20:20 / post_freeze=true 的错误前提，改为 stale-at-freeze + 声明时间不实"
+   }
+  },
+  {
+   "id": "X06",
+   "severity": "high",
+   "file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "line": 49,
+   "problem": "REV7 §2（冻结）要求 `患者` 必判 valid=false，但按同件 N3 字面定义（子串命中 ⇒ valid=true）不可满足：患者在句首「患者：」逐字存在。产物 A2/A3 已 pass=false。",
+   "evidence": "M5C2-REV7-OFFLINE.assertions.A2.pass=false / A3.pass=false；A2 occurrence: item_in_sentence=true, matcher_hit=substring, valid=true, coverage=1.0",
+   "suggested": "REV7 头注加一行「A2/A3 断言不可满足，已由 PREREG-M5-C2-REV7.1 撤回并真值化」；或直接以 REV7.1 取代 REV7 的 §2 断言段。"
+  },
+  {
+   "id": "X07",
+   "severity": "medium",
+   "file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 160,
+   "problem": "REV7.1 已 frozen=true@21:06:55、重跑产物 M5C2-REV7-1-OFFLINE.json 也已落盘（55191eaf / 510,508 B），但 §6 状态行仍写 executed=false ⇒ 状态字段与事实不符。",
+   "evidence": "产物 21:07:27 落盘，gate 与 rev7 逐项相同（2/46、4/41、1/261、0/35）；产物 diff 仅 provenance/schema/inputs/assertions",
+   "suggested": "把 executed 改为 true，并把产物 sha16（55191eaf2426f736）写进 REV7.1 的钉哈希行；这是账本里唯一“状态字段落后于产物”的点。"
+  },
+  {
+   "id": "X08",
+   "severity": "medium",
+   "file": "kvmem/m2_visibility/m5/out/M5B4-RATES.md",
+   "line": 4,
+   "problem": "RATES.md 与 AB.md 把金标钉成 9054479b / 10,208 B，但现文件是 9273ebc9 / 13,195 B（19:00 audit_fix 后）。旧版字节未保留，全树与 git 全部 blob 均无。",
+   "evidence": "sha256(M5B4-LEAD-RULING.json)=9273ebc97aa1413a / 13,195 B；RATES/AB 的 261 条 gold 与现文件逐 sid 相同（0 差异）⇒ 数值等价",
+   "suggested": "改成双坐标：`分析时点金标 = 9054479b / 10,208 B（历史，字节未留）`；`现行金标 = 9273ebc9 / 13,195 B`，并注明 gold 值未变、读数不受影响。"
+  },
+  {
+   "id": "X09",
+   "severity": "medium",
+   "file": "docs/_work/INSPECTOR-M5C2-REV7.md",
+   "line": 40,
+   "problem": "把 M5B4-JUDGE.json 写成「452456 B / 261 行」，实际 261 是句数，文件是 17,040 行（pretty-print JSON）。",
+   "evidence": "wc -l = 17,040；bytes=452,456 与 sha 6a3001b6 均对",
+   "suggested": "改为「452,456 B / 261 句（JSON 17,040 行）」。"
+  },
+  {
+   "id": "X10",
+   "severity": "medium",
+   "file": "docs/_work/PREREG-M5-C2-REV4.md",
+   "line": 11,
+   "problem": "「31/31 全 A」的数值可复算，但出处引的是 M5C2-FLOOR-ARTIFACT.json（15 例的另一件）+ AMEND（否定该 31/31）；真正的 31 例在 M5C2-FLOOR-GBNF-EXPLORATORY.json，且该文件从未被标 sha16。",
+   "evidence": "EXPLORATORY: n=31, arm_rate arm1..5 A=6/6,6/6,6/6,6/6,7/7 → 31/31；FLOOR-ARTIFACT: n=15, position_bias=false；AMEND: position_bias=true, prior_gbnf_all_A_invalidated=true",
+   "suggested": "补一行出处：`M5C2-FLOOR-GBNF-EXPLORATORY.json <sha16> / 31 例`，并把 ARTIFACT+AMEND 标为“否定该 31/31 的更正链”。"
+  },
+  {
+   "id": "X11",
+   "severity": "medium",
+   "file": "docs/_work/PREREG-M5-C2-B5.md",
+   "line": 130,
+   "problem": "§8.1 两行「全 0」按字面（本文件计数）为假：租车/物业各 1 次、5 个专名各 1 次，均因本行名单本身；按 §1 题面口径才是 0。",
+   "evidence": "全文 count: 仁和口腔=1/迅达租车=1/华庭物业=1/北方联通=1/力量方舟=1；租车=1/物业=1；§1 段内全部=0",
+   "suggested": "把口径写死为「§1 题面内出现次数 = 0（本表行名提及不计）」，避免字面自破。"
+  },
+  {
+   "id": "X12",
+   "severity": "medium",
+   "file": "docs/_work/PREREG-M5-C2-B6.md",
+   "line": 0,
+   "problem": "B5 §9.5 要求 (b6) 在 (b5) 开跑前“出题并冻结”。B6 在本账本审计期内先以草稿出现（21:07，期间自钉口径不可复算），21:16:37 由 LEAD 冻结（frozen=true）并改为零自指可复算设计 ⇒ 该条现已满足；仅作为“审计期内变动”留痕。",
+   "evidence": "21:07 版自钉 920333f2 按自身口径不可复算（实得 31804f44）；21:16:37 冻结版：md ac27d47d3a3efff9 / 17,374 B，json.prereg_sha16=ac27d47d3a3efff9（一致，可复算）",
+   "suggested": "已按要求冻结（21:16:37）；建议把冻结版 md sha16（ac27d47d3a3efff9）与 json sha16（23588ec099ca9255）写进冻结记录/回报，并在 §8 固定“冻结后不再编辑”。"
+  },
+  {
+   "id": "X13",
+   "severity": "low",
+   "file": "docs/_work/PREREG-M5-C2-R2.md",
+   "line": 48,
+   "problem": "引用的文件名 M5C-36-r1-adj.json / M5C-36-r1-alignment.json 不存在；哈希与字节（60,432 / 245,640）实际对应 M5C-36-adj.json / M5C-36-alignment.json。",
+   "evidence": "磁盘只有 M5C-36-adj.json (0d882f20/60,432) 与 M5C-36-alignment.json (aaed0822/245,640)",
+   "suggested": "把两处文件名去掉 `-r1`。"
+  },
+  {
+   "id": "X14",
+   "severity": "low",
+   "file": "README.md",
+   "line": 70,
+   "problem": "`6f26bce0`（M2-ACCEPT-lead.md 已签坐标）在全树与全部 git blob 中均无对应字节，无法复算；README/INDEX 已与“现场 21ec668d”并列，属澄清写法但易被当成现行锚。",
+   "evidence": "全 1491 个 git blob 扫描无 6f26bce0；现文件 21ec668d/10,479 B",
+   "suggested": "标注「历史签署坐标，字节未保留（unverifiable），按 ANCHORS-CURRENT #5 处置」。"
+  },
+  {
+   "id": "X15",
+   "severity": "medium",
+   "file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "line": 160,
+   "problem": "REV7.1 §6 状态行 executed=false 与已落盘的重跑产物冲突（同 X07，此处单列以便跟踪）。",
+   "evidence": "M5C2-REV7-1-OFFLINE.json 55191eaf / 510,508 B / 2026-10-26T21:07:27+08:00",
+   "suggested": "状态行改 executed=true + 钉产物 sha16。"
+  },
+  {
+   "id": "X16",
+   "severity": "medium",
+   "file": "docs/_work/PREREG-M5-C2-B6.md",
+   "line": 4,
+   "problem": "B6 是审计期内新建的活文件（21:07 草稿 → 21:16:37 冻结，期间至少 5 个版本）。md 自钉值 920333f2→9c256c16→037a57a6 一路变化，21:07 版按它自己的“剔除互引行”口径根本不可复算；最终采用零自指设计（json.prereg_sha16 = md 全文件哈希）后已可复算。教训：冻结前多版本迭代必须每次重钉，冻结时留痕 md sha16。",
+   "evidence": "本账本快照：md ac27d47d3a3efff9 / 17,374 B；json.prereg_sha16=ac27d47d3a3efff9；json 23588ec099ca9255（一致，见 N42）",
+   "suggested": "冻结时：① 一次性定稿；② json.prereg_sha16 重算并写入；③ 把 md sha16（ac27d47d3a3efff9）、json sha16（23588ec099ca9255）、字节、mtime 四元组写进 §8 与任务回报；④ 冻结后不得再编辑。"
+  }
+ ],
+ "summary": {
+  "citations_total": 151,
+  "match": 144,
+  "stale_reconstructible": 1,
+  "stale_unresolved": 4,
+  "unverifiable": 2,
+  "other": {},
+  "numbers_total": 47,
+  "numbers_match": 39,
+  "numbers_mismatch": 6,
+  "numbers_unverifiable": 1,
+  "numbers_stale": 1,
+  "numbers_open_condition": 0,
+  "by_source": {
+   "docs/_work/PREREG-M5-B2.md": {
+    "match": 9
+   },
+   "docs/_work/PREREG-M5-C2-B2EVAL.md": {
+    "match": 8
+   },
+   "docs/_work/PREREG-M5-C2-B4.md": {
+    "match": 5
+   },
+   "docs/_work/PREREG-M5-C2-B5.md": {
+    "match": 7,
+    "stale_unresolved": 1
+   },
+   "docs/_work/PREREG-M5-C2-B6.md": {
+    "match": 9,
+    "stale_unresolved": 1
+   },
+   "docs/_work/PREREG-M5-C2-FLOOR-REV2.md": {
+    "match": 6
+   },
+   "docs/_work/PREREG-M5-C2-FLOOR.md": {
+    "match": 1
+   },
+   "docs/_work/PREREG-M5-C2-ORDER.md": {
+    "match": 3
+   },
+   "docs/_work/PREREG-M5-C2-R2.md": {
+    "match": 14,
+    "unverifiable": 1
+   },
+   "docs/_work/PREREG-M5-C2-REV4-1.md": {
+    "match": 3
+   },
+   "docs/_work/PREREG-M5-C2-REV4.md": {
+    "match": 5
+   },
+   "docs/_work/PREREG-M5-C2-REV5.md": {
+    "match": 4
+   },
+   "docs/_work/PREREG-M5-C2-REV6-1.md": {
+    "match": 2
+   },
+   "docs/_work/PREREG-M5-C2-REV6.md": {
+    "match": 4
+   },
+   "docs/_work/PREREG-M5-C2-REV7.1.md": {
+    "match": 19
+   },
+   "docs/_work/PREREG-M5-C2-REV7.md": {
+    "match": 6,
+    "stale_reconstructible": 1
+   },
+   "docs/_work/PREREG-M5-C2-SEMANTIC.md": {
+    "match": 9
+   },
+   "docs/_work/INSPECTOR-M5C2-REV7.md": {
+    "match": 18
+   },
+   "kvmem/m2_visibility/m5/out/M5B4-RATES.md": {
+    "match": 3,
+    "stale_unresolved": 1
+   },
+   "kvmem/m2_visibility/m5/out/M5B4-AB-OLD-VS-NEW.md": {
+    "stale_unresolved": 1,
+    "match": 4
+   },
+   "README.md": {
+    "match": 5,
+    "unverifiable": 1
+   }
+  }
+ },
+ "key_findings": [
+  "两处已确认 stale 引用：REV7→(b5) e306ce（= 去掉 §9 的早期版本，可精确重构，11,388 B；§9 在 B5 冻结前已写入）；B5→(b4) e9a88fda（无任何对应，最可能是笔误或未入树中间态，应改 f30d89e3）。",
+  "一处历史哈希未被保留：金标 9054479b（10,208 B）已被 9273ebc9（13,195 B）取代且旧字节未入树/未入 git；但 261 条 gold 值逐 sid 相同，4/41 与 7/46 等读数不受影响。",
+  "REV7 §0 归因表分解不可复算（N1 写 4 实为 3；N3 无重叠），总数 7 正确；REV7.1 沿用了同一错误。",
+  "REV7 §2 的 A2/A3 断言与自身 N3 定义矛盾（冻结件内自反），产物已 pass=false；REV7.1 已撤回这两条断言并于 21:06:55 冻结，其重跑产物 M5C2-REV7-1-OFFLINE.json（55191eaf2426f736 / 510,508 B，mtime 21:07:27）已落盘，仅 §6 状态行仍写 executed=false（见 X07/N47）。",
+  "B5 §8.1 两条“全 0”按字面为假（名单本身命中），按 §1 题面口径为真；B5 §9.5 要求的 (b6) 尚不存在。",
+  "所有“核心读数”（261 句、gold 四态、4/41、7/46、1/261、2/46、4/41、124/777、98.45%→90.88%、v2.3 7.32%/70.73%/23.91%、4-gram 2/8、补丁 6/600/0）均复算通过。"
+ ],
+ "post_audit_corrections": [
+  {
+   "at": "2026-10-26T21:38:01+0800",
+   "by": "doc-ledger",
+   "trigger": "LEAD 更正指令（B5 冻结时间线被独立复核推翻）",
+   "changes": [
+    "X05：删除“§9 冻结后 20:20 追加 / post_freeze=true”，改为“§9 早于冻结写入（mtime 19:54:15；full@5574253 含 §9）；REV7 冻结时引用过期（stale-at-freeze）；B5 §9 标题自称 20:20 与 mtime/frozen_at 矛盾”",
+    "C106 note / key_findings[0]：同步该事实，不再称去 §9 版本为“冻结体”",
+    "scope.rev7_1_snapshot.frozen=false → true（frozen_at 21:06:55）",
+    "key_findings[3] / N37 note：REV7.1 已冻结、重跑产物 55191eaf / 510,508 B 已于 21:07:27 落盘，不再是“未冻结草稿且产物未落盘”"
+   ],
+   "data_layer_changed": false,
+   "note": "四类计数、151 引用、47 数字、其余 corrections 全未改动"
+  }
+ ]
+}

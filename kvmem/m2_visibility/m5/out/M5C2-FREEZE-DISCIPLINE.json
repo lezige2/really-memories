@@ -1,0 +1,1237 @@
+{
+ "schema": "m5c2_freeze_discipline_v1",
+ "task": "task-12 独立验证 B5 裁定 / B6 冻结 / rev7.1 链 + 冻结纪律账本",
+ "audited_by": "chain-repro",
+ "generated_at": "2026-10-26T21:40:00+08:00",
+ "discipline": "只读仓库；零 GPU/零模型/零联网；不改任何既有文件；不 git 提交；重跑只在仓库外副本 D:\\m5c2-freeze-verify-20261026-212752 进行；不引用 doc-ledger / RULING 的结论数字，全部自行复算",
+ "objects": {
+  "b5_current": {
+   "path": "docs/_work/PREREG-M5-C2-B5.md",
+   "sha16": "d6c7bdac73ef7326",
+   "bytes": 14597,
+   "lines": 183,
+   "frozen_at_declared": "2026-10-26T19:55:00+08:00",
+   "mtime": "2026-10-26T19:54:15",
+   "section9_marker_line": 143,
+   "section9_heading_time_declared": "2026-10-26T20:20+08:00",
+   "no_post_freeze_append": true,
+   "section9_heading_time_declared_note": "§9 标题声明 20:20，但 §9 已含于 19:59:10 的 full 提交（且 B5 mtime=19:54:15<frozen_at 19:55）→ 该 20:20 为入库后不可成立的声明时间"
+  },
+  "b5_frozen_body_s0_s8": {
+   "sha16": "e306ce994d306a84",
+   "bytes": 11388,
+   "rule": "s[:s.find('## 9 LEAD 追加')].rstrip()"
+  },
+  "b5_raw_prefix": {
+   "sha16": "9c09ceaf99d37a23",
+   "bytes": 11390,
+   "rule": "s[:s.find('## 9 LEAD 追加')]（含 2 个换行）"
+  },
+  "ruling_md": {
+   "path": "docs/_work/RULING-M5C2-B5-FREEZE.md",
+   "sha16": "f35b91dcdfaafad6",
+   "bytes": 6171,
+   "lines": 65,
+   "mtime": "2026-10-26T21:31:51",
+   "ruled_at_declared": "2026-10-26T21:18:00+08:00"
+  },
+  "ruling_json": {
+   "path": "kvmem/m2_visibility/m5/out/RULING-M5C2-B5-FREEZE.json",
+   "sha16": "8bdcca8c56c6f055",
+   "bytes": 5478,
+   "parses": true,
+   "pins_md": {
+    "sha16": "f35b91dcdfaafad6",
+    "bytes": 6171,
+    "lines": 65,
+    "match": true
+   }
+  },
+  "b6_md": {
+   "path": "docs/_work/PREREG-M5-C2-B6.md",
+   "sha16": "ac27d47d3a3efff9",
+   "bytes": 17374,
+   "lines": 213,
+   "mtime": "2026-10-26T21:16:37",
+   "frozen_at_declared": "2026-10-26T21:16:03+08:00"
+  },
+  "b6_json": {
+   "path": "kvmem/m2_visibility/m5/out/M5C2-B6-SENTENCES.json",
+   "sha16": "23588ec099ca9255",
+   "bytes": 9482,
+   "prereg_sha16": "ac27d47d3a3efff9",
+   "prereg_sha16_matches_md": true,
+   "n_scenarios": 8,
+   "n_questions": 40,
+   "n_detail": 24,
+   "n_lure": 16,
+   "domains": [
+    "干洗洗衣",
+    "鲜花订购",
+    "美发理发",
+    "相框装裱",
+    "入职体检",
+    "羽毛球场地",
+    "图书馆借书",
+    "中药代煎"
+   ],
+   "contains_label_values": false,
+   "contains_hints": false
+  },
+  "rev7_1_md": {
+   "path": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "sha16": "09d6f1b163ea0b84",
+   "bytes": 16313,
+   "lines": 160,
+   "mtime": "2026-10-26T21:07:03",
+   "frozen_at_declared": "2026-10-26T21:06:55+08:00"
+  },
+  "rev7_1_artifact": {
+   "path": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "sha16": "55191eaf2426f736",
+   "bytes": 510508,
+   "mtime": "2026-10-26T21:28:52",
+   "prereg_sha16": "09d6f1b163ea0b84",
+   "prereg_match": true,
+   "code_sha16": "88256d274c9993cc",
+   "script_sha16": "88256d274c9993cc",
+   "code_match": true,
+   "code_bytes": 50618,
+   "script_bytes": 50618,
+   "supersedes_sha16": "32eaf82ca56600c4",
+   "status": "已读数"
+  },
+  "c32_rev7_artifact": {
+   "path": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+   "sha16": "1f8f44b921e575fe",
+   "bytes": 507657
+  },
+  "b5_git_snapshot_at_full": {
+   "ref": "full",
+   "commit": "557425309248871bd58c13424d300b2e6812d8b1",
+   "commit_time": "2026-10-26T19:59:10+08:00",
+   "path": "docs/_work/PREREG-M5-C2-B5.md",
+   "sha16": "d6c7bdac73ef7326",
+   "bytes": 14597,
+   "lines": 183,
+   "contains_section9": true,
+   "identical_to_worktree": true,
+   "cmd": "git cat-file -p full:docs/_work/PREREG-M5-C2-B5.md | sha256"
+  },
+  "rev7_git_snapshot_at_full": {
+   "ref": "full",
+   "commit": "557425309248871bd58c13424d300b2e6812d8b1",
+   "commit_time": "2026-10-26T19:59:10+08:00",
+   "path": "docs/_work/PREREG-M5-C2-REV7.md",
+   "sha16": "32eaf82ca56600c4",
+   "bytes": 5835,
+   "identical_to_worktree": true,
+   "cmd": "git cat-file -p full:docs/_work/PREREG-M5-C2-REV7.md | sha256"
+  }
+ },
+ "checks": [
+  {
+   "id": "V1-B5-truncation",
+   "claim": "B5 §0–§8 冻结体 = 截断至 '## 9 LEAD 追加' 前并 rstrip",
+   "cmd": "python -X utf8 - <<'PY' … s=open('docs/_work/PREREG-M5-C2-B5.md').read(); i=s.find('## 9 LEAD 追加'); sha256(s[:i].rstrip().encode())[:16] … PY",
+   "actual": {
+    "whole": {
+     "sha16": "d6c7bdac73ef7326",
+     "bytes": 14597,
+     "lines": 183
+    },
+    "raw": {
+     "sha16": "9c09ceaf99d37a23",
+     "bytes": 11390
+    },
+    "rstrip": {
+     "sha16": "e306ce994d306a84",
+     "bytes": 11388
+    },
+    "marker_line": 143
+   },
+   "expected_ruling": {
+    "whole": "d6c7bdac73ef7326 14597",
+    "raw": "9c09ceaf99d37a23 11390",
+    "rstrip": "e306ce994d306a84 11388",
+    "marker_line": 143
+   },
+   "pass": true,
+   "note": "与 RULING F2/F3 及 §4 预期输出逐项一致（我自己重跑得到，非引用）"
+  },
+  {
+   "id": "V2-RULING-F1",
+   "claim": "B5 头注 frozen=true/frozen_rev=1/frozen_at=19:55，冻结人 LEAD",
+   "evidence": "B5 第 3–4 行",
+   "pass": true
+  },
+  {
+   "id": "V3-RULING-F2",
+   "claim": "B5 当前整文件 d6c7bdac73ef7326 / 14597 B / 183 行",
+   "actual": {
+    "sha16": "d6c7bdac73ef7326",
+    "bytes": 14597,
+    "lines": 183
+   },
+   "pass": true
+  },
+  {
+   "id": "V4-RULING-F4",
+   "claim": "REV7 第 7 行引用 (b5) e306ce994d306a84 = §0–§8 冻结体",
+   "evidence": "> **设计集 = `(b4)`**（`designed_on_b4=true`）；**验收集 = `(b5)` `e306ce994d306a84`（已冻结，未跑）**",
+   "pass": true
+  },
+  {
+   "id": "V5-RULING-R1",
+   "claim": "R1 措辞：REV7 引用正确；B5 §0–§8 身份 = e306…/11388/frozen_at 19:55",
+   "actual": {
+    "subset_sha16": "e306ce994d306a84",
+    "subset_bytes": 11388,
+    "frozen_at_declared": "2026-10-26T19:55:00+08:00"
+   },
+   "pass": true
+  },
+  {
+   "id": "V6-RULING-R3",
+   "claim": "R3 措辞：b5 运行以当前整文件 d6c7…/14597 为准，下游同时记 d6c7… 与 e306…（子集）",
+   "actual": {
+    "B6_cites_d6c7": true,
+    "B6_cites_e306": false,
+    "REV7_1_cites_b5": false
+   },
+   "pass": true,
+   "note": "R3 自身措辞与实测一致；但下游 B6 只记了整文件 d6c7…，未按 R3 同时记子集 e306…（rev7.1 未引 b5）→ R3 的‘下游应同时记录’在现状中未被执行，属留痕未闭环"
+  },
+  {
+   "id": "V7-RULING-F5-timing",
+   "claim": "§9 于 20:20「冻结后追加」；§9 无独立冻结记录/重钉",
+   "actual": {
+    "section9_present": true,
+    "b5_mtime": "2026-10-26T19:54:15",
+    "b5_frozen_at_declared": "2026-10-26T19:55:00+08:00",
+    "git_full_commit_time": "2026-10-26T19:59:10+08:00",
+    "git_full_b5_sha16": "d6c7bdac73ef7326",
+    "git_full_b5_bytes": 14597,
+    "git_full_b5_contains_section9": true,
+    "git_full_b5_equals_worktree": true,
+    "section9_heading_declared_time": "2026-10-26T20:20+08:00"
+   },
+   "pass": false,
+   "verdict": "**「冻结后追加」被证伪**：§9 已含于 19:59:10 的 `full` 提交（B5=d6c7bdac73ef7326/14,597 B/183 行，与工作区逐字节相同），B5 mtime=19:54:15 亦早于 frozen_at 19:55:00；此后无任何改动。§9 标题的 20:20 与 REV7 的 20:15 都是**已入库内容中的未来时间戳**，属声明时间不可信。真实缺陷：REV7 在声明冻结（20:15）/实际入库（19:59:10）时仍引 e306（§0–§8 子集），而 B5 整文件自 19:54:15 起已是 d6c7 → **stale-at-freeze**；且 §8.2（rev6+rev6.1）与 §9.1（rev5.1+rev7，永久排除 rev6）在同一冻结文件内冲突，只能靠 RULING R4 消解。",
+   "impact": "留痕/口径+协议歧义（§8.2 vs §9.1，由 RULING R4 消解）；b5 未跑，不影响读数；R3 的运行指令（用 d6c7）本身正确",
+   "cf_lead_correction": "LEAD 更正指令（hard evidence: full@5574253 = d6c7/14,597 含 §9, commit 19:59:10）"
+  },
+  {
+   "id": "V8-RULING-F6",
+   "claim": "B5 第 6 行自引 (b4) e9a88fda 为 stale（当前 B4 = f30d89e30262b148 / 10910 B）",
+   "actual": {
+    "current_b4": [
+     "f30d89e30262b148",
+     10910
+    ],
+    "e9a88fda_is_current": false,
+    "reconstruction_candidates_from_current_b4": [],
+    "files_in_scope_whose_sha16_starts_e9a88fda": [],
+    "files_scanned": 296
+   },
+   "pass": true
+  },
+  {
+   "id": "V9-B6-selfconsistent",
+   "claim": "B6 md sha16 == json.prereg_sha16；frozen=true；§8 六行已填；无自引哈希；8 域/40 题",
+   "actual": {
+    "md_sha16": "ac27d47d3a3efff9",
+    "json_prereg_sha16": "ac27d47d3a3efff9",
+    "md_self_hash_present": false,
+    "json_sha16_present_in_md": false,
+    "frozen_true_in_md": true,
+    "section8_data_rows": 6,
+    "n_scenarios": 8,
+    "n_questions": 40,
+    "n_detail": 24,
+    "n_lure": 16,
+    "domain_overlap": 0,
+    "mtime_minus_frozen_at_s": 34
+   },
+   "pass": true,
+   "note": "B6 采用零自指设计：md 内不写任何自身/ json 哈希，json.prereg_sha16 = md 全文件哈希 → 无引用环、可复算"
+  },
+  {
+   "id": "V10-rev7.1-provenance",
+   "claim": "rev7.1 md sha16 == 产物.prereg_sha16；产物.code_sha16 == 脚本 sha16；code_bytes 一致",
+   "actual": {
+    "md_sha16": "09d6f1b163ea0b84",
+    "artifact_prereg_sha16": "09d6f1b163ea0b84",
+    "artifact_code_sha16": "88256d274c9993cc",
+    "script_sha16": "88256d274c9993cc",
+    "artifact_code_bytes": 50618,
+    "script_bytes": 50618,
+    "supersedes": "32eaf82ca56600c4",
+    "correction_type": "statement_correction",
+    "rule_code_unchanged": true
+   },
+   "pass": true
+  },
+  {
+   "id": "V11-rev7.1-blocks-vs-C32",
+   "claim": "rev7.1 产物的判定/读数块与 C32 rev7 产物逐键相等（自算 diff）",
+   "actual": {
+    "common_keys": 54,
+    "identical": 47,
+    "differ": [
+     "schema",
+     "prereg_sha16",
+     "code_sha16",
+     "code_file",
+     "code_bytes",
+     "inputs",
+     "assertions"
+    ],
+    "differ_detail": {
+     "schema": {
+      "c32": "m5c2_rev7_offline_v1",
+      "rev7_1": "m5c2_rev7_1_offline_v1"
+     },
+     "prereg_sha16": {
+      "c32": "32eaf82ca56600c4",
+      "rev7_1": "09d6f1b163ea0b84"
+     },
+     "code_sha16": {
+      "c32": "65ed60125528d5d6",
+      "rev7_1": "88256d274c9993cc"
+     },
+     "code_file": {
+      "c32": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+      "rev7_1": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py"
+     },
+     "code_bytes": {
+      "c32": 44761,
+      "rev7_1": 50618
+     }
+    }
+   },
+   "pass": true,
+   "note": "54 个共有顶层键中 47 个逐键相等；7 个不同全部是 provenance/schema/inputs/assertions （rev7.1 的断言块按设计改为真值断言）。gate/rates/sentence_diff/invalid_items/all_invalid_sentences/sentences/items/baseline_reproduction/rule_hit_counts/derived_applicable/false_by_reason 等读数块全部相等"
+  },
+  {
+   "id": "V12-rev7.1-gate-recompute",
+   "claim": "四门槛与 124/777 可由产物 sentences/items 自行重算",
+   "actual": {
+    "false_positive": {
+     "k": 2,
+     "n": 46,
+     "sids": [
+      "b4-s1-q2-s07",
+      "b4-s1-q2-s09"
+     ]
+    },
+    "leak_missed": {
+     "k": 4,
+     "n": 41,
+     "sids": [
+      "b4-s2-q2-s01",
+      "b4-s3-q4-s03",
+      "b4-s3-q4-s11",
+      "b4-s3-q4-s12"
+     ]
+    },
+    "parse_fail": {
+     "k": 1,
+     "n": 261,
+     "sids": [
+      "b4-s2-q2-s05"
+     ]
+    },
+    "new_miss": {
+     "k": 0,
+     "n": 35
+    },
+    "invalid_items": {
+     "k": 124,
+     "n": 777
+    },
+    "n_forward": 0,
+    "gold_matches_current_lead_ruling": "261/261"
+   },
+   "expected_from_artifact": {
+    "false_positive": "2/46",
+    "leak_missed": "4/41",
+    "parse_fail": "1/261",
+    "new_miss": "0/35",
+    "invalid_items": "124/777"
+   },
+   "pass": true
+  },
+  {
+   "id": "V13-rev7.1-rule-code-vs-rev7",
+   "claim": "R4 的‘规则逐字相同’：rev7→rev7.1 只有输入门/断言/产物名改变",
+   "actual": {
+    "functions_rev7": 17,
+    "functions_rev7_1": 19,
+    "identical_functions": 15,
+    "differing_functions": [
+     "verify_inputs",
+     "main"
+    ],
+    "new_functions": [
+     "item_assertion",
+     "verdict_assertion"
+    ],
+    "identical_constants": 22,
+    "differing_constants": [
+     "ART",
+     "ASSERT_A2",
+     "ASSERT_A3",
+     "PRE",
+     "PRE_BYTES",
+     "PRE_LINES",
+     "PRE_SHA16"
+    ],
+    "NEG_WORDS_identical": true,
+    "ABSENT_MARKERS_identical": true
+   },
+   "pass": true,
+   "note": "15/17 判定函数源码逐字节相同；differ 的两个是输入校验门（新增 rev7.1 自检）与 main（断言/报告），不参与判定逻辑"
+  },
+  {
+   "id": "V14-rev7.1-double-run",
+   "claim": "两次重跑确定性；与已提交产物的差异",
+   "actual_rerun": {
+    "workspace": "D:\\m5c2-freeze-verify-20261026-212752",
+    "how": "把 m5/*.py + m5/out/*.json + docs/_work/*.md + m7/out/*.py 复制到仓库外；按最小改动把每个副本脚本的 ROOT 常量替换为副本根（+25 B）；两轮各自删除产物后重跑",
+    "run1": {
+     "exit": 0,
+     "elapsed_s": 0.6,
+     "artifact_sha16": "7cf178a4f4814c7a",
+     "bytes": 510508
+    },
+    "run2": {
+     "exit": 0,
+     "elapsed_s": 0.4,
+     "artifact_sha16": "7cf178a4f4814c7a",
+     "bytes": 510508
+    },
+    "deterministic_two_runs": true,
+    "committed_artifact": {
+     "sha16": "55191eaf2426f736",
+     "bytes": 510508
+    },
+    "diff_vs_committed": {
+     "common_keys": 54,
+     "identical": 47,
+     "differ": [
+      "schema",
+      "prereg_sha16",
+      "code_sha16",
+      "code_file",
+      "code_bytes",
+      "inputs",
+      "assertions"
+     ]
+    }
+   },
+   "pass": true,
+   "verdict": "两次重跑 byte 一致（7cf178a4f4814c7a / 510508 B）；仓库外副本的产物与已提交件 58/60 顶层键相同，仅 code_sha16 / code_bytes 不同 —— 因为脚本把自身 sha16 钉进产物，而副本必须改 ROOT（+25 B）。这批产物在‘不改脚本字节’的前提下无法在仓库外 byte 级复现（结构性问题，不影响读数）。"
+  },
+  {
+   "id": "V15-B5-git-snapshot",
+   "claim": "git 快照判据：B5 在 full 提交（19:59:10）时已为 d6c7…/14,597 且含 §9；REV7 同时已为 32ea…/5,835 并仍引 e306 → REV7 stale-at-freeze",
+   "cmd": "git show -s --format='%H %ci' full ; git cat-file -p full:docs/_work/PREREG-M5-C2-B5.md | sha256 ; git cat-file -p full:docs/_work/PREREG-M5-C2-REV7.md | sha256",
+   "actual": {
+    "full_commit": "557425309248871bd58c13424d300b2e6812d8b1",
+    "full_commit_time": "2026-10-26T19:59:10+08:00",
+    "b5_at_full": {
+     "sha16": "d6c7bdac73ef7326",
+     "bytes": 14597,
+     "lines": 183,
+     "contains_section9": true,
+     "equals_worktree": true
+    },
+    "rev7_at_full": {
+     "sha16": "32eaf82ca56600c4",
+     "bytes": 5835,
+     "equals_worktree": true,
+     "cites_e306": true
+    }
+   },
+   "pass": true,
+   "note": "该提交同时包含 rev7 预登记与 (b5) 冻结；B5 §8 在 19:55、§9 标题 20:20、REV7 frozen_at 20:15 都晚于/接近该提交时刻，与内容实际入库时间不一致"
+  }
+ ],
+ "freeze_discipline_ledger": {
+  "principle": "冻结件应满足：①冻结时记录自身 sha16；②冻结后不改；若改则重钉并留痕旧/新哈希；③时间戳可由独立证据（git/签名/归档副本）佐证。现行做法三条都不完整。",
+  "inventory": {
+   "frozen_docs_scanned": 31,
+   "frozen_preregs": 20,
+   "docs_that_pin_their_own_current_sha16": 0,
+   "preregs_whose_mtime_is_earlier_than_declared_frozen_at_by_gt_1min": [
+    {
+     "file": "docs/_work\\PREREG-M5-B.md",
+     "frozen_at": "2026-10-26T14:05:00",
+     "mtime": "2026-10-26T13:59:11",
+     "mtime_minus_frozen_at_min": -5.8
+    },
+    {
+     "file": "docs/_work\\PREREG-M5-C2-B2EVAL.md",
+     "frozen_at": "2026-10-26T17:30:00",
+     "mtime": "2026-10-26T17:18:48",
+     "mtime_minus_frozen_at_min": -11.2
+    },
+    {
+     "file": "docs/_work\\PREREG-M5-C2-FLOOR-REV2.md",
+     "frozen_at": "2026-10-26T16:30:00",
+     "mtime": "2026-10-26T16:25:02",
+     "mtime_minus_frozen_at_min": -5.0
+    },
+    {
+     "file": "docs/_work\\PREREG-M5-C2-ORDER.md",
+     "frozen_at": "2026-10-26T16:33:00",
+     "mtime": "2026-10-26T16:26:12",
+     "mtime_minus_frozen_at_min": -6.8
+    },
+    {
+     "file": "docs/_work\\PREREG-M5-C2-REV4-1.md",
+     "frozen_at": "2026-10-26T17:20:00",
+     "mtime": "2026-10-26T17:12:28",
+     "mtime_minus_frozen_at_min": -7.5
+    },
+    {
+     "file": "docs/_work\\PREREG-M5-C2-REV4.md",
+     "frozen_at": "2026-10-26T17:05:00",
+     "mtime": "2026-10-26T17:01:01",
+     "mtime_minus_frozen_at_min": -4.0
+    },
+    {
+     "file": "docs/_work\\PREREG-M5-C2-REV5.md",
+     "frozen_at": "2026-10-26T17:55:00",
+     "mtime": "2026-10-26T17:49:24",
+     "mtime_minus_frozen_at_min": -5.6
+    },
+    {
+     "file": "docs/_work\\PREREG-M5-C2-REV6-1.md",
+     "frozen_at": "2026-10-26T19:45:00",
+     "mtime": "2026-10-26T19:16:13",
+     "mtime_minus_frozen_at_min": -28.8
+    },
+    {
+     "file": "docs/_work\\PREREG-M5-C2-REV6.md",
+     "frozen_at": "2026-10-26T19:30:00",
+     "mtime": "2026-10-26T19:12:45",
+     "mtime_minus_frozen_at_min": -17.2
+    },
+    {
+     "file": "docs/_work\\PREREG-M5-C2-REV7.md",
+     "frozen_at": "2026-10-26T20:15:00",
+     "mtime": "2026-10-26T19:53:25",
+     "mtime_minus_frozen_at_min": -21.6
+    }
+   ],
+   "preregs_mtime_later_than_declared_by_gt_1min": [
+    {
+     "file": "docs/_work\\PREREG-M5-C2-R2.md",
+     "frozen_at": "2026-10-26T15:30:00",
+     "mtime": "2026-10-26T15:34:51",
+     "mtime_minus_frozen_at_min": 4.9
+    }
+   ],
+   "artifact_prereg_pin_values": 196,
+   "artifact_prereg_pins_matching_current_frozen_docs": 148,
+   "artifact_prereg_pins_unmatched_significant": [
+    {
+     "artifact": "M5-36A-pairs-model.json",
+     "field": ".prereg.sha16",
+     "value": "04d7b8d644e69620"
+    },
+    {
+     "artifact": "M5-36A-pairs.json",
+     "field": ".prereg.sha16",
+     "value": "04d7b8d644e69620"
+    },
+    {
+     "artifact": "M5-36A-pilot-model.json",
+     "field": ".prereg.sha16",
+     "value": "04d7b8d644e69620"
+    },
+    {
+     "artifact": "M5-36A-pilot-model.json",
+     "field": ".device_proof.gate.prereg_sha16",
+     "value": "04d7b8d644e69620"
+    },
+    {
+     "artifact": "M5-36A-pilot.json",
+     "field": ".prereg.sha16",
+     "value": "04d7b8d644e69620"
+    },
+    {
+     "artifact": "M5-36A-pilot.json",
+     "field": ".device_proof.gate.prereg_sha16",
+     "value": "04d7b8d644e69620"
+    },
+    {
+     "artifact": "M5-JUDGE-v2.2-INSAMPLE-REPLAY.json",
+     "field": ".prereg_sha16",
+     "value": "fdf7ca2ae939a3a4"
+    },
+    {
+     "artifact": "M5-JUDGE-v2.3-INSAMPLE-REPLAY.json",
+     "field": ".prereg_sha16",
+     "value": "5a3f12f2a742a864"
+    },
+    {
+     "artifact": "M5-K1-DRYRUN.attempt1-c1a8603ab264b8d2.json",
+     "field": ".prereg.sha16",
+     "value": "42434b91d3923d1a"
+    },
+    {
+     "artifact": "M5-K1-DRYRUN.attempt1-c1a8603ab264b8d2.json",
+     "field": ".host_gate.before_dryrun.first.prereg_sha16",
+     "value": "42434b91d3923d1a"
+    },
+    {
+     "artifact": "M5-K1-DRYRUN.attempt1-c1a8603ab264b8d2.json",
+     "field": ".host_gate.before_dryrun.final.prereg_sha16",
+     "value": "42434b91d3923d1a"
+    },
+    {
+     "artifact": "M5-K1-DRYRUN.attempt1-c1a8603ab264b8d2.json",
+     "field": ".host_gate.before_dryrun.reads[0].prereg_sha16",
+     "value": "42434b91d3923d1a"
+    },
+    {
+     "artifact": "M5-K1-DRYRUN.attempt1-c1a8603ab264b8d2.json",
+     "field": ".host_gate.after_dryrun.first.prereg_sha16",
+     "value": "42434b91d3923d1a"
+    },
+    {
+     "artifact": "M5-K1-DRYRUN.attempt1-c1a8603ab264b8d2.json",
+     "field": ".host_gate.after_dryrun.final.prereg_sha16",
+     "value": "42434b91d3923d1a"
+    },
+    {
+     "artifact": "M5-K1-DRYRUN.attempt1-c1a8603ab264b8d2.json",
+     "field": ".host_gate.after_dryrun.reads[0].prereg_sha16",
+     "value": "42434b91d3923d1a"
+    },
+    {
+     "artifact": "M5-K1-DRYRUN.json",
+     "field": ".prereg.sha16",
+     "value": "42434b91d3923d1a"
+    },
+    {
+     "artifact": "M5-K1-DRYRUN.json",
+     "field": ".host_gate.before_dryrun.first.prereg_sha16",
+     "value": "42434b91d3923d1a"
+    },
+    {
+     "artifact": "M5-K1-DRYRUN.json",
+     "field": ".host_gate.before_dryrun.final.prereg_sha16",
+     "value": "42434b91d3923d1a"
+    },
+    {
+     "artifact": "M5-K1-DRYRUN.json",
+     "field": ".host_gate.before_dryrun.reads[0].prereg_sha16",
+     "value": "42434b91d3923d1a"
+    },
+    {
+     "artifact": "M5-K1-DRYRUN.json",
+     "field": ".host_gate.after_dryrun.first.prereg_sha16",
+     "value": "42434b91d3923d1a"
+    },
+    {
+     "artifact": "M5-K1-DRYRUN.json",
+     "field": ".host_gate.after_dryrun.final.prereg_sha16",
+     "value": "42434b91d3923d1a"
+    },
+    {
+     "artifact": "M5-K1-DRYRUN.json",
+     "field": ".host_gate.after_dryrun.reads[0].prereg_sha16",
+     "value": "42434b91d3923d1a"
+    },
+    {
+     "artifact": "M5-K1-PREFLIGHT.json",
+     "field": ".prereg.sha16",
+     "value": "42434b91d3923d1a"
+    },
+    {
+     "artifact": "M5-K1-WARMUP-SETTLE.json",
+     "field": ".prereg.sha16",
+     "value": "42434b91d3923d1a"
+    },
+    {
+     "artifact": "M5-K1-WARMUP.json",
+     "field": ".prereg.sha16",
+     "value": "42434b91d3923d1a"
+    },
+    {
+     "artifact": "M5C-36-adj-sealed.json",
+     "field": ".prereg.sha16",
+     "value": "250dbb417a7e7470"
+    },
+    {
+     "artifact": "M5C-36-adj.json",
+     "field": ".prereg.sha16",
+     "value": "250dbb417a7e7470"
+    },
+    {
+     "artifact": "M5C-36-alignment.json",
+     "field": ".inputs.prereg.sha16",
+     "value": "250dbb417a7e7470"
+    },
+    {
+     "artifact": "M5C-36-cand-raw.json",
+     "field": ".prereg.sha16",
+     "value": "250dbb417a7e7470"
+    },
+    {
+     "artifact": "M5C-36-judge.json",
+     "field": ".prereg.sha16",
+     "value": "250dbb417a7e7470"
+    },
+    {
+     "artifact": "M5C-36-r1.attempt1-6f21294685dfa400.json",
+     "field": ".prereg.sha16",
+     "value": "250dbb417a7e7470"
+    },
+    {
+     "artifact": "M5C-36-r1.attempt1-6f21294685dfa400.json",
+     "field": ".gate_before.prereg_sha16",
+     "value": "250dbb417a7e7470"
+    },
+    {
+     "artifact": "M5C-36-r1.attempt1-6f21294685dfa400.json",
+     "field": ".gate_after.prereg_sha16",
+     "value": "250dbb417a7e7470"
+    },
+    {
+     "artifact": "M5C-36-r1.json",
+     "field": ".prereg.sha16",
+     "value": "250dbb417a7e7470"
+    },
+    {
+     "artifact": "M5C-36-r1.json",
+     "field": ".gate_before.prereg_sha16",
+     "value": "250dbb417a7e7470"
+    },
+    {
+     "artifact": "M5C-36-r1.json",
+     "field": ".gate_after.prereg_sha16",
+     "value": "250dbb417a7e7470"
+    },
+    {
+     "artifact": "M5C-36-r1.json",
+     "field": ".gate_after_initial.prereg_sha16",
+     "value": "250dbb417a7e7470"
+    },
+    {
+     "artifact": "M5C-36-r1.json",
+     "field": ".gate_after_recheck.prereg_sha16",
+     "value": "250dbb417a7e7470"
+    },
+    {
+     "artifact": "M5C-36-review.json",
+     "field": ".inputs.prereg.sha16",
+     "value": "250dbb417a7e7470"
+    },
+    {
+     "artifact": "M5C-c01-r1.json",
+     "field": ".prereg_sha16",
+     "value": "32bb07a0ac4a5f22"
+    },
+    {
+     "artifact": "_m5b3_selftest_v24.json",
+     "field": ".freeze.prereg_sha16",
+     "value": "5a3f12f2a742a864"
+    },
+    {
+     "artifact": "_m5b3_selftest_v24_raw.json",
+     "field": ".freeze.prereg_sha16",
+     "value": "5a3f12f2a742a864"
+    },
+    {
+     "artifact": "_v22_selftest.json",
+     "field": ".freeze.prereg_sha16",
+     "value": "fdf7ca2ae939a3a4"
+    },
+    {
+     "artifact": "_v23_selftest.json",
+     "field": ".freeze.prereg_sha16",
+     "value": "5a3f12f2a742a864"
+    }
+   ],
+   "chain_artifacts_pin_check": [
+    {
+     "artifact": "M5B2-RATES.json",
+     "pins": [
+      {
+       "field": ".prereg.sha16",
+       "value": "482a94820917d16e",
+       "matches_doc": "PREREG-M5-B2.md"
+      }
+     ],
+     "n_pins": 1,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5B2-JUDGE.json",
+     "pins": [
+      {
+       "field": ".prereg.sha16",
+       "value": "482a94820917d16e",
+       "matches_doc": "PREREG-M5-B2.md"
+      }
+     ],
+     "n_pins": 1,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5B3-v24-RATES.json",
+     "pins": [
+      {
+       "field": ".prereg.sha16",
+       "value": "37e3742c0e4056ef",
+       "matches_doc": "PREREG-M5-B3-v2.4.md"
+      }
+     ],
+     "n_pins": 1,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5B4-RATES.json",
+     "pins": [
+      {
+       "field": ".prereg_sha16",
+       "value": "f30d89e30262b148",
+       "matches_doc": "PREREG-M5-C2-B4.md"
+      }
+     ],
+     "n_pins": 1,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5B4-AB-OLD-VS-NEW.json",
+     "pins": [],
+     "n_pins": 0,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5B4-JUDGE.json",
+     "pins": [
+      {
+       "field": ".prereg_sha16",
+       "value": "f30d89e30262b148",
+       "matches_doc": "PREREG-M5-C2-B4.md"
+      },
+      {
+       "field": ".gate_before.prereg_sha16",
+       "value": "d4ab619b59bfe6fb",
+       "matches_doc": "PREREG-M5-C2-R2.md"
+      },
+      {
+       "field": ".gate_after.prereg_sha16",
+       "value": "d4ab619b59bfe6fb",
+       "matches_doc": "PREREG-M5-C2-R2.md"
+      }
+     ],
+     "n_pins": 3,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5B4-GEN.json",
+     "pins": [
+      {
+       "field": ".prereg.sha16",
+       "value": "f30d89e30262b148",
+       "matches_doc": "PREREG-M5-C2-B4.md"
+      },
+      {
+       "field": ".gate_before.prereg_sha16",
+       "value": "d4ab619b59bfe6fb",
+       "matches_doc": "PREREG-M5-C2-R2.md"
+      },
+      {
+       "field": ".gate_after.prereg_sha16",
+       "value": "d4ab619b59bfe6fb",
+       "matches_doc": "PREREG-M5-C2-R2.md"
+      },
+      {
+       "field": ".prereg_sha16",
+       "value": "f30d89e30262b148",
+       "matches_doc": "PREREG-M5-C2-B4.md"
+      },
+      {
+       "field": ".gate_after_clean.prereg_sha16",
+       "value": "d4ab619b59bfe6fb",
+       "matches_doc": "PREREG-M5-C2-R2.md"
+      }
+     ],
+     "n_pins": 5,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5B4-SENTENCES.json",
+     "pins": [
+      {
+       "field": ".prereg_sha16",
+       "value": "f30d89e30262b148",
+       "matches_doc": "PREREG-M5-C2-B4.md"
+      }
+     ],
+     "n_pins": 1,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5B4-LEAD-RULING.json",
+     "pins": [
+      {
+       "field": ".prereg_sha16",
+       "value": "f30d89e30262b148",
+       "matches_doc": "PREREG-M5-C2-B4.md"
+      }
+     ],
+     "n_pins": 1,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5C2-B2EVAL.json",
+     "pins": [
+      {
+       "field": ".prereg.sha16",
+       "value": "6b0d750abbd06b1b",
+       "matches_doc": "PREREG-M5-C2-B2EVAL.md"
+      },
+      {
+       "field": ".host_gate_before.prereg_sha16",
+       "value": "d4ab619b59bfe6fb",
+       "matches_doc": "PREREG-M5-C2-R2.md"
+      },
+      {
+       "field": ".host_gate_after.prereg_sha16",
+       "value": "d4ab619b59bfe6fb",
+       "matches_doc": "PREREG-M5-C2-R2.md"
+      }
+     ],
+     "n_pins": 3,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5C2-REV5-OFFLINE.json",
+     "pins": [
+      {
+       "field": ".prereg.sha16",
+       "value": "81a5bb3ea4df642e",
+       "matches_doc": "PREREG-M5-C2-REV5.md"
+      }
+     ],
+     "n_pins": 1,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5C2-REV5-1-OFFLINE.json",
+     "pins": [],
+     "n_pins": 0,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5C2-REV6-B4DESIGN.json",
+     "pins": [
+      {
+       "field": ".prereg_sha16",
+       "value": "faaf2605116bb594",
+       "matches_doc": "PREREG-M5-C2-REV6.md"
+      },
+      {
+       "field": ".prereg_sha16_rev6",
+       "value": "faaf2605116bb594",
+       "matches_doc": "PREREG-M5-C2-REV6.md"
+      },
+      {
+       "field": ".gate_before.prereg_sha16",
+       "value": "d4ab619b59bfe6fb",
+       "matches_doc": "PREREG-M5-C2-R2.md"
+      },
+      {
+       "field": ".gate_after.prereg_sha16",
+       "value": "d4ab619b59bfe6fb",
+       "matches_doc": "PREREG-M5-C2-R2.md"
+      }
+     ],
+     "n_pins": 4,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5C2-REV6-B4DESIGN-READOUT.json",
+     "pins": [],
+     "n_pins": 0,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5C2-REV7-OFFLINE.json",
+     "pins": [
+      {
+       "field": ".prereg_sha16",
+       "value": "32eaf82ca56600c4",
+       "matches_doc": "PREREG-M5-C2-REV7.md"
+      },
+      {
+       "field": ".inputs.prereg.sha16",
+       "value": "32eaf82ca56600c4",
+       "matches_doc": "PREREG-M5-C2-REV7.md"
+      }
+     ],
+     "n_pins": 2,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5C2-REV7-1-OFFLINE.json",
+     "pins": [
+      {
+       "field": ".prereg_sha16",
+       "value": "09d6f1b163ea0b84",
+       "matches_doc": "PREREG-M5-C2-REV7.1.md"
+      },
+      {
+       "field": ".inputs.prereg.sha16",
+       "value": "09d6f1b163ea0b84",
+       "matches_doc": "PREREG-M5-C2-REV7.1.md"
+      },
+      {
+       "field": ".inputs.prereg.supersedes_sha16",
+       "value": "32eaf82ca56600c4",
+       "matches_doc": "PREREG-M5-C2-REV7.md"
+      }
+     ],
+     "n_pins": 3,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5C2-REV7-AUDIT.json",
+     "pins": [
+      {
+       "field": ".inputs.prereg.sha16",
+       "value": "32eaf82ca56600c4",
+       "matches_doc": "PREREG-M5-C2-REV7.md"
+      }
+     ],
+     "n_pins": 1,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5C2-B6-SENTENCES.json",
+     "pins": [
+      {
+       "field": ".prereg_sha16",
+       "value": "ac27d47d3a3efff9",
+       "matches_doc": "PREREG-M5-C2-B6.md"
+      }
+     ],
+     "n_pins": 1,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5B-JUDGE.json",
+     "pins": [
+      {
+       "field": ".prereg.sha16",
+       "value": "8102950d9de660be",
+       "matches_doc": "PREREG-M5-B.md"
+      }
+     ],
+     "n_pins": 1,
+     "n_stale": 0
+    },
+    {
+     "artifact": "M5B-GEN.json",
+     "pins": [
+      {
+       "field": ".prereg.sha16",
+       "value": "8102950d9de660be",
+       "matches_doc": "PREREG-M5-B.md"
+      },
+      {
+       "field": ".gate_before.prereg_sha16",
+       "value": "8102950d9de660be",
+       "matches_doc": "PREREG-M5-B.md"
+      },
+      {
+       "field": ".gate_after.prereg_sha16",
+       "value": "8102950d9de660be",
+       "matches_doc": "PREREG-M5-B.md"
+      }
+     ],
+     "n_pins": 3,
+     "n_stale": 0
+    }
+   ],
+   "note": "全仓嵌套扫描：196 个 prereg 类哈希中 148 个与当前冻结文档一致；48 个不对应任何当前文档，全部来自 C2 之前阶段的产物（M5-36A / M5-K1 / M5C-36 / c01 / v2.2-v2.3 自检），其指向的旧版预登记已不保留（历史归档缺口，不影响当前 C2 链）。当前 C2 链 20 件产物的 pin 全部命中当前文档（见 chain_artifacts_pin_check）。真正的问题是‘冻结文档自身不自钉’"
+  },
+  "entries": [
+   {
+    "id": "FD-1",
+    "file": "docs/_work/PREREG-M5-C2-B5.md + docs/_work/PREREG-M5-C2-REV7.md",
+    "kind": "冻结身份记录不完整 + 下游 stale-at-freeze（**原判“§9 冻结后追加”已被 git 硬证据证伪**）",
+    "before": {
+     "b5_file_at_freeze": "d6c7bdac73ef7326 / 14,597 B / 183 行（§0–§8 + §9）",
+     "rev7_citation": "(b5) e306ce994d306a84（= §0–§8 子集）"
+    },
+    "after": {
+     "b5_file_now": "d6c7bdac73ef7326 / 14,597 B / 183 行（与冻结时、与 full 提交逐字节相同）",
+     "subsection_mtime": "2026-10-26T19:54:15（< frozen_at 19:55:00）",
+     "git_full": "full@557425309248871bd58c13424d300b2e6812d8b1 = 2026-10-26T19:59:10，其 B5 已含 §9",
+     "rev7_after": "32eaf82ca56600c4 / 5,835 B（full 提交内即为该内容，仍引 e306）"
+    },
+    "evidence": "① B5 mtime=2026-10-26T19:54:15 < frozen_at=19:55:00；② `git cat-file -p full:docs/_work/PREREG-M5-C2-B5.md` = d6c7bdac73ef7326/14,597 B/183 行，**含 §9**，与工作区逐字节相同（`full` 提交时间 2026-10-26T19:59:10）；③ 同 commit 中 REV7=32eaf82ca56600c4/5,835 B 第 7 行仍引 e306（§0–§8 子集），而 B5 自 19:54:15 起整文件已是 d6c7；⇒ §9 在冻结前已在文件内，不存在“冻结后追加”；真实缺陷是 REV7 声明冻结（20:15）/实际入库（19:59:10）时引用已 stale；④ 冻结文件内部矛盾：§8.2 要求判据为 rev6+rev6.1，§9.1 要求 rev5.1 prompt+rev7 且永久排除 rev6，同一冻结件两种判据组成，靠 RULING R4 消解；⑤ §9 标题 20:20 与 REV7 frozen_at 20:15 均为“已入库内容中的未来时间戳”，声明时间不可作为先后证据。",
+    "recompute": "git show -s --format='%H %ci' full ; git cat-file -p full:docs/_work/PREREG-M5-C2-B5.md | sha256 ; git cat-file -p full:docs/_work/PREREG-M5-C2-REV7.md | sha256 ; python: B5 截断 + rstrip → e306…/11,388（子集身份）",
+    "impact": "留痕/口径 + 协议歧义：RULING F5 的事实前提（§9 于 20:20 追加）错误；F3/R1 的 e306 数值正确但只是§0–§8 子集身份，冻结时点整文件身份应为 d6c7（RULING R3 的运行指令已按 d6c7，故操作无误）；§8.2 与 §9.1 判据冲突需以 RULING R4 为准。b5 未跑 → **不影响任何读数**",
+    "severity": "medium",
+    "closed_by": "RULING R3/R4 生效；建议 §8 冻结记录补记整文件身份，REV7 类引用在冻结时重钉"
+   },
+   {
+    "id": "FD-2",
+    "file": "全部 frozen PREREG",
+    "kind": "冻结件不自钉哈希",
+    "before": null,
+    "after": null,
+    "evidence": "20/20 个冻结 PREREG 文档内不含自身当前 sha16（抽查全为 False）",
+    "recompute": "对每个文档做 sha256[:16] 并检查该值是否出现在自身文本中",
+    "impact": "留痕：冻结身份只能靠外部（引用方/裁定/账本）反推，冻结后任何修改都无法从文档本身察觉（REV7 stale-at-freeze 即例）",
+    "severity": "high",
+    "closed_by": "部分：B6 改用零自指 + json.prereg_sha16 设计"
+   },
+   {
+    "id": "FD-3",
+    "file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+    "kind": "冻结件状态字段与产物存在时序矛盾",
+    "before": {
+     "executed": "false",
+     "frozen_at": "2026-10-26T21:06:55+08:00"
+    },
+    "after": {
+     "artifact_exists": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+     "artifact_sha16": "55191eaf2426f736",
+     "artifact_mtime": "2026-10-26T21:28:52",
+     "artifact_status": "已读数"
+    },
+    "evidence": "rev7.1 §6 写 executed=false；脚本还硬断言 prereg 文本必须含 executed=false；但 M5C2-REV7-1-OFFLINE.json 已于 21:24:11 生成（status=已读数）",
+    "recompute": "读 §6 与产物 mtime；脚本 verify_inputs 中 `if b'executed=false' not in pb: raise SystemExit`",
+    "impact": "留痕：冻结时（21:06:55）executed=false 属实；产物生成后冻结件不能改 → 状态位必然滞后。属于‘冻结 vs 运行状态’的设计冲突，不是数值问题（数值已独立复算一致）",
+    "severity": "low",
+    "closed_by": "建议在产物/账本侧记录 executed_at，而非改冻结件"
+   },
+   {
+    "id": "FD-4",
+    "file": "docs/_work/PREREG-M5-C2-B6.md",
+    "kind": "冻结前多版本迭代，旧版未留档",
+    "before": {
+     "reported_versions": [
+      "21:07 16,637 B（自钉 920333f2）",
+      "21:10:32 15,434 B"
+     ],
+     "content_available": false
+    },
+    "after": {
+     "sha16": "ac27d47d3a3efff9",
+     "bytes": 17374,
+     "frozen_at": "2026-10-26T21:16:03+08:00",
+     "mtime": "2026-10-26T21:16:37",
+     "self_ref_design": "zero-self-reference（md 无哈希，json.prereg_sha16=md 哈希）"
+    },
+    "evidence": "当前仅存冻结版；docs/ 不入 git（.gitignore:180 *.md），旧版本无归档；旧自钉 920333f2 在仓库/磁盘均无对应内容（不可复算属当然，无法独立验证其自钉失败）",
+    "recompute": "glob 全仓 + hash 扫描：无文件 sha16=920333f2；B6 内无自引哈希",
+    "impact": "留痕：最终冻结内容可复算（V9 通过）；但‘21:07 版自钉不可复算’这一历史判断无法被第三方复核",
+    "severity": "medium",
+    "closed_by": "建议冻结时归档旧版或写入版本变更表"
+   },
+   {
+    "id": "FD-5",
+    "file": "多个 frozen PREREG",
+    "kind": "声明冻结时间早于/晚于文件 mtime（时间戳不可佐证）",
+    "before": null,
+    "after": null,
+    "evidence": "10/20 个冻结 PREREG 的 mtime 早于其声明的 frozen_at（最大 -28.8 min；B5 亦早 45 s：19:54:15 vs 19:55:00）；另有 1 个晚于（最多 +4.9 min）",
+    "recompute": "os.path.getmtime vs 文档内 frozen_at 正则",
+    "impact": "留痕：frozen_at 是声明值而非可验证写入时间；B5 §9 的‘20:20 晚于 REV7 20:15’因此不可证",
+    "severity": "medium",
+    "closed_by": "建议冻结时同时记录文件 mtime 或写入 git"
+   },
+   {
+    "id": "FD-6",
+    "file": "docs/_work/PREREG-M5-C2-B5.md",
+    "kind": "冻结件内部 stale 引用（保留不改）",
+    "before": null,
+    "after": {
+     "line6_b4_pin": "e9a88fda",
+     "current_b4": "f30d89e30262b148",
+     "current_b4_bytes": 10910
+    },
+    "evidence": "B5 第 6 行 `PREREG-M5-C2-B4.md e9a88fda`；当前 B4 = f30d89e30262b148/10910 B；e9a88fda 在当前 290 个文档/产物中无任何文件命中，按标题前缀/rstrip 变体亦不可重构",
+    "recompute": "hash 扫描 + 标题前缀截断搜索（0 命中）",
+    "impact": "留痕：B4 旧版内容不可得；不影响 b5 题面/读数（B4 正确版在 B6 与产物中按实测引用）",
+    "severity": "low",
+    "closed_by": "RULING R6 明示保留 + DOC-HASH-LEDGER"
+   },
+   {
+    "id": "FD-7",
+    "file": "docs/_work/PREREG-M5-C2-B6.md",
+    "kind": "下游未按 R3 同时记录 B5 整文件与子集哈希",
+    "before": null,
+    "after": {
+     "b6_records": "d6c7bdac73ef7326（整文件）",
+     "b6_missing": "e306ce994d306a84（§0–§8 子集）"
+    },
+    "evidence": "B6 第 6 行只写 B5 整文件哈希；B6 全文无 e306…；rev7.1 未引 b5",
+    "recompute": "grep e306ce994d306a84 docs/_work/PREREG-M5-C2-B6.md → 0 命中",
+    "impact": "留痕：R3 的‘下游应同时记录两者’尚未执行（建议 B6 补记或由账本登记）",
+    "severity": "low",
+    "closed_by": "开放"
+   },
+   {
+    "id": "FD-8",
+    "file": "kvmem/m2_visibility/m5/out/*REV7*-OFFLINE.json",
+    "kind": "自指代码哈希导致仓库外不可 byte 级重造",
+    "before": {
+     "committed": {
+      "sha16": "55191eaf2426f736",
+      "code_sha16": "88256d274c9993cc",
+      "code_bytes": 50618
+     }
+    },
+    "after": {
+     "rerun": {
+      "exit": 0,
+      "elapsed_s": 0.6,
+      "artifact_sha16": "7cf178a4f4814c7a",
+      "bytes": 510508
+     },
+     "diff_keys": [
+      "schema",
+      "prereg_sha16",
+      "code_sha16",
+      "code_file",
+      "code_bytes",
+      "inputs",
+      "assertions"
+     ],
+     "cause": "脚本把 sha16(自身文件) 与字节数写进产物；仓库外必须替换 ROOT（+25 B）"
+    },
+    "evidence": "两次重跑产物 7cf178a4f4814c7a/510508 B 完全一致；与已提交件 58/60 键相同，仅 code_sha16/code_bytes 变",
+    "recompute": "见 rerun",
+    "impact": "复现口径：数值/判定 100% 可复算；‘byte 级 clean-room 复现’在这类自钉产物上不可达（除非保留原脚本字节）",
+    "severity": "medium",
+    "closed_by": "建议产物记录 code_sha16 但允许外部提供‘期望值’比对，或改用不含自哈希的判定层脚本"
+   }
+  ]
+ },
+ "summary": {
+  "b5_truncation": "PASS（d6c7bdac73ef7326/14597 全文；9c09ceaf99d37a23/11390 raw；e306ce994d306a84/11388 rstrip；§9 起于第 143 行）——与 RULING F2/F3 逐项一致",
+  "ruling_checks": "F1/F2/F3/F4/F6 有实测支撑；R1/R3 措辞与实测一致；**F5 的事实前提被证伪**：§9 已含于 19:59:10 的 full 提交（B5=d6c7/14,597/183，与工作区同），mtime 19:54:15<19:55 → 无冻结后追加；真实缺陷是 REV7 冻结/入库时仍引 e306（stale-at-freeze），且 §8.2 与 §9.1 判据组成冲突（RULING R4 消解）",
+  "b6_selfconsistent": "PASS（md ac27d47d3a3efff9 == json.prereg_sha16；8 域/40 题/24+16；§8 六行已填；零自引哈希；无 gold）",
+  "rev7_1_chain": "PASS（md 09d6f1b163ea0b84 == 产物.prereg_sha16；产物.code_sha16 88256d274c9993cc == 脚本；54 个共有顶层键中 47 个与 C32 取键相等、7 个差异全为 provenance/断言；四门槛自算 FP 2/46、漏判 4/41、parse_fail 1/261、new_miss 0/35、作废 124/777）",
+  "rev7_1_determinism": "PASS（两次重跑 byte 一致）；仓库外与已提交件 58/60 键相同，差异仅自指 code_sha16/code_bytes（结构性）",
+  "freeze_discipline": "8 条问题：1 条 high（冻结件不自钉）、4 条 medium（FD-1 身份记录不完整+REV7 stale-at-freeze、B6 旧版无档、时间戳不可佐证、自指哈希阻碍 clean-room byte 复现）、3 条 low；读数均不受影响",
+  "unverifiable_claims": [
+   "B6 21:07 版自钉 920333f2 的失败（旧内容无存档）",
+   "B4 旧版 e9a88fda 的内容（不可重构）",
+   "B5/REV7/§8/§9 声明时间与真实写入时间的对应（§9 标题 20:20、REV7 20:15 均为已入库内容中的未来时间戳；声明时间不可作先后证据）"
+  ]
+ }
+}

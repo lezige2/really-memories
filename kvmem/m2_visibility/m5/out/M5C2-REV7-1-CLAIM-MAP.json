@@ -1,0 +1,3205 @@
+{
+ "schema": "m5c2_rev7_1_claim_map_v1",
+ "generated_by": "kvmem/m2_visibility/m5/out/m5c2_rev7_1_claim_map.py",
+ "mapper_sha16": "41b03f5d17c9a615",
+ "inputs": {
+  "prereg": {
+   "file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "sha16": "09d6f1b163ea0b84",
+   "bytes": 16313
+  },
+  "impl": {
+   "file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "sha16": "88256d274c9993cc",
+   "bytes": 50618
+  },
+  "artifact": {
+   "file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "sha16": "55191eaf2426f736",
+   "bytes": 510508
+  },
+  "c32_impl": {
+   "file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "sha16": "65ed60125528d5d6"
+  },
+  "c32_artifact": {
+   "file": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+   "sha16": "1f8f44b921e575fe"
+  },
+  "audit": {
+   "file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-AUDIT.json",
+   "sha16": "64ad2b4e27c7812d"
+  },
+  "judge": {
+   "file": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "sha16": "6a3001b6ca23ef7d"
+  },
+  "gold": {
+   "file": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+   "sha16": "9273ebc97aa1413a"
+  }
+ },
+ "block_equality_vs_c32": {
+  "verdict_rev7": true,
+  "items": true,
+  "gate": true,
+  "false_by_reason": true,
+  "sentence_diff": true,
+  "invalid_items": true,
+  "all_invalid_sentences": true,
+  "sentences": true
+ },
+ "findings": [
+  {
+   "claim_id": "C3-UNUSABLE-FIELD",
+   "severity": "medium",
+   "doc_lines": [
+    72,
+    96
+   ],
+   "expected": {
+    "field": "rev7_1_unusable",
+    "value": false
+   },
+   "actual": {
+    "rev7_1_unusable_present": false,
+    "gate_keys": [
+     "any_fail",
+     "false_positive",
+     "false_positive_sids",
+     "leak_missed",
+     "leak_missed_sids",
+     "new_miss",
+     "new_miss_sids",
+     "parse_fail",
+     "parse_fail_sids",
+     "rev7_unusable",
+     "rev7_unusable_basis"
+    ],
+    "rev7_unusable": false,
+    "basis_mentions_old_name": true
+   },
+   "notes": "文档 L72/L75/L96 三次写 `rev7_1_unusable`，但产物 gate 里只有 `rev7_unusable`（脚本 L829 也只写旧名）；语义等价（四门槛全过）但字段名对不上"
+  },
+  {
+   "claim_id": "C6-EXECUTED",
+   "severity": "low",
+   "doc_lines": [
+    160,
+    160
+   ],
+   "expected": {
+    "executed": false,
+    "artifact_exists": false
+   },
+   "actual": {
+    "executed_false_in_doc": true,
+    "artifact_exists": true,
+    "artifact_mtime_note": "frozen_at 21:06:55 < artifact 21:24"
+   },
+   "notes": "§6 写 `executed=false`，但同目录产物 M5C2-REV7-1-OFFLINE.json 已生成（21:24，晚于冻结时刻 21:06:55）；状态字段与实际情况矛盾（冻结件写于执行前的旧口径）"
+  },
+  {
+   "claim_id": "B1-COUNT",
+   "severity": "low",
+   "doc_lines": [
+    140,
+    140
+   ],
+   "expected": {
+    "identical_count": 14
+   },
+   "actual": {
+    "identical_count": 15,
+    "extra_beyond_list": [
+     "gate_item"
+    ]
+   },
+   "notes": "文档 B.1/附录 B 说「其余 14 个函数逐字节相同」，实测为 15（漏列 gate_item）；不改变「判定代码零改动」结论"
+  },
+  {
+   "claim_id": "H-IMPORT-CLAIM",
+   "severity": "low",
+   "doc_lines": [
+    7,
+    7
+   ],
+   "expected": {
+    "header_claim": false,
+    "gpu_runner_reachable": false
+   },
+   "actual": {
+    "header_claim_present": true,
+    "transitive_local_modules": 12,
+    "gpu_runner_reachable": true,
+    "forward_calls": 0
+   },
+   "notes": "脚本头注仍写「no engine / no GPU runner」，但 R5→R41 传递 import 了 _e3gpu_run 等模块；实际 0 次前向调用，属措辞过强而非行为违规"
+  },
+  {
+   "claim_id": "C4-N4-ENUM",
+   "severity": "low",
+   "doc_lines": [
+    83,
+    83
+   ],
+   "expected": {
+    "doc_enumerates_N4": true,
+    "implementation_has_N4_branch": true
+   },
+   "actual": {
+    "rev7_sec4_enumerates_N4": true,
+    "rev7_sec4_quote": "- 读数：FP/leak 数与明细、`false_by_reason`（N1/N2/N3/N4/R4+/declared/other 逐例归类）、作废条目总数与占比、",
+    "pick_attribution_returns_N4": false,
+    "mentions_N4_only_in_docstring": true,
+    "artifact_attributions": [
+     "N1",
+     "N2",
+     "N3"
+    ],
+    "audit_note": "low (documentation / audit label only)"
+   },
+   "notes": "§4 声明 schema 同 REV7 §4，而 REV7 §4 的 false_by_reason 枚举 N1/N2/N3/N4/…；实现 pick_attribution 无 N4 分支，产物归因只有 N1/N2/N3 ⇒ 文档枚举的 N4 分类不可达（独立审计亦标为表述不精确，数值零影响）"
+  }
+ ],
+ "summary": {
+  "n_claims": 84,
+  "n_pass": 76,
+  "n_fail": 5,
+  "n_unverifiable": 3,
+  "by_group": {
+   "§0 更正": {
+    "n": 11,
+    "pass": 11,
+    "fail": 0,
+    "unverifiable": 0
+   },
+   "§1 引用": {
+    "n": 5,
+    "pass": 5,
+    "fail": 0,
+    "unverifiable": 0
+   },
+   "§2.1 断言": {
+    "n": 6,
+    "pass": 6,
+    "fail": 0,
+    "unverifiable": 0
+   },
+   "§3 门槛": {
+    "n": 7,
+    "pass": 6,
+    "fail": 1,
+    "unverifiable": 0
+   },
+   "§4 交付": {
+    "n": 17,
+    "pass": 16,
+    "fail": 1,
+    "unverifiable": 0
+   },
+   "§5 纪律": {
+    "n": 6,
+    "pass": 3,
+    "fail": 0,
+    "unverifiable": 3
+   },
+   "§6 状态": {
+    "n": 2,
+    "pass": 1,
+    "fail": 1,
+    "unverifiable": 0
+   },
+   "附录A": {
+    "n": 7,
+    "pass": 7,
+    "fail": 0,
+    "unverifiable": 0
+   },
+   "附录B": {
+    "n": 6,
+    "pass": 5,
+    "fail": 1,
+    "unverifiable": 0
+   },
+   "读数": {
+    "n": 11,
+    "pass": 11,
+    "fail": 0,
+    "unverifiable": 0
+   },
+   "反硬编码": {
+    "n": 4,
+    "pass": 4,
+    "fail": 0,
+    "unverifiable": 0
+   },
+   "实现自述": {
+    "n": 2,
+    "pass": 1,
+    "fail": 1,
+    "unverifiable": 0
+   }
+  },
+  "fail_ids": [
+   "C3-UNUSABLE-FIELD",
+   "C6-EXECUTED",
+   "B1-COUNT",
+   "H-IMPORT-CLAIM",
+   "C4-N4-ENUM"
+  ],
+  "unverifiable_ids": [
+   "C5-ONESHOT",
+   "C5-B6",
+   "C5-CONDITIONAL"
+  ],
+  "block_equality": {
+   "verdict_rev7": true,
+   "items": true,
+   "gate": true,
+   "false_by_reason": true,
+   "sentence_diff": true,
+   "invalid_items": true,
+   "all_invalid_sentences": true,
+   "sentences": true
+  },
+  "all_pass": false,
+  "check_mode": "checks + write"
+ },
+ "claims": [
+  {
+   "claim_id": "IN-FROZEN-SHA",
+   "group": "读数",
+   "claim_text": "> `frozen=true` · `frozen_rev=1` · `frozen_at=2026-10-26T21:06:55+08:00` · `write_state=frozen` · 冻结人：LEAD · **LEAD 复核通过**\n> `rev7_1_ver=1` · `supersedes=32eaf82ca56600c4`（`docs/_work/PREREG-M5-C2-REV7.md`，5,835 B / 88 行）· `correction_type=statement_correction`（**口径更正，非规则变更**）\n> 性质：**口径更正（statement correction），不是规则变更**；本件**写于 rev7 结果之后**（rev7 产物 `M5C2-REV7-OFFLINE.json 1f8f44b921e575fe` / 507,657 B 已出；独立审计 `INSPECTOR-M5C2-REV7.md`、`M5C2-REV7-AUDIT.json`、`_rev7_audit.py 6695a4b4de403870` 已完成）\n> **规则 / 阈值 / 词表 / 金标 / 输入零改动**：N1–N4 定义、`0.80` / `0.90` 阈值、`NEG_WORDS` / `ABSENT_MARKERS` 词表、金标 `M5B4-LEAD-RULING.json 9273ebc97aa1413a`、输入 `M5B4-JUDGE.json 6a3001b6ca23ef7d` 全部沿用 rev7，**逐字未改**\n> 判定代码零改动：`run_m5c2_rev7_offline.py 65ed60125528d5d6` 的判定函数**逐字节不变**（本件对应的重跑脚本 `kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py` 仅改头注 / PREREG 常量 / 断言块 / 产物字段，判定函数与 rev7 逐字节一致，见附录 B）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    3,
+    7
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "verify_inputs",
+   "code_lines": [
+    131,
+    194
+   ],
+   "check_kind": "static_ref",
+   "expected": {
+    "prereg71": "09d6f1b163ea0b84",
+    "impl71": "88256d274c9993cc",
+    "art71": "55191eaf2426f736",
+    "c32_impl": "65ed60125528d5d6",
+    "c32_art": "1f8f44b921e575fe",
+    "rev7_prereg": "32eaf82ca56600c4",
+    "judge": "6a3001b6ca23ef7d",
+    "gold": "9273ebc97aa1413a"
+   },
+   "actual": {
+    "prereg71": "09d6f1b163ea0b84",
+    "impl71": "88256d274c9993cc",
+    "art71": "55191eaf2426f736",
+    "c32_impl": "65ed60125528d5d6",
+    "c32_art": "1f8f44b921e575fe",
+    "rev7_prereg": "32eaf82ca56600c4",
+    "judge": "6a3001b6ca23ef7d",
+    "gold": "9273ebc97aa1413a",
+    "bytes": [
+     16313,
+     50618,
+     510508
+    ]
+   },
+   "pass": true,
+   "notes": "全部冻结件字节/sha16 与本任务冻结清单一致（含 C32 对照件与 rev7 原件）"
+  },
+  {
+   "claim_id": "C0-N1-3",
+   "group": "§0 更正",
+   "claim_text": "| **R1 数值归一化缺失** | **3** | `b4-s1-q2-s01`、`b4-s1-q2-s15`、`b4-s1-q3-s03` | 句内值 `8600元` vs 依据 `8,600 元`：二元组覆盖 = **0.75 < 0.80** ⇒ 判 value_mismatch。**纯标点问题** |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    15,
+    15
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "false_by_reason",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "attribution": "N1",
+    "n": 3,
+    "sids": [
+     "b4-s1-q2-s01",
+     "b4-s1-q2-s15",
+     "b4-s1-q3-s03"
+    ],
+    "all_fixed": true
+   },
+   "actual": {
+    "n": 3,
+    "sids": [
+     "b4-s1-q2-s01",
+     "b4-s1-q2-s15",
+     "b4-s1-q3-s03"
+    ],
+    "fixed": true
+   },
+   "pass": true,
+   "notes": "§0.1 更正后 N1 例数 3（REV7 原表写 4，本次更正为 3）；三句在 false_by_reason 中均 fixed=true"
+  },
+  {
+   "claim_id": "C0-N2-2",
+   "group": "§0 更正",
+   "claim_text": "| **R1 值域过宽（贪心实体正则）** | **2** | `b4-s2-q1-s01`、`b4-s8-q2-s02` | 正则 `[^\\s，。]{2,}(?:公司\\|店\\|院\\|…)` 贪心吞掉前缀：抽出 `租车公司`（覆盖 0.333）、`地点是宠安医院`（覆盖 0.5）⇒ 拿\"描述语\"当\"值\"比对 |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    16,
+    16
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev4_1.py",
+   "code_function": "value_tokens",
+   "code_lines": [
+    118,
+    132
+   ],
+   "check_kind": "exec_assert",
+   "expected": {
+    "attribution": "N2",
+    "n": 2,
+    "sids": [
+     "b4-s2-q1-s01",
+     "b4-s8-q2-s02"
+    ],
+    "coverage_rent": 0.333,
+    "coverage_hospital": 0.5,
+    "greedy_token": "地点是宠安医院"
+   },
+   "actual": {
+    "n": 2,
+    "sids": [
+     "b4-s2-q1-s01",
+     "b4-s8-q2-s02"
+    ],
+    "coverage_rent": 0.333333,
+    "coverage_hospital": 0.5,
+    "greedy_token": [
+     "地点是宠安医院"
+    ],
+    "rev7_entity_extract": [
+     "宠安医院"
+    ]
+   },
+   "pass": true,
+   "notes": "N2 例数 2；贪心实体正则确实把「地点是宠安医院」整段当值（覆盖 0.5）；「租车公司」对源文覆盖 0.333 —— 文档两个数值均对上"
+  },
+  {
+   "claim_id": "C0-R3-2",
+   "group": "§0 更正",
+   "claim_text": "| **R3 缺席词越界** | **2**（N3 未修好，仍为 FP） | `b4-s1-q2-s07`、`b4-s1-q2-s09` | **模型把句首「患者：」标签与句中片段当成待核验条目（`患者` pos 0–1；`做的` pos 9–10，均逐字存在，见 §0.2）**，其 `未提及` 被计入聚合 ⇒ 整句 `unsupported` |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    17,
+    17
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "false_by_reason",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "attribution": "N3",
+    "n": 2,
+    "sids": [
+     "b4-s1-q2-s07",
+     "b4-s1-q2-s09"
+    ],
+    "still_fp": true,
+    "fixed": 0
+   },
+   "actual": {
+    "n": 2,
+    "sids": [
+     "b4-s1-q2-s07",
+     "b4-s1-q2-s09"
+    ],
+    "fixed": 0,
+    "verdicts": {
+     "b4-s1-q2-s07": "unsupported",
+     "b4-s1-q2-s09": "unsupported"
+    }
+   },
+   "pass": true,
+   "notes": "R3 越界 2 例确为 2（更正原「与上重叠 1 例」），且 N3 未修好、仍判 unsupported（仍 FP）"
+  },
+  {
+   "claim_id": "C0-NO-OVERLAP",
+   "group": "§0 更正",
+   "claim_text": "> **7 例 FP 归因互不重叠**：N1 **3**（已修）、N2 **2**（已修）、R3 **2**（N3 净贡献 0）；**N3/N4 对 7 例的修复数 = 0**（消融：去 N1 → FP 5、去 N2 → FP 4、去 N3 → FP 2）。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    19,
+    19
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "false_by_reason",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "overlap": 0,
+    "n3_n4_fixed": 0,
+    "abl_arithmetic": {
+     "no_N1": 5,
+     "no_N2": 4,
+     "no_N3": 2
+    }
+   },
+   "actual": {
+    "overlap": false,
+    "attrib_counts": {
+     "N1": 3,
+     "N3": 2,
+     "N2": 2
+    },
+    "sum_fixed": 5,
+    "baseline_fp": 7,
+    "arith": {
+     "no_N1": 5,
+     "no_N2": 4,
+     "no_N3": 2
+    },
+    "audit_ablation": {
+     "no_N1": [
+      5,
+      46
+     ],
+     "no_N2": [
+      4,
+      46
+     ],
+     "no_N3": [
+      2,
+      46
+     ]
+    }
+   },
+   "pass": true,
+   "notes": "三组 sid 互不重叠、N3/N4 净修复 0；消融算术 2+3=5 / 2+2=4 / 2+0=2 与文档一致（独立审计 ablation 亦为 5/4/2）"
+  },
+  {
+   "claim_id": "C0-S07-PATIENT",
+   "group": "§0 更正",
+   "claim_text": "| `b4-s1-q2-s07` | `患者：是在仁和口腔做的。` | `患者` | **pos 0–1**（子串命中） | `valid=true`，`coverage=1.0` |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    25,
+    25
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "assertions.A2.occurrences[患者]",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "sentence": "患者：是在仁和口腔做的。",
+    "pos": 0,
+    "span": [
+     0,
+     1
+    ],
+    "valid": true,
+    "coverage": 1.0,
+    "pos_kind": "0-based inclusive"
+   },
+   "actual": {
+    "sentence": "患者：是在仁和口腔做的。",
+    "pos": 0,
+    "span": [
+     0,
+     1
+    ],
+    "valid": true,
+    "coverage": 1.0,
+    "ours": [
+     "substring",
+     1.0
+    ]
+   },
+   "pass": true,
+   "notes": "「患者」在句首 pos 0–1（0-based inclusive）逐字存在 ⇒ 字面 N3 必判 valid=true（不是「句内不存在」）"
+  },
+  {
+   "claim_id": "C0-S07-DONE",
+   "group": "§0 更正",
+   "claim_text": "| `b4-s1-q2-s07` | 同上 | `做的` | **pos 9–10**（子串命中） | `valid=true`，`coverage=1.0` |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    26,
+    26
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "assertions.A2.occurrences[做的]",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "pos": 9,
+    "span": [
+     9,
+     10
+    ],
+    "valid": true,
+    "coverage": 1.0
+   },
+   "actual": {
+    "pos": 9,
+    "span": [
+     9,
+     10
+    ],
+    "valid": true,
+    "coverage": 1.0,
+    "ours": [
+     "substring",
+     1.0
+    ]
+   },
+   "pass": true,
+   "notes": "「做的」在句中 pos 9–10 逐字存在 ⇒ 同样 valid=true；两句标签/片段型 item 是 N3 的盲点"
+  },
+  {
+   "claim_id": "C0-S09-PATIENT",
+   "group": "§0 更正",
+   "claim_text": "| `b4-s1-q2-s09` | `患者：右下第一磨牙。` | `患者` | **pos 0–1**（子串命中，13 个同名条目同位置） | `valid=true`，`coverage=1.0` |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    27,
+    27
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "assertions.A3.occurrences",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "n": 13,
+    "pos": 0,
+    "span": [
+     0,
+     1
+    ],
+    "valid": true,
+    "coverage": 1.0
+   },
+   "actual": {
+    "n": 13,
+    "all_same_pos": true,
+    "all_valid_cov": true
+   },
+   "pass": true,
+   "notes": "13 个同名「患者」条目全部 pos 0–1、valid=true、coverage=1.0（文档 13 条对上）"
+  },
+  {
+   "claim_id": "C0-SELFCHECK",
+   "group": "§0 更正",
+   "claim_text": "> 自校验值：`normalize7('患者：是在仁和口腔做的。') = '患者:是在仁和口腔做的。'`（长 12）；`normalize7('患者：右下第一磨牙。') = '患者:右下第一磨牙。'`（长 10）。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    29,
+    29
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "normalize7",
+   "code_lines": [
+    198,
+    203
+   ],
+   "check_kind": "exec_assert",
+   "expected": {
+    "s07": "患者:是在仁和口腔做的。",
+    "len_s07": 12,
+    "s09": "患者:右下第一磨牙。",
+    "len_s09": 10
+   },
+   "actual": {
+    "s07": "患者:是在仁和口腔做的。",
+    "len_s07": 12,
+    "s09": "患者:右下第一磨牙。",
+    "len_s09": 10
+   },
+   "pass": true,
+   "notes": "§0.2 自校验值（NFKC 冒号 + 去空白后的字符串与长度 12/10）逐字对上"
+  },
+  {
+   "claim_id": "C0-VOID-OLD",
+   "group": "§0 更正",
+   "claim_text": "> ⇒ REV7 §0 原句对这两例的描述**作废**（旧文本仅作为 redline 引文保留在附录 A.1）。正确表述：**模型把句首「患者：」标签与句中片段当成了待核验条目（标签型 / 片段型 item）**；归因类别「R3 缺席词越界」**不变**，变更**仅限事实陈述**，不涉及规则。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    30,
+    30
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "prereg_text_corrections",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "old_phrase_in_rev7": true,
+    "old_phrase_in_rev71_body": false,
+    "old_phrase_in_appendix_redline": true,
+    "selfcheck_flag": true
+   },
+   "actual": {
+    "old_phrase_in_rev7": true,
+    "old_phrase_in_rev71_body": false,
+    "old_phrase_in_appendix_redline": true,
+    "selfcheck_flag": true,
+    "all_pass": true
+   },
+   "pass": true,
+   "notes": "REV7 原句「句内根本不存在」已从 rev7.1 正文删除、仅作 redline 引文保留在附录 A.1；脚本自检 c0_old_claim_removed=true"
+  },
+  {
+   "claim_id": "C0-3BUGS",
+   "group": "§0 更正",
+   "claim_text": "**这不是\"模型改写词汇\"的问题，是判定层三个确定性 bug**（N1 数值归一化缺失 / N2 贪心实体正则 / R3 缺席词越界）。本件更正的是 §0 第 17 行对 `患者`、`做的` 的事实描述，**不改变**该归因结论。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    34,
+    34
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "false_by_reason",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "attributions": [
+     "N1",
+     "N2",
+     "N3"
+    ],
+    "conclusion": "三个确定性 bug 不变"
+   },
+   "actual": {
+    "attributions": [
+     "N1",
+     "N2",
+     "N3"
+    ],
+    "counts": {
+     "N1": 3,
+     "N3": 2,
+     "N2": 2
+    },
+    "section": "§0.3 结论与 REV7 §0 第 19 行一致"
+   },
+   "pass": true,
+   "notes": "§0.3 结论（N1/N2/R3 三个确定性 bug）与 REV7 一致；产物归因类别恰为 N1/N2/N3 三类"
+  },
+  {
+   "claim_id": "C0-ABL-N3OFF",
+   "group": "§0 更正",
+   "claim_text": "> 消融口径（执行者实测）：关闭 N3（等价于所有 item 均 `valid=true`，N4 随之失去作用面）后，四门槛读数**逐项不变** —— FP **2/46**（仍为 `b4-s1-q2-s07`、`b4-s1-q2-s09`）、漏判 **4/41**、`parse_fail` **1/261**、`new_miss` **0/35**；唯一差异是 2 句 gold=`no_fact` 的句子（`b4-s1-q1-s02`、`b4-s5-q1-s01`）由 `supported` 回到 `unsupported`，二者**不参与**四门槛。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    59,
+    59
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "sentence_diff.neutral",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "n_neutral": 2,
+    "sids": [
+     "b4-s1-q1-s02",
+     "b4-s5-q1-s01"
+    ],
+    "gold": "no_fact",
+    "cause": [
+     "N3",
+     "N4"
+    ],
+    "gates_unchanged": true
+   },
+   "actual": {
+    "n_neutral": 2,
+    "sids": [
+     "b4-s1-q1-s02",
+     "b4-s5-q1-s01"
+    ],
+    "detail": [
+     {
+      "sid": "b4-s1-q1-s02",
+      "gold": "no_fact",
+      "cause": [
+       "N3",
+       "N4"
+      ]
+     },
+     {
+      "sid": "b4-s5-q1-s01",
+      "gold": "no_fact",
+      "cause": [
+       "N3",
+       "N4"
+      ]
+     }
+    ],
+    "gates_unchanged": true
+   },
+   "pass": true,
+   "notes": "关闭 N3 的唯一差异 = 2 句 gold=no_fact 由 supported 回 unsupported（N3/N4 标签），二者不参与四门槛 ⇒ 门槛读数不变"
+  },
+  {
+   "claim_id": "C1-REF",
+   "group": "§1 引用",
+   "claim_text": "## 1 §2 规则：与 REV7 逐字相同（引用原文，不重抄、不改写）\n\n本件 §2 的规则定义**就是** `docs/_work/PREREG-M5-C2-REV7.md`（sha16 `32eaf82ca56600c4`）§2 第 32–54 行原文，**逐字相同**，本件不重抄、不改写、不新增任何条件：\n\n| 规则 | REV7 §2 位置 | 本件处置 |\n|---|---|---|\n| **N1** 数值归一化（`normalize()` 扩展） | 第 34–39 行 | 引用，零改动 |\n| **N2** R1 值域收窄（`value_tokens()` 改） | 第 41–45 行 | 引用，零改动 |\n| **N3** 条目原子性门（新增） | 第 47–49 行 | 定义引用零改动；**仅断言 A2/A3 改为真值陈述**（§2.1） |\n| **N4** 缺席词作用域（新增） | 第 51–52 行 | 引用，零改动 |\n\n> **收束条款（逐字引用 REV7 §2 第 54 行）**：**「其余 R1/R2/R3/R4+/R_DERIVED+ 规则、阈值 0.80、词表一律不变。」**",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    36,
+    47
+   ],
+   "code_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "code_function": "<REV7 §2 L32-54>",
+   "code_lines": [
+    32,
+    54
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "sec2_has_N1_N4": true,
+    "cited_ranges": [
+     [
+      "34",
+      "39"
+     ],
+     [
+      "41",
+      "45"
+     ],
+     [
+      "47",
+      "49"
+     ],
+     [
+      "51",
+      "52"
+     ]
+    ],
+    "no_restatement": true
+   },
+   "actual": {
+    "rev7_sec2_markers": [
+     "N1",
+     "N2",
+     "N3",
+     "N4"
+    ],
+    "cited_ranges": [
+     [
+      "34",
+      "39"
+     ],
+     [
+      "41",
+      "45"
+     ],
+     [
+      "47",
+      "49"
+     ],
+     [
+      "51",
+      "52"
+     ]
+    ],
+    "restates_nfkc": false,
+    "restates_threshold": false
+   },
+   "pass": true,
+   "notes": "§1 只引用 REV7 §2 第 32–54 行（四个行号区间逐字对上），本件正文不重抄规则、不出现 NFKC/0.90 等定义细节"
+  },
+  {
+   "claim_id": "C1-QUOTE",
+   "group": "§1 引用",
+   "claim_text": "> **收束条款（逐字引用 REV7 §2 第 54 行）**：**「其余 R1/R2/R3/R4+/R_DERIVED+ 规则、阈值 0.80、词表一律不变。」**",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    47,
+    47
+   ],
+   "code_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "code_function": "<REV7 L54>",
+   "code_lines": [
+    54,
+    54
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "quote_in_rev7_L54": true
+   },
+   "actual": {
+    "quote": "其余 R1/R2/R3/R4+/R_DERIVED+ 规则、阈值 0.80、词表一律不变。",
+    "rev7_L54": "**其余 R1/R2/R3/R4+/R_DERIVED+ 规则、阈值 0.80、词表一律不变。**"
+   },
+   "pass": true,
+   "notes": "收束条款引文与 REV7 第 54 行逐字相同"
+  },
+  {
+   "claim_id": "C1-ZERO-CHANGE",
+   "group": "§1 引用",
+   "claim_text": "> **规则 / 阈值 / 词表 / 金标 / 输入零改动**：N1–N4 定义、`0.80` / `0.90` 阈值、`NEG_WORDS` / `ABSENT_MARKERS` 词表、金标 `M5B4-LEAD-RULING.json 9273ebc97aa1413a`、输入 `M5B4-JUDGE.json 6a3001b6ca23ef7d` 全部沿用 rev7，**逐字未改**",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    6,
+    6
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "<14 funcs + consts>",
+   "code_lines": [
+    198,
+    607
+   ],
+   "check_kind": "static_ref",
+   "expected": {
+    "listed14_identical": 14,
+    "consts_identical": true,
+    "inputs_unchanged": true
+   },
+   "actual": {
+    "listed14_identical": 14,
+    "gate_item_identical": true,
+    "consts_identical": true,
+    "input_shas": {
+     "judge": "6a3001b6ca23ef7d",
+     "gold": "9273ebc97aa1413a"
+    }
+   },
+   "pass": true,
+   "notes": "文档 B.1 列名的 14 个判定函数逐字节相同；PURE_PATTERNS/ENTITY_PATTERN 相同；judge/gold 输入未改"
+  },
+  {
+   "claim_id": "C1-CODE-IDENTICAL",
+   "group": "§1 引用",
+   "claim_text": "> 判定代码零改动：`run_m5c2_rev7_offline.py 65ed60125528d5d6` 的判定函数**逐字节不变**（本件对应的重跑脚本 `kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py` 仅改头注 / PREREG 常量 / 断言块 / 产物字段，判定函数与 rev7 逐字节一致，见附录 B）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    7,
+    7
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "main/verify_inputs",
+   "code_lines": [
+    676,
+    1143
+   ],
+   "check_kind": "static_ref",
+   "expected": {
+    "only": [
+     "verify_inputs",
+     "main",
+     "item_assertion",
+     "verdict_assertion"
+    ],
+    "identical_count": 15
+   },
+   "actual": {
+    "differing": [
+     "main",
+     "verify_inputs"
+    ],
+    "new": [
+     "item_assertion",
+     "verdict_assertion"
+    ],
+    "identical_count": 15
+   },
+   "pass": true,
+   "notes": "「判定代码零改动」成立：仅 verify_inputs/main 改写 + 新增 2 个断言函数；其余 15 个函数逐字节相同（文档 B.1 说 14，见 B1-COUNT 条目）"
+  },
+  {
+   "claim_id": "C1-SUPERSEDE",
+   "group": "§1 引用",
+   "claim_text": "> `rev7_1_ver=1` · `supersedes=32eaf82ca56600c4`（`docs/_work/PREREG-M5-C2-REV7.md`，5,835 B / 88 行）· `correction_type=statement_correction`（**口径更正，非规则变更**）\n> 性质：**口径更正（statement correction），不是规则变更**；本件**写于 rev7 结果之后**（rev7 产物 `M5C2-REV7-OFFLINE.json 1f8f44b921e575fe` / 507,657 B 已出；独立审计 `INSPECTOR-M5C2-REV7.md`、`M5C2-REV7-AUDIT.json`、`_rev7_audit.py 6695a4b4de403870` 已完成）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    4,
+    5
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "<top-level>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "supersedes_sha16": "32eaf82ca56600c4",
+    "supersedes_code_sha16": "65ed60125528d5d6",
+    "supersedes_in_doc": true
+   },
+   "actual": {
+    "supersedes_sha16": "32eaf82ca56600c4",
+    "supersedes_code_sha16": "65ed60125528d5d6",
+    "doc_l4": true,
+    "doc_l5": true
+   },
+   "pass": true,
+   "notes": "取代关系可核：supersedes 指向 REV7 文档 sha，supersedes_code_sha16 指向 C32 脚本 sha；文档 L4/L5 的 sha 与字节数亦对上"
+  },
+  {
+   "claim_id": "C2-A1",
+   "group": "§2.1 断言",
+   "claim_text": "- **A1（不变，N1 自检）**：`R5.coverage('8600元', normalize7('手术费 8,600 元')) == 1.0`。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    53,
+    53
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "main/A1",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "exec_assert",
+   "expected": {
+    "expr": "coverage('8600元', normalize7('手术费 8,600 元')) == 1.0",
+    "value": 1.0,
+    "pass": true
+   },
+   "actual": {
+    "expr": "R5.coverage('8600元', normalize7('手术费 8,600 元')) == 1.0",
+    "value": 1.0,
+    "pass": true,
+    "our_value": 1.0
+   },
+   "pass": true,
+   "notes": "A1（N1 自检）值 1.0、pass；本映射独立复算亦为 1.0"
+  },
+  {
+   "claim_id": "C2-A2",
+   "group": "§2.1 断言",
+   "claim_text": "- **A2（真）**：`b4-s1-q2-s07` 的 `患者`（pos 0–1）与 `做的`（pos 9–10）在字面 N3 下 **`valid=true`、`coverage=1.0`**；该句 `verdict_rev7 = unsupported`，gold = `support_present`，**仍是误判（FP）**；且 **N3 不改变该句 verdict**（`verdict_rev5_1 = verdict_rev7 = unsupported`）。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    54,
+    54
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "assertions.A2 / A2_verdict",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "valid": true,
+    "coverage": 1.0,
+    "positions": {
+     "患者": [
+      0,
+      1
+     ],
+     "做的": [
+      9,
+      10
+     ]
+    },
+    "verdict_rev7": "unsupported",
+    "gold": "support_present",
+    "still_fp": true,
+    "n3_changes_verdict": false,
+    "pass": true
+   },
+   "actual": {
+    "valid": [
+     true,
+     true
+    ],
+    "coverage": [
+     1.0,
+     1.0
+    ],
+    "positions": {
+     "患者": [
+      0,
+      1
+     ],
+     "做的": [
+      9,
+      10
+     ]
+    },
+    "verdict_rev7": "unsupported",
+    "verdict_rev5_1": "unsupported",
+    "gold": "support_present",
+    "in_fp": true,
+    "n3_changes": false,
+    "pass": true
+   },
+   "pass": true,
+   "notes": "A2 真值陈述成立：两条目 valid=true/coverage=1.0，句仍 unsupported 且 gold=support_present ⇒ 仍 FP，N3 未改变该句 verdict"
+  },
+  {
+   "claim_id": "C2-A3",
+   "group": "§2.1 断言",
+   "claim_text": "- **A3（真）**：`b4-s1-q2-s09` 的 `患者`（pos 0–1，13 个同名条目全部）在字面 N3 下 **`valid=true`、`coverage=1.0`**；该句 `verdict_rev7 = unsupported`，gold = `support_present`，**仍是误判（FP）**；且 **N3 不改变该句 verdict**（`verdict_rev5_1 = verdict_rev7 = unsupported`）。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    55,
+    55
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "assertions.A3 / A3_verdict",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "n": 13,
+    "valid": true,
+    "coverage": 1.0,
+    "positions": {
+     "患者": [
+      0,
+      1
+     ]
+    },
+    "verdict_rev7": "unsupported",
+    "gold": "support_present",
+    "still_fp": true,
+    "pass": true
+   },
+   "actual": {
+    "n": 13,
+    "positions": {
+     "患者": [
+      0,
+      1
+     ]
+    },
+    "verdict_rev7": "unsupported",
+    "gold": "support_present",
+    "in_fp": true,
+    "n3_changes": false,
+    "pass": true
+   },
+   "pass": true,
+   "notes": "A3 真值陈述成立：13 条「患者」全 valid/coverage 1.0，句仍 unsupported（gold=support_present）⇒ 仍 FP"
+  },
+  {
+   "claim_id": "C2-ASSERT-5of5",
+   "group": "§2.1 断言",
+   "claim_text": "- **断言**：A1 / A2 / A3 按本件 §2.1 取值（A2/A3 为**真值陈述**，应 **pass**）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    84,
+    84
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "assertions",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "n_pass": 5,
+    "all_pass": true
+   },
+   "actual": {
+    "n_pass": 5,
+    "passes": [
+     "A1",
+     "A2",
+     "A3",
+     "A2_verdict",
+     "A3_verdict"
+    ],
+    "all_pass": true
+   },
+   "pass": true,
+   "notes": "断言 5/5 全 true（A1/A2/A3 + A2_verdict/A3_verdict），all_pass=true"
+  },
+  {
+   "claim_id": "C2-RETRACT",
+   "group": "§2.1 断言",
+   "claim_text": "REV7 §2 N3 的两条自检断言（原句：`b4-s1-q2-s07` 的 `患者`、`b4-s1-q2-s09` 的 `患者` **必须**被判 `valid=false`）**撤回**——它们在字面 N3 定义下**不可满足**（证明见 §0.2；独立审计亦给出可满足性 = 0）。改为下列**为真的**断言（规则定义不动，仅断言改为真值陈述）：",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    51,
+    51
+   ],
+   "code_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "code_function": "<REV7 L49>",
+   "code_lines": [
+    49,
+    49
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "old_assertion_in_rev7": true,
+    "retracted_in_rev71": true,
+    "unsatisfiable_literal": true
+   },
+   "actual": {
+    "old_in_rev7": true,
+    "retract_words": true,
+    "literal_valid": true
+   },
+   "pass": true,
+   "notes": "REV7 原断言（必须 valid=false）确实存在并已撤回；字面 N3 下两条目必为 valid=true ⇒ 原断言不可满足，更正方向正确"
+  },
+  {
+   "claim_id": "C2-N3-DEF",
+   "group": "§2.1 断言",
+   "claim_text": "## 1 §2 规则：与 REV7 逐字相同（引用原文，不重抄、不改写）\n\n本件 §2 的规则定义**就是** `docs/_work/PREREG-M5-C2-REV7.md`（sha16 `32eaf82ca56600c4`）§2 第 32–54 行原文，**逐字相同**，本件不重抄、不改写、不新增任何条件：\n\n| 规则 | REV7 §2 位置 | 本件处置 |\n|---|---|---|\n| **N1** 数值归一化（`normalize()` 扩展） | 第 34–39 行 | 引用，零改动 |\n| **N2** R1 值域收窄（`value_tokens()` 改） | 第 41–45 行 | 引用，零改动 |\n| **N3** 条目原子性门（新增） | 第 47–49 行 | 定义引用零改动；**仅断言 A2/A3 改为真值陈述**（§2.1） |\n| **N4** 缺席词作用域（新增） | 第 51–52 行 | 引用，零改动 |\n\n> **收束条款（逐字引用 REV7 §2 第 54 行）**：**「其余 R1/R2/R3/R4+/R_DERIVED+ 规则、阈值 0.80、词表一律不变。」**",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    36,
+    47
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "matcher/r1_r2_r3_rev7",
+   "code_lines": [
+    242,
+    321
+   ],
+   "check_kind": "static_ref",
+   "expected": {
+    "identical": true,
+    "threshold": 0.9
+   },
+   "actual": {
+    "matcher_identical": true,
+    "r123_identical": true,
+    "threshold_0_90": true
+   },
+   "pass": true,
+   "notes": "N3 定义（子串 / 等长窗口 coverage≥0.90）逐字节未变；只改断言真值，不动规则"
+  },
+  {
+   "claim_id": "C3-TABLE",
+   "group": "§3 门槛",
+   "claim_text": "| 指标 | rev5.1 基线 | 门槛 |\n|---|---:|---|\n| 误判 | 7/46 = 15.22% | **≤ 4/46** |\n| 漏判 | 4/41 = 9.76% | **≤ 5/41** |\n| `parse_fail` | 1/261 | **≤ 2/261** |\n| 漏判新增（gold=fabricated 由 `unsupported` → `supported`） | — | **= 0**（逐例检查，任何一例即判失败） |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    65,
+    70
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "main/gate_item",
+   "code_lines": [
+    818,
+    821
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "thresholds": [
+     4,
+     5,
+     2,
+     0
+    ],
+    "baseline": {
+     "fp": [
+      7,
+      46
+     ],
+     "leak": [
+      4,
+      41
+     ],
+     "pf": [
+      1,
+      261
+     ]
+    }
+   },
+   "actual": {
+    "thresholds": [
+     4,
+     5,
+     2,
+     0
+    ],
+    "baseline": {
+     "fp": [
+      7,
+      46
+     ],
+     "leak": [
+      4,
+      41
+     ],
+     "pf": [
+      1,
+      261
+     ]
+    },
+    "doc_baseline_row": "| 误判 | 7/46 = 15.22% | **≤ 4/46** |\n| 漏判 | 4/41 = 9.76% | **≤ 5/41** |\n| `parse_fail` | 1/261 | **≤ 2/261** |"
+   },
+   "pass": true,
+   "notes": "四门槛阈值 4/5/2/0 与 §3 表逐项一致；基线 7/46、4/41、1/261 由产物 baseline_reproduction 复算"
+  },
+  {
+   "claim_id": "C3-READINGS",
+   "group": "§3 门槛",
+   "claim_text": "- **`(b5)` 准入**：rev7.1 在 `(b4)` 设计集上实测满足上述四门槛 —— FP **2/46**、漏判 **4/41**、`parse_fail` **1/261**、`new_miss` **0/35** ⇒ `rev7_1_unusable=false`，**`(b5)` 准入**。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    72,
+    72
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "gate/sentences+gold",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "fp": [
+     2,
+     46
+    ],
+    "leak": [
+     4,
+     41
+    ],
+    "pf": [
+     1,
+     261
+    ],
+    "new_miss": [
+     0,
+     35
+    ]
+   },
+   "actual": {
+    "fp": [
+     2,
+     46
+    ],
+    "leak": [
+     4,
+     41
+    ],
+    "pf": [
+     1,
+     261
+    ],
+    "new_miss": [
+     0,
+     35
+    ]
+   },
+   "pass": true,
+   "notes": "四门槛读数 2/46、4/41、1/261、0/35 全部由「sentences[] + 金标」独立复算"
+  },
+  {
+   "claim_id": "C3-UNUSABLE-FIELD",
+   "group": "§3 门槛",
+   "claim_text": "- **`(b5)` 准入**：rev7.1 在 `(b4)` 设计集上实测满足上述四门槛 —— FP **2/46**、漏判 **4/41**、`parse_fail` **1/261**、`new_miss` **0/35** ⇒ `rev7_1_unusable=false`，**`(b5)` 准入**。\n- **性质声明**：**rev7.1 是口径更正，不是调规则凑结果**。判定层规则、阈值、词表、金标、输入与 rev7 **逐字相同**；rev7.1 的数值与 rev7 **逐项相同**（FP 2/46、漏判 4/41、`parse_fail` 1/261、`new_miss` 0/35、7 句变化 5 fixed / 0 broken / 2 neutral、N3 作废 124/777），见重跑产物逐项 diff（附录 B.3）。\n- **与 `PREREG-M5-C2-B5.md` §9.1 的关系**：B5 §9.1 把「判定层 = rev7」钉在 `PREREG-M5-C2-REV7.md 32eaf82ca56600c4`。本件**仅在文档身份上取代**该引用（`supersedes_sha16=32eaf82ca56600c4`），**实质零变更**：判据组成（抽取层 = rev5.1 prompt `a6bc4f268f7711de` + 判定层 = N1–N4）、§3 四门槛、H1 与 9.2–9.6 全部不变。即 `(b5)` 的判据组成写成「判定层 = rev7.1」时，与 B5 §9.1 原意**等价**。\n- 若四门槛任一不过 ⇒ `rev7_1_unusable=true`，`(b5)` **不跑**，记 `blocked_by_judge_unusable`。\n\n## 4 交付（rev7.1）\n\n`kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json`（`n_forward=0`）\n\n- **顶层沿用 REV7 §4 全部字段**：`rev7_ver=1`、`n_sentences=261`、`n_forward=0`、`design_set=true`、`not_acceptance=true`、`prereg_sha16`、`items_source_sha16=6a3001b6ca23ef7d`、`gold_sha16_current=9273ebc97aa1413a`\n- **顶层新增（本件）**：`rev7_1_ver=1`、`prereg_sha16`（= **本件** sha16，取代 rev7 的 `prereg_sha16`）、`supersedes_sha16=32eaf82ca56600c4`、`correction_type=\"statement_correction\"`、`rule_code_unchanged=true`\n- **逐条 / 逐句 / 读数 / `false_by_reason` / 逐句对照（fixed / broken / neutral 全列）/ 作废条目清单**：schema **同 REV7 §4**（字段与口径零改动）\n- **断言**：A1 / A2 / A3 按本件 §2.1 取值（A2/A3 为**真值陈述**，应 **pass**）\n- **自证标志**：`no_gpu` / `no_model_call` / `no_network` / `no_sid_special_cases` / `no_threshold_change` / `no_gold_change` / `no_input_change` 等，同 REV7\n- **脚本**：`kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py`（rev7 脚本副本；判定函数逐字节一致，见附录 B）\n- **钉哈希**：产物 sha16 在本件冻结后**重钉**并记入任务回报；独立审计方（**不 import** 执行者实现）复算两次须 **byte 级一致**且与本件数值 **diff = 0**\n\n## 5 纪律（(b5) 阶段）\n\n- **零 GPU、零模型、不联网**：本阶段纯确定性离线重算，`n_forward=0`；(b5) 跑之前不重跑任何模型\n- **`(b5)` 一次性**：`one_shot=true`，只跑一次，**不许重跑**\n- **`(b5)` 开跑前必须有已冻结的 `(b6)` 备用验收集**：按 `PREREG-M5-C2-B5.md` §9.5，`(b6)` 必须在 `(b5)` 开跑**之前**出题并冻结（防\"看到结果再出题\"）；`(b6)` 未冻结 ⇒ `(b5)` 不跑\n- **不许据 `(b5)` 结果调参**：不得据 `(b5)` 修改 N1–N4、阈值、词表、聚合口径后重跑 `(b5)`；下一次改动只能用 `(b6)` 验\n- 不许改金标、不许删例、不许调阈值；`(b5)` 结果不得用于任何\"回填式\"再次判定\n- 若 `rev7_1_unusable=true`，`(b5)` **不跑**，记 `blocked_by_judge_unusable`",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    72,
+    96
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "gate.rev7_1_unusable",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "field": "rev7_1_unusable",
+    "value": false
+   },
+   "actual": {
+    "rev7_1_unusable_present": false,
+    "gate_keys": [
+     "any_fail",
+     "false_positive",
+     "false_positive_sids",
+     "leak_missed",
+     "leak_missed_sids",
+     "new_miss",
+     "new_miss_sids",
+     "parse_fail",
+     "parse_fail_sids",
+     "rev7_unusable",
+     "rev7_unusable_basis"
+    ],
+    "rev7_unusable": false,
+    "basis_mentions_old_name": true
+   },
+   "pass": false,
+   "notes": "文档 L72/L75/L96 三次写 `rev7_1_unusable`，但产物 gate 里只有 `rev7_unusable`（脚本 L829 也只写旧名）；语义等价（四门槛全过）但字段名对不上",
+   "severity": "medium",
+   "finding": true
+  },
+  {
+   "claim_id": "C3-GATE-PASS",
+   "group": "§3 门槛",
+   "claim_text": "- **`(b5)` 准入**：rev7.1 在 `(b4)` 设计集上实测满足上述四门槛 —— FP **2/46**、漏判 **4/41**、`parse_fail` **1/261**、`new_miss` **0/35** ⇒ `rev7_1_unusable=false`，**`(b5)` 准入**。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    72,
+    72
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "gate",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "all_pass": true,
+    "any_fail": false,
+    "rev7_1_unusable": false
+   },
+   "actual": {
+    "four_pass": [
+     true,
+     true,
+     true,
+     true
+    ],
+    "any_fail": false,
+    "rev7_unusable": false,
+    "rev7_1_unusable_semantic": false
+   },
+   "pass": true,
+   "notes": "四门槛全过（2≤4、4≤5、1≤2、0=0）⇒ any_fail=false、rev7_unusable=false（即文档所说 rev7.1 可用、(b5) 准入）"
+  },
+  {
+   "claim_id": "C3-NO-TUNE",
+   "group": "§3 门槛",
+   "claim_text": "- **性质声明**：**rev7.1 是口径更正，不是调规则凑结果**。判定层规则、阈值、词表、金标、输入与 rev7 **逐字相同**；rev7.1 的数值与 rev7 **逐项相同**（FP 2/46、漏判 4/41、`parse_fail` 1/261、`new_miss` 0/35、7 句变化 5 fixed / 0 broken / 2 neutral、N3 作废 124/777），见重跑产物逐项 diff（附录 B.3）。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    73,
+    73
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "<8 blocks>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "all_equal": true
+   },
+   "actual": {
+    "per_block": {
+     "verdict_rev7": true,
+     "items": true,
+     "gate": true,
+     "false_by_reason": true,
+     "sentence_diff": true,
+     "invalid_items": true,
+     "all_invalid_sentences": true,
+     "sentences": true
+    }
+   },
+   "pass": true,
+   "notes": "「rev7.1 数值与 rev7 逐项相同」成立：8 个关键块逐键相等（见 §4 的 8 条 C4-BLOCK-* 明细）"
+  },
+  {
+   "claim_id": "C3-B5-REF",
+   "group": "§3 门槛",
+   "claim_text": "- **与 `PREREG-M5-C2-B5.md` §9.1 的关系**：B5 §9.1 把「判定层 = rev7」钉在 `PREREG-M5-C2-REV7.md 32eaf82ca56600c4`。本件**仅在文档身份上取代**该引用（`supersedes_sha16=32eaf82ca56600c4`），**实质零变更**：判据组成（抽取层 = rev5.1 prompt `a6bc4f268f7711de` + 判定层 = N1–N4）、§3 四门槛、H1 与 9.2–9.6 全部不变。即 `(b5)` 的判据组成写成「判定层 = rev7.1」时，与 B5 §9.1 原意**等价**。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    74,
+    74
+   ],
+   "code_file": "docs/_work/PREREG-M5-C2-B5.md",
+   "code_function": "<B5 §9.1>",
+   "code_lines": [
+    145,
+    147
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "b5_pins_rev7_sha": true,
+    "artifact_supersedes_it": true
+   },
+   "actual": {
+    "b5_lines_with_sha": [
+     147
+    ],
+    "b5_9_1_line": "- **判定层 = rev7**（`PREREG-M5-C2-REV7.md 32eaf82ca56600c4`：N1 数值归一化 / N2 R1 值域收窄 / N3 条目原子性门 / N4 缺席词作用域）",
+    "supersedes_sha16": "32eaf82ca56600c4"
+   },
+   "pass": true,
+   "notes": "B5 §9.1 确实把判定层钉在 REV7 sha 32eaf…；rev7.1 仅在文档身份上取代（supersedes 同值），故「等价」说法可核"
+  },
+  {
+   "claim_id": "C3-SCOPE",
+   "group": "§3 门槛",
+   "claim_text": "- **`(b5)` 准入**：rev7.1 在 `(b4)` 设计集上实测满足上述四门槛 —— FP **2/46**、漏判 **4/41**、`parse_fail` **1/261**、`new_miss` **0/35** ⇒ `rev7_1_unusable=false`，**`(b5)` 准入**。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    72,
+    72
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "<design_set>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "design_set": true,
+    "not_acceptance": true,
+    "n_sentences": 261
+   },
+   "actual": {
+    "design_set": true,
+    "not_acceptance": true,
+    "n_sentences": 261,
+    "items_source_sha16": "6a3001b6ca23ef7d"
+   },
+   "pass": true,
+   "notes": "「在 (b4) 设计集上实测」可核：design_set=true、not_acceptance=true、261 句"
+  },
+  {
+   "claim_id": "C4-ART",
+   "group": "§4 交付",
+   "claim_text": "`kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json`（`n_forward=0`）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    79,
+    79
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "<file>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_ref",
+   "expected": {
+    "sha16": "55191eaf2426f736",
+    "bytes": 510508,
+    "n_forward": 0
+   },
+   "actual": {
+    "sha16": "55191eaf2426f736",
+    "bytes": 510508,
+    "n_forward": 0
+   },
+   "pass": true,
+   "notes": "产物文件存在、sha16/字节数与冻结清单一致，且 n_forward=0"
+  },
+  {
+   "claim_id": "C4-TOP-FIELDS",
+   "group": "§4 交付",
+   "claim_text": "- **顶层沿用 REV7 §4 全部字段**：`rev7_ver=1`、`n_sentences=261`、`n_forward=0`、`design_set=true`、`not_acceptance=true`、`prereg_sha16`、`items_source_sha16=6a3001b6ca23ef7d`、`gold_sha16_current=9273ebc97aa1413a`",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    81,
+    81
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "<top-level>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "rev7_ver": 1,
+    "n_sentences": 261,
+    "n_forward": 0,
+    "design_set": true,
+    "not_acceptance": true,
+    "prereg_sha16": "09d6f1b163ea0b84",
+    "items_source_sha16": "6a3001b6ca23ef7d",
+    "gold_sha16_current": "9273ebc97aa1413a"
+   },
+   "actual": {
+    "rev7_ver": 1,
+    "n_sentences": 261,
+    "n_forward": 0,
+    "design_set": true,
+    "not_acceptance": true,
+    "prereg_sha16": "09d6f1b163ea0b84",
+    "items_source_sha16": "6a3001b6ca23ef7d",
+    "gold_sha16_current": "9273ebc97aa1413a"
+   },
+   "pass": true,
+   "notes": "§4 顶层沿用字段 8 项全部存在且取值正确（其中 prereg_sha16 已改为 rev7.1 的 sha）"
+  },
+  {
+   "claim_id": "C4-NEW-FIELDS",
+   "group": "§4 交付",
+   "claim_text": "- **顶层新增（本件）**：`rev7_1_ver=1`、`prereg_sha16`（= **本件** sha16，取代 rev7 的 `prereg_sha16`）、`supersedes_sha16=32eaf82ca56600c4`、`correction_type=\"statement_correction\"`、`rule_code_unchanged=true`",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    82,
+    82
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "<new top-level>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "rev7_1_ver": 1,
+    "supersedes_sha16": "32eaf82ca56600c4",
+    "correction_type": "statement_correction",
+    "rule_code_unchanged": true
+   },
+   "actual": {
+    "rev7_1_ver": 1,
+    "supersedes_sha16": "32eaf82ca56600c4",
+    "correction_type": "statement_correction",
+    "rule_code_unchanged": true
+   },
+   "pass": true,
+   "notes": "§4 新增字段 4 项存在且取值正确（第 5 项 prereg_sha16 已并入上条）"
+  },
+  {
+   "claim_id": "C4-SCHEMA",
+   "group": "§4 交付",
+   "claim_text": "- **逐条 / 逐句 / 读数 / `false_by_reason` / 逐句对照（fixed / broken / neutral 全列）/ 作废条目清单**：schema **同 REV7 §4**（字段与口径零改动）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    83,
+    83
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "<schema>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "item_keys_equal": true,
+    "sent_keys_equal": true,
+    "blocks_present": true
+   },
+   "actual": {
+    "item_keys_equal": true,
+    "sent_keys_equal": true,
+    "blocks": [
+     "items",
+     "sentences",
+     "rates",
+     "false_by_reason",
+     "sentence_diff",
+     "invalid_items",
+     "all_invalid_sentences"
+    ]
+   },
+   "pass": true,
+   "notes": "§4 声称 schema 同 REV7 §4：逐条/逐句字段集合与 C32 完全相等，读数与各清单块齐全"
+  },
+  {
+   "claim_id": "C4-BLOCK-verdict_rev7",
+   "group": "§4 交付",
+   "claim_text": "- **逐条 / 逐句 / 读数 / `false_by_reason` / 逐句对照（fixed / broken / neutral 全列）/ 作废条目清单**：schema **同 REV7 §4**（字段与口径零改动）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    83,
+    83
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "json['verdict_rev7']",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "equal_to_c32": true,
+    "shape": 261
+   },
+   "actual": {
+    "equal_to_c32": true,
+    "shape": 261
+   },
+   "pass": true,
+   "notes": "与 C32 产物在该块上逐键相等（verdict_rev7）；注意：产物无同名顶层键，取 sentences[].verdict_rev7 派生 261 项向量"
+  },
+  {
+   "claim_id": "C4-BLOCK-items",
+   "group": "§4 交付",
+   "claim_text": "- **逐条 / 逐句 / 读数 / `false_by_reason` / 逐句对照（fixed / broken / neutral 全列）/ 作废条目清单**：schema **同 REV7 §4**（字段与口径零改动）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    83,
+    83
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "json['items']",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "equal_to_c32": true,
+    "shape": 777
+   },
+   "actual": {
+    "equal_to_c32": true,
+    "shape": 777
+   },
+   "pass": true,
+   "notes": "与 C32 产物在该块上逐键相等（items）"
+  },
+  {
+   "claim_id": "C4-BLOCK-gate",
+   "group": "§4 交付",
+   "claim_text": "- **逐条 / 逐句 / 读数 / `false_by_reason` / 逐句对照（fixed / broken / neutral 全列）/ 作废条目清单**：schema **同 REV7 §4**（字段与口径零改动）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    83,
+    83
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "json['gate']",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "equal_to_c32": true,
+    "shape": 11
+   },
+   "actual": {
+    "equal_to_c32": true,
+    "shape": 11
+   },
+   "pass": true,
+   "notes": "与 C32 产物在该块上逐键相等（gate）"
+  },
+  {
+   "claim_id": "C4-BLOCK-false_by_reason",
+   "group": "§4 交付",
+   "claim_text": "- **逐条 / 逐句 / 读数 / `false_by_reason` / 逐句对照（fixed / broken / neutral 全列）/ 作废条目清单**：schema **同 REV7 §4**（字段与口径零改动）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    83,
+    83
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "json['false_by_reason']",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "equal_to_c32": true,
+    "shape": 7
+   },
+   "actual": {
+    "equal_to_c32": true,
+    "shape": 7
+   },
+   "pass": true,
+   "notes": "与 C32 产物在该块上逐键相等（false_by_reason）"
+  },
+  {
+   "claim_id": "C4-BLOCK-sentence_diff",
+   "group": "§4 交付",
+   "claim_text": "- **逐条 / 逐句 / 读数 / `false_by_reason` / 逐句对照（fixed / broken / neutral 全列）/ 作废条目清单**：schema **同 REV7 §4**（字段与口径零改动）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    83,
+    83
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "json['sentence_diff']",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "equal_to_c32": true,
+    "shape": "n_changed=7"
+   },
+   "actual": {
+    "equal_to_c32": true,
+    "shape": "n_changed=7"
+   },
+   "pass": true,
+   "notes": "与 C32 产物在该块上逐键相等（sentence_diff）"
+  },
+  {
+   "claim_id": "C4-BLOCK-invalid_items",
+   "group": "§4 交付",
+   "claim_text": "- **逐条 / 逐句 / 读数 / `false_by_reason` / 逐句对照（fixed / broken / neutral 全列）/ 作废条目清单**：schema **同 REV7 §4**（字段与口径零改动）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    83,
+    83
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "json['invalid_items']",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "equal_to_c32": true,
+    "shape": 124
+   },
+   "actual": {
+    "equal_to_c32": true,
+    "shape": 124
+   },
+   "pass": true,
+   "notes": "与 C32 产物在该块上逐键相等（invalid_items）"
+  },
+  {
+   "claim_id": "C4-BLOCK-all_invalid_sentences",
+   "group": "§4 交付",
+   "claim_text": "- **逐条 / 逐句 / 读数 / `false_by_reason` / 逐句对照（fixed / broken / neutral 全列）/ 作废条目清单**：schema **同 REV7 §4**（字段与口径零改动）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    83,
+    83
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "json['all_invalid_sentences']",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "equal_to_c32": true,
+    "shape": 6
+   },
+   "actual": {
+    "equal_to_c32": true,
+    "shape": 6
+   },
+   "pass": true,
+   "notes": "与 C32 产物在该块上逐键相等（all_invalid_sentences）"
+  },
+  {
+   "claim_id": "C4-BLOCK-sentences",
+   "group": "§4 交付",
+   "claim_text": "- **逐条 / 逐句 / 读数 / `false_by_reason` / 逐句对照（fixed / broken / neutral 全列）/ 作废条目清单**：schema **同 REV7 §4**（字段与口径零改动）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    83,
+    83
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "json['sentences']",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "equal_to_c32": true,
+    "shape": 261
+   },
+   "actual": {
+    "equal_to_c32": true,
+    "shape": 261
+   },
+   "pass": true,
+   "notes": "与 C32 产物在该块上逐键相等（sentences）"
+  },
+  {
+   "claim_id": "C4-ASSERT-PASS",
+   "group": "§4 交付",
+   "claim_text": "- **断言**：A1 / A2 / A3 按本件 §2.1 取值（A2/A3 为**真值陈述**，应 **pass**）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    84,
+    84
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "assertions",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "A1": true,
+    "A2": true,
+    "A3": true
+   },
+   "actual": {
+    "A1": true,
+    "A2": true,
+    "A3": true,
+    "all_pass": true
+   },
+   "pass": true,
+   "notes": "§4 断言 A1/A2/A3 按 §2.1 取值后全部 pass（真值陈述）"
+  },
+  {
+   "claim_id": "C4-SELF-FLAGS",
+   "group": "§4 交付",
+   "claim_text": "- **自证标志**：`no_gpu` / `no_model_call` / `no_network` / `no_sid_special_cases` / `no_threshold_change` / `no_gold_change` / `no_input_change` 等，同 REV7",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    85,
+    85
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "<self flags>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "no_gpu": true,
+    "no_model_call": true,
+    "no_network": true,
+    "no_forward": true,
+    "no_sid_special_cases": true,
+    "no_threshold_change": true,
+    "no_wordlist_change": true,
+    "no_gold_change": true,
+    "no_prereg_change": true,
+    "no_input_change": true,
+    "no_b5_read": true
+   },
+   "actual": {
+    "no_gpu": true,
+    "no_model_call": true,
+    "no_network": true,
+    "no_forward": true,
+    "no_sid_special_cases": true,
+    "no_threshold_change": true,
+    "no_wordlist_change": true,
+    "no_gold_change": true,
+    "no_prereg_change": true,
+    "no_input_change": true,
+    "no_b5_read": true
+   },
+   "pass": true,
+   "notes": "§4 自证标志 11 项全 true（含 no_gpu/no_model_call/no_network/no_sid_special_cases 等）"
+  },
+  {
+   "claim_id": "C4-SCRIPT",
+   "group": "§4 交付",
+   "claim_text": "- **脚本**：`kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py`（rev7 脚本副本；判定函数逐字节一致，见附录 B）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    86,
+    86
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "<file>",
+   "code_lines": [
+    1,
+    1147
+   ],
+   "check_kind": "static_ref",
+   "expected": {
+    "sha16": "88256d274c9993cc",
+    "bytes": 50618,
+    "code_sha16_in_artifact": "88256d274c9993cc"
+   },
+   "actual": {
+    "sha16": "88256d274c9993cc",
+    "bytes": 50618,
+    "code_sha16_in_artifact": "88256d274c9993cc",
+    "code_bytes_in_artifact": 50618
+   },
+   "pass": true,
+   "notes": "§4 指定脚本存在，且产物内 code_sha16/code_bytes 与本脚本一致"
+  },
+  {
+   "claim_id": "C4-AUDIT",
+   "group": "§4 交付",
+   "claim_text": "- **钉哈希**：产物 sha16 在本件冻结后**重钉**并记入任务回报；独立审计方（**不 import** 执行者实现）复算两次须 **byte 级一致**且与本件数值 **diff = 0**",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    87,
+    87
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-AUDIT.json",
+   "code_function": "<audit json>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "two_runs_byte_identical": true,
+    "run_sha": "55191eaf2426f736",
+    "diff_vs_c32_blocks": 0,
+    "audit_independent": true
+   },
+   "actual": {
+    "n_runs": 2,
+    "run_shas": [
+     "55191eaf2426f736",
+     "55191eaf2426f736"
+    ],
+    "audit_independent": true,
+    "blocks_equal_in_audit": 7,
+    "derived_block_note": "verdict_rev7 无顶层键，取 sentences[].verdict_rev7 派生比较",
+    "audit_functions_identical": 15
+   },
+   "pass": true,
+   "notes": "§4 L87 要求「独立审计不 import 实现、复算两次 byte 级一致、diff=0」：审计 JSON 记录两次运行产物 sha 均 55191eaf…，审计脚本未 import 被测脚本，7 个共享顶层块在审计中列为 equal（verdict_rev7 为派生块）"
+  },
+  {
+   "claim_id": "C5-ZERO-GPU",
+   "group": "§5 纪律",
+   "claim_text": "- **零 GPU、零模型、不联网**：本阶段纯确定性离线重算，`n_forward=0`；(b5) 跑之前不重跑任何模型",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    91,
+    91
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "<flags>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "n_forward": 0,
+    "no_gpu": true,
+    "no_model_call": true,
+    "no_network": true
+   },
+   "actual": {
+    "n_forward": 0,
+    "no_gpu": true,
+    "no_model_call": true,
+    "no_network": true
+   },
+   "pass": true,
+   "notes": "零 GPU/零模型/不联网由 n_forward=0 与三个自证标志支持；本映射自身也不做任何前向"
+  },
+  {
+   "claim_id": "C5-ONESHOT",
+   "group": "§5 纪律",
+   "claim_text": "- **`(b5)` 一次性**：`one_shot=true`，只跑一次，**不许重跑**",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    92,
+    92
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "<no field>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "one_shot": true,
+    "runs": 1
+   },
+   "actual": {
+    "artifact_claims_one_shot": null
+   },
+   "pass": null,
+   "notes": "不可静态验证：『(b5) 只跑一次』是未来运行约束；当前无 (b5) 运行记录可查"
+  },
+  {
+   "claim_id": "C5-B6",
+   "group": "§5 纪律",
+   "claim_text": "- **`(b5)` 开跑前必须有已冻结的 `(b6)` 备用验收集**：按 `PREREG-M5-C2-B5.md` §9.5，`(b6)` 必须在 `(b5)` 开跑**之前**出题并冻结（防\"看到结果再出题\"）；`(b6)` 未冻结 ⇒ `(b5)` 不跑",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    93,
+    93
+   ],
+   "code_file": "docs/_work/PREREG-M5-C2-B5.md",
+   "code_function": "<b6 prereg exists?>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "b6_frozen_before_b5": true
+   },
+   "actual": {
+    "b6_doc_exists": true
+   },
+   "pass": null,
+   "notes": "不可静态验证时序：『(b6) 必须在 (b5) 之前冻结』；本仓库目前未见 B6 冻结件，无法证明先后"
+  },
+  {
+   "claim_id": "C5-NO-TUNING",
+   "group": "§5 纪律",
+   "claim_text": "- **不许据 `(b5)` 结果调参**：不得据 `(b5)` 修改 N1–N4、阈值、词表、聚合口径后重跑 `(b5)`；下一次改动只能用 `(b6)` 验",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    94,
+    94
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "<14 funcs>",
+   "code_lines": [
+    198,
+    607
+   ],
+   "check_kind": "static_ref",
+   "expected": {
+    "rules_identical": true,
+    "no_threshold_change": true,
+    "no_wordlist_change": true
+   },
+   "actual": {
+    "rules_identical": true,
+    "gate_item_identical": true,
+    "no_threshold_change": true,
+    "no_wordlist_change": true
+   },
+   "pass": true,
+   "notes": "『不许据结果调参』可核：判定函数与阈值/词表在 rev7→rev7.1 之间逐字节未变"
+  },
+  {
+   "claim_id": "C5-NO-GOLD",
+   "group": "§5 纪律",
+   "claim_text": "- 不许改金标、不许删例、不许调阈值；`(b5)` 结果不得用于任何\"回填式\"再次判定",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    95,
+    95
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "<gold>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "gold_sha16": "9273ebc97aa1413a",
+    "no_gold_change": true
+   },
+   "actual": {
+    "gold_sha16_current": "9273ebc97aa1413a",
+    "gold_sha16_file": "9273ebc97aa1413a",
+    "no_gold_change": true
+   },
+   "pass": true,
+   "notes": "金标未改：产物与文件 sha 均 9273ebc9…，no_gold_change=true"
+  },
+  {
+   "claim_id": "C5-CONDITIONAL",
+   "group": "§5 纪律",
+   "claim_text": "- 若 `rev7_1_unusable=true`，`(b5)` **不跑**，记 `blocked_by_judge_unusable`",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    96,
+    96
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "<gate>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "if_unusable": "b5 does not run"
+   },
+   "actual": {
+    "rev7_unusable": false
+   },
+   "pass": null,
+   "notes": "条件分支未被触发（rev7_unusable=false），『若不可用则 (b5) 不跑并记 blocked_by_judge_unusable』无实际运行实例可验"
+  },
+  {
+   "claim_id": "C6-EXECUTED",
+   "group": "§6 状态",
+   "claim_text": "`frozen=true`（LEAD 复核通过） / `frozen_rev=1` / `rev7_1_ver=1` / `executed=false` / `needs_gpu=false` / `next=b5_acceptance`",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    160,
+    160
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "<file exists>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "executed": false,
+    "artifact_exists": false
+   },
+   "actual": {
+    "executed_false_in_doc": true,
+    "artifact_exists": true,
+    "artifact_mtime_note": "frozen_at 21:06:55 < artifact 21:24"
+   },
+   "pass": false,
+   "notes": "§6 写 `executed=false`，但同目录产物 M5C2-REV7-1-OFFLINE.json 已生成（21:24，晚于冻结时刻 21:06:55）；状态字段与实际情况矛盾（冻结件写于执行前的旧口径）",
+   "severity": "low",
+   "finding": true
+  },
+  {
+   "claim_id": "C6-META",
+   "group": "§6 状态",
+   "claim_text": "## 6 状态\n\n`frozen=true`（LEAD 复核通过） / `frozen_rev=1` / `rev7_1_ver=1` / `executed=false` / `needs_gpu=false` / `next=b5_acceptance`",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    158,
+    160
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "<top-level>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "frozen": true,
+    "frozen_rev": 1,
+    "rev7_1_ver": 1,
+    "needs_gpu": false
+   },
+   "actual": {
+    "frozen_marker": true,
+    "frozen_rev": true,
+    "rev7_1_ver": true,
+    "needs_gpu_false": true,
+    "artifact_no_gpu": true
+   },
+   "pass": true,
+   "notes": "§6 元状态与头注/产物一致：frozen=true、frozen_rev=1、rev7_1_ver=1、needs_gpu=false ↔ no_gpu=true"
+  },
+  {
+   "claim_id": "A1-REDLINE",
+   "group": "附录A",
+   "claim_text": "- **old**：`| **R3 缺席词越界** | **2**（与上重叠 1 例） | b4-s1-q2-s07、b4-s1-q2-s09 | 模型列出句内根本不存在、或重复的条目（患者、做的），其 未提及 被计入聚合 ⇒ 整句 unsupported |`\n- **new**：`| **R3 缺席词越界** | **2**（N3 未修好，仍为 FP） | b4-s1-q2-s07、b4-s1-q2-s09 | 模型把句首「患者：」标签与句中片段当成待核验条目（患者 pos 0–1；做的 pos 9–10，均逐字存在，见 §0.2），其 未提及 被计入聚合 ⇒ 整句 unsupported |`\n- **变更实质**：删除「**句内根本不存在**」，改为「**逐字存在 + 字符级位置**」；归因类别不变。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    102,
+    104
+   ],
+   "code_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "code_function": "<REV7 L17>",
+   "code_lines": [
+    17,
+    17
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "old_in_rev7": true,
+    "new_in_rev71": true,
+    "substance": "删除句内不存在、改为逐字存在"
+   },
+   "actual": {
+    "old_in_rev7": true,
+    "new_in_rev71": true,
+    "pos_0_1": true,
+    "pos_9_10": true
+   },
+   "pass": true,
+   "notes": "附录 A.1 的 old 引文逐字命中 REV7 第 17 行，new 文本已落地为 rev7.1 第 17 行（含字符位置）"
+  },
+  {
+   "claim_id": "A2-REDLINE",
+   "group": "附录A",
+   "claim_text": "- **old**：`断言自检：b4-s1-q2-s07 的 患者、b4-s1-q2-s09 的 患者 必须被判 valid=false。`\n- **new**（本件 §2.1 A2/A3）：`断言自检：字面 N3 下 b4-s1-q2-s07 的 患者（pos 0–1）与 做的（pos 9–10）、b4-s1-q2-s09 的 患者（pos 0–1，13 条）均为 valid=true、coverage=1.0；两句 verdict_rev7 = unsupported（gold=support_present，仍为 FP），且 N3 不改变其 verdict（rev5.1 = rev7 = unsupported）。`\n- **变更实质**：把不可满足的「必须 valid=false」换成**已实测为真**的「valid=true / coverage=1.0 / verdict 不变」；N3 定义本身**一字未改**。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    108,
+    110
+   ],
+   "code_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "code_function": "<REV7 L49>",
+   "code_lines": [
+    49,
+    49
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "old_in_rev7": true,
+    "new_is_true_statement": true
+   },
+   "actual": {
+    "old_in_rev7": true,
+    "new_says_valid_true": true,
+    "new_says_coverage": true
+   },
+   "pass": true,
+   "notes": "A.2 old 引文命中 REV7 L49；new（A2/A3 真值陈述）即 §2.1 实际落地内容"
+  },
+  {
+   "claim_id": "A3-REDLINE",
+   "group": "附录A",
+   "claim_text": "- **old（第 65 行）**：`任一不过 ⇒ rev7_unusable=true，停，回报 LEAD，不许调阈值/N/规则重跑。`\n- **new**（本件 §3）：门槛表**逐字不变**；仅新增准入段：`rev7.1 实测满足四门槛 ⇒ rev7_1_unusable=false，(b5) 准入；rev7.1 是口径更正，不是调规则凑结果；§3 门槛与 REV7 §3 逐字相同，B5 §9.1 所引 sha 仅在文档身份上被取代、实质零变更。`\n- **变更实质**：不改任何数值门槛，只补 (b5) 准入与身份取代说明。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    114,
+    116
+   ],
+   "code_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "code_function": "<REV7 L65>",
+   "code_lines": [
+    65,
+    65
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "old_in_rev7": true,
+    "new_admission_present": true
+   },
+   "actual": {
+    "old_in_rev7": true,
+    "new_admission": true
+   },
+   "pass": true,
+   "notes": "A.3 old 引文命中 REV7 L65；new 的 (b5) 准入段已在 §3 L72 落地（门槛表本身未改）"
+  },
+  {
+   "claim_id": "A4-NEW",
+   "group": "附录A",
+   "claim_text": "- **new**：`四门槛的实际修复全部来自 N1 + N2；N3/N4 净贡献 = 0（消融：去 N3 后 FP 仍 2/46）。`",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    121,
+    121
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "verify_inputs/c2_attribution_sentence",
+   "code_lines": [
+    162,
+    164
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "sentence_in_rev71": true,
+    "in_script_selfcheck": true
+   },
+   "actual": {
+    "in_doc": true,
+    "in_script": true,
+    "flag": true
+   },
+   "pass": true,
+   "notes": "A.4 新增归因句同时存在于 §2.1 正文与脚本自检（prereg_text_corrections）中"
+  },
+  {
+   "claim_id": "A5-HEADER",
+   "group": "附录A",
+   "claim_text": "- **old**：`> frozen=true · frozen_rev=1 · frozen_at=2026-10-26T20:15:00+08:00 · 冻结人：LEAD` + REV7 前置/回退/设计集说明\n- **new**：本件头注（rev7_1_ver=1 / supersedes / correction_type / 写于 rev7 结果之后 / 规则·阈值·词表·金标·输入零改动 / 判定代码零改动）\n- **变更实质**：仅身份与来源声明；无规则内容。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    125,
+    127
+   ],
+   "code_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "code_function": "<REV7 L3-7>",
+   "code_lines": [
+    3,
+    7
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "mentions": [
+     "frozen=true",
+     "frozen_rev=1",
+     "rev7_1_ver=1",
+     "supersedes=32eaf82ca56600c4",
+     "correction_type=statement_correction",
+     "规则",
+     "判定代码零改动"
+    ]
+   },
+   "actual": {
+    "present": {
+     "frozen=true": true,
+     "frozen_rev=1": true,
+     "rev7_1_ver=1": true,
+     "supersedes=32eaf82ca56600c4": true,
+     "correction_type=statement_correction": true,
+     "判定代码零改动": true
+    }
+   },
+   "pass": true,
+   "notes": "A.5 头注身份声明逐项可核（frozen/frozen_rev/rev7_1_ver/supersedes/correction_type/判定代码零改动）"
+  },
+  {
+   "claim_id": "A6-COUNTS",
+   "group": "附录A",
+   "claim_text": "- **old（REV7 §0 表）**：`N1 4 例 / N2 2 例 / R3 2 例（与上重叠 1 例）`\n- **new（本件 §0.1）**：`N1 3 例 / N2 2 例 / R3 2 例（互不重叠，N3 修复 0 例）`\n- **变更实质**：REV7 原表 N1 行例数 `4` 与其列出的 3 个 sid 自相矛盾；R3 行「与上重叠 1 例」无依据。实测证据 —— C32 `false_by_reason` 逐 sid 归因 = **3 / 2 / 2**（N1：`b4-s1-q2-s01`、`b4-s1-q2-s15`、`b4-s1-q3-s03`；N2：`b4-s2-q1-s01`、`b4-s8-q2-s02`；N3：`b4-s1-q2-s07`、`b4-s1-q2-s09`），三组互不重叠；消融边际：**去 N1 → FP 5、去 N2 → FP 4、去 N3 → FP 2**（基线 7 例中 N1 修 3、N2 修 2、N3 修 0）。\n- **披露**：本节是**第 4 处 §0 事实更正**，超出用户点名的三处（§0 措辞 / §2 断言 / 归因句），但同属 §0 事实错误，已如实向 LEAD 报告、不隐瞒。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    131,
+    134
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "false_by_reason",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "rev7_old": {
+     "N1": 4,
+     "overlap": 1
+    },
+    "rev71_new": {
+     "N1": 3,
+     "N2": 2,
+     "R3": 2,
+     "overlap": 0
+    },
+    "evidence_3_2_2": true,
+    "disclosure": true
+   },
+   "actual": {
+    "old_rev7_L15_has_4": true,
+    "new_counts": {
+     "N1": 3,
+     "N3": 2,
+     "N2": 2
+    },
+    "disclosure_present": true
+   },
+   "pass": true,
+   "notes": "A.6 把 REV7 的 N1「4 例」更正为 3、R3「与上重叠 1 例」更正为 0，并给出 C32 false_by_reason 3/2/2 证据；第 4 处更正的披露句也在"
+  },
+  {
+   "claim_id": "A6-SUPERSEDE-CLEAR",
+   "group": "附录A",
+   "claim_text": "### A.6 §0 归因表例数更正（第 4 处 §0 事实更正）\n\n- **old（REV7 §0 表）**：`N1 4 例 / N2 2 例 / R3 2 例（与上重叠 1 例）`\n- **new（本件 §0.1）**：`N1 3 例 / N2 2 例 / R3 2 例（互不重叠，N3 修复 0 例）`\n- **变更实质**：REV7 原表 N1 行例数 `4` 与其列出的 3 个 sid 自相矛盾；R3 行「与上重叠 1 例」无依据。实测证据 —— C32 `false_by_reason` 逐 sid 归因 = **3 / 2 / 2**（N1：`b4-s1-q2-s01`、`b4-s1-q2-s15`、`b4-s1-q3-s03`；N2：`b4-s2-q1-s01`、`b4-s8-q2-s02`；N3：`b4-s1-q2-s07`、`b4-s1-q2-s09`），三组互不重叠；消融边际：**去 N1 → FP 5、去 N2 → FP 4、去 N3 → FP 2**（基线 7 例中 N1 修 3、N2 修 2、N3 修 0）。\n- **披露**：本节是**第 4 处 §0 事实更正**，超出用户点名的三处（§0 措辞 / §2 断言 / 归因句），但同属 §0 事实错误，已如实向 LEAD 报告、不隐瞒。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    129,
+    134
+   ],
+   "code_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "code_function": "<REV7 L15/L17>",
+   "code_lines": [
+    15,
+    17
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "old_kept_in_rev7": true,
+    "corrected_in_rev71": true,
+    "supersedes_declared": true
+   },
+   "actual": {
+    "rev7_L15_still_4": true,
+    "rev7_L17_still_overlap": true,
+    "rev71_L15_3": true,
+    "rev71_no_overlap_phrase": true,
+    "supersedes": "32eaf82ca56600c4"
+   },
+   "pass": true,
+   "notes": "4→3 的取代关系写得清楚：REV7 原件保持「4 例/与上重叠 1 例」（未篡改），rev7.1 正文改为「3 例/互不重叠」并以 supersedes 声明取代"
+  },
+  {
+   "claim_id": "B1-FUNCS",
+   "group": "附录B",
+   "claim_text": "`run_m5c2_rev7_1_offline.py` 与 `run_m5c2_rev7_offline.py`（`65ed60125528d5d6`）的**判定函数逐字节相同**。比对范围：两脚本的全部函数定义中，仅 `verify_inputs`（允许类别 ②⑤）、`main`（允许类别 ③④）与新增的 `item_assertion` / `verdict_assertion`（允许类别 ③）除外；其余 **14** 个函数逐字节相同 ——\n\n`sha16`、`write_json_atomic`、`normalize7`、`value_tokens`、`token_kind_of_span`、`matcher`、`r1_r2_r3_rev7`、`r4_plus_rev7`、`verdict_v51`、`baseline_reproduce`、`judge_row_rev7`、`pick_attribution`、`rev7_causes`、`char_evidence`。\n\n常量 `PURE_PATTERNS`、`ENTITY_PATTERN`、阈值 `0.80` / `0.90` 同样逐字节相同。比对方法：`ast.get_source_segment` 逐函数取原文切片 + `sha256` 比对（另加 `ast.dump` 结构比对），结果 **0 差异**。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    140,
+    144
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "<14 funcs>",
+   "code_lines": [
+    198,
+    607
+   ],
+   "check_kind": "static_ref",
+   "expected": {
+    "listed14_identical": 14,
+    "gate_item_also_identical": true
+   },
+   "actual": {
+    "listed14_identical": 14,
+    "gate_item_identical": true
+   },
+   "pass": true,
+   "notes": "B.1 所列 14 个函数逐字节相同；实际还有 gate_item 也相同（共 15，见 B1-COUNT）"
+  },
+  {
+   "claim_id": "B1-COUNT",
+   "group": "附录B",
+   "claim_text": "`run_m5c2_rev7_1_offline.py` 与 `run_m5c2_rev7_offline.py`（`65ed60125528d5d6`）的**判定函数逐字节相同**。比对范围：两脚本的全部函数定义中，仅 `verify_inputs`（允许类别 ②⑤）、`main`（允许类别 ③④）与新增的 `item_assertion` / `verdict_assertion`（允许类别 ③）除外；其余 **14** 个函数逐字节相同 ——",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    140,
+    140
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "<all funcs>",
+   "code_lines": [
+    119,
+    1143
+   ],
+   "check_kind": "static_ref",
+   "expected": {
+    "identical_count": 14
+   },
+   "actual": {
+    "identical_count": 15,
+    "extra_beyond_list": [
+     "gate_item"
+    ]
+   },
+   "pass": false,
+   "notes": "文档 B.1/附录 B 说「其余 14 个函数逐字节相同」，实测为 15（漏列 gate_item）；不改变「判定代码零改动」结论",
+   "severity": "low",
+   "finding": true
+  },
+  {
+   "claim_id": "B1-CONSTS",
+   "group": "附录B",
+   "claim_text": "常量 `PURE_PATTERNS`、`ENTITY_PATTERN`、阈值 `0.80` / `0.90` 同样逐字节相同。比对方法：`ast.get_source_segment` 逐函数取原文切片 + `sha256` 比对（另加 `ast.dump` 结构比对），结果 **0 差异**。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    144,
+    144
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "PURE_PATTERNS/ENTITY_PATTERN",
+   "code_lines": [
+    89,
+    97
+   ],
+   "check_kind": "static_ref",
+   "expected": {
+    "identical": true,
+    "thresholds": [
+     0.8,
+     0.9
+    ]
+   },
+   "actual": {
+    "pure_patterns_equal": true,
+    "entity_equal": true,
+    "has_080": true,
+    "has_090": true
+   },
+   "pass": true,
+   "notes": "B.1 常量与阈值声明成立：PURE_PATTERNS / ENTITY_PATTERN / 0.80 / 0.90 全部逐字未变"
+  },
+  {
+   "claim_id": "B2-ALLOWED",
+   "group": "附录B",
+   "claim_text": "### B.2 允许改动的仅五类\n\n① 文件头 / 注释；② PREREG 路径与 sha16 / bytes / 行数常量；③ 断言块 A2/A3 → 真断言；④ 产物文件名 / `rev7_1` 标识 / 新增 top 字段；⑤ 新增「本件三处文本更正存在性」自检。**其余任何字节不得变**。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    146,
+    148
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "<whole file diff>",
+   "code_lines": [
+    1,
+    1143
+   ],
+   "check_kind": "static_ref",
+   "expected": {
+    "outside_allowed_classes": 0
+   },
+   "actual": {
+    "outside_allowed_classes": 0,
+    "first": [],
+    "allowed_owners_touched": [
+     "<docstring>",
+     "ART",
+     "ASSERT_A2",
+     "ASSERT_A2_VERDICT",
+     "ASSERT_A3",
+     "ASSERT_A3_VERDICT",
+     "CORRECTION_TYPE",
+     "PRE",
+     "PRE_BYTES",
+     "PRE_LINES",
+     "PRE_SHA16",
+     "REV7_1_VER",
+     "RULE_CODE_UNCHANGED",
+     "SUPERSEDES_SHA16",
+     "item_assertion",
+     "main",
+     "verdict_assertion",
+     "verify_inputs"
+    ]
+   },
+   "pass": true,
+   "notes": "B.2「只允许五类改动」经逐行 diff 分类验证：所有改动都落在 docstring/常量/verify_inputs/main/新断言函数内，类外改动 0"
+  },
+  {
+   "claim_id": "B3-DIFFKEYS",
+   "group": "附录B",
+   "claim_text": "rev7.1 重跑产物与 rev7 产物（`1f8f44b921e575fe`）在 `verdict_rev7` / `items` / `gate` / `false_by_reason` / `sentence_diff` / `invalid_items` / `all_invalid_sentences` / `sentences` / 四门槛明细上**逐项相同**；只有 provenance（`prereg_sha16`、`code_sha16`、`code_file`、`code_bytes`、`schema`、`rev7_1_ver`、`supersedes_sha16`、`correction_type`、`rule_code_unchanged`）与 `assertions` 块不同。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    152,
+    152
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "<top-level diff>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "diff_keys_subset": [
+     "assertions",
+     "code_bytes",
+     "code_file",
+     "code_sha16",
+     "correction_type",
+     "prereg_sha16",
+     "rev7_1_ver",
+     "rule_code_unchanged",
+     "schema",
+     "supersedes_sha16"
+    ],
+    "blocks_equal": 8
+   },
+   "actual": {
+    "diff_keys": [
+     "assertions",
+     "code_bytes",
+     "code_file",
+     "code_sha16",
+     "correction_type",
+     "inputs",
+     "prereg_sha16",
+     "prereg_text_corrections",
+     "rev7_1_ver",
+     "rule_code_unchanged",
+     "schema",
+     "supersedes_code_sha16",
+     "supersedes_sha16"
+    ],
+    "extra_beyond_doc_list": [
+     "inputs",
+     "prereg_text_corrections",
+     "supersedes_code_sha16"
+    ],
+    "blocks_equal": 8
+   },
+   "pass": true,
+   "notes": "B.3 的「只有 provenance 与 assertions 不同」成立（8 块全等；差异键全部为 provenance/自检：差集含 inputs / supersedes_code_sha16 / prereg_text_corrections，文档枚举未逐一列名但不影响数值）"
+  },
+  {
+   "claim_id": "B4-INPUTS",
+   "group": "附录B",
+   "claim_text": "### B.4 输入零改动\n\n`docs/_work/PREREG-M5-C2-REV7.md`（`32eaf82ca56600c4`）、`M5B4-JUDGE.json`（`6a3001b6ca23ef7d`）、`M5B4-LEAD-RULING.json`（`9273ebc97aa1413a`）、`M5B4-SENTENCES.json`（`c349ca5a93192aac`）**全部未改**；未读 `(b5)` 任何文件；未 git 提交。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    154,
+    156
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "<inputs>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "inputs_unchanged": true,
+    "no_b5_read": true,
+    "no_git_commit": true
+   },
+   "actual": {
+    "rev7_prereg": "32eaf82ca56600c4",
+    "judge": "6a3001b6ca23ef7d",
+    "gold": "9273ebc97aa1413a",
+    "no_b5_read": true,
+    "no_git_commit": true
+   },
+   "pass": true,
+   "notes": "B.4 输入零改动可核：REV7 文档 / JUDGE / gold 三个 sha 全部未变；no_b5_read、no_git_commit 标志为 true"
+  },
+  {
+   "claim_id": "R-261",
+   "group": "读数",
+   "claim_text": "- **`(b5)` 准入**：rev7.1 在 `(b4)` 设计集上实测满足上述四门槛 —— FP **2/46**、漏判 **4/41**、`parse_fail` **1/261**、`new_miss` **0/35** ⇒ `rev7_1_unusable=false`，**`(b5)` 准入**。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    72,
+    72
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "sentences[]",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "n_sentences": 261
+   },
+   "actual": {
+    "n_sentences": 261,
+    "artifact_n_sentences": 261
+   },
+   "pass": true,
+   "notes": "261 句 = sentences[] 长度（非字面量）"
+  },
+  {
+   "claim_id": "R-0-FORWARD",
+   "group": "读数",
+   "claim_text": "- **零 GPU、零模型、不联网**：本阶段纯确定性离线重算，`n_forward=0`；(b5) 跑之前不重跑任何模型",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    91,
+    91
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "n_forward",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "n_forward": 0
+   },
+   "actual": {
+    "n_forward": 0,
+    "n_model_rows": 246,
+    "n_abstain_rows": 15
+   },
+   "pass": true,
+   "notes": "n_forward=0；route 构成 246 抽取 + 15 abstain，复用已落盘模型输出"
+  },
+  {
+   "claim_id": "R-FP",
+   "group": "读数",
+   "claim_text": "- **`(b5)` 准入**：rev7.1 在 `(b4)` 设计集上实测满足上述四门槛 —— FP **2/46**、漏判 **4/41**、`parse_fail` **1/261**、`new_miss` **0/35** ⇒ `rev7_1_unusable=false`，**`(b5)` 准入**。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    72,
+    72
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "gate.false_positive",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "k": 2,
+    "n": 46,
+    "sids": [
+     "b4-s1-q2-s07",
+     "b4-s1-q2-s09"
+    ]
+   },
+   "actual": {
+    "k": 2,
+    "n": 46,
+    "sids": [
+     "b4-s1-q2-s07",
+     "b4-s1-q2-s09"
+    ],
+    "artifact": [
+     2,
+     46
+    ]
+   },
+   "pass": true,
+   "notes": "误判 2/46，两名 sid 与产物 gate.false_positive_sids 一致"
+  },
+  {
+   "claim_id": "R-LEAK",
+   "group": "读数",
+   "claim_text": "- **`(b5)` 准入**：rev7.1 在 `(b4)` 设计集上实测满足上述四门槛 —— FP **2/46**、漏判 **4/41**、`parse_fail` **1/261**、`new_miss` **0/35** ⇒ `rev7_1_unusable=false`，**`(b5)` 准入**。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    72,
+    72
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "gate.leak_missed",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "k": 4,
+    "n": 41
+   },
+   "actual": {
+    "k": 4,
+    "n": 41,
+    "sids": [
+     "b4-s2-q2-s01",
+     "b4-s3-q4-s03",
+     "b4-s3-q4-s11",
+     "b4-s3-q4-s12"
+    ]
+   },
+   "pass": true,
+   "notes": "漏判 4/41"
+  },
+  {
+   "claim_id": "R-PF",
+   "group": "读数",
+   "claim_text": "- **`(b5)` 准入**：rev7.1 在 `(b4)` 设计集上实测满足上述四门槛 —— FP **2/46**、漏判 **4/41**、`parse_fail` **1/261**、`new_miss` **0/35** ⇒ `rev7_1_unusable=false`，**`(b5)` 准入**。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    72,
+    72
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "gate.parse_fail",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "k": 1,
+    "n": 261
+   },
+   "actual": {
+    "k": 1,
+    "n": 261,
+    "sids": [
+     "b4-s2-q2-s05"
+    ]
+   },
+   "pass": true,
+   "notes": "parse_fail 1/261"
+  },
+  {
+   "claim_id": "R-NEWMISS",
+   "group": "读数",
+   "claim_text": "- **`(b5)` 准入**：rev7.1 在 `(b4)` 设计集上实测满足上述四门槛 —— FP **2/46**、漏判 **4/41**、`parse_fail` **1/261**、`new_miss` **0/35** ⇒ `rev7_1_unusable=false`，**`(b5)` 准入**。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    72,
+    72
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "gate.new_miss",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "k": 0,
+    "n": 35
+   },
+   "actual": {
+    "k": 0,
+    "n": 35
+   },
+   "pass": true,
+   "notes": "新增漏判 0/35（分母 = fabricated 且基线 unsupported）"
+  },
+  {
+   "claim_id": "R-CHANGES",
+   "group": "读数",
+   "claim_text": "- **性质声明**：**rev7.1 是口径更正，不是调规则凑结果**。判定层规则、阈值、词表、金标、输入与 rev7 **逐字相同**；rev7.1 的数值与 rev7 **逐项相同**（FP 2/46、漏判 4/41、`parse_fail` 1/261、`new_miss` 0/35、7 句变化 5 fixed / 0 broken / 2 neutral、N3 作废 124/777），见重跑产物逐项 diff（附录 B.3）。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    73,
+    73
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "sentence_diff",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "changed": 7,
+    "fixed": 5,
+    "broken": 0,
+    "neutral": 2
+   },
+   "actual": {
+    "changed": 7,
+    "fixed": 5,
+    "broken": 0,
+    "neutral": 2,
+    "artifact": [
+     7,
+     5,
+     0,
+     2
+    ]
+   },
+   "pass": true,
+   "notes": "7 句变化 = 5 修好 / 0 改坏 / 2 中性"
+  },
+  {
+   "claim_id": "R-INVALID",
+   "group": "读数",
+   "claim_text": "- **性质声明**：**rev7.1 是口径更正，不是调规则凑结果**。判定层规则、阈值、词表、金标、输入与 rev7 **逐字相同**；rev7.1 的数值与 rev7 **逐项相同**（FP 2/46、漏判 4/41、`parse_fail` 1/261、`new_miss` 0/35、7 句变化 5 fixed / 0 broken / 2 neutral、N3 作废 124/777），见重跑产物逐项 diff（附录 B.3）。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    73,
+    73
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "rates.invalid_items",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "k": 124,
+    "n": 777,
+    "rate": 0.1596
+   },
+   "actual": {
+    "k": 124,
+    "n": 777,
+    "rate": 0.1596,
+    "mismatch_vs_artifact": 0
+   },
+   "pass": true,
+   "notes": "作废条目 124/777 = 15.96%；777 条 N3 判定由本映射逐条独立复算，0 不一致"
+  },
+  {
+   "claim_id": "R-ASSERT-5of5",
+   "group": "读数",
+   "claim_text": "- **断言**：A1 / A2 / A3 按本件 §2.1 取值（A2/A3 为**真值陈述**，应 **pass**）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    84,
+    84
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "assertions",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "n_pass": 5
+   },
+   "actual": {
+    "n_pass": 5,
+    "all_pass": true
+   },
+   "pass": true,
+   "notes": "assertions 5/5 pass"
+  },
+  {
+   "claim_id": "R-GOLDDIST",
+   "group": "读数",
+   "claim_text": "- **`(b5)` 准入**：rev7.1 在 `(b4)` 设计集上实测满足上述四门槛 —— FP **2/46**、漏判 **4/41**、`parse_fail` **1/261**、`new_miss` **0/35** ⇒ `rev7_1_unusable=false`，**`(b5)` 准入**。\n- **性质声明**：**rev7.1 是口径更正，不是调规则凑结果**。判定层规则、阈值、词表、金标、输入与 rev7 **逐字相同**；rev7.1 的数值与 rev7 **逐项相同**（FP 2/46、漏判 4/41、`parse_fail` 1/261、`new_miss` 0/35、7 句变化 5 fixed / 0 broken / 2 neutral、N3 作废 124/777），见重跑产物逐项 diff（附录 B.3）。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    72,
+    73
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "<gold>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "support_present": 46,
+    "fabricated": 41,
+    "no_fact": 164,
+    "undecidable": 10
+   },
+   "actual": {
+    "support_present": 46,
+    "fabricated": 41,
+    "no_fact": 164,
+    "undecidable": 10
+   },
+   "pass": true,
+   "notes": "金标分布 46/41/164/10，与冻结值一致"
+  },
+  {
+   "claim_id": "H-LITERALS",
+   "group": "反硬编码",
+   "claim_text": "- **性质声明**：**rev7.1 是口径更正，不是调规则凑结果**。判定层规则、阈值、词表、金标、输入与 rev7 **逐字相同**；rev7.1 的数值与 rev7 **逐项相同**（FP 2/46、漏判 4/41、`parse_fail` 1/261、`new_miss` 0/35、7 句变化 5 fixed / 0 broken / 2 neutral、N3 作废 124/777），见重跑产物逐项 diff（附录 B.3）。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    73,
+    73
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "<whole source>",
+   "code_lines": [
+    1,
+    1147
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "46": "prose only",
+    "41": [],
+    "777": [],
+    "124": [],
+    "35": []
+   },
+   "actual": {
+    "occurrences": {
+     "46": [
+      163
+     ],
+     "41": [],
+     "777": [],
+     "124": [],
+     "35": []
+    },
+    "l163": "\"四门槛的实际修复全部来自 N1 + N2；N3/N4 净贡献 = 0（消融：去 N3 后 FP 仍 2/46）\""
+   },
+   "pass": true,
+   "notes": "结果常量 777/124/35/41 零出现；46 仅在 L163 的说明字符串「2/46」里被引用（纯文字，不参与计算）"
+  },
+  {
+   "claim_id": "H-261",
+   "group": "反硬编码",
+   "claim_text": "- **`(b5)` 准入**：rev7.1 在 `(b4)` 设计集上实测满足上述四门槛 —— FP **2/46**、漏判 **4/41**、`parse_fail` **1/261**、`new_miss` **0/35** ⇒ `rev7_1_unusable=false`，**`(b5)` 准入**。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    72,
+    72
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "lines": [
+     14,
+     90,
+     697
+    ]
+   },
+   "actual": {
+    "lines": [
+     14,
+     90,
+     697
+    ]
+   },
+   "pass": true,
+   "notes": "261 只出现在文件头注释、N_SENTENCES 常量与基线复现注释中，不参与结果拼装"
+  },
+  {
+   "claim_id": "H-SID",
+   "group": "反硬编码",
+   "claim_text": "`kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json`（`n_forward=0`）\n\n- **顶层沿用 REV7 §4 全部字段**：`rev7_ver=1`、`n_sentences=261`、`n_forward=0`、`design_set=true`、`not_acceptance=true`、`prereg_sha16`、`items_source_sha16=6a3001b6ca23ef7d`、`gold_sha16_current=9273ebc97aa1413a`\n- **顶层新增（本件）**：`rev7_1_ver=1`、`prereg_sha16`（= **本件** sha16，取代 rev7 的 `prereg_sha16`）、`supersedes_sha16=32eaf82ca56600c4`、`correction_type=\"statement_correction\"`、`rule_code_unchanged=true`\n- **逐条 / 逐句 / 读数 / `false_by_reason` / 逐句对照（fixed / broken / neutral 全列）/ 作废条目清单**：schema **同 REV7 §4**（字段与口径零改动）\n- **断言**：A1 / A2 / A3 按本件 §2.1 取值（A2/A3 为**真值陈述**，应 **pass**）\n- **自证标志**：`no_gpu` / `no_model_call` / `no_network` / `no_sid_special_cases` / `no_threshold_change` / `no_gold_change` / `no_input_change` 等，同 REV7",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    78,
+    85
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "<whole source>",
+   "code_lines": [
+    1,
+    1147
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "sid_branches": 0,
+    "b4_lines": [
+     96,
+     97,
+     98,
+     101,
+     102,
+     1067,
+     1068
+    ]
+   },
+   "actual": {
+    "sid_branches": [],
+    "b4_lines": [
+     96,
+     97,
+     98,
+     101,
+     102,
+     1067,
+     1068
+    ]
+   },
+   "pass": true,
+   "notes": "无 if sid / sid== / sid in 分支；b4- 字面量仅出现在断言主体常量（96-102）与自述清单（1067-1068）"
+  },
+  {
+   "claim_id": "H-HIDDEN",
+   "group": "反硬编码",
+   "claim_text": "- **顶层新增（本件）**：`rev7_1_ver=1`、`prereg_sha16`（= **本件** sha16，取代 rev7 的 `prereg_sha16`）、`supersedes_sha16=32eaf82ca56600c4`、`correction_type=\"statement_correction\"`、`rule_code_unchanged=true`",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    82,
+    82
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "<whole source>",
+   "code_lines": [
+    1,
+    1147
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "markers": 0
+   },
+   "actual": {
+    "lines": []
+   },
+   "pass": true,
+   "notes": "无 try/except、无环境变量/argv、无随机/时间、无 if False —— 单一确定性路径"
+  },
+  {
+   "claim_id": "H-IMPORT-CLAIM",
+   "group": "实现自述",
+   "claim_text": "> 判定代码零改动：`run_m5c2_rev7_offline.py 65ed60125528d5d6` 的判定函数**逐字节不变**（本件对应的重跑脚本 `kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py` 仅改头注 / PREREG 常量 / 断言块 / 产物字段，判定函数与 rev7 逐字节一致，见附录 B）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    7,
+    7
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "<header L61>",
+   "code_lines": [
+    61,
+    63
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "header_claim": false,
+    "gpu_runner_reachable": false
+   },
+   "actual": {
+    "header_claim_present": true,
+    "transitive_local_modules": 12,
+    "gpu_runner_reachable": true,
+    "forward_calls": 0
+   },
+   "pass": false,
+   "notes": "脚本头注仍写「no engine / no GPU runner」，但 R5→R41 传递 import 了 _e3gpu_run 等模块；实际 0 次前向调用，属措辞过强而非行为违规",
+   "severity": "low",
+   "finding": true
+  },
+  {
+   "claim_id": "H-IMPORT-NOTES",
+   "group": "实现自述",
+   "claim_text": "> 判定代码零改动：`run_m5c2_rev7_offline.py 65ed60125528d5d6` 的判定函数**逐字节不变**（本件对应的重跑脚本 `kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py` 仅改头注 / PREREG 常量 / 断言块 / 产物字段，判定函数与 rev7 逐字节一致，见附录 B）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    7,
+    7
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+   "code_function": "import_notes",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "says_no_direct_import": true
+   },
+   "actual": {
+    "import_notes": "R41 (= run_m5c2_rev4_1) is reached through run_m5c2_rev5_offline (R5.R41), the module named in the task allowlist; no direct import of run_m5c2_b4_judge, run_m5c2_r2/floor/engine or any GPU runner",
+    "says_no_direct": true
+   },
+   "pass": true,
+   "notes": "产物 import_notes 的措辞已收紧为「no direct import … or any GPU runner」——与传递 import 事实相容；与脚本文档头注的强措辞不一致"
+  },
+  {
+   "claim_id": "C4-N4-ENUM",
+   "group": "§4 交付",
+   "claim_text": "- **逐条 / 逐句 / 读数 / `false_by_reason` / 逐句对照（fixed / broken / neutral 全列）/ 作废条目清单**：schema **同 REV7 §4**（字段与口径零改动）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.1.md",
+   "doc_lines": [
+    83,
+    83
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_1_offline.py",
+   "code_function": "pick_attribution",
+   "code_lines": [
+    533,
+    548
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "doc_enumerates_N4": true,
+    "implementation_has_N4_branch": true
+   },
+   "actual": {
+    "rev7_sec4_enumerates_N4": true,
+    "rev7_sec4_quote": "- 读数：FP/leak 数与明细、`false_by_reason`（N1/N2/N3/N4/R4+/declared/other 逐例归类）、作废条目总数与占比、",
+    "pick_attribution_returns_N4": false,
+    "mentions_N4_only_in_docstring": true,
+    "artifact_attributions": [
+     "N1",
+     "N2",
+     "N3"
+    ],
+    "audit_note": "low (documentation / audit label only)"
+   },
+   "pass": false,
+   "notes": "§4 声明 schema 同 REV7 §4，而 REV7 §4 的 false_by_reason 枚举 N1/N2/N3/N4/…；实现 pick_attribution 无 N4 分支，产物归因只有 N1/N2/N3 ⇒ 文档枚举的 N4 分类不可达（独立审计亦标为表述不精确，数值零影响）",
+   "severity": "low",
+   "finding": true
+  }
+ ]
+}

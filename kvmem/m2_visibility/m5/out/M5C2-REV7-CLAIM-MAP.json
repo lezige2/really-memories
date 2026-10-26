@@ -1,0 +1,1903 @@
+{
+ "schema": "m5c2_rev7_claim_map_v1",
+ "generated_by": "kvmem/m2_visibility/m5/out/m5c2_rev7_claim_map.py",
+ "mapper_sha16": "a93adf5af83dcb58",
+ "inputs": {
+  "prereg": {
+   "file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "sha16": "32eaf82ca56600c4",
+   "bytes": 5835
+  },
+  "impl": {
+   "file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "sha16": "65ed60125528d5d6",
+   "bytes": 44761
+  },
+  "artifact": {
+   "file": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+   "sha16": "1f8f44b921e575fe",
+   "bytes": 507657
+  },
+  "judge": {
+   "file": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "sha16": "6a3001b6ca23ef7d",
+   "bytes": 452456
+  },
+  "gold": {
+   "file": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+   "sha16": "9273ebc97aa1413a",
+   "bytes": 13195
+  }
+ },
+ "summary": {
+  "n_claims": 57,
+  "n_pass": 48,
+  "n_fail": 7,
+  "n_unverifiable": 2,
+  "by_group": {
+   "§0 归因": {
+    "n": 7,
+    "pass": 4,
+    "fail": 3,
+    "unverifiable": 0
+   },
+   "§2 规范": {
+    "n": 19,
+    "pass": 17,
+    "fail": 2,
+    "unverifiable": 0
+   },
+   "§3 门槛": {
+    "n": 5,
+    "pass": 5,
+    "fail": 0,
+    "unverifiable": 0
+   },
+   "§4 交付": {
+    "n": 6,
+    "pass": 5,
+    "fail": 1,
+    "unverifiable": 0
+   },
+   "读数": {
+    "n": 11,
+    "pass": 11,
+    "fail": 0,
+    "unverifiable": 0
+   },
+   "反硬编码": {
+    "n": 5,
+    "pass": 5,
+    "fail": 0,
+    "unverifiable": 0
+   },
+   "实现自述": {
+    "n": 2,
+    "pass": 1,
+    "fail": 1,
+    "unverifiable": 0
+   },
+   "§5 纪律": {
+    "n": 2,
+    "pass": 0,
+    "fail": 0,
+    "unverifiable": 2
+   }
+  },
+  "fail_ids": [
+   "S0-N1-COUNT",
+   "S0-R3-COUNT",
+   "S0-R3-PREMISE",
+   "S2-N3-ASSERT-A2",
+   "S2-N3-ASSERT-A3",
+   "S4-FALSE-BY-REASON",
+   "IMP-IMPORT-CLAIM"
+  ],
+  "unverifiable_ids": [
+   "U-B5-ONCE",
+   "U-B5-CONDITIONAL"
+  ],
+  "all_pass": false,
+  "check_mode": "checks + write"
+ },
+ "claims": [
+  {
+   "claim_id": "IN-FROZEN-SHA",
+   "group": "读数",
+   "claim_text": "> **本阶段零 GPU**：在 `M5B4-JUDGE.json` 已落盘的 `items[]` 上离线重算判定层",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    6,
+    6
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "verify_inputs",
+   "code_lines": [
+    112,
+    136
+   ],
+   "check_kind": "static_ref",
+   "expected": {
+    "prereg": "32eaf82ca56600c4",
+    "impl": "65ed60125528d5d6",
+    "artifact": "1f8f44b921e575fe",
+    "judge": "6a3001b6ca23ef7d",
+    "gold": "9273ebc97aa1413a"
+   },
+   "actual": {
+    "prereg": "32eaf82ca56600c4",
+    "impl": "65ed60125528d5d6",
+    "artifact": "1f8f44b921e575fe",
+    "judge": "6a3001b6ca23ef7d",
+    "gold": "9273ebc97aa1413a"
+   },
+   "pass": true,
+   "notes": "输入/被测脚本/产物字节均与冻结简报一致"
+  },
+  {
+   "claim_id": "S0-R4PLUS-ZERO",
+   "group": "§0 归因",
+   "claim_text": "`(b4)` rev5.1 的 7 例误判，**`R4+ fabricated_evidence` 命中数 = 0**（来自 `M5B4-JUDGE.json` 的 `rule_hits`）。真实归因：",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    11,
+    11
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "code_function": "<judge rule_hits>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "r4_plus_hits_on_7_fp": 0
+   },
+   "actual": {
+    "hits": [],
+    "n": 0
+   },
+   "pass": true,
+   "notes": "7 例误判中 R4+ fabricated_evidence 命中数；实按 M5B4-JUDGE.json 的 items[].rule_hits 统计"
+  },
+  {
+   "claim_id": "S0-N1-COUNT",
+   "group": "§0 归因",
+   "claim_text": "| **R1 数值归一化缺失** | **4** | `b4-s1-q2-s01/-s15`、`b4-s1-q3-s03` | 句内值 `8600元` vs 依据 `8,600 元`：二元组覆盖 = **0.75 < 0.80** ⇒ 判 value_mismatch。**纯标点问题** |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    15,
+    15
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "code_function": "<judge rule_hits>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "n1_examples": 4,
+    "sids_listed_in_doc": [
+     "b4-s1-q2-s01",
+     "b4-s1-q2-s15",
+     "b4-s1-q3-s03"
+    ]
+   },
+   "actual": {
+    "n1_examples": 3,
+    "n1_sids": [
+     "b4-s1-q2-s01",
+     "b4-s1-q2-s15",
+     "b4-s1-q3-s03"
+    ],
+    "n1_items": 3
+   },
+   "pass": false,
+   "notes": "文档写 4 例，但列出的 sid 只有 3 个；按纯值型 R1 命中实测 = 3 句/3 条目（对不上）"
+  },
+  {
+   "claim_id": "S0-N1-COVERAGE",
+   "group": "§0 归因",
+   "claim_text": "| **R1 数值归一化缺失** | **4** | `b4-s1-q2-s01/-s15`、`b4-s1-q3-s03` | 句内值 `8600元` vs 依据 `8,600 元`：二元组覆盖 = **0.75 < 0.80** ⇒ 判 value_mismatch。**纯标点问题** |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    15,
+    15
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev4_1.py",
+   "code_function": "fuzzy_coverage",
+   "code_lines": [
+    109,
+    115
+   ],
+   "check_kind": "exec_assert",
+   "expected": {
+    "coverage_8600_vs_8,600": 0.75
+   },
+   "actual": {
+    "coverage": 0.75
+   },
+   "pass": true,
+   "notes": "旧 normalize 下二元组覆盖 0.75 < 0.80 → value_mismatch（文档数字对得上）"
+  },
+  {
+   "claim_id": "S0-N2-GREEDY",
+   "group": "§0 归因",
+   "claim_text": "| **R1 值域过宽（贪心实体正则）** | **2** | `b4-s2-q1-s01`、`b4-s8-q2-s02` | 正则 `[^\\s，。]{2,}(?:公司\\|店\\|院\\|…)` 贪心吞掉前缀：抽出 `租车公司`（覆盖 0.333）、`地点是宠安医院`（覆盖 0.5）⇒ 拿\"描述语\"当\"值\"比对 |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    16,
+    16
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev4_1.py",
+   "code_function": "value_tokens",
+   "code_lines": [
+    118,
+    132
+   ],
+   "check_kind": "exec_assert",
+   "expected": {
+    "greedy_token_for_地点是宠安医院": "地点是宠安医院",
+    "coverage_租车公司": 0.333,
+    "coverage_地点是宠安医院": 0.5
+   },
+   "actual": {
+    "greedy_tokens": [
+     "地点是宠安医院"
+    ],
+    "coverage_租车公司": 0.333333,
+    "coverage_地点是宠安医院": 0.5
+   },
+   "pass": true,
+   "notes": "贪心实体正则确实吞前缀；两个覆盖率与文档数字一致"
+  },
+  {
+   "claim_id": "S0-R3-COUNT",
+   "group": "§0 归因",
+   "claim_text": "| **R3 缺席词越界** | **2**（与上重叠 1 例） | `b4-s1-q2-s07`、`b4-s1-q2-s09` | 模型列出句内根本不存在、或重复的条目（`患者`、`做的`），其 `未提及` 被计入聚合 ⇒ 整句 unsupported |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    17,
+    17
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "code_function": "<judge rule_hits>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "r3_examples": 2,
+    "overlap_with_above": 1
+   },
+   "actual": {
+    "r3_examples": 2,
+    "r3_sids": [
+     "b4-s1-q2-s07",
+     "b4-s1-q2-s09"
+    ],
+    "overlap": 0
+   },
+   "pass": false,
+   "notes": "2 例对；『与上重叠 1 例』不成立：两组 sid 互不相交，重叠 0（对不上）"
+  },
+  {
+   "claim_id": "S0-R3-PREMISE",
+   "group": "§0 归因",
+   "claim_text": "| **R3 缺席词越界** | **2**（与上重叠 1 例） | `b4-s1-q2-s07`、`b4-s1-q2-s09` | 模型列出句内根本不存在、或重复的条目（`患者`、`做的`），其 `未提及` 被计入聚合 ⇒ 整句 unsupported |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    17,
+    17
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "matcher",
+   "code_lines": [
+    193,
+    200
+   ],
+   "check_kind": "exec_assert",
+   "expected": {
+    "items_absent_from_sentence": true
+   },
+   "actual": {
+    "occurrences": [
+     {
+      "sid": "b4-s1-q2-s07",
+      "item": "患者",
+      "in_sentence": true,
+      "pos": 0
+     },
+     {
+      "sid": "b4-s1-q2-s07",
+      "item": "做的",
+      "in_sentence": true,
+      "pos": 9
+     },
+     {
+      "sid": "b4-s1-q2-s09",
+      "item": "患者",
+      "in_sentence": true,
+      "pos": 0
+     }
+    ]
+   },
+   "pass": false,
+   "notes": "文档称这些条目『句内根本不存在』；实测 患者 pos0、做的 pos 9-10 都在句内（前提错误，N3 断言因此不可满足）"
+  },
+  {
+   "claim_id": "S0-TOTAL-7",
+   "group": "§0 归因",
+   "claim_text": "| 归因 | 例数 | 例 | 根因 |\n|---|---:|---|---|\n| **R1 数值归一化缺失** | **4** | `b4-s1-q2-s01/-s15`、`b4-s1-q3-s03` | 句内值 `8600元` vs 依据 `8,600 元`：二元组覆盖 = **0.75 < 0.80** ⇒ 判 value_mismatch。**纯标点问题** |\n| **R1 值域过宽（贪心实体正则）** | **2** | `b4-s2-q1-s01`、`b4-s8-q2-s02` | 正则 `[^\\s，。]{2,}(?:公司\\|店\\|院\\|…)` 贪心吞掉前缀：抽出 `租车公司`（覆盖 0.333）、`地点是宠安医院`（覆盖 0.5）⇒ 拿\"描述语\"当\"值\"比对 |\n| **R3 缺席词越界** | **2**（与上重叠 1 例） | `b4-s1-q2-s07`、`b4-s1-q2-s09` | 模型列出句内根本不存在、或重复的条目（`患者`、`做的`），其 `未提及` 被计入聚合 ⇒ 整句 unsupported |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    13,
+    17
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "code_function": "<gold + rule_hits>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "fp_total": 7,
+    "value_mismatch": 5,
+    "absent_marker": 2
+   },
+   "actual": {
+    "fp_total": 7,
+    "value_mismatch": 5,
+    "absent_marker": 2
+   },
+   "pass": true,
+   "notes": "7 例总数对得上；按命中原因拆分为 value_mismatch 5 + absent_marker 2"
+  },
+  {
+   "claim_id": "S2-N1-REF",
+   "group": "§2 规范",
+   "claim_text": "### N1 数值归一化（`normalize()` 扩展）\n在现有\"去空白\"之前增加：\n1. **NFKC**（全角数字/标点 → 半角）\n2. **千分位剥离**：`re.sub(r'(?<=\\d)[,，](?=\\d{3})', '', s)`\n3. 数字与单位之间空白删除（现有去空白已覆盖）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    34,
+    38
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "normalize7",
+   "code_lines": [
+    149,
+    154
+   ],
+   "check_kind": "static_ref",
+   "expected": {
+    "func_exists": true,
+    "slice_sha16": "<non-empty>"
+   },
+   "actual": {
+    "range": [
+     149,
+     154
+    ],
+    "slice_sha16": "d7a4593b013983f2"
+   },
+   "pass": true,
+   "notes": "normalize7 存在于冻结脚本，片段 sha16 可复算"
+  },
+  {
+   "claim_id": "S2-N1-NFKC",
+   "group": "§2 规范",
+   "claim_text": "1. **NFKC**（全角数字/标点 → 半角）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    36,
+    36
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "normalize7",
+   "code_lines": [
+    149,
+    154
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "NFKC": true,
+    "fullwidth_8600": "8600元",
+    "fullwidth_123": "123"
+   },
+   "actual": {
+    "NFKC": true,
+    "fullwidth_8600": "8600元",
+    "fullwidth_123": "123"
+   },
+   "pass": true,
+   "notes": "NFKC 在 normalize7 首步；全角数字→半角可执行验证"
+  },
+  {
+   "claim_id": "S2-N1-THOUSAND",
+   "group": "§2 规范",
+   "claim_text": "2. **千分位剥离**：`re.sub(r'(?<=\\d)[,，](?=\\d{3})', '', s)`",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    37,
+    37
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "normalize7",
+   "code_lines": [
+    152,
+    152
+   ],
+   "check_kind": "exec_assert",
+   "expected": {
+    "8,600": "8600",
+    "8，600": "8600",
+    "1,23": "1,23"
+   },
+   "actual": {
+    "8,600": "8600",
+    "8，600": "8600",
+    "1,23": "1,23"
+   },
+   "pass": true,
+   "notes": "千分位剥离只对『数字+,+3 位数字』生效；全角逗号经 NFKC 后同样被剥离"
+  },
+  {
+   "claim_id": "S2-N1-WS",
+   "group": "§2 规范",
+   "claim_text": "3. 数字与单位之间空白删除（现有去空白已覆盖）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    38,
+    38
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "normalize7",
+   "code_lines": [
+    153,
+    153
+   ],
+   "check_kind": "exec_assert",
+   "expected": {
+    "手术费 8,600 元": "手术费8600元"
+   },
+   "actual": {
+    "value": "手术费8600元"
+   },
+   "pass": true,
+   "notes": "数字与单位间空白由现有去空白覆盖"
+  },
+  {
+   "claim_id": "S2-N1-ORDER",
+   "group": "§2 规范",
+   "claim_text": "在现有\"去空白\"之前增加：",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    35,
+    35
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "normalize7",
+   "code_lines": [
+    151,
+    153
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "order": [
+     "NFKC",
+     "thousands",
+     "whitespace"
+    ]
+   },
+   "actual": {
+    "NFKC_line": 151,
+    "thousands_line": 152,
+    "ws_line": 153
+   },
+   "pass": true,
+   "notes": "三步顺序与 §2 N1 的『在去空白之前增加』一致（151→152→153）"
+  },
+  {
+   "claim_id": "S2-N1-ASSERT-A1",
+   "group": "§2 规范",
+   "claim_text": "**验收自检（必须断言）**：`coverage('8600元', normalize('手术费 8,600 元')) == 1.0`",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    39,
+    39
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    622,
+    629
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "A1_value": 1.0,
+    "A1_pass": true
+   },
+   "actual": {
+    "value": 1.0,
+    "pass": true,
+    "our_recompute": 1.0
+   },
+   "pass": true,
+   "notes": "§2 N1 断言：normalize7 后子串命中 → coverage 1.0，pass=true"
+  },
+  {
+   "claim_id": "S2-N2-DELETE",
+   "group": "§2 规范",
+   "claim_text": "1. **删除**通用实体式 `[^\\s，。]{2,}(?:公司|店|院|馆|中心)`",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    42,
+    42
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "ENTITY_PATTERN",
+   "code_lines": [
+    87,
+    97
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "old_greedy_pattern_in_rev7": false
+   },
+   "actual": {
+    "found": false,
+    "present_in_rev4_1": true
+   },
+   "pass": true,
+   "notes": "旧的通用实体式已从 rev7 删除（在 rev4.1 仍在），替换为新非贪心正则"
+  },
+  {
+   "claim_id": "S2-N2-REGEX",
+   "group": "§2 规范",
+   "claim_text": "2. 改为**非贪心 + 排除功能词前缀**：`(?:(?:是|叫|为|在|到)\\s*)?([^\\s，。是叫为在的]{2,8}(?:公司|店|院|馆|中心|银行|医院|学院|酒店|机场))`，取**捕获组 1**",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    43,
+    43
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "ENTITY_PATTERN",
+   "code_lines": [
+    96,
+    97
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "doc_regex_equals_code_constant": true
+   },
+   "actual": {
+    "doc_regex": "(?:(?:是|叫|为|在|到)\\s*)?([^\\s，。是叫为在的]{2,8}(?:公司|店|院|馆|中心|银行|医院|学院|酒店|机场))",
+    "code_constant": "(?:(?:是|叫|为|在|到)\\s*)?([^\\s，。是叫为在的]{2,8}(?:公司|店|院|馆|中心|银行|医院|学院|酒店|机场))"
+   },
+   "pass": true,
+   "notes": "PREREG L43 内联正则与代码 ENTITY_PATTERN 常量逐字相等"
+  },
+  {
+   "claim_id": "S2-N2-GROUP1",
+   "group": "§2 规范",
+   "claim_text": "2. 改为**非贪心 + 排除功能词前缀**：`(?:(?:是|叫|为|在|到)\\s*)?([^\\s，。是叫为在的]{2,8}(?:公司|店|院|馆|中心|银行|医院|学院|酒店|机场))`，取**捕获组 1**",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    43,
+    43
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "value_tokens",
+   "code_lines": [
+    173,
+    177
+   ],
+   "check_kind": "exec_assert",
+   "expected": {
+    "group1_only": true
+   },
+   "actual": {
+    "group1_used": true,
+    "captured": [
+     "宠安医院"
+    ]
+   },
+   "pass": true,
+   "notes": "取捕获组 1：地点是宠安医院 → 宠安医院（不再吞前缀）"
+  },
+  {
+   "claim_id": "S2-N2-GATE",
+   "group": "§2 规范",
+   "claim_text": "3. **新增前置门**：实体型 token **只有在其本身于源文中出现时**才作为\"值\"参与 R1；不在源文中 ⇒ 视为描述语，**不参与 R1**，交由 R4+ 的证据核验处理",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    44,
+    44
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "r1_r2_r3_rev7",
+   "code_lines": [
+    212,
+    225
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "租车公司_in_source": false,
+    "r1_participates": false,
+    "hits": []
+   },
+   "actual": {
+    "row": {
+     "valid": true,
+     "rule_hits": [],
+     "value_tokens": [
+      {
+       "token": "租车公司",
+       "kind": "entity",
+       "in_source": false,
+       "r1_participates": false,
+       "coverage": 0.333333
+      }
+     ]
+    }
+   },
+   "pass": true,
+   "notes": "实体 token 不在源文 ⇒ 不参与 R1（代码 217-218），b4-s2-q1-s01 因此修好"
+  },
+  {
+   "claim_id": "S2-N2-PURE",
+   "group": "§2 规范",
+   "claim_text": "4. 纯值型 token（数字/日期/型号/编号/楼层/课次）**不变**，全部参与 R1",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    45,
+    45
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "PURE_PATTERNS",
+   "code_lines": [
+    89,
+    94
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "4_patterns_unchanged": true
+   },
+   "actual": {
+    "rev7": [
+     "\\d+(?:\\.\\d+)?\\s*(?:元|度|M|G|层|楼|排|号|节|个月|年|月|日)",
+     "下?(?:周|星期)[一二三四五六日天]",
+     "\\d+月\\d+日",
+     "[A-Z]{2,}-\\d{3,}"
+    ],
+    "rev4_1_first4": [
+     "\\d+(?:\\.\\d+)?\\s*(?:元|度|M|G|层|楼|排|号|节|个月|年|月|日)",
+     "下?(?:周|星期)[一二三四五六日天]",
+     "\\d+月\\d+日",
+     "[A-Z]{2,}-\\d{3,}"
+    ]
+   },
+   "pass": true,
+   "notes": "4 条纯值型正则与 rev4.1 完全一致；实体型才是新增门"
+  },
+  {
+   "claim_id": "S2-N3-DEF",
+   "group": "§2 规范",
+   "claim_text": "对每条 item：若 `normalize(item.item)` **不能**在 `normalize(sentence)` 中定位（子串命中，或对该句的最优等长窗口覆盖 ≥0.90）⇒ 该 item **作废**：`valid=false`，**不参与聚合、不产生 absent、不计入 `unverified`**。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    48,
+    48
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "matcher",
+   "code_lines": [
+    193,
+    200
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "n_items": 777,
+    "n_invalid": 124,
+    "mismatch": 0
+   },
+   "actual": {
+    "n_items": 777,
+    "n_invalid": 124,
+    "mismatch": 0,
+    "first": []
+   },
+   "pass": true,
+   "notes": "valid = 子串命中 或 等长窗口 coverage≥0.90；777 条逐条独立复算与产物一致"
+  },
+  {
+   "claim_id": "S2-N3-VOID",
+   "group": "§2 规范",
+   "claim_text": "对每条 item：若 `normalize(item.item)` **不能**在 `normalize(sentence)` 中定位（子串命中，或对该句的最优等长窗口覆盖 ≥0.90）⇒ 该 item **作废**：`valid=false`，**不参与聚合、不产生 absent、不计入 `unverified`**。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    48,
+    48
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "judge_row_rev7",
+   "code_lines": [
+    410,
+    426
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "invalid_items_with_absent_or_r3_or_noninvalid_verdict": 0
+   },
+   "actual": {
+    "n": 0
+   },
+   "pass": true,
+   "notes": "作废条目不产生 absent、不判 absent、R3 不生效；n_unverified 亦不计（artifact 全为 0）"
+  },
+  {
+   "claim_id": "S2-N3-ASSERT-A2",
+   "group": "§2 规范",
+   "claim_text": "断言自检：`b4-s1-q2-s07` 的 `患者`、`b4-s1-q2-s09` 的 `患者` 必须被判 `valid=false`。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    49,
+    49
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "char_evidence",
+   "code_lines": [
+    529,
+    558
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "患者_in_b4-s1-q2-s07_valid": false
+   },
+   "actual": {
+    "artifact_pass": false,
+    "occurrences": [
+     {
+      "item_index": 0,
+      "item": "患者",
+      "sentence": "患者：是在仁和口腔做的。",
+      "normalize7_item": "患者",
+      "normalize7_sentence": "患者:是在仁和口腔做的。",
+      "item_in_sentence": true,
+      "item_pos": 0,
+      "matcher_hit": "substring",
+      "coverage": 1.0,
+      "valid": true,
+      "binding_hits": [
+       "R3"
+      ]
+     }
+    ]
+   },
+   "pass": false,
+   "notes": "§2 N3 断言要求 患者 判 valid=false；产物 A2 FAIL：患者 pos=0、coverage=1.0、valid=true ⇒ 断言不可满足（文档主张与代码/数据对不上）"
+  },
+  {
+   "claim_id": "S2-N3-ASSERT-A3",
+   "group": "§2 规范",
+   "claim_text": "断言自检：`b4-s1-q2-s07` 的 `患者`、`b4-s1-q2-s09` 的 `患者` 必须被判 `valid=false`。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    49,
+    49
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "char_evidence",
+   "code_lines": [
+    529,
+    558
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "患者_in_b4-s1-q2-s09_valid": false
+   },
+   "actual": {
+    "artifact_pass": false,
+    "n_occurrences": 13
+   },
+   "pass": false,
+   "notes": "同 A2：13 个 患者 条目全部 pos=0、coverage=1.0、valid=true ⇒ 断言不可满足，产物 A3 FAIL"
+  },
+  {
+   "claim_id": "S2-N4-SCOPE",
+   "group": "§2 规范",
+   "claim_text": "`未提及`/`没有`/`未找到` 等缺席词**仅在 `valid=true` 的条目上生效**；作废条目的缺席词**不进入**聚合。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    52,
+    52
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "r1_r2_r3_rev7",
+   "code_lines": [
+    263,
+    272
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "r3_on_invalid_items": 0,
+    "r3_on_binding_items": 435
+   },
+   "actual": {
+    "r3_on_invalid_items": 0,
+    "r3_on_binding_items": 435
+   },
+   "pass": true,
+   "notes": "缺席词只在 valid=true 条目生效（代码 `if valid:`）；R3 命中数 435 可复算"
+  },
+  {
+   "claim_id": "S2-REST-THRESHOLD",
+   "group": "§2 规范",
+   "claim_text": "**其余 R1/R2/R3/R4+/R_DERIVED+ 规则、阈值 0.80、词表一律不变。**",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    54,
+    54
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "r1_r2_r3_rev7/r4_plus_rev7/matcher",
+   "code_lines": [
+    224,
+    299
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "thresholds": {
+     "R1": 0.8,
+     "R4+": 0.8,
+     "N3": 0.9
+    }
+   },
+   "actual": {
+    "found": {
+     "R1": true,
+     "R4+_long": true,
+     "N3": true
+    },
+    "observed": {
+     "R1": 0.8,
+     "R4+": 0.8,
+     "N3": 0.9
+    }
+   },
+   "pass": true,
+   "notes": "R1/R4+ 仍为 0.80，N3 新增 0.90；阈值字面量与 §2 冻结值一致"
+  },
+  {
+   "claim_id": "S2-REST-AGG",
+   "group": "§2 规范",
+   "claim_text": "**其余 R1/R2/R3/R4+/R_DERIVED+ 规则、阈值 0.80、词表一律不变。**",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    54,
+    54
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "judge_row_rev7",
+   "code_lines": [
+    446,
+    460
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "aggregation_order_unchanged": true
+   },
+   "actual": {
+    "empty_source_first": true,
+    "order": [
+     "if row[\"route\"] == \"empty_source\":",
+     "elif row[\"route\"] == \"abstain_check\":",
+     "elif not row[\"parse_ok\"]:",
+     "elif en:",
+     "elif not row[\"items\"]:",
+     "elif any(z[\"absent\"] for z in item_recs):",
+     "else:"
+    ]
+   },
+   "pass": true,
+   "notes": "聚合顺序与 rev5.1 基线（empty_source→abstain→parse_fail→derived→no items→absent）一致"
+  },
+  {
+   "claim_id": "S2-REST-VOCAB",
+   "group": "§2 规范",
+   "claim_text": "**其余 R1/R2/R3/R4+/R_DERIVED+ 规则、阈值 0.80、词表一律不变。**",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    54,
+    54
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "r1_r2_r3_rev7",
+   "code_lines": [
+    227,
+    272
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "local_vocab_redefinition": 0,
+    "modules_reused": [
+     "R5",
+     "R51",
+     "R41"
+    ]
+   },
+   "actual": {
+    "neg_words_local": false,
+    "absent_markers_local": false,
+    "imports": true
+   },
+   "pass": true,
+   "notes": "R2/R3 词表与 0.80 度量均由 R5/R51/R41 复用，脚本内无本地重定义（词表不可能漂移）"
+  },
+  {
+   "claim_id": "S3-FP-DEF",
+   "group": "§3 门槛",
+   "claim_text": "| 误判 | 7/46 = 15.22% | **≤ 4/46** |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    60,
+    60
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    693,
+    696
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "k": 2,
+    "n": 46,
+    "sids": [
+     "b4-s1-q2-s07",
+     "b4-s1-q2-s09"
+    ]
+   },
+   "actual": {
+    "k": 2,
+    "n": 46,
+    "sids": [
+     "b4-s1-q2-s07",
+     "b4-s1-q2-s09"
+    ]
+   },
+   "pass": true,
+   "notes": "误判 = gold support_present ∧ verdict unsupported；2/46 由 records+gold 复算"
+  },
+  {
+   "claim_id": "S3-LEAK-DEF",
+   "group": "§3 门槛",
+   "claim_text": "| 漏判 | 4/41 = 9.76% | **≤ 5/41** |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    61,
+    61
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    696,
+    696
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "k": 4,
+    "n": 41,
+    "sids": [
+     "b4-s2-q2-s01",
+     "b4-s3-q4-s03",
+     "b4-s3-q4-s11",
+     "b4-s3-q4-s12"
+    ]
+   },
+   "actual": {
+    "k": 4,
+    "n": 41,
+    "sids": [
+     "b4-s2-q2-s01",
+     "b4-s3-q4-s03",
+     "b4-s3-q4-s11",
+     "b4-s3-q4-s12"
+    ]
+   },
+   "pass": true,
+   "notes": "漏判 = gold fabricated ∧ verdict ∈{supported,undecidable}；4/41"
+  },
+  {
+   "claim_id": "S3-PF-DEF",
+   "group": "§3 门槛",
+   "claim_text": "| `parse_fail` | 1/261 | **≤ 2/261** |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    62,
+    62
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    697,
+    697
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "k": 1,
+    "n": 261,
+    "sids": [
+     "b4-s2-q2-s05"
+    ]
+   },
+   "actual": {
+    "k": 1,
+    "n": 261,
+    "sids": [
+     "b4-s2-q2-s05"
+    ]
+   },
+   "pass": true,
+   "notes": "parse_fail 数 = verdict_rev7=='parse_fail'；1/261"
+  },
+  {
+   "claim_id": "S3-NEWMISS-DEF",
+   "group": "§3 门槛",
+   "claim_text": "| 漏判新增（gold=fabricated 由 unsupported → supported） | — | **= 0**（逐例检查，任何一例即判失败） |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    63,
+    63
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    698,
+    699
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "k": 0,
+    "n": 35
+   },
+   "actual": {
+    "k": 0,
+    "n": 35,
+    "sids": []
+   },
+   "pass": true,
+   "notes": "漏判新增 = gold fabricated 且 rev5_1 unsupported → rev7 supported；0/35"
+  },
+  {
+   "claim_id": "S3-GATE-RESULT",
+   "group": "§3 门槛",
+   "claim_text": "任一不过 ⇒ `rev7_unusable=true`，**停**，回报 LEAD，**不许调阈值/N/规则重跑**。",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    65,
+    65
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    709,
+    724
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "rev7_unusable": false
+   },
+   "actual": {
+    "gate": {
+     "false_positive": {
+      "k": 2,
+      "n": 46,
+      "threshold": "<=4",
+      "pass": true
+     },
+     "leak_missed": {
+      "k": 4,
+      "n": 41,
+      "threshold": "<=5",
+      "pass": true
+     },
+     "parse_fail": {
+      "k": 1,
+      "n": 261,
+      "threshold": "<=2",
+      "pass": true
+     },
+     "new_miss": {
+      "k": 0,
+      "n": 35,
+      "threshold": "==0",
+      "pass": true
+     }
+    },
+    "rev7_unusable": false
+   },
+   "pass": true,
+   "notes": "四门槛全过（2≤4 / 4≤5 / 1≤2 / 0=0）⇒ rev7_unusable=false"
+  },
+  {
+   "claim_id": "S4-TOP-FIELDS",
+   "group": "§4 交付",
+   "claim_text": "- 顶层：`rev7_ver=1`、`n_sentences=261`、`n_forward=0`、`design_set=true`、`not_acceptance=true`、`prereg_sha16`、\n  `items_source_sha16=M5B4-JUDGE.json 6a3001b6ca23ef7d`、`gold_sha16_current=9273ebc97aa1413a`",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    70,
+    71
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    855,
+    875
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "rev7_ver": 1,
+    "n_sentences": 261,
+    "n_forward": 0,
+    "design_set": true,
+    "not_acceptance": true,
+    "prereg_sha16": "32eaf82ca56600c4",
+    "items_source_sha16": "6a3001b6ca23ef7d",
+    "gold_sha16_current": "9273ebc97aa1413a"
+   },
+   "actual": {
+    "rev7_ver": 1,
+    "n_sentences": 261,
+    "n_forward": 0,
+    "design_set": true,
+    "not_acceptance": true,
+    "prereg_sha16": "32eaf82ca56600c4",
+    "items_source_sha16": "6a3001b6ca23ef7d",
+    "gold_sha16_current": "9273ebc97aa1413a"
+   },
+   "pass": true,
+   "notes": "§4 顶层字段齐全；三个 sha16 均为本次重算（不是抄写）"
+  },
+  {
+   "claim_id": "S4-ITEM-FIELDS",
+   "group": "§4 交付",
+   "claim_text": "- 逐条：`{sid, item, evidence, valid(N3), matcher_hit, dice/coverage, numeric_ok, item_verdict}`",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    72,
+    72
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "judge_row_rev7",
+   "code_lines": [
+    428,
+    444
+   ],
+   "check_kind": "static_ref",
+   "expected": {
+    "fields": [
+     "sid",
+     "item",
+     "evidence",
+     "valid",
+     "matcher_hit",
+     "coverage",
+     "numeric_ok",
+     "item_verdict"
+    ]
+   },
+   "actual": {
+    "present": [
+     "sid",
+     "item",
+     "evidence",
+     "valid",
+     "absent",
+     "matcher_hit",
+     "coverage",
+     "numeric_ok",
+     "item_verdict",
+     "rule",
+     "reason",
+     "r3_hit",
+     "binding",
+     "rule_hits",
+     "value_tokens"
+    ],
+    "n_items": 777,
+    "dice_field": false
+   },
+   "pass": true,
+   "notes": "逐条字段齐全；文档写 dice/coverage，代码只给 coverage（斜杠读作『或』则通过）"
+  },
+  {
+   "claim_id": "S4-SENT-DIFF",
+   "group": "§4 交付",
+   "claim_text": "**逐句对照（谁修好、谁改坏，必须全列）**",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    75,
+    75
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    727,
+    779
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "n_changed": 7,
+    "n_fixed": 5,
+    "n_broken": 0,
+    "n_neutral": 2
+   },
+   "actual": {
+    "n_changed": 7,
+    "n_fixed": 5,
+    "n_broken": 0,
+    "n_neutral": 2
+   },
+   "pass": true,
+   "notes": "逐句对照全列：7 句变化 = 5 fixed / 0 broken / 2 neutral（2 句 gold=no_fact）"
+  },
+  {
+   "claim_id": "S4-INVALID",
+   "group": "§4 交付",
+   "claim_text": "- 读数：FP/leak 数与明细、`false_by_reason`（N1/N2/N3/N4/R4+/declared/other 逐例归类）、作废条目总数与占比、",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    74,
+    74
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    810,
+    827
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "invalid_total": 124,
+    "n_items": 777,
+    "rate": 0.1596
+   },
+   "actual": {
+    "invalid_total": 124,
+    "n_items": 777,
+    "rate": 0.1596
+   },
+   "pass": true,
+   "notes": "作废条目 124/777 = 15.96%，占比可复算"
+  },
+  {
+   "claim_id": "S4-FALSE-BY-REASON",
+   "group": "§4 交付",
+   "claim_text": "- 读数：FP/leak 数与明细、`false_by_reason`（N1/N2/N3/N4/R4+/declared/other 逐例归类）、作废条目总数与占比、",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    74,
+    74
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "pick_attribution",
+   "code_lines": [
+    484,
+    499
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "categories_in_doc": [
+     "N1",
+     "N2",
+     "N3",
+     "N4",
+     "R4+",
+     "declared",
+     "other"
+    ],
+    "reaches_N4": true
+   },
+   "actual": {
+    "observed_attributions": [
+     "N1",
+     "N2",
+     "N3"
+    ],
+    "n4_return_branch": false
+   },
+   "pass": false,
+   "notes": "§4 要求 false_by_reason 含 N4 归类，但 pick_attribution 无 N4 分支、实测只出现 N1/N2/N3（对不上）"
+  },
+  {
+   "claim_id": "S4-ASSERTIONS",
+   "group": "§4 交付",
+   "claim_text": "- **N1–N4 各自的自检断言结果**（§2 里写明的三条断言必须打印 pass/fail）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    76,
+    76
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    621,
+    648
+   ],
+   "check_kind": "static_ref",
+   "expected": {
+    "A1": "pass",
+    "A2": "fail",
+    "A3": "fail",
+    "printed": true
+   },
+   "actual": {
+    "all_pass": false,
+    "A1_pass": true,
+    "A2_pass": false,
+    "A3_pass": false,
+    "assertion_note": true
+   },
+   "pass": true,
+   "notes": "§2 三条断言均打印：A1 pass、A2/A3 fail（实现未为迎合断言而改规则，note 已说明）"
+  },
+  {
+   "claim_id": "R-261",
+   "group": "读数",
+   "claim_text": "`m5/out/M5C2-REV7-OFFLINE.json`（`n_forward=0`）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    69,
+    69
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    862,
+    862
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "n_sentences": 261
+   },
+   "actual": {
+    "n_sentences": 261
+   },
+   "pass": true,
+   "notes": "261 句 = sentences[] 长度，非字面量"
+  },
+  {
+   "claim_id": "R-0-FORWARD",
+   "group": "读数",
+   "claim_text": "`m5/out/M5C2-REV7-OFFLINE.json`（`n_forward=0`）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    69,
+    69
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    863,
+    867
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "n_forward": 0
+   },
+   "actual": {
+    "n_forward": 0,
+    "n_model_rows": 246,
+    "n_abstain_rows": 15
+   },
+   "pass": true,
+   "notes": "n_forward=0；route 构成 246 抽取 + 15 abstain，复用已落盘模型输出"
+  },
+  {
+   "claim_id": "R-FP",
+   "group": "读数",
+   "claim_text": "| 误判 | 7/46 = 15.22% | **≤ 4/46** |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    60,
+    60
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    918,
+    920
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "k": 2,
+    "n": 46,
+    "rate": 0.0435
+   },
+   "actual": {
+    "k": 2,
+    "n": 46,
+    "rate": 0.0435
+   },
+   "pass": true,
+   "notes": "误判 2/46（基线 7/46）"
+  },
+  {
+   "claim_id": "R-LEAK",
+   "group": "读数",
+   "claim_text": "| 漏判 | 4/41 = 9.76% | **≤ 5/41** |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    61,
+    61
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    921,
+    922
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "k": 4,
+    "n": 41
+   },
+   "actual": {
+    "k": 4,
+    "n": 41
+   },
+   "pass": true,
+   "notes": "漏判 4/41"
+  },
+  {
+   "claim_id": "R-PF",
+   "group": "读数",
+   "claim_text": "| `parse_fail` | 1/261 | **≤ 2/261** |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    62,
+    62
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    923,
+    924
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "k": 1,
+    "n": 261
+   },
+   "actual": {
+    "k": 1,
+    "n": 261
+   },
+   "pass": true,
+   "notes": "parse_fail 1/261"
+  },
+  {
+   "claim_id": "R-INVALID",
+   "group": "读数",
+   "claim_text": "- 读数：FP/leak 数与明细、`false_by_reason`（N1/N2/N3/N4/R4+/declared/other 逐例归类）、作废条目总数与占比、",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    74,
+    74
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    925,
+    926
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "k": 124,
+    "n": 777
+   },
+   "actual": {
+    "k": 124,
+    "n": 777
+   },
+   "pass": true,
+   "notes": "作废 124/777"
+  },
+  {
+   "claim_id": "R-NEWMISS",
+   "group": "读数",
+   "claim_text": "| 漏判新增（gold=fabricated 由 unsupported → supported） | — | **= 0**（逐例检查，任何一例即判失败） |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    63,
+    63
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    713,
+    713
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "k": 0,
+    "n": 35
+   },
+   "actual": {
+    "k": 0,
+    "n": 35
+   },
+   "pass": true,
+   "notes": "新增漏判 0（分母 35 = fabricated 且基线 unsupported）"
+  },
+  {
+   "claim_id": "R-CHANGES",
+   "group": "读数",
+   "claim_text": "**逐句对照（谁修好、谁改坏，必须全列）**",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    75,
+    75
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    758,
+    779
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "changed": 7,
+    "fixed": 5,
+    "broken": 0,
+    "neutral": 2
+   },
+   "actual": {
+    "changed": 7,
+    "fixed": 5,
+    "broken": 0,
+    "neutral": 2
+   },
+   "pass": true,
+   "notes": "7 句变化 = 5 修好 / 0 改坏 / 2 中性"
+  },
+  {
+   "claim_id": "R-GOLD-DIST",
+   "group": "读数",
+   "claim_text": "> `frozen=true` · `frozen_rev=1` · `frozen_at=2026-10-26T20:15:00+08:00` · 冻结人：LEAD",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    3,
+    3
+   ],
+   "code_file": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+   "code_function": "<gold map>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "support_present": 46,
+    "fabricated": 41,
+    "no_fact": 164,
+    "undecidable": 10
+   },
+   "actual": {
+    "support_present": 46,
+    "fabricated": 41,
+    "no_fact": 164,
+    "undecidable": 10
+   },
+   "pass": true,
+   "notes": "金标分布 46/41/164/10；产物内嵌 gold 与金标文件 261/261 一致"
+  },
+  {
+   "claim_id": "R-BASELINE",
+   "group": "读数",
+   "claim_text": "| 误判 | 7/46 = 15.22% | **≤ 4/46** |\n| 漏判 | 4/41 = 9.76% | **≤ 5/41** |\n| `parse_fail` | 1/261 | **≤ 2/261** |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    60,
+    62
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "baseline_reproduce",
+   "code_lines": [
+    353,
+    361
+   ],
+   "check_kind": "recompute",
+   "expected": {
+    "fp": 7,
+    "leak": 4,
+    "parse_fail": 1
+   },
+   "actual": {
+    "fp": 7,
+    "leak": 4,
+    "parse_fail": 1,
+    "match_all": true
+   },
+   "pass": true,
+   "notes": "基线读数 7/46、4/41、1/261 已在运行时复现（match_all=true）"
+  },
+  {
+   "claim_id": "H-NO-RESULT-LITERALS",
+   "group": "反硬编码",
+   "claim_text": "| 误判 | 7/46 = 15.22% | **≤ 4/46** |\n| 漏判 | 4/41 = 9.76% | **≤ 5/41** |\n| `parse_fail` | 1/261 | **≤ 2/261** |\n| 漏判新增（gold=fabricated 由 unsupported → supported） | — | **= 0**（逐例检查，任何一例即判失败） |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    60,
+    63
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "<whole source>",
+   "code_lines": [
+    1,
+    1026
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "46": [],
+    "41": [],
+    "777": [],
+    "124": [],
+    "35": []
+   },
+   "actual": {
+    "occurrences": {
+     "46": [],
+     "41": [],
+     "777": [],
+     "124": [],
+     "35": []
+    }
+   },
+   "pass": true,
+   "notes": "结果常量 46/41/777/124/35 在脚本中零出现 ⇒ 读数不可能被写死"
+  },
+  {
+   "claim_id": "H-261-VALIDATION",
+   "group": "反硬编码",
+   "claim_text": "`m5/out/M5C2-REV7-OFFLINE.json`（`n_forward=0`）",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    69,
+    69
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    571,
+    582
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "261_lines": "docstring/常量/注释/输入校验"
+   },
+   "actual": {
+    "lines": [
+     8,
+     74,
+     586
+    ]
+   },
+   "pass": true,
+   "notes": "261 只出现在文档字符串、N_SENTENCES 常量与输入校验（571-582），不参与结果计算"
+  },
+  {
+   "claim_id": "H-THRESHOLD-TRACEABLE",
+   "group": "反硬编码",
+   "claim_text": "| 误判 | 7/46 = 15.22% | **≤ 4/46** |\n| 漏判 | 4/41 = 9.76% | **≤ 5/41** |\n| `parse_fail` | 1/261 | **≤ 2/261** |\n| 漏判新增（gold=fabricated 由 unsupported → supported） | — | **= 0**（逐例检查，任何一例即判失败） |",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    60,
+    63
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "gate_item",
+   "code_lines": [
+    701,
+    713
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "thresholds": {
+     "false_positive": 4,
+     "leak": 5,
+     "parse_fail": 2,
+     "new_miss": 0
+    },
+    "gate_call_lines": [
+     710,
+     711,
+     712,
+     713
+    ]
+   },
+   "actual": {
+    "gate_call_lines": [
+     710,
+     711,
+     712,
+     713
+    ]
+   },
+   "pass": true,
+   "notes": "四个门槛值 4/5/2/0 只作为 gate_item 的阈值参数出现，逐行可溯到 §3 表"
+  },
+  {
+   "claim_id": "H-NO-SID-BRANCH",
+   "group": "反硬编码",
+   "claim_text": "## 5 纪律\n\n- 零 GPU、零模型、不联网；纯确定性重算\n- 抽取层回 rev5.1 prompt，**不重跑模型**（本阶段直接用 `M5B4-JUDGE.json` 的 items）\n- 不许改金标、不许删例、不许调阈值\n- `(b5)` 不得用于本阶段任何调参；`(b5)` 在 rev7 冻结后**只跑一次**\n- 若 `rev7_unusable=true`，`(b5)` **不跑**，记 `blocked_by_judge_unusable`",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    78,
+    85
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "<whole source>",
+   "code_lines": [
+    1,
+    1026
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "sid_branches": 0
+   },
+   "actual": {
+    "sid_branches": []
+   },
+   "pass": true,
+   "notes": "无 if sid / sid== / sid in 分支；b4- 字面量仅出现在 EXPECT/ASSERT（80-85）与自述字典（953-955）"
+  },
+  {
+   "claim_id": "H-NO-HIDDEN-BRANCH",
+   "group": "反硬编码",
+   "claim_text": "- 不许改金标、不许删例、不许调阈值",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    82,
+    82
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "<whole source>",
+   "code_lines": [
+    1,
+    1026
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "hidden_branch_markers": 0
+   },
+   "actual": {
+    "lines": []
+   },
+   "pass": true,
+   "notes": "无 try/except、环境变量、argv、随机/时间、if False；单一 main 路径"
+  },
+  {
+   "claim_id": "IMP-IMPORT-CLAIM",
+   "group": "实现自述",
+   "claim_text": "## 5 纪律\n\n- 零 GPU、零模型、不联网；纯确定性重算",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    78,
+    80
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "docstring:49-52",
+   "code_lines": [
+    49,
+    56
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "claim": "no engine / no GPU runner imported"
+   },
+   "actual": {
+    "claim_in_docstring": true,
+    "transitive_local_modules": [
+     "_e3gpu_run",
+     "kvslots",
+     "memory_source",
+     "run_m5c2_floor",
+     "run_m5c2_floor_rev2",
+     "run_m5c2_r2",
+     "run_m5c2_rev2_order",
+     "run_m5c2_rev4",
+     "run_m5c2_rev4_1",
+     "run_m5c2_rev5_1_offline",
+     "run_m5c2_rev5_offline",
+     "session_state"
+    ],
+    "gpu_runner_reachable": true
+   },
+   "pass": false,
+   "notes": "自述『未导入 engine/GPU runner』不成立：R5→R41→_e3gpu_run 等 10 个本地模块被传递导入（仅 import，无前向）"
+  },
+  {
+   "claim_id": "IMP-ZERO-GPU",
+   "group": "实现自述",
+   "claim_text": "- 零 GPU、零模型、不联网；纯确定性重算",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    80,
+    80
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    946,
+    950
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "n_forward": 0,
+    "no_model_call": true,
+    "no_network": true
+   },
+   "actual": {
+    "n_forward_artifact": 0,
+    "no_model_call": true,
+    "no_network": true,
+    "no_gpu": true
+   },
+   "pass": true,
+   "notes": "零前向由 n_forward=0 与代码路径支持；GPU runner 仅被导入未调用（见 IMP-IMPORT-CLAIM）"
+  },
+  {
+   "claim_id": "U-B5-ONCE",
+   "group": "§5 纪律",
+   "claim_text": "- `(b5)` 不得用于本阶段任何调参；`(b5)` 在 rev7 冻结后**只跑一次**",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    83,
+    83
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "<no code path>",
+   "code_lines": [
+    0,
+    0
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "b5_runs": "exactly once after freeze"
+   },
+   "actual": null,
+   "pass": null,
+   "notes": "不可静态验证：『(b5) 冻结后只跑一次』是未来运行行为；当前仓库无 (b5) 运行数据，无法从字节证据判定"
+  },
+  {
+   "claim_id": "U-B5-CONDITIONAL",
+   "group": "§5 纪律",
+   "claim_text": "- 若 `rev7_unusable=true`，`(b5)` **不跑**，记 `blocked_by_judge_unusable`",
+   "doc_file": "docs/_work/PREREG-M5-C2-REV7.md",
+   "doc_lines": [
+    84,
+    84
+   ],
+   "code_file": "kvmem/m2_visibility/m5/run_m5c2_rev7_offline.py",
+   "code_function": "main",
+   "code_lines": [
+    719,
+    724
+   ],
+   "check_kind": "static_grep",
+   "expected": {
+    "conditional": "rev7_unusable=True => b5 must not run"
+   },
+   "actual": {
+    "rev7_unusable": false
+   },
+   "pass": null,
+   "notes": "不可静态验证：条件本身未被触发（rev7_unusable=false），『则 (b5) 不跑、记 blocked_by_judge_unusable』无运行实例可验"
+  }
+ ]
+}

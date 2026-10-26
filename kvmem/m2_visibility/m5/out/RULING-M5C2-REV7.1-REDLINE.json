@@ -1,0 +1,87 @@
+{
+ "schema": "ruling_m5c2_rev7_1_redline_v1",
+ "ruling_id": "RULING-M5C2-REV7.1-REDLINE",
+ "ruled_at": "2026-10-26T21:35:00+08:00",
+ "ruled_by": "LEAD",
+ "objects": {
+  "rev7_1_md": {
+   "sha16": "09d6f1b163ea0b84",
+   "bytes": 16313
+  },
+  "rev7_1_script": {
+   "sha16": "88256d274c9993cc",
+   "bytes": 50618
+  },
+  "rev7_1_artifact": {
+   "sha16": "55191eaf2426f736",
+   "bytes": 510508
+  },
+  "audit_json": {
+   "sha16": "64ad2b4e27c7812d",
+   "bytes": 44528
+  },
+  "audit_script": {
+   "sha16": "051e85331dc77261",
+   "bytes": 59314
+  },
+  "inspector_md": {
+   "sha16": "702ad5342772c001",
+   "bytes": 17572
+  },
+  "ruling_md": {
+   "sha16": "b88357c63b1775a7",
+   "sha256": "b88357c63b1775a719b93b39bff8e5acd351bc318adea8c3894c883a6a89da87",
+   "bytes": 2933
+  }
+ },
+ "rulings": [
+  {
+   "id": "R1",
+   "text": "redline 白名单追溯纳入 §4（仅 schema/provenance 字段与清单）与 §5（仅纪律/边界/b6-before-b5 时序）；不得含 N1–N4 定义、0.80/0.90、词表、金标、输入、§3 门槛数值"
+  },
+  {
+   "id": "R2",
+   "text": "15 个判定函数(含内嵌 gate_item)逐字节同；阈值/词表/正则/import 全同；N1–N4 定义 0 重述；8 个数据块逐键相等，数值 diff=0"
+  },
+  {
+   "id": "R3",
+   "text": "④ N4 分类无独立可观测面；⑤ 传递 import 但 0 次 CUDA/Vulkan/llama DLL 加载、n_forward=0/no_gpu=true 实质成立 —— 均为表述不精确(low)，非实现缺陷，不回改冻结件"
+  },
+  {
+   "id": "R4",
+   "text": "rev7.1 不引用 B5 e306ce（0 次）；B5 留痕另见 RULING-M5C2-B5-FREEZE"
+  },
+  {
+   "id": "R5",
+   "text": "不重冻结 rev7.1；本补记为 redline 口径正式留痕"
+  }
+ ],
+ "redline_stats": {
+  "hunks": 24,
+  "plus": 128,
+  "minus": 56,
+  "by_section": {
+   "header": 6,
+   "s0": 15,
+   "s2": 9,
+   "s2_1": 12,
+   "s3": 8,
+   "s4": 9,
+   "s5": 9,
+   "appendix": 60
+  },
+  "unclassified": 0
+ },
+ "not_done": [
+  "不修改 rev7.1/rev7/C32/B6/B5/输入",
+  "不重跑判据",
+  "不碰 GPU",
+  "b5 未开跑"
+ ],
+ "discipline": {
+  "zero_gpu": true,
+  "no_model_call": true,
+  "no_network": true,
+  "no_git_commit": true
+ }
+}

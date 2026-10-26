@@ -1,0 +1,607 @@
+{
+ "schema": "m5c2_roadmap_consistency_v1",
+ "task": "task-15",
+ "audited_by": "b6-designer-2",
+ "audited_at": "2026-10-26T21:40:00+08:00",
+ "mode": "read_only",
+ "no_gpu": true,
+ "no_network": true,
+ "committed": false,
+ "scope": {
+  "docs": [
+   {
+    "path": "PROGRESS-AND-ROADMAP.md",
+    "sha16": "1be5e15360805309",
+    "bytes": 300952,
+    "lines": 3581,
+    "as_of_claim": "标题无 as-of；内容止于 (b4) rev5.1 读数（C29 前口径）"
+   },
+   {
+    "path": "PROJECT-STATE.md",
+    "sha16": "d61083cfcee4a909",
+    "bytes": 52250,
+    "lines": 577,
+    "as_of_claim": "2026-10-24 快照（文首自述，指向 PROGRESS §0.1）"
+   },
+   {
+    "path": "HANDOFF.md",
+    "sha16": "fc61c70eafc44552",
+    "bytes": 10228,
+    "lines": 204,
+    "as_of_claim": "2026-10-25 快照（文首自述）"
+   },
+   {
+    "path": "FEATURES.md",
+    "sha16": "1f9e25404e54c1b7",
+    "bytes": 16739,
+    "lines": 216,
+    "as_of_claim": "2026-10-25 19:20 注（自述仅作历史索引）"
+   },
+   {
+    "path": "README.md",
+    "sha16": "b7012ae73ebcc416",
+    "bytes": 25583,
+    "lines": 303,
+    "as_of_claim": "as-of 2026-10-26（但内容止于 C29 前口径）"
+   }
+  ],
+  "git": {
+   "head": "96eeefc",
+   "head_short_subject": "C32 rev7 判定层离线复算四门槛全过",
+   "branch": "main",
+   "origin_main": "8008064",
+   "ahead_of_origin": 1,
+   "full_branch": "5574253",
+   "main_minus_full": 15,
+   "full_minus_main": 27,
+   "origin_remote_branches": [
+    "origin/main"
+   ],
+   "full_pushed": false,
+   "main_tree_tracked_md": 1,
+   "main_tree_docs_files": 0,
+   "worktree_dirty_tracked": false
+  },
+  "evidence": [
+   {
+    "id": "rev7_offline",
+    "file": "kvmem/m2_visibility/m5/out/M5C2-REV7-OFFLINE.json",
+    "sha16": "1f8f44b921e575fe",
+    "bytes": 507657,
+    "facts": {
+     "gate": {
+      "false_positive": "2/46",
+      "leak_missed": "4/41",
+      "parse_fail": "1/261",
+      "new_miss": "0/35"
+     },
+     "invalid_items": "124/777 = 15.96%",
+     "design_set": "(b4)；acceptance=(b5) 未跑",
+     "prereg": "PREREG-M5-C2-REV7.md 32eaf82ca56600c4"
+    }
+   },
+   {
+    "id": "rev7_1_offline",
+    "file": "kvmem/m2_visibility/m5/out/M5C2-REV7-1-OFFLINE.json",
+    "sha16": "55191eaf2426f736",
+    "bytes": 510508,
+    "facts": {
+     "gate": {
+      "false_positive": "2/46",
+      "leak_missed": "4/41",
+      "parse_fail": "1/261",
+      "new_miss": "0/35"
+     },
+     "invalid_items": "124/777 = 15.96%",
+     "design_set": "(b4)",
+     "prereg": "PREREG-M5-C2-REV7.1.md 09d6f1b163ea0b84"
+    }
+   },
+   {
+    "id": "b5_freeze_ruling",
+    "file": "kvmem/m2_visibility/m5/out/RULING-M5C2-B5-FREEZE.json",
+    "sha16": "6609f461836ecb01",
+    "bytes": 5230,
+    "facts": {
+     "b5": "d6c7bdac73ef7326 / 14,597 B / 183 行；frozen=true rev1 @19:55",
+     "b5_frozen_body": "e306ce994d306a84 / 11,388 B",
+     "b6": "已经 LEAD 冻结：ac27d47d3a3efff9 / 17,374 B / 212 行 @21:16",
+     "rev7.1": "09d6f1b163ea0b84 / 16,313 B / 160 行"
+    }
+   },
+   {
+    "id": "b6_sentences",
+    "file": "kvmem/m2_visibility/m5/out/M5C2-B6-SENTENCES.json",
+    "sha16": "23588ec099ca9255",
+    "bytes": 9482,
+    "facts": {
+     "n_scenarios": 8,
+     "n_questions": 40,
+     "n_detail": 24,
+     "n_lure": 16,
+     "prereg_status": "frozen",
+     "prereg_sha16": "ac27d47d3a3efff9",
+     "note": "LEAD 已复核冻结；已是冻结件，非我记忆中的草稿态"
+    }
+   },
+   {
+    "id": "doc_hash_ledger",
+    "file": "kvmem/m2_visibility/m5/out/M5C2-DOC-HASH-LEDGER.json",
+    "sha16": "02f43fdde85953c9",
+    "bytes": 149960,
+    "facts": {
+     "role": "LEAD 侧 16 条线索；本轮仅作旁证，另独立抽 16 条复核，不抄其判定"
+    }
+   },
+   {
+    "id": "rev7_cleanroom",
+    "file": "kvmem/m2_visibility/m5/out/M5C2-REV7-CLEANROOM.json",
+    "sha16": "e1893fa7fc9a1f51",
+    "bytes": 65192,
+    "facts": {
+     "verdict": "见文件；与 rev7 离线读数独立对照"
+    }
+   },
+   {
+    "id": "evidence_chain_repro",
+    "file": "kvmem/m2_visibility/m5/out/M5C2-EVIDENCE-CHAIN-REPRO.json",
+    "sha16": "3b63d4c61ec8c227",
+    "bytes": 55862,
+    "facts": {
+     "repo_commit": "96eeefc",
+     "ahead_of_origin": 1,
+     "tracked_md_total": 1,
+     "docs_branch": "full@5574253（195 md）",
+     "n_claims": 57,
+     "n_pass": 48,
+     "n_fail": 7,
+     "n_unverifiable": 2,
+     "all_pass": false
+    }
+   }
+  ]
+ },
+ "method": "只读：读 5 份文档、git 元数据、m5/out 证据件；独立复算 16 条哈希/文件名引用（不抄 doc ledger X01–X16）；数字均回到产物 JSON 复算；不改被审文档、零 GPU、零联网、不提交。",
+ "items": [
+  {
+   "id": "ST-01",
+   "dim": "stage",
+   "claim": "PROGRESS 为状态权威，但其最新内容止于 (b4) rev5.1 读数；全文无 C29–C32 提交记录",
+   "where": "PROGRESS-AND-ROADMAP.md §13.30（行 3421–3581）",
+   "actual": "git HEAD = 96eeefc(C32)；C30 脚本入库、C31 rev6 判 not_adopted、C32 rev7/rev7.1 离线复算四门槛全过",
+   "actual_src": "git log；M5C2-REV7-OFFLINE.json 1f8f44b9；M5C2-REV7-1-OFFLINE.json 55191eaf",
+   "verdict": "stale"
+  },
+  {
+   "id": "ST-02",
+   "dim": "stage",
+   "claim": "下一步 = rev6 抽取器证据原样化 + 新 (b5) 集验收（唯一可续方向）",
+   "where": "PROGRESS-AND-ROADMAP.md:3575,3581",
+   "actual": "rev6 已试跑并判 not_adopted(C31)；判定层改为 rev7.1；b5 已冻结(19:55)、b6 已冻结(21:16)，b5 未跑",
+   "actual_src": "RULING-M5C2-B5-FREEZE.json 6609f461",
+   "verdict": "stale"
+  },
+  {
+   "id": "ST-03",
+   "dim": "stage",
+   "claim": "新判据的预登记已冻结，未实现、未验收",
+   "where": "README.md:11",
+   "actual": "rev7/rev7.1 已实现并离线复算(C32)；『未实现』不成立；『未验收』成立（b5 验收集未跑）",
+   "actual_src": "C32 提交说明；rev7/rev7.1 离线件",
+   "verdict": "stale"
+  },
+  {
+   "id": "ST-04",
+   "dim": "stage",
+   "claim": "M3 已验收；M4 三件 A 绿、B 已判出、C 未开；M4-C 是当前最大未闭项",
+   "where": "HANDOFF.md:13, §4 行75–82",
+   "actual": "M4-C 已于 2026-10-25 17:40 结项（判决 3309fb25cbd057f9）；M5 (a) 已验收、(c) 判据作废/模型读数有效",
+   "actual_src": "PROGRESS §13.2；FEATURES 行10；docs/_work/M4C-CLOSURE-lead.md 3309fb25",
+   "verdict": "stale"
+  },
+  {
+   "id": "ST-05",
+   "dim": "stage",
+   "claim": "as-of 2026-10-24；§11 下一步 M2.5→M3→M4→M5（M2.5 为当前阻塞）",
+   "where": "PROJECT-STATE.md:2, §11 行564",
+   "actual": "M2.5(E10) 已销号、M3 通过、M4/M4-C 闭、M5(a) 验收/(c) 判据作废；后续 M5C2 已到 rev7.1",
+   "actual_src": "PROGRESS §13.11/§13.2；README:11",
+   "verdict": "stale"
+  },
+  {
+   "id": "ST-06",
+   "dim": "stage",
+   "claim": "§0 行11『M5 接地校验 部分实现』、行17『D/E 探针 未开始』（顶部 19:20 注自认仅作历史索引）",
+   "where": "FEATURES.md §0/§3",
+   "actual": "M5(a) 已验收；(c) 判据作废（非未通过）；M5C2 rev5.1/rev7 线已有多轮读数",
+   "actual_src": "README §5；PROGRESS §13.30",
+   "verdict": "stale"
+  },
+  {
+   "id": "IN-01",
+   "dim": "inflated",
+   "claim": "b5 已开跑 / 已通过",
+   "where": "五份文档（0 处）",
+   "actual": "b5 未跑；out/ 无 b5 运行产物，仅 RULING 6609f461 冻结裁定",
+   "actual_src": "ls out/；RULING",
+   "verdict": "match"
+  },
+  {
+   "id": "IN-02",
+   "dim": "inflated",
+   "claim": "GPU host gate / E3-GPU 通过",
+   "where": "README §9.2 #9；PROGRESS §13.13/§13.14/§15 行2912",
+   "actual": "文档明写『未做（主机不安全）』；M7-E3-GPU.json kill_arm 同",
+   "actual_src": "M7-E3-GPU.json 5493d3ca",
+   "verdict": "match"
+  },
+  {
+   "id": "IN-03",
+   "dim": "inflated",
+   "claim": "b6 已生成/已冻结",
+   "where": "五份文档（0 处）",
+   "actual": "b6 已生成并 LEAD 冻结：PREREG ac27d47d；SENTENCES 23588ec0 / 40 题",
+   "actual_src": "M5C2-B6-SENTENCES.json；RULING",
+   "verdict": "missing"
+  },
+  {
+   "id": "IN-04",
+   "dim": "inflated",
+   "claim": "判据仍未通过样本外验收（误判 7/46=15.22%、漏判 4/41=9.76%）",
+   "where": "README §9.2 #4；PROGRESS 红旗句 3531/3581",
+   "actual": "该读数=rev5.1/(b4)；rev7/rev7.1 在 (b4) 设计集四门槛全过（FP 2/46）；b5 验收集未跑，故『未通过样本外验收』尚不能改写为『通过』",
+   "actual_src": "M5B4-RATES.json 783d423a；rev7 离线件",
+   "verdict": "stale"
+  },
+  {
+   "id": "NUM-01",
+   "dim": "numbers",
+   "claim": "4/41 = 9.76%（漏判，b4 口径）",
+   "where": "PROGRESS 3549/3562；README:276",
+   "actual": "M5B4-RATES leak 4/41 = 0.097561；rev7 亦 4/41 = 0.0976",
+   "actual_src": "M5B4-RATES.json；rev7 离线件",
+   "verdict": "match"
+  },
+  {
+   "id": "NUM-02",
+   "dim": "numbers",
+   "claim": "7/46 = 15.22%（误判，rev5.1 读数）",
+   "where": "PROGRESS 3531/3562；README:276",
+   "actual": "rev5.1=false 7/46 = 0.152174（作为 rev5.1 读数 match）；但当前 rev7 = 2/46 = 0.0435，文档未更新为现行读数",
+   "actual_src": "M5B4-RATES.json；M5C2-REV7-OFFLINE.json",
+   "verdict": "stale"
+  },
+  {
+   "id": "NUM-03",
+   "dim": "numbers",
+   "claim": "parse_fail 1/261 = 0.38%",
+   "where": "PROGRESS 3552",
+   "actual": "M5B4-RATES parse_fail 1/261 = 0.003831；rev7 同 1/261",
+   "actual_src": "M5B4-RATES.json；rev7",
+   "verdict": "match"
+  },
+  {
+   "id": "NUM-04",
+   "dim": "numbers",
+   "claim": "strict_leak 0/35（b2 次口径）",
+   "where": "PROGRESS 3454/3508",
+   "actual": "M5B2-RATES secondary_strict_leak 0/35 = 0.0",
+   "actual_src": "M5B2-RATES.json 9ac66b6d",
+   "verdict": "match"
+  },
+  {
+   "id": "NUM-05",
+   "dim": "numbers",
+   "claim": "rev7 门槛 2/46（误判）",
+   "where": "五份文档（0 处）",
+   "actual": "2/46 = 0.0435（rev7+rev7.1 一致）",
+   "actual_src": "M5C2-REV7-OFFLINE.json",
+   "verdict": "missing"
+  },
+  {
+   "id": "NUM-06",
+   "dim": "numbers",
+   "claim": "rev7 N3 作废条目 124/777 = 15.96%",
+   "where": "五份文档（0 处）",
+   "actual": "124/777 = 0.1596",
+   "actual_src": "M5C2-REV7-OFFLINE.json rates.invalid_items",
+   "verdict": "missing"
+  },
+  {
+   "id": "NUM-07",
+   "dim": "numbers",
+   "claim": "b6 = 8 场景 × 5 题 = 40 题（24 detail + 16 lure）",
+   "where": "五份文档（0 处）",
+   "actual": "B6-SENTENCES：8/40/24/16，frozen，prereg ac27d47d",
+   "actual_src": "M5C2-B6-SENTENCES.json 23588ec0",
+   "verdict": "missing"
+  },
+  {
+   "id": "NUM-08",
+   "dim": "numbers",
+   "claim": "b2 8/40/510 句；b4 8/40/261 句；盲标一致率 242/261=92.72%",
+   "where": "PROGRESS 3431/3534/3540；README:126/276",
+   "actual": "M5B2-SENTENCES sentence_n=510；M5B4 n_sentences=261；本轮独立复算 adj/review 一致 242/261",
+   "actual_src": "M5B2-SENTENCES.json；M5B4-RATES.json；M5B4-adj/review-labels",
+   "verdict": "match"
+  },
+  {
+   "id": "NUM-09",
+   "dim": "numbers",
+   "claim": "题级双口径：合格 qid 漏判 2/10、误判 4/24；40 qid 全分母 2/40、4/40",
+   "where": "PROGRESS 3553",
+   "actual": "M5B4-RATES question_level leak 2/10、false 4/24（与文档一致）",
+   "actual_src": "M5B4-RATES.json",
+   "verdict": "match"
+  },
+  {
+   "id": "NUM-10",
+   "dim": "numbers",
+   "claim": "补丁 6 文件 / 600 insertions / 0 deletions；32,337 B / db32faae83bec9fc",
+   "where": "README §1",
+   "actual": "diff --git 6；+600（606 行含 6 个 +++）/ -0（6 行含 6 个 ---）；sha16/bytes 一致",
+   "actual_src": "patches/persistent-memory.patch",
+   "verdict": "match"
+  },
+  {
+   "id": "REF-01",
+   "dim": "refs",
+   "claim": "A2p_r1_home.json sha16 d0b360ec444ebc3f",
+   "where": "PROGRESS-AND-ROADMAP.md:1929",
+   "actual": "同文件现值 a793c7bd0fbba4f2 / 9,512 B（pos_max_anchor 详情仍与文档一致：4095、21/18/12/19、overlaps=[]）；d0b360ec 在仓内已无对应文件",
+   "actual_src": "kvmem/m2_visibility/m14b_e10_probe/out/A2p_r1_home.json",
+   "verdict": "stale"
+  },
+  {
+   "id": "REF-02",
+   "dim": "refs",
+   "claim": "M2-ACCEPT-lead.md sha16 6f26bce0c876cea4",
+   "where": "PROGRESS:152；FEATURES 19:20 注",
+   "actual": "现值 21ec668d / 10,479 B（10-25 23:42 修订后）；FEATURES §0 行3 已引 21ec668d ⇒ 同文档内自相矛盾",
+   "actual_src": "docs/_work/M2-ACCEPT-lead.md",
+   "verdict": "stale"
+  },
+  {
+   "id": "REF-03",
+   "dim": "refs",
+   "claim": "M3-PREREG.md 3e4f465b67eebd3c / 18,024 B / 259 行；ISOLATION-REPORT.md cb11df4453756882 / 267 行",
+   "where": "HANDOFF:63；PROGRESS:2080/2505",
+   "actual": "3e4f465b... / 18,024 / 259 一致（实际路径 kvmem/m2_visibility/mine/inspector/M3-PREREG.md）；cb11df44... / 267 一致（kvmem/m2_visibility/ISOLATION-REPORT.md）；文档路径写法易误读为 docs/_work/",
+   "actual_src": "两份产物实测",
+   "verdict": "match"
+  },
+  {
+   "id": "REF-04",
+   "dim": "refs",
+   "claim": "15 条引用抽查（13 条 match、2 条 stale，见 samples）",
+   "where": "PROGRESS/README/HANDOFF 多处",
+   "actual": "13/15 复算一致；2 条 stale（REF-01/REF-02）",
+   "actual_src": "本轮独立复算",
+   "verdict": "stale"
+  },
+  {
+   "id": "GIT-01",
+   "dim": "refs",
+   "claim": "git 收口：main = d3f1e2b；full = 741dde9；main..full = 5；full 未 push",
+   "where": "PROGRESS-AND-ROADMAP.md:2740",
+   "actual": "main = 96eeefc（ahead origin/main 1，origin 8008064）；full = 5574253；main..full = 15；full..main = 27；git branch -r 只有 origin/main ⇒ full 未 push 仍成立；工作树干净（仅未跟踪产物目录）",
+   "actual_src": "git log/branch/rev-list",
+   "verdict": "stale"
+  },
+  {
+   "id": "GIT-02",
+   "dim": "refs",
+   "claim": "main 内 md 只有 README；docs/ 只在 full 分支；full 未 push",
+   "where": "README §1 发布口径/§7",
+   "actual": "main 树 tracked md = 1（README），docs/ = 0；full 树 195 md / 98 docs；branch -r 无 origin/full",
+   "actual_src": "git ls-tree；git branch -r",
+   "verdict": "match"
+  },
+  {
+   "id": "BND-01",
+   "dim": "boundary",
+   "claim": "GPU host gate /E3-GPU/GPU kill 臂永久未做（主机不安全），不替代 GPU 层",
+   "where": "README §9.2 #9；PROGRESS §13.13–13.14",
+   "actual": "5 次 BSOD 记录 + kill_arm=未做（主机不安全）；无 GPU 正确性结论",
+   "actual_src": "M7-E3-GPU.json 5493d3ca；PROGRESS 2541–2639",
+   "verdict": "match"
+  },
+  {
+   "id": "BND-02",
+   "dim": "boundary",
+   "claim": "b5 未跑",
+   "where": "五份文档（无明示；PROGRESS 3575 仅把 b5 当未来验收集）",
+   "actual": "b5 已冻结（d6c7bdac @19:55）但未跑；out/ 无 b5 运行产物",
+   "actual_src": "RULING 6609f461；ls out/",
+   "verdict": "missing"
+  },
+  {
+   "id": "BND-03",
+   "dim": "boundary",
+   "claim": "b6 未生成",
+   "where": "五份文档（无明示）",
+   "actual": "b6 已生成并冻结（ac27d47d；40 题；case_role=revalidation_only_if_b5_not_pass）",
+   "actual_src": "M5C2-B6-SENTENCES.json 23588ec0；RULING",
+   "verdict": "missing"
+  },
+  {
+   "id": "BND-04",
+   "dim": "boundary",
+   "claim": "README §9.2 明列 9 项未做（无服务端/未训练/未验并发/判据未过/K1 未接上/M6b 未做完/跨布局未做/GPU kill 永久未做）",
+   "where": "README §9.2 行270–284",
+   "actual": "与 PROGRESS §13.10/§13.13 及证据件口径一致；本轮未见把未做写成已完成的表述（唯一偏差是欠报 rev7 实现与 b6 生成）",
+   "actual_src": "README §9.2；PROGRESS §13.10",
+   "verdict": "match"
+  },
+  {
+   "id": "BND-05",
+   "dim": "boundary",
+   "claim": "文档自述 as-of 快照并把状态权威指向 PROGRESS §0.1",
+   "where": "PROJECT-STATE:2；HANDOFF:3–5",
+   "actual": "自述成立；但所指权威端 PROGRESS 自身停在 C29 前口径，指针链断了（§0.1 只讲档案回填，不承载最新状态）",
+   "actual_src": "PS/HANDOFF 文首；PROGRESS §0.1",
+   "verdict": "stale"
+  }
+ ],
+ "sample_checks": [
+  {
+   "id": "S01",
+   "doc": "README.md",
+   "ref": "patches/persistent-memory.patch",
+   "claimed": "db32faae83bec9fc / 32,337 B / 6 文件 600+/0-",
+   "computed": "db32faae83bec9fc / 32,337 B / 6 文件 +600/-0",
+   "verdict": "match"
+  },
+  {
+   "id": "S02",
+   "doc": "PROGRESS:3431",
+   "ref": "docs/_work/PREREG-M5-B2.md",
+   "claimed": "482a94820917d16e / 12,695 / 131",
+   "computed": "482a94820917d16e / 12,695 / 131",
+   "verdict": "match"
+  },
+  {
+   "id": "S03",
+   "doc": "PROGRESS:3532",
+   "ref": "docs/_work/PREREG-M5-C2-B4.md",
+   "claimed": "f30d89e30262b148 / 10,910 / 131",
+   "computed": "f30d89e30262b148 / 10,910 / 131",
+   "verdict": "match"
+  },
+  {
+   "id": "S04",
+   "doc": "PROGRESS:3533",
+   "ref": "kvmem/m2_visibility/m5/out/M5B4-GEN.json",
+   "claimed": "6eef5955bdf04e8e / 77,903",
+   "computed": "6eef5955bdf04e8e / 77,903",
+   "verdict": "match"
+  },
+  {
+   "id": "S05",
+   "doc": "PROGRESS:3533",
+   "ref": "kvmem/m2_visibility/m5/out/M5B4-JUDGE.json",
+   "claimed": "6a3001b6ca23ef7d / 452,456",
+   "computed": "6a3001b6ca23ef7d / 452,456",
+   "verdict": "match"
+  },
+  {
+   "id": "S06",
+   "doc": "PROGRESS:3540",
+   "ref": "kvmem/m2_visibility/m5/out/M5B4-LEAD-RULING.json",
+   "claimed": "9273ebc97aa1413a / 13,195",
+   "computed": "9273ebc97aa1413a / 13,195",
+   "verdict": "match"
+  },
+  {
+   "id": "S07",
+   "doc": "PROGRESS:3580",
+   "ref": "kvmem/m2_visibility/m5/out/M5C2-B2EVAL.json",
+   "claimed": "553a96fc481fcf9c / 153,626",
+   "computed": "553a96fc481fcf9c / 153,626",
+   "verdict": "match"
+  },
+  {
+   "id": "S08",
+   "doc": "PROGRESS:2587",
+   "ref": "docs/_work/INSPECTOR-M7-CRITERIA.md",
+   "claimed": "7ff380764c0f8db5 / 40,236",
+   "computed": "7ff380764c0f8db5 / 40,236",
+   "verdict": "match"
+  },
+  {
+   "id": "S09",
+   "doc": "PROGRESS:2912",
+   "ref": "kvmem/m2_visibility/m7/out/M7-E3-GPU.json",
+   "claimed": "5493d3ca4879eb6d / 31,688",
+   "computed": "5493d3ca4879eb6d / 31,688",
+   "verdict": "match"
+  },
+  {
+   "id": "S10",
+   "doc": "PROGRESS:2833",
+   "ref": "kvmem/m2_visibility/m7/out/M6B-FS-KILL.json",
+   "claimed": "3bb5fee95189db5e / 21,508",
+   "computed": "3bb5fee95189db5e / 21,508",
+   "verdict": "match"
+  },
+  {
+   "id": "S11",
+   "doc": "PROGRESS:2996",
+   "ref": "kvmem/m2_visibility/m5/out/M5-36A-rule-arm-result-v2.json",
+   "claimed": "01c8c1b54ff65b03 / 5,716",
+   "computed": "01c8c1b54ff65b03 / 5,716",
+   "verdict": "match"
+  },
+  {
+   "id": "S12",
+   "doc": "PROGRESS:3038",
+   "ref": "docs/_work/PREREG-M5-JUDGE-v2.md",
+   "claimed": "6c77b56f406432aa / 35,739",
+   "computed": "6c77b56f406432aa / 35,739",
+   "verdict": "match"
+  },
+  {
+   "id": "S13",
+   "doc": "HANDOFF:63",
+   "ref": "kvmem/m2_visibility/mine/inspector/M3-PREREG.md",
+   "claimed": "3e4f465b67eebd3c / 18,024 / 259",
+   "computed": "3e4f465b67eebd3c / 18,024 / 259",
+   "verdict": "match"
+  },
+  {
+   "id": "S14",
+   "doc": "PROGRESS:1929",
+   "ref": "kvmem/m2_visibility/m14b_e10_probe/out/A2p_r1_home.json",
+   "claimed": "d0b360ec444ebc3f",
+   "computed": "a793c7bd0fbba4f2 / 9,512",
+   "verdict": "stale"
+  },
+  {
+   "id": "S15",
+   "doc": "PROGRESS:152 / FEATURES 19:20 注",
+   "ref": "docs/_work/M2-ACCEPT-lead.md",
+   "claimed": "6f26bce0c876cea4",
+   "computed": "21ec668d / 10,479（FEATURES §0 行3 亦引 21ec668d）",
+   "verdict": "stale"
+  },
+  {
+   "id": "S16",
+   "doc": "PROGRESS:2080",
+   "ref": "kvmem/m2_visibility/ISOLATION-REPORT.md",
+   "claimed": "cb11df4453756882 / 267 行",
+   "computed": "cb11df4453756882 / 267",
+   "verdict": "match"
+  }
+ ],
+ "summary": {
+  "items_total": 31,
+  "item_verdicts": {
+   "stale": 13,
+   "match": 12,
+   "missing": 6
+  },
+  "samples_total": 16,
+  "sample_verdicts": {
+   "match": 14,
+   "stale": 2
+  },
+  "headline": "五份状态文档整体停在 C29 前口径（无 C30–C32、无 rev6/rev7/rev7.1、无 b5/b6 冻结记录）；未发现把 b5 开跑/GPU gate/b6 生成写成已完成的夸大，但存在反向欠报（rev7 已实现、b6 已生成）；关键数字 4/41、1/261、0/35、510/261 句、92.72% 均与产物一致，2/46、124/777、b6 40 题缺失；引用抽查 16 条中 2 条哈希 stale（A2p、M2-ACCEPT），git 收口段 stale。"
+ },
+ "recommendations": [
+  "R1（PROGRESS）在 §13.30 之后追加 CAS 记录：C30 脚本入库、C31 rev6=not_adopted、C32 rev7/rev7.1 离线复算四门槛全过（FP 2/46、漏判 4/41、parse_fail 1/261、new_miss 0/35、作废 124/777），并注明 design set=(b4)、acceptance set=(b5) 未跑；同时把 §13.30 的『唯一可续方向=rev6+（b5）』标注为已被 C31/C32 取代。",
+  "R2（PROGRESS:2740）git 收口段加 as-of 或更新：main=96eeefc（ahead origin/main 1）、full=5574253、main..full=15、full..main=27、full 未 push。",
+  "R3（README:11、§9.2 #4）把『未实现』改为『rev7.1 已实现并离线复算；四门槛（设计集）全过；样本外验收 b5 未跑』；保留『不得宣称已通过/已修好』的禁述，并补 2/46 与 124/777。",
+  "R4（HANDOFF）§0/§4 更新为 M4-C 已闭（3309fb25）、M5 两探针： (a) 已验收、(c) 判据作废；或按文首 as-of 统一标『历史快照，状态见 PROGRESS §13.30/§13.31』。",
+  "R5（PROJECT-STATE §11）下一步表已整体过时；加一行『2026-10-26 状态已推进至 M5C2 rev7.1，见 PROGRESS §13.30/§13.31』。",
+  "R6（FEATURES §0 行11/17）按 R5 同口径加时间戳与指向，避免『部分实现/未开始』被当作现状。",
+  "R7（引用）A2p_r1_home.json → a793c7bd0fbba4f2/9,512；M2-ACCEPT-lead.md → 21ec668d/10,479（若需保留签署版 6f26bce0，须显式标注『签署版已被 10-25 23:42 修订』）。",
+  "R8（指针链）PROGRESS §0.1 只讲档案回填；建议在 §0.1 增加『最新里程碑状态见 §13.31』，使 PS/HANDOFF 文首的『现行入口』真正可达最新状态。",
+  "说明：以上均为建议，本任务不改被审文档；b5/b6 冻结与 rev7/7.1 已由 LEAD 裁定，证据不受本轮核对影响。"
+ ],
+ "limits": [
+  "未复算 K1/B1 的原始 run 产物（只核文档内部与 §9.2 声明一致性）",
+  "b5 无运行产物，故『b5 未跑』以 out/ 目录与 RULING 为据",
+  "哈希口径=sha256 前 16 位；字节数=整文件；行数=splitlines()",
+  "未审 docs/_work 其余文档（范围外）"
+ ]
+}

@@ -1,0 +1,393 @@
+{
+ "schema": "m5c2_doc_ledger_spotcheck_v1",
+ "generated_at": "2026-10-26T21:32:33+08:00",
+ "spotchecker": "rev7-impl (task-13)",
+ "purpose": "对 doc-ledger 账本做独立抽查：20 条（8 哈希引用 + 6 数字不一致 + 6 边界）逐条自跑命令复算，给“账本判定 / 我的复算 / 一致或分歧+原因”；只读，未改任何被审文件。",
+ "ledger": {
+  "json": {
+   "path": "kvmem/m2_visibility/m5/out/M5C2-DOC-HASH-LEDGER.json",
+   "sha16": "02f43fdde85953c9",
+   "bytes": 149960,
+   "matches_stated": true
+  },
+  "md": {
+   "path": "docs/_work/DOC-HASH-LEDGER-M5C2.md",
+   "sha16": "df270b1c2c9fc6b7",
+   "bytes": 56701,
+   "matches_stated": true
+  },
+  "summary_claimed": {
+   "citations_total": 151,
+   "match": 144,
+   "stale_reconstructible": 1,
+   "stale_unresolved": 4,
+   "unverifiable": 2,
+   "numbers_total": 47,
+   "numbers_match": 39,
+   "numbers_mismatch": 6,
+   "numbers_unverifiable": 1,
+   "numbers_stale": 1
+  }
+ },
+ "method": {
+  "hash": "sha256(bytes)[:16]，工作区原始字节",
+  "whole_tree": "os.walk 全树，跳过 .git/__pycache__/node_modules；14,835 个 ≤50MB 文件全哈希，42 个 >50MB 二进制跳过并记录清单",
+  "git_blobs": "git cat-file --batch-all-objects --batch 逐一重算：1,491 blob / 75.0 MB；另对可达对象 1,469 blob 交叉验证",
+  "truncation": "B4 当前件逐行边界截断 × {raw, rstrip, rstrip+NL, CRLF, CRLF+rstrip} + 逐行 rstrip + BOM = 669 变体；归档草稿 749 变体",
+  "numbers": "一律从产物 JSON / 原文重算，不采信账本转述；gold 等价用 RATES.rows/rows_full/AB.rows 三张 261 行表 vs RULING.gold",
+  "non_file_hashes": "prompt 模板从 run_m5c2_rev4.py 的 REV4_TEMPLATE 字面量重算；DLL 直接哈希二进制",
+  "rerun": "N38：复制 C32 脚本到 Temp 并仅重定向 ART 路径，连跑两次；仓库文件未写",
+  "discipline": "只读；未改任何被审文件；零 GPU/零模型/零联网；未读 (b5) 运行数据；未 git 提交；本抽查仅新增 2 个交付文件"
+ },
+ "entries": [
+  {
+   "id": "S01",
+   "bucket": "citation",
+   "ledger_ref": "C024 + C034 (B5:6 / B6:6)",
+   "item": "B5:6 引 (b4) 原题面 e9a88fda；账本判 stale_unresolved（不可重构）",
+   "ledger_verdict": "stale_unresolved",
+   "my_verdict": "stale_unresolved（确证不可重构）",
+   "consistency": "一致",
+   "evidence": [
+    "当前 B4 = f30d89e30262b148 / 10,910 B（不是 e9a88fda）",
+    "全树扫描 14,835 个 ≤50MB 文件（另 42 个 >50MB 二进制跳过：exe/pdb/lib/kvmem，均不可能是 11KB 级 markdown）→ 无 sha16=e9a88fda",
+    "git 全部对象 1,491 个 blob（--batch-all-objects，75.0 MB）+ 可达 1,469 个 → 无命中",
+    "B4 逐行截断变体 669 个（raw/rstrip/rstrip+NL/CRLF/CRLF+rstrip，含逐行 rstrip 与 BOM）→ 无命中；归档草稿 6f41f3d6 / 7,823 B 另 749 变体 → 无命中",
+    "git 中 B4 路径仅 1 个 blob：1982d167 → f30d89e30262b148（10,910 B）—— 与账本 X03 说法一致"
+   ],
+   "note": "B6:6 是“明知旧值”的引用（原文写「B5 文内自引的 b4 值 e9a88fda 为更早版本，以本件实测为准」），账本仍标 stale_unresolved：口径可辩但不影响结论。"
+  },
+  {
+   "id": "S02",
+   "bucket": "citation",
+   "ledger_ref": "C106 (REV7:7)",
+   "item": "REV7:7 引 (b5) e306ce994d306a84；账本判 stale_reconstructible，重构体=11,388 B",
+   "ledger_verdict": "stale_reconstructible (reconstruction.verified=true)",
+   "my_verdict": "重构成立：truncate@“## 9 LEAD 追加” + rstrip = e306ce994d306a84 / 11,388 B",
+   "consistency": "一致",
+   "evidence": [
+    "marker “## 9 LEAD 追加” 首字节偏移 = 11,390",
+    "raw 截断 11,390 B → sha16 9c09ceaf99d37a23（≠ 引用值）",
+    "截断后 rstrip 11,388 B → sha16 e306ce994d306a84（= 引用值）✅",
+    "其余变体不符：rstrip+NL 11,389 B → 13ab742f12ca1536；CRLF 11,390 B → e95316e61bce012b",
+    "现行 B5 全文 = d6c7bdac73ef7326 / 14,597 B（S08 条另证）"
+   ],
+   "note": "账本 method/note 与 reconstruction 字段的 3 个数字（11,388 / 11,390 / 9c09ceaf）全部逐位复现。"
+  },
+  {
+   "id": "S03",
+   "bucket": "citation",
+   "ledger_ref": "C138 + C141 + N39 (RATES:4 / AB:5)",
+   "item": "RATES/AB 引金标 9054479b32b79eb1 / 10,208 B；账本判 stale_unresolved，并称 261 条 gold 逐 sid 等价",
+   "ledger_verdict": "stale_unresolved；N39=stale_historical_snapshot_values_equivalent",
+   "my_verdict": "旧字节确不可得；261 条 gold 逐 sid 等价成立（3 份 261 行表 0 差异）",
+   "consistency": "一致",
+   "evidence": [
+    "当前金标 = 9273ebc97aa1413a / 13,195 B；全树 14,835 文件 + 1,491 git blob 均无 sha16=9054479b",
+    "gold 等价独立复算：RATES.rows(261) vs RULING.gold → 0 差异；RATES.rows_full(261) → 0；AB.rows(261) → 0",
+    "gold_counts 46/164/10/41 与 RULING 一致；RATES.gold_sha16 与 AB.same_gold 均记 9054479b（生成时点坐标）",
+    "RATES/AB 是 9054479b 时点产物且内嵌逐 sid gold ⇒ 该快照可直接证明旧金标值域未变"
+   ],
+   "note": "旧版 10,208 B 的字节本身不可再验；等价性论证依赖 RATES/AB 内嵌 rows 的时点可信，这点账本未明说，我补记。"
+  },
+  {
+   "id": "S04",
+   "bucket": "citation",
+   "ledger_ref": "N42 + N43 + X12/X16（B6 自钉）",
+   "item": "B6 冻结哈希 ac27d47d（md）+ json.prereg_sha16 一致（零自指口径）",
+   "ledger_verdict": "match（md ac27d47d3a3efff9 / 17,374 B；json 23588ec099ca9255）",
+   "my_verdict": "md ac27d47d3a3efff9 / 17,374 B；json.prereg_sha16=ac27d47d3a3efff9；frozen=true",
+   "consistency": "一致",
+   "evidence": [
+    "sha256(PREREG-M5-C2-B6.md)=ac27d47d3a3efff9，bytes=17,374",
+    "M5C2-B6-SENTENCES.json sha16=23588ec099ca9255 / 9,482 B",
+    "json.prereg_sha16 == md 全文件 sha16（可复算，零自指成立）",
+    "B6 内 pinned 坐标行：B2 482a94820917d16e、B4 f30d89e30262b148、B5 d6c7bdac73ef7326 均与现值一致"
+   ],
+   "note": "B6 是审计期内 21:16:37 才冻结的活文件；账本快照取到的是冻结版，moving_target 留痕完整。"
+  },
+  {
+   "id": "S05",
+   "bucket": "citation",
+   "ledger_ref": "C037 (B6:101)",
+   "item": "REV7.1 冻结哈希 09d6f1b1（B6 引、账本 file_state 记 16,313 B）",
+   "ledger_verdict": "match",
+   "my_verdict": "09d6f1b163ea0b84 / 16,313 B / 160 行 / frozen=true",
+   "consistency": "一致",
+   "evidence": [
+    "sha256=09d6f1b163ea0b84，bytes=16,313；frozen=true ×3、frozen=false ×0",
+    "内容含 N1=3 更正、“N3 未修好，仍为 FP”、A.6 例数更正、executed=false"
+   ],
+   "note": "本件即我上一轮冻结件；账本快照时点 21:07:03 与落盘一致。"
+  },
+  {
+   "id": "S06",
+   "bucket": "citation",
+   "ledger_ref": "C088/C091/C094/C100/C103/C108/C121/C124/C137/C143",
+   "item": "M5B4-JUDGE.json 6a3001b6ca23ef7d（多文档共同引用）",
+   "ledger_verdict": "match（452,456 B）",
+   "my_verdict": "6a3001b6ca23ef7d / 452,456 B",
+   "consistency": "一致",
+   "evidence": [
+    "sha256=6a3001b6ca23ef7d，bytes=452,456",
+    "10 处引用全部指向同一目标，指向正确"
+   ],
+   "note": "同一文件的“261 行”写法错误另见 S10（N32）。"
+  },
+  {
+   "id": "S07",
+   "bucket": "citation",
+   "ledger_ref": "C087/C095/C101/C104/C109/C122/C125",
+   "item": "M5B4-LEAD-RULING.json 9273ebc97aa1413a（金标现行坐标）",
+   "ledger_verdict": "match（13,195 B）",
+   "my_verdict": "9273ebc97aa1413a / 13,195 B",
+   "consistency": "一致",
+   "evidence": [
+    "sha256=9273ebc97aa1413a，bytes=13,195",
+    "n=261、gold_counts 46/164/10/41 与账本 N02 一致"
+   ],
+   "note": "与历史坐标 9054479b 的区分见 S03。"
+  },
+  {
+   "id": "S08",
+   "bucket": "citation",
+   "ledger_ref": "C033 (B5 自身)",
+   "item": "现行 B5 = d6c7bdac73ef7326 / 14,597 B（REV7:7 的对照坐标）",
+   "ledger_verdict": "match",
+   "my_verdict": "d6c7bdac73ef7326 / 14,597 B",
+   "consistency": "一致",
+   "evidence": [
+    "sha256=d6c7bdac73ef7326，bytes=14,597",
+    "与 S02 的组合证明：§9 于冻结后追加且未重钉"
+   ],
+   "note": ""
+  },
+  {
+   "id": "S09",
+   "bucket": "number",
+   "ledger_ref": "N29 + X01/X02 (REV7:15/17)",
+   "item": "REV7 §0 归因表：N1 写 4（实 3）；N3 写「与上重叠 1 例」（实 0 重叠）",
+   "ledger_verdict": "mismatch（N1 4→3；重叠 1→0；总数 7 正确）",
+   "my_verdict": "N1=3 / N2=2 / N3=2，7 例互不重叠；REV7 L15 写 “**4**”、L17 写 “（与上重叠 1 例）”",
+   "consistency": "一致",
+   "evidence": [
+    "REV7 产物 false_by_reason 逐条：s01→N1、s15→N1、s1-q3-s03→N1、s07→N3、s09→N3、s2-q1-s01→N2、s8-q2-s02→N2 ⇒ N1 3 / N2 2 / N3 2",
+    "三组 sid 集合两两无交集 ⇒ 重叠 0",
+    "REV7 原文 L15 “**R1 数值归一化缺失** | **4**” 只列 3 个 sid；L17 “**2**（与上重叠 1 例）”",
+    "我另做的消融边际（去 N1→FP 5、去 N2→4、去 N3→2）与 3/2/0 修复数一致"
+   ],
+   "note": "REV7.1 冻结版已改为 3 / “N3 未修好，仍为 FP” + A.6 例数更正（我上一轮交付）。"
+  },
+  {
+   "id": "S10",
+   "bucket": "number",
+   "ledger_ref": "N32 + X09 (INSPECTOR:40)",
+   "item": "INSPECTOR 把 M5B4-JUDGE.json 写成「452456 B / 261 行」",
+   "ledger_verdict": "mismatch（实际 17,040 行；261 是句数）",
+   "my_verdict": "452,456 B / 17,040 行（261 句）",
+   "consistency": "一致",
+   "evidence": [
+    "wc -l = 17,040（换行 17,040 个，文件无缺尾换行）",
+    "bytes=452,456、sha16=6a3001b6ca23ef7d 均对",
+    "INSPECTOR 原文 L40 确实写 “452456 B / 261 行”"
+   ],
+   "note": "单位错误（行 vs 句），字节/sha 不受影响。"
+  },
+  {
+   "id": "S11",
+   "bucket": "number",
+   "ledger_ref": "N33 + X06 (REV7:49)",
+   "item": "REV7 §2 要求 患者 必判 valid=false，但 N3 字面定义下不可满足；产物 A2/A3 pass=false",
+   "ledger_verdict": "mismatch_unsatisfiable（产物 assertions pass=false）",
+   "my_verdict": "不可满足成立：患者 在句首「患者：」内逐字存在 ⇒ item_in_sentence=true、matcher_hit=substring、valid=true、coverage=1.0 ⇒ 断言必假",
+   "consistency": "一致",
+   "evidence": [
+    "REV7 产物 assertions.A2.pass=False、A3.pass=False",
+    "A2 occurrence: 患者 item_in_sentence=True / valid=True / coverage=1.0；A3 同（13 次出现全 pos 0）",
+    "按 N3 规则 valid = (item in sentence) or coverage>=0.90 ⇒ 两条路径都为真，断言 valid=false 不可能成立"
+   ],
+   "note": "这正是 REV7.1 要撤回的断言；rev7.1 产物对应 A2/A3 已 pass=true（真值化）。"
+  },
+  {
+   "id": "S12",
+   "bucket": "number",
+   "ledger_ref": "N25 + N26 + X11 (B5:119/130)",
+   "item": "B5 §8.1 两行「全 0」按字面（本文件计数）为假",
+   "ledger_verdict": "mismatch_literal_ok_within_section1（字面假、§1 题面口径为真）",
+   "my_verdict": "字面假成立：专名 5 个各 1 次、租车/物业 各 1 次；§1 题面段内全 0",
+   "consistency": "一致",
+   "evidence": [
+    "全文 count：仁和口腔=1、迅达租车=1、华庭物业=1、北方联通=1、力量方舟=1、租车=1、物业=1",
+    "§1 段（“## 1”→“## 2”，2,217 B）内：上述 7 个串全部 0 次",
+    "B5 L119 写“逐字检索本文件出现 0 次”、L130 写“全 0”，而名单本身就在同段表格里"
+   ],
+   "note": "账本的口径二分（字面 vs 题面）判断正确；我只抽查了这 7 个破坏字面性的串，未逐个数满 16 领域名。"
+  },
+  {
+   "id": "S13",
+   "bucket": "number",
+   "ledger_ref": "N47 + X07/X15 (REV7.1:160)",
+   "item": "REV7.1 §6 状态行 executed=false，但重跑产物已落盘",
+   "ledger_verdict": "mismatch（状态字段过期）",
+   "my_verdict": "mismatch 成立：L160 executed=false；产物 55191eaf2426f736 / 510,508 B 存在",
+   "consistency": "一致",
+   "evidence": [
+    "REV7.1 L160 原文含 `executed=false`（同文件 frozen=true / next=b5_acceptance）",
+    "产物 sha16=55191eaf2426f736、510,508 B、gate 2/46·4/41·1/261·0/35 与 rev7 逐项同",
+    "注：该产物 mtime 现已为 21:24:11（他人复跑，字节不变）；账本快照记的 21:07:27 在 21:18:35 时点为真"
+   ],
+   "note": "纯状态字段问题，不影响数值/判定；改写 executed=true 需 LEAD 决定（冻结件不得擅改）。"
+  },
+  {
+   "id": "S14",
+   "bucket": "number",
+   "ledger_ref": "X13 (REV4-1/R2 文件名)",
+   "item": "R2 引用的 M5C-36-r1-adj.json / M5C-36-r1-alignment.json 不存在",
+   "ledger_verdict": "更正清单 X13（low）：应去掉 -r1",
+   "my_verdict": "两个 -r1 文件确实不存在；哈希/字节对应无 -r1 的两个文件",
+   "consistency": "一致",
+   "evidence": [
+    "M5C-36-r1-adj.json / M5C-36-r1-alignment.json：exists=False",
+    "M5C-36-adj.json = 0d882f20987fea70 / 60,432 B（= 引用哈希/字节）",
+    "M5C-36-alignment.json = aaed082264712c59 / 245,640 B（= 引用哈希/字节）"
+   ],
+   "note": "账本证据里的“aaed0822/245,640”我复算为 aaed082264712c59，前缀一致。"
+  },
+  {
+   "id": "S15",
+   "bucket": "boundary",
+   "ledger_ref": "C056 (R2:52)",
+   "item": "8-hex 正则误捕随机种子 neg_control_seed=20261026",
+   "ledger_verdict": "unverifiable / not_a_hash",
+   "my_verdict": "确为随机种子，非哈希：无任何文件或 blob 的 sha16 以 20261026 开头",
+   "consistency": "一致",
+   "evidence": [
+    "R2 L52 原文：固定 `neg_control_seed=20261026`，配对表落盘",
+    "14,835 文件 + 1,491 blob 扫描：无 sha16=20261026 前缀命中",
+    "该值在 RATES 的 bootstrap 记录里作 seed 出现（reps/seed 语义）"
+   ],
+   "note": "边界处理正确（账本显式标注“正则误捕”，没有硬凑 match）。"
+  },
+  {
+   "id": "S16",
+   "bucket": "boundary",
+   "ledger_ref": "C147 + X14 (README:70)",
+   "item": "README 引 M2-ACCEPT-lead.md「已签 6f26bce0」——不可复算",
+   "ledger_verdict": "unverifiable（历史签署坐标，字节未保留）",
+   "my_verdict": "不可复算成立：全树 + 全部 git blob 无 6f26bce0；现文件 21ec668df2171350 / 10,479 B",
+   "consistency": "一致",
+   "evidence": [
+    "14,835 文件 + 1,491 blob（--batch-all-objects）扫描：无 sha16=6f26bce0",
+    "docs/_work/M2-ACCEPT-lead.md = 21ec668df2171350 / 10,479 B（README 已并列写“现场 21ec668d”）"
+   ],
+   "note": "账本给的处置（ANCHORS-CURRENT #5）合理；属“历史坐标 vs 现行锚”区分问题。"
+  },
+  {
+   "id": "S17",
+   "bucket": "boundary",
+   "ledger_ref": "C014/C015/C090 (prompt + DLL)",
+   "item": "非文件哈希：prompt 模板 a6bc4f268f7711de、DLL 9edbafa150700614",
+   "ledger_verdict": "match（由字面量/二进制重算解析）",
+   "my_verdict": "两个值均可复算：REV4_TEMPLATE(266 chars) → a6bc4f26…；kvshim_vk.dll → 9edbafa150700614 / 50,007,552 B",
+   "consistency": "一致",
+   "evidence": [
+    "ast 提取 run_m5c2_rev4.py 的 REV4_TEMPLATE 常量（len=266），sha256 utf8 → a6bc4f268f7711de（strip 不变）",
+    "sha256(tools/kvshim_vk.dll) → 9edbafa150700614 / 50,007,552 B"
+   ],
+   "note": "这类“内容坐标”引用账本用重算而非找文件，方法正确。"
+  },
+  {
+   "id": "S18",
+   "bucket": "boundary",
+   "ledger_ref": "N17 + X10 (REV4:11「31/31 全 A」)",
+   "item": "31/31 数值对，但出处引错文件（ARTIFACT 15 例 + AMEND 否定链），真正的 31 例在 EXPLORATORY",
+   "ledger_verdict": "match_numeric_provenance_loose",
+   "my_verdict": "数值 31/31 成立（EXPLORATORY n_done=31，arm1..5 = 6/6/6/6/7 全 A）；provenance 确实错位",
+   "consistency": "一致",
+   "evidence": [
+    "M5C2-FLOOR-GBNF-EXPLORATORY.json：n_done=31 / n_planned=31；arm_rate={1:6A,2:6A,3:6A,4:6A,5:7A} ⇒ 31/31",
+    "M5C2-FLOOR-ARTIFACT.json：n_done=15、position_bias=false、conclusion 已写 “prior GBNF all-A invalid”",
+    "M5C2-FLOOR-ARTIFACT-AMEND.json（账本简写 “AMEND”）：position_bias=true、prior_gbnf_all_A_invalidated=true"
+   ],
+   "note": "账本把 AMEND 简写为“AMEND”，实际文件名含 -ARTIFACT-；仅为行文简写，不是事实错。"
+  },
+  {
+   "id": "S19",
+   "bucket": "boundary",
+   "ledger_ref": "N38 (INSPECTOR 重跑声明)",
+   "item": "INSPECTOR 称「两次重跑与既有产物完全同字节 1f8f44b9 / 507,657 B」；账本判不可复算（按纪律不复跑）",
+   "ledger_verdict": "numbers_unverifiable（no rerun performed）",
+   "my_verdict": "抽查复跑后：声明成立 ⇒ 可升级为 verified（账本保守但不错）",
+   "consistency": "一致（账本判定保守；抽查升级为已验证）",
+   "evidence": [
+    "临时目录重跑 C32 脚本两次（仅把 ART 重定向到 Temp，不改仓库文件）：两次产物 byte 一致 = d9c4de2657b24759 / 507,657 B",
+    "与既有产物差异仅 2 个自指字段（code_sha16、code_bytes，因副本脚本字节不同）；把这两个字段回填为 live 脚本值（65ed60125528d5d6 / 44,761）后，重建字节 sha16 = 1f8f44b921e575fe ✅",
+    "既有产物 = worktree = git HEAD blob，三者 byte 相同（1f8f44b9 / 507,657 B）",
+    "live 脚本 sha16 = 65ed60125528d5d6 = 产物 code_sha16 字段"
+   ],
+   "note": "唯一的不可判定点是“当时是否真的跑过两次”；我证明的是“今天跑两次必然得到同一字节”，即可复现性成立。"
+  },
+  {
+   "id": "S20",
+   "bucket": "boundary",
+   "ledger_ref": "scope.rev7_1_snapshot.frozen + key_findings[3]",
+   "item": "账本对 REV7.1 状态的两处自述（1) 快照 frozen=false；2) key_findings 称“仍是未冻结草稿且所引实测产物未落盘”）",
+   "ledger_verdict": "scope.rev7_1_snapshot={\"sha16\":\"09d6f1b163ea0b84\",\"bytes\":16313,\"mtime\":\"21:07:03\",\"frozen\":false}；key_findings[3]=“…REV7.1 撤回但仍是未冻结草稿且所引‘实测产物’未落盘”",
+   "my_verdict": "两处均与事实不符：文件是 frozen=true（21:06:55），产物 55191eaf2426f736 / 510,508 B 已于 21:07:27 落盘",
+   "consistency": "**分歧（账本内部不一致 + 与事实不符）**",
+   "evidence": [
+    "live REV7.1：sha256=09d6f1b163ea0b84 / 16,313 B（与快照 sha/bytes 一致）；frozen=true 出现 3 次、frozen=false 0 次",
+    "账本自己的 moving_target 对同一文件写 “21:07:03 状态=frozen=true@21:06:55（LEAD 复核通过）”；X07 写“已 frozen=true@21:06:55、产物也已落盘”；N47 以“产物存在”立论 ⇒ 与 frozen=false/key_findings[3] 直接冲突",
+    "账本 MD 版（df270b1c）无“未冻结/产物未落盘”字样，且 file-state 表写“21:06:55 被 LEAD 冻结” ⇒ 该错误仅存在于 JSON 的两个字段，疑似旧草稿阶段文本未随 21:07 冻结快照更新",
+    "产物存在性：mtime 21:07:27（账本 N47 记），现 mtime 21:24:11（他人复跑，字节不变 55191eaf2426f736）"
+   ],
+   "note": "分歧定位：JSON 的 key_findings 文本与 scope.rev7_1_snapshot.frozen 标记停留在 20:58 草稿阶段、未随 21:07 冻结快照刷新；账本的 citations/numbers/moving_target/file_state 四处均正确。修复建议：frozen 改 true、删 key_findings[3] 后半句。"
+  }
+ ],
+ "divergences": [
+  {
+   "id": "D1",
+   "entry": "S20",
+   "severity": "medium",
+   "where": "M5C2-DOC-HASH-LEDGER.json → scope.rev7_1_snapshot.frozen",
+   "ledger_says": "false",
+   "fact": "true（文件内 frozen=true ×3、frozen=false ×0；frozen_at=2026-10-26T21:06:55+08:00；write_state=frozen）",
+   "cause_guess": "快照字段来源混用：sha16/bytes 取自 21:07:03 冻结体，frozen 标记沿用 20:58 草稿记录（与账本自身 moving_target 冲突）",
+   "fix": "把 frozen 改为 true（或改为读字节后按 frozen_at 判定）"
+  },
+  {
+   "id": "D2",
+   "entry": "S20",
+   "severity": "medium",
+   "where": "M5C2-DOC-HASH-LEDGER.json → key_findings[3]",
+   "ledger_says": "“REV7.1 撤回但仍是未冻结草稿且所引‘实测产物’未落盘”",
+   "fact": "REV7.1 已于 21:06:55 冻结，产物 M5C2-REV7-1-OFFLINE.json（55191eaf2426f736 / 510,508 B）已于 21:07:27 落盘；账本 X07/N47/X15 与 moving_target 均按此事实书写",
+   "cause_guess": "key_findings 文本写于 20:58 草稿阶段，未随 21:07 冻结快照刷新（MD 版无此句）",
+   "fix": "删去“仍是未冻结草稿且所引实测产物未落盘”，改为“已冻结（21:06:55）且产物已落盘（55191eaf），仅 executed=false 状态字段过期”"
+  }
+ ],
+ "global_checks": {
+  "file_state_22_entries": "22/22 与 live 字节一致（含 B6 json、INSPECTOR、README）",
+  "git_blob_count": "all-objects blob=1,491 → 与账本 X14 的“1491 个 git blob”一致；可达对象为 1,469",
+  "B4_git_blob": "B4 路径仅 1 个 blob（1982d167 → f30d89e3），与 X03 一致",
+  "ledger_hashes": "json 02f43fdde85953c9 / 149,960 B、md df270b1c2c9fc6b7 / 56,701 B —— 与任务给定值一致",
+  "citations_spot": "8 条引用抽查：8/8 与账本一致（其中 3 条 stale 类我独立复核了“不可重构/可重构/旧值等价”）"
+ },
+ "summary": {
+  "entries_checked": 20,
+  "entries_consistent": 19,
+  "entries_diverged": 1,
+  "divergences": 2,
+  "divergence_locations": "JSON scope.rev7_1_snapshot.frozen=false、JSON key_findings[3]（两处同源：草稿阶段文本未随冻结快照更新）",
+  "all_sampled_hash_values_correct": true,
+  "all_sampled_numbers_recomputed_correctly": true,
+  "verdict": "账本的哈希引用与数字判定在 20 条抽查中全部成立（19 条一致 + 1 条仅内部自述字段错）；未发现漏判的 stale/mismatch，也未发现把对的判成错的。"
+ },
+ "key_findings": [
+  "20 条抽查：19 条与账本一致，仅 1 条（S20）为账本自身对 REV7.1 状态的两处自述错误（frozen=false、key_findings[3]），且与账本自己的 moving_target/X07/N47 矛盾。",
+  "三处硬核结论我全部独立复现：REV7→(b5) e306ce = 截断+rstrip 11,388 B（raw 11,390 B 是 9c09ceaf）；B5→(b4) e9a88fda 在 14,835 文件 + 1,491 blob + 1,418 个截断变体里都不存在；金标 9054479b 旧字节确不可得但 261 条 gold 逐 sid 等价（0 差异）。",
+  "6 条数字不一致全部复现（N1 4→3、重叠 1→0、261 行→17,040、A2/A3 不可满足、§8.1 字面全 0、executed=false；另 X13 文件名 -r1 错）。",
+  "我额外把账本标 unverifiable 的 N38 升级为 verified：重跑两次 byte 一致，回填自指字段后精确重建 1f8f44b921e575fe。",
+  "账本 22 条 file_state 记录与 live 字节 22/22 一致，说明其哈希采集层没有系统性问题；两个分歧都在“叙述层”而非“数据层”。"
+ ]
+}

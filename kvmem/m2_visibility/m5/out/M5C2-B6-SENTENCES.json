@@ -1,0 +1,306 @@
+{
+  "schema": "m5c2_b6_sentences_v1",
+  "prereg_path": "docs/_work/PREREG-M5-C2-B6.md",
+  "prereg_sha16": "ac27d47d3a3efff9",
+  "prereg_status": "frozen",
+  "one_shot": true,
+  "authored_by": "b6-designer-2",
+  "case_role": "revalidation_only_if_b5_not_pass",
+  "n_scenarios": 8,
+  "n_questions": 40,
+  "n_detail": 24,
+  "n_lure": 16,
+  "detail_per_scenario": 3,
+  "lure_per_scenario": 2,
+  "source_chars_min": 43,
+  "source_chars_max": 57,
+  "domains": [
+    "干洗洗衣",
+    "鲜花订购",
+    "美发理发",
+    "相框装裱",
+    "入职体检",
+    "羽毛球场地",
+    "图书馆借书",
+    "中药代煎"
+  ],
+  "domain_overlap_with_b2_b4_b5": 0,
+  "contains_label_values": false,
+  "contains_hints": false,
+  "char_count_rule": "CJK unified ideographs only (no digits, punctuation, latin)",
+  "note": "题面机读件；与 PREREG-M5-C2-B6.md §1 逐字一致；无标注值/预设值/提示。",
+  "scenarios": [
+    {
+      "sid": "b6-s1",
+      "domain": "干洗洗衣",
+      "source_text": "我把一件灰色羽绒服送到巷口的洁雅干洗店，取衣单号 0427，洗涤费 58 元，店员说周四下午三点以后能取，领口那处油渍会重点处理。",
+      "source_chars": 51,
+      "n_facts": 6,
+      "questions": [
+        {
+          "qid": "b6-s1-q1",
+          "type": "detail",
+          "text": "羽绒服送去哪家店洗？什么颜色、什么款式？"
+        },
+        {
+          "qid": "b6-s1-q2",
+          "type": "detail",
+          "text": "洗涤费多少？取衣单号报一下。"
+        },
+        {
+          "qid": "b6-s1-q3",
+          "type": "detail",
+          "text": "店员说几点能拿？哪一处油渍会重点处理？"
+        },
+        {
+          "qid": "b6-s1-q4",
+          "type": "lure",
+          "text": "这家干洗店周末营业到几点？"
+        },
+        {
+          "qid": "b6-s1-q5",
+          "type": "lure",
+          "text": "洗这件羽绒服用的是哪个牌子的洗涤剂？"
+        }
+      ]
+    },
+    {
+      "sid": "b6-s2",
+      "domain": "鲜花订购",
+      "source_text": "我在街角的遇见花店订了一束 11 朵红玫瑰，加了两支满天星，一共 138 元，让店家周日上午十点送到公司前台，卡片上写“生日快乐”。",
+      "source_chars": 50,
+      "n_facts": 7,
+      "questions": [
+        {
+          "qid": "b6-s2-q1",
+          "type": "detail",
+          "text": "订花的店是哪一家？订了多少朵什么花？"
+        },
+        {
+          "qid": "b6-s2-q2",
+          "type": "detail",
+          "text": "总共多少钱？另外加了什么花？"
+        },
+        {
+          "qid": "b6-s2-q3",
+          "type": "detail",
+          "text": "几点送到哪里？卡片上写了什么？"
+        },
+        {
+          "qid": "b6-s2-q4",
+          "type": "lure",
+          "text": "这束花另外收配送费吗？收多少？"
+        },
+        {
+          "qid": "b6-s2-q5",
+          "type": "lure",
+          "text": "订的玫瑰是什么品种？"
+        }
+      ]
+    },
+    {
+      "sid": "b6-s3",
+      "domain": "美发理发",
+      "source_text": "我在小区门口的美然理发店剪了头发，还染了棕色，办卡充了 900 元，这次打完折花 168 元，理发师是 3 号，下次约在 15 号下午。",
+      "source_chars": 45,
+      "n_facts": 7,
+      "questions": [
+        {
+          "qid": "b6-s3-q1",
+          "type": "detail",
+          "text": "剪头发的店叫什么名字？办卡一共充了多少？"
+        },
+        {
+          "qid": "b6-s3-q2",
+          "type": "detail",
+          "text": "这次染的颜色是什么？打完折实付多少？"
+        },
+        {
+          "qid": "b6-s3-q3",
+          "type": "detail",
+          "text": "理发师是几号？下回排在哪天下午？"
+        },
+        {
+          "qid": "b6-s3-q4",
+          "type": "lure",
+          "text": "染发用的是哪个牌子的染发剂？"
+        },
+        {
+          "qid": "b6-s3-q5",
+          "type": "lure",
+          "text": "会员卡里的余额有使用期限吗？"
+        }
+      ]
+    },
+    {
+      "sid": "b6-s4",
+      "domain": "相框装裱",
+      "source_text": "我把一幅画送到老街的画廊装裱，选了实木框，玻璃换成防反光玻璃，装裱费 180 元，下周一下午去取，取画时带上取件单。",
+      "source_chars": 47,
+      "n_facts": 7,
+      "questions": [
+        {
+          "qid": "b6-s4-q1",
+          "type": "detail",
+          "text": "画送去哪儿装裱？框挑的是哪一种？"
+        },
+        {
+          "qid": "b6-s4-q2",
+          "type": "detail",
+          "text": "玻璃换成什么？装裱费多少？"
+        },
+        {
+          "qid": "b6-s4-q3",
+          "type": "detail",
+          "text": "哪天下午去取？取画时要带上什么？"
+        },
+        {
+          "qid": "b6-s4-q4",
+          "type": "lure",
+          "text": "这家店能上门安装吗？"
+        },
+        {
+          "qid": "b6-s4-q5",
+          "type": "lure",
+          "text": "这幅画是谁画的？"
+        }
+      ]
+    },
+    {
+      "sid": "b6-s5",
+      "domain": "入职体检",
+      "source_text": "我在康宁体检中心约了入职体检，项目费 440 元，查内外科、心电图和尿常规三项，前一晚十点以后不能吃东西，周四早上七点半到二楼前台报到。",
+      "source_chars": 57,
+      "n_facts": 7,
+      "questions": [
+        {
+          "qid": "b6-s5-q1",
+          "type": "detail",
+          "text": "在哪家体检中心约的？约的是哪一类体检？"
+        },
+        {
+          "qid": "b6-s5-q2",
+          "type": "detail",
+          "text": "这次体检查哪几项？收多少钱？"
+        },
+        {
+          "qid": "b6-s5-q3",
+          "type": "detail",
+          "text": "前一晚几点以后不能吃东西？当天几点到哪儿报到？"
+        },
+        {
+          "qid": "b6-s5-q4",
+          "type": "lure",
+          "text": "这次的检查结果是电子版还是纸质版的？"
+        },
+        {
+          "qid": "b6-s5-q5",
+          "type": "lure",
+          "text": "体检中心的停车费怎么收？"
+        }
+      ]
+    },
+    {
+      "sid": "b6-s6",
+      "domain": "羽毛球场地",
+      "source_text": "我订了城东体育馆的羽毛球场地，4 号场，周日下午两点到四点，两小时 90 元，押金 200 元，球拍可以现场租，一副 10 元，羽毛球得自己带。",
+      "source_chars": 49,
+      "n_facts": 8,
+      "questions": [
+        {
+          "qid": "b6-s6-q1",
+          "type": "detail",
+          "text": "场地订在哪个场馆？订的是几号场？"
+        },
+        {
+          "qid": "b6-s6-q2",
+          "type": "detail",
+          "text": "场地收多少费用？这场从几点打到哪里？"
+        },
+        {
+          "qid": "b6-s6-q3",
+          "type": "detail",
+          "text": "押金收多少？现场租一副球拍多少钱？羽毛球要自己带吗？"
+        },
+        {
+          "qid": "b6-s6-q4",
+          "type": "lure",
+          "text": "这个场馆的教练课多少钱一节？"
+        },
+        {
+          "qid": "b6-s6-q5",
+          "type": "lure",
+          "text": "体育馆的会员年卡多少钱？"
+        }
+      ]
+    },
+    {
+      "sid": "b6-s7",
+      "domain": "图书馆借书",
+      "source_text": "我在市图书馆借了三本书，其中一本是《人类简史》，借书证号 118042，借期 30 天，12 月 20 号到期，已经在自助机上续借过一次。",
+      "source_chars": 43,
+      "n_facts": 7,
+      "questions": [
+        {
+          "qid": "b6-s7-q1",
+          "type": "detail",
+          "text": "哪个图书馆借的书？一共借了几本？"
+        },
+        {
+          "qid": "b6-s7-q2",
+          "type": "detail",
+          "text": "借书证号多少？借期多长、哪天到期？"
+        },
+        {
+          "qid": "b6-s7-q3",
+          "type": "detail",
+          "text": "其中哪一本报了书名？续借过几次？"
+        },
+        {
+          "qid": "b6-s7-q4",
+          "type": "lure",
+          "text": "另外两本书的书名是什么？"
+        },
+        {
+          "qid": "b6-s7-q5",
+          "type": "lure",
+          "text": "图书逾期一天要罚多少钱？"
+        }
+      ]
+    },
+    {
+      "sid": "b6-s8",
+      "domain": "中药代煎",
+      "source_text": "我在社区药店抓了七付中药，代煎费一共 35 元，药方里有黄芪和当归，店员说明天下午两点以后来取，煎好的药分装成 14 袋，要放冰箱冷藏。",
+      "source_chars": 54,
+      "n_facts": 7,
+      "questions": [
+        {
+          "qid": "b6-s8-q1",
+          "type": "detail",
+          "text": "药是在哪儿抓的？抓了几付？"
+        },
+        {
+          "qid": "b6-s8-q2",
+          "type": "detail",
+          "text": "代煎费多少？药方里有哪些药材？"
+        },
+        {
+          "qid": "b6-s8-q3",
+          "type": "detail",
+          "text": "几点去取？煎好的药分装成几袋、怎么保存？"
+        },
+        {
+          "qid": "b6-s8-q4",
+          "type": "lure",
+          "text": "这付药一天喝几次、每次喝多少？"
+        },
+        {
+          "qid": "b6-s8-q5",
+          "type": "lure",
+          "text": "坐诊的医生姓什么？"
+        }
+      ]
+    }
+  ]
+}
