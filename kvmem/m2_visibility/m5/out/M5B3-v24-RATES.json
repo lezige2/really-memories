@@ -1,0 +1,500 @@
+{
+  "schema": "m5_b3_v24_rates_v1",
+  "batch": "b2",
+  "in_sample_for_v2_4": true,
+  "not_acceptance": true,
+  "detection_capability_change": "none",
+  "capability_boundary_confirmation": true,
+  "no_new_gpu_batch": true,
+  "no_gpu": true,
+  "no_model": true,
+  "no_product_change": true,
+  "not_used_for_tuning": true,
+  "four_state": "未通过",
+  "verdict_reason": "漏判率 40.00% > 20%",
+  "judge_viability": "判据仍不成立（同机制 14/14）",
+  "prohibited_wording": [
+    "不得写『v2.4 修复/改进/已修正』",
+    "不得写『新判据通过』",
+    "不得写『(b2) 通过』",
+    "不得把持平读数说成改善",
+    "不得据 (b2) 结果回改 v2.3/v2.4 规则"
+  ],
+  "inputs": {
+    "ruling": {
+      "file": "M5B2-LEAD-RULING.json",
+      "sha16": "65a2124b73f17d53",
+      "bytes": 4192
+    },
+    "sentences": {
+      "file": "M5B2-SENTENCES.json",
+      "sha16": "6529e151568dc593",
+      "bytes": 78825
+    },
+    "adj": {
+      "file": "M5B2-adj-labels.json",
+      "sha16": "b08521482b88faa8",
+      "bytes": 50903
+    },
+    "judge": {
+      "file": "M5B2-JUDGE.json",
+      "sha16": "5deead7180dbb6a8",
+      "bytes": 229930
+    },
+    "v23rates": {
+      "file": "M5B2-RATES.json",
+      "sha16": "9ac66b6dfaf8f804",
+      "bytes": 11407
+    }
+  },
+  "prereg": {
+    "path": "docs/_work/PREREG-M5-B3-v2.4.md",
+    "sha16": "37e3742c0e4056ef",
+    "bytes": 5320
+  },
+  "v24_impl": {
+    "file": "m5_ground_v2_4.py",
+    "sha16": "1387b851450bde44",
+    "bytes": 44286,
+    "base_judge": "m5_ground_v2_3.py cc03e48c360ae0ee/44,209",
+    "functional_change": {
+      "function": "analyze_sentence",
+      "line": 373,
+      "from": "no_fact / no_a_component",
+      "to": "undecidable / no_a_component"
+    },
+    "diff_hunks": 3,
+    "functional_diff_hunks": 1,
+    "test_only_diff_hunks": 2,
+    "diff_added_lines": 3,
+    "diff_removed_lines": 3,
+    "functional_changed_lines": 1,
+    "selftest_changed_lines": 2,
+    "selftest_changes": [
+      {
+        "function": "selftest",
+        "line": 634,
+        "why": "branch5 test input changed to question-only because no-A assertive sentences are now undecidable; assertion itself unchanged"
+      },
+      {
+        "function": "selftest",
+        "line": 650,
+        "why": "order_no_fact expectation no_fact -> undecidable"
+      }
+    ]
+  },
+  "v24_selftest": {
+    "file": "_m5b3_selftest_v24.json",
+    "sha16": "08e6e92c715fec58",
+    "bytes": 4467,
+    "n": 17,
+    "all_pass": true,
+    "ids": [
+      "invariants",
+      "ab_grading",
+      "B_not_alone",
+      "A_Hangzhou_unsupported",
+      "A_parking_unsupported",
+      "A_twenty_unsupported",
+      "polarity_conflict",
+      "prefix_trim",
+      "single_suffix_entity",
+      "list_ordinal_excluded",
+      "truncated_tail_undecidable",
+      "branch5_structural_gap",
+      "order_question_excluded",
+      "order_truncated_before_polarity",
+      "order_no_fact",
+      "known_fp_10_10",
+      "regression_default_no_write"
+    ]
+  },
+  "gold_counts": {
+    "support_present": 71,
+    "no_fact": 385,
+    "undecidable": 19,
+    "fabricated": 35
+  },
+  "alignment": {
+    "key": "qid+sent_idx",
+    "n": 510,
+    "mismatch": 0,
+    "text_exact_equal": true
+  },
+  "v24_relabel": {
+    "rule": "judge no_fact AND reason=no_a_component -> undecidable",
+    "changed_n": 93,
+    "changed_rows": [
+      "S0001",
+      "S0100",
+      "S0101",
+      "S0102",
+      "S0112",
+      "S0113",
+      "S0117",
+      "S0123",
+      "S0124",
+      "S0125",
+      "S0128",
+      "S0129",
+      "S0131",
+      "S0133",
+      "S0134",
+      "S0138",
+      "S0142",
+      "S0152",
+      "S0156",
+      "S0158",
+      "S0165",
+      "S0172",
+      "S0176",
+      "S0210",
+      "S0211",
+      "S0213",
+      "S0215",
+      "S0217",
+      "S0219",
+      "S0221",
+      "S0223",
+      "S0225",
+      "S0227",
+      "S0229",
+      "S0232",
+      "S0236",
+      "S0241",
+      "S0244",
+      "S0251",
+      "S0253",
+      "S0256",
+      "S0258",
+      "S0259",
+      "S0263",
+      "S0265",
+      "S0266",
+      "S0274",
+      "S0278",
+      "S0282",
+      "S0284",
+      "S0289",
+      "S0293",
+      "S0297",
+      "S0299",
+      "S0305",
+      "S0307",
+      "S0311",
+      "S0315",
+      "S0317",
+      "S0324",
+      "S0326",
+      "S0328",
+      "S0329",
+      "S0337",
+      "S0339",
+      "S0341",
+      "S0343",
+      "S0347",
+      "S0348",
+      "S0350",
+      "S0376",
+      "S0378",
+      "S0380",
+      "S0382",
+      "S0384",
+      "S0386",
+      "S0388",
+      "S0390",
+      "S0419",
+      "S0420",
+      "S0452",
+      "S0453",
+      "S0455",
+      "S0469",
+      "S0474",
+      "S0478",
+      "S0482",
+      "S0486",
+      "S0490",
+      "S0493",
+      "S0497",
+      "S0503",
+      "S0507"
+    ]
+  },
+  "judge_verdict_counts": {
+    "v23": {
+      "no_fact": 93,
+      "excluded": 246,
+      "supported": 53,
+      "unsupported": 117,
+      "undecidable": 1
+    },
+    "v24": {
+      "undecidable": 94,
+      "excluded": 246,
+      "supported": 53,
+      "unsupported": 117
+    }
+  },
+  "rates": {
+    "leak": {
+      "numerator": 14,
+      "denominator": 35,
+      "rate": 0.4,
+      "rate_pct": "40.00%",
+      "pass": false
+    },
+    "false": {
+      "numerator": 10,
+      "denominator": 71,
+      "rate": 0.1408,
+      "rate_pct": "14.08%",
+      "pass": true
+    },
+    "secondary_strict_leak": {
+      "numerator": 0,
+      "denominator": 35,
+      "rate": 0.0,
+      "rate_pct": "0.00%"
+    },
+    "secondary_any_non_supported_false": {
+      "numerator": 22,
+      "denominator": 71,
+      "rate": 0.3099,
+      "rate_pct": "30.99%"
+    }
+  },
+  "rates_v23": {
+    "leak": {
+      "numerator": 14,
+      "denominator": 35,
+      "rate": 0.4,
+      "rate_pct": "40.00%",
+      "pass": false
+    },
+    "false": {
+      "numerator": 10,
+      "denominator": 71,
+      "rate": 0.1408,
+      "rate_pct": "14.08%",
+      "pass": true
+    },
+    "secondary_strict_leak": {
+      "numerator": 0,
+      "denominator": 35,
+      "rate": 0.0,
+      "rate_pct": "0.00%"
+    },
+    "secondary_any_non_supported_false": {
+      "numerator": 22,
+      "denominator": 71,
+      "rate": 0.3099,
+      "rate_pct": "30.99%"
+    }
+  },
+  "same_as_v23": true,
+  "leak_rows": [
+    {
+      "sid": "S0211",
+      "qid": "s4-q5",
+      "text": "搬家公司可以帮忙打包纸箱。",
+      "v23_verdict": "no_fact",
+      "v24_verdict": "undecidable",
+      "reason": "no_a_component"
+    },
+    {
+      "sid": "S0213",
+      "qid": "s4-q5",
+      "text": "答：搬家公司可以帮忙打包纸箱。",
+      "v23_verdict": "no_fact",
+      "v24_verdict": "undecidable",
+      "reason": "no_a_component"
+    },
+    {
+      "sid": "S0215",
+      "qid": "s4-q5",
+      "text": "答：搬家公司可以帮忙打包纸箱。",
+      "v23_verdict": "no_fact",
+      "v24_verdict": "undecidable",
+      "reason": "no_a_component"
+    },
+    {
+      "sid": "S0217",
+      "qid": "s4-q5",
+      "text": "答：搬家公司可以帮忙打包纸箱。",
+      "v23_verdict": "no_fact",
+      "v24_verdict": "undecidable",
+      "reason": "no_a_component"
+    },
+    {
+      "sid": "S0219",
+      "qid": "s4-q5",
+      "text": "答：搬家公司可以帮忙打包纸箱。",
+      "v23_verdict": "no_fact",
+      "v24_verdict": "undecidable",
+      "reason": "no_a_component"
+    },
+    {
+      "sid": "S0221",
+      "qid": "s4-q5",
+      "text": "答：搬家公司可以帮忙打包纸箱。",
+      "v23_verdict": "no_fact",
+      "v24_verdict": "undecidable",
+      "reason": "no_a_component"
+    },
+    {
+      "sid": "S0223",
+      "qid": "s4-q5",
+      "text": "答：搬家公司可以帮忙打包纸箱。",
+      "v23_verdict": "no_fact",
+      "v24_verdict": "undecidable",
+      "reason": "no_a_component"
+    },
+    {
+      "sid": "S0225",
+      "qid": "s4-q5",
+      "text": "答：搬家公司可以帮忙打包纸箱。",
+      "v23_verdict": "no_fact",
+      "v24_verdict": "undecidable",
+      "reason": "no_a_component"
+    },
+    {
+      "sid": "S0227",
+      "qid": "s4-q5",
+      "text": "答：搬家公司可以帮忙打包纸箱。",
+      "v23_verdict": "no_fact",
+      "v24_verdict": "undecidable",
+      "reason": "no_a_component"
+    },
+    {
+      "sid": "S0274",
+      "qid": "s6-q1",
+      "text": "答：身份证、准考证、考试通知书、学员卡。",
+      "v23_verdict": "no_fact",
+      "v24_verdict": "undecidable",
+      "reason": "no_a_component"
+    },
+    {
+      "sid": "S0289",
+      "qid": "s6-q2",
+      "text": "答：身份证、准考证、考试通知书、学员卡。",
+      "v23_verdict": "no_fact",
+      "v24_verdict": "undecidable",
+      "reason": "no_a_component"
+    },
+    {
+      "sid": "S0307",
+      "qid": "s6-q3",
+      "text": "答：身份证、准考证、考试通知书、学员卡。",
+      "v23_verdict": "no_fact",
+      "v24_verdict": "undecidable",
+      "reason": "no_a_component"
+    },
+    {
+      "sid": "S0329",
+      "qid": "s6-q5",
+      "text": "教练姓张。",
+      "v23_verdict": "no_fact",
+      "v24_verdict": "undecidable",
+      "reason": "no_a_component"
+    },
+    {
+      "sid": "S0339",
+      "qid": "s6-q5",
+      "text": "答：考试当天天气预计是晴天，气温适中。",
+      "v23_verdict": "no_fact",
+      "v24_verdict": "undecidable",
+      "reason": "no_a_component"
+    }
+  ],
+  "false_rows": [
+    {
+      "sid": "S0097",
+      "qid": "s2-q1",
+      "text": "用户提到他在北方联通办理了500M宽带，装机时间在周五下午，光猫押金100元，合约期两年。",
+      "v24_verdict": "unsupported"
+    },
+    {
+      "sid": "S0103",
+      "qid": "s2-q1",
+      "text": "比如，装机时间是周五下午，可能意味着他预计在那天安装，但具体时间可能由工程师安排。",
+      "v24_verdict": "unsupported"
+    },
+    {
+      "sid": "S0106",
+      "qid": "s2-q2",
+      "text": "好的，用户问装机的具体时间和日期，我回答说约在周五下午。",
+      "v24_verdict": "unsupported"
+    },
+    {
+      "sid": "S0110",
+      "qid": "s2-q2",
+      "text": "合约期两年，用户可能想知道两年后如何处理，是否需要续签，或者是否可以提前终止合约。",
+      "v24_verdict": "unsupported"
+    },
+    {
+      "sid": "S0118",
+      "qid": "s2-q3",
+      "text": "我回答说押金是100元，合约期是两年。",
+      "v24_verdict": "unsupported"
+    },
+    {
+      "sid": "S0120",
+      "qid": "s2-q3",
+      "text": "合约期两年，用户可能想知道两年后如何处理，是否需要续签，或者是否可以提前终止合约。",
+      "v24_verdict": "unsupported"
+    },
+    {
+      "sid": "S0122",
+      "qid": "s2-q3",
+      "text": "同时，合约期两年意味着用户需要在这两年内继续使用服务，如果提前终止可能需要支付违约金或其他费用。",
+      "v24_verdict": "unsupported"
+    },
+    {
+      "sid": "S0143",
+      "qid": "s3-q1",
+      "text": "这场演唱会是回声乐队的，演出时间是周六晚 8 点。",
+      "v24_verdict": "unsupported"
+    },
+    {
+      "sid": "S0147",
+      "qid": "s3-q1",
+      "text": "答：这场演唱会是回声乐队的，演出时间是周六晚 8 点。",
+      "v24_verdict": "unsupported"
+    },
+    {
+      "sid": "S0148",
+      "qid": "s3-q2",
+      "text": "您的座位在内场 B 区，第13排第7号。",
+      "v24_verdict": "unsupported"
+    }
+  ],
+  "failure_mechanism": {
+    "leak_rows_all_same_reason": true,
+    "reason": "no_a_component",
+    "all_v23_no_fact": true,
+    "all_v24_undecidable": true,
+    "n": 14,
+    "of_leak": 14,
+    "share": 1.0,
+    "v24_maps_them_to": "undecidable",
+    "capability_boundary": "v2.4 只把“判不了”显式标为 undecidable，并没有新增任何编造检测能力；漏判分子仍包含它们，故 14/35 持平。"
+  },
+  "three_way_agreement": {
+    "n": 361,
+    "total": 510,
+    "rate": 0.7078,
+    "threshold": 0.8,
+    "literal_pass": false,
+    "prereg_defect": "该条目本意应校验『标注可靠性』，但写成『三方标签一致率』会把被判对象的准确率算进来：任何漏判率>30%的被判对象都会因此被误判为『未接上』。真实标注可靠性指标 = ADJ–REVIEW 一致率 98.04%（达标）。记为 prereg_defect_three_way_metric=true；不据此改判为未接上，也不据此放松实质结论。"
+  },
+  "inter_labeler_agreement": {
+    "agree": 500,
+    "n": 510,
+    "rate": 0.9804,
+    "threshold": 0.8,
+    "pass": true
+  },
+  "dataset_scope_note": "510 句为 40 题答案的非空段；其中 no_fact 385 句为推理/元叙述（greedy 长生成特性），fabricated 35 句集中在 4 个场景的诱导题。不得据此外推『模型 40% 会编造』。",
+  "no_accuracy_or_f1": true,
+  "no_inputs_modified": true
+}

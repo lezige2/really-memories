@@ -1,0 +1,31 @@
+--- kvmem/m2_visibility/m5/m5_ground_v2_3.py	2026-10-26 13:40:07.575848800 +0800
++++ kvmem/m2_visibility/m5/m5_ground_v2_4.py	2026-10-26 15:08:13.704412600 +0800
+@@ -370,7 +370,7 @@
+     elif conflicts:
+         verdict, reason = "unsupported", "polarity_conflict"
+     elif not components:
+-        verdict, reason = "no_fact", "no_a_component"
++        verdict, reason = "undecidable", "no_a_component"
+     elif uncovered:
+         verdict, reason = "unsupported", "uncovered_component"
+     else:
+@@ -630,8 +630,8 @@
+         {"verdict": st["verdict"], "components": [c["text"] for c in st["components"]],
+          "extraction_fp": st["extraction_fp"]})
+ 
+-    # branch5 structural gap
+-    gap = analyze_answer("我只喝美式咖啡，不加糖。", SOURCE_TEXTS)
++    # branch5 structural gap (question-only answer; no-A assertive sentences are now undecidable)
++    gap = analyze_answer("我只喝美式咖啡，不加糖？", SOURCE_TEXTS)
+     add("branch5_structural_gap", gap["verdict"] == "unsupported"
+         and gap["branch"] == "5a_2gram_negative"
+         and len(gap["branch5_structural_gap"]) == 1,
+@@ -647,7 +647,7 @@
+     add("order_truncated_before_polarity", tc["verdict"] == "undecidable",
+         {"verdict": tc["verdict"], "reason": tc["reason"], "truncated_cut": tc["truncated_cut"]})
+     nf = analyze_sentence("嗯，可能吧。", 0, facts)
+-    add("order_no_fact", nf["verdict"] == "no_fact", {"verdict": nf["verdict"]})
++    add("order_no_fact", nf["verdict"] == "undecidable", {"verdict": nf["verdict"]})
+ 
+     # known_fp
+     kf = known_fp_controls()
