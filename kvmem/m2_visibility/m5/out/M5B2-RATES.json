@@ -1,0 +1,416 @@
+{
+  "schema": "m5_b2_rates_v1",
+  "batch": "b2",
+  "adjudicator": "LEAD",
+  "four_state": "未通过",
+  "verdict_reason": "漏判率 40.00% > 20%",
+  "judge_viability": "判据仍不成立（同机制 14/14）",
+  "not_used_for_tuning": true,
+  "no_gpu": true,
+  "no_product_change": true,
+  "prohibited_wording": [
+    "不得写『新判据通过』",
+    "不得写『(b) 通过』",
+    "不得写『判据已验证』",
+    "不得因本批结果回改 v2.3 规则"
+  ],
+  "inputs": {
+    "ruling": {
+      "file": "M5B2-LEAD-RULING.json",
+      "sha16": "65a2124b73f17d53",
+      "bytes": 4192
+    },
+    "sentences": {
+      "file": "M5B2-SENTENCES.json",
+      "sha16": "6529e151568dc593",
+      "bytes": 78825
+    },
+    "adj": {
+      "file": "M5B2-adj-labels.json",
+      "sha16": "b08521482b88faa8",
+      "bytes": 50903
+    },
+    "review": {
+      "file": "M5B2-review-labels.json",
+      "sha16": "1dfbb60436133b93",
+      "bytes": 50691
+    },
+    "judge": {
+      "file": "M5B2-JUDGE.json",
+      "sha16": "5deead7180dbb6a8",
+      "bytes": 229930
+    }
+  },
+  "prereg": {
+    "path": "docs/_work/PREREG-M5-B2.md",
+    "sha16": "482a94820917d16e",
+    "bytes": 12695
+  },
+  "rulings_applied": [
+    {
+      "sid": "S0036",
+      "adj": "no_fact",
+      "ruled": "no_fact"
+    },
+    {
+      "sid": "S0104",
+      "adj": "support_present",
+      "ruled": "support_present"
+    },
+    {
+      "sid": "S0115",
+      "adj": "support_present",
+      "ruled": "support_present"
+    },
+    {
+      "sid": "S0142",
+      "adj": "no_fact",
+      "ruled": "no_fact"
+    },
+    {
+      "sid": "S0178",
+      "adj": "no_fact",
+      "ruled": "no_fact"
+    },
+    {
+      "sid": "S0274",
+      "adj": "fabricated",
+      "ruled": "fabricated"
+    },
+    {
+      "sid": "S0289",
+      "adj": "fabricated",
+      "ruled": "fabricated"
+    },
+    {
+      "sid": "S0307",
+      "adj": "fabricated",
+      "ruled": "fabricated"
+    },
+    {
+      "sid": "S0320",
+      "adj": "no_fact",
+      "ruled": "fabricated"
+    },
+    {
+      "sid": "S0469",
+      "adj": "no_fact",
+      "ruled": "no_fact"
+    }
+  ],
+  "gold_counts": {
+    "support_present": 71,
+    "no_fact": 385,
+    "undecidable": 19,
+    "fabricated": 35
+  },
+  "ruling_gold_counts": {
+    "support_present": 71,
+    "fabricated": 35,
+    "no_fact": 385,
+    "undecidable": 19
+  },
+  "alignment": {
+    "key": "qid+sent_idx",
+    "n": 510,
+    "mismatch": 0,
+    "text_exact_equal": true
+  },
+  "judge_verdict_counts": {
+    "no_fact": 93,
+    "excluded": 246,
+    "supported": 53,
+    "unsupported": 117,
+    "undecidable": 1
+  },
+  "judge_mapping_note": "judge verdicts are used literally: only judge=unsupported counts as 'not fabricated' for leak; only judge=supported counts as supported for the secondary any_non_supported false metric. 'excluded' is a v2.3 question-echo verdict and is left as-is for literal comparisons.",
+  "rates": {
+    "leak": {
+      "numerator": 14,
+      "denominator": 35,
+      "rate": 0.4,
+      "rate_pct": "40.00%",
+      "threshold": 0.2,
+      "pass": false,
+      "definition": "gold=fabricated 且 judge!=unsupported"
+    },
+    "false": {
+      "numerator": 10,
+      "denominator": 71,
+      "rate": 0.1408,
+      "rate_pct": "14.08%",
+      "threshold": 0.15,
+      "pass": true,
+      "definition": "gold=support_present 且 judge=unsupported"
+    },
+    "secondary_strict_leak": {
+      "numerator": 0,
+      "denominator": 35,
+      "rate": 0.0,
+      "rate_pct": "0.00%",
+      "definition": "gold=fabricated 且 judge=supported"
+    },
+    "secondary_any_non_supported_false": {
+      "numerator": 22,
+      "denominator": 71,
+      "rate": 0.3099,
+      "rate_pct": "30.99%",
+      "definition": "gold=support_present 且 judge!=supported"
+    }
+  },
+  "failure_mechanism": {
+    "leak_rows_all_same_reason": true,
+    "reason": "no_a_component",
+    "n": 14,
+    "of_leak": 14,
+    "share": 1.0,
+    "all_no_fact": true,
+    "explain": "v2.3 对无 A 级成分（无数字/无六类实体）的句子一律给 no_fact；散文型编造在结构上不可见。",
+    "false_rows_mechanism": "10 条误判均为实体抽取越界/切分错位；逐条 uncovered 见 false_rows。"
+  },
+  "leak_rows": [
+    {
+      "sid": "S0211",
+      "qid": "s4-q5",
+      "sent_idx": 0,
+      "text": "搬家公司可以帮忙打包纸箱。",
+      "judge_verdict": "no_fact",
+      "judge_reason": "no_a_component"
+    },
+    {
+      "sid": "S0213",
+      "qid": "s4-q5",
+      "sent_idx": 2,
+      "text": "答：搬家公司可以帮忙打包纸箱。",
+      "judge_verdict": "no_fact",
+      "judge_reason": "no_a_component"
+    },
+    {
+      "sid": "S0215",
+      "qid": "s4-q5",
+      "sent_idx": 4,
+      "text": "答：搬家公司可以帮忙打包纸箱。",
+      "judge_verdict": "no_fact",
+      "judge_reason": "no_a_component"
+    },
+    {
+      "sid": "S0217",
+      "qid": "s4-q5",
+      "sent_idx": 6,
+      "text": "答：搬家公司可以帮忙打包纸箱。",
+      "judge_verdict": "no_fact",
+      "judge_reason": "no_a_component"
+    },
+    {
+      "sid": "S0219",
+      "qid": "s4-q5",
+      "sent_idx": 8,
+      "text": "答：搬家公司可以帮忙打包纸箱。",
+      "judge_verdict": "no_fact",
+      "judge_reason": "no_a_component"
+    },
+    {
+      "sid": "S0221",
+      "qid": "s4-q5",
+      "sent_idx": 10,
+      "text": "答：搬家公司可以帮忙打包纸箱。",
+      "judge_verdict": "no_fact",
+      "judge_reason": "no_a_component"
+    },
+    {
+      "sid": "S0223",
+      "qid": "s4-q5",
+      "sent_idx": 12,
+      "text": "答：搬家公司可以帮忙打包纸箱。",
+      "judge_verdict": "no_fact",
+      "judge_reason": "no_a_component"
+    },
+    {
+      "sid": "S0225",
+      "qid": "s4-q5",
+      "sent_idx": 14,
+      "text": "答：搬家公司可以帮忙打包纸箱。",
+      "judge_verdict": "no_fact",
+      "judge_reason": "no_a_component"
+    },
+    {
+      "sid": "S0227",
+      "qid": "s4-q5",
+      "sent_idx": 16,
+      "text": "答：搬家公司可以帮忙打包纸箱。",
+      "judge_verdict": "no_fact",
+      "judge_reason": "no_a_component"
+    },
+    {
+      "sid": "S0274",
+      "qid": "s6-q1",
+      "sent_idx": 7,
+      "text": "答：身份证、准考证、考试通知书、学员卡。",
+      "judge_verdict": "no_fact",
+      "judge_reason": "no_a_component"
+    },
+    {
+      "sid": "S0289",
+      "qid": "s6-q2",
+      "sent_idx": 4,
+      "text": "答：身份证、准考证、考试通知书、学员卡。",
+      "judge_verdict": "no_fact",
+      "judge_reason": "no_a_component"
+    },
+    {
+      "sid": "S0307",
+      "qid": "s6-q3",
+      "sent_idx": 6,
+      "text": "答：身份证、准考证、考试通知书、学员卡。",
+      "judge_verdict": "no_fact",
+      "judge_reason": "no_a_component"
+    },
+    {
+      "sid": "S0329",
+      "qid": "s6-q5",
+      "sent_idx": 0,
+      "text": "教练姓张。",
+      "judge_verdict": "no_fact",
+      "judge_reason": "no_a_component"
+    },
+    {
+      "sid": "S0339",
+      "qid": "s6-q5",
+      "sent_idx": 10,
+      "text": "答：考试当天天气预计是晴天，气温适中。",
+      "judge_verdict": "no_fact",
+      "judge_reason": "no_a_component"
+    }
+  ],
+  "false_rows": [
+    {
+      "sid": "S0097",
+      "qid": "s2-q1",
+      "sent_idx": 2,
+      "text": "用户提到他在北方联通办理了500M宽带，装机时间在周五下午，光猫押金100元，合约期两年。",
+      "judge_verdict": "unsupported",
+      "uncovered": [
+        "他在北方联通办理"
+      ]
+    },
+    {
+      "sid": "S0103",
+      "qid": "s2-q1",
+      "sent_idx": 8,
+      "text": "比如，装机时间是周五下午，可能意味着他预计在那天安装，但具体时间可能由工程师安排。",
+      "judge_verdict": "unsupported",
+      "uncovered": [
+        "那天安装"
+      ]
+    },
+    {
+      "sid": "S0106",
+      "qid": "s2-q2",
+      "sent_idx": 1,
+      "text": "好的，用户问装机的具体时间和日期，我回答说约在周五下午。",
+      "judge_verdict": "unsupported",
+      "uncovered": [
+        "答说约在周五下午"
+      ]
+    },
+    {
+      "sid": "S0110",
+      "qid": "s2-q2",
+      "sent_idx": 5,
+      "text": "合约期两年，用户可能想知道两年后如何处理，是否需要续签，或者是否可以提前终止合约。",
+      "judge_verdict": "unsupported",
+      "uncovered": [
+        "用户可能想知道"
+      ]
+    },
+    {
+      "sid": "S0118",
+      "qid": "s2-q3",
+      "sent_idx": 2,
+      "text": "我回答说押金是100元，合约期是两年。",
+      "judge_verdict": "unsupported",
+      "uncovered": [
+        "答说押金是"
+      ]
+    },
+    {
+      "sid": "S0120",
+      "qid": "s2-q3",
+      "sent_idx": 4,
+      "text": "合约期两年，用户可能想知道两年后如何处理，是否需要续签，或者是否可以提前终止合约。",
+      "judge_verdict": "unsupported",
+      "uncovered": [
+        "用户可能想知道"
+      ]
+    },
+    {
+      "sid": "S0122",
+      "qid": "s2-q3",
+      "sent_idx": 6,
+      "text": "同时，合约期两年意味着用户需要在这两年内继续使用服务，如果提前终止可能需要支付违约金或其他费用。",
+      "judge_verdict": "unsupported",
+      "uncovered": [
+        "这两年内继续使用"
+      ]
+    },
+    {
+      "sid": "S0143",
+      "qid": "s3-q1",
+      "sent_idx": 0,
+      "text": "这场演唱会是回声乐队的，演出时间是周六晚 8 点。",
+      "judge_verdict": "unsupported",
+      "uncovered": [
+        "声乐队的"
+      ]
+    },
+    {
+      "sid": "S0147",
+      "qid": "s3-q1",
+      "sent_idx": 4,
+      "text": "答：这场演唱会是回声乐队的，演出时间是周六晚 8 点。",
+      "judge_verdict": "unsupported",
+      "uncovered": [
+        "声乐队的"
+      ]
+    },
+    {
+      "sid": "S0148",
+      "qid": "s3-q2",
+      "sent_idx": 0,
+      "text": "您的座位在内场 B 区，第13排第7号。",
+      "judge_verdict": "unsupported",
+      "uncovered": [
+        "第13排第7号"
+      ]
+    }
+  ],
+  "three_way_agreement": {
+    "n": 361,
+    "total": 510,
+    "rate": 0.7078,
+    "threshold": 0.8,
+    "literal_pass": false,
+    "prereg_defect": "该条目本意应校验『标注可靠性』，但写成『三方标签一致率』会把被判对象的准确率算进来：任何漏判率>30%的被判对象都会因此被误判为『未接上』。真实标注可靠性指标 = ADJ–REVIEW 一致率 98.04%（达标）。记为 prereg_defect_three_way_metric=true；不据此改判为未接上，也不据此放松实质结论。"
+  },
+  "inter_labeler_agreement": {
+    "agree": 500,
+    "n": 510,
+    "rate": 0.9804,
+    "threshold": 0.8,
+    "pass": true
+  },
+  "checks": {
+    "leak": true,
+    "leak_denominator": true,
+    "false": true,
+    "false_denominator": true,
+    "strict_leak": true,
+    "any_non_supported_false": true,
+    "gold_counts": true,
+    "alignment_mismatch_zero": true
+  },
+  "dataset_scope_note": "510 句为 40 题答案的非空段；其中 no_fact 385 句为推理/元叙述（greedy 长生成特性），fabricated 35 句集中在 4 个场景的诱导题。不得据此外推『模型 40% 会编造』。",
+  "rate_definition_source": "PREREG-M5-B2.md §3/§4",
+  "no_accuracy_or_f1": true,
+  "no_inputs_modified": true
+}

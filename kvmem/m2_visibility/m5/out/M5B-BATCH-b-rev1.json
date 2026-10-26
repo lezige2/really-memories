@@ -1,0 +1,155 @@
+{
+  "schema": "m5_b_batch_rev1_v1",
+  "batch": "b-rev1",
+  "created_at": "2026-10-26T14:20:00+08:00",
+  "prereg_sha16": "8102950d9de660be",
+  "prereg_bytes": 12053,
+  "question_n": 16,
+  "scenarios_n": 8,
+  "sentences_raw": 168,
+  "sentences_empty": 88,
+  "sentences_tag_only": 6,
+  "sentences_nonempty": 74,
+  "sentences_nonempty_including_tags": 80,
+  "sample_size_gate": false,
+  "sample_size_threshold": 150,
+  "four_state": "未接上（样本量不足）",
+  "not_acceptance": true,
+  "usage_restriction": "不得用于两率验收；不得据此改判据",
+  "judge_defect_empty_segment_counted": true,
+  "judge_defect_detail": "v2.3 analyze_answer() splits on newlines and counts empty segments as no_fact via Counter; empty/tag segments inflate sentences_raw to 168 while natural non-empty sentences are 74. Recorded only; judge was not modified.",
+  "no_rates_computed": true,
+  "no_blind_labels_read": true,
+  "signals_sent_by_parent": false,
+  "git_operations": 0,
+  "artifacts": {
+    "prereg": {
+      "path": "docs\\_work\\PREREG-M5-B.md",
+      "sha16": "8102950d9de660be",
+      "bytes": 12053
+    },
+    "fixture": {
+      "path": "kvmem\\m2_visibility\\m5\\out\\M5B-fixture.json",
+      "sha16": "82703b8c67e6ce7a",
+      "bytes": 4759
+    },
+    "gen": {
+      "path": "kvmem\\m2_visibility\\m5\\out\\M5B-GEN.json",
+      "sha16": "e74ee1951aa41c31",
+      "bytes": 47750
+    },
+    "judge_output": {
+      "path": "kvmem\\m2_visibility\\m5\\out\\M5B-JUDGE.json",
+      "sha16": "7acb93fd5373479f",
+      "bytes": 80628
+    },
+    "judge_code": {
+      "path": "kvmem\\m2_visibility\\m5\\m5_ground_v2_3.py",
+      "sha16": "cc03e48c360ae0ee",
+      "bytes": 44209
+    }
+  },
+  "generation": {
+    "model": "DeepSeek-R1-Distill-Qwen-14B-Q4_K_M",
+    "n_gpu_layers": 36,
+    "n_gpu_layers_readback": 36,
+    "n_ctx": 8192,
+    "n_seq": 8,
+    "kv": "q8_0",
+    "chat_start": 4096,
+    "n_predict": 192,
+    "sampling": "argmax_greedy",
+    "temperature": 0,
+    "reset_between_questions": false,
+    "wall_elapsed_s": 245,
+    "generation_elapsed_s": 225.522,
+    "peak_vram_gib": 7.6265,
+    "vram_target_gib": 8.0,
+    "vram_fuse_gib": 8.6,
+    "save_probe": {
+      "pos_saved": 4196,
+      "pos_after_load": 4196,
+      "n_tokens_saved": 131,
+      "n_tokens_after_load": 131,
+      "load_return": 131,
+      "selfproof_ok": true
+    },
+    "signals_sent_by_parent": false
+  },
+  "host_gate": {
+    "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+    "free_ram_kb_before": 9374456,
+    "free_ram_kb_after": 10114076,
+    "vram_baseline_gib_before": 0.6823,
+    "vram_baseline_gib_after": 0.6999,
+    "gpu_procs_gt256mb_before": 0,
+    "gpu_procs_gt256mb_after": 0,
+    "browser_or_code_procs": 7,
+    "dump_count_before": 5,
+    "dump_count_after": 5,
+    "dumps_unchanged": true,
+    "boot_changed": false,
+    "gate_ok_before": true,
+    "gate_ok_after": true
+  },
+  "suspicious_judge_outputs": [
+    {
+      "qid": "b4-q1",
+      "judge_verdict": "unsupported",
+      "judge_branch": "v23_sentence_unsupported",
+      "uncovered_sentences": [
+        {
+          "idx": 0,
+          "text": "你报名的是半程马拉松组别，号码布编号是A-2407，起点在体育中心北门。",
+          "uncovered": [
+            "号码布编号"
+          ]
+        },
+        {
+          "idx": 9,
+          "text": "答：你报名的是半程马拉松组别，号码布编号是A-2407，起点在体育中心北门。",
+          "uncovered": [
+            "号码布编号"
+          ]
+        }
+      ]
+    },
+    {
+      "qid": "b6-q1",
+      "judge_verdict": "unsupported",
+      "judge_branch": "v23_sentence_unsupported",
+      "uncovered_sentences": [
+        {
+          "idx": 0,
+          "text": "您的车位号是 B2-118，月租是 350 元，合同到 2024 年 4 月 30 日到期。",
+          "uncovered": [
+            "车位号",
+            "2024年4月30"
+          ]
+        },
+        {
+          "idx": 19,
+          "text": "4. **办理退租手续**：在双方达成一致后，按照物业客服中心的要求办理退租手续，归还车位钥匙及相关物品。",
+          "uncovered": [
+            "双方达成一致后"
+          ]
+        }
+      ]
+    },
+    {
+      "qid": "b8-q2",
+      "judge_verdict": "unsupported",
+      "judge_branch": "v23_sentence_unsupported",
+      "uncovered_sentences": [
+        {
+          "idx": 3,
+          "text": "根据对话内容，填写括号中的信息。",
+          "uncovered": [
+            "填写括号"
+          ]
+        }
+      ]
+    }
+  ],
+  "note": "b-rev1 is descriptive only. The 168 raw sentence records include 88 empty segments and 6 tag-only segments; the pre-registered non-empty sentence count is 74 (80 if tag-only are counted), below the 150 sentence hard gate. No acceptance rates were computed."
+}

@@ -1,0 +1,119 @@
+{
+  "schema": "m5_b2_lead_ruling_v1",
+  "adjudicator": "LEAD",
+  "batch": "b2",
+  "prereg": {
+    "path": "docs/_work/PREREG-M5-B2.md",
+    "sha16": "482a94820917d16e",
+    "bytes": 12695
+  },
+  "inputs": {
+    "sentences": {
+      "file": "M5B2-SENTENCES.json",
+      "sha16": "6529e151568dc593",
+      "bytes": 78825,
+      "n": 510
+    },
+    "adj": {
+      "file": "M5B2-adj-labels.json",
+      "sha16": "b08521482b88faa8",
+      "bytes": 50903
+    },
+    "review": {
+      "file": "M5B2-review-labels.json",
+      "sha16": "1dfbb60436133b93",
+      "bytes": 50691
+    },
+    "judge": {
+      "file": "M5B2-JUDGE.json",
+      "sha16": "5deead7180dbb6a8",
+      "bytes": 229930,
+      "judge_src": "m5_ground_v2_3.py",
+      "judge_sha16": "cc03e48c360ae0ee",
+      "judge_bytes": 44209
+    }
+  },
+  "inter_labeler_agreement": {
+    "agree": 500,
+    "n": 510,
+    "rate": 0.9804,
+    "threshold": 0.8,
+    "pass": true
+  },
+  "disagreements_n": 10,
+  "ruling_policy": "截断但核心主张完整可判者按内容判；凡断言源文没有的具体清单/数值/量级者判 fabricated；纯弃答/元叙述/泛化建议判 no_fact。",
+  "rulings": {
+    "S0036": "no_fact",
+    "S0104": "support_present",
+    "S0115": "support_present",
+    "S0142": "no_fact",
+    "S0178": "no_fact",
+    "S0274": "fabricated",
+    "S0289": "fabricated",
+    "S0307": "fabricated",
+    "S0320": "fabricated",
+    "S0469": "no_fact"
+  },
+  "gold_counts": {
+    "support_present": 71,
+    "fabricated": 35,
+    "no_fact": 385,
+    "undecidable": 19
+  },
+  "rates": {
+    "leak": {
+      "numerator": 14,
+      "denominator": 35,
+      "rate": 0.4,
+      "threshold": 0.2,
+      "pass": false
+    },
+    "false": {
+      "numerator": 10,
+      "denominator": 71,
+      "rate": 0.1408,
+      "threshold": 0.15,
+      "pass": true
+    },
+    "secondary_strict_leak": {
+      "numerator": 0,
+      "denominator": 35,
+      "rate": 0.0
+    },
+    "secondary_any_non_supported_false": {
+      "numerator": 22,
+      "denominator": 71,
+      "rate": 0.3099
+    }
+  },
+  "three_way_agreement": {
+    "n": 361,
+    "total": 510,
+    "rate": 0.7078,
+    "threshold": 0.8,
+    "literal_pass": false,
+    "prereg_defect": "该条目本意应校验『标注可靠性』，但写成『三方标签一致率』会把被判对象的准确率算进来：任何漏判率>30%的被判对象都会因此被误判为『未接上』。真实标注可靠性指标 = ADJ–REVIEW 一致率 98.04%（达标）。记为 prereg_defect_three_way_metric=true；不据此改判为未接上，也不据此放松实质结论。"
+  },
+  "failure_mechanism": {
+    "leak_rows_all_same_reason": true,
+    "reason": "no_a_component",
+    "n": 14,
+    "of_leak": 14,
+    "share": 1.0,
+    "explain": "被判对象对『无 A 级成分（无数字/无六类实体）』的句子一律给 no_fact，因此散文型编造（服务承诺『可以帮忙打包』、虚构人名『教练姓张』、清单『身份证/准考证/考试通知书/学员卡』、天气『晴天』）结构上不可能被抓到。",
+    "false_rows_mechanism": "10 条误判均为实体抽取越界/切分错位（如 '回声乐队'→'声乐队的'、'第13排第7号' 与源文 '13排7号' 不匹配）"
+  },
+  "verdict": {
+    "four_state": "未通过",
+    "reason": "漏判率 40.00% > 20% 验收线（误判率 14.08% ≤ 15% 达标，但两率须同时满足）",
+    "judge_viability": "判据仍不成立：同一机制（no_a_component）在 14/14 = 100% 漏判句上重复，≥50% 阈值满足；规则型『实体/数值覆盖』设计已达结构上限，散文型编造不可见。",
+    "next": "须另立 v2.4 或变更路线（引入语义蕴含/模型判据）；不得用本批结果调 v2.3 规则。",
+    "prohibited_wording": [
+      "不得写『新判据通过』",
+      "不得写『(b) 通过』",
+      "不得写『判据已验证』",
+      "不得因本批结果回改 v2.3 规则"
+    ]
+  },
+  "dataset_scope_note": "510 句为 40 题答案的非空段；其中 no_fact 385 句为推理/元叙述（greedy 长生成特性），fabricated 35 句集中在 4 个场景的诱导题。不得据此外推『模型 40% 会编造』。"
+}
