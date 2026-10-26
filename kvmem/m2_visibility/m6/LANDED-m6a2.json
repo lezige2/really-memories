@@ -1,0 +1,193 @@
+{
+ "schema": "landed_m6a2_v1",
+ "task": "M6a-2 I1/I3/I4 可达性实测 + stub 红证（纯 Python 转写级，非引擎级；零 GPU）",
+ "at": "2026-10-26T07:46:13",
+ "executor": "executor",
+ "new_or_changed": [
+  {
+   "path": "kvmem/m2_visibility/m6/probe_i1_negative_delta.py",
+   "sha16": "d88bfa4321925111",
+   "bytes": 6007
+  },
+  {
+   "path": "kvmem/m2_visibility/m6/probe_i3_pending_shift.py",
+   "sha16": "b55fca99fbf6b620",
+   "bytes": 6373
+  },
+  {
+   "path": "kvmem/m2_visibility/m6/probe_i4_nrot_pow2.py",
+   "sha16": "aca71ee361ac1e35",
+   "bytes": 4041
+  },
+  {
+   "path": "kvmem/m2_visibility/m6/out/_m6a2_probe_i1_negative_delta.json",
+   "sha16": "529e05aebfe68cf6",
+   "bytes": 3721
+  },
+  {
+   "path": "kvmem/m2_visibility/m6/out/_m6a2_probe_i3_pending_shift.json",
+   "sha16": "2163d253646cf0ca",
+   "bytes": 4396
+  },
+  {
+   "path": "kvmem/m2_visibility/m6/out/_m6a2_probe_i4_nrot_pow2.json",
+   "sha16": "42e04d804f0102d0",
+   "bytes": 1950
+  },
+  {
+   "path": "kvmem/m2_visibility/m6/out/M6A2-REACHABILITY.json",
+   "sha16": "d89e5dab5ede0024",
+   "bytes": 60176,
+   "note": "audit correction update"
+  }
+ ],
+ "unchanged": [
+  {
+   "path": "tools/chat.py",
+   "sha16": "22081c411c64fbe7",
+   "bytes": 75310
+  },
+  {
+   "path": "tools/session_state.py",
+   "sha16": "ea021bb28168ebf2",
+   "bytes": 20463
+  },
+  {
+   "path": "tools/kvslots.py",
+   "sha16": "a5c06b1939a418f2",
+   "bytes": 25933
+  },
+  {
+   "path": "tools/kvshim.cpp",
+   "sha16": "bf8e26e7490c4fd2",
+   "bytes": 24827
+  },
+  {
+   "path": "tools/kvshim_vk.dll",
+   "sha16": "9edbafa150700614",
+   "bytes": 50007552
+  },
+  {
+   "path": "llama.cpp/src/llama-kv-cache.cpp",
+   "sha16": "c0b1fd4a1193384e",
+   "bytes": 122738
+  },
+  {
+   "path": "llama.cpp/src/llama-kv-cells.h",
+   "sha16": "f2b2d09a3669f59d",
+   "bytes": 15893
+  },
+  {
+   "path": "kvmem/m2_visibility/m3/m3_lease.py",
+   "sha16": "6298a838f87b074f",
+   "bytes": 15187
+  },
+  {
+   "path": "kvmem/m2_visibility/m6/out/M6A-REACHABILITY.json",
+   "sha16": "76eb3f56061ce35c",
+   "bytes": 40850
+  }
+ ],
+ "engine_dll": {
+  "path": "tools/kvshim_vk.dll",
+  "sha16": "9edbafa150700614",
+  "bytes": 50007552,
+  "unchanged": true
+ },
+ "model_loaded": false,
+ "gpu_used": false,
+ "git_touched": false,
+ "artifacts": {
+  "reachability": {
+   "path": "kvmem/m2_visibility/m6/out/M6A2-REACHABILITY.json",
+   "sha16": "d89e5dab5ede0024",
+   "bytes": 60176
+  }
+ },
+ "red_proofs": {
+  "I1": {
+   "path": "kvmem/m2_visibility/m6/out/_m6a2_probe_i1_negative_delta.json",
+   "sha16": "529e05aebfe68cf6",
+   "bytes": 3721,
+   "evidence_level": "E-stub",
+   "not_engine_red_proof": true
+  },
+  "I3": {
+   "path": "kvmem/m2_visibility/m6/out/_m6a2_probe_i3_pending_shift.json",
+   "sha16": "2163d253646cf0ca",
+   "bytes": 4396,
+   "evidence_level": "E-stub",
+   "not_engine_red_proof": true
+  },
+  "I4": {
+   "path": "kvmem/m2_visibility/m6/out/_m6a2_probe_i4_nrot_pow2.json",
+   "sha16": "42e04d804f0102d0",
+   "bytes": 1950,
+   "evidence_level": "E-stub",
+   "not_engine_red_proof": true
+  }
+ },
+ "verdicts": {
+  "I1": "未接上（不满足触发条件，写明条件）",
+  "I3": "未接上（不满足触发条件，写明条件）",
+  "I4": "未接上（Qwen 14B n_rot=128=2^7，不触发）"
+ },
+ "product_reachable": [],
+ "no_self_sha": true,
+ "evidence_level": "E-stub",
+ "not_engine_red_proof": true,
+ "correction_note": "审计后修正：本次只补 E-stub 证据等级与 I1 调用面范围；三条判定未变（仍 未接上、product_reachable=[]）。",
+ "files": [
+  {
+   "path": "kvmem/m2_visibility/m6/probe_i1_negative_delta.py",
+   "sha16": "d88bfa4321925111",
+   "bytes": 6007
+  },
+  {
+   "path": "kvmem/m2_visibility/m6/probe_i3_pending_shift.py",
+   "sha16": "b55fca99fbf6b620",
+   "bytes": 6373
+  },
+  {
+   "path": "kvmem/m2_visibility/m6/probe_i4_nrot_pow2.py",
+   "sha16": "aca71ee361ac1e35",
+   "bytes": 4041
+  },
+  {
+   "path": "kvmem/m2_visibility/m6/out/_m6a2_probe_i1_negative_delta.json",
+   "sha16": "529e05aebfe68cf6",
+   "bytes": 3721
+  },
+  {
+   "path": "kvmem/m2_visibility/m6/out/_m6a2_probe_i3_pending_shift.json",
+   "sha16": "2163d253646cf0ca",
+   "bytes": 4396
+  },
+  {
+   "path": "kvmem/m2_visibility/m6/out/_m6a2_probe_i4_nrot_pow2.json",
+   "sha16": "42e04d804f0102d0",
+   "bytes": 1950
+  },
+  {
+   "path": "kvmem/m2_visibility/m6/out/M6A2-REACHABILITY.json",
+   "sha16": "d89e5dab5ede0024",
+   "bytes": 60176,
+   "note": "audit correction update"
+  }
+ ],
+ "red_proofs_note": "stub 红证（纯 Python 转写级，非引擎级）；red_proofs 键保留旧名，但每条已标 E-stub/not_engine_red_proof。",
+ "corrections": [
+  {
+   "id": "C1-E-stub",
+   "field": "M6A2-REACHABILITY.json / LANDED-m6a2.json",
+   "old_sha16": "a1376e312815819b",
+   "new_sha16": "d89e5dab5ede0024",
+   "corrected_artifact": "kvmem/m2_visibility/m6/out/M6A2-REACHABILITY.json",
+   "reason": "B1: 未限定证据等级；B2: I1 68 是过滤后清单（raw grep 186）。只补元数据，不重跑探针、不改判定。",
+   "inspector_audit_sha16": "3338d3de9d4a12df",
+   "verdicts_unchanged": true,
+   "product_reachable_unchanged": true,
+   "landed_old_sha16": "ea51a7e768693c77"
+  }
+ ]
+}

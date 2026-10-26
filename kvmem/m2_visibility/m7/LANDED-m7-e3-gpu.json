@@ -1,0 +1,389 @@
+{
+ "schema": "landed_m7_e3_gpu_v1",
+ "task": "M7 E3-GPU (a) 无 kill 子臂 14B Vulkan 36 层",
+ "at": "2026-10-26T08:24:35+0800",
+ "executor": "executor",
+ "scope": "只覆盖无 kill 子臂，不得借用 CPU 臂结论",
+ "kill_arm": "未做（主机不安全）",
+ "freeze": {
+  "prereg_sha16": "e75a425b7ef15201",
+  "prereg_bytes": 8833,
+  "expected_prereg_sha16": "e75a425b7ef15201",
+  "prereg_self_sha16_rule": "d7f71236038527db"
+ },
+ "device": {
+  "qualified": true,
+  "vulkan_imported": true,
+  "n_gpu_layers_readback": 36,
+  "offloaded_log_line": "offloaded 36/49 layers to GPU",
+  "s1_offloaded_log_excerpt": "offloaded 36/49 layers to GPU",
+  "vram_peak_gib_max": 7.3878,
+  "dll": {
+   "path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+   "sha16": "9edbafa150700614",
+   "bytes": 50007552
+  },
+  "model": {
+   "path": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+   "bytes": 8988110240
+  },
+  "boot_id_before": "2026-10-26T03:24:52.5000000+08:00",
+  "boot_id_after": "2026-10-26T03:24:52.5000000+08:00",
+  "voided_by_reboot": false,
+  "minidump_new": false,
+  "host_check_source": "M7-E3-GPU.json#host_check"
+ },
+ "device_prep": {
+  "action": "close_browsers",
+  "authorized_by": "user (ask_user_question option B)",
+  "method": "CloseMainWindow→Stop-Process(msedge only)",
+  "pids": [
+   3188,
+   4172,
+   4632,
+   5192,
+   5564,
+   6464,
+   7364,
+   8236,
+   8528,
+   9944,
+   10032,
+   10928,
+   11232,
+   11960
+  ],
+  "started_at": "2026-10-26T08:22:44+0800",
+  "finished_at": "2026-10-26T08:22:58+0800",
+  "before_count": 14,
+  "after_graceful_count": 8,
+  "after_count": 0,
+  "force_used": true,
+  "other_processes_touched": false
+ },
+ "host_safety": {
+  "bsod_incidents": 5,
+  "incidents": [
+   {
+    "seq": 1,
+    "bugcheck": "0xA"
+   },
+   {
+    "seq": 2,
+    "bugcheck": "0xA"
+   },
+   {
+    "seq": 3,
+    "bugcheck": "0x44"
+   },
+   {
+    "seq": 4,
+    "bugcheck": "0x144"
+   },
+   {
+    "seq": 5,
+    "bugcheck": "0xA"
+   }
+  ],
+  "minidump_files": [
+   {
+    "name": "102626-5187-01.dmp",
+    "bytes": 2201077,
+    "mtime": "2026-10-26T01:31:36.2997028+08:00"
+   },
+   {
+    "name": "102626-4468-01.dmp",
+    "bytes": 1994809,
+    "mtime": "2026-10-26T01:38:56.5625530+08:00"
+   },
+   {
+    "name": "102626-4593-01.dmp",
+    "bytes": 1063617,
+    "mtime": "2026-10-26T01:56:32.6758278+08:00"
+   },
+   {
+    "name": "102626-4437-01.dmp",
+    "bytes": 2062496,
+    "mtime": "2026-10-26T03:10:17.4578327+08:00"
+   },
+   {
+    "name": "102626-4671-01.dmp",
+    "bytes": 2043758,
+    "mtime": "2026-10-26T03:24:55.7693314+08:00"
+   }
+  ],
+  "minidump_count": 5,
+  "source": "今晚主机 5 次蓝屏（0xA/0xA/0x44/0x144/0xA）；Minidump 现场枚举由 host_check() 生成",
+  "policy": "无 SIGKILL；只置 stop flag；不杀 child",
+  "minidump_latest_mtime": "2026-10-26T03:24:55.7693314+08:00"
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "at": "2026-10-26T08:04:00+08:00",
+   "status": "failed",
+   "error": "ctypes.ArgumentError: argument 1: OverflowError: int too long to convert（手工 engine 未设 kvshim_seq_rm.argtypes）",
+   "artifacts": [],
+   "readings_used": false,
+   "note": "守护器自检失败；无有效产物，无失败读数进入本次最终四场景"
+  },
+  {
+   "attempt": 2,
+   "at": "2026-10-26T08:22:44+0800",
+   "status": "completed",
+   "artifacts": [
+    "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\M7-E3-GPU.json",
+    "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\LANDED-m7-e3-gpu.json"
+   ],
+   "readings_used": true,
+   "note": "本次重跑；B1–B3 修复后只使用本轮读数",
+   "finished_at": "2026-10-26T08:23:48+0800"
+  }
+ ],
+ "reproducibility": {
+  "reference": {
+   "source": "上一轮有效 M7-E3-GPU.json（old sha16=36c5bf21bcfee9c9 / 14400 B，审计 e6a58bf315680610）",
+   "chat_bytes": 19744884,
+   "chat_sha16": "6a2508d4df79fa57",
+   "n_tokens": 189,
+   "pos_max": 4284
+  },
+  "observed": {
+   "chat_bytes": 19744884,
+   "chat_sha16": "6a2508d4df79fa57",
+   "n_tokens": 189,
+   "pos_max": 4284
+  },
+  "fields": [
+   {
+    "field": "chat_bytes",
+    "reference": 19744884,
+    "observed": 19744884,
+    "status": "match"
+   },
+   {
+    "field": "chat_sha16",
+    "reference": "6a2508d4df79fa57",
+    "observed": "6a2508d4df79fa57",
+    "status": "match"
+   },
+   {
+    "field": "n_tokens",
+    "reference": 189,
+    "observed": 189,
+    "status": "match"
+   },
+   {
+    "field": "pos_max",
+    "reference": 4284,
+    "observed": 4284,
+    "status": "match"
+   }
+  ],
+  "all_match": true,
+  "conclusion_unchanged": true,
+  "note": "差异不改变四场景结构判据；本字段只记录可复现性"
+ },
+ "conclusion": {
+  "S1": "通过",
+  "S2": "通过",
+  "S3": "通过",
+  "S4": "通过",
+  "overall": "通过",
+  "kill_arm": "未做（主机不安全）",
+  "one_line": "S1/S2/S3/S4: S1=通过, S2=通过, S3=通过, S4=通过; 总体=通过; kill 子臂=未做（主机不安全）"
+ },
+ "new_or_changed": [
+  {
+   "path": "kvmem/m2_visibility/m7/out/M7-E3-GPU.json",
+   "sha16": "e6b03da6f75cb851",
+   "bytes": 30561
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out/_e3gpu_run.py",
+   "sha16": "2c166ec71921585b",
+   "bytes": 48970
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out/_e3gpu_sampler.ps1",
+   "sha16": "522b0c6020a255d3",
+   "bytes": 881
+  },
+  {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_log_S1-save.log",
+   "sha16": "71f4c7ccc0a81bb1",
+   "bytes": 508495
+  },
+  {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_log_S1-load.log",
+   "sha16": "0561baa9ce3d988b",
+   "bytes": 508547
+  },
+  {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_log_S2.log",
+   "sha16": "07a02d3d3caad699",
+   "bytes": 508444
+  },
+  {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_log_S3.log",
+   "sha16": "1961d4f766e8b62b",
+   "bytes": 508650
+  },
+  {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_log_S4.log",
+   "sha16": "ade0e9a244a862eb",
+   "bytes": 508547
+  },
+  {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_peak_S1-save.txt",
+   "sha16": "ab8f164a7a15c011",
+   "bytes": 10
+  },
+  {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_peak_S1-load.txt",
+   "sha16": "367d703d8b81266a",
+   "bytes": 10
+  },
+  {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_peak_S2.txt",
+   "sha16": "367d703d8b81266a",
+   "bytes": 10
+  },
+  {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_peak_S3.txt",
+   "sha16": "367d703d8b81266a",
+   "bytes": 10
+  },
+  {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m7\\out\\_e3gpu_peak_S4.txt",
+   "sha16": "f92aed10556e0c9d",
+   "bytes": 10
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out/tmp/e3gpu/s1.json",
+   "sha16": "f808aa433d60a400",
+   "bytes": 1197
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out/tmp/e3gpu/s1.chat.kvmem",
+   "sha16": "6a2508d4df79fa57",
+   "bytes": 19744884
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out/tmp/e3gpu/s2_tail.json",
+   "sha16": "f2aa84c1337d085a",
+   "bytes": 1202
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out/tmp/e3gpu/s2_tail.chat.kvmem",
+   "sha16": "049cc71b2e802d86",
+   "bytes": 19745908
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out/tmp/e3gpu/s3_old.json",
+   "sha16": "a6cdf14029c31069",
+   "bytes": 1177
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out/tmp/e3gpu/s3_old.chat.kvmem",
+   "sha16": "6a2508d4df79fa57",
+   "bytes": 19744884
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out/tmp/e3gpu/s4.json",
+   "sha16": "bfc92ffd9ba06e0b",
+   "bytes": 1197
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out/tmp/e3gpu/s4.chat.kvmem",
+   "sha16": "6a2508d4df79fa57",
+   "bytes": 19744884
+  }
+ ],
+ "unchanged": [
+  {
+   "path": "kvmem/m2_visibility/m7/PREREG-M7-E3-GPU.md",
+   "sha16": "e75a425b7ef15201",
+   "bytes": 8833
+  },
+  {
+   "path": "docs/_work/INSPECTOR-M7-E3GPU-AUDIT.md",
+   "sha16": "e6a58bf315680610",
+   "bytes": 9705
+  },
+  {
+   "path": "tools/kvshim_vk.dll",
+   "sha16": "9edbafa150700614",
+   "bytes": 50007552
+  },
+  {
+   "path": "tools/kvshim.dll",
+   "sha16": "3e29ae9eadc1dfc0",
+   "bytes": 8106496
+  },
+  {
+   "path": "tools/chat.py",
+   "sha16": "22081c411c64fbe7",
+   "bytes": 75310
+  },
+  {
+   "path": "tools/session_state.py",
+   "sha16": "ea021bb28168ebf2",
+   "bytes": 20463
+  },
+  {
+   "path": "tools/kvslots.py",
+   "sha16": "a5c06b1939a418f2",
+   "bytes": 25933
+  },
+  {
+   "path": "llama.cpp/src/llama-kv-cache.cpp",
+   "sha16": "c0b1fd4a1193384e",
+   "bytes": 122738
+  },
+  {
+   "path": "llama.cpp/src/llama-kv-cells.h",
+   "sha16": "f2b2d09a3669f59d",
+   "bytes": 15893
+  },
+  {
+   "path": "kvmem/m2_visibility/m7/out/_e3gpu_harness.py",
+   "sha16": "b54934707472f295",
+   "bytes": 9063
+  }
+ ],
+ "artifacts": {
+  "M7-E3-GPU.json": {
+   "path": "kvmem/m2_visibility/m7/out/M7-E3-GPU.json",
+   "sha16": "e6b03da6f75cb851",
+   "bytes": 30561
+  }
+ },
+ "corrections": [
+  {
+   "artifact": "M7-E3-GPU.json",
+   "old_sha16": "36c5bf21bcfee9c9",
+   "old_bytes": 14400,
+   "new_sha16": "e6b03da6f75cb851",
+   "new_bytes": 30561,
+   "audit_sha16": "e6a58bf315680610",
+   "audit_bytes": 9705,
+   "changes": "B1–B3 + G3/G5/G6/G7/G8；读数沿用第二轮有效重跑；无失败读数混入"
+  },
+  {
+   "artifact": "LANDED-m7-e3-gpu.json",
+   "old_sha16": "09e767fed6a2687f",
+   "old_bytes": 4662,
+   "new_sha16": "见最终回复（自指不可嵌入）",
+   "new_sha16_rule": "sha256(final LANDED bytes)[:16]；写出后自哈希，文件内无法嵌入自身最终 sha",
+   "audit_sha16": "e6a58bf315680610",
+   "audit_bytes": 9705
+  }
+ ],
+ "no_rebuild": true,
+ "git_touched": false,
+ "product_code_changed": false,
+ "parent_signals_sent": false,
+ "note": "B2 host_check 真跑并保留命令/原始输出/时间；B3 五个 child 独立 raw log；device_prep 仅关闭 msedge（用户授权 B），不计入 GPU child 信号。",
+ "no_self_sha": true
+}
