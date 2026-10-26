@@ -23,6 +23,7 @@ On restore the ranges are recomputed from `layout` and compared with `placement`
 mismatch fails closed. Storing only the render would leave us unable to tell whether the
 top block really touched the anchor, or whether a gap was papered over with a guard.
 """
+import ctypes
 import hashlib
 import json
 import os
@@ -36,6 +37,37 @@ import memory_source as ms  # noqa: E402
 
 MANIFEST_VERSION = 2
 PLANNER_VERSION = 1
+
+# Windows has no directory fsync primitive; NTFS journals rename metadata.  This
+# counter is product evidence, not a fallback for directory durability.
+_DURABILITY = {"write_through": 0, "replace_fallback": 0}
+
+
+def durability_snapshot():
+    return dict(_DURABILITY)
+
+
+def _movefile_ex_write_through(tmp, dst):
+    """MoveFileExW(..., REPLACE_EXISTING|WRITE_THROUGH); False if unavailable/failed."""
+    if os.name != "nt":
+        return False
+    try:
+        fn = ctypes.windll.kernel32.MoveFileExW
+        fn.argtypes = [ctypes.c_wchar_p, ctypes.c_wchar_p, ctypes.c_uint]
+        fn.restype = ctypes.c_int
+        return bool(fn(str(tmp), str(dst), 0x1 | 0x8))
+    except Exception:                                      # noqa: BLE001
+        return False
+
+
+def _durable_replace(tmp, dst):
+    """Return 'write_through' or fallback to os.replace + 'replace_fallback'."""
+    if _movefile_ex_write_through(tmp, dst):
+        _DURABILITY["write_through"] += 1
+        return "write_through"
+    os.replace(tmp, dst)
+    _DURABILITY["replace_fallback"] += 1
+    return "replace_fallback"
 
 
 class LayoutMismatch(Exception):
@@ -283,10 +315,18 @@ def save_session(eng, con, path, blocks, anchor, slot_capacity=None,
             # The layout is authoritative for placement; this says *why* these blocks.
             "selection": selection,
         }
+        # A manifest is only non-truncated if its CONTENT is durable before the name
+        # flips: fsync the temp file, then use a write-through rename.  Windows has no
+        # directory-fsync primitive; NTFS journal covers the rename metadata, so
+        # directory flush is not a gap here (and no FlushFileBuffers is attempted).
         tmp = path + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(manifest, f, ensure_ascii=False, indent=2)
-        os.replace(tmp, path)          # atomic: a truncated manifest never appears
+            f.flush()
+            os.fsync(f.fileno())
+        mode = _durable_replace(tmp, path)
+        manifest["durability"] = {"replace_mode": mode,
+                                   "fallback_used": mode == "replace_fallback"}
     finally:
         for b in blocks:               # never leave the session detached
             eng.share(b["seq"], 0, b["lo"], b["hi"])
@@ -353,7 +393,16 @@ def restore_session(eng, con, path, kv_type="q8_0", model_path=ms.MODEL):
 
     rows = {r[0]: r for r in ms.block_rows(con)}
     by_name = {r[1]: r for r in rows.values()}
-    scratch = max([b["slot_id"] for b in resolved] + [0]) + 1
+    # Audit B1-20261026 gap B: the old +1 made scratch equal to the highest
+    # slot's target seq (slot_id+1), so the "preflight" reset that block's seq
+    # first.  Keep scratch strictly above every target seq and inside n_seq.
+    max_slot_id = max([b["slot_id"] for b in resolved] + [0])
+    scratch = max_slot_id + 2
+    n_seq = int(getattr(eng, "n_seq", 0) or 0)
+    if n_seq and scratch >= n_seq:
+        raise LayoutMismatch(
+            "scratch seq %d collides with the engine's n_seq=%d -- refusing to guess"
+            % (scratch, n_seq))
     report = {"shifts": 0, "rebuilt": [], "blocks": [], "layout_problems": []}
 
     # Size gate BEFORE reset: a rejected tail-extra must not clear seq 0, so the
@@ -386,8 +435,22 @@ def restore_session(eng, con, path, kv_type="q8_0", model_path=ms.MODEL):
                     "chat state file is %d bytes, manifest says %d (%s) -- "
                     "refusing before reset" % (actual, declared, chat_path))
 
-    eng.reset(0)
+    # P1: preflight the chat state into the unused scratch sequence BEFORE
+    # touching seq0.  A refused/incompatible chat file must not clear the live
+    # dialogue first.  If the preflight succeeds we still have to load seq0 for
+    # the target state; that second load goes through kvshim_load (C++) and its
+    # internal reset remains -- recorded as the C++ arm residual.
+    reset0_done = False
     if m["chat"]["state"]:
+        npre = eng.load_strict(scratch, chat_path)
+        if npre != m["chat"]["n_tokens"]:
+            raise LayoutMismatch("chat token count %d != manifest %d (preflight)"
+                                 % (npre, m["chat"]["n_tokens"]))
+        if eng.pos_max(scratch) + 1 != m["chat"]["end"]:
+            raise LayoutMismatch("chat window ends at %d, manifest says %d (preflight)"
+                                 % (eng.pos_max(scratch) + 1, m["chat"]["end"]))
+        eng.reset(0)
+        reset0_done = True
         n = eng.load_strict(0, chat_path)
         if n != m["chat"]["n_tokens"]:
             raise LayoutMismatch("chat token count %d != manifest %d"
@@ -403,12 +466,31 @@ def restore_session(eng, con, path, kv_type="q8_0", model_path=ms.MODEL):
         if row is None:
             raise LayoutMismatch("%s: source row is gone" % b["block"])
         seq = b["slot_id"] + 1
-        eng.reset(seq)
-        n = -1
+        # P2: preflight into the unused scratch seq; a refused block must not
+        # clear the target seq first.  The target load below is the allowed
+        # second load (its C++ kvshim_load still resets; C++ arm residual).
+        pre_ok = True
         try:
-            n = ms.load_into(eng, row, seq)
-        except ms.Incompatible as e:
-            print("      %s: %s -- rebuilding from source" % (b["block"], e))
+            ms.load_into(eng, row, scratch)
+        except ms.Incompatible:
+            # Do NOT reset the target here: rebuild below happens while the target
+            # still holds its old contents, and the target reset only occurs after
+            # a successful rebuild.  A hard (non-Incompatible) refusal propagates
+            # before any reset.
+            pre_ok = False
+        n = -1
+        if pre_ok:
+            # No-chat manifests still want the dialogue seq cleared on a successful
+            # restore, but only after the block preflight has passed; a failed block
+            # must not clear seq0 either.
+            if not reset0_done:
+                eng.reset(0)
+                reset0_done = True
+            try:
+                eng.reset(seq)
+                n = ms.load_into(eng, row, seq)
+            except ms.Incompatible as e:
+                print("      %s: %s -- rebuilding from source" % (b["block"], e))
         if n != b["n_tokens"]:
             ms.rebuild(eng, con, b["block"], kv_type=kv_type, model_path=model_path,
                        seq=scratch)

@@ -177,6 +177,32 @@ def clean(s):
     return " ".join(out)
 
 
+def _precheck_load(eng, row, scratch):
+    """P3/P4/P5 shared preflight: load a block into an UNUSED scratch seq first.
+
+    No lease is taken for the scratch and the target seq is not touched.  If this
+    raises (bad/truncated/incompatible block), the caller must not reset the target.
+    The scratch load itself is the C++ kvshim_load reset on the scratch only.
+    """
+    n = ms.load_into(eng, row, int(scratch))
+    if n < 0:
+        raise ms.Incompatible("%s: preflight load refused" % row[1])
+    return n
+
+
+def _chat_scratch(rows):
+    """Unused seq above all mounted block seqs; 1..N are block slots.
+
+    The preflight must never equal a block target seq: block seqs are 1..len(rows)
+    here, so len(rows)+1 is strictly above them.  Fail closed if the engine has no
+    room for it.
+    """
+    s = int(len(rows) + 1)
+    if s >= N_SEQ:
+        raise RuntimeError("chat scratch seq %d collides with N_SEQ=%d" % (s, N_SEQ))
+    return s
+
+
 # ---------------------------------------------------------------------------
 # build: encode each memory segment ONCE, save its KV, index the path in SQLite
 # ---------------------------------------------------------------------------
@@ -267,6 +293,7 @@ def cmd_chat(control=False):
             # placement path: nothing references this seq yet, so the guard passes and
             # asserts the sequence is empty before the block is loaded into it
             leases.register_block(i, rows[i - 1][1])
+            _precheck_load(eng, rows[i - 1], _chat_scratch(rows))
             leases.reset(i, site="chat.place.fresh")
             # compat-checked load: refuses a block built by another model / rope / kv type
             ms.load_into(eng, rows[i - 1], i)
@@ -383,6 +410,7 @@ def _place_slots(eng, rows):
     blocks = []
     for i, row in enumerate(rows, start=1):
         leases.register_block(i, row[1])
+        _precheck_load(eng, row, _chat_scratch(rows))
         leases.reset(i, site="slots.place.fresh")
         n = ms.load_into(eng, row, i)
         # M4-C 站点 2 承重见证（计数层）：第二遍放置若缺 reset 会叠 cell ⇒ 翻倍 ⇒ 红
@@ -626,6 +654,7 @@ def cmd_m1(explain=False, control=False, save_path=None):
                         if name in prev_mounted:
                             _p_seq, p_lo, p_hi = prev_mounted[name]
                             leases.detach(0, p_lo, p_hi, site="m1.mount.detach")
+                        _precheck_load(eng, rows[name], _chat_scratch(rows))
                         # asserts cells_of(seq)==0 BEFORE load_into stacks anything
                         leases.reset(seq, site="m1.mount.before_load")
                         # 站点 4：这一行是「结构性不可测」的那一处 —— L331 已强制 reset 后为空，

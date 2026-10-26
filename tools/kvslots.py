@@ -53,6 +53,37 @@ if os.path.isdir(_LLVM_BIN):
 
 ASK_SUFFIX = "\n答："      # without this the distilled model rambles instead of answering
 
+# Windows has no directory fsync primitive; NTFS journals rename metadata.  This
+# counter is product evidence, not a fallback for directory durability.
+_DURABILITY = {"write_through": 0, "replace_fallback": 0}
+
+
+def durability_snapshot():
+    return dict(_DURABILITY)
+
+
+def _movefile_ex_write_through(tmp, dst):
+    """MoveFileExW(..., REPLACE_EXISTING|WRITE_THROUGH); False if unavailable/failed."""
+    if os.name != "nt":
+        return False
+    try:
+        fn = ctypes.windll.kernel32.MoveFileExW
+        fn.argtypes = [ctypes.c_wchar_p, ctypes.c_wchar_p, ctypes.c_uint]
+        fn.restype = ctypes.c_int
+        return bool(fn(str(tmp), str(dst), 0x1 | 0x8))
+    except Exception:                                      # noqa: BLE001
+        return False
+
+
+def _durable_replace(tmp, dst):
+    """Return 'write_through' or fallback to os.replace + 'replace_fallback'."""
+    if _movefile_ex_write_through(tmp, dst):
+        _DURABILITY["write_through"] += 1
+        return "write_through"
+    os.replace(tmp, dst)
+    _DURABILITY["replace_fallback"] += 1
+    return "replace_fallback"
+
 
 def turn(q):
     """Wrap a question as a new turn so the model answers instead of continuing."""
@@ -118,6 +149,7 @@ class KVEngine:
             raise RuntimeError("kvshim_open failed (model=%s)" % model)
         self.n_seq = n_seq
         self.n_ctx = n_ctx
+        self.last_durability = None
 
     # -- accounting -------------------------------------------------------
 
@@ -241,7 +273,9 @@ class KVEngine:
                 raise OSError("short write saving %s: shim reported %d bytes, "
                               "tmp has %d (old target kept)" % (path, nb, st.st_size))
             try:
-                os.replace(tmp, path)
+                mode = _durable_replace(tmp, path)
+                self.last_durability = {"replace_mode": mode,
+                                        "fallback_used": mode == "replace_fallback"}
             except OSError as e:
                 raise OSError("atomic save failed for %s (old file kept): %s"
                               % (path, e))
@@ -249,16 +283,9 @@ class KVEngine:
             if st.st_size != nb:              # pure sanity: never remove a complete target
                 raise OSError("post-replace sanity failed for %s: file has %d, "
                               "shim reported %d" % (path, st.st_size, nb))
-            # Directory fsync is a POSIX durability knob; Windows has no equivalent
-            # for directories.  Best effort only -- never fail the save for it.
-            try:
-                dfd = os.open(os.path.dirname(os.path.abspath(path)) or ".", os.O_RDONLY)
-                try:
-                    os.fsync(dfd)
-                finally:
-                    os.close(dfd)
-            except OSError:
-                pass
+            # Windows has no directory-fsync primitive.  NTFS journal covers the
+            # rename metadata; directory flush is not a durability gap here.  No
+            # FlushFileBuffers on a directory handle is attempted.
             return nb
         finally:
             try:
