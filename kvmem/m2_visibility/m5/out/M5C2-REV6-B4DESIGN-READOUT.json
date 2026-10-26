@@ -1,0 +1,863 @@
+{
+ "schema": "m5c2_rev6_design_readout_v1",
+ "design_set": true,
+ "not_acceptance": true,
+ "rev6_meta": {
+  "judge_version": "rev6-stageA",
+  "rev6_prompt_sha16": "162f680de2f5812e",
+  "n_prompt_changes": 4,
+  "n_sentences": 261,
+  "n_forward": 246,
+  "layer0_skipped": 15,
+  "parse_fail": 3,
+  "design_set": true,
+  "not_acceptance": true,
+  "elapsed": 1792.815,
+  "peak_vram": 7.7039,
+  "gate_exceptions": [
+   {
+    "name": "dwm.exe",
+    "observed_process_name": "dwm",
+    "bytes": 268513280,
+    "threshold_bytes": 268435456,
+    "reason": "system desktop compositor, not a compute workload"
+   }
+  ],
+  "signals_sent": false,
+  "aborted": null
+ },
+ "b4_judge_sha16": "6a3001b6ca23ef7d",
+ "gold_sha16_current": "9273ebc97aa1413a",
+ "gold_sha16_original": "9054479b32b79eb1",
+ "gold_values_unchanged_vs_M5B4-RATES": true,
+ "gold_file_note": "lead audit_fix appended ruled 11->19; gold values compared and unchanged",
+ "gate": {
+  "parse_fail_ok": true,
+  "r4_false_ok": true,
+  "leak_ok": true,
+  "thresholds": {
+   "parse_fail_max": 5,
+   "r4_false_max": 2,
+   "leak_max": 6
+  },
+  "rev6_prompt_unusable": false
+ },
+ "evidence_verbatim_rate": {
+  "old_rev5.1": {
+   "quote_bearing_items": 323,
+   "verbatim_hits": 318,
+   "evidence_verbatim_rate": 0.98452,
+   "all_items": 777,
+   "all_items_verbatim_hits": 318,
+   "all_items_verbatim_rate": 0.409266,
+   "sentences_with_quote_items": 98,
+   "sentences_all_verbatim": 95,
+   "sentence_all_verbatim_rate": 0.969388,
+   "definition": "quote-bearing = evidence non-empty and no explicit 未提及/未找到/找不到; exact substring in source_text"
+  },
+  "new_rev6": {
+   "quote_bearing_items": 318,
+   "verbatim_hits": 289,
+   "evidence_verbatim_rate": 0.908805,
+   "all_items": 513,
+   "all_items_verbatim_hits": 289,
+   "all_items_verbatim_rate": 0.563353,
+   "sentences_with_quote_items": 105,
+   "sentences_all_verbatim": 89,
+   "sentence_all_verbatim_rate": 0.847619,
+   "definition": "quote-bearing = evidence non-empty and no explicit 未提及/未找到/找不到; exact substring in source_text"
+  },
+  "delta_pp": -7.57
+ },
+ "old_rev5_1": {
+  "n_sentences": 261,
+  "n_forward": 246,
+  "parse_fail": {
+   "n": 1,
+   "rate": 0.003831,
+   "sids": [
+    "b4-s2-q2-s05"
+   ]
+  },
+  "false_unsupported": {
+   "n": 7,
+   "denominator": 46,
+   "rate": 0.152174,
+   "wilson95": {
+    "n": 46,
+    "k": 7,
+    "rate": 0.152174,
+    "lo": 0.075722,
+    "hi": 0.282244
+   },
+   "sids": [
+    "b4-s1-q2-s01",
+    "b4-s1-q2-s07",
+    "b4-s1-q2-s09",
+    "b4-s1-q2-s15",
+    "b4-s1-q3-s03",
+    "b4-s2-q1-s01",
+    "b4-s8-q2-s02"
+   ],
+   "r4_fabricated_evidence_n": 0,
+   "r4_fabricated_evidence_sids": [],
+   "by_reason": {
+    "fabricated_evidence": 0,
+    "negated": 0,
+    "absent_marker": 2,
+    "value_mismatch": 5,
+    "other": 0
+   }
+  },
+  "leak": {
+   "n": 4,
+   "denominator": 41,
+   "rate": 0.097561,
+   "sids": [
+    "b4-s2-q2-s01",
+    "b4-s3-q4-s03",
+    "b4-s3-q4-s11",
+    "b4-s3-q4-s12"
+   ]
+  },
+  "strict_leak": {
+   "n": 4,
+   "denominator": 41,
+   "sids": [
+    "b4-s2-q2-s01",
+    "b4-s3-q4-s03",
+    "b4-s3-q4-s11",
+    "b4-s3-q4-s12"
+   ]
+  },
+  "empty_items_model": {
+   "n": 1,
+   "sids": [
+    "b4-s2-q2-s05"
+   ]
+  },
+  "verdict_counts": {
+   "supported": 65,
+   "unsupported": 167,
+   "abstain_ok": 15,
+   "undecidable": 13,
+   "parse_fail": 1
+  },
+  "verdict_policyB_counts": {
+   "undecidable": 88,
+   "unsupported": 157,
+   "abstain_ok": 15,
+   "parse_fail": 1
+  }
+ },
+ "new_rev6": {
+  "n_sentences": 261,
+  "n_forward": 246,
+  "parse_fail": {
+   "n": 3,
+   "rate": 0.011494,
+   "sids": [
+    "b4-s1-q1-s02",
+    "b4-s1-q1-s05",
+    "b4-s1-q3-s04"
+   ]
+  },
+  "false_unsupported": {
+   "n": 4,
+   "denominator": 46,
+   "rate": 0.086957,
+   "wilson95": {
+    "n": 46,
+    "k": 4,
+    "rate": 0.086957,
+    "lo": 0.034335,
+    "hi": 0.203249
+   },
+   "sids": [
+    "b4-s1-q2-s01",
+    "b4-s1-q2-s15",
+    "b4-s1-q3-s03",
+    "b4-s2-q1-s01"
+   ],
+   "r4_fabricated_evidence_n": 0,
+   "r4_fabricated_evidence_sids": [],
+   "by_reason": {
+    "fabricated_evidence": 0,
+    "negated": 0,
+    "absent_marker": 0,
+    "value_mismatch": 4,
+    "other": 0
+   }
+  },
+  "leak": {
+   "n": 6,
+   "denominator": 41,
+   "rate": 0.146341,
+   "sids": [
+    "b4-s2-q1-s05",
+    "b4-s2-q2-s01",
+    "b4-s2-q3-s07",
+    "b4-s3-q4-s11",
+    "b4-s3-q5-s06",
+    "b4-s3-q5-s08"
+   ]
+  },
+  "strict_leak": {
+   "n": 6,
+   "denominator": 41,
+   "sids": [
+    "b4-s2-q1-s05",
+    "b4-s2-q2-s01",
+    "b4-s2-q3-s07",
+    "b4-s3-q4-s11",
+    "b4-s3-q5-s06",
+    "b4-s3-q5-s08"
+   ]
+  },
+  "empty_items_model": {
+   "n": 3,
+   "sids": [
+    "b4-s1-q1-s02",
+    "b4-s1-q1-s05",
+    "b4-s1-q3-s04"
+   ]
+  },
+  "verdict_counts": {
+   "supported": 74,
+   "parse_fail": 3,
+   "unsupported": 156,
+   "abstain_ok": 15,
+   "undecidable": 13
+  },
+  "verdict_policyB_counts": {
+   "undecidable": 93,
+   "parse_fail": 3,
+   "unsupported": 150,
+   "abstain_ok": 15
+  }
+ },
+ "false_examples_change": [
+  {
+   "sid": "b4-s1-q2-s01",
+   "old_verdict": "unsupported",
+   "new_verdict": "unsupported",
+   "old_reason": "value_mismatch",
+   "new_reason": "value_mismatch",
+   "old_r4_fabricated": false,
+   "new_r4_fabricated": false,
+   "old_items": [
+    [
+     "种植体",
+     "我在仁和口腔做了右下第一磨牙种植，种植体型号 ITI-4.1，手术费 8,600 元，分三期付，复诊定在 11 月 6 日上午 10 点。",
+     false
+    ],
+    [
+     "ITI-4.1",
+     "种植体型号 ITI-4.1",
+     false
+    ],
+    [
+     "手术费",
+     "手术费 8,600 元，分三期付",
+     false
+    ],
+    [
+     "8600元",
+     "手术费 8,600 元",
+     true
+    ],
+    [
+     "分三期付",
+     "分三期付",
+     false
+    ],
+    [
+     "复诊定在 11 月 6 日上午 10 点",
+     "复诊定在 11 月 6 日上午 10 点",
+     false
+    ],
+    [
+     "仁和口腔",
+     "我在仁和口腔做了右下第一磨牙种植",
+     false
+    ],
+    [
+     "右下第一磨牙",
+     "右下第一磨牙种植",
+     false
+    ]
+   ],
+   "new_items": [
+    [
+     "种植体是ITI-4.1",
+     "种植体型号 ITI-4.1",
+     false
+    ],
+    [
+     "手术费8600元",
+     "手术费 8,600 元",
+     true
+    ],
+    [
+     "分三期付",
+     "分三期付",
+     false
+    ]
+   ],
+   "new_raw_out": "\n\n\n</think>\n\n条目：种植体是ITI-4.1\n依据：种植体型号 ITI-4.1\n\n条目：手术费8600元\n依据：手术费 8,600 元\n\n条目：分三期付\n依据：分三期付"
+  },
+  {
+   "sid": "b4-s1-q2-s07",
+   "old_verdict": "unsupported",
+   "new_verdict": "supported",
+   "old_reason": "absent_marker",
+   "new_reason": "other",
+   "old_r4_fabricated": false,
+   "new_r4_fabricated": false,
+   "old_items": [
+    [
+     "患者",
+     "未提及",
+     true
+    ],
+    [
+     "是在仁和口腔",
+     "我在仁和口腔做了右下第一磨牙种植",
+     false
+    ],
+    [
+     "做的",
+     "未提及",
+     true
+    ]
+   ],
+   "new_items": [
+    [
+     "患者：是在仁和口腔做的。",
+     "我在仁和口腔做了右下第一磨牙种植，种植体型号 ITI-4.1，手术费 8,600 元，分三期付，复诊定在 11 月 6 日上午 10 点。",
+     false
+    ]
+   ],
+   "new_raw_out": "\n\n\n</think>\n\n条目：患者：是在仁和口腔做的。\n依据：我在仁和口腔做了右下第一磨牙种植，种植体型号 ITI-4.1，手术费 8,600 元，分三期付，复诊定在 11 月 6 日上午 10 点。"
+  },
+  {
+   "sid": "b4-s1-q2-s09",
+   "old_verdict": "unsupported",
+   "new_verdict": "supported",
+   "old_reason": "absent_marker",
+   "new_reason": "other",
+   "old_r4_fabricated": false,
+   "new_r4_fabricated": false,
+   "old_items": [
+    [
+     "右下第一磨牙",
+     "右下第一磨牙种植",
+     false
+    ],
+    [
+     "患者",
+     "未提及",
+     true
+    ],
+    [
+     "右下第一磨牙",
+     "右下第一磨牙种植",
+     false
+    ],
+    [
+     "患者",
+     "未提及",
+     true
+    ],
+    [
+     "右下第一磨牙",
+     "右下第一磨牙种植",
+     false
+    ],
+    [
+     "患者",
+     "未提及",
+     true
+    ],
+    [
+     "右下第一磨牙",
+     "右下第一磨牙种植",
+     false
+    ],
+    [
+     "患者",
+     "未提及",
+     true
+    ],
+    [
+     "右下第一磨牙",
+     "右下第一磨牙种植",
+     false
+    ],
+    [
+     "患者",
+     "未提及",
+     true
+    ],
+    [
+     "右下第一磨牙",
+     "右下第一磨牙种植",
+     false
+    ],
+    [
+     "患者",
+     "未提及",
+     true
+    ],
+    [
+     "右下第一磨牙",
+     "右下第一磨牙种植",
+     false
+    ],
+    [
+     "患者",
+     "未提及",
+     true
+    ],
+    [
+     "右下第一磨牙",
+     "右下第一磨牙种植",
+     false
+    ],
+    [
+     "患者",
+     "未提及",
+     true
+    ],
+    [
+     "右下第一磨牙",
+     "右下第一磨牙种植",
+     false
+    ],
+    [
+     "患者",
+     "未提及",
+     true
+    ],
+    [
+     "右下第一磨牙",
+     "右下第一磨牙种植",
+     false
+    ],
+    [
+     "患者",
+     "未提及",
+     true
+    ],
+    [
+     "右下第一磨牙",
+     "右下第一磨牙种植",
+     false
+    ],
+    [
+     "患者",
+     "未提及",
+     true
+    ],
+    [
+     "右下第一磨牙",
+     "右下第一磨牙种植",
+     false
+    ],
+    [
+     "患者",
+     "未提及",
+     true
+    ],
+    [
+     "右下第一磨牙",
+     "右下第一磨牙种植",
+     false
+    ],
+    [
+     "患者",
+     "未提及",
+     true
+    ],
+    [
+     "右下第一磨牙",
+     "右下第一磨牙种植",
+     false
+    ]
+   ],
+   "new_items": [
+    [
+     "右下第一磨牙",
+     "我在仁和口腔做了右下第一磨牙种植，种植体型号 ITI-4.1，手术费 8,600 元，分三期付，复诊定在 11 月 6 日上午 10 点。",
+     false
+    ],
+    [
+     "种植体型号 ITI-4.1",
+     "我在仁和口腔做了右下第一磨牙种植，种植体型号 ITI-4.1，手术费 8,600 元，分三期付，复诊定在 11 月 6 日上午 10 点。",
+     false
+    ],
+    [
+     "手术费 8,600 元",
+     "我在仁和口腔做了右下第一磨牙种植，种植体型号 ITI-4.1，手术费 8,600 元，分三期付，复诊定在 11 月 6 日上午 10 点。",
+     false
+    ],
+    [
+     "分三期付",
+     "我在仁和口腔做了右下第一磨牙种植，种植体型号 ITI-4.1，手术费 8,600 元，分三期付，复诊定在 11 月 6 日上午 10 点。",
+     false
+    ],
+    [
+     "复诊定在 11 月 6 日上午 10 点",
+     "我在仁和口腔做了右下第一磨牙种植，种植体型号 ITI-4.1，手术费 8,600 元，分三期付，复诊定在 11 月 6 日上午 10 点。",
+     false
+    ]
+   ],
+   "new_raw_out": "\n\n\n</think>\n\n条目：右下第一磨牙\n依据：我在仁和口腔做了右下第一磨牙种植，种植体型号 ITI-4.1，手术费 8,600 元，分三期付，复诊定在 11 月 6 日上午 10 点。\n\n条目：种植体型号 ITI-4.1\n依据：我在仁和口腔做了右下第一磨牙种植，种植体型号 ITI-4.1，手术费 8,600 元，分三期付，复诊定在 11 月 6 日上午 10 点。\n\n条目：手术费 8,600 元\n依据：我在仁和口腔做了右下第一磨牙种植，种植体型号 ITI-4.1，手术费 8,600 元，分三期付，复诊定在 11 月 6 日上午 10 点。\n\n条目：分三期付\n依据：我在仁和口腔做了右下第一磨牙种植，种植体型号 ITI-4.1，手术费 8,600 元，分三期付，复诊定在 11 月 6 日上午 10 点。\n\n条目：复诊定在 11 月 6 日上午 10 点\n依据：我在仁和口腔做了右下第一磨牙种植，种植体型号 ITI-4.1，手术费 8,600 元，分三期付，复诊定在 11 月 6 日上午 10 点。"
+  },
+  {
+   "sid": "b4-s1-q2-s15",
+   "old_verdict": "unsupported",
+   "new_verdict": "unsupported",
+   "old_reason": "value_mismatch",
+   "new_reason": "value_mismatch",
+   "old_r4_fabricated": false,
+   "new_r4_fabricated": false,
+   "old_items": [
+    [
+     "手术费是8600元",
+     "手术费 8,600 元",
+     true
+    ],
+    [
+     "分三期付",
+     "分三期付",
+     false
+    ]
+   ],
+   "new_items": [
+    [
+     "手术费是8600元",
+     "手术费 8,600 元",
+     true
+    ],
+    [
+     "分三期付",
+     "分三期付",
+     false
+    ]
+   ],
+   "new_raw_out": "\n\n\n</think>\n\n条目：手术费是8600元\n依据：手术费 8,600 元\n\n条目：分三期付\n依据：分三期付"
+  },
+  {
+   "sid": "b4-s1-q3-s03",
+   "old_verdict": "unsupported",
+   "new_verdict": "unsupported",
+   "old_reason": "value_mismatch",
+   "new_reason": "value_mismatch",
+   "old_r4_fabricated": false,
+   "new_r4_fabricated": false,
+   "old_items": [
+    [
+     "种植体型号是ITI-4.1",
+     "种植体型号 ITI-4.1",
+     false
+    ],
+    [
+     "手术费8600元",
+     "手术费 8,600 元",
+     true
+    ],
+    [
+     "分三期付",
+     "分三期付",
+     false
+    ],
+    [
+     "复诊时间是11月6日上午10点",
+     "复诊定在 11 月 6 日上午 10 点",
+     false
+    ]
+   ],
+   "new_items": [
+    [
+     "种植体型号是ITI-4.1",
+     "种植体型号 ITI-4.1",
+     false
+    ],
+    [
+     "手术费8600元",
+     "手术费 8,600 元",
+     true
+    ],
+    [
+     "分三期付",
+     "分三期付",
+     false
+    ],
+    [
+     "复诊时间是11月6日上午10点",
+     "复诊定在 11 月 6 日上午 10 点",
+     false
+    ]
+   ],
+   "new_raw_out": "\n\n\n</think>\n\n条目：种植体型号是ITI-4.1\n依据：种植体型号 ITI-4.1\n\n条目：手术费8600元\n依据：手术费 8,600 元\n\n条目：分三期付\n依据：分三期付\n\n条目：复诊时间是11月6日上午10点\n依据：复诊定在 11 月 6 日上午 10 点"
+  },
+  {
+   "sid": "b4-s2-q1-s01",
+   "old_verdict": "unsupported",
+   "new_verdict": "unsupported",
+   "old_reason": "value_mismatch",
+   "new_reason": "value_mismatch",
+   "old_r4_fabricated": false,
+   "new_r4_fabricated": false,
+   "old_items": [
+    [
+     "租车公司",
+     "迅达租车",
+     true
+    ],
+    [
+     "车型",
+     "SUV",
+     false
+    ],
+    [
+     "SUV",
+     "SUV",
+     false
+    ],
+    [
+     "日租",
+     "日租 288 元",
+     false
+    ],
+    [
+     "押金",
+     "押金 3,000 元",
+     false
+    ],
+    [
+     "11月2日",
+     "11 月 2 日",
+     false
+    ],
+    [
+     "11月5日",
+     "11 月 5 日",
+     false
+    ],
+    [
+     "高铁东站",
+     "高铁东站",
+     false
+    ],
+    [
+     "P3停车场",
+     "P3 停车场",
+     false
+    ]
+   ],
+   "new_items": [
+    [
+     "租车公司",
+     "迅达租车",
+     true
+    ],
+    [
+     "车型",
+     "SUV",
+     false
+    ],
+    [
+     "日租",
+     "日租 288 元",
+     false
+    ],
+    [
+     "押金",
+     "押金 3,000 元",
+     false
+    ],
+    [
+     "取车地点",
+     "高铁东站 P3 停车场",
+     false
+    ],
+    [
+     "取车日期",
+     "11 月 2 日到 11 月 5 日",
+     false
+    ]
+   ],
+   "new_raw_out": "\n\n\n</think>\n\n租车公司是迅达租车，车型是SUV。\n\n条目：租车公司\n依据：迅达租车\n\n条目：车型\n依据：SUV\n\n条目：日租\n依据：日租 288 元\n\n条目：押金\n依据：押金 3,000 元\n\n条目：取车地点\n依据：高铁东站 P3 停车场\n\n条目：取车日期\n依据：11 月 2 日到 11 月 5 日"
+  },
+  {
+   "sid": "b4-s8-q2-s02",
+   "old_verdict": "unsupported",
+   "new_verdict": "supported",
+   "old_reason": "value_mismatch",
+   "new_reason": "other",
+   "old_r4_fabricated": false,
+   "new_r4_fabricated": false,
+   "old_items": [
+    [
+     "体检的时间是11月9日下午2点",
+     "预约在 11 月 9 日下午 2 点。",
+     false
+    ],
+    [
+     "地点是宠安医院",
+     "我给家里的橘猫在宠安医院买了年度体检套餐，含血常规和 B 超，价格 498 元，预约在 11 月 9 日下午 2 点。",
+     true
+    ]
+   ],
+   "new_items": [
+    [
+     "11月9日下午2点",
+     "预约在 11 月 9 日下午 2 点。",
+     false
+    ],
+    [
+     "宠安医院",
+     "我给家里的橘猫在宠安医院买了年度体检套餐，含血常规和 B 超，价格 498 元，预约在 11 月 9 日下午 2 点。",
+     false
+    ],
+    [
+     "498元",
+     "价格 498 元，预约在 11 月 9 日下午 2 点。",
+     false
+    ],
+    [
+     "血常规",
+     "含血常规和 B 超，价格 498 元，预约在 11 月 9 日下午 2 点。",
+     false
+    ],
+    [
+     "B超",
+     "含血常规和 B 超，价格 498 元，预约在 11 月 9 日下午 2 点。",
+     false
+    ]
+   ],
+   "new_raw_out": "\n\n\n</think>\n\n条目：11月9日下午2点\n依据：预约在 11 月 9 日下午 2 点。\n\n条目：宠安医院\n依据：我给家里的橘猫在宠安医院买了年度体检套餐，含血常规和 B 超，价格 498 元，预约在 11 月 9 日下午 2 点。\n\n条目：498元\n依据：价格 498 元，预约在 11 月 9 日下午 2 点。\n\n条目：血常规\n依据：含血常规和 B 超，价格 498 元，预约在 11 月 9 日下午 2 点。\n\n条目：B超\n依据：含血常规和 B 超，价格 498 元，预约在 11 月 9 日下午 2 点。"
+  }
+ ],
+ "leak_examples_change": [
+  {
+   "sid": "b4-s2-q2-s01",
+   "old_verdict": "supported",
+   "new_verdict": "supported",
+   "old_items": [
+    [
+     "取车时间是 11 月 2 日",
+     "11 月 2 日到 11 月 5 日的 SUV"
+    ],
+    [
+     "地点是高铁东站 P3 停车场",
+     "取车在高铁东站 P3 停车场"
+    ],
+    [
+     "还车时间是 11 月 5 日",
+     "11 月 2 日到 11 月 5 日的 SUV"
+    ],
+    [
+     "地点也是高铁东站 P3 停车场",
+     "取车在高铁东站 P3 停车场"
+    ]
+   ],
+   "new_items": [
+    [
+     "取车时间是 11 月 2 日",
+     "11 月 2 日到 11 月 5 日的 SUV"
+    ],
+    [
+     "地点是高铁东站 P3 停车场",
+     "取车在高铁东站 P3 停车场"
+    ],
+    [
+     "还车时间是 11 月 5 日",
+     "11 月 2 日到 11 月 5 日的 SUV"
+    ],
+    [
+     "还车地点也是高铁东站 P3 停车场",
+     "取车在高铁东站 P3 停车场"
+    ]
+   ]
+  },
+  {
+   "sid": "b4-s3-q4-s03",
+   "old_verdict": "supported",
+   "new_verdict": "unsupported",
+   "old_items": [
+    [
+     "课程内容包括 Python 基础、数据分析、数据可视化等方面",
+     "我报了秋叶 Python 数据分析网课，课程共 24 节，每周二、周四晚 8 点直播，学费 1,280 元，有效期一年。"
+    ]
+   ],
+   "new_items": [
+    [
+     "课程内容包括 Python 基础、数据分析、数据可视化等方面",
+     "未提及"
+    ]
+   ]
+  },
+  {
+   "sid": "b4-s3-q4-s11",
+   "old_verdict": "supported",
+   "new_verdict": "supported",
+   "old_items": [
+    [
+     "直播提醒",
+     "每周二、周四晚 8 点直播"
+    ]
+   ],
+   "new_items": [
+    [
+     "直播提醒",
+     "每周二、周四晚 8 点直播"
+    ]
+   ]
+  },
+  {
+   "sid": "b4-s3-q4-s12",
+   "old_verdict": "supported",
+   "new_verdict": "unsupported",
+   "old_items": [
+    [
+     "课程",
+     "我报了秋叶 Python 数据分析网课，课程共 24 节，每周二、周四晚 8 点直播，学费 1,280 元，有效期一年。"
+    ],
+    [
+     "与其他学员互动",
+     "我报了秋叶 Python 数据分析网课，课程共 24 节，每周二、周四晚 8 点直播，学费 1,280 元，有效期一年。"
+    ]
+   ],
+   "new_items": [
+    [
+     "与其他学员互动",
+     "未提及"
+    ]
+   ]
+  }
+ ],
+ "new_leak_added": [
+  "b4-s2-q1-s05",
+  "b4-s2-q3-s07",
+  "b4-s3-q5-s06",
+  "b4-s3-q5-s08"
+ ],
+ "new_leak_removed": [
+  "b4-s3-q4-s03",
+  "b4-s3-q4-s12"
+ ],
+ "new_false_added": [],
+ "new_false_removed": [
+  "b4-s1-q2-s07",
+  "b4-s1-q2-s09",
+  "b4-s8-q2-s02"
+ ],
+ "no_gpu": true,
+ "no_model_in_readout": true,
+ "no_rule_changes": true,
+ "no_threshold_changes": true,
+ "no_gold_changes": true
+}
