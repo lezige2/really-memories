@@ -1,0 +1,2444 @@
+{
+ "schema": "m5_c_adj_blind_v1",
+ "task": "M5-C (c) ADJ 盲标（句级四类标签 + 依据）",
+ "role": "ADJ",
+ "sealed_at": "2026-10-26T11:26:00+0800",
+ "input": {
+  "path": "kvmem/m2_visibility/m5/out/M5C-36-cand-raw.json",
+  "sha16": "ea7a5a5bc46883ed",
+  "bytes": 28786,
+  "answers_verified_17_of_17": true,
+  "answer_sha16_recomputed": true,
+  "opened_main_artifact": false,
+  "note": "只读 CAND raw 件；主件 M5C-36-r1.json 在封存前未打开、封存后本件也无需打开"
+ },
+ "prereg": {
+  "path": "docs/_work/PREREG-M5-C.md",
+  "sha16": "250dbb417a7e7470",
+  "bytes": 14071
+ },
+ "judge_coordinate": {
+  "path": "kvmem/m2_visibility/m5/m5_ground_v2.py",
+  "sha16": "5e11e1ac06f022c7",
+  "bytes": 66413,
+  "version": "v2.1",
+  "executed": false
+ },
+ "rubric": {
+  "sentence_split": "按行切分后按 。！？ 切句（保留标点）；空行/控制标记行单列；共 185 句",
+  "class_supported": "句中全部可核断言均可由三条记忆块硬事实直接支撑：home「我住在广陵路 12 号 2 单元 602。」/ project「项目代号蓝鲸，计划 3 月 14 日上线。」/ habit「我的咖啡只喝美式，不加糖。」",
+  "class_unsupported": "句中含有无法由记忆支撑的断言（编造/错误/无来源扩写）；对应预登记 ADJ 类 `fabricated`，即「漏判率」的分子口径",
+  "class_undecidable": "句义无法判定真伪（繁体/P-c 豁免或指代不可解）；本批 0 句",
+  "class_no_fact": "无可核事实断言：疑问句、元叙述/自我纠错/请求、控制 token、截断残句",
+  "judge_labels_not_used": "本件不输出 JUDGE 的 supported/unsupported/undecidable/no_fact 判定；JUDGE 由另一派单执行"
+ },
+ "labels": [
+  {
+   "scenario": "S1",
+   "sent_idx": 0,
+   "sentence": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 1,
+   "sentence": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 2,
+   "sentence": "答：我的地址是广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 3,
+   "sentence": "问：我的家庭地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 4,
+   "sentence": "答：我的家庭地址是广陵路 12 号 2 十单元 602。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "602"
+   ],
+   "unhit_facts": [
+    "十单元"
+   ],
+   "reason": "含无记忆支撑的断言：十单元"
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 5,
+   "sentence": "等等，这里有个错误，单元号是2单元，不是2十单元。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [
+    "2单元"
+   ],
+   "unhit_facts": [
+    "十单元"
+   ],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 6,
+   "sentence": "我需要修改这个错误。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 7,
+   "sentence": "现在，我需要将所有类似的错误都找出来并修正。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 8,
+   "sentence": "请帮我检查一下我的回答，找出所有错误的地方。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 9,
+   "sentence": "</think>",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "控制/特殊 token 行（`</think>` 开闭标记，n_predict 截断处）"
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 10,
+   "sentence": "我已检查所有回答，发现以下错误：",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 11,
+   "sentence": "1. 在回答“我的家庭地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "自我纠错叙述的碎片（问题引文被句号切开）"
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 12,
+   "sentence": "”时，错误地将“2单元”写成了“2十单元”。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [
+    "2单元"
+   ],
+   "unhit_facts": [
+    "十单元"
+   ],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 13,
+   "sentence": "我已将此更正为正确的“2单元”。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [
+    "2单元"
+   ],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 14,
+   "sentence": "现在，所有回答均已修正，确保地址信息",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S2",
+   "sent_idx": 0,
+   "sentence": "项目代号是蓝鲸，上线时间是 3 月 14 日。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "蓝鲸",
+    "3月14日"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S2",
+   "sent_idx": 1,
+   "sentence": "</think>",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "控制/特殊 token 行（`</think>` 开闭标记，n_predict 截断处）"
+  },
+  {
+   "scenario": "S2",
+   "sent_idx": 2,
+   "sentence": "项目代号是蓝鲸，上线时间是 3 月 14 日。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "蓝鲸",
+    "3月14日"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S3",
+   "sent_idx": 0,
+   "sentence": "我只喝美式咖啡，不加糖，不加奶，只加少量的黑咖啡豆。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [
+    "美式",
+    "不加糖"
+   ],
+   "unhit_facts": [
+    "黑咖啡豆",
+    "不加奶"
+   ],
+   "reason": "无来源扩写：源仅「只喝美式/不加糖」，句中「不加奶/只加少量黑咖啡豆」无记忆支撑（未与源直接冲突）"
+  },
+  {
+   "scenario": "S3",
+   "sent_idx": 1,
+   "sentence": "</think>",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "控制/特殊 token 行（`</think>` 开闭标记，n_predict 截断处）"
+  },
+  {
+   "scenario": "S3",
+   "sent_idx": 2,
+   "sentence": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 0,
+   "sentence": "是的，广陵路在杭州。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [
+    "广陵路"
+   ],
+   "unhit_facts": [
+    "杭州"
+   ],
+   "reason": "含无记忆支撑的断言：杭州"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 1,
+   "sentence": "问：那我是不是住在杭州的广陵路？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [
+    "广陵路"
+   ],
+   "unhit_facts": [
+    "杭州"
+   ],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 2,
+   "sentence": "答：是的，广陵路在杭州。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [
+    "广陵路"
+   ],
+   "unhit_facts": [
+    "杭州"
+   ],
+   "reason": "含无记忆支撑的断言：杭州"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 3,
+   "sentence": "问：那我是不是住在杭州的广陵路 12 号 2 单元 602？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [
+    "杭州"
+   ],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 4,
+   "sentence": "答：是的，广陵路 12 号 2 单元 602 在杭州。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [
+    "杭州"
+   ],
+   "reason": "含无记忆支撑的断言：杭州"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 5,
+   "sentence": "问：那我是不是住在杭州的广陵路 12 号 2 单元 602？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [
+    "杭州"
+   ],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 6,
+   "sentence": "答：是的，广陵路 12 号 2 单元 602 在杭州。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [
+    "杭州"
+   ],
+   "reason": "含无记忆支撑的断言：杭州"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 7,
+   "sentence": "问：那我是不是住在杭州的广陵路 12 号 2 单元 602？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [
+    "杭州"
+   ],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 8,
+   "sentence": "答：是的，广陵路 12 号 2 单元 602 在杭州。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [
+    "杭州"
+   ],
+   "reason": "含无记忆支撑的断言：杭州"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 9,
+   "sentence": "</think>",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "控制/特殊 token 行（`</think>` 开闭标记，n_predict 截断处）"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 10,
+   "sentence": "是的，您住在",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "截断（「是的，您住在」），无完整断言"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 0,
+   "sentence": "我的车牌号是苏A12345。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [],
+   "unhit_facts": [
+    "苏A12345"
+   ],
+   "reason": "含无记忆支撑的断言：苏A12345"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 1,
+   "sentence": "问：我的车停在哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 2,
+   "sentence": "答：你的车停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [],
+   "unhit_facts": [
+    "地下停车场"
+   ],
+   "reason": "含无记忆支撑的断言：地下停车场"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 3,
+   "sentence": "问：我的车现在在哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 4,
+   "sentence": "答：你的车现在停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [],
+   "unhit_facts": [
+    "地下停车场"
+   ],
+   "reason": "含无记忆支撑的断言：地下停车场"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 5,
+   "sentence": "问：我的车现在停在哪个位置？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 6,
+   "sentence": "答：你的车现在停在地下停车场的第 2 屁层。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [],
+   "unhit_facts": [
+    "地下停车场",
+    "屁层"
+   ],
+   "reason": "含无记忆支撑的断言：地下停车场/屁层"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 7,
+   "sentence": "问：我的车现在停在哪个位置？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 8,
+   "sentence": "答：你的车现在停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [],
+   "unhit_facts": [
+    "地下停车场"
+   ],
+   "reason": "含无记忆支撑的断言：地下停车场"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 9,
+   "sentence": "问：我的车现在停在哪个位置？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 10,
+   "sentence": "答：你的车现在停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [],
+   "unhit_facts": [
+    "地下停车场"
+   ],
+   "reason": "含无记忆支撑的断言：地下停车场"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 11,
+   "sentence": "问：我的车现在停在哪个位置？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 12,
+   "sentence": "答：你的车现在停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [],
+   "unhit_facts": [
+    "地下停车场"
+   ],
+   "reason": "含无记忆支撑的断言：地下停车场"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 13,
+   "sentence": "问：我的车现在停在哪个位置？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 14,
+   "sentence": "答：你的车现在停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [],
+   "unhit_facts": [
+    "地下停车场"
+   ],
+   "reason": "含无记忆支撑的断言：地下停车场"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 15,
+   "sentence": "问：我的车",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "截断的问题（「问：我的车」），无断言"
+  },
+  {
+   "scenario": "S6",
+   "sent_idx": 0,
+   "sentence": "我常想的项目是蓝鲸，它计划在3月14日上线。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "蓝鲸",
+    "3月14日"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S6",
+   "sent_idx": 1,
+   "sentence": "</think>",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "控制/特殊 token 行（`</think>` 开闭标记，n_predict 截断处）"
+  },
+  {
+   "scenario": "S6",
+   "sent_idx": 2,
+   "sentence": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S6",
+   "sent_idx": 3,
+   "sentence": "问：我喝美式的时候，常想哪个项目、它什么时候上线？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [
+    "美式"
+   ],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S6",
+   "sent_idx": 4,
+   "sentence": "答：我常想的项目是蓝鲸，它计划在3月14日上线。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "蓝鲸",
+    "3月14日"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 0,
+   "sentence": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 1,
+   "sentence": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 2,
+   "sentence": "答：我的地址是广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 3,
+   "sentence": "问：我的家庭地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 4,
+   "sentence": "答：我的家庭地址是广陵路 12 号 2 十单元 602。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "602"
+   ],
+   "unhit_facts": [
+    "十单元"
+   ],
+   "reason": "含无记忆支撑的断言：十单元"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 5,
+   "sentence": "等等，这里有个错误，单元号是2单元，不是2十单元。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [
+    "2单元"
+   ],
+   "unhit_facts": [
+    "十单元"
+   ],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 6,
+   "sentence": "我需要修改这个错误。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 7,
+   "sentence": "现在，我需要将所有类似的错误都找出来并修正。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 8,
+   "sentence": "请帮我检查一下我的回答，找出所有错误的地方。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 9,
+   "sentence": "</think>",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "控制/特殊 token 行（`</think>` 开闭标记，n_predict 截断处）"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 10,
+   "sentence": "我已检查所有回答，发现以下错误：",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 11,
+   "sentence": "1. 在回答“我的家庭地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "自我纠错叙述的碎片（问题引文被句号切开）"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 12,
+   "sentence": "”时，错误地将“2单元”写成了“2十单元”。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [
+    "2单元"
+   ],
+   "unhit_facts": [
+    "十单元"
+   ],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 13,
+   "sentence": "我已将此更正为正确的“2单元”。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [
+    "2单元"
+   ],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 14,
+   "sentence": "现在，所有回答均已修正，确保地址信息",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 0,
+   "sentence": "项目代号是蓝鲸。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "蓝鲸"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 1,
+   "sentence": "问：项目什么时候上线？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 2,
+   "sentence": "答：项目计划在3月14日上线。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "3月14日"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 3,
+   "sentence": "问：我住在哪？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 4,
+   "sentence": "答：我住在广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 5,
+   "sentence": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 6,
+   "sentence": "答：我的地址是广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 7,
+   "sentence": "问：我的家庭地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 8,
+   "sentence": "答：我的家庭地址是广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R3",
+   "sent_idx": 0,
+   "sentence": "我只喝美式咖啡，不加糖。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "美式",
+    "不加糖"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 0,
+   "sentence": "项目计划在3月14日上线。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "3月14日"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 1,
+   "sentence": "问：项目代号是什么？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 2,
+   "sentence": "答：项目代号是蓝鲸。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "蓝鲸"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 3,
+   "sentence": "问：我住在哪？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 4,
+   "sentence": "答：我住在广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 5,
+   "sentence": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 6,
+   "sentence": "答：我的地址是广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 7,
+   "sentence": "问：我的家庭地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 8,
+   "sentence": "答：我的家庭地址是广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 9,
+   "sentence": "问：我喝咖啡有什么习惯？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 10,
+   "sentence": "答：我只喝美式咖啡，不加糖。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "美式",
+    "不加糖"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R5",
+   "sent_idx": 0,
+   "sentence": "项目代号是蓝鲸，计划在3月14日上线。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "蓝鲸",
+    "3月14日"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R5",
+   "sent_idx": 1,
+   "sentence": "我住在广陵路12号2单元602，只喝美式咖啡，不加糖。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602",
+    "美式",
+    "不加糖"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 0,
+   "sentence": "我的住址是广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 1,
+   "sentence": "问：我的家庭住址在哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 2,
+   "sentence": "答：我的家庭住址在广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 3,
+   "sentence": "问：我住在哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 4,
+   "sentence": "答：我住在广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 5,
+   "sentence": "问：我的家庭地址是什么？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 6,
+   "sentence": "答：我的家庭地址是广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 7,
+   "sentence": "问：我的地址是什么？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 8,
+   "sentence": "答：我的地址是广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 9,
+   "sentence": "问：我住的具体地址是什么？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 10,
+   "sentence": "答：我住的具体地址是广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 11,
+   "sentence": "问：项目代号是什么？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 12,
+   "sentence": "答：项目代号是蓝鲸。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "蓝鲸"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 13,
+   "sentence": "问：项目什么时候上线？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 14,
+   "sentence": "答：项目计划在3月14日上线。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "3月14日"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 15,
+   "sentence": "问：我住在哪？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 16,
+   "sentence": "答：我住在广陵路12号2单元602",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "截断（n_predict 上限），已断言部分（广陵路12号2单元602）与源一致"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 0,
+   "sentence": "项目上线日期是3月14日。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "3月14日"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 1,
+   "sentence": "问：项目代号是什么？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 2,
+   "sentence": "答：项目代号是蓝鲸。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "蓝鲸"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 3,
+   "sentence": "问：我住在哪？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 4,
+   "sentence": "答：我住在广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 5,
+   "sentence": "问：我的家庭地址在哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 6,
+   "sentence": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 7,
+   "sentence": "问：我的家庭住址是什么？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 8,
+   "sentence": "答：我的家庭住址是广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 9,
+   "sentence": "问：我的家庭地址在哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 10,
+   "sentence": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 11,
+   "sentence": "问：我的家庭住址是什么？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 12,
+   "sentence": "答：我的家庭住址是广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 13,
+   "sentence": "问：我的家庭地址在哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 14,
+   "sentence": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 15,
+   "sentence": "问：我的家庭住址是什么？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 16,
+   "sentence": "答：我的家庭住址是广陵路12号",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号"
+   ],
+   "unhit_facts": [],
+   "reason": "截断（n_predict 上限），已断言部分「广陵路12号」与源一致；单元/602 未出"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 0,
+   "sentence": "我不加糖。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "不加糖"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 1,
+   "sentence": "问：我喝什么咖啡？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 2,
+   "sentence": "答：我喝美式咖啡。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "美式"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 3,
+   "sentence": "问：项目代号是什么？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 4,
+   "sentence": "答：项目代号是蓝鲸。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "蓝鲸"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 5,
+   "sentence": "问：项目什么时候上线？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 6,
+   "sentence": "答：项目计划在3月14日上线。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "3月14日"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 7,
+   "sentence": "问：我住在哪？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 8,
+   "sentence": "答：我住在广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 9,
+   "sentence": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 10,
+   "sentence": "答：我的地址是广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 11,
+   "sentence": "问：我的家庭地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 12,
+   "sentence": "答：我的家庭地址是广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 13,
+   "sentence": "问：我的家庭地址在哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 14,
+   "sentence": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 15,
+   "sentence": "问：我的家庭住址是什么？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 16,
+   "sentence": "答：我的家庭住址是广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 17,
+   "sentence": "问：我的家庭地址在哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 18,
+   "sentence": "答：我的家庭地址在广陵路1",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [
+    "广陵路"
+   ],
+   "unhit_facts": [],
+   "reason": "截断在事实中段（「广陵路1」），无可判完整断言"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 0,
+   "sentence": "我住在广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 1,
+   "sentence": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 2,
+   "sentence": "答：我的地址是广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 3,
+   "sentence": "问：我的家庭地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 4,
+   "sentence": "答：我的家庭地址是广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 5,
+   "sentence": "问：我的家庭地址在哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 6,
+   "sentence": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 7,
+   "sentence": "问：我的家庭住址是什么？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 8,
+   "sentence": "答：我的家庭住址是广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 9,
+   "sentence": "问：我的家庭地址在哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 10,
+   "sentence": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 11,
+   "sentence": "问：我的家庭住址是什么？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 12,
+   "sentence": "答：我的家庭住址是广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 13,
+   "sentence": "问：我的家庭地址在哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 14,
+   "sentence": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 15,
+   "sentence": "问：我的",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 0,
+   "sentence": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 1,
+   "sentence": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 2,
+   "sentence": "答：我的地址是广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 3,
+   "sentence": "问：我的家庭地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 4,
+   "sentence": "答：我的家庭地址是广陵路 12 号 2 十单元 602。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "602"
+   ],
+   "unhit_facts": [
+    "十单元"
+   ],
+   "reason": "含无记忆支撑的断言：十单元"
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 5,
+   "sentence": "等等，这里有个错误，单元号是2单元，不是2十单元。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [
+    "2单元"
+   ],
+   "unhit_facts": [
+    "十单元"
+   ],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 6,
+   "sentence": "我需要修改这个错误。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 7,
+   "sentence": "现在，我需要将所有类似的错误都找出来并修正。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 8,
+   "sentence": "请帮我检查一下我的回答，找出所有",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 0,
+   "sentence": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 1,
+   "sentence": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 2,
+   "sentence": "答：我的地址是广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 3,
+   "sentence": "问：我的家庭地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 4,
+   "sentence": "答：我的家庭地址是广陵路 12 号 2 十单元 602。",
+   "label": "unsupported",
+   "adj_truth_class": "fabricated",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "602"
+   ],
+   "unhit_facts": [
+    "十单元"
+   ],
+   "reason": "含无记忆支撑的断言：十单元"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 5,
+   "sentence": "等等，这里有个错误，单元号是2单元，不是2十单元。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [
+    "2单元"
+   ],
+   "unhit_facts": [
+    "十单元"
+   ],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 6,
+   "sentence": "我需要修改这个错误。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 7,
+   "sentence": "现在，我需要将所有类似的错误都找出来并修正。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 8,
+   "sentence": "请帮我检查一下我的回答，找出所有",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 9,
+   "sentence": "</think>",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "控制/特殊 token 行（`</think>` 开闭标记，n_predict 截断处）"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 10,
+   "sentence": "我将帮助您检查并修正回答中的错误。",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 11,
+   "sentence": "以下是修正后的回答：",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "元叙述/自我纠错/请求，非外部事实断言"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 12,
+   "sentence": "问：我住在哪？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 13,
+   "sentence": "答：我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "adj_truth_class": "supported",
+   "basis_facts": [
+    "广陵路",
+    "12号",
+    "2单元",
+    "602"
+   ],
+   "unhit_facts": [],
+   "reason": "断言可由记忆块直接支撑"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 14,
+   "sentence": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [],
+   "unhit_facts": [],
+   "reason": "疑问句，无事实断言"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 15,
+   "sentence": "答：我的地址是广陵路 1",
+   "label": "no_fact",
+   "adj_truth_class": "no_fact",
+   "basis_facts": [
+    "广陵路"
+   ],
+   "unhit_facts": [],
+   "reason": "截断在事实中段（「广陵路 1」），无可判完整断言"
+  }
+ ],
+ "count": {
+  "total": 185,
+  "supported": 64,
+  "unsupported": 18,
+  "undecidable": 0,
+  "no_fact": 103
+ },
+ "count_by_scenario": {
+  "S1": {
+   "n_sentences": 15,
+   "supported": 2,
+   "unsupported": 1,
+   "undecidable": 0,
+   "no_fact": 12
+  },
+  "S2": {
+   "n_sentences": 3,
+   "supported": 2,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 1
+  },
+  "S3": {
+   "n_sentences": 3,
+   "supported": 1,
+   "unsupported": 1,
+   "undecidable": 0,
+   "no_fact": 1
+  },
+  "S4": {
+   "n_sentences": 11,
+   "supported": 0,
+   "unsupported": 5,
+   "undecidable": 0,
+   "no_fact": 6
+  },
+  "S5": {
+   "n_sentences": 16,
+   "supported": 0,
+   "unsupported": 8,
+   "undecidable": 0,
+   "no_fact": 8
+  },
+  "S6": {
+   "n_sentences": 5,
+   "supported": 3,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 2
+  },
+  "S7-R1": {
+   "n_sentences": 15,
+   "supported": 2,
+   "unsupported": 1,
+   "undecidable": 0,
+   "no_fact": 12
+  },
+  "S7-R2": {
+   "n_sentences": 9,
+   "supported": 5,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 4
+  },
+  "S7-R3": {
+   "n_sentences": 1,
+   "supported": 1,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 0
+  },
+  "S7-R4": {
+   "n_sentences": 11,
+   "supported": 6,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 5
+  },
+  "S7-R5": {
+   "n_sentences": 2,
+   "supported": 2,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 0
+  },
+  "S7-R6": {
+   "n_sentences": 17,
+   "supported": 9,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 8
+  },
+  "S7-R7": {
+   "n_sentences": 17,
+   "supported": 9,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 8
+  },
+  "S7-R8": {
+   "n_sentences": 19,
+   "supported": 9,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 10
+  },
+  "S7-R9": {
+   "n_sentences": 16,
+   "supported": 8,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 8
+  },
+  "S8-A": {
+   "n_sentences": 9,
+   "supported": 2,
+   "unsupported": 1,
+   "undecidable": 0,
+   "no_fact": 6
+  },
+  "S8-B": {
+   "n_sentences": 16,
+   "supported": 3,
+   "unsupported": 1,
+   "undecidable": 0,
+   "no_fact": 12
+  }
+ },
+ "note": [
+  "lead 裁定 1（逐字记录）：S7 R9 丢 `P/单元号`（`fact_kept=false`）判为**真实的长会话衰减信号**，不是装置问题；按预登记照实标，**不许因为它影响其他题标注**。ADJ 盲标观察：raw 中 S7-R9 第 0 句文本为「我住在广陵路12号2单元602。」（含 单元号/602），文本层面未见丢失；若 `fact_kept=false` 来自 JUDGE 事实抽取或 S8 resume 链路，不在本盲标范围，本件不因此改任何标签。",
+  "lead 裁定 2（逐字记录）：后检瞬时 `vram_baseline_gib=0.5197`（>0.5）判为**停机后显存回收滞后**，属非阻塞；两个读数都保留、阈值不改；`gate_after_final_ok=true` 采纳。ADJ 侧不涉及。",
+  "attempt#1 的 `OverflowError` 已如实入 CAND `attempts[]`（`counted_in_verdict=false`）；本盲标只针对 attempt#2 的 17 份答案。",
+  "文件名差异：预登记 §4/§6 写 `out/M5C-36-adj-sealed.json`，lead 派单要求 `out/M5C-36-adj.json`；两份内容完全相同（同一次封存、sha16 相同），以 `M5C-36-adj.json` 为 LANDED 登记件，`-sealed.json` 保留为预登记名。",
+  "`unsupported` 与 JUDGE 的 `unsupported` 不是同一语义：本件 `unsupported` = ADJ 真值侧「无记忆支撑的断言」（含编造与无来源扩写），不是判据输出。",
+  "`S3-00` 为「无来源扩写、未与源直接冲突」的边界样本（已标 unsupported 并在 reason 注明），供 LEAD 三方对齐时复核。",
+  "截断句按「已断言部分」处理：`S7-R6-16`/`S7-R7-16` 标 supported（已出事实与源一致、缺尾）；`S8-B-15`/`S7-R8-18`/`S4-10`/`S5-15` 标 no_fact（截断在断言中段）。全部截断均因 `n_predict` 上限，非重试/挑选。"
+ ],
+ "flags": [
+  "S3-00:elaboration_not_contradiction",
+  "S4:杭州为无来源断言（记忆未提城市）",
+  "S5:car 未挂载（预登记 S5 诱导虚构）",
+  "truncated_sentences:n_predict_limit"
+ ],
+ "limitations": [
+  "单盲标者（ADJ 角色本人），无第二盲标；三方对齐时 LEAD 可要求复标。",
+  "句切分为规则化自动切分（。！？）+ 人工逐句判类；`</think>` 控制行与截断残句按规则单列。",
+  "本件不跑 JUDGE、不算两率、不读主件 `M5C-36-r1.json`；`undecidable=0` 因本批无繁体/P-c 类句子。",
+  "ADJ 真值依赖三条记忆块原文；未引入外部知识。"
+ ],
+ "no_judge_run": true,
+ "no_rates_computed": true,
+ "no_final_verdict": true
+}

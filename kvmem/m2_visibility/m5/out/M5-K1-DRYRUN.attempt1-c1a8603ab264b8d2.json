@@ -1,0 +1,405 @@
+{
+ "schema": "m5_k1_dryrun_v1",
+ "task": "K1 fixture + empty-gun dry run; no kill",
+ "role": "CAND",
+ "at": "2026-10-26T11:32:37+0800",
+ "prereg": {
+  "path": "D:\\llama-mem\\docs\\_work\\PREREG-KILL-ARM-v2.md",
+  "sha16": "42434b91d3923d1a",
+  "bytes": 18253
+ },
+ "armed": false,
+ "signals_sent": 0,
+ "no_kill": true,
+ "model_loaded": {
+  "dryrun": false,
+  "recovery": false
+ },
+ "kill_attempts": 0,
+ "segments": {
+  "dryrun": {
+   "segment": "dryrun_no_model",
+   "t0": 29272.9376244,
+   "elapsed_s": 0.378,
+   "timed_out": false,
+   "returncode": 1,
+   "poll_iterations": 27,
+   "peak_gib": 0.0,
+   "state_log": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_state_k1_001.log",
+    "sha16": "2ac8038a9d24d30b",
+    "bytes": 350
+   },
+   "states": [
+    {
+     "state": "vulkan_init",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {}
+    },
+    {
+     "state": "instance_created",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": 0,
+      "instance": true
+     }
+    },
+    {
+     "state": "graceful_exit",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "status": "未接上（子进程异常）",
+      "model_loaded": false,
+      "armed": false,
+      "signals_sent": 0
+     }
+    }
+   ],
+   "child_result": {
+    "schema": "m5_k1_park_child_v1",
+    "run": 1,
+    "model_loaded": false,
+    "armed": false,
+    "signals_sent": 0,
+    "state_log": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_state_k1_001.log",
+    "source": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5-KILL-before.kvmem",
+    "target": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_k1\\run-001\\target.kvmem",
+    "started_at": "2026-10-26T11:32:45.429+0800",
+    "states": [],
+    "vk": null,
+    "save": null,
+    "status": "未接上（子进程异常）",
+    "error": "TypeError: Logger.st() got multiple values for argument 'name'",
+    "source_info": {
+     "n_tokens": 50,
+     "bytes": 5224388,
+     "sha16": "3b046c8ee3fb3b53"
+    },
+    "finished_at": "2026-10-26T11:32:45.483+0800",
+    "elapsed_s": 0.062
+   },
+   "stdout_tail": "[STATE vulkan_init t_mono=0.000000 t_wall=2026-10-26T11:32:45.432+0800] {}\n[STATE instance_created t_mono=0.062000 t_wall=2026-10-26T11:32:45.483+0800] {\"rc\":0,\"instance\":true}\n[STATE graceful_exit t_mono=0.062000 t_wall=2026-10-26T11:32:45.483+0800] {\"status\":\"未接上（子进程异常）\",\"model_loaded\":false,\"armed\":false,\"signals_sent\":0}\n",
+   "stderr_tail": "",
+   "signals_sent": 0,
+   "armed": false,
+   "model_loaded": false,
+   "failure": {
+    "error": "TypeError: Logger.st() got multiple values for argument 'name'",
+    "stage": "physical_device log after props, before vkCreateDevice",
+    "vkCreateDevice_called": false,
+    "peak_gib": 0.0,
+    "note": "失败发生在 Logger.st 的参数名冲突；state 时间线只到 instance_created。"
+   }
+  }
+ },
+ "attempts": [
+  {
+   "n": 1,
+   "stage": "dryrun_no_model",
+   "status": "failed",
+   "error_detail": "TypeError: Logger.st() got multiple values for argument 'name'",
+   "failure_stage": "Logger.st() 参数名与 detail 的 name 冲突；发生在 physical_device 属性记录时、queue/device 创建之前",
+   "vk_create_device_called": false,
+   "vk_instance_created": true,
+   "disposition": "工具异常（非 vkCreateDevice 失败）；按上界停手，未重试第二次；修码留用，恢复段未跑。",
+   "signals_sent": 0,
+   "armed": false
+  },
+  {
+   "n": 2,
+   "stage": "recovery_14b_load_strict",
+   "status": "skipped",
+   "reason": "试装段异常，按“任何异常即停手”上界未进入恢复段；未加载模型，未生成 M5-KILL-after.kvmem。",
+   "signals_sent": 0,
+   "armed": false
+  }
+ ],
+ "host_gate": {
+  "before_dryrun": {
+   "tag": "before_dryrun",
+   "first": {
+    "pnp_rndis_usb_audio": 0,
+    "vram_baseline_gib": 0.4266,
+    "free_ram_kb": 12338540,
+    "gpu_procs_gt256mb": 0,
+    "browser_or_code_procs": 0,
+    "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+    "prereg_sha16": "42434b91d3923d1a",
+    "prereg_ok": true,
+    "free_ram_ok": true,
+    "vram_baseline_ok": true,
+    "gpu_procs_ok": true,
+    "browsers_ok": true,
+    "gate_ok": true
+   },
+   "final": {
+    "pnp_rndis_usb_audio": 0,
+    "vram_baseline_gib": 0.4266,
+    "free_ram_kb": 12338540,
+    "gpu_procs_gt256mb": 0,
+    "browser_or_code_procs": 0,
+    "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+    "prereg_sha16": "42434b91d3923d1a",
+    "prereg_ok": true,
+    "free_ram_ok": true,
+    "vram_baseline_ok": true,
+    "gpu_procs_ok": true,
+    "browsers_ok": true,
+    "gate_ok": true
+   },
+   "reads": [
+    {
+     "pnp_rndis_usb_audio": 0,
+     "vram_baseline_gib": 0.4266,
+     "free_ram_kb": 12338540,
+     "gpu_procs_gt256mb": 0,
+     "browser_or_code_procs": 0,
+     "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+     "prereg_sha16": "42434b91d3923d1a",
+     "prereg_ok": true,
+     "free_ram_ok": true,
+     "vram_baseline_ok": true,
+     "gpu_procs_ok": true,
+     "browsers_ok": true,
+     "gate_ok": true
+    }
+   ],
+   "gate_ok": true,
+   "transient_vram": false
+  },
+  "before_dryrun_snapshot": {
+   "tag": "before_dryrun",
+   "raw": {
+    "tag": "before_dryrun",
+    "collected_at": "2026-10-26T11:32:45+0800",
+    "boot": {
+     "command": "(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString('o')",
+     "rc": 0,
+     "collected_at": "2026-10-26T11:32:44+0800",
+     "stdout": "2026-10-26T03:24:52.5000000+08:00",
+     "stderr": ""
+    },
+    "minidump": {
+     "command": "Get-ChildItem -LiteralPath 'C:\\Windows\\Minidump' -Filter '*.dmp' -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime | Select-Object Name,Length,@{n='LastWriteTime';e={$_.LastWriteTime.ToString('o')}} | ConvertTo-Json -Compress",
+     "rc": 0,
+     "collected_at": "2026-10-26T11:32:45+0800",
+     "stdout": "[{\"Name\":\"102626-5187-01.dmp\",\"Length\":2201077,\"LastWriteTime\":\"2026-10-26T01:31:36.2997028+08:00\"},{\"Name\":\"102626-4468-01.dmp\",\"Length\":1994809,\"LastWriteTime\":\"2026-10-26T01:38:56.5625530+08:00\"},{\"Name\":\"102626-4593-01.dmp\",\"Length\":1063617,\"LastWriteTime\":\"2026-10-26T01:56:32.6758278+08:00\"},{\"Name\":\"102626-4437-01.dmp\",\"Length\":2062496,\"LastWriteTime\":\"2026-10-26T03:10:17.4578327+08:00\"},{\"Name\":\"102626-4671-01.dmp\",\"Length\":2043758,\"LastWriteTime\":\"2026-10-26T03:24:55.7693314+08:00\"}]",
+     "stderr": ""
+    },
+    "parsed": {
+     "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+     "dumps": [
+      {
+       "name": "102626-5187-01.dmp",
+       "bytes": 2201077,
+       "mtime": "2026-10-26T01:31:36.2997028+08:00"
+      },
+      {
+       "name": "102626-4468-01.dmp",
+       "bytes": 1994809,
+       "mtime": "2026-10-26T01:38:56.5625530+08:00"
+      },
+      {
+       "name": "102626-4593-01.dmp",
+       "bytes": 1063617,
+       "mtime": "2026-10-26T01:56:32.6758278+08:00"
+      },
+      {
+       "name": "102626-4437-01.dmp",
+       "bytes": 2062496,
+       "mtime": "2026-10-26T03:10:17.4578327+08:00"
+      },
+      {
+       "name": "102626-4671-01.dmp",
+       "bytes": 2043758,
+       "mtime": "2026-10-26T03:24:55.7693314+08:00"
+      }
+     ],
+     "existing_count": 5,
+     "latest_mtime": "2026-10-26T03:24:55.7693314+08:00"
+    }
+   }
+  },
+  "after_dryrun": {
+   "tag": "after_dryrun",
+   "first": {
+    "pnp_rndis_usb_audio": 0,
+    "vram_baseline_gib": 0.4266,
+    "free_ram_kb": 12248700,
+    "gpu_procs_gt256mb": 0,
+    "browser_or_code_procs": 0,
+    "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+    "prereg_sha16": "42434b91d3923d1a",
+    "prereg_ok": true,
+    "free_ram_ok": true,
+    "vram_baseline_ok": true,
+    "gpu_procs_ok": true,
+    "browsers_ok": true,
+    "gate_ok": true
+   },
+   "final": {
+    "pnp_rndis_usb_audio": 0,
+    "vram_baseline_gib": 0.4266,
+    "free_ram_kb": 12248700,
+    "gpu_procs_gt256mb": 0,
+    "browser_or_code_procs": 0,
+    "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+    "prereg_sha16": "42434b91d3923d1a",
+    "prereg_ok": true,
+    "free_ram_ok": true,
+    "vram_baseline_ok": true,
+    "gpu_procs_ok": true,
+    "browsers_ok": true,
+    "gate_ok": true
+   },
+   "reads": [
+    {
+     "pnp_rndis_usb_audio": 0,
+     "vram_baseline_gib": 0.4266,
+     "free_ram_kb": 12248700,
+     "gpu_procs_gt256mb": 0,
+     "browser_or_code_procs": 0,
+     "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+     "prereg_sha16": "42434b91d3923d1a",
+     "prereg_ok": true,
+     "free_ram_ok": true,
+     "vram_baseline_ok": true,
+     "gpu_procs_ok": true,
+     "browsers_ok": true,
+     "gate_ok": true
+    }
+   ],
+   "gate_ok": true,
+   "transient_vram": false
+  },
+  "after_dryrun_snapshot": {
+   "tag": "after_dryrun",
+   "raw": {
+    "tag": "after_dryrun",
+    "collected_at": "2026-10-26T11:32:53+0800",
+    "boot": {
+     "command": "(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString('o')",
+     "rc": 0,
+     "collected_at": "2026-10-26T11:32:52+0800",
+     "stdout": "2026-10-26T03:24:52.5000000+08:00",
+     "stderr": ""
+    },
+    "minidump": {
+     "command": "Get-ChildItem -LiteralPath 'C:\\Windows\\Minidump' -Filter '*.dmp' -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime | Select-Object Name,Length,@{n='LastWriteTime';e={$_.LastWriteTime.ToString('o')}} | ConvertTo-Json -Compress",
+     "rc": 0,
+     "collected_at": "2026-10-26T11:32:53+0800",
+     "stdout": "[{\"Name\":\"102626-5187-01.dmp\",\"Length\":2201077,\"LastWriteTime\":\"2026-10-26T01:31:36.2997028+08:00\"},{\"Name\":\"102626-4468-01.dmp\",\"Length\":1994809,\"LastWriteTime\":\"2026-10-26T01:38:56.5625530+08:00\"},{\"Name\":\"102626-4593-01.dmp\",\"Length\":1063617,\"LastWriteTime\":\"2026-10-26T01:56:32.6758278+08:00\"},{\"Name\":\"102626-4437-01.dmp\",\"Length\":2062496,\"LastWriteTime\":\"2026-10-26T03:10:17.4578327+08:00\"},{\"Name\":\"102626-4671-01.dmp\",\"Length\":2043758,\"LastWriteTime\":\"2026-10-26T03:24:55.7693314+08:00\"}]",
+     "stderr": ""
+    },
+    "parsed": {
+     "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+     "dumps": [
+      {
+       "name": "102626-5187-01.dmp",
+       "bytes": 2201077,
+       "mtime": "2026-10-26T01:31:36.2997028+08:00"
+      },
+      {
+       "name": "102626-4468-01.dmp",
+       "bytes": 1994809,
+       "mtime": "2026-10-26T01:38:56.5625530+08:00"
+      },
+      {
+       "name": "102626-4593-01.dmp",
+       "bytes": 1063617,
+       "mtime": "2026-10-26T01:56:32.6758278+08:00"
+      },
+      {
+       "name": "102626-4437-01.dmp",
+       "bytes": 2062496,
+       "mtime": "2026-10-26T03:10:17.4578327+08:00"
+      },
+      {
+       "name": "102626-4671-01.dmp",
+       "bytes": 2043758,
+       "mtime": "2026-10-26T03:24:55.7693314+08:00"
+      }
+     ],
+     "existing_count": 5,
+     "latest_mtime": "2026-10-26T03:24:55.7693314+08:00"
+    }
+   }
+  }
+ },
+ "device": {
+  "dryrun": {
+   "vulkan": {
+    "instance_created": true,
+    "instance_rc": 0,
+    "vk_create_device_called": false,
+    "device_destroyed": false,
+    "instance_destroyed": false
+   },
+   "peak_gib": 0.0,
+   "model_loaded": false,
+   "signals_sent": 0,
+   "note": "未到达 VkDevice；峰值 0.0 是失败前采样，不代表设备显存。"
+  }
+ },
+ "limitations": [
+  "本轮唯一一次试装失败于夹具 Logger.st 参数冲突，未进入 vkCreateDevice，未加载模型，未跑恢复段。",
+  "按上界停手：未重试第二次；after 未生成；load_strict 未做。",
+  "未发任何 kill 信号（signals_sent=0, armed=false）；未改产品码/DLL。",
+  "当前夹具已修（Logger.st 的 state_name），但没有第二次试装；失败件的 child hash 为修复前，未捕获。"
+ ],
+ "status": "未接上（试装段工具异常，停手；无第二次试装）",
+ "four_state": "未接上（试装异常；100 次真杀未跑）",
+ "fixtures": {
+  "profile": {
+   "path": "D:\\llama-mem\\kvmem\\blocks\\profile.kvmem",
+   "sha16": "3b046c8ee3fb3b53",
+   "bytes": 5224388,
+   "n_tokens": 50
+  },
+  "before": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5-KILL-before.kvmem",
+   "sha16": "3b046c8ee3fb3b53",
+   "bytes": 5224388,
+   "n_tokens": 50
+  },
+  "after": null,
+  "before_n_tokens": 50,
+  "after_present": false,
+  "fixture_hashes_current": {
+   "child": {
+    "path": "kvmem/m2_visibility/m5/out/_k1_park_child.py",
+    "sha16": "9339107866cbc84c",
+    "bytes": 24243
+   },
+   "parent": {
+    "path": "kvmem/m2_visibility/m5/out/_k1_park_parent.py",
+    "sha16": "854fbe3dcd93ace5",
+    "bytes": 17535
+   },
+   "recovery": {
+    "path": "kvmem/m2_visibility/m5/out/_k1_recovery.py",
+    "sha16": "52f33f17e10ee7ca",
+    "bytes": 7029
+   },
+   "note": "failed attempt 使用 pre-patch child（Logger.st 参数名冲突）；当前 child 已修，未重跑。"
+  }
+ },
+ "recovery": {
+  "status": "skipped",
+  "reason": "试装段失败，未跑恢复段",
+  "model_loaded": false,
+  "after_file": null,
+  "load_strict": {
+   "done": false,
+   "reason": "未执行（试装段已停手）"
+  }
+ },
+ "load_strict": {
+  "done": false,
+  "reason": "试装段失败；恢复段未跑"
+ },
+ "disposition": "本轮唯一一次空枪试装失败于夹具代码参数冲突；不是 vkCreateDevice 失败，未发 kill 信号，未重试、未加载模型、未跑恢复段。"
+}

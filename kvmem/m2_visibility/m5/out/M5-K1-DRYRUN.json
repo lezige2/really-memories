@@ -1,0 +1,1265 @@
+{
+ "schema": "m5_k1_dryrun_v1",
+ "task": "K1 fixture + empty-gun dry run; no kill",
+ "role": "CAND",
+ "at": "2026-10-26T11:35:43+0800",
+ "prereg": {
+  "path": "D:\\llama-mem\\docs\\_work\\PREREG-KILL-ARM-v2.md",
+  "sha16": "42434b91d3923d1a",
+  "bytes": 18253
+ },
+ "armed": false,
+ "signals_sent": 0,
+ "no_kill": true,
+ "model_loaded": {
+  "dryrun": false,
+  "recovery": false
+ },
+ "kill_attempts": 0,
+ "segments": {
+  "dryrun": {
+   "segment": "dryrun_no_model",
+   "t0": 29459.113798,
+   "elapsed_s": 131.011,
+   "timed_out": true,
+   "returncode": null,
+   "poll_iterations": 22010,
+   "peak_gib": 0.4236,
+   "state_log": {
+    "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_state_k1_001.log",
+    "sha16": "b2ad4beefd8a2524",
+    "bytes": 7364
+   },
+   "states": [
+    {
+     "state": "vulkan_init",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {}
+    },
+    {
+     "state": "instance_created",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": 0,
+      "instance": true
+     }
+    },
+    {
+     "state": "physical_device",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": null,
+      "name": "AMD Radeon RX 6750 GRE 10GB",
+      "api_version": 4211003,
+      "driver_version": 8388961,
+      "vendor_id": 4098,
+      "device_id": 29695,
+      "device_type": 2,
+      "device_count": 1
+     }
+    },
+    {
+     "state": "queue_family",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "index": 0,
+      "flags": 15,
+      "queue_count": 8
+     }
+    },
+    {
+     "state": "device_created",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": 0,
+      "device": true
+     }
+    },
+    {
+     "state": "buffer_created",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": 0
+     }
+    },
+    {
+     "state": "memory_allocated",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": 0,
+      "size": 4096,
+      "memory_type": 1
+     }
+    },
+    {
+     "state": "buffer_bound",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": 0
+     }
+    },
+    {
+     "state": "command_pool_created",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": 0
+     }
+    },
+    {
+     "state": "command_buffer_allocated",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": 0,
+      "command_buffer": true
+     }
+    },
+    {
+     "state": "command_buffer_begin",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": 0
+     }
+    },
+    {
+     "state": "command_buffer_end",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": 0
+     }
+    },
+    {
+     "state": "fence_created",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": 0
+     }
+    },
+    {
+     "state": "fence_reset",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": 0
+     }
+    },
+    {
+     "state": "submitted",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": 0,
+      "submitted": true
+     }
+    },
+    {
+     "state": "fence_wait",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": 0
+     }
+    },
+    {
+     "state": "device_ready",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "queue_family": 0,
+      "submitted": true,
+      "buffer_bytes": 4096,
+      "memory_type": 1
+     }
+    },
+    {
+     "state": "park",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {}
+    },
+    {
+     "state": "wait_idle",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": 0
+     }
+    },
+    {
+     "state": "destroy_device",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": null,
+      "api": "void",
+      "completed": true
+     }
+    },
+    {
+     "state": "destroy_instance",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "rc": null,
+      "api": "void",
+      "completed": true
+     }
+    },
+    {
+     "state": "parked",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "device_destroyed": true,
+      "instance_destroyed": true,
+      "held_device": false,
+      "vulkan_calls_after_park": 0
+     }
+    },
+    {
+     "state": "holding",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "device_destroyed": true,
+      "pure_file": true
+     }
+    },
+    {
+     "state": "target_initialized",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "target": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_k1\\run-001\\target.kvmem",
+      "sha16": "3b046c8ee3fb3b53",
+      "n_tokens": 50,
+      "bytes": 5224388
+     }
+    },
+    {
+     "state": "save_loop",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "of": 3
+     }
+    },
+    {
+     "state": "saving_cycle",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "phase": "pre_tmp"
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "frac": 0.0,
+      "chunk_bytes": 65536
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "frac": 0.0125,
+      "chunk": 1,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "frac": 0.1004,
+      "chunk": 8,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "frac": 0.2007,
+      "chunk": 16,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "frac": 0.3011,
+      "chunk": 24,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "frac": 0.4014,
+      "chunk": 32,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "frac": 0.5018,
+      "chunk": 40,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "frac": 0.6021,
+      "chunk": 48,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "frac": 0.7025,
+      "chunk": 56,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "frac": 0.8028,
+      "chunk": 64,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "frac": 0.9032,
+      "chunk": 72,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "frac": 1.0,
+      "chunk": 80,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_ready",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_k1\\run-001\\target.kvmem.tmp-5204-1",
+      "bytes": 5224388
+     }
+    },
+    {
+     "state": "fsynced",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_k1\\run-001\\target.kvmem.tmp-5204-1"
+     }
+    },
+    {
+     "state": "replaced",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "mode": "write_through"
+     }
+    },
+    {
+     "state": "hold",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "hold_s": 0.4
+     }
+    },
+    {
+     "state": "hold_end",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1
+     }
+    },
+    {
+     "state": "saving_cycle",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 1,
+      "phase": "done",
+      "third": false
+     }
+    },
+    {
+     "state": "save_loop",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "of": 3
+     }
+    },
+    {
+     "state": "saving_cycle",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "phase": "pre_tmp"
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "frac": 0.0,
+      "chunk_bytes": 65536
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "frac": 0.0125,
+      "chunk": 1,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "frac": 0.1004,
+      "chunk": 8,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "frac": 0.2007,
+      "chunk": 16,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "frac": 0.3011,
+      "chunk": 24,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "frac": 0.4014,
+      "chunk": 32,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "frac": 0.5018,
+      "chunk": 40,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "frac": 0.6021,
+      "chunk": 48,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "frac": 0.7025,
+      "chunk": 56,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "frac": 0.8028,
+      "chunk": 64,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "frac": 0.9032,
+      "chunk": 72,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_writing",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "frac": 1.0,
+      "chunk": 80,
+      "chunks": 80
+     }
+    },
+    {
+     "state": "tmp_ready",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_k1\\run-001\\target.kvmem.tmp-5204-2",
+      "bytes": 5224388
+     }
+    },
+    {
+     "state": "fsynced",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "tmp": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_k1\\run-001\\target.kvmem.tmp-5204-2"
+     }
+    },
+    {
+     "state": "replaced",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "mode": "write_through"
+     }
+    },
+    {
+     "state": "hold",
+     "t_mono": null,
+     "t_wall": null,
+     "detail": {
+      "cycle": 2,
+      "hold_s": 0.4
+     }
+    }
+   ],
+   "child_result": {
+    "schema": "m5_k1_park_child_v1",
+    "run": 1,
+    "model_loaded": false,
+    "armed": false,
+    "signals_sent": 0,
+    "state_log": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_state_k1_001.log",
+    "source": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5-KILL-before.kvmem",
+    "target": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\kill_k1\\run-001\\target.kvmem",
+    "started_at": "2026-10-26T11:35:51.584+0800",
+    "states": [],
+    "vk": {
+     "ok": true,
+     "device_name": "AMD Radeon RX 6750 GRE 10GB",
+     "driver_version": 8388961,
+     "vendor_id": 4098,
+     "device_id": 29695,
+     "device_type": 2,
+     "queue_family": 0,
+     "queue_flags": 15,
+     "queue_count": 8,
+     "buffer_bytes": 4096,
+     "memory_type": 1,
+     "memory_size": 4096,
+     "submitted": true,
+     "device_destroyed": true,
+     "instance_destroyed": true,
+     "calls": [
+      {
+       "call": "vkCreateInstance",
+       "rc": 0,
+       "ms": 31.629,
+       "error": null
+      },
+      {
+       "call": "vkEnumeratePhysicalDevices.count",
+       "rc": 0,
+       "ms": 0.3925,
+       "error": null
+      },
+      {
+       "call": "vkEnumeratePhysicalDevices.list",
+       "rc": 0,
+       "ms": 0.2924,
+       "error": null
+      },
+      {
+       "call": "vkGetPhysicalDeviceProperties",
+       "rc": null,
+       "ms": 0.0051,
+       "error": null
+      },
+      {
+       "call": "vkCreateDevice",
+       "rc": 0,
+       "ms": 146.3631,
+       "error": null
+      },
+      {
+       "call": "vkCreateBuffer",
+       "rc": 0,
+       "ms": 0.005,
+       "error": null
+      },
+      {
+       "call": "vkAllocateMemory",
+       "rc": 0,
+       "ms": 0.4876,
+       "error": null
+      },
+      {
+       "call": "vkBindBufferMemory",
+       "rc": 0,
+       "ms": 0.0051,
+       "error": null
+      },
+      {
+       "call": "vkCreateCommandPool",
+       "rc": 0,
+       "ms": 0.0101,
+       "error": null
+      },
+      {
+       "call": "vkAllocateCommandBuffers",
+       "rc": 0,
+       "ms": 0.0104,
+       "error": null
+      },
+      {
+       "call": "vkBeginCommandBuffer",
+       "rc": 0,
+       "ms": 0.7787,
+       "error": null
+      },
+      {
+       "call": "vkEndCommandBuffer",
+       "rc": 0,
+       "ms": 0.7213,
+       "error": null
+      },
+      {
+       "call": "vkCreateFence",
+       "rc": 0,
+       "ms": 0.0047,
+       "error": null
+      },
+      {
+       "call": "vkResetFences",
+       "rc": 0,
+       "ms": 0.0113,
+       "error": null
+      },
+      {
+       "call": "vkQueueSubmit",
+       "rc": 0,
+       "ms": 0.0559,
+       "error": null
+      },
+      {
+       "call": "vkWaitForFences",
+       "rc": 0,
+       "ms": 0.1732,
+       "error": null
+      },
+      {
+       "call": "vkDeviceWaitIdle",
+       "rc": 0,
+       "ms": 0.0016,
+       "error": null
+      },
+      {
+       "call": "vkDestroyDevice",
+       "rc": null,
+       "ms": 6.2921,
+       "error": null
+      },
+      {
+       "call": "vkDestroyInstance",
+       "rc": null,
+       "ms": 29.0687,
+       "error": null
+      }
+     ]
+    },
+    "save": {
+     "source": {
+      "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5-KILL-before.kvmem",
+      "sha16": "3b046c8ee3fb3b53",
+      "bytes": 5224388,
+      "n_tokens": 50
+     },
+     "target_initial": {
+      "n_tokens": 50,
+      "bytes": 5224388,
+      "sha16": "3b046c8ee3fb3b53"
+     },
+     "saves": [
+      {
+       "cycle": 1,
+       "target_sha16": "3b046c8ee3fb3b53",
+       "target_bytes": 5224388,
+       "target_n_tokens": 50,
+       "third": false,
+       "replace_mode": "write_through",
+       "tmp_removed": true
+      },
+      {
+       "cycle": 2,
+       "target_sha16": "3b046c8ee3fb3b53",
+       "target_bytes": 5224388,
+       "target_n_tokens": 50,
+       "third": false,
+       "replace_mode": "write_through",
+       "tmp_removed": true
+      },
+      {
+       "cycle": 3,
+       "target_sha16": "3b046c8ee3fb3b53",
+       "target_bytes": 5224388,
+       "target_n_tokens": 50,
+       "third": false,
+       "replace_mode": "write_through",
+       "tmp_removed": true
+      }
+     ],
+     "all_third_zero": true
+    },
+    "status": "completed",
+    "error": null,
+    "source_info": {
+     "n_tokens": 50,
+     "bytes": 5224388,
+     "sha16": "3b046c8ee3fb3b53"
+    },
+    "finished_at": "2026-10-26T11:38:03.883+0800",
+    "elapsed_s": 132.297
+   },
+   "stdout_tail": "",
+   "stderr_tail": "",
+   "signals_sent": 0,
+   "armed": false,
+   "model_loaded": false,
+   "child_elapsed_s": 132.297,
+   "parent_timed_out_at_s": 131.011,
+   "stall": {
+    "location": "tmp_writing cycle1 chunk72 -> chunk80",
+    "gap_s": 129.0,
+    "note": "单次 unexplained 129s 文件写/调度停顿；child 仍完成，parent 120s 看门狗先超时。"
+   }
+  }
+ },
+ "attempts": [
+  {
+   "n": 1,
+   "stage": "dryrun_no_model",
+   "status": "failed",
+   "attempt_artifact": {
+    "path": "kvmem\\m2_visibility\\m5\\out\\M5-K1-DRYRUN.attempt1-c1a8603ab264b8d2.json",
+    "sha16": "c1a8603ab264b8d2",
+    "bytes": 13246
+   },
+   "error_detail": "TypeError: Logger.st() got multiple values for argument 'name'",
+   "failure_stage": "工具 bug；发生在 physical_device 日志记录，vkCreateDevice 之前",
+   "vk_create_device_called": false,
+   "counted_in_verdict": false
+  },
+  {
+   "n": 2,
+   "stage": "dryrun_no_model",
+   "status": "failed_timeout",
+   "child_status": "completed",
+   "child_elapsed_s": 132.297,
+   "parent_elapsed_s": 131.011,
+   "parent_watchdog_s": 120,
+   "reason": "父看门狗 131.011s 超时；child 在 132.297s 才完成。3 次 save 全 third=0、device/instance 均销毁、child graceful_exit=completed，但 132.3s > 8s 上界，试装不合格；按上界无第三次。",
+   "signals_sent": 0,
+   "armed": false,
+   "counted_in_verdict": false
+  },
+  {
+   "n": 3,
+   "stage": "recovery_14b_load_strict",
+   "status": "skipped",
+   "reason": "试装未过 8s 上界；按上界未进入恢复段，未加载模型，after 未生成。",
+   "signals_sent": 0,
+   "armed": false
+  }
+ ],
+ "host_gate": {
+  "before_dryrun": {
+   "tag": "before_dryrun",
+   "first": {
+    "pnp_rndis_usb_audio": 0,
+    "vram_baseline_gib": 0.4236,
+    "free_ram_kb": 12557800,
+    "gpu_procs_gt256mb": 0,
+    "browser_or_code_procs": 0,
+    "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+    "prereg_sha16": "42434b91d3923d1a",
+    "prereg_ok": true,
+    "free_ram_ok": true,
+    "vram_baseline_ok": true,
+    "gpu_procs_ok": true,
+    "browsers_ok": true,
+    "gate_ok": true
+   },
+   "final": {
+    "pnp_rndis_usb_audio": 0,
+    "vram_baseline_gib": 0.4236,
+    "free_ram_kb": 12557800,
+    "gpu_procs_gt256mb": 0,
+    "browser_or_code_procs": 0,
+    "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+    "prereg_sha16": "42434b91d3923d1a",
+    "prereg_ok": true,
+    "free_ram_ok": true,
+    "vram_baseline_ok": true,
+    "gpu_procs_ok": true,
+    "browsers_ok": true,
+    "gate_ok": true
+   },
+   "reads": [
+    {
+     "pnp_rndis_usb_audio": 0,
+     "vram_baseline_gib": 0.4236,
+     "free_ram_kb": 12557800,
+     "gpu_procs_gt256mb": 0,
+     "browser_or_code_procs": 0,
+     "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+     "prereg_sha16": "42434b91d3923d1a",
+     "prereg_ok": true,
+     "free_ram_ok": true,
+     "vram_baseline_ok": true,
+     "gpu_procs_ok": true,
+     "browsers_ok": true,
+     "gate_ok": true
+    }
+   ],
+   "gate_ok": true,
+   "transient_vram": false
+  },
+  "before_dryrun_snapshot": {
+   "tag": "before_dryrun",
+   "raw": {
+    "tag": "before_dryrun",
+    "collected_at": "2026-10-26T11:35:51+0800",
+    "boot": {
+     "command": "(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString('o')",
+     "rc": 0,
+     "collected_at": "2026-10-26T11:35:50+0800",
+     "stdout": "2026-10-26T03:24:52.5000000+08:00",
+     "stderr": ""
+    },
+    "minidump": {
+     "command": "Get-ChildItem -LiteralPath 'C:\\Windows\\Minidump' -Filter '*.dmp' -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime | Select-Object Name,Length,@{n='LastWriteTime';e={$_.LastWriteTime.ToString('o')}} | ConvertTo-Json -Compress",
+     "rc": 0,
+     "collected_at": "2026-10-26T11:35:51+0800",
+     "stdout": "[{\"Name\":\"102626-5187-01.dmp\",\"Length\":2201077,\"LastWriteTime\":\"2026-10-26T01:31:36.2997028+08:00\"},{\"Name\":\"102626-4468-01.dmp\",\"Length\":1994809,\"LastWriteTime\":\"2026-10-26T01:38:56.5625530+08:00\"},{\"Name\":\"102626-4593-01.dmp\",\"Length\":1063617,\"LastWriteTime\":\"2026-10-26T01:56:32.6758278+08:00\"},{\"Name\":\"102626-4437-01.dmp\",\"Length\":2062496,\"LastWriteTime\":\"2026-10-26T03:10:17.4578327+08:00\"},{\"Name\":\"102626-4671-01.dmp\",\"Length\":2043758,\"LastWriteTime\":\"2026-10-26T03:24:55.7693314+08:00\"}]",
+     "stderr": ""
+    },
+    "parsed": {
+     "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+     "dumps": [
+      {
+       "name": "102626-5187-01.dmp",
+       "bytes": 2201077,
+       "mtime": "2026-10-26T01:31:36.2997028+08:00"
+      },
+      {
+       "name": "102626-4468-01.dmp",
+       "bytes": 1994809,
+       "mtime": "2026-10-26T01:38:56.5625530+08:00"
+      },
+      {
+       "name": "102626-4593-01.dmp",
+       "bytes": 1063617,
+       "mtime": "2026-10-26T01:56:32.6758278+08:00"
+      },
+      {
+       "name": "102626-4437-01.dmp",
+       "bytes": 2062496,
+       "mtime": "2026-10-26T03:10:17.4578327+08:00"
+      },
+      {
+       "name": "102626-4671-01.dmp",
+       "bytes": 2043758,
+       "mtime": "2026-10-26T03:24:55.7693314+08:00"
+      }
+     ],
+     "existing_count": 5,
+     "latest_mtime": "2026-10-26T03:24:55.7693314+08:00"
+    }
+   }
+  },
+  "after_dryrun": {
+   "tag": "after_dryrun",
+   "first": {
+    "pnp_rndis_usb_audio": 0,
+    "vram_baseline_gib": 0.4207,
+    "free_ram_kb": 12782688,
+    "gpu_procs_gt256mb": 0,
+    "browser_or_code_procs": 0,
+    "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+    "prereg_sha16": "42434b91d3923d1a",
+    "prereg_ok": true,
+    "free_ram_ok": true,
+    "vram_baseline_ok": true,
+    "gpu_procs_ok": true,
+    "browsers_ok": true,
+    "gate_ok": true
+   },
+   "final": {
+    "pnp_rndis_usb_audio": 0,
+    "vram_baseline_gib": 0.4207,
+    "free_ram_kb": 12782688,
+    "gpu_procs_gt256mb": 0,
+    "browser_or_code_procs": 0,
+    "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+    "prereg_sha16": "42434b91d3923d1a",
+    "prereg_ok": true,
+    "free_ram_ok": true,
+    "vram_baseline_ok": true,
+    "gpu_procs_ok": true,
+    "browsers_ok": true,
+    "gate_ok": true
+   },
+   "reads": [
+    {
+     "pnp_rndis_usb_audio": 0,
+     "vram_baseline_gib": 0.4207,
+     "free_ram_kb": 12782688,
+     "gpu_procs_gt256mb": 0,
+     "browser_or_code_procs": 0,
+     "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+     "prereg_sha16": "42434b91d3923d1a",
+     "prereg_ok": true,
+     "free_ram_ok": true,
+     "vram_baseline_ok": true,
+     "gpu_procs_ok": true,
+     "browsers_ok": true,
+     "gate_ok": true
+    }
+   ],
+   "gate_ok": true,
+   "transient_vram": false
+  },
+  "after_dryrun_snapshot": {
+   "tag": "after_dryrun",
+   "raw": {
+    "tag": "after_dryrun",
+    "collected_at": "2026-10-26T11:38:09+0800",
+    "boot": {
+     "command": "(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString('o')",
+     "rc": 0,
+     "collected_at": "2026-10-26T11:38:08+0800",
+     "stdout": "2026-10-26T03:24:52.5000000+08:00",
+     "stderr": ""
+    },
+    "minidump": {
+     "command": "Get-ChildItem -LiteralPath 'C:\\Windows\\Minidump' -Filter '*.dmp' -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime | Select-Object Name,Length,@{n='LastWriteTime';e={$_.LastWriteTime.ToString('o')}} | ConvertTo-Json -Compress",
+     "rc": 0,
+     "collected_at": "2026-10-26T11:38:09+0800",
+     "stdout": "[{\"Name\":\"102626-5187-01.dmp\",\"Length\":2201077,\"LastWriteTime\":\"2026-10-26T01:31:36.2997028+08:00\"},{\"Name\":\"102626-4468-01.dmp\",\"Length\":1994809,\"LastWriteTime\":\"2026-10-26T01:38:56.5625530+08:00\"},{\"Name\":\"102626-4593-01.dmp\",\"Length\":1063617,\"LastWriteTime\":\"2026-10-26T01:56:32.6758278+08:00\"},{\"Name\":\"102626-4437-01.dmp\",\"Length\":2062496,\"LastWriteTime\":\"2026-10-26T03:10:17.4578327+08:00\"},{\"Name\":\"102626-4671-01.dmp\",\"Length\":2043758,\"LastWriteTime\":\"2026-10-26T03:24:55.7693314+08:00\"}]",
+     "stderr": ""
+    },
+    "parsed": {
+     "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+     "dumps": [
+      {
+       "name": "102626-5187-01.dmp",
+       "bytes": 2201077,
+       "mtime": "2026-10-26T01:31:36.2997028+08:00"
+      },
+      {
+       "name": "102626-4468-01.dmp",
+       "bytes": 1994809,
+       "mtime": "2026-10-26T01:38:56.5625530+08:00"
+      },
+      {
+       "name": "102626-4593-01.dmp",
+       "bytes": 1063617,
+       "mtime": "2026-10-26T01:56:32.6758278+08:00"
+      },
+      {
+       "name": "102626-4437-01.dmp",
+       "bytes": 2062496,
+       "mtime": "2026-10-26T03:10:17.4578327+08:00"
+      },
+      {
+       "name": "102626-4671-01.dmp",
+       "bytes": 2043758,
+       "mtime": "2026-10-26T03:24:55.7693314+08:00"
+      }
+     ],
+     "existing_count": 5,
+     "latest_mtime": "2026-10-26T03:24:55.7693314+08:00"
+    }
+   }
+  }
+ },
+ "device": {
+  "dryrun": {
+   "vulkan": {
+    "ok": true,
+    "device_name": "AMD Radeon RX 6750 GRE 10GB",
+    "vkCreateInstance": {
+     "rc": 0
+    },
+    "vkCreateDevice": {
+     "rc": 0,
+     "ms": 146.3631
+    },
+    "vkDestroyDevice": {
+     "rc": null,
+     "api": "void",
+     "completed": true,
+     "ms": 6.2921
+    },
+    "vkDestroyInstance": {
+     "rc": null,
+     "api": "void",
+     "completed": true,
+     "ms": 29.0687
+    },
+    "device_destroyed": true,
+    "instance_destroyed": true
+   },
+   "peak_gib": 0.4236,
+   "model_loaded": false,
+   "signals_sent": 0
+  }
+ },
+ "limitations": [
+  "第二次试装 child 设备/保存路径完成，但总耗时 132.297s，超过 8s 优雅退出上界；父看门狗 131.011s 先超时。",
+  "1 次 unexplained 129s 停顿发生在 cycle1 tmp_writing chunk72→80；原因未定位，未重试。",
+  "无第三次：按 lead 上界停止；恢复段未跑，after 未生成，load_strict 未做。",
+  "未发任何 kill 信号（signals_sent=0, armed=false）；未改产品码/DLL。",
+  "夹具 sha 跑前/跑后一致；before=复制 profile（非引擎写），after 不存在。"
+ ],
+ "status": "未接上（试装超时：优雅退出 132.3s > 8s；无第三次）",
+ "four_state": "未接上（试装超时；100 次真杀未跑）",
+ "fixtures": {
+  "profile": {
+   "path": "D:\\llama-mem\\kvmem\\blocks\\profile.kvmem",
+   "sha16": "3b046c8ee3fb3b53",
+   "bytes": 5224388,
+   "n_tokens": 50
+  },
+  "before": {
+   "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\M5-KILL-before.kvmem",
+   "sha16": "3b046c8ee3fb3b53",
+   "bytes": 5224388,
+   "n_tokens": 50,
+   "source": "copy_of_profile.kvmem",
+   "written_by_engine": false
+  },
+  "after": null,
+  "before_n_tokens": 50,
+  "after_present": false,
+  "after_source": "M5-KILL-after.kvmem is written by the isolated 14B engine in the recovery segment; never a copy",
+  "code": {
+   "manifest": "kvmem/m2_visibility/m5/out/_k1_fixture_manifest.json",
+   "pre": {
+    "manifest": "kvmem\\m2_visibility\\m5\\out\\_k1_fixture_manifest.json",
+    "manifest_present": true,
+    "manifest_sha16": "d2d6ab0b6f806e15",
+    "manifest_bytes": 594,
+    "expected": {
+     "child": {
+      "path": "kvmem\\m2_visibility\\m5\\out\\_k1_park_child.py",
+      "sha16": "9339107866cbc84c",
+      "bytes": 24243
+     },
+     "parent": {
+      "path": "kvmem\\m2_visibility\\m5\\out\\_k1_park_parent.py",
+      "sha16": "7ac8cef82a1bbff3",
+      "bytes": 20254
+     },
+     "recovery": {
+      "path": "kvmem\\m2_visibility\\m5\\out\\_k1_recovery.py",
+      "sha16": "52f33f17e10ee7ca",
+      "bytes": 7029
+     }
+    },
+    "observed": {
+     "child": {
+      "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_park_child.py",
+      "sha16": "9339107866cbc84c",
+      "bytes": 24243,
+      "n_tokens": null
+     },
+     "parent": {
+      "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_park_parent.py",
+      "sha16": "7ac8cef82a1bbff3",
+      "bytes": 20254,
+      "n_tokens": null
+     },
+     "recovery": {
+      "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\out\\_k1_recovery.py",
+      "sha16": "52f33f17e10ee7ca",
+      "bytes": 7029,
+      "n_tokens": null
+     }
+    },
+    "all_match": true
+   },
+   "pre_match": true,
+   "post": {
+    "manifest": "kvmem\\m2_visibility\\m5\\out\\_k1_fixture_manifest.json",
+    "observed": {
+     "child": {
+      "path": "kvmem\\m2_visibility\\m5\\out\\_k1_park_child.py",
+      "sha16": "9339107866cbc84c",
+      "bytes": 24243
+     },
+     "parent": {
+      "path": "kvmem\\m2_visibility\\m5\\out\\_k1_park_parent.py",
+      "sha16": "7ac8cef82a1bbff3",
+      "bytes": 20254
+     },
+     "recovery": {
+      "path": "kvmem\\m2_visibility\\m5\\out\\_k1_recovery.py",
+      "sha16": "52f33f17e10ee7ca",
+      "bytes": 7029
+     }
+    },
+    "expected": {
+     "child": {
+      "path": "kvmem\\m2_visibility\\m5\\out\\_k1_park_child.py",
+      "sha16": "9339107866cbc84c",
+      "bytes": 24243
+     },
+     "parent": {
+      "path": "kvmem\\m2_visibility\\m5\\out\\_k1_park_parent.py",
+      "sha16": "7ac8cef82a1bbff3",
+      "bytes": 20254
+     },
+     "recovery": {
+      "path": "kvmem\\m2_visibility\\m5\\out\\_k1_recovery.py",
+      "sha16": "52f33f17e10ee7ca",
+      "bytes": 7029
+     }
+    },
+    "all_match": true
+   },
+   "post_match": true
+  }
+ },
+ "recovery": {
+  "status": "skipped",
+  "reason": "试装超时；无第三次，未加载模型",
+  "model_loaded": false,
+  "after_file": null,
+  "load_strict": {
+   "done": false,
+   "reason": "未执行"
+  }
+ },
+ "load_strict": {
+  "done": false,
+  "reason": "恢复段未跑（试装超时）"
+ },
+ "disposition": "第二次（唯一新）试装：设备创建/销毁与 3 次 save 均完成，但 child 总时长 132.297s 超过 8s 上界；父看门狗在 131.011s 判超时。按上界停手，无第三次，未跑恢复段，未发 kill。"
+}

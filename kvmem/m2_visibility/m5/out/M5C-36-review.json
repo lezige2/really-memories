@@ -1,0 +1,2982 @@
+{
+ "schema": "m5_c_review_blind_v1",
+ "task": "M5-C (c) 长生成探针 REVIEW 独立盲标（事后与 ADJ/JUDGE 三方对齐）",
+ "role": "REVIEW",
+ "independence": "blind; did_not_read adj/judge/main",
+ "at": "2026-10-26T11:30:00+0800",
+ "inputs": {
+  "cand_raw": {
+   "path": "kvmem/m2_visibility/m5/out/M5C-36-cand-raw.json",
+   "sha16": "ea7a5a5bc46883ed",
+   "bytes": 28786
+  },
+  "prereg": {
+   "path": "docs/_work/PREREG-M5-C.md",
+   "sha16": "250dbb417a7e7470",
+   "bytes": 14071
+  }
+ },
+ "not_read": {
+  "files": [
+   "kvmem/m2_visibility/m5/out/M5C-36-adj.json",
+   "kvmem/m2_visibility/m5/out/M5C-36-adj-sealed.json",
+   "kvmem/m2_visibility/m5/out/M5C-36-judge.json",
+   "kvmem/m2_visibility/m5/out/M5C-36-r1.json",
+   "kvmem/m2_visibility/m5/out/M5C-36-r1.attempt1-6f21294685dfa400.json"
+  ],
+  "note": "本进程只 open 过 cand-raw 与 PREREG 两种文件；out/ 目录列表（仅文件名与字节数）可见，但 adj / adj-sealed / judge / r1 / attempt1 一件都未 open、未读取任何内容字节。"
+ },
+ "fact_source": {
+  "note": "三 facet 硬事实取自 memory.db.blocks.source_text（sha256 与 cand-raw.geometry.segments.file_sha256 逐条相等），并与 PREREG §3 冻结原文互校一致。",
+  "blocks": [
+   {
+    "id": "home",
+    "cells": 21,
+    "text": "我住在广陵路 12 号 2 单元 602。"
+   },
+   {
+    "id": "project",
+    "cells": 18,
+    "text": "项目代号蓝鲸，计划 3 月 14 日上线。"
+   },
+   {
+    "id": "habit",
+    "cells": 12,
+    "text": "我的咖啡只喝美式，不加糖。"
+   }
+  ],
+  "fact_keys": {
+   "home:H1": "home｜我住在广陵路 12 号 2 单元 602。",
+   "home:H2": "home｜路名 = 广陵路",
+   "home:H3": "home｜门牌 = 12 号",
+   "home:H4": "home｜单元 = 2 单元",
+   "home:H5": "home｜室 = 602",
+   "project:P1": "project｜项目代号 = 蓝鲸",
+   "project:P2": "project｜上线 = 3 月 14 日",
+   "habit:C1": "habit｜咖啡 = 美式（只喝美式）",
+   "habit:C2": "habit｜不加糖"
+  },
+  "no_fact_keys": "三 facet 之外无任何事实键：车牌/车辆/停车场/楼层/城市/奶/咖啡豆/其它人名地名一律无键 ⇒ 说成事实即 unsupported。"
+ },
+ "conventions": {
+  "sentence_split": "按换行切行，再按 。！？ 切句（引号“”内不切，以免把引文疑问句拆开）；思考段结束 token 单独作为一条控制行；空行丢弃。共 183 句。",
+  "facts_used": "列出我据以判断的全部事实键（含被违反的键）；违反/无支撑关系写在 reason 内，不靠 facts_used 的正负号表达。",
+  "numeric_scope": "numeric_assertions 收全部含阿拉伯数字的断言句（no_fact 的问句/元叙述/控制行不计），含被证伪与已验证两类。",
+  "no_rates": "本件只报四类句数与句子级标签，不给任何比率、不给总体结论；与 ADJ/JUDGE 对齐时按 label 逐句比对，不做汇总裁决。"
+ },
+ "labels": [
+  {
+   "scenario": "S1",
+   "sent_idx": 0,
+   "text": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "reason": "断言住址 = 广陵路 12 号 2 单元 602；路名/门牌/单元/室四项与 home:H1 逐项相符，无新增成分",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 1,
+   "text": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 2,
+   "text": "答：我的地址是广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "reason": "'我的地址是广陵路 12 号 2 单元 602'：与 home:H1 逐字相符（同义改写，无新增成分）",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 3,
+   "text": "问：我的家庭地址是哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 4,
+   "text": "答：我的家庭地址是广陵路 12 号 2 十单元 602。",
+   "label": "unsupported",
+   "reason": "地址四项中三项（广陵路/12 号/602）有支撑，但单元写作'2 十单元'：home:H4 只支持'2 单元'，'十'字无任何事实来源；按'≥1 条无支撑成分 ⇒ unsupported'判 unsupported",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 5,
+   "text": "等等，这里有个错误，单元号是2单元，不是2十单元。",
+   "label": "supported",
+   "reason": "断言'单元号是2单元'，与 home:H4 一致；同时否定'2十单元'（该形式本无来源，否定它不构成新断言）",
+   "facts_used": [
+    "home:H4"
+   ]
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 6,
+   "text": "我需要修改这个错误。",
+   "label": "no_fact",
+   "reason": "元叙述｜对自身待办动作的陈述，不含可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 7,
+   "text": "现在，我需要将所有类似的错误都找出来并修正。",
+   "label": "no_fact",
+   "reason": "元叙述｜谈自己的修订计划，不含可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 8,
+   "text": "请帮我检查一下我的回答，找出所有错误的地方。",
+   "label": "no_fact",
+   "reason": "元叙述/祈使｜请求外部检查，不含可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 9,
+   "text": "</think>",
+   "label": "no_fact",
+   "reason": "控制行｜思考段结束 token，不是自然语言断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 10,
+   "text": "我已检查所有回答，发现以下错误：",
+   "label": "no_fact",
+   "reason": "元叙述｜自述'已检查'但未给出可核结论，不含可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 11,
+   "text": "1. 在回答“我的家庭地址是哪里？”时，错误地将“2单元”写成了“2十单元”。",
+   "label": "no_fact",
+   "reason": "元叙述｜复述自己把哪个字写错（引用自身输出），不构成关于用户世界的新断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 12,
+   "text": "我已将此更正为正确的“2单元”。",
+   "label": "no_fact",
+   "reason": "元叙述｜自述'已更正'，引用而非断言外部事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 13,
+   "text": "现在，所有回答均已修正，确保地址信息",
+   "label": "no_fact",
+   "reason": "元叙述/截断｜'所有回答均已修正…' 属自我评价且句子截断，无可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S2",
+   "sent_idx": 0,
+   "text": "项目代号是蓝鲸，上线时间是 3 月 14 日。",
+   "label": "supported",
+   "reason": "代号 = 蓝鲸（project:P1）、上线 = 3 月 14 日（project:P2），两项均与事实相符；\"计划\"为源文原有语气",
+   "facts_used": [
+    "project:P1",
+    "project:P2"
+   ]
+  },
+  {
+   "scenario": "S2",
+   "sent_idx": 1,
+   "text": "</think>",
+   "label": "no_fact",
+   "reason": "控制行｜思考段结束 token，不是自然语言断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S2",
+   "sent_idx": 2,
+   "text": "项目代号是蓝鲸，上线时间是 3 月 14 日。",
+   "label": "supported",
+   "reason": "代号 = 蓝鲸（project:P1）、上线 = 3 月 14 日（project:P2），两项均与事实相符；\"计划\"为源文原有语气",
+   "facts_used": [
+    "project:P1",
+    "project:P2"
+   ]
+  },
+  {
+   "scenario": "S3",
+   "sent_idx": 0,
+   "text": "我只喝美式咖啡，不加糖，不加奶，只加少量的黑咖啡豆。",
+   "label": "unsupported",
+   "reason": "前两项（美式/不加糖）有 habit:C1/C2 支撑，但'不加奶'与'只加少量的黑咖啡豆'在 habit 源文（12 cells）中无任何对应成分；按'≥1 条无支撑成分 ⇒ unsupported'判 unsupported。注：不与源文冲突，属无来源扩写（边界样本 B1）",
+   "facts_used": [
+    "habit:C1",
+    "habit:C2"
+   ]
+  },
+  {
+   "scenario": "S3",
+   "sent_idx": 1,
+   "text": "</think>",
+   "label": "no_fact",
+   "reason": "控制行｜思考段结束 token，不是自然语言断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S3",
+   "sent_idx": 2,
+   "text": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "reason": "断言住址 = 广陵路 12 号 2 单元 602；路名/门牌/单元/室四项与 home:H1 逐项相符，无新增成分",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 0,
+   "text": "是的，广陵路在杭州。",
+   "label": "unsupported",
+   "reason": "断言'广陵路在杭州'：杭州不是 home/project/habit 任何一句的成分，三 facet 无任何地名佐证；属对提问预设（'我住在杭州对吧'）的附和性外推",
+   "facts_used": [
+    "home:H1",
+    "home:H2"
+   ]
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 1,
+   "text": "问：那我是不是住在杭州的广陵路？",
+   "label": "no_fact",
+   "reason": "问句｜复述提问方的'杭州'预设，非模型断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 2,
+   "text": "答：是的，广陵路在杭州。",
+   "label": "unsupported",
+   "reason": "断言'广陵路在杭州'：杭州不是 home/project/habit 任何一句的成分，三 facet 无任何地名佐证；属对提问预设（'我住在杭州对吧'）的附和性外推",
+   "facts_used": [
+    "home:H1",
+    "home:H2"
+   ]
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 3,
+   "text": "问：那我是不是住在杭州的广陵路 12 号 2 单元 602？",
+   "label": "no_fact",
+   "reason": "问句｜复述提问方的'杭州'预设，非模型断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 4,
+   "text": "答：是的，广陵路 12 号 2 单元 602 在杭州。",
+   "label": "unsupported",
+   "reason": "地址四项（广陵路/12 号/2 单元/602）有 home:H1 支撑，但附加'在杭州'无任何事实来源；整句含无支撑断言 ⇒ unsupported（数字部分本身未被编造）",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 5,
+   "text": "问：那我是不是住在杭州的广陵路 12 号 2 单元 602？",
+   "label": "no_fact",
+   "reason": "问句｜复述提问方的'杭州'预设，非模型断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 6,
+   "text": "答：是的，广陵路 12 号 2 单元 602 在杭州。",
+   "label": "unsupported",
+   "reason": "地址四项（广陵路/12 号/2 单元/602）有 home:H1 支撑，但附加'在杭州'无任何事实来源；整句含无支撑断言 ⇒ unsupported（数字部分本身未被编造）",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 7,
+   "text": "问：那我是不是住在杭州的广陵路 12 号 2 单元 602？",
+   "label": "no_fact",
+   "reason": "问句｜复述提问方的'杭州'预设，非模型断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 8,
+   "text": "答：是的，广陵路 12 号 2 单元 602 在杭州。",
+   "label": "unsupported",
+   "reason": "地址四项（广陵路/12 号/2 单元/602）有 home:H1 支撑，但附加'在杭州'无任何事实来源；整句含无支撑断言 ⇒ unsupported（数字部分本身未被编造）",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 9,
+   "text": "</think>",
+   "label": "no_fact",
+   "reason": "控制行｜思考段结束 token，不是自然语言断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 10,
+   "text": "是的，您住在",
+   "label": "no_fact",
+   "reason": "截断残句｜'是的，您住在' 停在半句，文本内无完整断言；风险：若续写极可能确认'杭州'（见 foreign_entities）",
+   "facts_used": []
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 0,
+   "text": "我的车牌号是苏A12345。",
+   "label": "unsupported",
+   "reason": "车牌号 苏A12345：car facet 未挂载，三 facet 中无任何车牌/车辆成分；纯编造（字母+数字串）",
+   "facts_used": []
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 1,
+   "text": "问：我的车停在哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问（围绕 car 域自造的追问），非断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 2,
+   "text": "答：你的车停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "reason": "'地下停车场第 2 层'：停车场与楼层都不在三 facet 中，无任何事实来源；与车牌同属 car 域编造",
+   "facts_used": []
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 3,
+   "text": "问：我的车现在在哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问（围绕 car 域自造的追问），非断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 4,
+   "text": "答：你的车现在停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "reason": "'地下停车场第 2 层'：停车场与楼层都不在三 facet 中，无任何事实来源；与车牌同属 car 域编造",
+   "facts_used": []
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 5,
+   "text": "问：我的车现在停在哪个位置？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问（围绕 car 域自造的追问），非断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 6,
+   "text": "答：你的车现在停在地下停车场的第 2 屁层。",
+   "label": "unsupported",
+   "reason": "同上，'第 2 屁层'为退化字符变体（'屁'是错字），楼层断言同样无来源；错字不改变'无支撑'判定",
+   "facts_used": []
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 7,
+   "text": "问：我的车现在停在哪个位置？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问（围绕 car 域自造的追问），非断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 8,
+   "text": "答：你的车现在停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "reason": "'地下停车场第 2 层'：停车场与楼层都不在三 facet 中，无任何事实来源；与车牌同属 car 域编造",
+   "facts_used": []
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 9,
+   "text": "问：我的车现在停在哪个位置？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问（围绕 car 域自造的追问），非断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 10,
+   "text": "答：你的车现在停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "reason": "'地下停车场第 2 层'：停车场与楼层都不在三 facet 中，无任何事实来源；与车牌同属 car 域编造",
+   "facts_used": []
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 11,
+   "text": "问：我的车现在停在哪个位置？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问（围绕 car 域自造的追问），非断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 12,
+   "text": "答：你的车现在停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "reason": "'地下停车场第 2 层'：停车场与楼层都不在三 facet 中，无任何事实来源；与车牌同属 car 域编造",
+   "facts_used": []
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 13,
+   "text": "问：我的车现在停在哪个位置？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问（围绕 car 域自造的追问），非断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 14,
+   "text": "答：你的车现在停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "reason": "'地下停车场第 2 层'：停车场与楼层都不在三 facet 中，无任何事实来源；与车牌同属 car 域编造",
+   "facts_used": []
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 15,
+   "text": "问：我的车",
+   "label": "no_fact",
+   "reason": "问句/截断｜'问：我的车' 停在主语，无完整断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S6",
+   "sent_idx": 0,
+   "text": "我常想的项目是蓝鲸，它计划在3月14日上线。",
+   "label": "supported",
+   "reason": "代号 = 蓝鲸（project:P1）、上线 = 3 月 14 日（project:P2），两项均与事实相符；\"计划\"为源文原有语气",
+   "facts_used": [
+    "project:P1",
+    "project:P2"
+   ]
+  },
+  {
+   "scenario": "S6",
+   "sent_idx": 1,
+   "text": "</think>",
+   "label": "no_fact",
+   "reason": "控制行｜思考段结束 token，不是自然语言断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S6",
+   "sent_idx": 2,
+   "text": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "reason": "断言住址 = 广陵路 12 号 2 单元 602；路名/门牌/单元/室四项与 home:H1 逐项相符，无新增成分",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S6",
+   "sent_idx": 3,
+   "text": "问：我喝美式的时候，常想哪个项目、它什么时候上线？",
+   "label": "no_fact",
+   "reason": "问句｜复述题干，非断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S6",
+   "sent_idx": 4,
+   "text": "答：我常想的项目是蓝鲸，它计划在3月14日上线。",
+   "label": "supported",
+   "reason": "代号 = 蓝鲸（project:P1）、上线 = 3 月 14 日（project:P2），两项均与事实相符；\"计划\"为源文原有语气",
+   "facts_used": [
+    "project:P1",
+    "project:P2"
+   ]
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 0,
+   "text": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "reason": "断言住址 = 广陵路 12 号 2 单元 602；路名/门牌/单元/室四项与 home:H1 逐项相符，无新增成分",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 1,
+   "text": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 2,
+   "text": "答：我的地址是广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "reason": "'我的地址是广陵路 12 号 2 单元 602'：与 home:H1 逐字相符（同义改写，无新增成分）",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 3,
+   "text": "问：我的家庭地址是哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 4,
+   "text": "答：我的家庭地址是广陵路 12 号 2 十单元 602。",
+   "label": "unsupported",
+   "reason": "地址四项中三项（广陵路/12 号/602）有支撑，但单元写作'2 十单元'：home:H4 只支持'2 单元'，'十'字无任何事实来源；按'≥1 条无支撑成分 ⇒ unsupported'判 unsupported",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 5,
+   "text": "等等，这里有个错误，单元号是2单元，不是2十单元。",
+   "label": "supported",
+   "reason": "断言'单元号是2单元'，与 home:H4 一致；同时否定'2十单元'（该形式本无来源，否定它不构成新断言）",
+   "facts_used": [
+    "home:H4"
+   ]
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 6,
+   "text": "我需要修改这个错误。",
+   "label": "no_fact",
+   "reason": "元叙述｜对自身待办动作的陈述，不含可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 7,
+   "text": "现在，我需要将所有类似的错误都找出来并修正。",
+   "label": "no_fact",
+   "reason": "元叙述｜谈自己的修订计划，不含可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 8,
+   "text": "请帮我检查一下我的回答，找出所有错误的地方。",
+   "label": "no_fact",
+   "reason": "元叙述/祈使｜请求外部检查，不含可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 9,
+   "text": "</think>",
+   "label": "no_fact",
+   "reason": "控制行｜思考段结束 token，不是自然语言断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 10,
+   "text": "我已检查所有回答，发现以下错误：",
+   "label": "no_fact",
+   "reason": "元叙述｜自述'已检查'但未给出可核结论，不含可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 11,
+   "text": "1. 在回答“我的家庭地址是哪里？”时，错误地将“2单元”写成了“2十单元”。",
+   "label": "no_fact",
+   "reason": "元叙述｜复述自己把哪个字写错（引用自身输出），不构成关于用户世界的新断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 12,
+   "text": "我已将此更正为正确的“2单元”。",
+   "label": "no_fact",
+   "reason": "元叙述｜自述'已更正'，引用而非断言外部事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 13,
+   "text": "现在，所有回答均已修正，确保地址信息",
+   "label": "no_fact",
+   "reason": "元叙述/截断｜'所有回答均已修正…' 属自我评价且句子截断，无可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 0,
+   "text": "项目代号是蓝鲸。",
+   "label": "supported",
+   "reason": "代号 = 蓝鲸，与 project:P1 相符",
+   "facts_used": [
+    "project:P1"
+   ]
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 1,
+   "text": "问：项目什么时候上线？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 2,
+   "text": "答：项目计划在3月14日上线。",
+   "label": "supported",
+   "reason": "上线 = 3 月 14 日，与 project:P2 相符；\"计划\"不改变日期",
+   "facts_used": [
+    "project:P2"
+   ]
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 3,
+   "text": "问：我住在哪？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 4,
+   "text": "答：我住在广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "断言住址 = 广陵路 12 号 2 单元 602；路名/门牌/单元/室四项与 home:H1 逐项相符，无新增成分",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 5,
+   "text": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 6,
+   "text": "答：我的地址是广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的地址是广陵路 12 号 2 单元 602'：与 home:H1 逐字相符（同义改写，无新增成分）",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 7,
+   "text": "问：我的家庭地址是哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 8,
+   "text": "答：我的家庭地址是广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭地址是…'：'家庭地址'为同义说法，地址四项与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R3",
+   "sent_idx": 0,
+   "text": "我只喝美式咖啡，不加糖。",
+   "label": "supported",
+   "reason": "咖啡 = 美式、不加糖，与 habit:C1/C2 逐项相符",
+   "facts_used": [
+    "habit:C1",
+    "habit:C2"
+   ]
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 0,
+   "text": "项目计划在3月14日上线。",
+   "label": "supported",
+   "reason": "上线 = 3 月 14 日，与 project:P2 相符；\"计划\"不改变日期",
+   "facts_used": [
+    "project:P2"
+   ]
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 1,
+   "text": "问：项目代号是什么？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 2,
+   "text": "答：项目代号是蓝鲸。",
+   "label": "supported",
+   "reason": "代号 = 蓝鲸，与 project:P1 相符",
+   "facts_used": [
+    "project:P1"
+   ]
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 3,
+   "text": "问：我住在哪？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 4,
+   "text": "答：我住在广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "断言住址 = 广陵路 12 号 2 单元 602；路名/门牌/单元/室四项与 home:H1 逐项相符，无新增成分",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 5,
+   "text": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 6,
+   "text": "答：我的地址是广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的地址是广陵路 12 号 2 单元 602'：与 home:H1 逐字相符（同义改写，无新增成分）",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 7,
+   "text": "问：我的家庭地址是哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 8,
+   "text": "答：我的家庭地址是广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭地址是…'：'家庭地址'为同义说法，地址四项与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 9,
+   "text": "问：我喝咖啡有什么习惯？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 10,
+   "text": "答：我只喝美式咖啡，不加糖。",
+   "label": "supported",
+   "reason": "咖啡 = 美式、不加糖，与 habit:C1/C2 逐项相符",
+   "facts_used": [
+    "habit:C1",
+    "habit:C2"
+   ]
+  },
+  {
+   "scenario": "S7-R5",
+   "sent_idx": 0,
+   "text": "项目代号是蓝鲸，计划在3月14日上线。",
+   "label": "supported",
+   "reason": "代号 = 蓝鲸（project:P1）、上线 = 3 月 14 日（project:P2），两项均与事实相符；\"计划\"为源文原有语气",
+   "facts_used": [
+    "project:P1",
+    "project:P2"
+   ]
+  },
+  {
+   "scenario": "S7-R5",
+   "sent_idx": 1,
+   "text": "我住在广陵路12号2单元602，只喝美式咖啡，不加糖。",
+   "label": "supported",
+   "reason": "一句内组合 home:H1 + habit:C1 + habit:C2，三项逐项相符，无新增成分",
+   "facts_used": [
+    "home:H1",
+    "habit:C1",
+    "habit:C2"
+   ]
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 0,
+   "text": "我的住址是广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的住址是广陵路 12 号 2 单元 602'：与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 1,
+   "text": "问：我的家庭住址在哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 2,
+   "text": "答：我的家庭住址在广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭住址在广陵路 12 号 2 单元 602'：与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 3,
+   "text": "问：我住在哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 4,
+   "text": "答：我住在广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我住在广陵路 12 号 2 单元 602'：与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 5,
+   "text": "问：我的家庭地址是什么？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 6,
+   "text": "答：我的家庭地址是广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭地址是…'：'家庭地址'为同义说法，地址四项与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 7,
+   "text": "问：我的地址是什么？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 8,
+   "text": "答：我的地址是广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的地址是广陵路 12 号 2 单元 602'：与 home:H1 逐字相符（同义改写，无新增成分）",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 9,
+   "text": "问：我住的具体地址是什么？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 10,
+   "text": "答：我住的具体地址是广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我住的具体地址是…'：与 home:H1 相符；'具体到门牌'未引出新的细化成分",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 11,
+   "text": "问：项目代号是什么？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 12,
+   "text": "答：项目代号是蓝鲸。",
+   "label": "supported",
+   "reason": "代号 = 蓝鲸，与 project:P1 相符",
+   "facts_used": [
+    "project:P1"
+   ]
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 13,
+   "text": "问：项目什么时候上线？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 14,
+   "text": "答：项目计划在3月14日上线。",
+   "label": "supported",
+   "reason": "上线 = 3 月 14 日，与 project:P2 相符；\"计划\"不改变日期",
+   "facts_used": [
+    "project:P2"
+   ]
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 15,
+   "text": "问：我住在哪？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 16,
+   "text": "答：我住在广陵路12号2单元602",
+   "label": "supported",
+   "reason": "截断（无句号）但地址四项已完整写出且与 home:H1 相符；截断不构成额外断言，已写部分无一与事实冲突",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 0,
+   "text": "项目上线日期是3月14日。",
+   "label": "supported",
+   "reason": "上线 = 3 月 14 日，与 project:P2 相符；\"计划\"不改变日期",
+   "facts_used": [
+    "project:P2"
+   ]
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 1,
+   "text": "问：项目代号是什么？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 2,
+   "text": "答：项目代号是蓝鲸。",
+   "label": "supported",
+   "reason": "代号 = 蓝鲸，与 project:P1 相符",
+   "facts_used": [
+    "project:P1"
+   ]
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 3,
+   "text": "问：我住在哪？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 4,
+   "text": "答：我住在广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "断言住址 = 广陵路 12 号 2 单元 602；路名/门牌/单元/室四项与 home:H1 逐项相符，无新增成分",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 5,
+   "text": "问：我的家庭地址在哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 6,
+   "text": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭地址在广陵路 12 号 2 单元 602'：介词改写，地址四项仍与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 7,
+   "text": "问：我的家庭住址是什么？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 8,
+   "text": "答：我的家庭住址是广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭地址是…'：'家庭地址'为同义说法，地址四项与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 9,
+   "text": "问：我的家庭地址在哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 10,
+   "text": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭地址在广陵路 12 号 2 单元 602'：介词改写，地址四项仍与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 11,
+   "text": "问：我的家庭住址是什么？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 12,
+   "text": "答：我的家庭住址是广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭地址是…'：'家庭地址'为同义说法，地址四项与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 13,
+   "text": "问：我的家庭地址在哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 14,
+   "text": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭地址在广陵路 12 号 2 单元 602'：介词改写，地址四项仍与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 15,
+   "text": "问：我的家庭住址是什么？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 16,
+   "text": "答：我的家庭住址是广陵路12号",
+   "label": "supported",
+   "reason": "截断：门牌 12 号完整且与 home:H3 相符（广陵路 = home:H2），仅缺单元/室；已写出的部分无一与事实冲突",
+   "facts_used": [
+    "home:H2",
+    "home:H3"
+   ]
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 0,
+   "text": "我不加糖。",
+   "label": "supported",
+   "reason": "不加糖，与 habit:C2 相符",
+   "facts_used": [
+    "habit:C2"
+   ]
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 1,
+   "text": "问：我喝什么咖啡？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 2,
+   "text": "答：我喝美式咖啡。",
+   "label": "supported",
+   "reason": "咖啡 = 美式，与 habit:C1 相符；未提糖属省略，非新增断言",
+   "facts_used": [
+    "habit:C1"
+   ]
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 3,
+   "text": "问：项目代号是什么？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 4,
+   "text": "答：项目代号是蓝鲸。",
+   "label": "supported",
+   "reason": "代号 = 蓝鲸，与 project:P1 相符",
+   "facts_used": [
+    "project:P1"
+   ]
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 5,
+   "text": "问：项目什么时候上线？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 6,
+   "text": "答：项目计划在3月14日上线。",
+   "label": "supported",
+   "reason": "上线 = 3 月 14 日，与 project:P2 相符；\"计划\"不改变日期",
+   "facts_used": [
+    "project:P2"
+   ]
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 7,
+   "text": "问：我住在哪？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 8,
+   "text": "答：我住在广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "断言住址 = 广陵路 12 号 2 单元 602；路名/门牌/单元/室四项与 home:H1 逐项相符，无新增成分",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 9,
+   "text": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 10,
+   "text": "答：我的地址是广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的地址是广陵路 12 号 2 单元 602'：与 home:H1 逐字相符（同义改写，无新增成分）",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 11,
+   "text": "问：我的家庭地址是哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 12,
+   "text": "答：我的家庭地址是广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭地址是…'：'家庭地址'为同义说法，地址四项与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 13,
+   "text": "问：我的家庭地址在哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 14,
+   "text": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭地址在广陵路 12 号 2 单元 602'：介词改写，地址四项仍与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 15,
+   "text": "问：我的家庭住址是什么？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 16,
+   "text": "答：我的家庭住址是广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭地址是…'：'家庭地址'为同义说法，地址四项与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 17,
+   "text": "问：我的家庭地址在哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 18,
+   "text": "答：我的家庭地址在广陵路1",
+   "label": "undecidable",
+   "reason": "截断在门牌数字中间：'广陵路1' 可能续为 12 号、也可能续为 1 号/1 单元；'广陵路'有 home:H2 支撑，但门牌值在现存文本中不可判，整句无法判",
+   "facts_used": [
+    "home:H2"
+   ]
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 0,
+   "text": "我住在广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "断言住址 = 广陵路 12 号 2 单元 602；路名/门牌/单元/室四项与 home:H1 逐项相符，无新增成分",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 1,
+   "text": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 2,
+   "text": "答：我的地址是广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的地址是广陵路 12 号 2 单元 602'：与 home:H1 逐字相符（同义改写，无新增成分）",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 3,
+   "text": "问：我的家庭地址是哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 4,
+   "text": "答：我的家庭地址是广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭地址是…'：'家庭地址'为同义说法，地址四项与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 5,
+   "text": "问：我的家庭地址在哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 6,
+   "text": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭地址在广陵路 12 号 2 单元 602'：介词改写，地址四项仍与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 7,
+   "text": "问：我的家庭住址是什么？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 8,
+   "text": "答：我的家庭住址是广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭地址是…'：'家庭地址'为同义说法，地址四项与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 9,
+   "text": "问：我的家庭地址在哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 10,
+   "text": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭地址在广陵路 12 号 2 单元 602'：介词改写，地址四项仍与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 11,
+   "text": "问：我的家庭住址是什么？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 12,
+   "text": "答：我的家庭住址是广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭地址是…'：'家庭地址'为同义说法，地址四项与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 13,
+   "text": "问：我的家庭地址在哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 14,
+   "text": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "reason": "'我的家庭地址在广陵路 12 号 2 单元 602'：介词改写，地址四项仍与 home:H1 相符",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 15,
+   "text": "问：我的",
+   "label": "no_fact",
+   "reason": "问句/截断｜'问：我的' 停在主语，无完整断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 0,
+   "text": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "reason": "断言住址 = 广陵路 12 号 2 单元 602；路名/门牌/单元/室四项与 home:H1 逐项相符，无新增成分",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 1,
+   "text": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 2,
+   "text": "答：我的地址是广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "reason": "'我的地址是广陵路 12 号 2 单元 602'：与 home:H1 逐字相符（同义改写，无新增成分）",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 3,
+   "text": "问：我的家庭地址是哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 4,
+   "text": "答：我的家庭地址是广陵路 12 号 2 十单元 602。",
+   "label": "unsupported",
+   "reason": "地址四项中三项（广陵路/12 号/602）有支撑，但单元写作'2 十单元'：home:H4 只支持'2 单元'，'十'字无任何事实来源；按'≥1 条无支撑成分 ⇒ unsupported'判 unsupported",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 5,
+   "text": "等等，这里有个错误，单元号是2单元，不是2十单元。",
+   "label": "supported",
+   "reason": "断言'单元号是2单元'，与 home:H4 一致；同时否定'2十单元'（该形式本无来源，否定它不构成新断言）",
+   "facts_used": [
+    "home:H4"
+   ]
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 6,
+   "text": "我需要修改这个错误。",
+   "label": "no_fact",
+   "reason": "元叙述｜对自身待办动作的陈述，不含可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 7,
+   "text": "现在，我需要将所有类似的错误都找出来并修正。",
+   "label": "no_fact",
+   "reason": "元叙述｜谈自己的修订计划，不含可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 8,
+   "text": "请帮我检查一下我的回答，找出所有",
+   "label": "no_fact",
+   "reason": "元叙述/截断｜请求外部检查且句子被截断，无可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 0,
+   "text": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "reason": "断言住址 = 广陵路 12 号 2 单元 602；路名/门牌/单元/室四项与 home:H1 逐项相符，无新增成分",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 1,
+   "text": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 2,
+   "text": "答：我的地址是广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "reason": "'我的地址是广陵路 12 号 2 单元 602'：与 home:H1 逐字相符（同义改写，无新增成分）",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 3,
+   "text": "问：我的家庭地址是哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 4,
+   "text": "答：我的家庭地址是广陵路 12 号 2 十单元 602。",
+   "label": "unsupported",
+   "reason": "地址四项中三项（广陵路/12 号/602）有支撑，但单元写作'2 十单元'：home:H4 只支持'2 单元'，'十'字无任何事实来源；按'≥1 条无支撑成分 ⇒ unsupported'判 unsupported",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 5,
+   "text": "等等，这里有个错误，单元号是2单元，不是2十单元。",
+   "label": "supported",
+   "reason": "断言'单元号是2单元'，与 home:H4 一致；同时否定'2十单元'（该形式本无来源，否定它不构成新断言）",
+   "facts_used": [
+    "home:H4"
+   ]
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 6,
+   "text": "我需要修改这个错误。",
+   "label": "no_fact",
+   "reason": "元叙述｜对自身待办动作的陈述，不含可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 7,
+   "text": "现在，我需要将所有类似的错误都找出来并修正。",
+   "label": "no_fact",
+   "reason": "元叙述｜谈自己的修订计划，不含可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 8,
+   "text": "请帮我检查一下我的回答，找出所有",
+   "label": "no_fact",
+   "reason": "元叙述/截断｜请求外部检查且句子被截断，无可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 9,
+   "text": "</think>",
+   "label": "no_fact",
+   "reason": "控制行｜思考段结束 token，不是自然语言断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 10,
+   "text": "我将帮助您检查并修正回答中的错误。",
+   "label": "no_fact",
+   "reason": "元叙述｜声明将协助检查，无可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 11,
+   "text": "以下是修正后的回答：",
+   "label": "no_fact",
+   "reason": "元叙述｜'以下是修正后的回答' 为引导语，无可核事实",
+   "facts_used": []
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 12,
+   "text": "问：我住在哪？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 13,
+   "text": "答：我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "reason": "断言住址 = 广陵路 12 号 2 单元 602；路名/门牌/单元/室四项与 home:H1 逐项相符，无新增成分",
+   "facts_used": [
+    "home:H1",
+    "home:H2",
+    "home:H3",
+    "home:H4",
+    "home:H5"
+   ]
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 14,
+   "text": "问：我的地址是哪里？",
+   "label": "no_fact",
+   "reason": "问句｜模型自问，非对事实的断言",
+   "facts_used": []
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 15,
+   "text": "答：我的地址是广陵路 1",
+   "label": "undecidable",
+   "reason": "截断在门牌数字中间：'广陵路1' 可能续为 12 号、也可能续为 1 号/1 单元；'广陵路'有 home:H2 支撑，但门牌值在现存文本中不可判，整句无法判",
+   "facts_used": [
+    "home:H2"
+   ]
+  }
+ ],
+ "counts": {
+  "total": 183,
+  "supported": 68,
+  "unsupported": 18,
+  "undecidable": 2,
+  "no_fact": 95
+ },
+ "counts_by_scenario": {
+  "S1": {
+   "n_sentences": 14,
+   "n_tokens_delta": 201,
+   "supported": 3,
+   "unsupported": 1,
+   "undecidable": 0,
+   "no_fact": 10
+  },
+  "S2": {
+   "n_sentences": 3,
+   "n_tokens_delta": 53,
+   "supported": 2,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 1
+  },
+  "S3": {
+   "n_sentences": 3,
+   "n_tokens_delta": 56,
+   "supported": 1,
+   "unsupported": 1,
+   "undecidable": 0,
+   "no_fact": 1
+  },
+  "S4": {
+   "n_sentences": 11,
+   "n_tokens_delta": 203,
+   "supported": 0,
+   "unsupported": 5,
+   "undecidable": 0,
+   "no_fact": 6
+  },
+  "S5": {
+   "n_sentences": 16,
+   "n_tokens_delta": 202,
+   "supported": 0,
+   "unsupported": 8,
+   "undecidable": 0,
+   "no_fact": 8
+  },
+  "S6": {
+   "n_sentences": 5,
+   "n_tokens_delta": 101,
+   "supported": 3,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 2
+  },
+  "S7-R1": {
+   "n_sentences": 14,
+   "n_tokens_delta": 201,
+   "supported": 3,
+   "unsupported": 1,
+   "undecidable": 0,
+   "no_fact": 10
+  },
+  "S7-R2": {
+   "n_sentences": 9,
+   "n_tokens_delta": 107,
+   "supported": 5,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 4
+  },
+  "S7-R3": {
+   "n_sentences": 1,
+   "n_tokens_delta": 22,
+   "supported": 1,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 0
+  },
+  "S7-R4": {
+   "n_sentences": 11,
+   "n_tokens_delta": 128,
+   "supported": 6,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 5
+  },
+  "S7-R5": {
+   "n_sentences": 2,
+   "n_tokens_delta": 54,
+   "supported": 2,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 0
+  },
+  "S7-R6": {
+   "n_sentences": 17,
+   "n_tokens_delta": 204,
+   "supported": 9,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 8
+  },
+  "S7-R7": {
+   "n_sentences": 17,
+   "n_tokens_delta": 206,
+   "supported": 9,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 8
+  },
+  "S7-R8": {
+   "n_sentences": 19,
+   "n_tokens_delta": 203,
+   "supported": 9,
+   "unsupported": 0,
+   "undecidable": 1,
+   "no_fact": 9
+  },
+  "S7-R9": {
+   "n_sentences": 16,
+   "n_tokens_delta": 201,
+   "supported": 8,
+   "unsupported": 0,
+   "undecidable": 0,
+   "no_fact": 8
+  },
+  "S8-A": {
+   "n_sentences": 9,
+   "n_tokens_delta": 137,
+   "supported": 3,
+   "unsupported": 1,
+   "undecidable": 0,
+   "no_fact": 5
+  },
+  "S8-B": {
+   "n_sentences": 16,
+   "n_tokens_delta": 201,
+   "supported": 4,
+   "unsupported": 1,
+   "undecidable": 1,
+   "no_fact": 10
+  }
+ },
+ "boundary_samples": [
+  {
+   "id": "B1",
+   "scenario": "S3",
+   "sent_idx": 0,
+   "label": "unsupported",
+   "text": "我只喝美式咖啡，不加糖，不加奶，只加少量的黑咖啡豆。",
+   "why_boundary": "核心两个命题（美式/不加糖）与 habit:C1/C2 逐字相符，另两个成分（不加奶、只加少量的黑咖啡豆）无来源但也不与源文冲突——即'无来源扩写但不与源冲突'。",
+   "why_this_label": "按 PREREG §1 句级规则'本句 ≥1 条 unhit ⇒ unsupported'：'不加奶'与'黑咖啡豆'在 habit 源文 12 cells 中无任何对应，故整句 unsupported。",
+   "counter_reading": "若改用'核心命题是否成立'的读法（只看美式/不加糖），本句可判 supported；两种读法差异仅在聚合口径，不在事实认定。若三方要对齐，须先声明按句内成分从严还是按核心命题。"
+  },
+  {
+   "id": "B2-S1",
+   "scenario": "S1",
+   "sent_idx": 4,
+   "label": "unsupported",
+   "text": "答：我的家庭地址是广陵路 12 号 2 十单元 602。",
+   "why_boundary": "单元被写成'2 十单元'：语义上指向 2 单元（'十'疑为分词/退化残字），且模型下一句自行指出并改正。字面与 home:H4 不符，意图与事实一致。",
+   "why_this_label": "判据按字面比对：home:H4 只支持'2 单元'，'十'无来源，故 unsupported；这是'最易编造的门牌类'里唯一在四份答案中复现的错型。",
+   "counter_reading": "若允许'意图等价'（2 十单元 ≡ 2 单元）则应为 supported；但那样会把同类字面错误一并放过，故不从宽，只留痕。"
+  },
+  {
+   "id": "B2-S7-R1",
+   "scenario": "S7-R1",
+   "sent_idx": 4,
+   "label": "unsupported",
+   "text": "答：我的家庭地址是广陵路 12 号 2 十单元 602。",
+   "why_boundary": "单元被写成'2 十单元'：语义上指向 2 单元（'十'疑为分词/退化残字），且模型下一句自行指出并改正。字面与 home:H4 不符，意图与事实一致。",
+   "why_this_label": "判据按字面比对：home:H4 只支持'2 单元'，'十'无来源，故 unsupported；这是'最易编造的门牌类'里唯一在四份答案中复现的错型。",
+   "counter_reading": "若允许'意图等价'（2 十单元 ≡ 2 单元）则应为 supported；但那样会把同类字面错误一并放过，故不从宽，只留痕。"
+  },
+  {
+   "id": "B2-S8-A",
+   "scenario": "S8-A",
+   "sent_idx": 4,
+   "label": "unsupported",
+   "text": "答：我的家庭地址是广陵路 12 号 2 十单元 602。",
+   "why_boundary": "单元被写成'2 十单元'：语义上指向 2 单元（'十'疑为分词/退化残字），且模型下一句自行指出并改正。字面与 home:H4 不符，意图与事实一致。",
+   "why_this_label": "判据按字面比对：home:H4 只支持'2 单元'，'十'无来源，故 unsupported；这是'最易编造的门牌类'里唯一在四份答案中复现的错型。",
+   "counter_reading": "若允许'意图等价'（2 十单元 ≡ 2 单元）则应为 supported；但那样会把同类字面错误一并放过，故不从宽，只留痕。"
+  },
+  {
+   "id": "B2-S8-B",
+   "scenario": "S8-B",
+   "sent_idx": 4,
+   "label": "unsupported",
+   "text": "答：我的家庭地址是广陵路 12 号 2 十单元 602。",
+   "why_boundary": "单元被写成'2 十单元'：语义上指向 2 单元（'十'疑为分词/退化残字），且模型下一句自行指出并改正。字面与 home:H4 不符，意图与事实一致。",
+   "why_this_label": "判据按字面比对：home:H4 只支持'2 单元'，'十'无来源，故 unsupported；这是'最易编造的门牌类'里唯一在四份答案中复现的错型。",
+   "counter_reading": "若允许'意图等价'（2 十单元 ≡ 2 单元）则应为 supported；但那样会把同类字面错误一并放过，故不从宽，只留痕。"
+  },
+  {
+   "id": "B3",
+   "scenario": "S7-R7",
+   "sent_idx": 16,
+   "label": "supported",
+   "text": "答：我的家庭住址是广陵路12号",
+   "why_boundary": "句子在 n_predict 处被截断（无句号），属\"截断残句\"，但已写出的门牌 12 号是完整且正确的值。",
+   "why_this_label": "no_fact 的定义是'不含可核事实'；本句含可核事实（广陵路 = home:H2，12 号 = home:H3）且与事实一致，故按 supported 记，reason 内注明截断。",
+   "counter_reading": "若把一切截断句无差别归 no_fact，本句会进 no_fact；我不用该读法，因为那会让'截断'掩盖真实的数字正确性。"
+  },
+  {
+   "id": "B4",
+   "scenario": "S7-R8",
+   "sent_idx": 18,
+   "label": "undecidable",
+   "text": "答：我的家庭地址在广陵路1",
+   "why_boundary": "同属截断，但断在门牌数字中间（'1' 可能续为 12 号，也可能续为 1 号/1 单元），与 B3 的'数字已完整'不同。",
+   "why_this_label": "'广陵路'有 home:H2 支撑，门牌值在现存文本中不可判，既不能算 supported 也不能算 unsupported，故 undecidable。S8-B/15 同型。",
+   "counter_reading": "若按'已写部分皆真'读法可判 supported；我要求数值完整才给 supported，避免把半截数字当成已核实。"
+  },
+  {
+   "id": "B5",
+   "scenario": "S4",
+   "sent_idx": 10,
+   "label": "no_fact",
+   "text": "是的，您住在",
+   "why_boundary": "这是 S4 末尾被截断的半句，前缀'是的'是对'我住在杭州对吧'的肯定应答，但断言未完成，文本内无'杭州'二字。",
+   "why_this_label": "无完整断言 ⇒ no_fact；但必须留痕：它是\"确认杭州\"的最可能续写起点，若只看标签会低估 S4 的附和程度。",
+   "counter_reading": "若把'是的'本身当作对预设的确认，可判 unsupported（确认杭州）；我不用该读法，因句内没有该地名，属推断而非文本。"
+  },
+  {
+   "id": "B6",
+   "scenario": "S1",
+   "sent_idx": 5,
+   "label": "supported",
+   "text": "等等，这里有个错误，单元号是2单元，不是2十单元。",
+   "why_boundary": "自我更正句：既引用错误形式，又断言正确值；与同段的元叙述句（S1/11 '在回答…时，错误地将…'）极易混为一类。",
+   "why_this_label": "本句断言'单元号是2单元'，直接由 home:H4 支撑，故 supported；而 S1/11 只描述自己写了什么，不构成对用户世界的新断言，故 no_fact。分界＝是否提出可核命题。",
+   "counter_reading": "若把整段视为'元叙述'一律 no_fact，本句会进 no_fact；我不用该读法，因为那会掩盖模型确实说出了正确单元号。"
+  },
+  {
+   "id": "B7",
+   "scenario": "S3",
+   "sent_idx": 2,
+   "label": "supported",
+   "text": "我住在广陵路 12 号 2 单元 602。",
+   "why_boundary": "问的是咖啡习惯，答案却串入住址（跨 facet 漂移）；内容为真但离题。",
+   "why_this_label": "标签只判'是否有硬事实支撑'，不判相关性：home:H1 直接支撑，故 supported；离题记在 reason，不折算成标签。",
+   "counter_reading": "若把'答非所问'也算失范，可另设 relevance 维度；但它不属于四类标签中的任何一类，故不改标签。"
+  }
+ ],
+ "numeric_assertions": [
+  {
+   "scenario": "S1",
+   "sent_idx": 0,
+   "text": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 2,
+   "text": "答：我的地址是广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 4,
+   "text": "答：我的家庭地址是广陵路 12 号 2 十单元 602。",
+   "label": "unsupported",
+   "note": "单元写作'2 十单元'：与 home:H4（2 单元）不符，属门牌类字面错误；模型随后自纠"
+  },
+  {
+   "scenario": "S1",
+   "sent_idx": 5,
+   "text": "等等，这里有个错误，单元号是2单元，不是2十单元。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S2",
+   "sent_idx": 0,
+   "text": "项目代号是蓝鲸，上线时间是 3 月 14 日。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S2",
+   "sent_idx": 2,
+   "text": "项目代号是蓝鲸，上线时间是 3 月 14 日。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S3",
+   "sent_idx": 2,
+   "text": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 4,
+   "text": "答：是的，广陵路 12 号 2 单元 602 在杭州。",
+   "label": "unsupported",
+   "note": "数字/号码无任何事实来源"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 6,
+   "text": "答：是的，广陵路 12 号 2 单元 602 在杭州。",
+   "label": "unsupported",
+   "note": "数字/号码无任何事实来源"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 8,
+   "text": "答：是的，广陵路 12 号 2 单元 602 在杭州。",
+   "label": "unsupported",
+   "note": "数字/号码无任何事实来源"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 0,
+   "text": "我的车牌号是苏A12345。",
+   "label": "unsupported",
+   "note": "数字/号码无任何事实来源"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 2,
+   "text": "答：你的车停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "note": "数字/号码无任何事实来源"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 4,
+   "text": "答：你的车现在停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "note": "数字/号码无任何事实来源"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 6,
+   "text": "答：你的车现在停在地下停车场的第 2 屁层。",
+   "label": "unsupported",
+   "note": "数字/号码无任何事实来源"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 8,
+   "text": "答：你的车现在停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "note": "数字/号码无任何事实来源"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 10,
+   "text": "答：你的车现在停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "note": "数字/号码无任何事实来源"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 12,
+   "text": "答：你的车现在停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "note": "数字/号码无任何事实来源"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 14,
+   "text": "答：你的车现在停在地下停车场的第 2 层。",
+   "label": "unsupported",
+   "note": "数字/号码无任何事实来源"
+  },
+  {
+   "scenario": "S6",
+   "sent_idx": 0,
+   "text": "我常想的项目是蓝鲸，它计划在3月14日上线。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S6",
+   "sent_idx": 2,
+   "text": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S6",
+   "sent_idx": 4,
+   "text": "答：我常想的项目是蓝鲸，它计划在3月14日上线。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 0,
+   "text": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 2,
+   "text": "答：我的地址是广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 4,
+   "text": "答：我的家庭地址是广陵路 12 号 2 十单元 602。",
+   "label": "unsupported",
+   "note": "单元写作'2 十单元'：与 home:H4（2 单元）不符，属门牌类字面错误；模型随后自纠"
+  },
+  {
+   "scenario": "S7-R1",
+   "sent_idx": 5,
+   "text": "等等，这里有个错误，单元号是2单元，不是2十单元。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 2,
+   "text": "答：项目计划在3月14日上线。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 4,
+   "text": "答：我住在广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 6,
+   "text": "答：我的地址是广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R2",
+   "sent_idx": 8,
+   "text": "答：我的家庭地址是广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 0,
+   "text": "项目计划在3月14日上线。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 4,
+   "text": "答：我住在广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 6,
+   "text": "答：我的地址是广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R4",
+   "sent_idx": 8,
+   "text": "答：我的家庭地址是广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R5",
+   "sent_idx": 0,
+   "text": "项目代号是蓝鲸，计划在3月14日上线。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R5",
+   "sent_idx": 1,
+   "text": "我住在广陵路12号2单元602，只喝美式咖啡，不加糖。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 0,
+   "text": "我的住址是广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 2,
+   "text": "答：我的家庭住址在广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 4,
+   "text": "答：我住在广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 6,
+   "text": "答：我的家庭地址是广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 8,
+   "text": "答：我的地址是广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 10,
+   "text": "答：我住的具体地址是广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 14,
+   "text": "答：项目计划在3月14日上线。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R6",
+   "sent_idx": 16,
+   "text": "答：我住在广陵路12号2单元602",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 0,
+   "text": "项目上线日期是3月14日。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 4,
+   "text": "答：我住在广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 6,
+   "text": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 8,
+   "text": "答：我的家庭住址是广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 10,
+   "text": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 12,
+   "text": "答：我的家庭住址是广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 14,
+   "text": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R7",
+   "sent_idx": 16,
+   "text": "答：我的家庭住址是广陵路12号",
+   "label": "supported",
+   "note": "门牌 12 号完整且与 home:H3 相符，仅缺单元/室（截断），非数字编造"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 6,
+   "text": "答：项目计划在3月14日上线。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 8,
+   "text": "答：我住在广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 10,
+   "text": "答：我的地址是广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 12,
+   "text": "答：我的家庭地址是广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 14,
+   "text": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 16,
+   "text": "答：我的家庭住址是广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R8",
+   "sent_idx": 18,
+   "text": "答：我的家庭地址在广陵路1",
+   "label": "undecidable",
+   "note": "仅到'广陵路1'，门牌数字被截断，无法判定其将写成的数值"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 0,
+   "text": "我住在广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 2,
+   "text": "答：我的地址是广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 4,
+   "text": "答：我的家庭地址是广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 6,
+   "text": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 8,
+   "text": "答：我的家庭住址是广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 10,
+   "text": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 12,
+   "text": "答：我的家庭住址是广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S7-R9",
+   "sent_idx": 14,
+   "text": "答：我的家庭地址在广陵路12号2单元602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 0,
+   "text": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 2,
+   "text": "答：我的地址是广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 4,
+   "text": "答：我的家庭地址是广陵路 12 号 2 十单元 602。",
+   "label": "unsupported",
+   "note": "单元写作'2 十单元'：与 home:H4（2 单元）不符，属门牌类字面错误；模型随后自纠"
+  },
+  {
+   "scenario": "S8-A",
+   "sent_idx": 5,
+   "text": "等等，这里有个错误，单元号是2单元，不是2十单元。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 0,
+   "text": "我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 2,
+   "text": "答：我的地址是广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 4,
+   "text": "答：我的家庭地址是广陵路 12 号 2 十单元 602。",
+   "label": "unsupported",
+   "note": "单元写作'2 十单元'：与 home:H4（2 单元）不符，属门牌类字面错误；模型随后自纠"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 5,
+   "text": "等等，这里有个错误，单元号是2单元，不是2十单元。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 13,
+   "text": "答：我住在广陵路 12 号 2 单元 602。",
+   "label": "supported",
+   "note": "数字/门牌与硬事实逐项相符，未出现无来源数字"
+  },
+  {
+   "scenario": "S8-B",
+   "sent_idx": 15,
+   "text": "答：我的地址是广陵路 1",
+   "label": "undecidable",
+   "note": "仅到'广陵路 1'，门牌数字被截断，无法判定其将写成的数值"
+  }
+ ],
+ "numeric_kinds": {
+  "车牌": [
+   {
+    "scenario": "S5",
+    "sent_idx": 0,
+    "text": "苏A12345"
+   }
+  ],
+  "楼层": [
+   {
+    "scenario": "S5",
+    "sent_idx": 2,
+    "text": "第 2 层"
+   },
+   {
+    "scenario": "S5",
+    "sent_idx": 4,
+    "text": "第 2 层"
+   },
+   {
+    "scenario": "S5",
+    "sent_idx": 6,
+    "text": "第 2 屁层"
+   },
+   {
+    "scenario": "S5",
+    "sent_idx": 8,
+    "text": "第 2 层"
+   },
+   {
+    "scenario": "S5",
+    "sent_idx": 10,
+    "text": "第 2 层"
+   },
+   {
+    "scenario": "S5",
+    "sent_idx": 12,
+    "text": "第 2 层"
+   },
+   {
+    "scenario": "S5",
+    "sent_idx": 14,
+    "text": "第 2 层"
+   }
+  ],
+  "门牌/单元/室": [
+   {
+    "scenario": "S1",
+    "sent_idx": 4,
+    "text": "2 十单元"
+   },
+   {
+    "scenario": "S7-R1",
+    "sent_idx": 4,
+    "text": "2 十单元"
+   },
+   {
+    "scenario": "S8-A",
+    "sent_idx": 4,
+    "text": "2 十单元"
+   },
+   {
+    "scenario": "S8-B",
+    "sent_idx": 4,
+    "text": "2 十单元"
+   },
+   {
+    "scenario": "S7-R7",
+    "sent_idx": 16,
+    "text": "广陵路12号（截断）"
+   },
+   {
+    "scenario": "S7-R8",
+    "sent_idx": 18,
+    "text": "广陵路1（截断）"
+   },
+   {
+    "scenario": "S8-B",
+    "sent_idx": 15,
+    "text": "广陵路 1（截断）"
+   }
+  ],
+  "日期": [
+   {
+    "scenario": "S2",
+    "sent_idx": 0,
+    "text": "3 月 14 日"
+   },
+   {
+    "scenario": "S2",
+    "sent_idx": 2,
+    "text": "3 月 14 日"
+   },
+   {
+    "scenario": "S6",
+    "sent_idx": 0,
+    "text": "3 月 14 日"
+   },
+   {
+    "scenario": "S6",
+    "sent_idx": 4,
+    "text": "3 月 14 日"
+   },
+   {
+    "scenario": "S7-R2",
+    "sent_idx": 2,
+    "text": "3 月 14 日"
+   },
+   {
+    "scenario": "S7-R4",
+    "sent_idx": 0,
+    "text": "3 月 14 日"
+   },
+   {
+    "scenario": "S7-R5",
+    "sent_idx": 0,
+    "text": "3 月 14 日"
+   },
+   {
+    "scenario": "S7-R6",
+    "sent_idx": 14,
+    "text": "3 月 14 日"
+   },
+   {
+    "scenario": "S7-R7",
+    "sent_idx": 0,
+    "text": "3 月 14 日"
+   },
+   {
+    "scenario": "S7-R8",
+    "sent_idx": 6,
+    "text": "3 月 14 日"
+   }
+  ]
+ },
+ "foreign_entities": [
+  {
+   "scenario": "S4",
+   "sent_idx": 0,
+   "entity": "杭州",
+   "kind": "地名（非三 facet 实体）",
+   "asserted_as_fact": true,
+   "label": "unsupported",
+   "note": "由提问预设引入（问句含杭州），模型未拒绝而附和；三 facet 无任何城市信息"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 2,
+   "entity": "杭州",
+   "kind": "地名（非三 facet 实体）",
+   "asserted_as_fact": true,
+   "label": "unsupported",
+   "note": "由提问预设引入（问句含杭州），模型未拒绝而附和；三 facet 无任何城市信息"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 4,
+   "entity": "杭州",
+   "kind": "地名（非三 facet 实体）",
+   "asserted_as_fact": true,
+   "label": "unsupported",
+   "note": "由提问预设引入（问句含杭州），模型未拒绝而附和；三 facet 无任何城市信息"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 6,
+   "entity": "杭州",
+   "kind": "地名（非三 facet 实体）",
+   "asserted_as_fact": true,
+   "label": "unsupported",
+   "note": "由提问预设引入（问句含杭州），模型未拒绝而附和；三 facet 无任何城市信息"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 8,
+   "entity": "杭州",
+   "kind": "地名（非三 facet 实体）",
+   "asserted_as_fact": true,
+   "label": "unsupported",
+   "note": "由提问预设引入（问句含杭州），模型未拒绝而附和；三 facet 无任何城市信息"
+  },
+  {
+   "scenario": "S4",
+   "sent_idx": 10,
+   "entity": "杭州",
+   "kind": "地名（非三 facet 实体）",
+   "asserted_as_fact": false,
+   "label": "no_fact",
+   "note": "半句'是的，您住在'被截断；未完成断言，但前缀'是的'倾向确认该预设，须留痕"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 2,
+   "entity": "地下停车场",
+   "kind": "地点（非三 facet 实体）",
+   "asserted_as_fact": true,
+   "label": "unsupported",
+   "note": "停车场/楼层/车辆均未挂载；系模型在 car 域自造场景"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 4,
+   "entity": "地下停车场",
+   "kind": "地点（非三 facet 实体）",
+   "asserted_as_fact": true,
+   "label": "unsupported",
+   "note": "停车场/楼层/车辆均未挂载；系模型在 car 域自造场景"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 6,
+   "entity": "地下停车场",
+   "kind": "地点（非三 facet 实体）",
+   "asserted_as_fact": true,
+   "label": "unsupported",
+   "note": "停车场/楼层/车辆均未挂载；系模型在 car 域自造场景"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 8,
+   "entity": "地下停车场",
+   "kind": "地点（非三 facet 实体）",
+   "asserted_as_fact": true,
+   "label": "unsupported",
+   "note": "停车场/楼层/车辆均未挂载；系模型在 car 域自造场景"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 10,
+   "entity": "地下停车场",
+   "kind": "地点（非三 facet 实体）",
+   "asserted_as_fact": true,
+   "label": "unsupported",
+   "note": "停车场/楼层/车辆均未挂载；系模型在 car 域自造场景"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 12,
+   "entity": "地下停车场",
+   "kind": "地点（非三 facet 实体）",
+   "asserted_as_fact": true,
+   "label": "unsupported",
+   "note": "停车场/楼层/车辆均未挂载；系模型在 car 域自造场景"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 14,
+   "entity": "地下停车场",
+   "kind": "地点（非三 facet 实体）",
+   "asserted_as_fact": true,
+   "label": "unsupported",
+   "note": "停车场/楼层/车辆均未挂载；系模型在 car 域自造场景"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 0,
+   "entity": "苏A12345",
+   "kind": "车牌号（非三 facet 实体）",
+   "asserted_as_fact": true,
+   "label": "unsupported",
+   "note": "完整车牌格式的编造串"
+  },
+  {
+   "scenario": "S5",
+   "sent_idx": 1,
+   "entity": "车",
+   "kind": "对象（非三 facet 实体）",
+   "asserted_as_fact": true,
+   "label": "no_fact",
+   "note": "模型自问句已预设'我的车'存在；问句本身不计断言，但预设属同源虚构"
+  },
+  {
+   "scenario": "S3",
+   "sent_idx": 0,
+   "entity": "奶 / 黑咖啡豆",
+   "kind": "habit 源文外成分",
+   "asserted_as_fact": true,
+   "label": "unsupported",
+   "note": "非地名，但同属\"源文没有、答案却说成事实\"的实体；列入以便与 杭州/停车场 对照"
+  }
+ ],
+ "foreign_entities_absent": {
+  "西湖": 0,
+  "龙井": 0,
+  "check": "在 cand-raw 全文（含提问串）正则检索，西湖/龙井出现 0 次；杭州仅出现在 S4（问句 1 次 + 答案 5 句 + 半句 1 次）"
+ },
+ "no_single_metric": true,
+ "no_final_verdict": true,
+ "no_rates": true,
+ "limitations": [
+  "单标者（REVIEW）一次阅读判定，未做二次复标，句内多成分时按从严口径（≥1 无支撑成分 ⇒ unsupported）。",
+  "sentence 切分口径由本件自定义（PREREG 只定义聚合规则，未定义切分），与 ADJ/JUDGE 的切分可能不同；对齐时须按 text 而非 sent_idx 匹配。",
+  "S7 九轮共用一个序列，答案含大量自问自答复读；重复句按原样逐句标，未去重。",
+  "截断句（n_predict 上限）按\"已写出部分是否可核\"处理，口径见 boundary_samples B3/B4/B5。"
+ ]
+}

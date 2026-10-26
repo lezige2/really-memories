@@ -1,0 +1,441 @@
+{
+ "schema": "m5_probe_c_v2",
+ "task": "M5-C (c) 36-layer long generation, out-of-sample",
+ "role": "CAND",
+ "at": "2026-10-26T11:10:52+0800",
+ "scope": "CAND 原始输出与装置/几何/自证；不做 ADJ/JUDGE 结论",
+ "prereg": {
+  "path": "D:\\llama-mem\\docs\\_work\\PREREG-M5-C.md",
+  "sha16": "250dbb417a7e7470",
+  "bytes": 14071
+ },
+ "judge": {
+  "path": "D:\\llama-mem\\kvmem\\m2_visibility\\m5\\m5_ground_v2.py",
+  "sha16": "5e11e1ac06f022c7",
+  "bytes": 66413,
+  "version": "v2.1",
+  "gate": {
+   "theta": 0.2,
+   "stop_sha16": "a4406d0bd1de47c7",
+   "frame_sha16": "f7df16d8ba96e68f",
+   "question_clause_excluded": true,
+   "no_fact_rule": "branch5 |G|==0 or u>theta -> no_fact; no_fact single-listed"
+  }
+ },
+ "prompt_template": {
+  "turn": "\\n问：{q}\\n答：",
+  "answer": "buffer after ask; no stripping",
+  "source": "tools/kvslots.py turn()"
+ },
+ "gen_params": {
+  "n_predict": 192,
+  "n_predict_s8_first": 128,
+  "sampling": "argmax_greedy",
+  "temperature": 0,
+  "seed_known": true,
+  "degraded": false,
+  "n_predict_current": 192,
+  "note": "DLL generate() argmax; no sampler"
+ },
+ "gate_before": {
+  "pnp_rndis_usb_audio": 0,
+  "vram_baseline_gib": 0.4236,
+  "free_ram_kb": 12729580,
+  "gpu_procs_gt256mb": 0,
+  "browser_or_code_procs": 0,
+  "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+  "prereg_sha16": "250dbb417a7e7470",
+  "prereg_ok": true,
+  "judge_sha16": "5e11e1ac06f022c7",
+  "judge_ok": true,
+  "dll_sha16": "9edbafa150700614",
+  "dll_ok": true,
+  "model_bytes": 8988110240,
+  "model_ok": true,
+  "free_ram_ok": true,
+  "vram_baseline_ok": true,
+  "gpu_procs_ok": true,
+  "browsers_ok": true,
+  "gate_ok": true
+ },
+ "host_before": {
+  "tag": "before_m5c",
+  "collected_at": "2026-10-26T11:11:00+0800",
+  "boot": {
+   "command": "(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString('o')",
+   "rc": 0,
+   "collected_at": "2026-10-26T11:10:58+0800",
+   "stdout": "2026-10-26T03:24:52.5000000+08:00",
+   "stderr": ""
+  },
+  "minidump": {
+   "command": "Get-ChildItem -LiteralPath 'C:\\Windows\\Minidump' -Filter '*.dmp' -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime | Select-Object Name,Length,@{n='LastWriteTime';e={$_.LastWriteTime.ToString('o')}} | ConvertTo-Json -Compress",
+   "rc": 0,
+   "collected_at": "2026-10-26T11:11:00+0800",
+   "stdout": "[{\"Name\":\"102626-5187-01.dmp\",\"Length\":2201077,\"LastWriteTime\":\"2026-10-26T01:31:36.2997028+08:00\"},{\"Name\":\"102626-4468-01.dmp\",\"Length\":1994809,\"LastWriteTime\":\"2026-10-26T01:38:56.5625530+08:00\"},{\"Name\":\"102626-4593-01.dmp\",\"Length\":1063617,\"LastWriteTime\":\"2026-10-26T01:56:32.6758278+08:00\"},{\"Name\":\"102626-4437-01.dmp\",\"Length\":2062496,\"LastWriteTime\":\"2026-10-26T03:10:17.4578327+08:00\"},{\"Name\":\"102626-4671-01.dmp\",\"Length\":2043758,\"LastWriteTime\":\"2026-10-26T03:24:55.7693314+08:00\"}]",
+   "stderr": ""
+  },
+  "parsed": {
+   "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+   "dumps": [
+    {
+     "name": "102626-5187-01.dmp",
+     "bytes": 2201077,
+     "mtime": "2026-10-26T01:31:36.2997028+08:00"
+    },
+    {
+     "name": "102626-4468-01.dmp",
+     "bytes": 1994809,
+     "mtime": "2026-10-26T01:38:56.5625530+08:00"
+    },
+    {
+     "name": "102626-4593-01.dmp",
+     "bytes": 1063617,
+     "mtime": "2026-10-26T01:56:32.6758278+08:00"
+    },
+    {
+     "name": "102626-4437-01.dmp",
+     "bytes": 2062496,
+     "mtime": "2026-10-26T03:10:17.4578327+08:00"
+    },
+    {
+     "name": "102626-4671-01.dmp",
+     "bytes": 2043758,
+     "mtime": "2026-10-26T03:24:55.7693314+08:00"
+    }
+   ],
+   "existing_count": 5,
+   "latest_mtime": "2026-10-26T03:24:55.7693314+08:00"
+  }
+ },
+ "device": {
+  "model": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+  "model_bytes": 8988110240,
+  "dll": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+  "dll_sha16": "9edbafa150700614",
+  "dll_bytes": 50007552,
+  "n_gpu_layers_input": 36,
+  "n_ctx": 8192,
+  "n_seq": 8,
+  "kv": "q8_0",
+  "chat_start": 4096,
+  "vram_gate_gib": 8.6,
+  "target_gib": 8.0,
+  "signals_sent_by_parent": false,
+  "engines": [
+   {
+    "pid": 11380,
+    "load_s": 4.423,
+    "vulkan_imported": true,
+    "dll_sha16": "9edbafa150700614",
+    "n_gpu_layers_input": 36,
+    "n_gpu_layers_readback": 36,
+    "n_gpu_layers_readback_total": 49,
+    "offloaded_log_line": "offloaded 36/49 layers to GPU",
+    "gpu": 36,
+    "n_ctx": 8192,
+    "n_seq": 8,
+    "kv": "q8_0",
+    "model_bytes": 8988110240
+   }
+  ],
+  "peak_gib": null,
+  "three_proof_ok": true,
+  "all_offloaded_lines": [
+   "offloaded 36/49 layers to GPU"
+  ]
+ },
+ "geometry": [
+  {
+   "cells_total": 51,
+   "positions_min": 4045,
+   "positions_max": 4095,
+   "first_question_pos": 4096,
+   "head_gap_cells": 0,
+   "raw_pos_max": 4095,
+   "overlaps": [],
+   "segments": [
+    {
+     "id": "habit",
+     "cells": 12,
+     "pos_lo": 4045,
+     "pos_hi": 4057,
+     "file_sha256": "f6f8e85cc55bd4b9759dd71140b88a7e147bd98957aba8f6c8ca19903e0ae9bf"
+    },
+    {
+     "id": "project",
+     "cells": 18,
+     "pos_lo": 4057,
+     "pos_hi": 4075,
+     "file_sha256": "536eac03f288bb09413efff45608f35e4ce5e9f926ac8854af32ca56baf20016"
+    },
+    {
+     "id": "home",
+     "cells": 21,
+     "pos_lo": 4075,
+     "pos_hi": 4096,
+     "file_sha256": "73843fc55efd1ab3b587854d49f531c09a347acf003979cfa28e4346f35b0378"
+    }
+   ],
+   "placed_base_delta": [
+    {
+     "id": "home",
+     "base": 0,
+     "delta": 4075
+    },
+    {
+     "id": "project",
+     "base": 0,
+     "delta": 4057
+    },
+    {
+     "id": "habit",
+     "base": 0,
+     "delta": 4045
+    }
+   ],
+   "n_tokens_after_place": 0,
+   "engine_handle": 2281775331328,
+   "n_ctx": 8192,
+   "n_seq": 8,
+   "fresh_engine": true,
+   "ok": true
+  }
+ ],
+ "answers": [],
+ "peaks": [],
+ "counts": {
+  "total": 0,
+  "counted": 0,
+  "supported": 0,
+  "unsupported": 0,
+  "undecidable": 0,
+  "no_fact": 0,
+  "tail": 0,
+  "empty": 0,
+  "dup": 0
+ },
+ "near_threshold": [],
+ "known_fp_controls": [
+  {
+   "id": "C6",
+   "text": "我喝美式咖啡，不加糖。",
+   "gram_n": 4,
+   "u": 0.25,
+   "verdict": "unsupported",
+   "expected": "unsupported",
+   "note": "known_fp same-sense/composition",
+   "known_fp": true
+  },
+  {
+   "id": "C7",
+   "text": "我家在广陵路。",
+   "gram_n": 3,
+   "u": 0.3333333333333333,
+   "verdict": "unsupported",
+   "expected": "unsupported",
+   "note": "known_fp 我家 not in source",
+   "known_fp": true
+  },
+  {
+   "id": "C8",
+   "text": "我喝美式咖啡。",
+   "gram_n": 3,
+   "u": 0.3333333333333333,
+   "verdict": "unsupported",
+   "expected": "unsupported",
+   "note": "known_fp composition gram 式咖",
+   "known_fp": true
+  },
+  {
+   "id": "C9",
+   "text": "它就定在那天上线。",
+   "gram_n": 3,
+   "u": 0.6666666666666666,
+   "verdict": "unsupported",
+   "expected": "unsupported",
+   "note": "known_fp anaphora/ellipsis",
+   "known_fp": true
+  },
+  {
+   "id": "C10",
+   "text": "它们都一样。",
+   "gram_n": 1,
+   "u": 1.0,
+   "verdict": "unsupported",
+   "expected": "unsupported",
+   "note": "known_fp pure pronoun sentence",
+   "known_fp": true
+  }
+ ],
+ "no_fact_undecidable": [],
+ "excluded": [],
+ "sealed": {
+  "adj_sha16": null,
+  "review_sha16": null,
+  "status": "pending_ADJ_blind_labeling"
+ },
+ "rates": {
+  "leak": {
+   "num": null,
+   "den": null,
+   "status": "pending_ADJ"
+  },
+  "false": {
+   "num": null,
+   "den": null,
+   "status": "pending_ADJ"
+  },
+  "note": "CAND 不产 ADJ 标签；两率待 ADJ 盲标后计算；禁单一准确率"
+ },
+ "s7": null,
+ "resume": null,
+ "attempts": [
+  {
+   "n": 1,
+   "at": "2026-10-26T11:10:52+0800",
+   "status": "aborted",
+   "reason": "S1: ArgumentError: argument 1: OverflowError: int too long to convert",
+   "finished_at": "2026-10-26T11:11:15+0800"
+  }
+ ],
+ "limitations": [
+  "CAND 侧只产原始输出与句级归属；ADJ 盲标未封存，两率未计算，不写通过/未通过。",
+  "未做 kill 子臂（永久未做）；不覆盖掉电/驱动级 bug check/θ 已校准性。",
+  "S7 各轮共享一个 sampler，peak 为整段 S7 的峰值；S8-A/B 分进程各自采样。",
+  "events 通道不存在；以 ask_rc/n_tokens_delta 记录每次调用。",
+  "S8 首次 n_predict=128，恢复段=192（若降档则 128）；未做任何重试/补生成。",
+  "engine_errors: S1: ArgumentError: argument 1: OverflowError: int too long to convert"
+ ],
+ "no_single_accuracy": true,
+ "no_final_verdict": true,
+ "geometry_layout": {
+  "cells_total": 51,
+  "span_lo": 4045,
+  "span_hi": 4096,
+  "segments": [
+   {
+    "id": "habit",
+    "block_id": "habit",
+    "file": "D:/llama-mem/kvmem/m2_v1_14b/habit.kvmem",
+    "file_sha256": "f6f8e85cc55bd4b9759dd71140b88a7e147bd98957aba8f6c8ca19903e0ae9bf",
+    "cells": 12,
+    "slot": 3,
+    "pos_lo": 4045,
+    "pos_hi": 4057,
+    "add_order": 3
+   },
+   {
+    "id": "project",
+    "block_id": "project",
+    "file": "D:/llama-mem/kvmem/m2_v1_14b/project.kvmem",
+    "file_sha256": "536eac03f288bb09413efff45608f35e4ce5e9f926ac8854af32ca56baf20016",
+    "cells": 18,
+    "slot": 2,
+    "pos_lo": 4057,
+    "pos_hi": 4075,
+    "add_order": 2
+   },
+   {
+    "id": "home",
+    "block_id": "home",
+    "file": "D:/llama-mem/kvmem/m2_v1_14b/home.kvmem",
+    "file_sha256": "73843fc55efd1ab3b587854d49f531c09a347acf003979cfa28e4346f35b0378",
+    "cells": 21,
+    "slot": 1,
+    "pos_lo": 4075,
+    "pos_hi": 4096,
+    "add_order": 1
+   }
+  ]
+ },
+ "peaks_all": [],
+ "host_after": {
+  "tag": "after_m5c",
+  "collected_at": "2026-10-26T11:11:09+0800",
+  "boot": {
+   "command": "(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString('o')",
+   "rc": 0,
+   "collected_at": "2026-10-26T11:11:08+0800",
+   "stdout": "2026-10-26T03:24:52.5000000+08:00",
+   "stderr": ""
+  },
+  "minidump": {
+   "command": "Get-ChildItem -LiteralPath 'C:\\Windows\\Minidump' -Filter '*.dmp' -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime | Select-Object Name,Length,@{n='LastWriteTime';e={$_.LastWriteTime.ToString('o')}} | ConvertTo-Json -Compress",
+   "rc": 0,
+   "collected_at": "2026-10-26T11:11:09+0800",
+   "stdout": "[{\"Name\":\"102626-5187-01.dmp\",\"Length\":2201077,\"LastWriteTime\":\"2026-10-26T01:31:36.2997028+08:00\"},{\"Name\":\"102626-4468-01.dmp\",\"Length\":1994809,\"LastWriteTime\":\"2026-10-26T01:38:56.5625530+08:00\"},{\"Name\":\"102626-4593-01.dmp\",\"Length\":1063617,\"LastWriteTime\":\"2026-10-26T01:56:32.6758278+08:00\"},{\"Name\":\"102626-4437-01.dmp\",\"Length\":2062496,\"LastWriteTime\":\"2026-10-26T03:10:17.4578327+08:00\"},{\"Name\":\"102626-4671-01.dmp\",\"Length\":2043758,\"LastWriteTime\":\"2026-10-26T03:24:55.7693314+08:00\"}]",
+   "stderr": ""
+  },
+  "parsed": {
+   "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+   "dumps": [
+    {
+     "name": "102626-5187-01.dmp",
+     "bytes": 2201077,
+     "mtime": "2026-10-26T01:31:36.2997028+08:00"
+    },
+    {
+     "name": "102626-4468-01.dmp",
+     "bytes": 1994809,
+     "mtime": "2026-10-26T01:38:56.5625530+08:00"
+    },
+    {
+     "name": "102626-4593-01.dmp",
+     "bytes": 1063617,
+     "mtime": "2026-10-26T01:56:32.6758278+08:00"
+    },
+    {
+     "name": "102626-4437-01.dmp",
+     "bytes": 2062496,
+     "mtime": "2026-10-26T03:10:17.4578327+08:00"
+    },
+    {
+     "name": "102626-4671-01.dmp",
+     "bytes": 2043758,
+     "mtime": "2026-10-26T03:24:55.7693314+08:00"
+    }
+   ],
+   "existing_count": 5,
+   "latest_mtime": "2026-10-26T03:24:55.7693314+08:00"
+  }
+ },
+ "gate_after": {
+  "pnp_rndis_usb_audio": 0,
+  "vram_baseline_gib": 0.4581,
+  "free_ram_kb": 12738644,
+  "gpu_procs_gt256mb": 0,
+  "browser_or_code_procs": 0,
+  "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+  "prereg_sha16": "250dbb417a7e7470",
+  "prereg_ok": true,
+  "judge_sha16": "5e11e1ac06f022c7",
+  "judge_ok": true,
+  "dll_sha16": "9edbafa150700614",
+  "dll_ok": true,
+  "model_bytes": 8988110240,
+  "model_ok": true,
+  "free_ram_ok": true,
+  "vram_baseline_ok": true,
+  "gpu_procs_ok": true,
+  "browsers_ok": true,
+  "gate_ok": true
+ },
+ "reboot": {
+  "boot_id_before": "2026-10-26T03:24:52.5000000+08:00",
+  "boot_id_after": "2026-10-26T03:24:52.5000000+08:00",
+  "minidump_before_count": 5,
+  "minidump_existing_count": 5,
+  "minidump_latest_mtime": "2026-10-26T03:24:55.7693314+08:00",
+  "minidump_new": false,
+  "minidump_new_files": [],
+  "boot_changed": false
+ },
+ "voided_by_reboot": false,
+ "finished_at": "2026-10-26T11:11:15+0800",
+ "elapsed_total_s": 22.8,
+ "status": "未接上（装置/自证失败）",
+ "four_state": "未接上",
+ "answer_count": 0,
+ "scenario_count": 0
+}
