@@ -1,0 +1,145 @@
+{
+ "schema": "qq_e2e_accept_v1",
+ "role": "independent QQ link acceptance: simulated NapCat (OneBot v11 reverse WS client); no QQ login",
+ "endpoint": "ws://127.0.0.1:8766",
+ "token_source": {
+  "path": "third_party/qq_token.txt",
+  "token_len": 32,
+  "token_persisted": false
+ },
+ "auth_header": "Authorization: Bearer <redacted>",
+ "bridge_wait_s": 0.004,
+ "bridge_up": true,
+ "events": [],
+ "cases": [
+  {
+   "name": "group_at_greeting",
+   "negative": false,
+   "action_expected": "send_group_msg",
+   "action_got": "send_group_msg",
+   "actions": [
+    {
+     "action": "send_group_msg",
+     "params": {
+      "message": "你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）",
+      "group_id": 20002
+     },
+     "echo": "echo-1"
+    }
+   ],
+   "n_actions": 1,
+   "messages": [
+    "你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）"
+   ],
+   "content_ok": true,
+   "action_ok": true,
+   "no_action_expected": true,
+   "latency_ms": 24.7,
+   "latencies_ms": [
+    24.7
+   ],
+   "pass": true,
+   "sent_char_len": 354,
+   "event_type": "group @bot 你好"
+  },
+  {
+   "name": "group_at_no_memory_fact",
+   "negative": false,
+   "action_expected": "send_group_msg",
+   "action_got": "send_group_msg",
+   "actions": [
+    {
+     "action": "send_group_msg",
+     "params": {
+      "message": "记忆里没有这条，我不想猜。可以先 /remember 告诉我。",
+      "group_id": 20002
+     },
+     "echo": "echo-2"
+    }
+   ],
+   "n_actions": 1,
+   "messages": [
+    "记忆里没有这条，我不想猜。可以先 /remember 告诉我。"
+   ],
+   "content_ok": true,
+   "action_ok": true,
+   "no_action_expected": true,
+   "latency_ms": 21.7,
+   "latencies_ms": [
+    21.7
+   ],
+   "pass": true,
+   "sent_char_len": 370,
+   "event_type": "group @bot 我明天要去哪里出差？"
+  },
+  {
+   "name": "private_plate_memory",
+   "negative": false,
+   "action_expected": "send_private_msg",
+   "action_got": "send_private_msg",
+   "actions": [
+    {
+     "action": "send_private_msg",
+     "params": {
+      "message": "京A88888",
+      "user_id": 30003
+     },
+     "echo": "echo-3"
+    }
+   ],
+   "n_actions": 1,
+   "messages": [
+    "京A88888"
+   ],
+   "content_ok": true,
+   "action_ok": true,
+   "no_action_expected": true,
+   "latency_ms": 1636.1,
+   "latencies_ms": [
+    1636.1
+   ],
+   "pass": true,
+   "sent_char_len": 292,
+   "event_type": "private 我的车牌号是多少？"
+  },
+  {
+   "name": "group_not_at_control",
+   "negative": true,
+   "action_expected": null,
+   "action_got": null,
+   "actions": [],
+   "n_actions": 0,
+   "messages": [],
+   "content_ok": true,
+   "action_ok": true,
+   "no_action_expected": true,
+   "latency_ms": null,
+   "latencies_ms": [],
+   "pass": true,
+   "sent_char_len": 309,
+   "event_type": "group 不 @（负测试）"
+  }
+ ],
+ "started_at": "2026-10-27T17:12:48+0800",
+ "handshake": {
+  "request": "GET / (Authorization: Bearer <redacted>)",
+  "response_status": "HTTP/1.1 101 Switching Protocols"
+ },
+ "n_cases": 4,
+ "n_pass": 4,
+ "elapsed_s": 5.703,
+ "pass": true,
+ "status": "pass",
+ "expected": {
+  "greeting": "固定问候句（含「你好」/「记忆助手」）",
+  "no_memory_fact": "固定拒答（含「没有提到」/「不想猜」/「记忆里没有」）",
+  "private_plate": "长期记忆命中返回 京A88888（有记忆事实，不拒答）",
+  "not_at_control": "群里不 @ 不应触发任何发送"
+ },
+ "notes": [
+  "本件是模拟 NapCat 客户端的链路验收（OneBot v11 反向 WS）；未登录 QQ。",
+  "token 只在内存中使用；产物只记录长度与来源路径，不落 token 明文。",
+  "真实 QQ 号验收（扫码登录后）见 docs/QQ-ACCEPTANCE.md；本件不得作为“真号已验收”证据。",
+  "bridge 侧只读事件与动作，不改代码/配置；数据目录与 token 未改动。"
+ ]
+}

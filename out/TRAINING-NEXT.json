@@ -1,0 +1,372 @@
+{
+ "schema": "training_next_v1",
+ "role": "T11 下一轮修什么（按 live 基线失败频率排序；只给证据与建议，不写代码）",
+ "source": {
+  "path": "out/TRAINING-EVAL.json",
+  "sha256": "fc037d8e592b9261f3dca8a53af109be2a93f130592d14fee95eca7c6c4d406b",
+  "live_n": 31,
+  "live_fail": 14
+ },
+ "generated_at": "2026-10-27T19:52:08+0800",
+ "ranking_rule": "按 failure_class 出现次数降序；同频按类名字典序",
+ "items": [
+  {
+   "rank": 1,
+   "failure_class": "记忆漏",
+   "count": 8,
+   "share_of_failures": 0.5714,
+   "share_of_cases": 0.2581,
+   "evidence": [
+    {
+     "id": "c01",
+     "category": "capability",
+     "input": "记忆力有什么",
+     "answer": "记忆力是指人脑对过去经验的识记、保持、再现（回忆）和遗忘的能力。它包括感觉记忆、短时记忆、长时记忆和运动记忆等不同类型，是认知功能的重要组成部分",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "不应出现内容：'人脑'",
+      "不应出现内容：'识记'",
+      "不应出现内容：'认知功能'"
+     ]
+    },
+    {
+     "id": "c09",
+     "category": "capability",
+     "input": "你记得我有几条记忆？",
+     "answer": "我只能记住我们当前对话中的内容，无法记住更早的对话。如果你有需要，可以告诉我，我会尽力帮助你",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "缺内容：['条', '记忆'] 均未出现"
+     ]
+    },
+    {
+     "id": "m01",
+     "category": "memory_qa",
+     "input": "我的车牌号是多少？",
+     "answer": "我记不住你的车牌号，抱歉",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 memory_hit，实际 general（state='natural', blocks=[]）",
+      "缺内容：['京A88888'] 均未出现"
+     ]
+    },
+    {
+     "id": "m02",
+     "category": "memory_qa",
+     "input": "我叫什么名字？",
+     "answer": "我记不住你的名字，抱歉",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 memory_hit，实际 general（state='natural', blocks=[]）",
+      "缺内容：['阿泽'] 均未出现"
+     ]
+    },
+    {
+     "id": "m04",
+     "category": "memory_qa",
+     "input": "我周三晚上几点有组会？",
+     "answer": "我记不住你周三晚上的安排，抱歉",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 memory_hit，实际 general（state='natural', blocks=[]）",
+      "缺内容：['七点', '7点', '19点', '七'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "记忆检索（topk/词面 bigram 召回与块选择）",
+   "suggestion": "检索召回问题：'我叫什么名字' 等自然问法与块内文本 bigram 不重合；补实体/别名召回或问句改写，并回归 m02/m04。"
+  },
+  {
+   "rank": 2,
+   "failure_class": "身份",
+   "count": 5,
+   "share_of_failures": 0.3571,
+   "share_of_cases": 0.1613,
+   "evidence": [
+    {
+     "id": "i01",
+     "category": "identity",
+     "input": "你是谁",
+     "answer": "根据资料，“你是谁”可能指代不同的内容，包括电视剧、歌曲等。具体含义需结合上下文进一步了解",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 identity，实际 general（state='natural', blocks=[]）",
+      "缺内容：['记忆助手', '本地', '14B', '模型'] 均未出现"
+     ]
+    },
+    {
+     "id": "i02",
+     "category": "identity",
+     "input": "你是谁呀",
+     "answer": "根据资料，“你是谁呀”可能指代不同的内容，包括歌曲、视频或抖音内容。具体含义需结合上下文进一步了解",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 identity，实际 general（state='natural', blocks=[]）",
+      "缺内容：['记忆助手', '本地', '14B', '模型'] 均未出现"
+     ]
+    },
+    {
+     "id": "i03",
+     "category": "identity",
+     "input": "你叫什么名字",
+     "answer": "我是一个由深度求索公司独立开发的智能助手DeepSeek-R1-Lite-Preview，很高兴为您提供服务",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 identity，实际 general（state='natural', blocks=[]）",
+      "不应出现内容：'DeepSeek'",
+      "缺内容：['记忆助手', '本地', '14B', '模型'] 均未出现"
+     ]
+    },
+    {
+     "id": "i04",
+     "category": "identity",
+     "input": "你是机器人吗",
+     "answer": "我是由深度求索公司独立开发的智能助手DeepSeek-R1-Lite-Preview，很高兴为您提供服务",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 identity，实际 general（state='natural', blocks=[]）",
+      "不应出现内容：'DeepSeek'",
+      "缺内容：['记忆助手', '本地', '14B', '模型'] 均未出现"
+     ]
+    },
+    {
+     "id": "i07",
+     "category": "identity",
+     "input": "你是什么模型",
+     "answer": "我是由深度求索公司独立开发的本地记忆助手DeepSeek-R1-Lite-Preview，很高兴为您提供服务！",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "延迟：客户端 94.2s > 上限 90.0s",
+      "state_class：期望 identity，实际 general（state='natural', blocks=[]）",
+      "不应出现内容：'DeepSeek'"
+     ]
+    }
+   ],
+   "suggested_owner": "身份路由（identity 分支及回复模板）",
+   "suggestion": "身份分支优先于模型生成；固定身份话术（本地 14B/KV 记忆/不联网），禁止『您在问…对吗』式应答。"
+  },
+  {
+   "rank": 3,
+   "failure_class": "僵硬",
+   "count": 1,
+   "share_of_failures": 0.0714,
+   "share_of_cases": 0.0323,
+   "evidence": [
+    {
+     "id": "g01",
+     "category": "greeting",
+     "input": "你好",
+     "answer": "你好！",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 smalltalk，实际 general（state='natural', blocks=[]）"
+     ]
+    }
+   ],
+   "suggested_owner": "路由/意图（NATURAL_MODE、smalltalk/capability 分支）+ 提示词",
+   "suggestion": "先修路由：寒暄/能力/感叹走快速分支（不落 14B 泛答）；对『您在问…』式复读直接替换为明确应答；补意图词表回归。"
+  }
+ ],
+ "notes": [
+  "频率来自 live 基线的 9 类失败计数（n_valid=31）；未跑 47 条不参与排序。",
+  "串味/延迟/身份/记忆漏等横切证据见 cross_cutting；其中『记忆检索未生效』与『身份落到 DeepSeek』比单类计数更严重。",
+  "建议责任单是应用层模块建议，不代表已定位根因；下一轮应先用本文件同款用例做回归。"
+ ],
+ "cross_cutting": {
+  "latency": {
+   "n": 31,
+   "min_s": 0.015,
+   "max_s": 94.206,
+   "median_s": 24.263,
+   "over_90s": [
+    "i07"
+   ],
+   "note": "真实服务单问 13–95s；寒暄也走 14B 生成，远高于产品目标（寒暄应零前向）。"
+  },
+  "identity_model_name": {
+   "leaks": [
+    "i03",
+    "i04",
+    "i07"
+   ],
+   "evidence_ids": [
+    "i01",
+    "i02",
+    "i03",
+    "i04",
+    "i07"
+   ],
+   "note": "身份问句落到生成层：i03/i04/i07 直答『DeepSeek-R1-Lite-Preview』；i01/i02 答『根据资料…可能指代…』。"
+  },
+  "memory_retrieval": {
+   "existing_memory_fail_ids": [
+    "m01",
+    "m02",
+    "m04",
+    "m06",
+    "s01",
+    "x01"
+   ],
+   "note": "库内已有 11 条记忆（含 京A88888 / 我叫阿泽 / 周三七点 B座302），服务仍答『我记不住/我无法提供』，block_ids 全空 ⇒ 检索/挂载未生效。"
+  },
+  "refusal_flag_missing": {
+   "ids": [
+    "u01",
+    "u05",
+    "c09",
+    "m01",
+    "m02"
+   ],
+   "note": "多数无记忆问题 refused=false 但正文诚实（『我无法…』『这个我没法确认』）：产品可用性 OK，但错误分类/统计口径缺标志。"
+  },
+  "service_instability": {
+   "note": "评测窗口内服务多次重启/失联：18:49、19:00、19:06、19:08 进程重建；19:38–19:43 /health 连续 connection refused；19:44 由本任务用同一 start_service 参数重启后恢复；batch2 的 3 条 infra 误差即此期间产生。",
+   "infra_ids": []
+  }
+ },
+ "systemic_items": [
+  {
+   "kind": "systemic",
+   "rank_hint": 4,
+   "failure_class": "延迟（横切；延迟>30s 的样本）",
+   "count": 15,
+   "unit": "cases>30s",
+   "evidence": [
+    {
+     "id": "g01",
+     "input": "你好",
+     "latency_s": 40.209,
+     "answer": "你好！"
+    },
+    {
+     "id": "g02",
+     "input": "你好你好",
+     "latency_s": 41.155,
+     "answer": "你好！"
+    },
+    {
+     "id": "g03",
+     "input": "您好",
+     "latency_s": 41.51,
+     "answer": "您好！"
+    },
+    {
+     "id": "g04",
+     "input": "在吗",
+     "latency_s": 42.815,
+     "answer": "在的，请问有什么可以帮助您的吗"
+    },
+    {
+     "id": "g05",
+     "input": "在不在",
+     "latency_s": 43.156,
+     "answer": "在的，请问有什么可以帮助您的吗"
+    },
+    {
+     "id": "g06",
+     "input": "早上好呀",
+     "latency_s": 45.106,
+     "answer": "早上好！"
+    }
+   ],
+   "suggested_owner": "引擎串行队列、n_predict 与降级策略",
+   "suggestion": "寒暄/身份/能力问句应走 0 前向快速分支；14B 生成+核对回路单问 30–95s，需设预算与降级（本轮 i07 94.2s 已超 90s 目标）。"
+  },
+  {
+   "kind": "systemic",
+   "rank_hint": 5,
+   "failure_class": "拒答标志缺失（横切；refused=false 但正文诚实拒答）",
+   "count": 5,
+   "unit": "cases",
+   "evidence": [
+    {
+     "id": "u01",
+     "input": "我工号多少",
+     "answer": "我无法提供您的工号信息",
+     "refused": false
+    },
+    {
+     "id": "u05",
+     "input": "我明天要去哪里出差？",
+     "answer": "这个我没法确认：你没跟我提过的安排。",
+     "refused": false
+    },
+    {
+     "id": "c09",
+     "input": "你记得我有几条记忆？",
+     "answer": "我只能记住我们当前对话中的内容，无法记住更早的对话。如果你有需要，可以告诉我，我会尽力帮助你",
+     "refused": false
+    },
+    {
+     "id": "m01",
+     "input": "我的车牌号是多少？",
+     "answer": "我记不住你的车牌号，抱歉",
+     "refused": false
+    },
+    {
+     "id": "m02",
+     "input": "我叫什么名字？",
+     "answer": "我记不住你的名字，抱歉",
+     "refused": false
+    }
+   ],
+   "suggested_owner": "证据路由/响应封装（refused 字段与话术一致性）",
+   "suggestion": "无记忆个人事实问句正文已诚实（『我无法…』『这个我没法确认』），但 refused 恒为 false；统一话术+flags，便于统计与前端展示。"
+  }
+ ],
+ "combined_top5": [
+  {
+   "rank": 1,
+   "kind": "class",
+   "failure_class": "记忆漏",
+   "count": 8
+  },
+  {
+   "rank": 2,
+   "kind": "class",
+   "failure_class": "身份",
+   "count": 5
+  },
+  {
+   "rank": 3,
+   "kind": "class",
+   "failure_class": "僵硬",
+   "count": 1
+  },
+  {
+   "rank": 4,
+   "kind": "systemic",
+   "failure_class": "延迟（横切；延迟>30s 的样本）",
+   "count": 15
+  },
+  {
+   "rank": 5,
+   "kind": "systemic",
+   "failure_class": "拒答标志缺失（横切；refused=false 但正文诚实拒答）",
+   "count": 5
+  }
+ ],
+ "top5_note": "live 基线只出现 3 个判分类别（记忆漏/身份/僵硬），故第 4/5 项以横切证据补足：延迟（>30s 样本 15 条，含 i07 94.2s）与拒答标志缺失（5 条）。"
+}

@@ -1,0 +1,335 @@
+{
+ "schema": "qq_isolation_check_v1",
+ "audit_id": "QQ-ISOLATION-CHECK",
+ "auditor": "chain-repro",
+ "independent": true,
+ "checked_at": "2026-10-27T16:56:29",
+ "scope": "用户 QQ 完整性 + NapCat 安装隔离性（只读；未改代码/未重启/未 kill/未 commit）",
+ "user_qq_untouched": false,
+ "core_binaries_untouched": true,
+ "why_false": "E 盘 QQ 安装二进制与目录未被安装器改动（QQ.exe/QQEX hash 匹配；versions/extension 目录 mtime 未晚于 16:00），但项目脚本在审计窗口内用用户真实 QQ 数据目录启动了 D:\\llama-mem 下的 QQ 实例（4 个进程，16:51:40-42），且复用了 C:\\Users\\lezige\\AppData\\Roaming\\QQ；该目录与 Documents\\Tencent Files 在 16:51 后有写入；E QQ versions\\config.json/setting.json mtime 也在 16:51:55 被更新（内容与审计前相同，疑为运行中 E QQ 自身刷新）。因此不能声称用户 QQ（含数据目录）完全未被项目触碰。",
+ "bug1_e_qq_integrity": {
+  "path": "E:\\Program Files\\qq",
+  "QQ.exe": {
+   "actual": "bc1cff3993b93bd257561bf7dbfac33f5d78e043130435adc14344e997621cbf",
+   "expected": "bc1cff3993b93bd257561bf7dbfac33f5d78e043130435adc14344e997621cbf",
+   "match": true,
+   "mtime": "2025-07-13T14:14:18"
+  },
+  "QQEX.exe": {
+   "actual": "df0033b222b27b6467344e212593e8970ade2c883132c03eac409ee93cab03cb",
+   "expected_prefix": "df0033b2...",
+   "match": true,
+   "mtime": "2025-07-13T14:14:18"
+  },
+  "dir_mtimes": {
+   ".": "2026-05-13T08:31:04",
+   "versions": "2026-10-27T03:53:03",
+   "extension": "2026-03-12T17:09:54"
+  },
+  "dir_mtime_after_16": false,
+  "files_after_16": [
+   {
+    "path": "E:\\Program Files\\qq\\versions\\config.json",
+    "mtime": "2026-10-27T16:51:55",
+    "bytes": 236,
+    "content_note": "baseVersion 9.9.20-37051 / curVersion 9.9.29-47354，与审计前内容一致（疑运行中 E QQ 刷新）"
+   },
+   {
+    "path": "E:\\Program Files\\qq\\versions\\setting.json",
+    "mtime": "2026-10-27T16:51:55",
+    "bytes": 25,
+    "content_note": "{\"launcherCounts\":1}，与审计前内容一致"
+   }
+  ],
+  "other": "versions/extension 目录内其他文件 mtime 均 <=16:00；9.9.36-53644/9.9.29-47354 树为 03:53/更早（QQ 自身更新，非本次安装器；安装器日志无 E 路径）",
+  "conclusion": "E 安装体（exe/hash/目录）未变；文件级例外见 files_after_16，未发现安装器写 E 证据"
+ },
+ "running_processes": {
+  "timeline": [
+   {
+    "at": "2026-10-27T~16:50-16:51",
+    "qq_qqex_total": 15,
+    "e_drive": 15,
+    "d_llama_mem": 0,
+    "note": "审计开始时：15 个均在 E:\\Program Files\\qq（用户 QQ）"
+   },
+   {
+    "at": "2026-10-27T16:52:40",
+    "qq_qqex_total": 19,
+    "e_drive": 15,
+    "d_llama_mem": 4,
+    "note": "项目脚本 tmp/qq_login_capture.py（PID 6000，16:51:40，父 DSH bash 16856）启动 cmd /c napcat.bat(17232) -> NapCatWinBootMain(11844) -> 4×D QQ(17492 主/17796 GPU/9176 network/14048 node)；子进程 --user-data-dir=C:\\Users\\lezige\\AppData\\Roaming\\QQ（复用用户 QQ profile）"
+   },
+   {
+    "at": "2026-10-27T16:54:26",
+    "qq_qqex_total": 15,
+    "e_drive": 15,
+    "d_llama_mem": 0,
+    "note": "第一轮 4 个 D QQ 已退出/结束（与 E QQ 15 个无关）"
+   },
+   {
+    "at": "2026-10-27T16:55:25",
+    "qq_qqex_total": 16,
+    "e_drive": 15,
+    "d_llama_mem": 1,
+    "note": "第二轮登录捕获启动：NapCatWinBootMain(3452, 16:54:46) 在跑，D QQ 尚未起；login_capture2.out/qr_login.png 16:54:46"
+   },
+   {
+    "at": "2026-10-27T16:56:16",
+    "qq_qqex_total": 15,
+    "e_drive": 15,
+    "d_llama_mem": 0,
+    "note": "第二轮登录捕获也已退出；当前恢复 15 个 E QQ，无 D 侧进程"
+   }
+  ],
+  "current": {
+   "qq_qqex_total": 15,
+   "e_drive": 15,
+   "d_llama_mem": 0,
+   "snapshot_at": "2026-10-27T16:56:16",
+   "note": "D QQ/NapCat 均已退出；审计窗口内曾出现 4 个 D QQ（16:51:40-42）与 1 个 D NapCatWinBootMain（16:54:46-16:55+）"
+  },
+  "expected_user": "~15，均来自 E:\\Program Files\\qq",
+  "project_started_new_qq": true,
+  "project_launch_chain": {
+   "script": {
+    "path": "tmp/qq_login_capture.py",
+    "sha16": "52840271df27b256",
+    "bytes": 14095,
+    "sha256": "52840271df27b25611bc048efb9ec8e57736dea61c2dba7034c0526a333c6e31",
+    "mtime": "2026-10-27T16:51:17"
+   },
+   "script_pid": 6000,
+   "script_start": "2026-10-27T16:51:40",
+   "parent": "bash.exe 16856（DSH win-bash，路径 C:\\Users\\lezige\\.dsh\\profiles\\desktop\\node_modules\\@linxin666\\dsh-win-bash\\...）",
+   "children": [
+    {
+     "pid": 17232,
+     "name": "cmd.exe",
+     "cmd": "cmd /c napcat.bat"
+    },
+    {
+     "pid": 11844,
+     "name": "NapCatWinBootMain.exe",
+     "path": "D:\\llama-mem\\third_party\\_napcat_onekey\\NapCat.52230.Shell\\NapCatWinBootMain.exe"
+    },
+    {
+     "pid": 17492,
+     "name": "QQ.exe",
+     "path": "D:\\llama-mem\\third_party\\_napcat_onekey\\NapCat.52230.Shell\\QQ.exe",
+     "cmd": "QQ.exe --enable-logging"
+    },
+    {
+     "pid": 17796,
+     "name": "QQ.exe",
+     "path": "D:\\llama-mem\\third_party\\_napcat_onekey\\NapCat.52230.Shell\\QQ.exe",
+     "cmd": "--type=gpu-process --user-data-dir=C:\\Users\\lezige\\AppData\\Roaming\\QQ"
+    },
+    {
+     "pid": 9176,
+     "name": "QQ.exe",
+     "path": "D:\\llama-mem\\third_party\\_napcat_onekey\\NapCat.52230.Shell\\QQ.exe",
+     "cmd": "--type=utility network --user-data-dir=C:\\Users\\lezige\\AppData\\Roaming\\QQ"
+    },
+    {
+     "pid": 14048,
+     "name": "QQ.exe",
+     "path": "D:\\llama-mem\\third_party\\_napcat_onekey\\NapCat.52230.Shell\\QQ.exe",
+     "cmd": "--type=utility node --user-data-dir=C:\\Users\\lezige\\AppData\\Roaming\\QQ"
+    }
+   ]
+  },
+  "second_launch": {
+   "pid": 3452,
+   "name": "NapCatWinBootMain.exe",
+   "start": "2026-10-27T16:54:46",
+   "note": "login_capture2.out/qr_login.png 16:54:46；D QQ 尚未起，登录捕获仍在进行"
+  },
+  "shared_user_data_dir": "C:\\Users\\lezige\\AppData\\Roaming\\QQ",
+  "conclusion": "**项目确实启动了新 QQ 进程（D 盘树），并复用用户 QQ profile；当前 15 个 E QQ 未变，D 侧仍有 NapCatWinBootMain 在跑**"
+ },
+ "install_isolation": {
+  "install_root": "D:\\llama-mem\\third_party\\_napcat_onekey",
+  "realpath": "D:\\llama-mem\\third_party\\_napcat_onekey",
+  "all_files_under_D": true,
+  "n_files": 2529,
+  "symlinks": [],
+  "installer_logs": {
+   "installer.log": {
+    "path": "third_party\\_napcat_onekey\\installer.log",
+    "sha16": "1298134af3546611",
+    "bytes": 2565,
+    "sha256": "1298134af3546611d8e5959ec4bbbd834761dc1a2d4c6401c7acbf60304a0695",
+    "mtime": "2026-10-27T16:41:48"
+   },
+   "installer2.log": {
+    "path": "third_party\\_napcat_onekey\\installer2.log",
+    "sha16": "1298134af3546611",
+    "bytes": 2565,
+    "sha256": "1298134af3546611d8e5959ec4bbbd834761dc1a2d4c6401c7acbf60304a0695",
+    "mtime": "2026-10-27T16:43:28"
+   },
+   "outside_paths_in_logs": false,
+   "note": "日志仅记录 7z 解压到 NapCat.52230.Shell（D 内）；reanme versions 失败、NapCat.Shell.zip Unexpected end of archive/Data Error（安装不完整）；未见 E/C 路径"
+  },
+  "registry_reads": {
+   "HKCU\\Software\\Tencent\\QQ": "空键（无 values/subkeys）",
+   "HKCU\\Software\\Tencent": "ACLOS/DeskGo/QQ/QQProtect/valorant.live/WeChat；仅 games/QQProtect 的 E 盘路径，无 NapCat/llama-mem",
+   "HKLM\\SOFTWARE\\WOW6432Node\\Tencent": "仅 WeGame（DirectX/VC redist 值）；无 QQ/NapCat/llama-mem",
+   "Run_keys": "HKCU/HKLM Run 无 NapCat/llama-mem/QD 安装项",
+   "limitation": "只读当前值；registry 无 LastWriteTime 可直接取证，不能证明历史上从未改键，但未发现本次安装器创建的项"
+  },
+  "c_user_dir_scan_after_1637": {
+   "C:\\Users\\lezige\\AppData\\Roaming\\Tencent": 0,
+   "C:\\Users\\lezige\\AppData\\Roaming\\QQ": {
+    "files": 12,
+    "latest": "2026-10-27T16:52:19",
+    "note": "D QQ 子进程使用该 --user-data-dir；E QQ 也使用"
+   },
+   "C:\\Users\\lezige\\Documents\\Tencent Files": {
+    "files": 20,
+    "latest": "2026-10-27T16:52:03",
+    "note": "用户 QQ 运行数据（D QQ 共享 profile 后写入）"
+   },
+   "Start Menu\\Programs": 0,
+   "Desktop": 0,
+   "TEMP": 0
+  },
+  "installer_disk_writes_outside_D": "未发现（安装器日志/文件均 D；C 目录写入与运行中 QQ 进程一致，非安装器直接写）",
+  "conclusion": "**文件级安装隔离成立（全部 D、无符号链接、无安装器写 E/C 证据）；但运行时隔离失败（D QQ 用用户 profile 启动）**"
+ },
+ "changed_items": [
+  {
+   "kind": "E QQ install file",
+   "path": "E:\\Program Files\\qq\\versions\\config.json",
+   "mtime": "2026-10-27T16:51:55",
+   "bytes": 236,
+   "content_changed": "未发现（内容同审计前）"
+  },
+  {
+   "kind": "E QQ install file",
+   "path": "E:\\Program Files\\qq\\versions\\setting.json",
+   "mtime": "2026-10-27T16:51:55",
+   "bytes": 25,
+   "content_changed": "未发现（launcherCounts 同审计前）"
+  },
+  {
+   "kind": "user QQ profile",
+   "path": "C:\\Users\\lezige\\AppData\\Roaming\\QQ",
+   "mtime_latest": "2026-10-27T16:52:19",
+   "files_after_1637": 12
+  },
+  {
+   "kind": "user QQ data",
+   "path": "C:\\Users\\lezige\\Documents\\Tencent Files",
+   "mtime_latest": "2026-10-27T16:52:03",
+   "files_after_1637": 20
+  }
+ ],
+ "recommendations": [
+  "当前已无 D QQ/登录捕获进程（16:56:16 快照 15 个均 E）；不要重启 tmp/qq_login_capture.py 的默认 profile 模式，后续如需登录必须用隔离 --user-data-dir。",
+  "NapCat 必须使用隔离 profile（例如 D:\\llama-mem\\third_party\\_napcat_onekey\\profile_dedicated）和独立账号；禁止与用户 QQ 共用 profile。",
+  "让用户确认 E QQ 仍登录、聊天数据完好；如需回滚，仅回滚 E versions\\config/setting（内容未变，风险低）；检查 C profile 最近写入文件是否影响登录态。",
+  "安装器本身未写 E/C、未注册表项，但安装不完整（NapCat.Shell.zip 损坏）；续装前先修包，不要再启动 QQ。",
+  "保留本审计快照与 baseline hashes（QQ.exe/QQEX.exe），后续若 E QQ 被改可对比。"
+ ],
+ "conclusion": {
+  "user_qq_untouched": false,
+  "core_binaries_untouched": true,
+  "installer_file_isolation": true,
+  "runtime_process_isolation": false,
+  "registry_installer_entries": "none_found",
+  "summary": "E 盘用户 QQ 安装二进制/目录未被安装器改动；但项目在审计窗口内以用户 profile 启动了 D 盘 QQ（4 进程），违反『未启动 QQ/隔离』；当前 E QQ 15 进程未变；D 侧进程（含第二次登录捕获 NapCatWinBootMain PID3452）已于 16:56:16 前全部退出。"
+ },
+ "pins": {
+  "files": {
+   "E_QQ.exe": {
+    "path": "E:\\Program Files\\qq\\QQ.exe",
+    "sha16": "bc1cff3993b93bd2",
+    "bytes": 1637704,
+    "sha256": "bc1cff3993b93bd257561bf7dbfac33f5d78e043130435adc14344e997621cbf",
+    "mtime": "2025-07-13T14:14:18"
+   },
+   "E_QQEX.exe": {
+    "path": "E:\\Program Files\\qq\\QQEX.exe",
+    "sha16": "df0033b222b27b64",
+    "bytes": 1971528,
+    "sha256": "df0033b222b27b6467344e212593e8970ade2c883132c03eac409ee93cab03cb",
+    "mtime": "2025-07-13T14:14:18"
+   },
+   "E_versions_config.json": {
+    "path": "E:\\Program Files\\qq\\versions\\config.json",
+    "sha16": "125c6f0802813c6e",
+    "bytes": 236,
+    "sha256": "125c6f0802813c6e6632f6dda977ab5f0e5786ab630a5fe14beba62f43a7317a",
+    "mtime": "2026-10-27T16:51:55"
+   },
+   "E_versions_setting.json": {
+    "path": "E:\\Program Files\\qq\\versions\\setting.json",
+    "sha16": "a8086e4273deaa8b",
+    "bytes": 25,
+    "sha256": "a8086e4273deaa8b50ed4f3ae01532a9b2f6c24ab2c1000e41f58b687f281f7d",
+    "mtime": "2026-10-27T16:51:55"
+   },
+   "capture_script": {
+    "path": "tmp/qq_login_capture.py",
+    "sha16": "52840271df27b256",
+    "bytes": 14095,
+    "sha256": "52840271df27b25611bc048efb9ec8e57736dea61c2dba7034c0526a333c6e31",
+    "mtime": "2026-10-27T16:51:17"
+   },
+   "napcat_boot_log": {
+    "path": "kvmem/qq_logs/napcat_boot.log",
+    "sha16": "407d83572d9a0933",
+    "bytes": 6710,
+    "sha256": "407d83572d9a0933a08981d925da7f8decf985ef6343b4b83626cb0596f22351",
+    "mtime": "2026-10-27T16:54:50"
+   },
+   "qr_login_png": {
+    "path": "kvmem/qq_logs/qr_login.png",
+    "sha16": "84551ed7343c90d9",
+    "bytes": 595,
+    "sha256": "84551ed7343c90d9f923bc763d20902795b4cdf5c1bd26d1df21194732aec3f7",
+    "mtime": "2026-10-27T16:54:46"
+   },
+   "login_capture2_out": {
+    "path": "kvmem/qq_logs/login_capture2.out",
+    "sha16": "2a3f7ce2c1d71695",
+    "bytes": 279,
+    "sha256": "2a3f7ce2c1d716950fa511bb4f0dd63e7369fbd3a8a01cf99c14096d40df8415",
+    "mtime": "2026-10-27T16:54:46"
+   }
+  },
+  "registry_snapshot": {
+   "HKCU_Tencent_QQ": "empty",
+   "HKCU_Tencent_keys": [
+    "ACLOS",
+    "DeskGo",
+    "QQ",
+    "QQProtect",
+    "valorant.live",
+    "WeChat"
+   ],
+   "HKLM_WOW6432Node_Tencent": "WeGame only",
+   "Run_NapCat_llama": "none"
+  },
+  "process_snapshot_schema": "Win32_Process at 2026-10-27T16:55:25+08:00"
+ },
+ "discipline": {
+  "read_only": true,
+  "no_gpu": true,
+  "no_code_change": true,
+  "no_service_restart": true,
+  "no_kill": true,
+  "no_git_commit": true,
+  "writes": [
+   "out/QQ-ISOLATION-CHECK.json"
+  ]
+ },
+ "signature": {
+  "auditor": "chain-repro",
+  "signed_at": "2026-10-27T16:56:29",
+  "statement": "独立核 E 盘用户 QQ 完整性与 NapCat 安装隔离：QQ.exe/QQEX.exe hash 与基线匹配、versions/extension 目录 mtime 未晚于 16:00（仅 versions/config.json+setting.json 16:51:55 被运行中 E QQ 刷新，内容未变）；但发现项目 tmp/qq_login_capture.py 于 16:51:40 启动 D 盘 NapCat→4 个 QQ 进程并复用 C:\\Users\\lezige\\AppData\\Roaming\\QQ，C profile/Documents 16:51 后有写入；审计窗口内 D QQ 4 个已退、第二次登录捕获 16:54:46 启动亦已退，16:56:16 快照恢复 15 个 E QQ。故 user_qq_untouched=false（核心二进制未变），安装器文件级隔离成立但运行时隔离失败。只读审计、未 kill、未改代码、未重启。"
+ }
+}

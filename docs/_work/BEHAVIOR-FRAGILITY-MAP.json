@@ -1,0 +1,554 @@
+{
+ "schema": "m5c2_behavior_fragility_map_v1",
+ "generated_at": "2026-10-27T17:56:02+08:00",
+ "scope": {
+  "workspace": "D:\\llama-mem",
+  "files": {
+   "tools/chat_daily.py": {
+    "path": "tools/chat_daily.py",
+    "bytes": 102405,
+    "sha16": "398367544116505a"
+   },
+   "tools/memory_service.py": {
+    "path": "tools/memory_service.py",
+    "bytes": 16512,
+    "sha16": "fe5d8187a59961f8"
+   },
+   "tools/evidence.py": {
+    "path": "tools/evidence.py",
+    "bytes": 7115,
+    "sha16": "4bf48589863c4ed7"
+   },
+   "tools/web_lookup.py": {
+    "path": "tools/web_lookup.py",
+    "bytes": 12511,
+    "sha16": "87381b728d45868c"
+   },
+   "tools/qq_bridge.py": {
+    "path": "tools/qq_bridge.py",
+    "bytes": 45361,
+    "sha16": "0ed698febc277018"
+   }
+  },
+  "note": "审计快照；审计期间 chat_daily.py/memory_service.py 被并行重构（chat_daily 89KB→102KB），行号以本快照 sha 为准"
+ },
+ "method": {
+  "fuzz": {
+   "script": "third_party/_audit/fuzz_behavior.py",
+   "input_cases": 200,
+   "by_category": {
+    "smalltalk": {
+     "n": 42,
+     "bad": 12,
+     "rate": 0.2857
+    },
+    "capability": {
+     "n": 10,
+     "bad": 2,
+     "rate": 0.2
+    },
+    "auto_remember": {
+     "n": 38,
+     "bad": 3,
+     "rate": 0.0789
+    },
+    "product_fact": {
+     "n": 30,
+     "bad": 2,
+     "rate": 0.0667
+    },
+    "retrieval": {
+     "n": 27,
+     "bad": 2,
+     "rate": 0.0741
+    },
+    "web_parser": {
+     "n": 20,
+     "bad": 0,
+     "rate": 0.0
+    },
+    "web_time": {
+     "n": 6,
+     "bad": 2,
+     "rate": 0.3333
+    },
+    "qq_trigger": {
+     "n": 10,
+     "bad": 0,
+     "rate": 0.0
+    },
+    "qq_command": {
+     "n": 12,
+     "bad": 4,
+     "rate": 0.3333
+    },
+    "qq_text": {
+     "n": 5,
+     "bad": 0,
+     "rate": 0.0
+    }
+   },
+   "bad_total": 27,
+   "bad_rate": 0.135,
+   "note": "期望标签为审计者按产品意图人工标注；web_parser 用合成 HTML（零网络），其余直调函数（零 GPU）"
+  },
+  "probes": {
+   "note": "补充探测不占 200 条名额，结果写入各 finding.evidence"
+  }
+ },
+ "summary": {
+  "n_findings": 28,
+  "severity": {
+   "high": 10,
+   "medium": 13,
+   "low": 5
+  },
+  "fuzz_bad": 27,
+  "fuzz_total": 200,
+  "fuzz_rate": 0.135,
+  "top3": [
+   "F01 身份问法同义变体漏判断",
+   "F08 自动记忆误抽情态/愿望句",
+   "F10 常识/时间问题被误拒"
+  ]
+ },
+ "findings": [
+  {
+   "id": "F01",
+   "title": "身份问法同义变体漏判断",
+   "file": "tools/chat_daily.py",
+   "line": "898-904（身份正则在 :902）",
+   "basis": "精确正则枚举（你是谁/你叫什么/你是机器人吗），无同义归一",
+   "missed_inputs": [
+    "你是机器人吧",
+    "你是真人吗",
+    "你真的是AI吗",
+    "你是GPT吗",
+    "你是ChatGPT吗",
+    "你是什么东西",
+    "你是什么玩意",
+    "你叫啥子"
+   ],
+   "consequence": "落到普通问答：模型可能自称 GPT/联网/胡编身份，或触发拒答",
+   "suggestion": "意图分类（身份/寒暄/能力）+ 词典与句式归一化，正则只兜底",
+   "severity": "high",
+   "evidence": "fuzz A27-A34 全 miss（8 例）"
+  },
+  {
+   "id": "F02",
+   "title": "问候变体『在么』漏",
+   "file": "tools/chat_daily.py",
+   "line": "911-916（_GREET_WORDS）/ 918-935",
+   "basis": "问候词闭集 + 后缀剥离；『在么』不在闭集",
+   "missed_inputs": [
+    "在么",
+    "在么在么"
+   ],
+   "consequence": "寒暄落到模型，可能被旧上下文带跑",
+   "suggestion": "扩展问候闭集或做词形归并",
+   "severity": "medium",
+   "evidence": "fuzz A7 miss；probe 在么在么=False"
+  },
+  {
+   "id": "F03",
+   "title": "致谢变体漏",
+   "file": "tools/chat_daily.py",
+   "line": "900（第二组 _SMALLTALK）",
+   "basis": "`^(谢谢|多谢|感谢|thanks|thank you)` 全串匹配",
+   "missed_inputs": [
+    "谢啦",
+    "感谢感谢",
+    "谢谢您"
+   ],
+   "consequence": "礼貌用语落到模型，消耗上下文且可能答非所问",
+   "suggestion": "归一致谢词干后再匹配",
+   "severity": "low",
+   "evidence": "fuzz A17/A19 miss；probe 谢谢您=False"
+  },
+  {
+   "id": "F04",
+   "title": "情绪词闭集不一致",
+   "file": "tools/chat_daily.py",
+   "line": "968（_INTERJ）",
+   "basis": "枚举 我靠|卧槽|服了|无语|…；『无语了』因带『了』不匹配",
+   "missed_inputs": [
+    "无语了"
+   ],
+   "consequence": "情绪句落到模型；能力/拒答风格不一致",
+   "suggestion": "情绪闭集去尾缀再匹配",
+   "severity": "low",
+   "evidence": "probe 无语了=False；我靠/卧槽/服了=True"
+  },
+  {
+   "id": "F05",
+   "title": "能力/记忆元问题漏",
+   "file": "tools/chat_daily.py",
+   "line": "966-969（_MEMQ/_NETQ/_INTERJ/_FRIENDQ）",
+   "basis": "只枚举固定句式",
+   "missed_inputs": [
+    "你都知道些什么",
+    "你会做什么",
+    "你有什么用",
+    "你记得我吗"
+   ],
+   "consequence": "模型可能虚构能力（能联网/能记住）",
+   "suggestion": "结构化能力意图（能力/记忆库/联网三分）",
+   "severity": "medium",
+   "evidence": "fuzz B9/B10 miss；probe 你会做什么/你有什么用=False"
+  },
+  {
+   "id": "F06",
+   "title": "自动记忆长度地板 6 字",
+   "file": "tools/memory_service.py",
+   "line": "295-306（长度判断 :298）",
+   "basis": "`6 <= len(q) <= 200` 硬门槛",
+   "missed_inputs": [
+    "我叫张三",
+    "我不吃辣"
+   ],
+   "consequence": "短事实漏记 → 后续被拒答/编造",
+   "suggestion": "改按抽取结果判断，长度仅作上限",
+   "severity": "medium",
+   "evidence": "fuzz C4/C11 miss"
+  },
+  {
+   "id": "F07",
+   "title": "自动记忆动词白名单不足",
+   "file": "tools/memory_service.py",
+   "line": "277-279（_FACT_HINT）",
+   "basis": "我在|是|叫|住|喜欢|养|买了… 白名单",
+   "missed_inputs": [
+    "我晚上十点睡觉",
+    "我看了电影",
+    "我今天很累"
+   ],
+   "consequence": "陈述事实漏记；用户以为记住了其实是空的",
+   "suggestion": "优先 structured extract，白名单仅兜底",
+   "severity": "medium",
+   "evidence": "fuzz C18 miss；probe 另两例=False"
+  },
+  {
+   "id": "F08",
+   "title": "自动记忆误抽情态/愿望句",
+   "file": "tools/memory_service.py",
+   "line": "302-306",
+   "basis": "『我 + 明天/要』命中即写入，无 modality 过滤",
+   "missed_inputs": [
+    "我明天可能下雨",
+    "我希望明天别下雨",
+    "我可能明天不去"
+   ],
+   "consequence": "不确定/愿望当事实入库 → 记忆污染 → 后续错误回答（串味）",
+   "suggestion": "过滤情态词（可能/也许/希望/大概/应该）；抽取 status=unverified，默认不自动提交",
+   "severity": "high",
+   "evidence": "probe 三例均 True（会被静默写入）"
+  },
+  {
+   "id": "F09",
+   "title": "自动记忆指令前缀污染",
+   "file": "tools/memory_service.py",
+   "line": "300（仅排除 startswith 记住/记一下）",
+   "basis": "startswith 检查，无法识别『帮我记住…』",
+   "missed_inputs": [
+    "帮我记住我明天开会",
+    "你好，帮我记住我明天要开会"
+   ],
+   "consequence": "记忆正文含指令/寒暄前缀，污染检索与回答",
+   "suggestion": "先剥离指令/寒暄前缀再抽取",
+   "severity": "medium",
+   "evidence": "probe 两例 needs_auto_remember=True"
+  },
+  {
+   "id": "F10",
+   "title": "常识/时间问题被误拒",
+   "file": "tools/memory_service.py",
+   "line": "309-320（_WORLD :286-287）",
+   "basis": "无记忆+问句+非 _WORLD 白名单 ⇒ 拒答",
+   "missed_inputs": [
+    "1+1等于几",
+    "水的沸点是多少",
+    "今天星期几",
+    "现在几点"
+   ],
+   "consequence": "误拒常识/时间问题（过度拒答）",
+   "suggestion": "_WORLD 扩到数学/日期/时间/单位，或先检索再决定",
+   "severity": "high",
+   "evidence": "fuzz D29/D30 refuse；probe 星期几/几点 is_fact_question=True"
+  },
+  {
+   "id": "F11",
+   "title": "对助手自身的问句被误判个人事实",
+   "file": "tools/memory_service.py",
+   "line": "309-320（无 subject 区分）",
+   "basis": "任何『吗/什么』问句且非 WORLD ⇒ is_fact_question=True",
+   "missed_inputs": [
+    "你有女朋友吗",
+    "你喜欢什么",
+    "你会下棋吗",
+    "你能讲个笑话吗",
+    "你吃饭了吗",
+    "你多大了"
+   ],
+   "consequence": "把对助手的闲聊当个人事实拒答 → 体验差",
+   "suggestion": "先判定 subject（你/我），『你…』走能力/闲聊",
+   "severity": "high",
+   "evidence": "probe 六例全 True"
+  },
+  {
+   "id": "F12",
+   "title": "对话证据单 bigram 即放行",
+   "file": "tools/evidence.py",
+   "line": "97-105（dialogue_evidence）",
+   "basis": "任一 content bigram 命中 transcript ⇒ chat_only",
+   "missed_inputs": [
+    "transcript=『我上周在杭州出差』→ 问『我在杭州住哪』"
+   ],
+   "consequence": "用闲聊内容当事实证据 → 串味/伪记忆",
+   "suggestion": "要求实体命中或 ≥2 bigram",
+   "severity": "high",
+   "evidence": "probe True（杭州）；对照『我在上海住哪』False"
+  },
+  {
+   "id": "F13",
+   "title": "个人事实问句远距离名词漏判",
+   "file": "tools/evidence.py",
+   "line": "49-51（SELF_FACT_NEAR ±6）",
+   "basis": "自我指代与事实名词窗口 6 字；memory_service:288-290 无此规则",
+   "missed_inputs": [
+    "我上个月在杭州出差，那边的酒店电话多少"
+   ],
+   "consequence": "整句判 general → 不拒答 → 模型可能编电话（幻觉）",
+   "suggestion": "结构化抽取 subject/predicate",
+   "severity": "medium",
+   "evidence": "probe intent_of=general"
+  },
+  {
+   "id": "F14",
+   "title": "短记忆/多 token 查询被门槛挡住",
+   "file": "tools/memory_service.py",
+   "line": "117-158（门槛 :26-27、:150-152）",
+   "basis": "top1 命中≥2 且覆盖≥0.30；短查询例外 token≤2",
+   "missed_inputs": [
+    "『电话多少』 vs 记忆『电话 13800138000…』"
+   ],
+   "consequence": "有记忆但不挂载 → 拒答/编造",
+   "suggestion": "值类查询用 item 级匹配或降低门槛",
+   "severity": "high",
+   "evidence": "fuzz E2 miss（tokens=3, best=1）"
+  },
+  {
+   "id": "F15",
+   "title": "长问句覆盖被稀释",
+   "file": "tools/memory_service.py",
+   "line": "117-158（coverage :79-85）",
+   "basis": "coverage=命中/查询 token 数，长问句分母大",
+   "missed_inputs": [
+    "『请问你可以告诉我我上次说的我的车牌号是多少吗』 vs 记忆『我的车牌号是沪A12345』"
+   ],
+   "consequence": "长问句含事实词仍不命中 → 误拒",
+   "suggestion": "先分句/关键词抽取再检索",
+   "severity": "high",
+   "evidence": "fuzz E14 miss"
+  },
+  {
+   "id": "F16",
+   "title": "单字查询泛洪",
+   "file": "tools/memory_service.py",
+   "line": "52-64（tokens 单字保留）",
+   "basis": "中文单字 run 直接成为 token；短查询门槛宽松",
+   "missed_inputs": [
+    "『车』 vs 3 条含车记忆"
+   ],
+   "consequence": "挂载所有含该字记忆 → 串味/预算浪费",
+   "suggestion": "单字查询要求 tag/实体或更严门槛",
+   "severity": "medium",
+   "evidence": "probe 车→[1,2,3] 全选"
+  },
+  {
+   "id": "F17",
+   "title": "常见 bigram 无 IDF/停用词支配排序",
+   "file": "tools/memory_service.py",
+   "line": "52-77（tokens/score_row）",
+   "basis": "所有 CJK bigram 等权",
+   "missed_inputs": [
+    "『我的』 vs『我的电话…』+『我的车牌号…』"
+   ],
+   "consequence": "topk 被泛词占据 → 错挂/挤掉相关块",
+   "suggestion": "加停用 bigram 表与 IDF/长度归一",
+   "severity": "medium",
+   "evidence": "probe 我的→[1,2] 全选"
+  },
+  {
+   "id": "F18",
+   "title": "拉丁单字符 token 被丢弃",
+   "file": "tools/memory_service.py",
+   "line": "63-65（LATIN_RUN，len>=2）",
+   "basis": "拉丁/数字 run 长度<2 丢弃",
+   "missed_inputs": [
+    "『a』 vs 记忆『工号A123』"
+   ],
+   "consequence": "编号类检索失效",
+   "suggestion": "字母+数字混合或与中文相邻时保留",
+   "severity": "low",
+   "evidence": "probe tokens=[]，selected=[]"
+  },
+  {
+   "id": "F19",
+   "title": "预算截断一票否决（大块挤掉全部）",
+   "file": "tools/chat_daily.py",
+   "line": "732-746（_fit_budget）",
+   "basis": "按顺序累计 token，首块超预算即 break",
+   "missed_inputs": [
+    "记忆 9,000 token（>7,680）+ 1 条 100 token"
+   ],
+   "consequence": "kept=[]：所有记忆都不挂 → 误拒（严重）",
+   "suggestion": "超预算块截断/摘要或跳过继续",
+   "severity": "high",
+   "evidence": "probe kept=[]、dropped 2/2"
+  },
+  {
+   "id": "F20",
+   "title": "QQ 命令解析对无斜杠/全角/大小写不识别",
+   "file": "tools/qq_bridge.py",
+   "line": "964-1000（COMMANDS/parse_command）",
+   "basis": "COMMANDS 只有 /xxx；区分大小写；无全角归一",
+   "missed_inputs": [
+    "记住 我喜欢美式",
+    "记住：我喜欢美式",
+    "／status",
+    "/Remember 我"
+   ],
+   "consequence": "命令被当普通问题 / 记忆写入失败",
+   "suggestion": "入口 NFKC+casefold，支持无斜杠别名",
+   "severity": "high",
+   "evidence": "fuzz Gc8-Gc11 全 miss"
+  },
+  {
+   "id": "F21",
+   "title": "CQ at 码变体不识别",
+   "file": "tools/qq_bridge.py",
+   "line": "590-609（at_self 的 CQ 兜底）",
+   "basis": "仅匹配 `[CQ:at,qq=<id>]` 精确串",
+   "missed_inputs": [
+    "[CQ:at, qq=999] 你好",
+    "[CQ:AT,qq=999] 你好"
+   ],
+   "consequence": "群聊 @ 被忽略 → 静默丢消息",
+   "suggestion": "CQ 正则容忍空格/大小写",
+   "severity": "medium",
+   "evidence": "probe 两例 False，标准格式 True"
+  },
+  {
+   "id": "F22",
+   "title": "非文本消息的 CQ 码被当问题文本",
+   "file": "tools/qq_bridge.py",
+   "line": "564-583（message_text 回退 raw_message）",
+   "basis": "message 无 text 段 ⇒ 用 raw_message 整串",
+   "missed_inputs": [
+    "[CQ:image,file=x.jpg]"
+   ],
+   "consequence": "图片/表情消息触发无意义 ask，污染会话",
+   "suggestion": "无 text 段时丢弃 CQ 码/忽略非文本",
+   "severity": "medium",
+   "evidence": "probe image_only → '[CQ:image,file=x.jpg]'"
+  },
+  {
+   "id": "F23",
+   "title": "分条只按标点/硬切",
+   "file": "tools/qq_bridge.py",
+   "line": "615-660（split_reply）",
+   "basis": "按标点切，找不到则 max_chars 硬切",
+   "missed_inputs": [
+    "480 字无标点长文"
+   ],
+   "consequence": "分条从句子/代码块中间切断 → 语义破碎",
+   "suggestion": "优先段落/代码围栏边界，硬切仅兜底",
+   "severity": "low",
+   "evidence": "probe 480→3×120 硬切"
+  },
+  {
+   "id": "F24",
+   "title": "时效性判断误报（明天/日期格式）",
+   "file": "tools/web_lookup.py",
+   "line": "53-57（TIME_INFO_RE）；292-313",
+   "basis": "未含『明天/后天/今晚/本周』；日期要求 4 位年",
+   "missed_inputs": [
+    "snippet『明天多云』",
+    "snippet『10月27日电』"
+   ],
+   "consequence": "给新鲜结果强加『可能过时』→ 模型过度保守",
+   "suggestion": "补相对时间词与 X月X日电/星期",
+   "severity": "medium",
+   "evidence": "fuzz F23/F25 误报 2/6"
+  },
+  {
+   "id": "F25",
+   "title": "解析结构 fail-closed 但静默",
+   "file": "tools/web_lookup.py",
+   "line": "186-201（_BLOCK_RE/_LINK_RE/parse_results）",
+   "basis": "要求 class=\"…b_algo…\" 且 href 双引号",
+   "missed_inputs": [
+    "单引号 class/href 的 Bing 变体"
+   ],
+   "consequence": "Bing 改版时检索静默失效（仅日志 no_results）",
+   "suggestion": "多套结构模板 + 解析失败指标告警",
+   "severity": "medium",
+   "evidence": "fuzz F3/F6 空结果（其余 18/20 通过）"
+  },
+  {
+   "id": "F26",
+   "title": "相对链接被当作有效来源",
+   "file": "tools/web_lookup.py",
+   "line": "158-170（_safe_url 用 urljoin）",
+   "basis": "相对 href join 成 cn.bing.com/rel 并保留",
+   "missed_inputs": [
+    "<a href=\"/rel\">T</a>"
+   ],
+   "consequence": "来源 URL 错误/伪来源",
+   "suggestion": "拒绝相对/非结果域链接或解析跳转真实 URL",
+   "severity": "low",
+   "evidence": "fuzz F13 parsed 且 url=cn.bing.com/rel"
+  },
+  {
+   "id": "F27",
+   "title": "分支顺序：自动记忆先于能力/检索/回答",
+   "file": "tools/chat_daily.py",
+   "line": "1405-1435（ask 顺序）",
+   "basis": "smalltalk→auto-remember→capability→web→retrieval",
+   "missed_inputs": [
+    "我明天可能下雨（先入库再答）",
+    "你好，帮我记住我明天要开会"
+   ],
+   "consequence": "含糊/愿望句先写入记忆 → 后续回答被污染",
+   "suggestion": "自动记忆延后到回答成功后或要确认",
+   "severity": "high",
+   "evidence": "probe 均 needs_auto_remember=True"
+  },
+  {
+   "id": "F28",
+   "title": "同一判据两处副本已漂移",
+   "file": "tools/evidence.py:44-58 / tools/memory_service.py:277-292",
+   "line": "-",
+   "basis": "WORLD/QUESTION/SELF_FACT 各一份；memory_service 无 SELF_FACT_NEAR",
+   "missed_inputs": [
+    "我上个月在杭州出差，那边的酒店电话多少",
+    "我吃了吗"
+   ],
+   "consequence": "同一问句两处判定不一致 → 行为不可预测",
+   "suggestion": "单一事实判据模块，evidence 改为调用",
+   "severity": "medium",
+   "evidence": "代码对照 + probe 差异"
+  }
+ ],
+ "recommendation_summary": {
+  "结构化": "F01/F05/F11/F13/F14/F15 → 意图分类+结构化抽取（memory_service 已是雏形）",
+  "引擎层": "F19 预算截断、F16/F17 检索门槛与 IDF、F27 写入时机下沉",
+  "保留": "F24/F25 的 fail-closed 与时效告警是安全边界，补指标；F23/F26 低优先",
+  "立即修复候选": "F08/F09/F27（记忆污染）、F10/F11（误拒）、F19（全部不挂载）、F20（命令失效）"
+ },
+ "limits": [
+  "期望标签是审计者按产品意图标注，非官方验收口径；误判率为启发式估计",
+  "代码在审计期间被并行修改（快照 sha 见 scope.files），重构完成后需重跑 fuzz",
+  "web_parser 只用合成 HTML；web_time 只测 6 例"
+ ]
+}

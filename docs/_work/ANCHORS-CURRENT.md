@@ -1,0 +1,67 @@
+# ANCHORS-CURRENT — 现行锚唯一入口
+
+> **用途**：所有文档（README / PROJECT-STATE / HANDOFF / FEATURES / PROGRESS / 判决 / 复核）引用 sha16 时必须引本表，**不得再散落字面量**。
+> **两列口径**：`签署坐标` = 该结论签署时钉住的值（历史有效，不因后来改动而失效）；`现行坐标` = 本文件 as-of 时点磁盘实测现值。
+> **状态四态**：`current`（签署坐标=现行坐标，且被引结论仍成立）｜`superseded-by-design`（**合法演进**：决策已记录 old→new 双坐标）｜`stale`（**非受控漂移**或**报告内锚与所述对象不符**：文档把旧值当现值引，相关结论按 R→A 降级）｜`unverifiable`（装置/版本已不在现行树，无法复算）。
+> **本文件自身 sha 不入文件**（自指会腐烂）；banner / 引用方各自记录本文件的入口 sha。
+> **as-of**：`2026-10-25T23:14+08:00`（`tools/chat.py 22081c41`；M6a 出件、G4d 字段补齐、banner 去硬 sha 后）。复算命令统一：
+> `sha256sum <path> | cut -c1-16`（与字节数：`wc -c <path>`）；JSON 内字段用 `python -c "import json;..."`。
+> **字节可复现（tracked @sha16）**：main 受跟踪 **31** 个 `@<sha16>` 命名件（28 裸 + 3 provenance 后缀）clone **31/31**；C3 `595cedb^..595cedb` 的 `--ignore-cr-at-eol` diff 为空（103 files/36,903/36,903），C3b `9c8b25f` 追加 3 份 legacy 归一后 clone 3/3；不覆盖未跟踪 `docs/_work` 与 `full`-only 文件；锚 sha 均按**工作区原始字节**（CRLF/LF/mixed，不归一）计算。
+> **项目级约定：锚 = 工作区字节 `sha256[:16]`，不用 `git show` blob** —— 统一 `sha256sum <path> | cut -c1-16` 从磁盘实算（工作区可能是 CRLF/mixed，blob 恒为 LF，用 blob 算出的锚不可比）；**编号只有两档：裸 `@sha16` = 28，含 3 个 provenance 后缀 = 31（写 28/28 或 31/31 都可，看是否含后缀）—— 不存在 27**。
+
+| # | 锚（路径） | 签署坐标 | 现行坐标（实测） | 复算命令 | 状态 | 说明 / 引用约束 |
+|---:|---|---|---|---|---|---|
+| 1 | `tools/chat.py` | `288d2d85720359e0` / 72,345 B（S1-b v6；`LANDED-s1-real` / S1 判决） | **`22081c411c64fbe7` / 75,310 B**（task-35 后态 + `explain_version`；中间态 `1790f3a9b5e6b865` / 75,204 B = G4a-2/G4a-3，`bb083a1b71165e97` / 74,256 B = task-33） | `sha256sum tools/chat.py \| cut -c1-16` | `superseded-by-design` | v4 `cb70be52` → v5 `b9010e9c` → v6 `288d2d85`（S1 签署）→ `bb083a1b`（G4b 过滤）→ `1790f3a9`（G4a-2 决策入参改 `sel_mountable`）→ `22081c41`（+`explain_version: 2`；**均未签**）。引 S1 读数用 `288d2d85`，引当前代码用 `22081c41`，两列并写。 |
+| 2 | `kvmem/m2_visibility/chat_lease/compare.py` | `a852aacf7b6267b3` / 14,717 B | **`a852aacf7b6267b3` / 14,717 B** | 同上 | `current` | 无漂移。 |
+| 3 | `kvmem/m2_visibility/chat_lease/run_compare.json` | `1eb7029167edd7e0` / 9,514 B | **`1eb7029167edd7e0` / 9,514 B** | 同上 | `current`（**内含 stale 字段**） | 文件本身无漂移；但 `acceptance.judged_current_source.sha16 = "4c8d73e9..."` 自称 current，**该值已非现值**（仅作为该判据的历史坐标）。引「run_compare 的静态检查针对当前 chat.py」= **R→A**。 |
+| 4 | `kvmem/m2_visibility/m2_planner/planner.py` | `4162661cc04182e8`（M2-ACCEPT 签署时） | **`01507f6bbf816c11` / 9,093 B** | `sha256sum kvmem/m2_visibility/m2_planner/planner.py \| cut -c1-16` | `superseded-by-design` | M2 后由 M2-FULL/S1 链改到 `01507f6b`；**M2-ACCEPT-lead 仍把它当现值**（见 #5 的 stale 引文）。 |
+| 5 | `docs/_work/M2-ACCEPT-lead.md` | `21ec668df2171350` / 10,479 B | **`21ec668df2171350` / 10,479 B** | 同上 | `stale` | 文件未变，但**内容把旧锚当现值**：`planner.py = 4162661cc04182e8`（现 `01507f6b`）；`INSPECTOR-M2-ACCEPT = 4801c0da71d53534`（现 `2a2ca2d05bea741f` / 28,262 B）。两条引文 R→A（见 `INSPECTOR-ANCHORS-AND-G4A.md` §1.2）。 |
+| 6 | `docs/_work/M2-FULL-PREREG-draft.md` | `1545160425818c8e` / 32,984 B（预登记文本） | **`1545160425818c8e` / 32,984 B** | 同上 | `superseded-by-design` | 预登记内的代码锚（`chat.py cb70be52`、`m3_lease 7a838d0a` 等）是**预登记当时**的坐标；后续 S1 v6 判决已记录 `b9010e9c→288d2d85`，属合法演进。引预登记坐标须标「预登记时点」，不得当现值。 |
+| 7 | `docs/_work/INSPECTOR-M1.8-FINAL.md` | `119e477122cf19b2` / 19,933 B | **`119e477122cf19b2` / 19,933 B** | 同上 | `current` | 内含 `retrieval 43f66019` / `analysis 49e91c7b` / `chat.db 237d8e1f` 均与现盘一致。 |
+| 8 | `patches/MANIFEST.txt` | `f35f8232a058a31c` / 6,293 B（旧：500 版正文） | **`ff532d394c17ae38` / 9,095 B** | `sha256sum patches/MANIFEST.txt \| cut -c1-16` | `current`（补丁口径） | task-34 后已写 `db32faae / 32,337 B / 600 ins`、归档 `f41cbfbd / 26,577 / 500`、hunk 12/6；`verify.sh` 关系断言实测 600/0 全过。**DLL 段仍是旧基线 `49,952,768 / 849e7281`（`unverifiable`，不作现行 DLL 锚）**；不要把 MANIFEST 的 DLL 旧值当现值。 |
+| 9 | `README.md` | `85f6a7d38b85bb49` / 21,654 B | **`5466f139846a3b0a` / 22,222 B** | `sha256sum README.md \| cut -c1-16` | `current` | banner 已改为 **不钉硬 sha**：`as-of 2026-10-25` + 现行入口路径 + “坐标以 `ANCHORS-CURRENT` 内容为准”；不再有 `a54c8109` 硬编码（`grep` 无残留）。 |
+| 10 | `PROJECT-STATE.md` | `3d40d5589f54b3e9` / 51,555 B | **`fafa049fa9e1ebf4` / 52,015 B** | `sha256sum PROJECT-STATE.md \| cut -c1-16` | `current`（带 as-of 警示） | banner 同 #9 不钉硬 sha；`as-of 2026-10-24` + 路径 + “现盘类读数已过期、冻结哈希只按史料引”。正文旧值仍只可作史料。 |
+| 11 | `HANDOFF.md` | `3f660941f9e80e9a` / 9,598 B | **`9bb387c278da34e3` / 9,993 B** | `sha256sum HANDOFF.md \| cut -c1-16` | `current`（带 as-of 警示） | banner 同 #9 不钉硬 sha；`as-of 2026-10-25` + 路径 + “未闭项/交接起点以现行 tracking 为准”。旧清单不可当现值。 |
+| 12 | `patches/persistent-memory.patch` | `db32faae83bec9fc` / 32,337 B / 600 ins / 0 del | **`db32faae83bec9fc` / 32,337 B**；`git -C llama.cpp diff --numstat` 合计 **600 / 0**；文件 710 行（含 header/注释） | `sha256sum patches/persistent-memory.patch`；`git -C llama.cpp diff --numstat \| awk '{i+=$1;d+=$2}END{print i,d}'` | `current` | 归档 500 版不在树（见 unverifiable）；README 的“归档版 500”是史料口径。 |
+| 13 | `tools/kvshim_vk.dll` | `9edbafa150700614` / 50,007,552 B | **`9edbafa150700614` / 50,007,552 B** | `sha256sum tools/kvshim_vk.dll` | `current` | 旧基线 `49,952,768 / 849e7281...` 不在归档（见 unverifiable）；MANIFEST 的旧基线只能按史料引。 |
+| 14 | `kvmem/m2_visibility/chat_lease/_land_s1.py` | `b63b22d0...` / 19,216 B（S1-b 签署时实测；见 `INSPECTOR-S1B-REVIEW.md`） | **`9bd414c320c48ecb` / 25,853 B**（task-37 重生成；旧现盘 `bfe52d16864a7d96` / 24,426 B 为 task-32） | `sha256sum kvmem/m2_visibility/chat_lease/_land_s1.py` | `unverifiable`（签署坐标）/ `current`（脚本本身） | 签署版 `b63b22d0` **未留字节副本**（`_before/` 只有 pre-S1 `e11e69f8`）；`LANDED-s1-real` 的 `module_shas_note.land_coordinate` 已如实标 `status: unverifiable` 并注明现值；引「S1 落账脚本冻结坐标可复算」= **R→A**（见复核 §2.5 / G4D-REVIEW）。 |
+| 15 | `kvmem/m2_visibility/chat_lease/LANDED-s1-real.json` | `98bbf28b65d1de19`（原） | **`797a845029f3f374` / 36,120 B**（task-37 重生成 + task-38 F1 双坐标补注；`addendum.supersedes=98bbf28b`） | `sha256sum kvmem/m2_visibility/chat_lease/LANDED-s1-real.json` | `superseded-by-design` | `original_readings_intact=true`；`_land_s1.py b63b22d0` 标 `unverifiable`；`_write_s1_corrections.py bff31b15` 显式排除。F1 已补 `actual_dual_coordinates`：task32 `2d3bae59` / 本轮 `30d224c4`，correction `db472434` 未回改。 |
+| 16 | `kvmem/m2_visibility/m2_planner/out/S1-real-default-regression-correction.json` | —（新产物） | **`db4724341f0a25c0` / 5,653 B** | `sha256sum ...` | `current` | F1/F2/F4/F5 补正文；`no_product_modified=true`。 |
+| 17 | `docs/_work/M2-FULL-S1-ACCEPT-lead.md` | —（S1 签署判决） | **`c938da88d4734bd4` / 8,560 B**（22:20 更新） | `sha256sum docs/_work/M2-FULL-S1-ACCEPT-lead.md` | `current` | S1 判决现行版；引 `chat.py 288d2d85`（签署坐标）。 |
+| 18 | `docs/_work/M2-FULL-FINAL-lead.md` | —（M2 收口判决） | **`84ec4e3f9b493cf7` / 8,368 B**（22:20 更新） | 同上 | `current` | M2 完整 判决现行版。 |
+| 19 | `kvmem/m2_visibility/chat_lease/out/M4C-m1-rerun-v2.json` | —（task-35 G4a-2 绿臂） | **`6c3e3f55289b54e7` / 7,167 B**（22:22） | `sha256sum ... \| cut -c1-16` | `current` | 控制问句 `ask_count=0`、`state=no_evidence`、`refuse=true`、`reply` 为拒答；`g4a2_checks` 5/5 true；`four_state=通过`。 |
+| 20 | `kvmem/m2_visibility/chat_lease/out/G4a2-red-variant.json` | —（task-35 G4a-2 红臂/变体） | **`1812796230beb797` / 7,976 B**（22:23；`LANDED-g4a2` 标 `variant_kind="prefix-regression"`） | 同上 | `current` | pre-fix `chat.py@bb083a1b`；控制问句 `memory_hit` / `refuse=false` / `ask_count=1` / 生成非空 ⇒ 4 个 red_points 全 true。**仅作 prefix 回归红，不充当单点变体**。 |
+| 21 | `kvmem/m2_visibility/chat_lease/_run_m1_g4a2.py` | — | **`9129e8a4b9ba67af` / 10,522 B**（task-35 后重生成驱动；旧 `1bf130bc` / 9,666 B 为 22:23 版） | 同上 | `current` | task-35 计数驱动；判据红/绿两产物均出自它。 |
+| 22 | `kvmem/m4c_leases/redcheck_delete.py` | `85d3b0b0855a83d4` / 6,513 B（M4-C 夹具，16:18 未变） | **`85d3b0b0855a83d4` / 6,513 B** | `sha256sum kvmem/m4c_leases/redcheck_delete.py` | `current` | G4d：`NEEDLES` 在现盘 `tools/chat.py 22081c41` 各 **1 行**：site1 `:270`、site4 `:630`（签署 288d2d85 时 `:270/:595`；task-33 `bb083a1b` 时 `:270/:618`）。site3 的 reset 在 `:594`（G4d 另测）。`WANT_SEQ`/`fixed_selection` 证明夹具写死 seq 顺序，不读 retrieval。 |
+| 23 | `m1 --explain` 输出（`python tools/chat.py m1 --explain`，LF 归一后的 stdout 字节） | `3e8aae60685d2e55` / 872 B（v1，S1-b 签署；见 `LANDED-s1-real` / `M2-FULL-S1-ACCEPT`） | **`c4cbad83784e647f` / 1,126 B**（v2，当前 `chat.py 22081c41`：首行 `explain_version: 2` + G4a-3 标注；原始 CRLF 1,146 B，LF 归一后 1,126 B） | `python tools/chat.py m1 --explain`，再 `s/\\r\\n/\\n/`；去掉首行 `explain_version: 2` + 标注/可挂载集行 ⇒ v1 | `superseded-by-design` | 演进链：v1 `3e8aae60`/872（签署）→ v2a `dac30c83`/1,107 B（G4a-3，`chat.py 1790f3a9`，无 version 行）→ **v2b `c4cbad83`/1,126 B（当前，`22081c41` + `explain_version`）**。去掉 version 行与新增标注后逐字节回 v1（见 `out/S1-default-unchanged-explain-v2-addendum 2f4917d6`）；可逆，不是读数变化。 |
+
+| 24 | `kvmem/m2_visibility/chat_lease/out/M4C-fixture-rerun.json` | —（task-36 G4d 夹具重跑） | **`bdafbe8e1a0bdb6c` / 11,822 B** | `sha256sum ...` | `current` | base/green/red 与签署 `12950f6a`/`f3f6ce7f`/`dd46774c` 读数同；`diff_fields={}` 只排除调度/元数据，**不是“仅行号/chat_py sha 变”**（另见 G4D-REVIEW）。旧 `b997191a` 已被本轮现盘 `bdafbe8e` 取代，属受控重跑。 |
+| 25 | `kvmem/m2_visibility/chat_lease/LANDED-g4d.json` | — | **`63dd3f49778c2464` / 14,136 B** | 同上 | `current` | G4d 落账（`product M4C-fixture-rerun bdafbe8e`，`chat.py 22081c41`）；`four_state["36→86（M4-C-4 测量臂）"]="未做（沿用 b10 历史读数，未重跑）"`；`gaps.orphan_expectation` 现已补“本轮未重跑（rerun_this_round=false）…沿用历史读数”，`stop_item.orphan_36_86_scope` 同义。 |
+| 26 | `kvmem/m4c_leases/out/LANDED-g4d.json` | — | **`6768a11c7528610a` / 1,333 B** | 同上 | `current` | task-36 的 m4c 批台账；两采样一致。 |
+| 27 | `kvmem/m2_visibility/chat_lease/out/LANDED-g4-addendum.json` | — | **`d5fe3e3e3afcd3b7` / 2,184 B** | 同上 | `current` | `supersedes 7a9d6cea`；原 `LANDED-g4.json` sha 未变、`untouched=true`；把 `judge_unchanged` 过期时态改为 `consume sel_mountable`。 |
+| 28 | `kvmem/m2_visibility/chat_lease/out/G4a2-variant-want2sel.json` | — | **`9653e1d9f56b223a` / 8,343 B** | 同上 | `current` | 严格单点变体：base `1790f3a9`，实算 `difflib` 仅 1 hunk（`d = E.decide(q, sel, ...)`），`hunks=1`、`variant_kind="single-point(want→sel)"`；控制问句 `memory_hit/refuse=false/ask=1`，4 red_points 全 true。 |
+| 29 | `kvmem/m2_visibility/chat_lease/LANDED-g4a2.json` | — | **`ae44a406c9a0a10c` / 11,005 B** | 同上 | `current` | G4a-2/G4a-3 台账；`prefix_regression=18127962`、`single_point=9653e1d9`、explain addendum `2f4917d6`。 |
+| 30 | `kvmem/m2_visibility/chat_lease/out/S1-default-unchanged-explain-v2-addendum.json` | — | **`2f4917d6b71a176f` / 1,973 B** | 同上 | `current` | v1 `3e8aae60` 坐标作废；原产物 `S1-default-unchanged 12cebec6` / `S1-real-default-regression 39aa2505` 未动；当前 `c4cbad83`/1,126 B（LF），去 version+标注回 `3e8aae60`。 |
+| 31 | `kvmem/m4c_leases/out/m4c4/M4C4-green-b10-m4c4-green-fd9b6f9f.json` | — | **`08a197d2da7322cf` / 4,173 B** | 同上 | `current`（历史 b10 读数） | green：`orphan_turn` 0/0/0、`max_orphan=0`、`orphan_leak=false`；**不是 G4d 重跑产物**。 |
+| 32 | `kvmem/m4c_leases/out/m4c4/M4C4-deleted-b10-m4c4-deleted-1b599550.json` | — | **`4ada6cec7621b660` / 5,537 B** | 同上 | `current`（历史 b10 读数） | deleted：`orphan_turn` 0→36→86、`max_orphan=86`、`orphan_leak=true`、`engine_after seq1:[50,4095] seq2:[36,4031]`；**这是 36→86 的唯一出处，G4d fixture 未重跑它**。 |
+| 33 | `verify.sh` | `53ff5ec7…`（旧） | **`c7c8b264f960daea` / 6,566 B** | `sha256sum verify.sh \| cut -c1-16` | `current` | task-34 关系断言版；`bash verify.sh` 实测 **rc=0 / ALL PASS (12 项)**：补丁 600/0、快照 600/0、归档 500/0、归档≠实时，四个关系全过；不再写死 500/600。 |
+| 34 | `.gitignore` | `?`（旧：`_*/ ` 尾空格说法） | **`4bddcfddcbe98ea3` / 4,901 B** | `sha256sum .gitignore \| cut -c1-16` | `current` | 第 45 行 `_*/` + 第 50–51 行 `!docs/_work/` / `!docs/_work/**`。独立 temp-repo 实验：**git 确实剥掉尾空格**（`_*/   ` 与 `_*/` 行为同）；真正的吞掉源是 `_*/` 通配本身，例外才放行；`git check-ignore -v docs/_work/ANCHORS-CURRENT.md` 现返回例外规则。其余 `_*` 仍忽略。 |
+| 35 | `kvmem/m2_visibility/m4/check_ablate_run.py` | `?`（旧：`np_==24` 硬编码） | **`bf3687a17cbd230e` / 4,705 B** | `sha256sum kvmem/m2_visibility/m4/check_ablate_run.py \| cut -c1-16` | `current` | task-34 改“读声明值 + 三态”；跑 `<a7>` 实测 `PASS (0 failed, 1 unverified) / rc=0`：`n_predict` 声明 64、引擎无属性 ⇒ `UNVERIFIED`，不伪造通过；四臂 cells/pos/controls 全 OK；产物 `77e11a04` 只读未动。 |
+| 36 | `kvmem/m2_visibility/m6/out/M6A-REACHABILITY.json` | —（task-37 M6a） | **`be9d0a83431f47ac` / 29,483 B** | `sha256sum ...` | `current` | I1/I3/I4 `未接上`、I2 `可达（未修）`；66 条 = I1 53 + I2 5 + I3 5 + I4 3，**不是 66 个 repos_local 调用点**；独立复核见 `INSPECTOR-M6A-REVIEW.md`：S1 目标/块线需拆、15 个调用点漏表，四态不变。 |
+| 37 | `kvmem/m2_visibility/m6/out/M6A-PROBE.json` | —（只读探针） | **`ac27641c8f2d136f` / 3,710 B** | `sha256sum ...` | `current` | 14B 只读探针；A/B/C/D/E 五步，raw accessor 绕过 `pos_max` 误报；D 的 `-1000` 是 I1 旁证，**不进 I1 四态**。 |
+| 38 | `kvmem/m2_visibility/chat_lease/LANDED-m6a.json` | —（task-37 M6a 台账） | **`91c3d7db66ab2d17` / 3,283 B** | `sha256sum ...` | `current` | 四态 I1/I3/I4 未接上、I2 可达（未修）；`verify.sh` rc=0/12 项、freeze 全绿；`gaps` 明写 I2 无 product run、I1 探针为人工路径；**无自动 `bad=0` 校验字段**。 |
+
+## unverifiable（不可复算，单独归档，禁止当现值引）
+
+| 锚 | 为何不可复算 | 处置 |
+|---|---|---|
+| **7B 线**（`kvmem/m2_7b/` 全树；7B 模型/装置） | 7B 模型与当时的引擎/DLL 不在现行 14B 树；只有产物存档，无同装置可复跑 | 标 `unverifiable`；任何 7B 读数不得升格为 14B 结论；引时写「7B 存档，装置不可复算」 |
+| **archive 500 版补丁**（README/MANIFEST 所称「归档版 500 insertions」） | 500 版补丁文件未保存在树；仅文本提及 | 标 `unverifiable`；只可按史料引，不得与现行 600 版跨版比较 |
+| **旧 DLL 基线**（`49,952,768 B` / `849e7281c74a5288`、`49,954,304 / 5d3e7e46...`） | `kvmem/m2_visibility/runs_m14b/dll_archive/` 只有 `9edbafa1`/`c7ea09bb`/`ed91cbe0`，旧基线二进制未归档 | 标 `unverifiable`；构建可比性只用归档内 DLL 重算 |
+
+## 维护规则
+
+1. 新增/变更锚：改本文件一行 + 在对应判决/台账写 old→new，二者同一改动落地；否则按 `stale` 处理。
+2. `sha256sum <path> | cut -c1-16` 必须现跑；禁止从旧文档抄。
+3. 本文件自身 sha 不写入正文；引用方 banner 记录入口 sha（executor 的 banner 等本文件落盘后取）。
+4. `current` 行若有“报告内字段与所述对象不符”，在说明列写清字段名并转标 `stale`（如 #3、#5）。

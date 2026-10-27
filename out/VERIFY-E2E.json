@@ -1,0 +1,1398 @@
+{
+ "schema": "verify_e2e_v1",
+ "role": "T6 生成→核对→一次修复→固定兜底 端到端 A/B（fake engine，零 GPU）",
+ "cases": {
+  "path": "tmp/verify_e2e_cases.json",
+  "sha256": "6a3983429894cb34495233b4011421971315554697e93956df44ad3da4b7d26b",
+  "bytes": 10400,
+  "n": 30
+ },
+ "runner": {
+  "path": "tmp/run_verify_e2e.py",
+  "sha256": "02fd812ea361285732a9061b154d765b41493e7f31dff6f77eb2474d1c4522e4",
+  "engine": "ScriptedEngine(StubEngine) / fake, zero GPU",
+  "groups": {
+   "on": "LLAMA_MEM_VERIFY=1",
+   "off": "LLAMA_MEM_VERIFY=0"
+  },
+  "isolation": "每条 case 独立 db/blocks/sessions；_iso=None；web_lookup=None（不联网）"
+ },
+ "pins": {
+  "chat_daily_sha256": "c468897ce879b88e8aa50090903b1a7183612909ddb9a10142ba3cd6c3b96025",
+  "answer_verifier_sha256": "50730a50d867172405b051adb0b7385e91792f0fa55412112bff5fcb3340a1be",
+  "fallback_text": "这条我没法从记忆里核对，先不猜。"
+ },
+ "elapsed_s": 11.006,
+ "summary": {
+  "n": 30,
+  "pass": 26,
+  "fail": 4,
+  "first_pass_rate": 0.866667,
+  "ab_answer_diff": 11,
+  "by_category": {
+   "correct_primary": {
+    "n": 6,
+    "pass": 6,
+    "fail": 0
+   },
+   "wrong_repair_ok": {
+    "n": 8,
+    "pass": 7,
+    "fail": 1
+   },
+   "wrong_repair_fail": {
+    "n": 3,
+    "pass": 3,
+    "fail": 0
+   },
+   "wrong_repair_honest": {
+    "n": 1,
+    "pass": 1,
+    "fail": 0
+   },
+   "no_memory_fabricate": {
+    "n": 4,
+    "pass": 4,
+    "fail": 0
+   },
+   "honest_refusal": {
+    "n": 3,
+    "pass": 3,
+    "fail": 0
+   },
+   "general_world": {
+    "n": 3,
+    "pass": 0,
+    "fail": 3
+   },
+   "statement_ack": {
+    "n": 2,
+    "pass": 2,
+    "fail": 0
+   }
+  },
+  "failure_categories": {
+   "missing_expected_value": 4,
+   "fabricated_value_leak": 1,
+   "attempts_wrong": 1,
+   "verify_not_skipped": 3
+  }
+ },
+ "failures": [
+  {
+   "id": "r06",
+   "category": "wrong_repair_ok",
+   "question": "我喝什么咖啡？",
+   "memory": [
+    "我只喝美式咖啡，不吃香菜"
+   ],
+   "primary": "拿铁。",
+   "verify_on": {
+    "answer": "拿铁",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0123,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 0,
+    "engine_calls": 1,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "拿铁",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0121
+   },
+   "pass": false,
+   "problems": [
+    "missing '美式咖啡'",
+    "contains forbidden '拿铁'",
+    "attempts=0 != 1"
+   ],
+   "failure_categories": [
+    "missing_expected_value",
+    "fabricated_value_leak",
+    "attempts_wrong"
+   ],
+   "ab_same_answer": true
+  },
+  {
+   "id": "w01",
+   "category": "general_world",
+   "question": "北京是哪个国家的首都？",
+   "memory": [],
+   "primary": "中国的首都。",
+   "verify_on": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "latency_s": 0.0131,
+    "verified": null,
+    "verify": null,
+    "verify_attempts": null,
+    "engine_calls": 0,
+    "unsupported_values_contract": [
+     "(也可以"
+    ]
+   },
+   "verify_off": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "verify": null,
+    "latency_s": 0.0167
+   },
+   "pass": false,
+   "problems": [
+    "missing '中国'",
+    "verify verdict=None not skipped"
+   ],
+   "failure_categories": [
+    "missing_expected_value",
+    "verify_not_skipped"
+   ],
+   "ab_same_answer": true
+  },
+  {
+   "id": "w02",
+   "category": "general_world",
+   "question": "解释一下什么是KV缓存",
+   "memory": [],
+   "primary": "KV 缓存是推理缓存技术。",
+   "verify_on": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "latency_s": 0.0109,
+    "verified": null,
+    "verify": null,
+    "verify_attempts": null,
+    "engine_calls": 0,
+    "unsupported_values_contract": [
+     "(也可以"
+    ]
+   },
+   "verify_off": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "verify": null,
+    "latency_s": 0.0176
+   },
+   "pass": false,
+   "problems": [
+    "missing 'KV'",
+    "verify verdict=None not skipped"
+   ],
+   "failure_categories": [
+    "missing_expected_value",
+    "verify_not_skipped"
+   ],
+   "ab_same_answer": true
+  },
+  {
+   "id": "w03",
+   "category": "general_world",
+   "question": "为什么天是蓝的",
+   "memory": [],
+   "primary": "瑞利散射导致的。",
+   "verify_on": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "latency_s": 0.0092,
+    "verified": null,
+    "verify": null,
+    "verify_attempts": null,
+    "engine_calls": 0,
+    "unsupported_values_contract": [
+     "(也可以"
+    ]
+   },
+   "verify_off": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "verify": null,
+    "latency_s": 0.0174
+   },
+   "pass": false,
+   "problems": [
+    "missing '散射'",
+    "verify verdict=None not skipped"
+   ],
+   "failure_categories": [
+    "missing_expected_value",
+    "verify_not_skipped"
+   ],
+   "ab_same_answer": true
+  }
+ ],
+ "results": [
+  {
+   "id": "c01",
+   "category": "correct_primary",
+   "question": "我的车牌号是多少？",
+   "memory": [
+    "我的车牌号是沪A-12345"
+   ],
+   "primary": "沪A-12345。",
+   "verify_on": {
+    "answer": "沪A-12345",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0181,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 0,
+    "engine_calls": 1,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "沪A-12345",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0119
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": true
+  },
+  {
+   "id": "c02",
+   "category": "correct_primary",
+   "question": "我几点开会？",
+   "memory": [
+    "我每周三下午3点在3楼开会"
+   ],
+   "primary": "下午3点。",
+   "verify_on": {
+    "answer": "下午3点",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0165,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 0,
+    "engine_calls": 1,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "下午3点",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0132
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": true
+  },
+  {
+   "id": "c03",
+   "category": "correct_primary",
+   "question": "我在几楼开会？",
+   "memory": [
+    "我每周三下午3点在3楼开会"
+   ],
+   "primary": "3楼。",
+   "verify_on": {
+    "answer": "3楼",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0115,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 0,
+    "engine_calls": 1,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "3楼",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0121
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": true
+  },
+  {
+   "id": "c04",
+   "category": "correct_primary",
+   "question": "我下周三去哪开会？",
+   "memory": [
+    "我下周三去上海开会"
+   ],
+   "primary": "去上海开会。",
+   "verify_on": {
+    "answer": "去上海开会",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0113,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 0,
+    "engine_calls": 1,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "去上海开会",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0135
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": true
+  },
+  {
+   "id": "c05",
+   "category": "correct_primary",
+   "question": "我喝什么咖啡？",
+   "memory": [
+    "我只喝美式咖啡，不吃香菜"
+   ],
+   "primary": "美式咖啡。",
+   "verify_on": {
+    "answer": "美式咖啡",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0132,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 0,
+    "engine_calls": 1,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "美式咖啡",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0134
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": true
+  },
+  {
+   "id": "c06",
+   "category": "correct_primary",
+   "question": "换屏多少钱？",
+   "memory": [
+    "换屏价是680元"
+   ],
+   "primary": "680元。",
+   "verify_on": {
+    "answer": "680元",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0113,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 0,
+    "engine_calls": 1,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "680元",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0126
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": true
+  },
+  {
+   "id": "r01",
+   "category": "wrong_repair_ok",
+   "question": "我的车牌号是多少？",
+   "memory": [
+    "我的车牌号是沪A-12345"
+   ],
+   "primary": "京A88888。",
+   "verify_on": {
+    "answer": "沪A-12345",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0228,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 1,
+    "engine_calls": 2,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "京A88888",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0127
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": false
+  },
+  {
+   "id": "r02",
+   "category": "wrong_repair_ok",
+   "question": "我几点开会？",
+   "memory": [
+    "我每周三下午3点在3楼开会"
+   ],
+   "primary": "5点。",
+   "verify_on": {
+    "answer": "3点",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0206,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 1,
+    "engine_calls": 2,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "5点",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0113
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": false
+  },
+  {
+   "id": "r03",
+   "category": "wrong_repair_ok",
+   "question": "我在几楼开会？",
+   "memory": [
+    "我每周三下午3点在3楼开会"
+   ],
+   "primary": "5楼。",
+   "verify_on": {
+    "answer": "3楼",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0227,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 1,
+    "engine_calls": 2,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "5楼",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0114
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": false
+  },
+  {
+   "id": "r04",
+   "category": "wrong_repair_ok",
+   "question": "我明天去哪出差？",
+   "memory": [
+    "我明天要去北京出差"
+   ],
+   "primary": "去上海出差。",
+   "verify_on": {
+    "answer": "去北京出差",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0202,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 1,
+    "engine_calls": 2,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "去上海出差",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0098
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": false
+  },
+  {
+   "id": "r05",
+   "category": "wrong_repair_ok",
+   "question": "换屏多少钱？",
+   "memory": [
+    "换屏价是680元"
+   ],
+   "primary": "599元。",
+   "verify_on": {
+    "answer": "680元",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0242,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 1,
+    "engine_calls": 2,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "599元",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0134
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": false
+  },
+  {
+   "id": "r06",
+   "category": "wrong_repair_ok",
+   "question": "我喝什么咖啡？",
+   "memory": [
+    "我只喝美式咖啡，不吃香菜"
+   ],
+   "primary": "拿铁。",
+   "verify_on": {
+    "answer": "拿铁",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0123,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 0,
+    "engine_calls": 1,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "拿铁",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0121
+   },
+   "pass": false,
+   "problems": [
+    "missing '美式咖啡'",
+    "contains forbidden '拿铁'",
+    "attempts=0 != 1"
+   ],
+   "failure_categories": [
+    "missing_expected_value",
+    "fabricated_value_leak",
+    "attempts_wrong"
+   ],
+   "ab_same_answer": true
+  },
+  {
+   "id": "r07",
+   "category": "wrong_repair_ok",
+   "question": "我下周三去哪开会？",
+   "memory": [
+    "我下周三改去B座302"
+   ],
+   "primary": "去上海开会。",
+   "verify_on": {
+    "answer": "去B座302开会",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0232,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 1,
+    "engine_calls": 2,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "去上海开会",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0116
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": false
+  },
+  {
+   "id": "r08",
+   "category": "wrong_repair_ok",
+   "question": "我什么时候提交材料？",
+   "memory": [
+    "我在2026-10-27提交材料"
+   ],
+   "primary": "2026-11-01。",
+   "verify_on": {
+    "answer": "2026-10-27",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0245,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 1,
+    "engine_calls": 2,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "2026-11-01",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0143
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": false
+  },
+  {
+   "id": "f01",
+   "category": "wrong_repair_fail",
+   "question": "我的车牌号是多少？",
+   "memory": [
+    "我的车牌号是沪A-12345"
+   ],
+   "primary": "京A88888。",
+   "verify_on": {
+    "answer": "这条我没法从记忆里核对，先不猜。",
+    "state": "verify_fallback",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0393,
+    "verified": false,
+    "verify": {
+     "verdict": "unsupported",
+     "mismatches": [
+      {
+       "claim": "粤B99999",
+       "type": "value_not_in_memory"
+      }
+     ],
+     "hint": "下面这些内容在记忆中找不到依据：粤B99999；请只使用记忆原文重答，或直接说不知道。"
+    },
+    "verify_attempts": 1,
+    "engine_calls": 2,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "京A88888",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0161
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": false
+  },
+  {
+   "id": "f02",
+   "category": "wrong_repair_fail",
+   "question": "我几点开会？",
+   "memory": [
+    "我每周三下午3点在3楼开会"
+   ],
+   "primary": "5点。",
+   "verify_on": {
+    "answer": "这条我没法从记忆里核对，先不猜。",
+    "state": "verify_fallback",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0329,
+    "verified": false,
+    "verify": {
+     "verdict": "unsupported",
+     "mismatches": [
+      {
+       "claim": "5点",
+       "type": "value_not_in_memory",
+       "expected_from_block": "下午3点"
+      }
+     ],
+     "hint": "下面这些内容在记忆中找不到依据：5点（记忆里是 下午3点）；请只使用记忆原文重答，或直接说不知道。"
+    },
+    "verify_attempts": 1,
+    "engine_calls": 2,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "5点",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0154
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": false
+  },
+  {
+   "id": "f03",
+   "category": "wrong_repair_honest",
+   "question": "我几点开会？",
+   "memory": [
+    "我每周三下午3点在3楼开会"
+   ],
+   "primary": "5点。",
+   "verify_on": {
+    "answer": "这个我不知道",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0256,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 1,
+    "engine_calls": 2,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "5点",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0193
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": false
+  },
+  {
+   "id": "f04",
+   "category": "wrong_repair_fail",
+   "question": "换屏多少钱？",
+   "memory": [
+    "换屏价是680元"
+   ],
+   "primary": "599元。",
+   "verify_on": {
+    "answer": "这条我没法从记忆里核对，先不猜。",
+    "state": "verify_fallback",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0347,
+    "verified": false,
+    "verify": {
+     "verdict": "unsupported",
+     "mismatches": [
+      {
+       "claim": "999",
+       "type": "value_not_in_memory",
+       "expected_from_block": "680"
+      }
+     ],
+     "hint": "下面这些内容在记忆中找不到依据：999（记忆里是 680）；请只使用记忆原文重答，或直接说不知道。"
+    },
+    "verify_attempts": 1,
+    "engine_calls": 2,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "599元",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0172
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": false
+  },
+  {
+   "id": "n01",
+   "category": "no_memory_fabricate",
+   "question": "我的工号是多少？",
+   "memory": [],
+   "primary": "工号是8848。",
+   "verify_on": {
+    "answer": "长期记忆里没有这条，当前对话里也没有提到。我不想猜。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "latency_s": 0.0131,
+    "verified": null,
+    "verify": null,
+    "verify_attempts": null,
+    "engine_calls": 0,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "长期记忆里没有这条，当前对话里也没有提到。我不想猜。",
+    "state": "no_evidence",
+    "verify": null,
+    "latency_s": 0.0163
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": true
+  },
+  {
+   "id": "n02",
+   "category": "no_memory_fabricate",
+   "question": "我的车牌号是多少？",
+   "memory": [],
+   "primary": "沪A-12345。",
+   "verify_on": {
+    "answer": "长期记忆里没有这条，当前对话里也没有提到。我不想猜。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "latency_s": 0.0096,
+    "verified": null,
+    "verify": null,
+    "verify_attempts": null,
+    "engine_calls": 0,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "长期记忆里没有这条，当前对话里也没有提到。我不想猜。",
+    "state": "no_evidence",
+    "verify": null,
+    "latency_s": 0.0147
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": true
+  },
+  {
+   "id": "n03",
+   "category": "no_memory_fabricate",
+   "question": "我下周三去哪开会？",
+   "memory": [],
+   "primary": "去上海开会。",
+   "verify_on": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "latency_s": 0.0092,
+    "verified": null,
+    "verify": null,
+    "verify_attempts": null,
+    "engine_calls": 0,
+    "unsupported_values_contract": [
+     "(也可以"
+    ]
+   },
+   "verify_off": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "verify": null,
+    "latency_s": 0.0184
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": true
+  },
+  {
+   "id": "n04",
+   "category": "no_memory_fabricate",
+   "question": "我明天去哪出差？",
+   "memory": [],
+   "primary": "去北京出差。",
+   "verify_on": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "latency_s": 0.0093,
+    "verified": null,
+    "verify": null,
+    "verify_attempts": null,
+    "engine_calls": 0,
+    "unsupported_values_contract": [
+     "(也可以"
+    ]
+   },
+   "verify_off": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "verify": null,
+    "latency_s": 0.0174
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": true
+  },
+  {
+   "id": "h01",
+   "category": "honest_refusal",
+   "question": "我几点开会？",
+   "memory": [
+    "我养了一只猫叫豆豆"
+   ],
+   "primary": "这个记忆里没有，我不确定。",
+   "verify_on": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "latency_s": 0.0122,
+    "verified": null,
+    "verify": null,
+    "verify_attempts": null,
+    "engine_calls": 0,
+    "unsupported_values_contract": [
+     "(也可以"
+    ]
+   },
+   "verify_off": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "verify": null,
+    "latency_s": 0.0153
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": true
+  },
+  {
+   "id": "h02",
+   "category": "honest_refusal",
+   "question": "我的车牌号是多少？",
+   "memory": [
+    "我养了一只猫叫豆豆"
+   ],
+   "primary": "没有记录，我不知道。",
+   "verify_on": {
+    "answer": "长期记忆里没有这条，当前对话里也没有提到。我不想猜。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "latency_s": 0.0107,
+    "verified": null,
+    "verify": null,
+    "verify_attempts": null,
+    "engine_calls": 0,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "长期记忆里没有这条，当前对话里也没有提到。我不想猜。",
+    "state": "no_evidence",
+    "verify": null,
+    "latency_s": 0.0141
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": true
+  },
+  {
+   "id": "h03",
+   "category": "honest_refusal",
+   "question": "我明天去哪出差？",
+   "memory": [
+    "我养了一只猫叫豆豆"
+   ],
+   "primary": "未提及出差地点。",
+   "verify_on": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "latency_s": 0.0143,
+    "verified": null,
+    "verify": null,
+    "verify_attempts": null,
+    "engine_calls": 0,
+    "unsupported_values_contract": [
+     "(也可以"
+    ]
+   },
+   "verify_off": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "verify": null,
+    "latency_s": 0.0137
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": true
+  },
+  {
+   "id": "w01",
+   "category": "general_world",
+   "question": "北京是哪个国家的首都？",
+   "memory": [],
+   "primary": "中国的首都。",
+   "verify_on": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "latency_s": 0.0131,
+    "verified": null,
+    "verify": null,
+    "verify_attempts": null,
+    "engine_calls": 0,
+    "unsupported_values_contract": [
+     "(也可以"
+    ]
+   },
+   "verify_off": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "verify": null,
+    "latency_s": 0.0167
+   },
+   "pass": false,
+   "problems": [
+    "missing '中国'",
+    "verify verdict=None not skipped"
+   ],
+   "failure_categories": [
+    "missing_expected_value",
+    "verify_not_skipped"
+   ],
+   "ab_same_answer": true
+  },
+  {
+   "id": "w02",
+   "category": "general_world",
+   "question": "解释一下什么是KV缓存",
+   "memory": [],
+   "primary": "KV 缓存是推理缓存技术。",
+   "verify_on": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "latency_s": 0.0109,
+    "verified": null,
+    "verify": null,
+    "verify_attempts": null,
+    "engine_calls": 0,
+    "unsupported_values_contract": [
+     "(也可以"
+    ]
+   },
+   "verify_off": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "verify": null,
+    "latency_s": 0.0176
+   },
+   "pass": false,
+   "problems": [
+    "missing 'KV'",
+    "verify verdict=None not skipped"
+   ],
+   "failure_categories": [
+    "missing_expected_value",
+    "verify_not_skipped"
+   ],
+   "ab_same_answer": true
+  },
+  {
+   "id": "w03",
+   "category": "general_world",
+   "question": "为什么天是蓝的",
+   "memory": [],
+   "primary": "瑞利散射导致的。",
+   "verify_on": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "latency_s": 0.0092,
+    "verified": null,
+    "verify": null,
+    "verify_attempts": null,
+    "engine_calls": 0,
+    "unsupported_values_contract": [
+     "(也可以"
+    ]
+   },
+   "verify_off": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "verify": null,
+    "latency_s": 0.0174
+   },
+   "pass": false,
+   "problems": [
+    "missing '散射'",
+    "verify verdict=None not skipped"
+   ],
+   "failure_categories": [
+    "missing_expected_value",
+    "verify_not_skipped"
+   ],
+   "ab_same_answer": true
+  },
+  {
+   "id": "st01",
+   "category": "statement_ack",
+   "question": "我下周三去上海开会",
+   "memory": [],
+   "primary": "好，记下了。",
+   "verify_on": {
+    "answer": "好，记下了",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.0531,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 0,
+    "engine_calls": 1,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "好，记下了",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0933
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": true
+  },
+  {
+   "id": "st02",
+   "category": "statement_ack",
+   "question": "我的车牌号是沪A-12345",
+   "memory": [],
+   "primary": "嗯，记住了。",
+   "verify_on": {
+    "answer": "嗯，记住了",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_s": 0.054,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 0,
+    "engine_calls": 1,
+    "unsupported_values_contract": []
+   },
+   "verify_off": {
+    "answer": "嗯，记住了",
+    "state": "memory_hit",
+    "verify": {
+     "verdict": "disabled",
+     "mismatches": []
+    },
+    "latency_s": 0.0773
+   },
+   "pass": true,
+   "problems": [],
+   "failure_categories": [],
+   "ab_same_answer": true
+  }
+ ],
+ "notes": [
+  "ON 组断言：personal 非兜底不得含块外值；修复后须含正确值；兜底文案固定；verify 字段存在；每轮 <90s。",
+  "OFF 组用于 A/B：应保持 primary 答案且 verify.verdict=disabled。",
+  "suspected_blocks_contract_mismatch：有 block_ids 但核对 no_evidence，通常表示传给核对器的 blocks 形态与接口不符（应 list[dict(text)]）。"
+ ]
+}

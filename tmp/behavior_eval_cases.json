@@ -1,0 +1,658 @@
+{
+ "schema": "behavior_eval_cases_v1",
+ "source": "2026-10-27 真实使用事件（kvmem/daily/assistant/daily/2026-10-27.jsonl，179 条事件，文本脱敏）+ 用户贴出的真实对话（你好/你好你好、你是谁呀、车牌复读、记忆力有什么、能联网吗、我靠/我服了、下周三上海开会、明天去哪出差）",
+ "dryrun_note": "用 tools/chat_daily.py --dry-run 同款 StubEngine（零 GPU）跑应用层行为；答案正文由 stub 产生，因此对记忆命中类只判 state/block_ids，不做答案语义判分。",
+ "expectation_rule": "expect_* 只表达产品行为意图；未列出的字段不约束。expect_contains=全部必须出现；expect_contains_any=至少一个；expect_not_contains=均不得出现。",
+ "cases": [
+  {
+   "id": "g01",
+   "category": "greeting",
+   "input": "你好",
+   "expect_state": "smalltalk",
+   "expect_refusal": false,
+   "expect_contains_any": [
+    "你好",
+    "记忆助手"
+   ],
+   "note": "真实对话：你好"
+  },
+  {
+   "id": "g02",
+   "category": "greeting",
+   "input": "您好",
+   "expect_state": "smalltalk",
+   "expect_refusal": false,
+   "expect_contains_any": [
+    "你好",
+    "记忆助手"
+   ],
+   "note": "敬语变体"
+  },
+  {
+   "id": "g03",
+   "category": "greeting",
+   "input": "嗨",
+   "expect_state": "smalltalk",
+   "expect_refusal": false,
+   "note": "英文/单字变体"
+  },
+  {
+   "id": "g04",
+   "category": "greeting",
+   "input": "哈喽",
+   "expect_state": "smalltalk",
+   "expect_refusal": false,
+   "note": "音译变体"
+  },
+  {
+   "id": "g05",
+   "category": "greeting",
+   "input": "hello",
+   "expect_state": "smalltalk",
+   "expect_refusal": false,
+   "note": "英文变体"
+  },
+  {
+   "id": "g06",
+   "category": "greeting",
+   "input": "你好你好",
+   "expect_state": "smalltalk",
+   "expect_refusal": false,
+   "note": "真实对话：重复问候"
+  },
+  {
+   "id": "g07",
+   "category": "greeting",
+   "input": "你好呀",
+   "expect_state": "smalltalk",
+   "expect_refusal": false,
+   "note": "语气词变体"
+  },
+  {
+   "id": "g08",
+   "category": "greeting",
+   "input": "在吗",
+   "expect_state": "smalltalk",
+   "expect_refusal": false,
+   "note": "在线问候"
+  },
+  {
+   "id": "g09",
+   "category": "greeting",
+   "input": "在不在",
+   "expect_state": "smalltalk",
+   "expect_refusal": false,
+   "note": "在线问候变体"
+  },
+  {
+   "id": "i01",
+   "category": "identity",
+   "input": "你是谁",
+   "expect_state": "smalltalk",
+   "expect_refusal": false,
+   "expect_contains_any": [
+    "记忆助手",
+    "14B",
+    "本地"
+   ],
+   "note": "身份问句"
+  },
+  {
+   "id": "i02",
+   "category": "identity",
+   "input": "你是谁呀",
+   "expect_state": "smalltalk",
+   "expect_refusal": false,
+   "expect_contains_any": [
+    "记忆助手",
+    "14B"
+   ],
+   "note": "真实对话：你是谁呀"
+  },
+  {
+   "id": "i03",
+   "category": "identity",
+   "input": "你叫什么名字",
+   "expect_state": "smalltalk",
+   "expect_refusal": false,
+   "note": "名字变体"
+  },
+  {
+   "id": "i04",
+   "category": "identity",
+   "input": "你是机器人吗",
+   "expect_state": "smalltalk",
+   "expect_refusal": false,
+   "note": "身份确认"
+  },
+  {
+   "id": "i05",
+   "category": "identity",
+   "input": "你是AI吗",
+   "expect_state": "smalltalk",
+   "expect_refusal": false,
+   "note": "AI 身份"
+  },
+  {
+   "id": "i06",
+   "category": "identity",
+   "input": "你能做什么",
+   "expect_state": "smalltalk",
+   "expect_refusal": false,
+   "expect_contains_any": [
+    "记住",
+    "不知道",
+    "帮助"
+   ],
+   "note": "能力介绍"
+  },
+  {
+   "id": "i07",
+   "category": "identity",
+   "input": "你是什么模型",
+   "expect_state_any": [
+    "smalltalk",
+    "capability"
+   ],
+   "expect_refusal": false,
+   "expect_contains_any": [
+    "本地",
+    "14B",
+    "模型"
+   ],
+   "note": "模型身份问句（当前实现可能误拒）"
+  },
+  {
+   "id": "m01",
+   "category": "memory_query",
+   "input": "记忆力有什么",
+   "expect_state": "capability",
+   "expect_refusal": false,
+   "note": "真实对话：记忆力有什么"
+  },
+  {
+   "id": "m02",
+   "category": "memory_query",
+   "input": "你记得什么",
+   "expect_state": "capability",
+   "expect_refusal": false,
+   "note": "记忆库查询变体"
+  },
+  {
+   "id": "m03",
+   "category": "memory_query",
+   "input": "记忆库有什么",
+   "expect_state": "capability",
+   "expect_refusal": false,
+   "note": "记忆库查询变体"
+  },
+  {
+   "id": "m04",
+   "category": "memory_query",
+   "input": "记忆力有什么",
+   "prelude": [
+    {
+     "action": "remember",
+     "text": "我每周三下午三点在3楼开会"
+    },
+    {
+     "action": "remember",
+     "text": "我的车牌号是沪A-12345"
+    }
+   ],
+   "expect_state": "capability",
+   "expect_refusal": false,
+   "expect_contains_any": [
+    "记得",
+    "条"
+   ],
+   "note": "有记忆时的记忆库查询"
+  },
+  {
+   "id": "m05",
+   "category": "memory_query",
+   "input": "你记得什么",
+   "prelude": [
+    {
+     "action": "remember",
+     "text": "我养了一只猫叫豆豆"
+    }
+   ],
+   "expect_state": "capability",
+   "expect_refusal": false,
+   "expect_contains_any": [
+    "记得",
+    "条"
+   ],
+   "note": "有记忆时查询"
+  },
+  {
+   "id": "n01",
+   "category": "networking",
+   "input": "你能联网吗",
+   "expect_state": "capability",
+   "expect_refusal": false,
+   "expect_contains_any": [
+    "不联网",
+    "本地"
+   ],
+   "note": "真实对话：能联网吗"
+  },
+  {
+   "id": "n02",
+   "category": "networking",
+   "input": "你联网了吗",
+   "expect_state": "capability",
+   "expect_refusal": false,
+   "expect_contains_any": [
+    "不联网",
+    "本地"
+   ],
+   "note": "联网变体"
+  },
+  {
+   "id": "n03",
+   "category": "networking",
+   "input": "你的知识截止到什么时候",
+   "expect_state": "capability",
+   "expect_refusal": false,
+   "expect_contains_any": [
+    "不联网",
+    "本地"
+   ],
+   "note": "知识截止变体"
+  },
+  {
+   "id": "n04",
+   "category": "networking",
+   "input": "你能上网吗",
+   "expect_state": "capability",
+   "expect_refusal": false,
+   "expect_contains_any": [
+    "不联网",
+    "本地"
+   ],
+   "note": "上网变体"
+  },
+  {
+   "id": "e01",
+   "category": "exclamation",
+   "input": "我靠",
+   "expect_state": "capability",
+   "expect_refusal": false,
+   "expect_contains_any": [
+    "我在这儿",
+    "直接说"
+   ],
+   "note": "真实对话：我靠"
+  },
+  {
+   "id": "e02",
+   "category": "exclamation",
+   "input": "我服了",
+   "expect_state": "capability",
+   "expect_refusal": false,
+   "expect_contains_any": [
+    "我在这儿",
+    "直接说"
+   ],
+   "note": "真实对话：我服了"
+  },
+  {
+   "id": "e03",
+   "category": "exclamation",
+   "input": "无语",
+   "expect_state": "capability",
+   "expect_refusal": false,
+   "note": "感叹变体"
+  },
+  {
+   "id": "e04",
+   "category": "exclamation",
+   "input": "醉了",
+   "expect_state": "capability",
+   "expect_refusal": false,
+   "note": "感叹变体"
+  },
+  {
+   "id": "e05",
+   "category": "exclamation",
+   "input": "离谱",
+   "expect_state": "capability",
+   "expect_refusal": false,
+   "note": "感叹变体"
+  },
+  {
+   "id": "a01",
+   "category": "auto_memory",
+   "input": "我每周三下午三点在3楼开会",
+   "expect_refusal": false,
+   "expect_memory_delta": 1,
+   "note": "陈述自动记忆（真实对话：下周三上海开会）"
+  },
+  {
+   "id": "a02",
+   "category": "auto_memory",
+   "input": "我下周三去上海开会",
+   "expect_refusal": false,
+   "expect_memory_delta": 1,
+   "note": "真实对话：下周三上海开会"
+  },
+  {
+   "id": "a03",
+   "category": "auto_memory",
+   "input": "我的车牌号是沪A-12345",
+   "expect_refusal": false,
+   "expect_memory_delta": 1,
+   "note": "车牌陈述（真实对话：车牌复读）"
+  },
+  {
+   "id": "a04",
+   "category": "auto_memory",
+   "input": "我养了一只猫叫豆豆",
+   "expect_refusal": false,
+   "expect_memory_delta": 1,
+   "note": "宠物陈述"
+  },
+  {
+   "id": "a05",
+   "category": "auto_memory",
+   "input": "我明天要去上海出差",
+   "expect_refusal": false,
+   "expect_memory_delta": 1,
+   "note": "行程陈述"
+  },
+  {
+   "id": "a06",
+   "category": "auto_memory",
+   "input": "我的车牌号是沪A-12345",
+   "prelude": [
+    {
+     "action": "ask",
+     "text": "我的车牌号是沪A-12345"
+    }
+   ],
+   "expect_refusal": false,
+   "expect_memory_delta": 0,
+   "note": "车牌复读：同一条重复陈述不得重复记忆/报错"
+  },
+  {
+   "id": "q01",
+   "category": "memory_qa",
+   "input": "我几点开会？",
+   "prelude": [
+    {
+     "action": "remember",
+     "text": "我每周三下午三点在3楼开会"
+    }
+   ],
+   "expect_refusal": false,
+   "expect_state": "memory_hit",
+   "expect_block_ids_nonempty": true,
+   "note": "记忆问答：会议时间"
+  },
+  {
+   "id": "q02",
+   "category": "memory_qa",
+   "input": "我的车牌号是多少？",
+   "prelude": [
+    {
+     "action": "remember",
+     "text": "我的车牌号是沪A-12345"
+    }
+   ],
+   "expect_refusal": false,
+   "expect_state": "memory_hit",
+   "expect_block_ids_nonempty": true,
+   "note": "记忆问答：车牌"
+  },
+  {
+   "id": "q03",
+   "category": "memory_qa",
+   "input": "我养的猫叫什么？",
+   "prelude": [
+    {
+     "action": "remember",
+     "text": "我养了一只猫叫豆豆"
+    }
+   ],
+   "expect_refusal": false,
+   "expect_state": "memory_hit",
+   "expect_block_ids_nonempty": true,
+   "note": "记忆问答：宠物名（自然问法；单字「猫」的召回另见 q06 备注）"
+  },
+  {
+   "id": "q04",
+   "category": "memory_qa",
+   "input": "我在几楼开会？",
+   "prelude": [
+    {
+     "action": "remember",
+     "text": "我每周三下午三点在3楼开会"
+    }
+   ],
+   "expect_refusal": false,
+   "expect_state": "memory_hit",
+   "expect_block_ids_nonempty": true,
+   "note": "记忆问答：楼层"
+  },
+  {
+   "id": "q05",
+   "category": "memory_qa",
+   "input": "我下周三去哪开会？",
+   "prelude": [
+    {
+     "action": "remember",
+     "text": "我下周三去上海开会"
+    }
+   ],
+   "expect_refusal": false,
+   "expect_state": "memory_hit",
+   "expect_block_ids_nonempty": true,
+   "note": "记忆问答：地点"
+  },
+  {
+   "id": "q06",
+   "category": "memory_qa",
+   "input": "我爱吃什么？",
+   "prelude": [
+    {
+     "action": "remember",
+     "text": "我只喝美式咖啡，不吃香菜"
+    }
+   ],
+   "expect_refusal": false,
+   "expect_state": "memory_hit",
+   "expect_block_ids_nonempty": true,
+   "note": "记忆问答/召回：饮食（「爱吃」与记忆「只喝美式咖啡，不吃香菜」无 bigram 重合，预期暴露词面召回限制）"
+  },
+  {
+   "id": "u01",
+   "category": "unknown_refusal",
+   "input": "我明天要去哪里出差？",
+   "expect_refusal": true,
+   "expect_state": "no_evidence",
+   "expect_contains_any": [
+    "没有提到",
+    "不想猜",
+    "记忆里没有",
+    "没有这条"
+   ],
+   "note": "真实对话：明天去哪出差（无记忆）"
+  },
+  {
+   "id": "u02",
+   "category": "unknown_refusal",
+   "input": "我的车牌号是多少？",
+   "expect_refusal": true,
+   "expect_state": "no_evidence",
+   "note": "无记忆车牌问句须拒答（不编造）"
+  },
+  {
+   "id": "u03",
+   "category": "unknown_refusal",
+   "input": "我工号多少",
+   "expect_refusal": true,
+   "expect_state": "no_evidence",
+   "note": "无记忆工号"
+  },
+  {
+   "id": "u04",
+   "category": "unknown_refusal",
+   "input": "我生日是哪天",
+   "expect_refusal": true,
+   "expect_state": "no_evidence",
+   "note": "无记忆生日"
+  },
+  {
+   "id": "u05",
+   "category": "unknown_refusal",
+   "input": "我家地址是什么",
+   "expect_refusal": true,
+   "expect_state": "no_evidence",
+   "note": "无记忆地址"
+  },
+  {
+   "id": "x01",
+   "category": "mixed",
+   "input": "你好，我的车牌是多少",
+   "expect_refusal": true,
+   "expect_contains_any": [
+    "没有提到",
+    "不想猜",
+    "记忆里没有",
+    "没有这条"
+   ],
+   "note": "混合句：问候+无记忆事实 ⇒ 不得编造"
+  },
+  {
+   "id": "x02",
+   "category": "mixed",
+   "input": "你好，我的车牌号是多少？",
+   "prelude": [
+    {
+     "action": "remember",
+     "text": "我的车牌号是沪A-12345"
+    }
+   ],
+   "expect_refusal": false,
+   "expect_state": "memory_hit",
+   "expect_block_ids_nonempty": true,
+   "note": "混合句：问候+有记忆事实 ⇒ 正常命中"
+  },
+  {
+   "id": "x03",
+   "category": "mixed",
+   "input": "谢谢，我几点开会？",
+   "prelude": [
+    {
+     "action": "remember",
+     "text": "我每周三下午三点在3楼开会"
+    }
+   ],
+   "expect_refusal": false,
+   "expect_state": "memory_hit",
+   "expect_block_ids_nonempty": true,
+   "note": "混合句：致谢+记忆问题"
+  },
+  {
+   "id": "x04",
+   "category": "mixed",
+   "input": "在吗，我几点开会？",
+   "prelude": [
+    {
+     "action": "remember",
+     "text": "我每周三下午三点在3楼开会"
+    }
+   ],
+   "expect_refusal": false,
+   "expect_state": "memory_hit",
+   "expect_block_ids_nonempty": true,
+   "note": "混合句：在线问候+记忆问题"
+  },
+  {
+   "id": "c01",
+   "category": "chat_followup",
+   "input": "我刚才说要去哪里出差？",
+   "prelude": [
+    {
+     "action": "ask",
+     "text": "我明天要去上海出差"
+    }
+   ],
+   "expect_refusal": false,
+   "expect_state_any": [
+    "chat_only",
+    "memory_hit"
+   ],
+   "note": "对话内追问：不误杀"
+  },
+  {
+   "id": "c02",
+   "category": "chat_followup",
+   "input": "我刚才说要去哪开会？",
+   "prelude": [
+    {
+     "action": "ask",
+     "text": "我下周三去上海开会"
+    }
+   ],
+   "expect_refusal": false,
+   "expect_state_any": [
+    "chat_only",
+    "memory_hit"
+   ],
+   "note": "对话内追问：会议地点"
+  },
+  {
+   "id": "c03",
+   "category": "chat_followup",
+   "input": "我刚才说车牌号是多少？",
+   "prelude": [
+    {
+     "action": "ask",
+     "text": "我的车牌号是沪A-12345"
+    }
+   ],
+   "expect_refusal": false,
+   "expect_state_any": [
+    "chat_only",
+    "memory_hit"
+   ],
+   "note": "对话内追问：车牌"
+  },
+  {
+   "id": "w01",
+   "category": "general_world",
+   "input": "解释一下什么是KV缓存",
+   "expect_refusal": false,
+   "expect_not_contains": [
+    "没有提到",
+    "不想猜",
+    "记忆里没有"
+   ],
+   "note": "世界知识问句不得按个人事实拒答"
+  },
+  {
+   "id": "w02",
+   "category": "general_world",
+   "input": "为什么天是蓝的",
+   "expect_refusal": false,
+   "note": "常识问句"
+  },
+  {
+   "id": "w03",
+   "category": "general_world",
+   "input": "帮我写一个快速排序",
+   "expect_refusal": false,
+   "note": "任务型请求"
+  },
+  {
+   "id": "w04",
+   "category": "general_world",
+   "input": "今天适合穿什么",
+   "expect_refusal": false,
+   "note": "通用建议问句（当前实现可能误拒）"
+  }
+ ]
+}

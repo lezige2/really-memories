@@ -1,0 +1,347 @@
+{
+ "schema": "c_refusal_fix_audit_v1",
+ "audit_id": "C-REFUSAL-FIX-AUDIT",
+ "auditor": "chain-repro",
+ "independent": true,
+ "checked_at": "2026-10-27T16:35:03",
+ "scope": "服务端拒答/寒暄修复（DOC-AUDIT D13/D14）独立审计：CPU-only、只读、未改代码、未重启服务、未 commit",
+ "pins": {
+  "files_sha16": {
+   "evidence_after": "4bf48589863c4ed7",
+   "evidence_before_head": "dccf7f010eaf9c7e",
+   "chat_daily_after": "9b68fdc1cb0f3465",
+   "chat_service": "ec2de0563b34d5e8",
+   "assistant_log": "c474effc7fd357bb",
+   "test_refusal_cpu": "834f6dce0183f2a0",
+   "session_post_4cases": "33bb1ac8bff55853",
+   "session_pre_smalltalk": "31554ed13594ad24",
+   "session_bug1_before": "c17e8d8a7c63c080",
+   "service_log": "33c0d5bc7db6e2c5",
+   "chat_db": "bea458f878af60fd"
+  },
+  "files": {
+   "evidence_after": {
+    "path": "tools/evidence.py",
+    "sha16": "4bf48589863c4ed7",
+    "bytes": 7115
+   },
+   "evidence_before_head": {
+    "path": "tmp/evidence_before.py",
+    "sha16": "dccf7f010eaf9c7e",
+    "bytes": 6997
+   },
+   "chat_daily_after": {
+    "path": "tools/chat_daily.py",
+    "sha16": "9b68fdc1cb0f3465",
+    "bytes": 91433
+   },
+   "chat_service": {
+    "path": "tools/chat_service.py",
+    "sha16": "ec2de0563b34d5e8",
+    "bytes": 28443
+   },
+   "assistant_log": {
+    "path": "tools/assistant_log.py",
+    "sha16": "c474effc7fd357bb",
+    "bytes": 23756
+   },
+   "test_refusal_cpu": {
+    "path": "tools/test_refusal_cpu.py",
+    "sha16": "834f6dce0183f2a0",
+    "bytes": 1723
+   },
+   "session_post_4cases": {
+    "path": "kvmem/daily/assistant/sessions/s-20261027-162713-af04c0.jsonl",
+    "sha16": "33bb1ac8bff55853",
+    "bytes": 4775
+   },
+   "session_pre_smalltalk": {
+    "path": "kvmem/daily/assistant/sessions/s-20261027-162216-345607.jsonl",
+    "sha16": "31554ed13594ad24",
+    "bytes": 4211
+   },
+   "session_bug1_before": {
+    "path": "kvmem/daily/assistant/sessions/s-20261027-135932-625fde.jsonl",
+    "sha16": "c17e8d8a7c63c080",
+    "bytes": 5988
+   },
+   "service_log": {
+    "path": "kvmem/daily/service.log",
+    "sha16": "33c0d5bc7db6e2c5",
+    "bytes": 306
+   },
+   "chat_db": {
+    "path": "kvmem/daily/chat.db",
+    "sha16": "bea458f878af60fd",
+    "bytes": 69632
+   }
+  },
+  "service_code_pin_latest": "chat_daily.py:9b68fdc1cb0f3465 / assistant_log.py:c474effc7fd357bb / chat_service.py:ec2de0563b34d5e8（session 16:27/16:28 session_start pins）",
+  "memory_fact": "chat.db memory_source id=3：'我叫阿泽，今天（2026-10-27）我们做完了 b7 实验，结论是擦边；我的车牌号是京A88888。'（human_memory, 3 memories）"
+ },
+ "bug1_before_after": {
+  "bug": "evidence.py::dialogue_evidence 把单字 u: token 当命中，无记忆问题被误判为对话中已提",
+  "before": {
+   "file": {
+    "path": "tmp/evidence_before.py",
+    "sha16": "dccf7f010eaf9c7e",
+    "bytes": 6997
+   },
+   "source": "git show HEAD:tools/evidence.py",
+   "lines": 147,
+   "sha16_note": "tmp/evidence_before.py 为 git show 原始字节拷贝",
+   "dialogue_evidence_出差": true,
+   "mechanism": "query 的 u:天/u:要 与 hist 的 u:天 相撞；旧实现 return bool(hits) 命中即 True",
+   "live_before": {
+    "session": "kvmem/daily/assistant/sessions/s-20261027-135932-625fde.jsonl",
+    "ts": "2026-10-27T14:24:09+08:00",
+    "q": "我明天要去哪里出差？",
+    "answer": "我是阿泽，今天做了b7实验，结论是擦边",
+    "latency_ms": 4360.0,
+    "tokens_out": 19,
+    "code_pin": "chat_daily.py:639b5497890e110a（旧版）",
+    "note": "旧 evidence 在线上的实际后果：无记忆问题被当 chat_only，模型复述旧上下文"
+   }
+  },
+  "after": {
+   "file": {
+    "path": "tools/evidence.py",
+    "sha16": "4bf48589863c4ed7",
+    "bytes": 7115
+   },
+   "lines": 152,
+   "sha16": "4bf48589863c4ed7",
+   "dialogue_evidence_出差": false,
+   "filter": {
+    "lines": "92-96",
+    "code": "q = [t for t in q if not t.startswith(\"u:\")]; if not q: return False"
+   },
+   "live_after": {
+    "sessions": [
+     "kvmem/daily/assistant/sessions/s-20261027-162216-345607.jsonl",
+     "kvmem/daily/assistant/sessions/s-20261027-162713-af04c0.jsonl"
+    ],
+    "ts": [
+     "2026-10-27T16:22:27+08:00",
+     "2026-10-27T16:28:10+08:00"
+    ],
+    "q": "我明天要去哪里出差？",
+    "event": "refuse",
+    "reason": "fact question without memory hit",
+    "reply": "记忆里没有这条，我不想猜。可以先 /remember 告诉我。",
+    "latency_ms": [
+     11.8,
+     14.1
+    ],
+    "note": "固定拒答、无模型调用（event=refuse，无 answer/model latency）"
+   }
+  },
+  "followup_still_true": {
+   "q": "实验结论是什么？",
+   "before": true,
+   "after": true,
+   "terms_shared": "实验/结论 bigram 仍在"
+  },
+  "diff_summary": {
+   "semantic_diff_lines": 12,
+   "insertions": 5,
+   "deletions": 0,
+   "changed_function": "dialogue_evidence only",
+   "other_functions": "unchanged（decide/intent/常量均未动）",
+   "evidence_file_size": "147→152 lines, 6997→7115 bytes"
+  }
+ },
+ "bug2_before_after": {
+  "bug": "寒暄/能力类无记忆时仍走检索+模型，模型拿旧上下文乱答（你好→京A88888）",
+  "before": {
+   "git_head_available": false,
+   "why": "tools/chat_daily.py 未被 git 跟踪（git ls-files 为空；git cat-file HEAD:tools/chat_daily.py 失败），无法从 HEAD 取修复前版本",
+   "pre_fix_code_pin": "chat_daily.py:639b5497890e110a（session s-20261027-162216-345607 session_start code_files；code_sha16=a98e76c5ab760b0f）",
+   "live_before": {
+    "session": "kvmem/daily/assistant/sessions/s-20261027-162216-345607.jsonl",
+    "ts": "2026-10-27T16:22:31+08:00",
+    "q": "你好",
+    "answer": "京A88888",
+    "latency_ms": 21048.2,
+    "tokens_out": 7,
+    "block_ids": [],
+    "note": "旧版无 _smalltalk_reply，问候走模型；无记忆命中仍被旧上下文污染"
+   }
+  },
+  "after": {
+   "file": {
+    "path": "tools/chat_daily.py",
+    "sha16": "9b68fdc1cb0f3465",
+    "bytes": 91433
+   },
+   "new_symbols": {
+    "_SMALLTALK": "lines 924-933（你好/谢谢/再见/你是谁/你能做什么/帮助 五条锚定正则）",
+    "_smalltalk_reply": "lines 935-943（match 即返回固定句，否则 None）",
+    "call_site": "ask() lines 1283-1300：检索/模型之前拦截；state=smalltalk、block_ids=[]、latency≈0、refused=False"
+   },
+   "live_after": {
+    "session": "kvmem/daily/assistant/sessions/s-20261027-162713-af04c0.jsonl",
+    "cases": [
+     {
+      "q": "你好",
+      "answer": "你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）",
+      "latency_ms": 0.0,
+      "tokens_out": 52,
+      "block_ids": [],
+      "state": "smalltalk"
+     },
+     {
+      "q": "你是谁",
+      "answer": "我是本地 14B 记忆助手：记忆存在 KV 缓存里，不拼进 prompt；记忆里没有的我会说不知道。",
+      "latency_ms": 0.0,
+      "tokens_out": 50,
+      "block_ids": [],
+      "state": "smalltalk"
+     }
+    ]
+   }
+  }
+ },
+ "live_4cases": {
+  "status": "observed_from_existing_service_session_log",
+  "service_down_at_audit": {
+   "checked_at": "2026-10-27T16:35:03",
+   "evidence": [
+    "http://127.0.0.1:8765/health -> ConnectionRefused（16:30-16:33 多次）",
+    "Get-NetTCPConnection 8765 -> TimeWait，无 OwningProcess",
+    "无 chat_service 进程；kvmem/daily/service.log 最后条目 16:28（1×/health + 4×/v1/chat/completions）"
+   ],
+   "action": "按令未重启服务、未发起新 HTTP 请求；采用服务自身最近一次运行（PID 15980，session s-20261027-162713-af04c0）的 session log 作为 live 观察",
+   "caveat": "HTTP 响应头 x_memory.refused 未被日志捕获；per chat_service.py::_completion_body，x_memory.refused=bool(res['refused'])，故由 refuse 事件映射"
+  },
+  "cases": [
+   {
+    "i": 1,
+    "q": "你好",
+    "answer": "你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）",
+    "refused": false,
+    "state": "smalltalk",
+    "block_ids": [],
+    "latency_ms": 0.0,
+    "tokens_out": 52,
+    "x_memory_refused": false,
+    "ts": "2026-10-27T16:28:10+08:00"
+   },
+   {
+    "i": 2,
+    "q": "你是谁",
+    "answer": "我是本地 14B 记忆助手：记忆存在 KV 缓存里，不拼进 prompt；记忆里没有的我会说不知道。",
+    "refused": false,
+    "state": "smalltalk",
+    "block_ids": [],
+    "latency_ms": 0.0,
+    "tokens_out": 50,
+    "x_memory_refused": false,
+    "ts": "2026-10-27T16:28:10+08:00"
+   },
+   {
+    "i": 3,
+    "q": "我明天要去哪里出差？",
+    "answer": "记忆里没有这条，我不想猜。可以先 /remember 告诉我。",
+    "refused": true,
+    "state": "no_evidence",
+    "reason": "fact question without memory hit",
+    "block_ids": [],
+    "latency_ms": 14.1,
+    "tokens_out": 0,
+    "x_memory_refused": true,
+    "ts": "2026-10-27T16:28:10+08:00"
+   },
+   {
+    "i": 4,
+    "q": "我的车牌号是多少？",
+    "answer": "京A88888",
+    "refused": false,
+    "state": "memory_hit",
+    "block_ids": [
+     3
+    ],
+    "retrieval_selected_ids": [
+     3
+    ],
+    "latency_ms": 4175.4,
+    "tokens_out": 7,
+    "x_memory_refused": false,
+    "ts": "2026-10-27T16:28:15+08:00"
+   }
+  ],
+  "source": {
+   "session": "kvmem/daily/assistant/sessions/s-20261027-162713-af04c0.jsonl",
+   "sha16": "33bb1ac8bff55853",
+   "service_pid": 15980,
+   "code_files": [
+    "chat_daily.py:9b68fdc1cb0f3465",
+    "assistant_log.py:c474effc7fd357bb",
+    "chat_service.py:ec2de0563b34d5e8"
+   ],
+   "service_log": "kvmem/daily/service.log"
+  }
+ },
+ "test_rc": {
+  "path": "tools/test_refusal_cpu.py",
+  "sha16": "834f6dce0183f2a0",
+  "bytes": 1723,
+  "rc": 0,
+  "stdout": "checks=13 failed=0\nALL PASS (CPU only)",
+  "covers": [
+   "bogus_history_not_in_chat（bug1 负例）",
+   "real_followup_in_chat（真实追问仍 True）",
+   "unrelated_fact_not_in_chat",
+   "7 个寒暄/能力句 smalltalk 非空",
+   "3 个事实问题不被 smalltalk 吞（None）"
+  ]
+ },
+ "regression_risk": {
+  "verdict": "low-medium",
+  "real_followup_still_answerable": true,
+  "checks": [
+   "实验结论是什么？ → new dialogue_evidence=True（chat_only）",
+   "结论是什么？/擦边结论呢？/b7实验结论是什么？ → 均 True（bigram 仍在）"
+  ],
+  "over_refusal_risk": {
+   "severity": "low-medium",
+   "finding": "过滤全部 u: 单字后，仅含单字引用的短追问不再命中：'天呢？'/'车呢？'/'那明天呢？' → dialogue_evidence=False；chat_daily 的 _product_fact_question 对这些问句返回 True，会走 PRODUCT_REFUSAL 而不是从对话回答",
+   "mitigation_note": "符合 D13 '只认 bigram/实体' 的修复目标；如担心真实短追问误拒，可加'实体/bigram 命中优先，单字仅在与 self-fact 名词相邻时辅助'的二级规则（非本次修复必须）"
+  },
+  "smalltalk_swallow_risk": {
+   "severity": "low",
+   "finding": "_SMALLTALK 全部为 ^...$ 锚定正则；混合事实问题实测返回 None：'你好，我的车牌号是多少？'、'你好，我明天要去哪里出差？'、'谢谢，我还想问我的车牌号'、'帮助我查一下车牌号' 均不吞",
+   "coverage_gap": "未列出的寒暄变体（'早上好'、'你好啊'、'您好呀'、'不客气'）返回 None，仍走模型路径；属覆盖缺口（旧 bug 类对未列问候仍可能存在），非本次修复引入的回归"
+  },
+  "other": [
+   "smalltalk 分支在检索/模型之前、精确匹配才触发，不会绕过记忆事实问题",
+   "evidence 过滤仅删 u: 前缀 token，实体正则/其他 bigram 路径未改",
+   "未修改 decide/intent/REFUSAL/PRODUCT_REFUSAL；service code pins 与 live session 一致"
+  ]
+ },
+ "verdict": {
+  "bug1": "fixed（旧 True→新 False；HEAD 复现 + live 14:24 错答 vs 16:22/16:28 固定拒答）",
+  "bug2": "fixed（旧 live 16:22 你好→京A88888 vs 新 live 16:28 固定寒暄句、latency 0）",
+  "live_4cases": "observed from existing service run（服务审计时已停，按令未重启；HTTP header 未捕获，refused 由 session 事件映射）",
+  "test": "rc=0 / 13 checks / 0 failed",
+  "overall": "pass_with_caveats（两项修复独立验证成立；live 为既有服务日志观察，非新发 HTTP 请求；见 regression_risk）"
+ },
+ "discipline": {
+  "read_only": true,
+  "no_gpu": true,
+  "no_model_call": true,
+  "no_network_new_requests": true,
+  "no_code_change": true,
+  "no_service_restart": true,
+  "no_git_commit": true,
+  "writes": [
+   "out/C-REFUSAL-FIX-AUDIT.json",
+   "tmp/evidence_before.py（仅审计对拍用的 HEAD 字节拷贝）"
+  ]
+ },
+ "signature": {
+  "auditor": "chain-repro",
+  "signed_at": "2026-10-27T16:35:03",
+  "statement": "独立核 DOC-AUDIT D13/D14：bug1 用 git HEAD evidence.py 复现 True，当前实现 False，真实追问仍 True，live 14:24 旧错答 vs 16:22/16:28 固定拒答；bug2 修复前 chat_daily 无 git 版（未跟踪），以 session code pin 639b5497 + live 你好→京A88888 为 before，当前 9b68fdc1 的 _smalltalk_reply 实测固定句、0 latency；test_refusal_cpu 13/13 rc=0；live 4 例取自服务自身 16:27-16:28 session log（审计时服务已停，未重启）。风险 low-medium（短单字追问可能过拒；未列寒暄变体仍走模型）。"
+ }
+}

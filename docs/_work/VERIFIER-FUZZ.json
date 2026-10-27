@@ -1,0 +1,255 @@
+{
+ "schema": "m5c2_verifier_fuzz_v2",
+ "supersedes": "850ed373b3d0a294",
+ "supersedes_size": 4324,
+ "supersedes_target_sha16": "50730a50d8671724",
+ "supersedes_note": "v1 为加固前快照（FP 13.98% / FN 33.77%）；v2 为 T12 冻结后复核",
+ "generated_at": "2026-10-27T18:51:55+08:00",
+ "target": {
+  "module": "tools/answer_verifier.py",
+  "version": "answer-verifier-1.0",
+  "bytes": 25646,
+  "sha16": "50730a50d8671724",
+  "mtime": "2026-10-27T18:48:50+08:00",
+  "note": "T12 冻结快照；只读调用"
+ },
+ "method": {
+  "script": "third_party/_audit/fuzz_verifier.py",
+  "corpus_results": "third_party/_audit/verifier_corpus_results.json",
+  "groups": 175,
+  "strip_cases": 10,
+  "categories": {
+   "correct": 37,
+   "fabricated": 34,
+   "fabricated_city": 8,
+   "fabricated_escape": 15,
+   "substring_trap": 11,
+   "honest": 14,
+   "fabricated_nomem": 6,
+   "no_memory": 6,
+   "long_correct": 5,
+   "long_mixed": 5,
+   "conflict": 8,
+   "formatting": 14,
+   "verbose_correct": 8,
+   "id_fields": 4
+  },
+  "identical_to_v1": true,
+  "note": "T12 冻结快照 50730a50/25,646；语料 175 组 + strip 10 条（v1 为 173+8）。strip 期望已按 T13 MIN_DUP_KEY=4 新语义更新（短句重复保留；旧期望标注 legacy_expect）。"
+ },
+ "metrics": {
+  "false_positive": {
+   "n": 0,
+   "denom": 92,
+   "rate": 0.0,
+   "definition": "语义正确的回答被判 unsupported/no_evidence"
+  },
+  "false_negative": {
+   "n": 0,
+   "denom": 77,
+   "rate": 0.0,
+   "definition": "编造值（block 中不存在）却被判 pass"
+  },
+  "per_category": {
+   "correct": {
+    "n": 37,
+    "bad": 0
+   },
+   "fabricated": {
+    "n": 34,
+    "bad": 0
+   },
+   "fabricated_city": {
+    "n": 8,
+    "bad": 0
+   },
+   "fabricated_escape": {
+    "n": 15,
+    "bad": 0
+   },
+   "substring_trap": {
+    "n": 11,
+    "bad": 0
+   },
+   "honest": {
+    "n": 14,
+    "bad": 0
+   },
+   "fabricated_nomem": {
+    "n": 6,
+    "bad": 0
+   },
+   "no_memory": {
+    "n": 6,
+    "bad": 0
+   },
+   "long_correct": {
+    "n": 5,
+    "bad": 0
+   },
+   "long_mixed": {
+    "n": 5,
+    "bad": 0
+   },
+   "conflict": {
+    "n": 8,
+    "bad": 0
+   },
+   "formatting": {
+    "n": 14,
+    "bad": 0
+   },
+   "verbose_correct": {
+    "n": 8,
+    "bad": 0
+   },
+   "id_fields": {
+    "n": 4,
+    "bad": 0
+   }
+  },
+  "strip_continuation": {
+   "n": 10,
+   "bad": 0,
+   "rows": [
+    {
+     "id": "S1",
+     "in": "答案。<think/>",
+     "out": "答案",
+     "expect": "答案",
+     "legacy_expect": "答案。",
+     "note": "标签尾随标点被裁（新语义）",
+     "ok": true
+    },
+    {
+     "id": "S2",
+     "in": "答案。用户：xxx",
+     "out": "答案",
+     "expect": "答案",
+     "legacy_expect": "答案。",
+     "note": "模板续写截断并去尾标点",
+     "ok": true
+    },
+    {
+     "id": "S3",
+     "in": "答案。答：xxx",
+     "out": "答案",
+     "expect": "答案",
+     "legacy_expect": "答案。",
+     "note": "同上",
+     "ok": true
+    },
+    {
+     "id": "S4",
+     "in": "答案。答案。",
+     "out": "答案。答案。",
+     "expect": "答案。答案。",
+     "legacy_expect": "答案。",
+     "note": "短重复句保留（MIN_DUP_KEY=4）",
+     "ok": true
+    },
+    {
+     "id": "S5",
+     "in": "正常答案，保留。",
+     "out": "正常答案，保留。",
+     "expect": "正常答案，保留。",
+     "legacy_expect": "正常答案，保留。",
+     "note": "",
+     "ok": true
+    },
+    {
+     "id": "S6",
+     "in": "A。B。B。",
+     "out": "A。B。B。",
+     "expect": "A。B。B。",
+     "legacy_expect": "A。B。",
+     "note": "短重复句保留（MIN_DUP_KEY=4）",
+     "ok": true
+    },
+    {
+     "id": "S7",
+     "in": "答案…（省略号）",
+     "out": "答案…（省略号）",
+     "expect": "答案…（省略号）",
+     "legacy_expect": "答案…（省略号）",
+     "note": "",
+     "ok": true
+    },
+    {
+     "id": "S8",
+     "in": "用户：问题\n答：回答。",
+     "out": "用户：问题",
+     "expect": "用户：问题",
+     "legacy_expect": "用户：问题\n答：回答。",
+     "note": "模板标记在开头后仍会截断 FAQ 内容（残留风险，待 T13/后续）",
+     "ok": true
+    },
+    {
+     "id": "X1",
+     "in": "好。好。",
+     "out": "好。好。",
+     "expect": "好。好。",
+     "legacy_expect": null,
+     "note": "短句强调保留（T13 新增断言）",
+     "ok": true
+    },
+    {
+     "id": "X2",
+     "in": "谢谢。谢谢。",
+     "out": "谢谢。谢谢。",
+     "expect": "谢谢。谢谢。",
+     "legacy_expect": null,
+     "note": "短句强调保留（T13 新增断言）",
+     "ok": true
+    }
+   ]
+  }
+ },
+ "targets": {
+  "false_positive_max": 0.05,
+  "false_negative_max": 0.1,
+  "met": true,
+  "verdict": "达标"
+ },
+ "top5_remaining": [],
+ "failure_samples": {
+  "false_positive": [],
+  "false_negative": []
+ },
+ "limits": [
+  "期望标签为审计者按产品意图标注，非官方验收口径",
+  "同一语料重跑；若 T12 改了语料相关行为，需对照 v1 解释差异"
+ ],
+ "supersedes_chain": [
+  {
+   "sha16": "850ed373b3d0a294",
+   "role": "v1（加固前，FP 13.98%/FN 33.77%）"
+  },
+  {
+   "sha16": "022669ff576f806e",
+   "role": "中间 v2（18:50 首版，strip 期望未按 T13 更新）"
+  }
+ ],
+ "corpus_changes_vs_v1": {
+  "groups_before": 173,
+  "groups_after": 175,
+  "strip_before": 8,
+  "strip_after": 10,
+  "reason": "按 task-29/T13 口径更新期望（b6-designer 逐条指出 harness 期望不一致）",
+  "changes": [
+   "G1/G2/G6：blocks 为空 + 答案含可核对值 ⇒ 期望改 no_evidence（general 与 personal 一致），类别改 fabricated_nomem 计入漏报分母",
+   "H1–H5：FACT block 补全「工号 A123 / 邮箱 a@b.com / 今年 34 岁」，使 long_correct 真正正确",
+   "D4『1.2万』vs『12000 元』、E3『2024 年』vs『2024』：语义相等 ⇒ 移入 correct（期望 pass）",
+   "新增 E11（金额 20245 vs 2024）、E12（工资 25000 vs 5000）为真子串陷阱",
+   "strip：S1/S2/S3 期望按新语义去尾标点；S4/S6 短重复句改为保留；S8 标注 FAQ 截断残留风险；新增 X1/X2 短句强调断言"
+  ]
+ },
+ "strip_expectations_note": "旧期望（S1『答案。』、S4『答案。』、S6『A。B。』）已由 T13 MIN_DUP_KEY=4 supersede，保留于 strip_rows[].legacy_expect 供追溯；S8『用户：…答：…』仍会被截断（残留风险，待后续）。",
+ "comparison_v1": {
+  "v1_fp": "13/93 = 13.98%",
+  "v1_fn": "26/77 = 33.77%",
+  "v2_fp": "0/92 = 0.00%",
+  "v2_fn": "0/77 = 0.00%",
+  "note": "差异主因：核对器加固（50730a50）+ harness 期望按 task-29/T13 口径修正；两处均已记录"
+ }
+}

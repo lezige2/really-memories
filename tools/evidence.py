@@ -89,6 +89,11 @@ def dialogue_evidence(query, transcript):
     q = _content_terms(query)
     if not q:
         return False
+    # 只认 bigram/实体级命中；单字（"u:天"/"u:要" 等）会与任意对话误撞，
+    # 导致"没记忆也当作文中已提"从而编造。详见 DOC-AUDIT D13。
+    q = [t for t in q if not t.startswith("u:")]
+    if not q:
+        return False
     chat = set(_content_terms(transcript))
     hits = [t for t in q if t in chat]
     ents = [e for e in re.findall(r"[a-zA-Z]{1,4}-?\d+(?:[.\-]\d+)*", (query or "").lower())]

@@ -179,3 +179,47 @@ kvmem/m2_visibility/m7/out/tmp/
 # 放置位置同样关键：必须放在所有 `!docs/_work/**` 之类放行规则之后，靠「最后匹配者胜」翻盘。
 *.md
 !/README.md
+
+# ===== 2026-10-27 P1（T15 事故后）：把这些目录纳入版本控制 =====
+# 事故根因之一：tools/chat_daily.py 从未 git add（不是被 .gitignore 排除——`*.py` 无忽略规则），
+# 因此损坏后无法 checkout 回滚。以下按"最后匹配者胜"在文件末尾放行；放行后再压住危险后缀。
+!tools/
+!tools/**
+!training/
+!training/**
+!docs/
+!docs/**
+!out/
+!out/**
+!tmp/
+!tmp/**
+
+# 放行后的安全兜底（必须在上面的 ! 之后；最后匹配者胜）
+**/*.gguf
+**/*.ggml
+**/*.safetensors
+**/*.onnx
+**/*.kvmem
+**/*.kvmem.*
+tools/**/*.exe
+tools/**/*.dll
+tools/**/*.pyc
+tools/**/__pycache__/
+tools/**/*.bak
+tools/**/*.bak-*
+tools/**/*.before-final.bak
+training/**/*.pyc
+training/**/__pycache__/
+tmp/**/*.db
+tmp/**/*.db-wal
+tmp/**/*.db-shm
+tmp/**/*.sqlite
+tmp/**/*.sqlite3
+tmp/**/*.pyc
+tmp/**/__pycache__/
+tmp/**/*.log
+docs/_work/archive/
+third_party/
+tools/**/*.log
+**/node_modules/
+tmp/asar/node_modules/

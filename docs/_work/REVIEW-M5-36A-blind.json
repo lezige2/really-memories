@@ -1,0 +1,252 @@
+{
+ "schema": "m5_36a_review_v1",
+ "reviewer": "independent-subagent-blind",
+ "blinding": "labels fixed without reading ADJ/JUDGE/intent/result files",
+ "source_texts": [
+  "我住在广陵路 12 号 2 单元 602。",
+  "项目代号蓝鲸，计划 3 月 14 日上线。",
+  "我的咖啡只喝美式，不加糖。"
+ ],
+ "rows": [
+  {
+   "pair_id": "P01",
+   "orig": "我的车牌号是苏A12345。",
+   "rewrite": "我的车牌号是苏A12345。",
+   "label_orig": "unsupported",
+   "label_rewrite": "unsupported",
+   "reason": "苏A12345 这一号牌硬事实未在三条源文中出现，属无中生有。"
+  },
+  {
+   "pair_id": "P02",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "我住在广陵路 12 号 2 单元 602。",
+   "label_orig": "supported",
+   "label_rewrite": "supported",
+   "reason": "广陵路、12、2、602 全部命中 home 源文，无新增硬事实。"
+  },
+  {
+   "pair_id": "P03",
+   "orig": "我的车牌号是苏A12345。",
+   "rewrite": "车牌号苏A12345。",
+   "label_orig": "unsupported",
+   "label_rewrite": "unsupported",
+   "reason": "苏A12345 这一号牌硬事实未在源文中出现，仅语序改变。"
+  },
+  {
+   "pair_id": "P04",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "广陵路 12 号 2 单元 602 是我的住处。",
+   "label_orig": "supported",
+   "label_rewrite": "supported",
+   "reason": "广陵路、12、2、602 全部命中；“住处”为泛指而非硬事实。"
+  },
+  {
+   "pair_id": "P05",
+   "orig": "我的车牌号是苏A12345。",
+   "rewrite": "问：车牌号是多少？答：苏A12345。",
+   "label_orig": "unsupported",
+   "label_rewrite": "unsupported",
+   "reason": "答句中的苏A12345 未在源文出现，问句部分不含硬事实。"
+  },
+  {
+   "pair_id": "P06",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目将在 3 月 14 日上线。",
+   "label_orig": "supported",
+   "label_rewrite": "supported",
+   "reason": "3 月 14 日命中 project 源文；删去“蓝鲸”不新增硬事实。"
+  },
+  {
+   "pair_id": "P07",
+   "orig": "我的车牌号是苏A12345。",
+   "rewrite": "车牌号是B3F19K。",
+   "label_orig": "unsupported",
+   "label_rewrite": "unsupported",
+   "reason": "B3F19K 未在源文出现，替换掉了源文的苏A12345。"
+  },
+  {
+   "pair_id": "P08",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目将在三月十四号上线。",
+   "label_orig": "supported",
+   "label_rewrite": "supported",
+   "reason": "“三月十四号”与源文 3 月 14 日为同一日期，无新增硬事实。"
+  },
+  {
+   "pair_id": "P09",
+   "orig": "我的住址是广陵路 12 号 2 单元 603。",
+   "rewrite": "我的住址是广陵路 12 号 2 单元 603。",
+   "label_orig": "unsupported",
+   "label_rewrite": "unsupported",
+   "reason": "603 与源文 602 不符，数字硬事实未命中。"
+  },
+  {
+   "pair_id": "P10",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "我住广陵路 12 号 2 单元 602。",
+   "label_orig": "supported",
+   "label_rewrite": "supported",
+   "reason": "广陵路、12、2、602 全部命中，仅删去虚词“在”。"
+  },
+  {
+   "pair_id": "P11",
+   "orig": "我的住址是广陵路 12 号 2 单元 603。",
+   "rewrite": "不是 602，我住在广陵路 12 号 2 单元 603。",
+   "label_orig": "unsupported",
+   "label_rewrite": "unsupported",
+   "reason": "603 未在源文（源文为 602）；否定语境里的 602 本身命中，但 603 仍属无中生有。"
+  },
+  {
+   "pair_id": "P12",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目计划在 3 月 14 日上线，代号蓝鲸。",
+   "label_orig": "supported",
+   "label_rewrite": "supported",
+   "reason": "蓝鲸、3 月 14 日均命中 project 源文，仅调整语序。"
+  },
+  {
+   "pair_id": "P13",
+   "orig": "我住在杭州西湖边。",
+   "rewrite": "我住在杭州西湖边。",
+   "label_orig": "unsupported",
+   "label_rewrite": "unsupported",
+   "reason": "杭州、西湖两地名未在源文出现（源文为广陵路）。"
+  },
+  {
+   "pair_id": "P14",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目代号是蓝鲸。",
+   "label_orig": "supported",
+   "label_rewrite": "supported",
+   "reason": "蓝鲸命中；删去日期不新增硬事实。"
+  },
+  {
+   "pair_id": "P15",
+   "orig": "项目将在 3 月 15 日上线。",
+   "rewrite": "项目将在 3 月 15 日上线。",
+   "label_orig": "unsupported",
+   "label_rewrite": "unsupported",
+   "reason": "3 月 15 日与源文 3 月 14 日不符。"
+  },
+  {
+   "pair_id": "P16",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "问：项目代号是什么？答：蓝鲸。",
+   "label_orig": "supported",
+   "label_rewrite": "supported",
+   "reason": "项目代号、蓝鲸均命中 project 源文，问句部分不含硬事实。"
+  },
+  {
+   "pair_id": "P17",
+   "orig": "项目将在 3 月 15 日上线。",
+   "rewrite": "项目上线时间定在 3 月 15 日，我记得是这样。",
+   "label_orig": "unsupported",
+   "label_rewrite": "unsupported",
+   "reason": "3 月 15 日不符；“我记得是这样”属不确定表述豁免，但不豁免该日期硬事实。"
+  },
+  {
+   "pair_id": "P18",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "我现在的住处是广陵路 12 号 2 单元 602，一直没搬。",
+   "label_orig": "supported",
+   "label_rewrite": "supported",
+   "reason": "602 等全部命中；“现在”“一直没搬”为时间副词/修辞，非硬事实。"
+  },
+  {
+   "pair_id": "P19",
+   "orig": "项目将在 3 月 16 日上线。",
+   "rewrite": "项目将在 3 月 16 日上线。",
+   "label_orig": "unsupported",
+   "label_rewrite": "unsupported",
+   "reason": "3 月 16 日与源文 3 月 14 日不符。"
+  },
+  {
+   "pair_id": "P20",
+   "orig": "我住在广陵路 12 号 2 单元 602。",
+   "rewrite": "问：你住哪里？答：广陵路 12 号 2 单元 602。",
+   "label_orig": "supported",
+   "label_rewrite": "supported",
+   "reason": "广陵路、12、2、602 全部命中，问句部分不含硬事实。"
+  },
+  {
+   "pair_id": "P21",
+   "orig": "项目代号是海豚。",
+   "rewrite": "项目代号是海豚。",
+   "label_orig": "unsupported",
+   "label_rewrite": "unsupported",
+   "reason": "海豚与源文 蓝鲸 不符，专有名词未命中。"
+  },
+  {
+   "pair_id": "P22",
+   "orig": "我的咖啡只喝美式，不加糖。",
+   "rewrite": "我喝咖啡只喝美式，不加糖。",
+   "label_orig": "supported",
+   "label_rewrite": "supported",
+   "reason": "美式、不加糖命中 habit 源文，仅调整语序。"
+  },
+  {
+   "pair_id": "P23",
+   "orig": "我喝咖啡习惯是拿铁，加双份糖。",
+   "rewrite": "我喝咖啡习惯是拿铁，加双份糖。",
+   "label_orig": "unsupported",
+   "label_rewrite": "unsupported",
+   "reason": "拿铁、双份糖未在源文出现（源文为美式、不加糖）。"
+  },
+  {
+   "pair_id": "P24",
+   "orig": "我的咖啡只喝美式，不加糖。",
+   "rewrite": "问：喝咖啡有什么习惯？答：只喝美式，不加糖。",
+   "label_orig": "supported",
+   "label_rewrite": "supported",
+   "reason": "美式、不加糖命中，问句部分不含硬事实。"
+  },
+  {
+   "pair_id": "P25",
+   "orig": "我只喝龙井茶，不加糖。",
+   "rewrite": "我只喝龙井茶，不加糖。",
+   "label_orig": "unsupported",
+   "label_rewrite": "unsupported",
+   "reason": "龙井茶未在源文出现（源文为美式咖啡）。"
+  },
+  {
+   "pair_id": "P26",
+   "orig": "我的咖啡只喝美式，不加糖。",
+   "rewrite": "我的咖啡习惯是只喝美式，不加糖，别的都不喝。",
+   "label_orig": "supported",
+   "label_rewrite": "supported",
+   "reason": "咖啡、美式、不加糖命中；“别的都不喝”为泛指，非硬事实。"
+  },
+  {
+   "pair_id": "P27",
+   "orig": "我的手机号是 13800001234。",
+   "rewrite": "我的手机号是 13800001234。",
+   "label_orig": "unsupported",
+   "label_rewrite": "unsupported",
+   "reason": "13800001234 未在源文出现，属无中生有的号码硬事实。"
+  },
+  {
+   "pair_id": "P28",
+   "orig": "我的咖啡只喝美式，不加糖。",
+   "rewrite": "我的咖啡只喝美式，不加糖。",
+   "label_orig": "supported",
+   "label_rewrite": "supported",
+   "reason": "咖啡、美式、不加糖全部命中 habit 源文。"
+  },
+  {
+   "pair_id": "P29",
+   "orig": "我住在广陵路 12 号 2 单元 601。",
+   "rewrite": "我住在广陵路 12 号 2 单元 601。",
+   "label_orig": "unsupported",
+   "label_rewrite": "unsupported",
+   "reason": "601 与源文 602 不符，数字硬事实未命中。"
+  },
+  {
+   "pair_id": "P30",
+   "orig": "项目代号蓝鲸，计划 3 月 14 日上线。",
+   "rewrite": "项目代号蓝鲸，计划在 3 月 14 日上线。",
+   "label_orig": "supported",
+   "label_rewrite": "supported",
+   "reason": "蓝鲸、3 月 14 日均命中，仅增加虚词“在”。"
+  }
+ ]
+}

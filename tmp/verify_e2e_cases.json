@@ -1,0 +1,526 @@
+{
+ "schema": "verify_e2e_cases_v1",
+ "fallback_text": "这条我没法从记忆里核对，先不猜。",
+ "source": "T6：生成→核对→一次修复→固定兜底 端到端 A/B（VERIFY on/off）；fake engine（零 GPU），mount 路径确定性验证。",
+ "notes": "worker 中把 chat_daily._iso 置 None（fake engine 无独立 seq；isolated 路径由 CPU 用例覆盖），web_lookup mock 为 None；每条 case 独立 db/blocks/sessions。",
+ "cases": [
+  {
+   "id": "c01",
+   "category": "correct_primary",
+   "memory": [
+    "我的车牌号是沪A-12345"
+   ],
+   "question": "我的车牌号是多少？",
+   "primary": "沪A-12345。",
+   "expect_on": {
+    "final_contains": [
+     "沪A-12345"
+    ],
+    "fallback": false,
+    "verified": true,
+    "attempts": 0
+   }
+  },
+  {
+   "id": "c02",
+   "category": "correct_primary",
+   "memory": [
+    "我每周三下午3点在3楼开会"
+   ],
+   "question": "我几点开会？",
+   "primary": "下午3点。",
+   "expect_on": {
+    "final_contains": [
+     "3点"
+    ],
+    "fallback": false,
+    "verified": true,
+    "attempts": 0
+   }
+  },
+  {
+   "id": "c03",
+   "category": "correct_primary",
+   "memory": [
+    "我每周三下午3点在3楼开会"
+   ],
+   "question": "我在几楼开会？",
+   "primary": "3楼。",
+   "expect_on": {
+    "final_contains": [
+     "3楼"
+    ],
+    "fallback": false,
+    "verified": true,
+    "attempts": 0
+   }
+  },
+  {
+   "id": "c04",
+   "category": "correct_primary",
+   "memory": [
+    "我下周三去上海开会"
+   ],
+   "question": "我下周三去哪开会？",
+   "primary": "去上海开会。",
+   "expect_on": {
+    "final_contains": [
+     "上海"
+    ],
+    "fallback": false,
+    "verified": true,
+    "attempts": 0
+   }
+  },
+  {
+   "id": "c05",
+   "category": "correct_primary",
+   "memory": [
+    "我只喝美式咖啡，不吃香菜"
+   ],
+   "question": "我喝什么咖啡？",
+   "primary": "美式咖啡。",
+   "expect_on": {
+    "final_contains": [
+     "美式咖啡"
+    ],
+    "fallback": false,
+    "verified": true,
+    "attempts": 0
+   }
+  },
+  {
+   "id": "c06",
+   "category": "correct_primary",
+   "memory": [
+    "换屏价是680元"
+   ],
+   "question": "换屏多少钱？",
+   "primary": "680元。",
+   "expect_on": {
+    "final_contains": [
+     "680"
+    ],
+    "fallback": false,
+    "verified": true,
+    "attempts": 0
+   }
+  },
+  {
+   "id": "r01",
+   "category": "wrong_repair_ok",
+   "memory": [
+    "我的车牌号是沪A-12345"
+   ],
+   "question": "我的车牌号是多少？",
+   "primary": "京A88888。",
+   "repair": "沪A-12345。",
+   "expect_on": {
+    "final_contains": [
+     "沪A-12345"
+    ],
+    "final_not_contains": [
+     "京A88888"
+    ],
+    "fallback": false,
+    "verified": true,
+    "attempts": 1
+   }
+  },
+  {
+   "id": "r02",
+   "category": "wrong_repair_ok",
+   "memory": [
+    "我每周三下午3点在3楼开会"
+   ],
+   "question": "我几点开会？",
+   "primary": "5点。",
+   "repair": "3点。",
+   "expect_on": {
+    "final_contains": [
+     "3点"
+    ],
+    "final_not_contains": [
+     "5点"
+    ],
+    "fallback": false,
+    "verified": true,
+    "attempts": 1
+   }
+  },
+  {
+   "id": "r03",
+   "category": "wrong_repair_ok",
+   "memory": [
+    "我每周三下午3点在3楼开会"
+   ],
+   "question": "我在几楼开会？",
+   "primary": "5楼。",
+   "repair": "3楼。",
+   "expect_on": {
+    "final_contains": [
+     "3楼"
+    ],
+    "final_not_contains": [
+     "5楼"
+    ],
+    "fallback": false,
+    "verified": true,
+    "attempts": 1
+   }
+  },
+  {
+   "id": "r04",
+   "category": "wrong_repair_ok",
+   "memory": [
+    "我明天要去北京出差"
+   ],
+   "question": "我明天去哪出差？",
+   "primary": "去上海出差。",
+   "repair": "去北京出差。",
+   "expect_on": {
+    "final_contains": [
+     "北京"
+    ],
+    "final_not_contains": [
+     "上海"
+    ],
+    "fallback": false,
+    "verified": true,
+    "attempts": 1
+   }
+  },
+  {
+   "id": "r05",
+   "category": "wrong_repair_ok",
+   "memory": [
+    "换屏价是680元"
+   ],
+   "question": "换屏多少钱？",
+   "primary": "599元。",
+   "repair": "680元。",
+   "expect_on": {
+    "final_contains": [
+     "680"
+    ],
+    "final_not_contains": [
+     "599"
+    ],
+    "fallback": false,
+    "verified": true,
+    "attempts": 1
+   }
+  },
+  {
+   "id": "r06",
+   "category": "wrong_repair_ok",
+   "memory": [
+    "我只喝美式咖啡，不吃香菜"
+   ],
+   "question": "我喝什么咖啡？",
+   "primary": "拿铁。",
+   "repair": "美式咖啡。",
+   "expect_on": {
+    "final_contains": [
+     "美式咖啡"
+    ],
+    "final_not_contains": [
+     "拿铁"
+    ],
+    "fallback": false,
+    "verified": true,
+    "attempts": 1
+   }
+  },
+  {
+   "id": "r07",
+   "category": "wrong_repair_ok",
+   "memory": [
+    "我下周三改去B座302"
+   ],
+   "question": "我下周三去哪开会？",
+   "primary": "去上海开会。",
+   "repair": "去B座302开会。",
+   "expect_on": {
+    "final_contains": [
+     "B座302"
+    ],
+    "final_not_contains": [
+     "上海"
+    ],
+    "fallback": false,
+    "verified": true,
+    "attempts": 1
+   }
+  },
+  {
+   "id": "r08",
+   "category": "wrong_repair_ok",
+   "memory": [
+    "我在2026-10-27提交材料"
+   ],
+   "question": "我什么时候提交材料？",
+   "primary": "2026-11-01。",
+   "repair": "2026-10-27。",
+   "expect_on": {
+    "final_contains": [
+     "2026-10-27"
+    ],
+    "final_not_contains": [
+     "2026-11-01"
+    ],
+    "fallback": false,
+    "verified": true,
+    "attempts": 1
+   }
+  },
+  {
+   "id": "f01",
+   "category": "wrong_repair_fail",
+   "memory": [
+    "我的车牌号是沪A-12345"
+   ],
+   "question": "我的车牌号是多少？",
+   "primary": "京A88888。",
+   "repair": "粤B99999。",
+   "expect_on": {
+    "fallback": true,
+    "final_not_contains": [
+     "京A88888",
+     "粤B99999"
+    ]
+   }
+  },
+  {
+   "id": "f02",
+   "category": "wrong_repair_fail",
+   "memory": [
+    "我每周三下午3点在3楼开会"
+   ],
+   "question": "我几点开会？",
+   "primary": "5点。",
+   "repair": "",
+   "expect_on": {
+    "fallback": true,
+    "final_not_contains": [
+     "5点"
+    ]
+   }
+  },
+  {
+   "id": "f03",
+   "category": "wrong_repair_honest",
+   "memory": [
+    "我每周三下午3点在3楼开会"
+   ],
+   "question": "我几点开会？",
+   "primary": "5点。",
+   "repair": "这个我不知道。",
+   "expect_on": {
+    "final_contains": [
+     "不知道"
+    ],
+    "fallback": false,
+    "final_not_contains": [
+     "5点"
+    ]
+   }
+  },
+  {
+   "id": "f04",
+   "category": "wrong_repair_fail",
+   "memory": [
+    "换屏价是680元"
+   ],
+   "question": "换屏多少钱？",
+   "primary": "599元。",
+   "repair": "999元。",
+   "expect_on": {
+    "fallback": true,
+    "final_not_contains": [
+     "599",
+     "999"
+    ]
+   }
+  },
+  {
+   "id": "n01",
+   "category": "no_memory_fabricate",
+   "memory": [],
+   "question": "我的工号是多少？",
+   "primary": "工号是8848。",
+   "expect_on": {
+    "fallback": "any",
+    "allow_refusal": true,
+    "final_not_contains": [
+     "8848"
+    ]
+   }
+  },
+  {
+   "id": "n02",
+   "category": "no_memory_fabricate",
+   "memory": [],
+   "question": "我的车牌号是多少？",
+   "primary": "沪A-12345。",
+   "expect_on": {
+    "fallback": "any",
+    "allow_refusal": true,
+    "final_not_contains": [
+     "沪A-12345"
+    ]
+   }
+  },
+  {
+   "id": "n03",
+   "category": "no_memory_fabricate",
+   "memory": [],
+   "question": "我下周三去哪开会？",
+   "primary": "去上海开会。",
+   "expect_on": {
+    "fallback": "any",
+    "allow_refusal": true,
+    "final_not_contains": [
+     "上海"
+    ]
+   }
+  },
+  {
+   "id": "n04",
+   "category": "no_memory_fabricate",
+   "memory": [],
+   "question": "我明天去哪出差？",
+   "primary": "去北京出差。",
+   "expect_on": {
+    "fallback": "any",
+    "allow_refusal": true,
+    "final_not_contains": [
+     "北京"
+    ]
+   }
+  },
+  {
+   "id": "h01",
+   "category": "honest_refusal",
+   "memory": [
+    "我养了一只猫叫豆豆"
+   ],
+   "question": "我几点开会？",
+   "primary": "这个记忆里没有，我不确定。",
+   "expect_on": {
+    "allow_refusal": true,
+    "fallback": "any"
+   }
+  },
+  {
+   "id": "h02",
+   "category": "honest_refusal",
+   "memory": [
+    "我养了一只猫叫豆豆"
+   ],
+   "question": "我的车牌号是多少？",
+   "primary": "没有记录，我不知道。",
+   "expect_on": {
+    "allow_refusal": true,
+    "fallback": "any"
+   }
+  },
+  {
+   "id": "h03",
+   "category": "honest_refusal",
+   "memory": [
+    "我养了一只猫叫豆豆"
+   ],
+   "question": "我明天去哪出差？",
+   "primary": "未提及出差地点。",
+   "expect_on": {
+    "allow_refusal": true,
+    "fallback": "any"
+   }
+  },
+  {
+   "id": "w01",
+   "category": "general_world",
+   "memory": [],
+   "question": "北京是哪个国家的首都？",
+   "primary": "中国的首都。",
+   "expect_on": {
+    "final_contains": [
+     "中国"
+    ],
+    "fallback": false,
+    "verify_skipped": true
+   }
+  },
+  {
+   "id": "w02",
+   "category": "general_world",
+   "memory": [],
+   "question": "解释一下什么是KV缓存",
+   "primary": "KV 缓存是推理缓存技术。",
+   "expect_on": {
+    "final_contains": [
+     "KV"
+    ],
+    "fallback": false,
+    "verify_skipped": true
+   }
+  },
+  {
+   "id": "w03",
+   "category": "general_world",
+   "memory": [],
+   "question": "为什么天是蓝的",
+   "primary": "瑞利散射导致的。",
+   "expect_on": {
+    "final_contains": [
+     "散射"
+    ],
+    "fallback": false,
+    "verify_skipped": true
+   }
+  },
+  {
+   "id": "st01",
+   "category": "statement_ack",
+   "memory": [],
+   "question": "我下周三去上海开会",
+   "primary": "好，记下了。",
+   "expect_on": {
+    "final_contains_any": [
+     "记下",
+     "记住",
+     "明白",
+     "收到"
+    ],
+    "fallback": false,
+    "state_any": [
+     "ack",
+     "memory_hit",
+     "natural"
+    ]
+   }
+  },
+  {
+   "id": "st02",
+   "category": "statement_ack",
+   "memory": [],
+   "question": "我的车牌号是沪A-12345",
+   "primary": "嗯，记住了。",
+   "expect_on": {
+    "final_contains_any": [
+     "记下",
+     "记住",
+     "明白",
+     "收到"
+    ],
+    "fallback": false,
+    "state_any": [
+     "ack",
+     "memory_hit",
+     "natural"
+    ]
+   }
+  }
+ ]
+}

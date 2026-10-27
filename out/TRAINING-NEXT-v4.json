@@ -1,0 +1,281 @@
+{
+ "schema": "training_next_v4",
+ "role": "T11 下一轮修什么（v4 语义判据；真实失败分组，按条数排序）",
+ "generated_at": "2026-10-27T22:12:57+0800",
+ "source": {
+  "path": "out/TRAINING-EVAL-v4.json",
+  "sha256": "319f725e919a15d9b5157ee9b382ba5673ef9d2b4271e7393a8d02480ac6118f",
+  "n_valid": 78,
+  "pass_rate": 0.820513
+ },
+ "summary": {
+  "pass_rate": 0.820513,
+  "pass": 64,
+  "n": 78,
+  "by_category": {
+   "greeting": 1.0,
+   "identity": 0.625,
+   "capability": 1.0,
+   "exclamation": 1.0,
+   "memory_qa": 0.571429,
+   "auto_memory": 0.833333,
+   "unknown_refusal": 1.0,
+   "mixed": 0.75,
+   "networking": 0.4,
+   "general_world": 1.0,
+   "chat_followup": 1.0
+  },
+  "failure_classes": {
+   "身份": 3,
+   "记忆漏": 8,
+   "僵硬": 2,
+   "联网无来源": 1
+  }
+ },
+ "items": [
+  {
+   "rank": 1,
+   "failure_group": "memory_retrieval",
+   "label": "记忆检索/消歧",
+   "count": 5,
+   "ids": [
+    "m02",
+    "m03",
+    "s01",
+    "s03",
+    "x03"
+   ],
+   "evidence": [
+    {
+     "id": "m02",
+     "category": "memory_qa",
+     "input": "我叫什么名字？",
+     "answer": "记不清你的名字了，你可以告诉我吗",
+     "state": "natural",
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 memory_hit，实际 general（state='natural', blocks=[]）",
+      "缺内容：['阿泽'] 均未出现"
+     ]
+    },
+    {
+     "id": "m03",
+     "category": "memory_qa",
+     "input": "我的组会在哪开？",
+     "answer": "记不清你的组会在哪儿开了，你可以提醒我一下具体地点吗",
+     "state": "natural",
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 memory_hit，实际 general（state='natural', blocks=[]）",
+      "缺内容：['302', 'B座'] 均未出现"
+     ]
+    },
+    {
+     "id": "s01",
+     "category": "memory_qa",
+     "input": "我明年一月要去哪出差？",
+     "answer": "记不清你明年一月的出差安排了，你可以查一下日程或者告诉我具体信息",
+     "state": "natural",
+     "block_ids": [
+      17,
+      4,
+      6,
+      5
+     ],
+     "problems": [
+      "缺内容：['拉萨'] 均未出现"
+     ]
+    },
+    {
+     "id": "s03",
+     "category": "memory_qa",
+     "input": "我养的猫叫什么名字？",
+     "answer": "您没有提供猫的名字，因此我无法回答您的问题。您可以告诉我它的名字，或者如果您还没有给它起名字，也可以告诉我一些关于它的信息，或许我可以帮助您一起想一个合适的名字",
+     "state": "natural",
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 memory_hit，实际 general（state='natural', blocks=[]）",
+      "不应出现内容：'无法'",
+      "缺内容：['豆豆'] 均未出现"
+     ]
+    },
+    {
+     "id": "x03",
+     "category": "mixed",
+     "input": "在吗，我几点开会？",
+     "answer": "关于您会议的具体时间，我没有相关信息。如果您有具体的会议安排，建议您查看日历、会议邀请或者询问组织会议的相关人员。如果您不确定会议时间，最好尽快确认，以免错过会议",
+     "state": "natural",
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 memory_hit，实际 general（state='natural', blocks=[]）",
+      "缺内容：['七点', '7点', '19点', '302'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "记忆检索（topk/词面召回的实体归一、冲突合并）"
+  },
+  {
+   "rank": 2,
+   "failure_group": "web",
+   "label": "联网/实时信息无来源",
+   "count": 3,
+   "ids": [
+    "w03",
+    "w04",
+    "w05"
+   ],
+   "evidence": [
+    {
+     "id": "w03",
+     "category": "networking",
+     "input": "明天北京限行尾号是多少",
+     "answer": "北京的机动车限行尾号规则通常每周会有所变化，具体规则会提前公布。你可以查询北京市交通委员会的官方网站或相关的交通信息平台，获取明天北京限行尾号的具体信息。这样可以确保你获得最准确和最新的限行规定",
+     "state": "natural",
+     "block_ids": [],
+     "problems": [
+      "缺内容：['无法', '不能', '不知道', '没有', '不联网'] 均未出现"
+     ]
+    },
+    {
+     "id": "w04",
+     "category": "networking",
+     "input": "现在几点了",
+     "answer": "当前时间是2026年10月27日星期二21:41",
+     "state": "natural",
+     "block_ids": [],
+     "problems": [
+      "缺内容：['无法', '不能', '不知道', '没有', '不联网'] 均未出现"
+     ]
+    },
+    {
+     "id": "w05",
+     "category": "networking",
+     "input": "帮我查一下明天的新闻",
+     "answer": "您提供的资料似乎与明天的新闻无关，而是关于百度搜索引擎的信息。要获取明天的新闻，建议您查看新闻网站或使用新闻应用，如新华社、央视新闻、新浪新闻等，这些平台通常会提供最新的新闻资讯。您可以直接访问这些网站或使用相应的应用程序来获取明天的新闻信息\n（来源：Bing 检索）",
+     "state": "web",
+     "block_ids": [],
+     "problems": [
+      "不应出现内容：'来源：'",
+      "缺内容：['无法', '不能', '不知道', '没有', '不联网', '抱歉'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "web 分支（web_lookup/_should_search 与拒答话术）"
+  },
+  {
+   "rank": 3,
+   "failure_group": "verify",
+   "label": "verify 兜底过严/未命中",
+   "count": 2,
+   "ids": [
+    "m06",
+    "m08"
+   ],
+   "evidence": [
+    {
+     "id": "m06",
+     "category": "memory_qa",
+     "input": "我下周三要去哪出差？",
+     "answer": "这条我没法从记忆里核对，先不猜。",
+     "state": "verify_fallback",
+     "block_ids": [
+      7
+     ],
+     "problems": [
+      "缺内容：['北京', '上海', '广州'] 均未出现"
+     ]
+    },
+    {
+     "id": "m08",
+     "category": "memory_qa",
+     "input": "我下周四要去哪开会？",
+     "answer": "这条我没法从记忆里核对，先不猜。",
+     "state": "verify_fallback",
+     "block_ids": [
+      9
+     ],
+     "problems": [
+      "缺内容：['广州'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "生成后核对-修复回路（verify 判定与 fallback 触发）"
+  }
+ ],
+ "live_service_issue": {
+  "status": "invalid_for_behavior_measurement",
+  "n_cases_completed": 30,
+  "unique_answers": 18,
+  "degenerate_ids": [
+   "g01",
+   "g02",
+   "g03",
+   "g04",
+   "g05",
+   "g06",
+   "g07",
+   "g08",
+   "g09",
+   "i01",
+   "i02",
+   "i03",
+   "i04",
+   "i05",
+   "i06",
+   "i07",
+   "i08",
+   "c01",
+   "c02",
+   "c03"
+  ],
+  "leaked_prefix": "检索资料；说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住。",
+  "degenerate_sample": "检索资料；说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住。你不能操作任何应用（加好友/发消息/转账等）被要求时自然说做不了，不要承诺、不要源标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标标",
+  "probe_after_stop": {
+   "我叫什么名字？": {
+    "latency_s": 14.73,
+    "answer": "你叫阿泽",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     3,
+     12
+    ],
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    }
+   },
+   "你好": {
+    "latency_s": 34.89,
+    "answer": "检索资料；说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住。你不能操作任何应用（加好友/发消息/转账等）被要求时自然说做不了，不要承诺、不要源标标标标标标",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "verify": {
+     "verdict": "skipped_general_no_memory",
+     "mismatches": []
+    }
+   },
+   "我的车牌号是多少？": {
+    "latency_s": 6.49,
+    "answer": "你的车牌号是京A88888",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     3
+    ],
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    }
+   }
+  },
+  "conclusion": "问候/身份/能力/感叹等 general 路径回答同一串系统策略泄漏+重复；记忆命中路径正常。属 prompt 拼装/生成退化故障，需先修服务再重跑 live。"
+ },
+ "notes": [
+  "v4 实时重跑无效（general 路径输出系统策略泄漏+重复），因此真实失败清单用 v3 健康窗口回答 + v4 判据。",
+  "记忆命中路径仍正常（阿泽/京A88888），但 verify_fallback 与检索/消歧仍有多例；web 类问题建议先修 prompt 拼装再重跑。"
+ ]
+}

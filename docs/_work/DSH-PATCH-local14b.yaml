@@ -1,0 +1,31 @@
+# DSH 本地 14B provider 补丁（待应用；先备份再粘贴）
+# 目标文件：C:\Users\lezige\.dsh\profiles\desktop\cordis.patch.yml
+# 语义：llm-pi-ai 的 providers 下增加兄弟条目 local14b（不能新增第二个 - id: llm-pi-ai！）
+# 缩进：6 空格与 bailian: 同级
+    local14b:
+      displayName: 本地 14B（记忆 / llama-mem）
+      api: openai-completions
+      baseURL: http://127.0.0.1:8765/v1
+      headers:
+        authorization: Bearer local
+      models:
+        - id: local-14b-memory
+          name: 本地 14B 记忆
+          contextWindow: 8192
+          maxTokens: 2048
+      compat:
+        maxTokensField: max_tokens
+        supportsUsageInStreaming: true
+        supportsStore: false
+        supportsDeveloperRole: false
+
+# 可选（验证通过后再考虑）：把默认模型切到本地
+# - id: agent-default-model
+#   config:
+#     provider: local14b
+#     model: local-14b-memory
+#
+# 备份：cp ~/.dsh/profiles/desktop/cordis.patch.yml ~/.dsh/profiles/desktop/cordis.patch.yml.bak-20261027-local14b
+# 回滚：cp ~/.dsh/profiles/desktop/cordis.patch.yml.bak-20261027-local14b ~/.dsh/profiles/desktop/cordis.patch.yml
+# 生效：保存后 HMR 自动热重载（1–2 s）；未出现模型则重启 DSH
+# 前置：本地服务必须先起在 127.0.0.1:8765（tools/chat_service.py）

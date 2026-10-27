@@ -1,0 +1,244 @@
+{
+ "schema": "incident_t15_verify_v1",
+ "role": "P0 事故 T15：chat_daily.py 恢复/重建版本独立验收",
+ "started_at": "2026-10-27T22:47:51+0800",
+ "commands": {
+  "static": "python -m py_compile tools/chat_daily.py；python tools/check_chat_daily.py",
+  "suite": [
+   "python -X utf8 tools/test_chat_daily_cpu.py",
+   "python -X utf8 tools/test_retrieval_cpu.py",
+   "python -X utf8 tools/test_refusal_cpu.py",
+   "python -X utf8 tools/test_rollover_cpu.py",
+   "python -X utf8 tools/test_rollover_hier_cpu.py",
+   "python -X utf8 tools/test_slots_cpu.py",
+   "python -X utf8 tools/test_retrieval_service_cpu.py",
+   "python -X utf8 tools/test_verify_wiring_cpu.py"
+  ],
+  "online": "POST http://127.0.0.1:8765/ask（六用例）"
+ },
+ "pins": {
+  "chat_daily": {
+   "path": "tools/chat_daily.py",
+   "sha256": "a55930d19218563bcadbfcd73c91e299ec20331a8de7bf78100cc65c91df45ca",
+   "bytes": 117037
+  },
+  "check_chat_daily": {
+   "path": "tools/check_chat_daily.py",
+   "sha256": "075b75bfe12d3f9a7839dcfd0d206d44fe2407e8d988d90c0220b239f7c182ec"
+  },
+  "answer_verifier": {
+   "path": "tools/answer_verifier.py",
+   "sha256": "50730a50d867172405b051adb0b7385e91792f0fa55412112bff5fcb3340a1be"
+  }
+ },
+ "checks": [
+  {
+   "name": "py_compile chat_daily.py",
+   "pass": true,
+   "detail": {
+    "cmd": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 -m py_compile tools/chat_daily.py",
+    "rc": 0,
+    "elapsed_s": 1.18,
+    "stdout_tail": "",
+    "stderr_tail": ""
+   }
+  },
+  {
+   "name": "import chat_daily",
+   "pass": true,
+   "detail": {
+    "cmd": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 -c import sys;sys.path.insert(0,'tools');import chat_daily as D;print('VERSION',getattr(D,'VERSION',None));print('DailyApp_ask',hasattr(D.DailyApp,'ask'))",
+    "rc": 0,
+    "elapsed_s": 0.25,
+    "stdout_tail": "VERSION c-1.0\nDailyApp_ask True\n",
+    "stderr_tail": ""
+   }
+  },
+  {
+   "name": "tools/check_chat_daily.py rc=0 (17 methods)",
+   "pass": false,
+   "detail": {
+    "cmd": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 tools/check_chat_daily.py",
+    "rc": 1,
+    "elapsed_s": 0.88,
+    "stdout_tail": "[chat_daily] compile=ok import=ok\n[memory_service] compile=ok import=ok\n[web_lookup] compile=ok import=ok\n[qq_bridge] compile=ok import=ok\n[FAIL] chat_daily missing_required+dangling_call DailyApp._rows 同时存在悬空 self._rows( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._row_by_id 同时存在悬空 self._row_by_id( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._rows_for_selection 同时存在悬空 self._rows_for_selection( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._fit_budget 同时存在悬空 self._fit_budget( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._sync_mounts 同时存在悬空 self._sync_mounts( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._unmount_all 同时存在悬空 self._unmount_all( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._select 同时存在悬空 self._select( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._retrieval_select 同时存在悬空 self._retrieval_select( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._product_fact_question 同时存在悬空 self._product_fact_question( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._history_text 同时存在悬空 self._history_text( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._total_tokens 同时存在悬空 self._total_tokens( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._put_memory_source 同时存在悬空 self._put_memory_source( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._rollback_source 同时存在悬空 self._rollback_source( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._local_time_reply 同时存在悬空 self._local_time_reply( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._web_answer 同时存在悬空 self._web_answer( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._explicit_search 同时存在悬空 self._explicit_search( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp.remember 同时存在悬空 self.remember( 调用\nSUMMARY issues=17 ok=False\n",
+    "stderr_tail": ""
+   },
+   "missing_line": []
+  },
+  {
+   "name": "chat_daily",
+   "script": "test_chat_daily_cpu.py",
+   "present": true,
+   "pass": false,
+   "rc": 1,
+   "checks": null,
+   "failed": null,
+   "expected_checks": 93,
+   "elapsed_s": 1.69,
+   "stdout_tail": "  T1.repl.unknown\nok   T1.repl.usage_forget\nok   T1.repl.usage_remember\nok   T1.repl.saved_on_quit\nok   T1.repl.session_file\nFAIL t_remember_and_ask raised\nFAIL t_refusal raised\nFAIL t_save_restore raised\nFAIL t_forget raised\nFAIL t_bad_input raised\nFAIL t_capacity raised\nFAIL t_status raised\nFAIL t_placement_guard raised\n\n23 checks, 11 failed\nFAILURES:\n - T1.repl.remember 命令：\n  /remember <文本>   记住一段事实（立即可用）\n  /memories          列出已存记忆\n  /forget <id>|all   删除记忆（会二次确认）\n  /ask <问题>        提问（等价于直接输入）\n  /save [路径]       保存会话（默认 kvmem/sessions/daily.json）\n  /load [路径]      \n - T1.repl.memories 命令：\n  /remember <文本>   记住一段事实（立即可用）\n  /memories          列出已存记忆\n  /forget <id>|all   删除记忆（会二次确认）\n  /ask <问题>        提问（等价于直接输入）\n  /save [路径]       保存会话（默认 kvmem/sessions/daily.json）\n  /load [路径]      \n - T1.repl.answer 命令：\n  /remember <文本>   记住一段事实（立即可用）\n  /memories          列出已存记忆\n  /forget <id>|all   删除记忆（会二次确认）\n  /ask <问题>        提问（等价于直接输入）\n  /save [路径]       保存会话（默认 kvmem/sessions/daily.json）\n  /load [路径]      \n - t_remember_and_ask raised\n - t_refusal raised\n - t_save_restore raised\n - t_forget raised\n - t_bad_input raised\n - t_capacity raised\n - t_status raised\n - t_placement_guard raised\n",
+   "stderr_tail": "at_daily_cpu.py\", line 439, in main\n    fn(sub, model)\n    ~~^^^^^^^^^^^^\n  File \"D:\\llama-mem\\tools\\test_chat_daily_cpu.py\", line 406, in t_status\n    app.remember(FACTS[\"weekly\"])\n    ^^^^^^^^^^^^\nAttributeError: 'DailyApp' object has no attribute 'remember'\nTraceback (most recent call last):\n  File \"D:\\llama-mem\\tools\\test_chat_daily_cpu.py\", line 439, in main\n    fn(sub, model)\n    ~~^^^^^^^^^^^^\n  File \"D:\\llama-mem\\tools\\test_chat_daily_cpu.py\", line 335, in t_placement_guard\n    app.remember(FACTS[\"weekly\"])\n    ^^^^^^^^^^^^\nAttributeError: 'DailyApp' object has no attribute 'remember'\n"
+  },
+  {
+   "name": "retrieval",
+   "script": "test_retrieval_cpu.py",
+   "present": true,
+   "pass": false,
+   "rc": 1,
+   "checks": null,
+   "failed": null,
+   "expected_checks": null,
+   "elapsed_s": 0.43,
+   "stdout_tail": "",
+   "stderr_tail": "e 347, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"D:\\llama-mem\\tools\\test_retrieval_cpu.py\", line 324, in main\n    t_tokens_and_determinism(os.path.join(tmp, \"t1\"), model)\n    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\llama-mem\\tools\\test_retrieval_cpu.py\", line 128, in t_tokens_and_determinism\n    seed(app, TOPIC_TEXTS)\n    ~~~~^^^^^^^^^^^^^^^^^^\n  File \"D:\\llama-mem\\tools\\test_retrieval_cpu.py\", line 108, in seed\n    return [app.remember(t)[\"id\"] for t in texts]\n            ^^^^^^^^^^^^\nAttributeError: 'DailyApp' object has no attribute 'remember'\n"
+  },
+  {
+   "name": "refusal",
+   "script": "test_refusal_cpu.py",
+   "present": true,
+   "pass": false,
+   "rc": 1,
+   "checks": null,
+   "failed": null,
+   "expected_checks": null,
+   "elapsed_s": 0.39,
+   "stdout_tail": "",
+   "stderr_tail": "Traceback (most recent call last):\n  File \"D:\\llama-mem\\tools\\test_refusal_cpu.py\", line 60, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"D:\\llama-mem\\tools\\test_refusal_cpu.py\", line 28, in main\n    r = D.DailyApp._smalltalk_reply(app, q)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: type object 'DailyApp' has no attribute '_smalltalk_reply'\n"
+  },
+  {
+   "name": "rollover",
+   "script": "test_rollover_cpu.py",
+   "present": true,
+   "pass": false,
+   "rc": 1,
+   "checks": null,
+   "failed": null,
+   "expected_checks": null,
+   "elapsed_s": 0.58,
+   "stdout_tail": "",
+   "stderr_tail": "Traceback (most recent call last):\n  File \"D:\\llama-mem\\tools\\test_rollover_cpu.py\", line 303, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"D:\\llama-mem\\tools\\test_rollover_cpu.py\", line 285, in main\n    t_trigger_sequence(os.path.join(tmp, \"t1\"), model)\n    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\llama-mem\\tools\\test_rollover_cpu.py\", line 119, in t_trigger_sequence\n    orig_unmount = app._unmount_all\n                   ^^^^^^^^^^^^^^^^\nAttributeError: 'DailyApp' object has no attribute '_unmount_all'\n"
+  },
+  {
+   "name": "rollover_hier",
+   "script": "test_rollover_hier_cpu.py",
+   "present": true,
+   "pass": false,
+   "rc": 1,
+   "checks": null,
+   "failed": null,
+   "expected_checks": null,
+   "elapsed_s": 0.53,
+   "stdout_tail": "",
+   "stderr_tail": "ne 152, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"D:\\llama-mem\\tools\\test_rollover_hier_cpu.py\", line 62, in main\n    r = app.ask(\"介绍一下第%d个历史景点的情况。\" % (i + 1))\n        ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\llama-mem\\tools\\chat_daily.py\", line 1456, in ask\n    return self._ask_strict(text, t0)\n           ~~~~~~~~~~~~~~~~^^^^^^^^^^\n  File \"D:\\llama-mem\\tools\\chat_daily.py\", line 1708, in _ask_strict\n    selection = self._retrieval_select(text)\n                ^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'DailyApp' object has no attribute '_retrieval_select'\n"
+  },
+  {
+   "name": "slots",
+   "script": "test_slots_cpu.py",
+   "present": true,
+   "pass": false,
+   "rc": 1,
+   "checks": null,
+   "failed": null,
+   "expected_checks": 43,
+   "elapsed_s": 0.48,
+   "stdout_tail": "ok   A.time\nok   A.place\nok   A.event\nok   A.action\nok   A.person\nok   A.object_pet\nok   A.place_room\nok   A.quantity\nok   A.cause\nok   A.result\nok   A.purpose\nok   A.method\nok   A.constraint\nok   A.schema_keys\nok   A.unverified\nok   A.empty\nok   B.want_place\nok   B.filter_time_event\nok   B.structured\nok   B.person\nok   B.object_pet\nok   B.quantity\nok   B.cause\nok   B.method\nok   B.unstructured\nok   C.time_match\nok   C.time_mismatch\nok   C.event_conflict\nok   C.want_missing\nok   C.unstructured_pass\nok   C.bonus_order\n",
+   "stderr_tail": "Traceback (most recent call last):\n  File \"D:\\llama-mem\\tools\\test_slots_cpu.py\", line 193, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"D:\\llama-mem\\tools\\test_slots_cpu.py\", line 122, in main\n    ids = [app.remember(t)[\"id\"] for t in MEM]\n           ^^^^^^^^^^^^\nAttributeError: 'DailyApp' object has no attribute 'remember'\n"
+  },
+  {
+   "name": "retrieval_service",
+   "script": "test_retrieval_service_cpu.py",
+   "present": true,
+   "pass": false,
+   "rc": 1,
+   "checks": null,
+   "failed": null,
+   "expected_checks": null,
+   "elapsed_s": 0.42,
+   "stdout_tail": "",
+   "stderr_tail": "Traceback (most recent call last):\n  File \"D:\\llama-mem\\tools\\test_retrieval_service_cpu.py\", line 101, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"D:\\llama-mem\\tools\\test_retrieval_service_cpu.py\", line 63, in main\n    app.remember(f)\n    ^^^^^^^^^^^^\nAttributeError: 'DailyApp' object has no attribute 'remember'\n"
+  },
+  {
+   "name": "verify_wiring",
+   "script": "test_verify_wiring_cpu.py",
+   "present": true,
+   "pass": false,
+   "rc": 1,
+   "checks": null,
+   "failed": null,
+   "expected_checks": 42,
+   "elapsed_s": 0.45,
+   "stdout_tail": "ok   pass_answer_kept\nok   pass_verified_true\nok   pass_verdict\nok   pass_no_repair\nok   repair_answer_used\nok   repair_verified_true\nok   repair_attempts_1\nok   repair_prompt_has_blocks\nok   repair_prompt_has_question\nok   repair_prompt_has_prev_answer\nok   repair_event_logged\nok   second_fail_sentence\nok   second_fail_state\nok   second_fail_verified_false\nok   second_fail_attempts_1\nok   fallback_event_logged\nok   no_evidence_sentence\nok   no_evidence_attempts_0\nok   no_evidence_state\nok   off_answer_kept\nok   off_verdict_disabled\nok   off_verifier_not_called\nok   general_skipped_verdict\nok   general_verifier_not_called\nok   budget_fallback_sentence\nok   budget_attempts_0\nok   budget_state\nok   strip_applied\nok   strip_called\nok   isolated_returns_answer\nok   isolated_verified_field\nok   isolated_blocks_same_as_generation\nok   seq6_busy_falls_back\nok   timeout_answer_fixed\nok   timeout_state\nok   timeout_event_logged\nok   real_verifier_shape\n\n36/37 passed\n",
+   "stderr_tail": "Traceback (most recent call last):\n  File \"D:\\llama-mem\\tools\\test_verify_wiring_cpu.py\", line 325, in main\n    t()\n    ~^^\n  File \"D:\\llama-mem\\tools\\test_verify_wiring_cpu.py\", line 295, in t_mount_path_wiring\n    res = app._ask_natural(\"我的车位在哪\", time.perf_counter())\n          ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\llama-mem\\tools\\chat_daily.py\", line 1523, in _ask_natural\n    _t_reply = self._local_time_reply(text)\n               ^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'DailyApp' object has no attribute '_local_time_reply'\n"
+  },
+  {
+   "name": "fake engine smoke (3 prompts + HTTP)",
+   "pass": false,
+   "detail": {
+    "inproc": [
+     {
+      "input": "你好",
+      "error": "AttributeError: 'DailyApp' object has no attribute '_local_time_reply'",
+      "pass": false
+     },
+     {
+      "input": "我下周三去哪开会？",
+      "error": "AttributeError: 'DailyApp' object has no attribute '_select'",
+      "pass": false
+     },
+     {
+      "input": "我的车牌号是多少？",
+      "error": "AttributeError: 'DailyApp' object has no attribute '_select'",
+      "pass": false
+     }
+    ],
+    "http": {
+     "port": 61538,
+     "ready": false,
+     "results": [
+      {
+       "input": "你好",
+       "http_status": null,
+       "answer": null,
+       "policy_echo": [],
+       "pass": false
+      },
+      {
+       "input": "我下周三去哪开会？",
+       "http_status": null,
+       "answer": null,
+       "policy_echo": [],
+       "pass": false
+      },
+      {
+       "input": "我的车牌号是多少？",
+       "http_status": null,
+       "answer": null,
+       "policy_echo": [],
+       "pass": false
+      }
+     ],
+     "stderr_tail": "HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n"
+    },
+    "pass": false
+   }
+  }
+ ],
+ "online_pending": {
+  "service": "http://127.0.0.1:8765",
+  "ready": false,
+  "cases": [],
+  "pass": null,
+  "error": "URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>",
+  "status": "pending_service_restart"
+ },
+ "summary": {
+  "n_checks": 12,
+  "n_pass": 2,
+  "n_fail": 10,
+  "local_pass": false,
+  "online": "pending_service_restart",
+  "elapsed_s": 43.11
+ },
+ "pass": false,
+ "status": "fail"
+}

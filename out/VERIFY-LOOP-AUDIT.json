@@ -1,0 +1,300 @@
+{
+ "schema": "verify_loop_audit_v2",
+ "version": 2,
+ "supersedes": "129e2af3a61c497f",
+ "audit_id": "VERIFY-LOOP-AUDIT",
+ "auditor": "chain-repro",
+ "independent": true,
+ "checked_at": "2026-10-27T18:49:37",
+ "scope": "task-25 v2：rev7-impl 接线后复审计（调用点/blocks/seq6-7 清理/fallback/日志/超时/回滚）；只读/CPU、未跑 GPU、未改代码",
+ "snapshot": {
+  "files": {
+   "chat_daily": {
+    "path": "tools/chat_daily.py",
+    "sha16": "c468897ce879b88e",
+    "bytes": 116986,
+    "sha256": "c468897ce879b88e8aa50090903b1a7183612909ddb9a10142ba3cd6c3b96025",
+    "mtime": "2026-10-27T18:48:56"
+   },
+   "answer_verifier": {
+    "path": "tools/answer_verifier.py",
+    "sha16": "50730a50d8671724",
+    "bytes": 25646,
+    "sha256": "50730a50d867172405b051adb0b7385e91792f0fa55412112bff5fcb3340a1be",
+    "mtime": "2026-10-27T18:48:50"
+   },
+   "memory_isolated": {
+    "path": "tools/memory_isolated.py",
+    "sha16": "30303fa476b95470",
+    "bytes": 7817,
+    "sha256": "30303fa476b95470c69c6a4fed5f3cc34974853f3f493510f90ebc88133296e6",
+    "mtime": "2026-10-27T18:25:48"
+   },
+   "test_answer_verifier": {
+    "path": "tools/test_answer_verifier_cpu.py",
+    "sha16": "3563b9cbe323fafa",
+    "bytes": 15608,
+    "sha256": "3563b9cbe323fafac00fd32cd5b12fd097aa8698e572f084bead166c73d83c8c",
+    "mtime": "2026-10-27T18:44:52"
+   },
+   "test_memory_isolated": {
+    "path": "tools/test_memory_isolated_cpu.py",
+    "sha16": "8ee7088d91650807",
+    "bytes": 9237,
+    "sha256": "8ee7088d91650807991d706125f07e0811813b1cfbd25558fbc2c9e6a733ad0b",
+    "mtime": "2026-10-27T18:26:33"
+   }
+  },
+  "note": "接线期间文件持续变化（18:43–18:48）；本 v2 固定于 chat_daily c468897c/2401 行、answer_verifier 1ce0715、memory_isolated 30303fa 快照；若后续再改需 v3。"
+ },
+ "claims": [
+  {
+   "id": "C1",
+   "claim": "生成→核对→至多一次重生成→兜底回路已接入 isolated 与 mount 两路径",
+   "verdict": "ok",
+   "layer": "chat_daily + answer_verifier",
+   "evidence": [
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1427-1608,1818-1845",
+     "what": "_verified_finalize 两处调用：isolated (1592) 与 mount (1830)；verify→repair→verify→VERIFY_FALLBACK_SENTENCE；blocks 已是 {id,text} 字典（1569/1822），verify_answer 可匹配"
+    },
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1569-1608",
+     "what": "isolated 路径同一 rows 生成并用同一 blocks 核对/修复；repair finally 清 seq6/7"
+    },
+    {
+     "file": "tools/answer_verifier.py",
+     "lines": "310-370,590-610",
+     "what": "verify_answer 返回 verdict/hint；dict block 实测 pass（车牌/上海例）"
+    },
+    {
+     "tests": "test_answer_verifier_cpu 88/0、test_memory_isolated_cpu 7/7，均 rc=0"
+    }
+   ],
+   "consequence": "T8 原 blocker“零调用”已消除；本轮未发现回路未接线。"
+  },
+  {
+   "id": "C2",
+   "claim": "seq6/7 每轮前后清理（异常路径 try/finally）",
+   "verdict": "ok",
+   "layer": "chat_daily",
+   "evidence": [
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1527-1652",
+     "what": "_try_isolated 外层 try/except/finally；finally 对 seq6/7 逐一 n_tokens!=0 则 reset；repair 内部也有 finally（1580-1586）"
+    },
+    {
+     "file": "tools/memory_isolated.py",
+     "lines": "116-141,165-183",
+     "what": "answer_isolated 开始 reset(gen_seq=6)/reset(scratch=7)，成功/异常 _cleanup"
+    },
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1542-1552",
+     "what": "seq6 被占时直接 fallback mount path，不 reset 现场"
+    }
+   ],
+   "consequence": "产品路径内异常会清理；外部直接调用 answer_isolated 仍非 finally（风险已降级）。"
+  },
+  {
+   "id": "C3",
+   "claim": "mount 路径与 isolated 路径的 blocks 集完全一致",
+   "verdict": "risk",
+   "layer": "chat_daily",
+   "evidence": [
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1732-1808",
+     "what": "_ask_strict 先 _sync_mounts；isolated 用 selection 的 rows（1560-1569），mount 用 mounted_blocks（1818-1822）"
+    },
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "755-807,805",
+     "what": "mounted_blocks 走 _desired_rows/_fit_budget 截断；isolated rows 未经该截断"
+    },
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1592-1600,1832-1842",
+     "what": "两路径各自 verify 自己的 blocks（不交叉），但异常 fallback 时两集合可能不等"
+    }
+   ],
+   "consequence": "单路径内生成/核对同源；跨路径 blocks 仍可能不同，若要求“核对 A vs 生成 B”完全同集，需统一 answer_blocks。"
+  },
+  {
+   "id": "C4",
+   "claim": "重试、save/rollover、lease 的并发与顺序安全",
+   "verdict": "risk",
+   "layer": "chat_daily",
+   "evidence": [
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1732-1845",
+     "what": "_ask_strict 内 _sync_mounts→_try_isolated→mount/verify，无 engine 锁；save/rollover 可与 apply 并发"
+    },
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1527-1652",
+     "what": "isolated 直接调 eng.reset/share/ask；GuardedLeases 不登记 seq6/7 的持有；repair finally 清 seq6/7"
+    },
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1240-1345",
+     "what": "rollover/save 假定 seq0+块 seq，未与 isolated seq6/7 排序"
+    }
+   ],
+   "consequence": "HTTP 多请求或 rollover 与 isolated 并发时可能 reset 正在引用的块/seq；无锁、无 lease 记录。"
+  },
+  {
+   "id": "C5",
+   "claim": "核对/隔离回路日志不泄露记忆原文",
+   "verdict": "ok",
+   "layer": "logging",
+   "evidence": [
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1412-1426",
+     "what": "_repair_prompt 含 memory 原文但仅作模型 prompt，不调用 logger"
+    },
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1420-1425,1600-1612",
+     "what": "_verify_event/verify_timeout 只记 mode/verdict/count/elapsed；log_answer 只块 id/seq/cells"
+    },
+    {
+     "file": "tools/memory_isolated.py",
+     "lines": "86-115,165-181",
+     "what": "provenance 只 name/path/n_tokens/seq，无 text"
+    }
+   ],
+   "consequence": "日志层未见记忆原文；异常 message 可能含路径/名称，需 redact 断言。"
+  },
+  {
+   "id": "C6",
+   "claim": "最坏延迟与超时降级可控（F2）",
+   "verdict": "blocker",
+   "layer": "chat_daily/engine",
+   "evidence": [
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "100-104,1600-1608,1835-1845",
+     "what": "只有 _verified_finalize 内部 90s 预算检查与返回值后的 elapsed>90s 判定；ask/repair 本身无 deadline"
+    },
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1732-1845",
+     "what": "最坏 isolated ask + fallback ask(0) + repair ask 共 3 次生成；无进程/engine 看门狗"
+    },
+    {
+     "file": "docs/_work/WORKER-WATCHDOG-DESIGN.md",
+     "lines": "1-54",
+     "what": "F2 设计已写（worker+deadline+恢复+注入测试），但未实现"
+    }
+   ],
+   "consequence": "卡死仍无界；线程 timeout 杀不掉 native decode；观测 /ask >300s 仍可能重演（设计已给，未落地）。"
+  },
+  {
+   "id": "C7",
+   "claim": "失败回滚不污染 seq0",
+   "verdict": "risk",
+   "layer": "chat_daily",
+   "evidence": [
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1527-1652",
+     "what": "isolated 只用 seq6/7，外层 finally 清理；seq0 未被 isolated 写"
+    },
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1820-1834",
+     "what": "mount 路径 _repair_mount 直接 eng.ask(0,p,...)，无 pos/无 try-finally/无 checkpoint；repair 抛错时 seq0 可能残留 prompt token"
+    },
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1818-1845",
+     "what": "mount verify fallback 不重置 seq0；失败回滚无显式 state restore"
+    }
+   ],
+   "consequence": "isolated 失败不污染 seq0；mount 路径 repair 失败可能污染 seq0/挂载状态，需要 reset/checkpoint 或 fail-closed 重建。"
+  },
+  {
+   "id": "C8",
+   "claim": "核对/重生成不破坏“记忆文本不进 prompt”的底层边界",
+   "verdict": "blocker",
+   "layer": "prompt/verify repair",
+   "evidence": [
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1412-1418",
+     "what": "_repair_prompt 将全部 memory block 原文 join 进 prompt（_block_text）"
+    },
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1821-1835",
+     "what": "mount 路径 _repair_mount 在 seq0 用该 prompt 再生成；记忆原文进入对话 KV/后续上下文"
+    },
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1574-1586",
+     "what": "isolated repair 也在 seq6 用该 prompt；虽 finally 清理，但模型确实看到全部记忆原文"
+    }
+   ],
+   "consequence": "verify 修复路径把完整记忆原文注入 prompt，直接违反“记忆只以 KV 进入、不拼 prompt”的底层不变式；也扩大 token/延迟与泄漏面。"
+  }
+ ],
+ "counts": {
+  "blocker": 2,
+  "risk": 3,
+  "ok": 3
+ },
+ "tests": {
+  "test_answer_verifier_cpu": {
+   "rc": 0,
+   "checks": "88/0",
+   "sha16": "3563b9cbe323fafa"
+  },
+  "test_memory_isolated_cpu": {
+   "rc": 0,
+   "checks": "7/7",
+   "sha16": "8ee7088d91650807"
+  }
+ },
+ "must_fix": [
+  "F1（已落地）保持 verify 两路径接线；增加 CPU 集成测试断言 _verified_finalize 必调用且 blocks 与生成同源。",
+  "F2（blocker）实现 WORKER-WATCHDOG-DESIGN：独立 worker 进程+deadline+kill+save 恢复；当前只有返回值后 elapsed 判定，不能止损。",
+  "F3（已部分）seq6/7 外层 finally 已加；仍需把 seq6 busy 的 fallback 与 lease/scratch 断言写成测试；建议 n_seq≥9 固定 0/1-6/7/8。",
+  "F4（risk）统一 answer_blocks：isolated、mount、verifier 使用同一 _fit_budget 后列表；禁止 selection/mounted 两套。",
+  "F5（risk）engine 全局锁：ask/isolated/rollover/save/mount 串行；save 前明确挂载/seq 状态；isolated 成功后恢复或明确挂载语义。",
+  "F6（blocker）修复 C8：repair prompt 不得包含完整记忆原文；只允许 verifier 的最小 mismatch/expected 片段，或在隔离 KV 上做 repair 不注入原文；否则不能宣称记忆不进 prompt。",
+  "F7（risk）mount repair 的 seq0 失败回滚：try/finally reset 到 checkpoint 或直接 fail-closed，不把 repair prompt 留在 seq0。",
+  "F8 测试：answer_verifier 88/88、memory_isolated 7/7 已过；需补 chat_daily 集成 fake-engine（verify 两路径、seq6/7 清空、seq0 未污染、repair 失败回滚）。"
+ ],
+ "most_dangerous": [
+  "C8：repair prompt 注入完整记忆原文（1412-1418/1820-1833），破坏“记忆不进 prompt”的底层边界",
+  "C6：无真实 deadline/进程 watchdog；90s 仅事后判定，最坏 isolated+fallback+repair 3 次生成仍可卡死"
+ ],
+ "conclusion": {
+  "overall": "fail（blocker 未清零：C8+C6；C1 接线已完成）",
+  "blockers": 2,
+  "risks": 3,
+  "ok": 3,
+  "summary": "isolated/mount 两路径已调用 _verified_finalize，blocks 已修为 dict 且 seq6/7 有外层 finally；但 repair prompt 含完整记忆原文、无真实 watchdog、mount repair 失败可污染 seq0、blocks 跨路径未统一、无锁。"
+ },
+ "discipline": {
+  "read_only": true,
+  "no_gpu": true,
+  "no_model_call": true,
+  "no_code_change": true,
+  "no_commit": true,
+  "writes": [
+   "out/VERIFY-LOOP-AUDIT.json"
+  ]
+ },
+ "signature": {
+  "auditor": "chain-repro",
+  "signed_at": "2026-10-27T18:49:37",
+  "statement": "T8 v2：C1 接线 ok（两路径 verify/repair/fallback，blocks dict，CPU 88/0+7/7）；C2/C5 ok；C3/C4/C7 risk；C6 blocker（无真实 deadline/watchdog）；C8 blocker（repair prompt 注入完整记忆原文）。blocker 未清零。"
+ }
+}

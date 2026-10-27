@@ -1,0 +1,485 @@
+{
+ "schema": "layer_root_audit_v1",
+ "audit_id": "LAYER-ROOT-AUDIT",
+ "auditor": "chain-repro",
+ "independent": true,
+ "checked_at": "2026-10-27T17:54:26",
+ "scope": "底层修复是否落到引擎/服务层；read-only、CPU-only、未跑 GPU、未改代码/未 commit",
+ "snapshot": {
+  "files": {
+   "chat_daily": {
+    "path": "tools/chat_daily.py",
+    "sha16": "398367544116505a",
+    "bytes": 102405,
+    "sha256": "398367544116505af956a8d2f9eea63ec35b4ec2db86b455b05a3e33b4bcb57a",
+    "mtime": "2026-10-27T17:52:02"
+   },
+   "memory_service": {
+    "path": "tools/memory_service.py",
+    "sha16": "fe5d8187a59961f8",
+    "bytes": 16512,
+    "sha256": "fe5d8187a59961f868739fd5a1844c1e001f8ba5462854c57cde90b786414382",
+    "mtime": "2026-10-27T17:51:18"
+   },
+   "memory_isolated": {
+    "path": "tools/memory_isolated.py",
+    "sha16": "36648a2943fa95ce",
+    "bytes": 7868,
+    "sha256": "36648a2943fa95ce7c8e254d6b3a53fa8a93bbb5d2cdbc80bc2002cf56c61ae9",
+    "mtime": "2026-10-27T17:50:30"
+   },
+   "memory_source": {
+    "path": "tools/memory_source.py",
+    "sha16": "af380cca548e8112",
+    "bytes": 33867,
+    "sha256": "af380cca548e81120899d43faba05417b40bbf9fdea9d4664cdfbbe2426aed47",
+    "mtime": "2026-10-25T16:18:20"
+   },
+   "kvslots": {
+    "path": "tools/kvslots.py",
+    "sha16": "cfec958c19c62563",
+    "bytes": 27016,
+    "sha256": "cfec958c19c6256337d547e2fc3c773acb7052d6726bccd9570e718c6358e3be",
+    "mtime": "2026-10-26T10:13:03"
+   },
+   "m3_lease": {
+    "path": "kvmem/m2_visibility/m3/m3_lease.py",
+    "sha16": "6298a838f87b074f",
+    "bytes": 15187,
+    "sha256": "6298a838f87b074f5da9fb59263d5187ccf9fac7783345c74c1d0b46a9b13710",
+    "mtime": "2026-10-25T23:27:20"
+   },
+   "evidence": {
+    "path": "tools/evidence.py",
+    "sha16": "4bf48589863c4ed7",
+    "bytes": 7115,
+    "sha256": "4bf48589863c4ed748d1a8882fdfbacbcaadef3657a29362787e750da5612ae5",
+    "mtime": "2026-10-27T14:30:45"
+   },
+   "test_memory_isolated_cpu": {
+    "path": "tools/test_memory_isolated_cpu.py",
+    "sha16": "db5e4eb9821f5da1",
+    "bytes": 8736,
+    "sha256": "db5e4eb9821f5da1d7f350bfe036d8f87fa68d0cf55c809691fd6bb5d21f3676",
+    "mtime": "2026-10-27T17:51:12"
+   },
+   "test_memory_isolated_gpu": {
+    "path": "tools/test_memory_isolated_gpu.py",
+    "sha16": "15571fcdeb873454",
+    "bytes": 4832,
+    "sha256": "15571fcdeb873454e24df63c1d1bda85db031523a3bc8819b485184e2c9466d8",
+    "mtime": "2026-10-27T17:51:37"
+   },
+   "test_memory_service_cpu": {
+    "path": "tools/test_memory_service_cpu.py",
+    "sha16": "8485c4024c759846",
+    "bytes": 6148,
+    "sha256": "8485c4024c759846e8decd78d32d3a9930f498f7c1933151a9c76efed4062484",
+    "mtime": "2026-10-27T17:49:46"
+   }
+  },
+  "moving_target_note": "审计期间文件在 17:49–17:52 持续变化；本报告固定于上述 sha16 快照（chat_daily 398367544116505a / memory_service fe5d8187 / memory_isolated 36648a29）；line refs 按该快照（chat_daily 2098 行）核对。"
+ },
+ "claims": [
+  {
+   "id": "C1",
+   "claim": "记忆以 KV 块挂载进入注意力，而非把记忆文本拼进 prompt",
+   "layer": "engine/derived-state",
+   "verdict": "rooted",
+   "evidence": [
+    {
+     "file": "tools/memory_source.py",
+     "lines": "402-410",
+     "what": "load_into：兼容性校验后 eng.load(seq, row[6])，块以二进制 KV 载入"
+    },
+    {
+     "file": "tools/kvslots.py",
+     "lines": "173-186,312-316",
+     "what": "reset/write_at/ask/share：ask(seq,text) 在指定 seq 上解码；share=seq_cp 共享 KV cells；无文本拼接"
+    },
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "755-807",
+     "what": "_sync_mounts：load_into 到块 seq，repos_local 对齐位置后 leases.attach(i,0,lo,hi) 挂到对话 seq"
+    }
+   ],
+   "notes": "回答 prompt 仍是「问题(+应用层指令)」，记忆文本不进入 prompt；这一点是引擎层机制，成立。"
+  },
+  {
+   "id": "C2",
+   "claim": "自然对话模式（默认 NATURAL_MODE=natural）能只凭记忆+问题回答，不带对话历史",
+   "layer": "chat_daily adapter + engine",
+   "verdict": "patch",
+   "evidence": [
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "94-104,1342-1385,1405-1410",
+     "what": "默认 natural 分支走 _ask_natural：选择记忆后 _sync_mounts 仍挂到 seq0；随后 eng.ask(0, SYSTEM_POLICY+问题,...)"
+    },
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "755,807",
+     "what": "挂载 dst_seq 固定 0；seq0 同时是聊天历史序列"
+    },
+    {
+     "file": "tools/kvslots.py",
+     "lines": "16-21",
+     "what": "seq 的 KV 会累积；ask(seq,pos) 的注意力包含该 seq 已有 cells；seq0 的历史 token 与记忆块共享同一 seq 注意力"
+    }
+   ],
+   "notes": "natural 模式没有调用 memory_isolated.answer_isolated；回答仍可能读 seq0 历史。属于应用层切换，不是底层隔离。"
+  },
+  {
+   "id": "C3",
+   "claim": "tools/memory_isolated.py 的独立 seq7 记忆问答原型具备隔离机制",
+   "layer": "prototype module (unwired)",
+   "verdict": "partial",
+   "evidence": [
+    {
+     "file": "tools/memory_isolated.py",
+     "lines": "47-48,65-159",
+     "what": "ISOLATED_SEQ=7，DEFAULT_SCRATCH=6；answer_isolated 对每个块 load_into(scratch)->repos_local->share(scratch,7)->reset(scratch)，最后 eng.ask(7,question,pos=cursor)"
+    },
+    {
+     "file": "tools/memory_isolated.py",
+     "lines": "116-141",
+     "what": "每次调用先 reset(7)+reset(scratch)，成功/失败后 _cleanup 重置；provenance 记录 call_seq/call_pos/dialogue_history_in_context=False"
+    },
+    {
+     "file": "tools/test_memory_isolated_cpu.py",
+     "lines": "1-226",
+     "what": "FakeEngine 单测 6/6 通过（rc=0）：位置/顺序/回滚/token 计数/空答/坏参数"
+    },
+    {
+     "file": "tests",
+     "what": "grep 全仓：answer_isolated 无任何调用者；chat_daily.py 只 import memory_service，不 import memory_isolated"
+    }
+   ],
+   "notes": "模块级机制可跑通且有 CPU 单测；但产品路径未接线，故不是 rooted。"
+  },
+  {
+   "id": "C4",
+   "claim": "memory_service.py 记忆数据层（抽取/去重/冲突/检索门槛/判据）落到产品路径",
+   "layer": "memory_service + chat_daily adapter",
+   "verdict": "partial",
+   "evidence": [
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "44,663-676,894,949-953,1433",
+     "what": "chat_daily 已 import memory_service；retrieve/needs_auto_remember/is_fact_question/plan_upsert 均调用 memo"
+    },
+    {
+     "file": "tools/memory_service.py",
+     "lines": "23-27,117-154,183-223,232-275,295-340",
+     "what": "服务层集中检索门槛、extract_facts、plan_upsert、needs_auto/is_fact/needs_lookup"
+    },
+    {
+     "file": "tools/test_memory_service_cpu.py",
+     "lines": "1-125",
+     "what": "28 checks/0 failed，rc=0（CPU）"
+    }
+   ],
+   "notes": "核心判据已下沉；但 1 跳关联扩展、挂载预算/顺序、写库冲突检查仍留在 chat_daily。"
+  },
+  {
+   "id": "C5",
+   "claim": "检索门槛/topk 完全由服务层决定",
+   "layer": "chat_daily + memory_service",
+   "verdict": "partial",
+   "evidence": [
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "663-720",
+     "what": "_retrieval_select：base=memo.retrieve 后，1 跳 related_ids/同标签扩展与 +0.5/+0.25 加权仍在 chat_daily"
+    },
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "732-753",
+     "what": "_fit_budget/_desired_rows：按 memory_budget 截断与挂载顺序仍由应用层决定"
+    },
+    {
+     "file": "tools/memory_service.py",
+     "lines": "23-27,117-171",
+     "what": "DEFAULT_TOP_SCORE_MIN/COVERAGE_MIN/short-query 例外/标签权重在服务层"
+    }
+   ],
+   "notes": "服务层管 base 门槛；应用层还有第二层扩展与预算，属双源策略。"
+  },
+  {
+   "id": "C6",
+   "claim": "去重/冲突由 memory_service.plan_upsert 完成并作为唯一写入决策",
+   "layer": "chat_daily + memory_service",
+   "verdict": "partial",
+   "evidence": [
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1428-1435,995-1080",
+     "what": "natural ask 用 plan_upsert 算出 insert/update/supersedes；但 remember/_put_memory_source/_insert_memory_block 仍直接写 sqlite；_put_memory_source 自己判 duplicate/conflict 并抛 DailyError"
+    },
+    {
+     "file": "tools/memory_service.py",
+     "lines": "232-275",
+     "what": "plan_upsert 只计划、不写库（docstring 明确 append-only 由调用方决定）"
+    }
+   ],
+   "notes": "计划层下沉；事务/唯一性/冲突权威仍在 chat_daily+DB 触发器，存在两套判定。"
+  },
+  {
+   "id": "C7",
+   "claim": "寒暄/能力/事实拒答是确定性底层行为",
+   "layer": "application regex (strict mode only)",
+   "verdict": "patch",
+   "evidence": [
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "918-948,971-993,894-897",
+     "what": "_smalltalk_reply/_capability_reply 全部是 re.compile 锚定正则；_product_fact_question 转调 memo.is_fact_question（也是正则）"
+    },
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1405-1410",
+     "what": "默认 NATURAL_MODE=natural 时直接走 _ask_natural，smalltalk/capability/拒答分支完全不执行；只有 LLAMA_MEM_MODE=strict 才用旧路径"
+    },
+    {
+     "file": "tools/evidence.py",
+     "lines": "44-80",
+     "what": "SELF_FACT/WORLD/QUESTION/intent_of/dialogue_evidence 全是正则规则"
+    }
+   ],
+   "notes": "行为正确性依赖正则与模式开关；不是模型/引擎层约束。"
+  },
+  {
+   "id": "C8",
+   "claim": "对话历史不参与记忆回答的判定（证据/拒答）",
+   "layer": "application evidence",
+   "verdict": "patch",
+   "evidence": [
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "888-893,1500-1515",
+     "what": "strict 路径 E.decide(...,_history_text()) 与 dialogue_evidence(...,_history_text()) 决定是否拒答"
+    },
+    {
+     "file": "tools/chat_daily.py",
+     "lines": "1342-1385",
+     "what": "natural 路径 prompt 只含问题，但 seq0 里的历史仍被引擎注意力读取；_ask_natural 也把每轮 answer 追加 seq0"
+    },
+    {
+     "file": "tools/evidence.py",
+     "lines": "80-100",
+     "what": "dialogue_evidence 以 transcript 作为 chat_only 放行依据"
+    }
+   ],
+   "notes": "回答历史影响仍在；独立 seq 模块未接入，所以该 claim 不成立。"
+  },
+  {
+   "id": "C9",
+   "claim": "上层只剩薄适配（聊天/服务/QQ bridge），核心逻辑已在底层",
+   "layer": "product architecture",
+   "verdict": "patch",
+   "evidence": [
+    {
+     "file": "tools/chat_daily.py",
+     "what": "2098 行；natural/strict 双路径、mount/rollover/prompt policy/smalltalk/refusal/检索扩展/写库全在此"
+    },
+    {
+     "file": "tools/chat_service.py",
+     "what": "只做 HTTP/OpenAI 兼容与 D.clean_answer 调用，是薄适配"
+    },
+    {
+     "file": "tools/memory_isolated.py",
+     "what": "独立模块存在但零调用者"
+    }
+   ],
+   "notes": "chat_daily 仍是厚适配（非薄），核心未全部下沉。"
+  }
+ ],
+ "verdict_counts": {
+  "rooted": 1,
+  "partial": 4,
+  "patch": 4,
+  "total": 9
+ },
+ "isolated_seq_feasibility": {
+  "status": "feasible_in_principle / prototype_tested_cpu / product_not_wired / semantic_effect_unproven",
+  "mechanism_evidence": [
+   {
+    "file": "tools/kvslots.py",
+    "lines": "16-21,173-186,312-316,326-330",
+    "what": "KV 按 seq 独立；reset 清 seq；write_at 写指定位置；ask(seq) 只解码该 seq；share/seq_cp 共享 cells；repos_local 移位置"
+   },
+   {
+    "file": "kvmem/m2_visibility/m3/m3_lease.py",
+    "lines": "170-208,232-260",
+    "what": "GuardedLeases.attach(block_seq,dst_seq,lo,hi) 调用 eng.share；不同 dst_seq 允许同区间重叠；reset 有租约门禁"
+   },
+   {
+    "file": "tools/memory_isolated.py",
+    "lines": "47-48,65-159",
+    "what": "answer_isolated 已按上述原语在 seq7 构造 blocks+question，CPU FakeEngine 6/6 通过"
+   }
+  ],
+  "blockers": [
+   {
+    "id": "B1",
+    "what": "无调用者：chat_daily 不 import memory_isolated；natural/strict 均 ask(0, seq0)"
+   },
+   {
+    "id": "B2",
+    "what": "seq 配额冲突：产品块 seq=1..6、product _scratch=7（chat_daily:65-66,465）；memory_isolated 用 seq7 + scratch6。接入会互相清空/覆盖；需 n_seq>=9 或重新分配 scratch/隔离 seq"
+   },
+   {
+    "id": "B3",
+    "what": "_sync_mounts 固定 attach(i,0)（chat_daily:807）；_unmount_all 只 detach dst0（:636-642）；隔离路径需第二套 dst 租约/挂载/卸载/预算"
+   },
+   {
+    "id": "B4",
+    "what": "strict 路径的证据/拒答仍读 _history_text（:875/1500/1511）；隔离回答必须绕过该历史判定；natural 路径也不应把历史放进 seq0 注意力"
+   },
+   {
+    "id": "B5",
+    "what": "save/load/rollover 假定 seq0 对话与块挂载（chat_daily:1156-1304、session_state）；隔离 seq 不持久化，需定义生命周期/清理"
+   },
+   {
+    "id": "B6",
+    "what": "真实 GPU 小实验未跑（任务禁止 GPU）；FakeEngine 只证明 plumbing，不能证明模型语义隔离"
+   }
+  ],
+  "requirements_for_true_rooting": [
+   "专用 seq（如 8，n_seq>=9）或重排 scratch，保证与块 seq/产品 scratch 不冲突",
+   "专用 dst 挂载/卸载/租约表（dst=isolated seq），_unmount_all 覆盖两个 dst",
+   "记忆问题路由到 answer_isolated，且判定/提示不使用 _history_text/对话文本",
+   "隔离 seq 的 ask/重置/失败回退全路径可观测（provenance）",
+   "真 GPU 对照实验通过（见 experiment）"
+  ]
+ },
+ "experiment": {
+  "status": "designed_not_run",
+  "result": "unproven（本审计未跑 GPU）",
+  "cheap_cpu": [
+   {
+    "name": "memory_isolated FakeEngine unit test",
+    "file": "tools/test_memory_isolated_cpu.py",
+    "run": "python -X utf8 tools/test_memory_isolated_cpu.py",
+    "observed": "rc=0, 6/6 passed（位置/顺序/回滚/token/空答/坏参）",
+    "proves": "seq7 机制与清理 plumbing；不证明模型语义"
+   },
+   {
+    "name": "product routing probe (CPU, proposed)",
+    "how": "用 fake engine 包裹 DailyApp.ask，记录 (seq,text,pos) 与每 seq tokens；预期当前实现 seq0；再对 answer_isolated 预期 seq7 且无历史 token",
+    "status": "designed_not_run"
+   }
+  ],
+  "real_gpu_mini": {
+   "file": "tools/test_memory_isolated_gpu.py",
+   "run": "python -X utf8 tools/test_memory_isolated_gpu.py --n-gpu-layers 34 --n-ctx 16384 --n-predict 64",
+   "design": [
+    "建两条近似记忆：old=每周三组会 B座302；new=下周三去上海开会",
+    "baseline：seq0 写入 HISTORY（问→答 old），不挂记忆，ask(0)；预期被旧答案污染（含 302/组会）",
+    "isolated：answer_isolated(seq7) 挂 old+new 两块的 KV，仅 question；预期答上海且不含 302/组会；seq0 前后 n_tokens 不变",
+    "控制：无记忆、只 new、重复 3 次；接受标准 isolated 提到上海且无 302/组会，baseline 含旧答案；否则 unproven"
+   ],
+   "why_cheap": "单次加载模型 + 2 blocks + 2 次 ask；约 1–2 分钟 GPU；已写好脚本"
+  }
+ },
+ "residual_patches": [
+  {
+   "id": "R1",
+   "severity": "critical",
+   "file": "tools/chat_daily.py",
+   "lines": "1342-1385,1548",
+   "what": "所有 natural 生成调用 eng.ask(0,...)；seq0 同时持有历史与记忆挂载（_sync_mounts 807 固定 dst0）；独立 seq 未接线",
+   "risk": "回答可能被对话历史污染；无法证明记忆隔离"
+  },
+  {
+   "id": "R2",
+   "severity": "high",
+   "file": "tools/chat_daily.py",
+   "lines": "888-893,1500-1515",
+   "what": "strict 路径的拒答/放行依赖 E.decide/_history_text/dialogue_evidence",
+   "risk": "策略仍是应用层正则+历史文本；改 memory_service 不改变此行为"
+  },
+  {
+   "id": "R3",
+   "severity": "high",
+   "file": "tools/memory_isolated.py",
+   "lines": "47-48",
+   "what": "ISOLATED_SEQ=7、SCRATCH=6；产品块 seq=1..6、product _scratch=7（chat_daily 65/465）",
+   "risk": "接入会与块 seq6/scratch seq7 冲突：reset scratch 会清掉已挂载块；_sync_mounts 会清掉隔离 QA seq；需重新分配 seq（n_seq>=9）"
+  },
+  {
+   "id": "R4",
+   "severity": "medium",
+   "file": "tools/chat_daily.py",
+   "lines": "663-720,732-753",
+   "what": "检索 1 跳扩展/预算/挂载顺序仍在应用层",
+   "risk": "与 memory_service 门槛形成双源，改服务层参数不能完全控制行为"
+  },
+  {
+   "id": "R5",
+   "severity": "medium",
+   "file": "tools/chat_daily.py",
+   "lines": "995-1080,1428-1435",
+   "what": "写库/去重/冲突仍由 _put_memory_source/_insert_memory_block + DB 触发器执行；plan_upsert 只计划",
+   "risk": "两套一致性逻辑，服务层冲突策略未真正成为唯一写路径"
+  },
+  {
+   "id": "R6",
+   "severity": "medium",
+   "file": "tools/chat_daily.py",
+   "lines": "918-993",
+   "what": "smalltalk/capability 锚定正则只在 strict 模式执行；natural 默认绕过",
+   "risk": "模式切换导致行为/回归口径不一致，测试与线上口径可能不同"
+  },
+  {
+   "id": "R7",
+   "severity": "medium",
+   "file": "tools/chat_daily.py",
+   "lines": "96-104,1371-1385,1547",
+   "what": "SYSTEM_POLICY/ANSWER_INSTRUCTION 应用层文本进入 prompt",
+   "risk": "答案边界仍靠 prompt 约束，非引擎/服务保证"
+  },
+  {
+   "id": "R8",
+   "severity": "low",
+   "file": "tools/chat_daily.py",
+   "lines": "149-190",
+   "what": "clean_answer 用正则剥 think/模板/回显问题",
+   "risk": "后处理可能掩盖解析/生成问题，输出语义不可完全审计"
+  },
+  {
+   "id": "R9",
+   "severity": "low",
+   "file": "tools/memory_service.py",
+   "lines": "277-340",
+   "what": "is_fact_question/needs_lookup 复制 evidence.py 的正则语义",
+   "risk": "两处规则漂移，判据口径不一致"
+  }
+ ],
+ "most_dangerous": [
+  "R1：seq0 + 历史注意力，独立 seq 未接线 ⇒ 记忆回答隔离不成立",
+  "R2：strict 的拒答/放行仍由 _history_text + 正则证据决定 ⇒ 改服务层不改变行为"
+ ],
+ "conclusion": {
+  "rooted": "记忆以 KV 块挂载（非 prompt 拼接）成立",
+  "partial": "memory_service 数据层/独立 seq 原型存在并部分接线",
+  "patch": "默认 natural 模式仍 seq0+history；独立 seq 未接入；拒答/寒暄/regex/挂载策略仍是应用层；536 行只是把部分判据搬进 memory_service",
+  "isolated_seq": "机制可行且 CPU 原型 6/6，但产品未接线、seq 冲突、无 GPU 证据 ⇒ unproven"
+ },
+ "discipline": {
+  "read_only": true,
+  "no_gpu": true,
+  "no_gpu_launch": true,
+  "no_model_call": true,
+  "no_code_change": true,
+  "no_commit": true,
+  "writes": [
+   "out/LAYER-ROOT-AUDIT.json"
+  ]
+ },
+ "signature": {
+  "auditor": "chain-repro",
+  "signed_at": "2026-10-27T17:54:26",
+  "statement": "独立核分层修复：C1 引擎级 KV 挂载 rooted；C2 默认 natural 仍 seq0（无隔离）patch；C3 memory_isolated 原型 partial（CPU 6/6，零调用者，seq6/7 冲突）；C4–C6 memory_service 部分接线 partial（1跳/写库/预算仍应用层）；C7–C9 正则/历史/厚适配 patch。独立 seq 机制可行但未接入，GPU 对照实验已设计未跑 → unproven。"
+ }
+}

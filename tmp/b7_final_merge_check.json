@@ -1,0 +1,281 @@
+{
+ "schema": "m5c2_b7_merge_check_v1",
+ "checked_at": "2026-10-27T13:36:25+0800",
+ "inputs": {
+  "extract": {
+   "path": "kvmem/m2_visibility/m5/out/M5C2-B7-EXTRACT.json",
+   "sha16": "2804fbbb26bff2a3",
+   "sha256": "2804fbbb26bff2a3e7fa18b21d005366ffda87c093a5966a3d6e1e28f4111e3e",
+   "bytes": 951539
+  },
+  "sents": {
+   "path": "kvmem/m2_visibility/m5/out/M5C2-B7-SENTS.json",
+   "sha16": "c5a49a696b66f0c7",
+   "sha256": "c5a49a696b66f0c7402232d43dde3efebffb895e2807c5144e53fd0533208017",
+   "bytes": 288805
+  },
+  "shard1": {
+   "path": "kvmem/m2_visibility/m5/out/_m5b7_extract_raw.json",
+   "sha16": "0b604a0124e29254",
+   "sha256": "0b604a0124e292542efc2c750cc845f6d8284674c0034586691bc83c48e9ae0d",
+   "bytes": 665623
+  },
+  "shard2": {
+   "path": "kvmem/m2_visibility/m5/out/_m5b7_extract_raw_shard2.json",
+   "sha16": "be8d46116df9bdf2",
+   "sha256": "be8d46116df9bdf290e71526cfd2c2eee572ca022521a7b7524c39ad9d685f36",
+   "bytes": 267887
+  }
+ },
+ "expected_pins": {
+  "gen": {
+   "sha16": "041b51eb7837aa90",
+   "bytes": 140514
+  },
+  "sents": {
+   "sha16": "c5a49a696b66f0c7",
+   "bytes": 288805
+  },
+  "prompt_sha16": "a6bc4f268f7711de",
+  "model_bytes": 8988110240,
+  "dll_sha16": "9edbafa150700614",
+  "n_predict": 384,
+  "n_sids": 623
+ },
+ "checks": [
+  {
+   "id": "sents_sha",
+   "requirement": "SENTS sha16/bytes == frozen pin",
+   "pass": true,
+   "detail": "c5a49a696b66f0c7/288805 B (expect c5a49a696b66f0c7/288805)"
+  },
+  {
+   "id": "sents_n",
+   "requirement": "SENTS has 623 sentences",
+   "pass": true,
+   "detail": "623 sentences"
+  },
+  {
+   "id": "sents_sid_unique",
+   "requirement": "SENTS sids unique",
+   "pass": true,
+   "detail": "623 unique / 623"
+  },
+  {
+   "id": "extract_schema",
+   "requirement": "EXTRACT schema is m5c2_b7_extract_v1",
+   "pass": true,
+   "detail": "schema='m5c2_b7_extract_v1'"
+  },
+  {
+   "id": "extract_records_n",
+   "requirement": "EXTRACT has 623 records",
+   "pass": true,
+   "detail": "623 records"
+  },
+  {
+   "id": "extract_n_sentences",
+   "requirement": "EXTRACT n_sentences == 623",
+   "pass": true,
+   "detail": "n_sentences=623"
+  },
+  {
+   "id": "extract_sid_unique",
+   "requirement": "EXTRACT sids unique",
+   "pass": true,
+   "detail": "623 unique / 623"
+  },
+  {
+   "id": "extract_sids_equal_sents",
+   "requirement": "EXTRACT sid set == SENTS sid set",
+   "pass": true,
+   "detail": "missing=0 extra=0"
+  },
+  {
+   "id": "extract_order_matches_sents",
+   "requirement": "EXTRACT record order == SENTS order",
+   "pass": true,
+   "detail": "first mismatch at None"
+  },
+  {
+   "id": "extract_sids_in_sents",
+   "requirement": "every EXTRACT sid belongs to SENTS",
+   "pass": true,
+   "detail": "unknown=0"
+  },
+  {
+   "id": "shard1_schema",
+   "requirement": "shard1 schema is m5c2_b7_extract_raw_v1",
+   "pass": true,
+   "detail": "schema='m5c2_b7_extract_raw_v1'"
+  },
+  {
+   "id": "shard2_schema",
+   "requirement": "shard2 schema is m5c2_b7_extract_raw_v1",
+   "pass": true,
+   "detail": "schema='m5c2_b7_extract_raw_v1'"
+  },
+  {
+   "id": "shard1_sids_unique",
+   "requirement": "shard1 sids unique",
+   "pass": true,
+   "detail": "407 unique / 407"
+  },
+  {
+   "id": "shard2_sids_unique",
+   "requirement": "shard2 sids unique",
+   "pass": true,
+   "detail": "216 unique / 216"
+  },
+  {
+   "id": "shards_subset_sents",
+   "requirement": "all shard sids belong to SENTS",
+   "pass": true,
+   "detail": "unknown=0"
+  },
+  {
+   "id": "shards_disjoint",
+   "requirement": "shard1 and shard2 sid sets are disjoint (overlap 0)",
+   "pass": true,
+   "detail": "overlap=0"
+  },
+  {
+   "id": "shards_union_complete",
+   "requirement": "shard1 U shard2 == SENTS set (623/623, missing 0)",
+   "pass": true,
+   "detail": "union=623 missing=0 extra=0"
+  },
+  {
+   "id": "shards_union_n",
+   "requirement": "shard1 + shard2 sid counts sum to 623",
+   "pass": true,
+   "detail": "union=623"
+  },
+  {
+   "id": "prov_present",
+   "requirement": "EXTRACT.resume_provenance present (dict)",
+   "pass": true,
+   "detail": "type=dict"
+  },
+  {
+   "id": "prov_shape",
+   "requirement": "resume_provenance shard1/shard2 {path,sha16,bytes,n_sids}",
+   "pass": true,
+   "detail": "shard1_keys=['bytes', 'n_sids', 'path', 'sha16'] shard2_keys=['bytes', 'n_sids', 'path', 'sha16']"
+  },
+  {
+   "id": "prov_shard1_file",
+   "requirement": "provenance shard1 sha16/bytes match actual shard1",
+   "pass": true,
+   "detail": "actual=0b604a0124e29254/665623 recorded=0b604a0124e29254/665623"
+  },
+  {
+   "id": "prov_shard2_file",
+   "requirement": "provenance shard2 sha16/bytes match actual shard2",
+   "pass": true,
+   "detail": "actual=be8d46116df9bdf2/267887 recorded=be8d46116df9bdf2/267887"
+  },
+  {
+   "id": "prov_counts",
+   "requirement": "provenance n_sids match actual shard records",
+   "pass": true,
+   "detail": "shard1 407 vs 407; shard2 216 vs 216"
+  },
+  {
+   "id": "prov_sids_lists",
+   "requirement": "provenance sids_completed_in_shard1 / sids_in_shard2 present",
+   "pass": true,
+   "detail": "types=list/list"
+  },
+  {
+   "id": "prov_sids_sets",
+   "requirement": "provenance sids lists == actual shard sids (as sets)",
+   "pass": true,
+   "detail": "shard1 diff=0 shard2 diff=0"
+  },
+  {
+   "id": "prov_sids_union",
+   "requirement": "provenance sids lists union == SENTS (623, no dup)",
+   "pass": true,
+   "detail": "union=623 sum=623"
+  },
+  {
+   "id": "prov_overlap_missing_zero",
+   "requirement": "provenance overlap=0 and missing=0",
+   "pass": true,
+   "detail": "overlap=0 missing=0"
+  },
+  {
+   "id": "prov_matches_actual",
+   "requirement": "provenance overlap/missing match actual shard sets",
+   "pass": true,
+   "detail": "actual overlap=0 missing=0 recorded=0/0"
+  },
+  {
+   "id": "pin_gen",
+   "requirement": "GEN sha16/bytes match frozen pin",
+   "pass": true,
+   "detail": "gen=041b51eb7837aa90/140514 expect=041b51eb7837aa90/140514"
+  },
+  {
+   "id": "pin_sents",
+   "requirement": "SENTS sha16/bytes match frozen pin",
+   "pass": true,
+   "detail": "sents=c5a49a696b66f0c7/288805 expect=c5a49a696b66f0c7/288805"
+  },
+  {
+   "id": "pin_prompt",
+   "requirement": "extraction prompt sha16 match",
+   "pass": true,
+   "detail": "prompt=a6bc4f268f7711de expect=a6bc4f268f7711de"
+  },
+  {
+   "id": "pin_model",
+   "requirement": "model frozen_bytes match",
+   "pass": true,
+   "detail": "model=8988110240 expect=8988110240"
+  },
+  {
+   "id": "pin_dll",
+   "requirement": "dll frozen_sha16 match",
+   "pass": true,
+   "detail": "dll=9edbafa150700614 expect=9edbafa150700614"
+  },
+  {
+   "id": "pin_n_predict",
+   "requirement": "n_predict == 384 (harness)",
+   "pass": true,
+   "detail": "harness.n_predict=384"
+  },
+  {
+   "id": "extract_n_predict",
+   "requirement": "EXTRACT top-level n_predict == 384",
+   "pass": true,
+   "detail": "n_predict=384"
+  },
+  {
+   "id": "pin_sampling",
+   "requirement": "greedy/no-grammar declared",
+   "pass": true,
+   "detail": "temperature=0 sampling='argmax_greedy' grammar=None"
+  },
+  {
+   "id": "no_allow_gui_trace",
+   "requirement": "no --allow-gui-procs / allow_gui_procs in artifacts",
+   "pass": true,
+   "detail": "hits=[]"
+  },
+  {
+   "id": "gate_strict",
+   "requirement": "gate_before gate_ok and only lone dwm exception",
+   "pass": true,
+   "detail": "gate_ok=True exceptions=['dwm.exe']"
+  }
+ ],
+ "failed_checks": [],
+ "warnings": [
+  "pins.gen.n_forward=40 (frozen GEN n_forward=75); metadata only, not used by merge verdict"
+ ],
+ "verdict": "pass",
+ "n_checks": 38
+}

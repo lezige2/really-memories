@@ -1,0 +1,66 @@
+{
+ "schema": "m5c2_b7_gate_check_v1",
+ "status": "gate_ok",
+ "gate": {
+  "pnp_rndis_usb_audio": 0,
+  "vram_baseline_gib": 0.9268,
+  "free_ram_kb": 9462332,
+  "gpu_procs_gt256mb": 1,
+  "browser_or_code_procs": 7,
+  "boot_id": "2026-10-26T03:24:52.5000000+08:00",
+  "gpu_procs_gt256mb_reported_by_E": 1,
+  "gpu_proc_query": "$m=Get-CimInstance Win32_PerfFormattedData_GPUPerformanceCounters_GPUProcessMemory -ErrorAction SilentlyContinue | ? { $_.DedicatedUsage -gt 268435456 }; if ($m) { $m | ForEach-Object { $mm=[regex]::Match($_.Name,'pid_(\\d+)'); $p=Get-Process -Id ([int]$mm.Groups[1].Value) -ErrorAction SilentlyContinue; 'COUNT {0} NAME={1} BYTES={2}' -f @($m | ? { $_ -ne $null }).Count,$p.ProcessName,([int]$_.DedicatedUsage) } } else { 'COUNT 0' }",
+  "gpu_proc_details": [
+   "COUNT 1 NAME=dwm BYTES=300175360"
+  ],
+  "gpu_proc_samples": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "questions_path": "kvmem/m2_visibility/m5/out/M5C2-B7-QUESTIONS.json",
+  "questions_sha16": "f1f059539453d562",
+  "questions_bytes": 15964,
+  "questions_ok": true,
+  "free_ram_ok": true,
+  "vram_baseline_ok": true,
+  "boot_id_ok": true,
+  "dll_path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+  "dll_sha16": "9edbafa150700614",
+  "dll_bytes": 50007552,
+  "dll_ok": true,
+  "model_path": "D:\\models\\DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+  "model_bytes": 8988110240,
+  "model_ok": true,
+  "gpu_procs_ok": true,
+  "gpu_procs_ok_raw": false,
+  "gate_exception_applied": true,
+  "gate_exceptions": [
+   {
+    "name": "dwm.exe",
+    "observed_process_name": "dwm",
+    "bytes": 300175360,
+    "threshold_bytes": 268435456,
+    "reason": "system desktop compositor, not a compute workload"
+   }
+  ],
+  "gate_ok": true
+ },
+ "gate_exceptions": [
+  {
+   "name": "dwm.exe",
+   "observed_process_name": "dwm",
+   "bytes": 300175360,
+   "threshold_bytes": 268435456,
+   "reason": "system desktop compositor, not a compute workload"
+  }
+ ],
+ "n_forward": 0,
+ "no_model_loaded": true,
+ "no_gpu_work": true
+}

@@ -1,0 +1,6594 @@
+{
+ "schema": "repo_health_v1",
+ "generated_at": "2026-10-27T22:48:56",
+ "root": "D:\\llama-mem",
+ "scan": {
+  "files": 79,
+  "elapsed_s": 67.9
+ },
+ "summary": {
+  "files_with_issues": 4,
+  "syntax_errors": 0,
+  "dangling_private_total": 19,
+  "required_missing_total": 17,
+  "cross_file_missing_symbols": 0,
+  "import_smoke_failures": 5,
+  "critical_files": 1,
+  "same_deletion_pattern_files": 0,
+  "triage_false_positives": 3,
+  "import_noise": 5
+ },
+ "files": [
+  {
+   "path": "tools/analysis.py",
+   "sha16": "49e91c7bd3dd32ef",
+   "bytes": 18382,
+   "lines": 393,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "ANALYSIS_VERSION",
+    "ASKS",
+    "CITIES",
+    "CN_NUM",
+    "COLORS",
+    "GATED",
+    "ID_NOUNS",
+    "MONEY_NOUNS",
+    "PROPERTIES",
+    "PROP_NAMES",
+    "VALUES",
+    "VALUE_ASK",
+    "_BIGRAM",
+    "_CN_DATE",
+    "_CN_TIME",
+    "_LATIN",
+    "_MONEY_VALUE",
+    "_NUM",
+    "_cn_date_sub",
+    "_cn_int",
+    "_legacy_attribute_of",
+    "_legacy_attributes_of",
+    "_near",
+    "_prop_value",
+    "answer_type",
+    "money_spans",
+    "normalize",
+    "properties_of",
+    "property_holds",
+    "property_of",
+    "re",
+    "scope_of",
+    "terms",
+    "unicodedata",
+    "value_kinds"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/answer_verifier.py",
+   "sha16": "50730a50d8671724",
+   "bytes": 25646,
+   "lines": 580,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "ESC_TAG",
+    "HINT_MAX",
+    "HINT_NO_EVIDENCE_PREFIX",
+    "HINT_NO_EVIDENCE_SUFFIX",
+    "HINT_PREFIX",
+    "HINT_SUFFIX",
+    "HONEST",
+    "MIN_DUP_KEY",
+    "TEMPLATE_TAIL",
+    "THINK_TAG",
+    "VERSION",
+    "_AFTER",
+    "_AFTER_CONNECTORS",
+    "_ALNUM_ID",
+    "_CITIES",
+    "_CLASSROOM",
+    "_CLOCK",
+    "_CN_BARE",
+    "_CN_DIGITS",
+    "_CN_DIGIT_RUN",
+    "_CN_METER",
+    "_CN_MONTH",
+    "_CN_NUM",
+    "_CN_NUM_UNIT",
+    "_CN_UNITS",
+    "_DATE",
+    "_DUP_STRIP",
+    "_EMAIL",
+    "_EN_WORDS",
+    "_ID_AFTER",
+    "_MODEL_SPACE",
+    "_NUM",
+    "_NUM_TOKEN",
+    "_NUM_WAN",
+    "_PHONE_GROUP",
+    "_PLATE",
+    "_QUOTED",
+    "_REFUSAL",
+    "_ROOM",
+    "_SENT_SPLIT",
+    "_TIME",
+    "_WEEK",
+    "_cn2int",
+    "_compose_hint",
+    "_dup_key",
+    "_english_numbers",
+    "_expected_from_blocks",
+    "_hint",
+    "_hint_no_evidence",
+    "_is_honest_refusal",
+    "_kind",
+    "_norm",
+    "_num_canon",
+    "_replace_cn_unit",
+    "_supported",
+    "canon_text",
+    "extract_values",
+    "main",
+    "match_values",
+    "re",
+    "strip_continuation",
+    "unicodedata",
+    "verify",
+    "verify_answer"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/assistant_log.py",
+   "sha16": "c474effc7fd357bb",
+   "bytes": 23756,
+   "lines": 591,
+   "syntax_error": null,
+   "classes": {
+    "LogError": [],
+    "AssistantLog": [
+     "__init__",
+     "_load_or_create_manifest",
+     "_write_manifest",
+     "set_display_name",
+     "set_mode",
+     "pins_snapshot",
+     "_new_session_id",
+     "_blank_session",
+     "new_session",
+     "current_session_id",
+     "crash_check",
+     "_append_line",
+     "_rotate_if_needed",
+     "event",
+     "_daily_append",
+     "_incident_append",
+     "_audit_update",
+     "log_ask",
+     "log_answer",
+     "log_refuse",
+     "log_error",
+     "log_warning",
+     "session_end",
+     "tail",
+     "_path_for",
+     "purge"
+    ]
+   },
+   "module_defs": [
+    "AUDIT_SCHEMA",
+    "AssistantLog",
+    "DAILY_SCHEMA",
+    "DEFAULT_MODE",
+    "DEFAULT_ROOT",
+    "HERE",
+    "LOG_VERSION",
+    "LogError",
+    "MANIFEST_SCHEMA",
+    "MAX_FILE_BYTES",
+    "MAX_FILE_LINES",
+    "MODES",
+    "REQUIRED",
+    "ROOT",
+    "RX_ID18",
+    "RX_PASSWORD",
+    "RX_PHONE11",
+    "SCHEMA",
+    "_iter_text_files",
+    "count_lines",
+    "datetime",
+    "hashlib",
+    "json",
+    "last_raw_line",
+    "main",
+    "mask_id18",
+    "mask_phone11",
+    "now_iso",
+    "os",
+    "re",
+    "read_last_line",
+    "read_session",
+    "scrub",
+    "sha16",
+    "sha16_file",
+    "sha256_hex",
+    "sys",
+    "threading",
+    "time",
+    "today_str",
+    "uuid"
+   ],
+   "self_calls": [
+    {
+     "name": "_append_line",
+     "lines": [
+      358,
+      386,
+      400
+     ]
+    },
+    {
+     "name": "_audit_update",
+     "lines": [
+      372
+     ]
+    },
+    {
+     "name": "_blank_session",
+     "lines": [
+      171,
+      282,
+      509
+     ]
+    },
+    {
+     "name": "_daily_append",
+     "lines": [
+      364
+     ]
+    },
+    {
+     "name": "_incident_append",
+     "lines": [
+      366,
+      368
+     ]
+    },
+    {
+     "name": "_load_or_create_manifest",
+     "lines": [
+      146
+     ]
+    },
+    {
+     "name": "_new_session_id",
+     "lines": [
+      171,
+      282,
+      509
+     ]
+    },
+    {
+     "name": "_path_for",
+     "lines": [
+      478
+     ]
+    },
+    {
+     "name": "_rotate_if_needed",
+     "lines": [
+      345
+     ]
+    },
+    {
+     "name": "_write_manifest",
+     "lines": [
+      187,
+      198,
+      213,
+      222,
+      263
+     ]
+    },
+    {
+     "name": "crash_check",
+     "lines": [
+      161
+     ]
+    },
+    {
+     "name": "event",
+     "lines": [
+      163,
+      433,
+      448,
+      460,
+      463,
+      467,
+      471
+     ]
+    },
+    {
+     "name": "new_session",
+     "lines": [
+      159
+     ]
+    }
+   ],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/block_info.py",
+   "sha16": "65d95225ff87ba13",
+   "bytes": 1852,
+   "lines": 61,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "BOS",
+    "HEADER",
+    "STRIDE",
+    "hashlib",
+    "info",
+    "main",
+    "os",
+    "struct"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/chat.py",
+   "sha16": "4bb3243aadf176a9",
+   "bytes": 75031,
+   "lines": 1457,
+   "syntax_error": null,
+   "classes": {
+    "_StubEngine": [
+     "__init__",
+     "n_tokens",
+     "pos_max",
+     "reset",
+     "load_block",
+     "repos_local",
+     "share",
+     "drop",
+     "chat_round",
+     "close"
+    ],
+    "CountingEngine": [
+     "__init__",
+     "__getattr__",
+     "n_tokens",
+     "pos_max",
+     "reset",
+     "share",
+     "drop",
+     "load_block",
+     "repos_local",
+     "chat_round",
+     "close"
+    ]
+   },
+   "module_defs": [
+    "BLOCKS",
+    "CHAT_START",
+    "CONTROL_Q",
+    "CountingEngine",
+    "DB",
+    "E",
+    "GuardedLeases",
+    "KVEngine",
+    "MODEL",
+    "N_CTX",
+    "N_SEQ",
+    "QUESTIONS",
+    "ROOT",
+    "SESSION",
+    "SESSIONS",
+    "SLOT",
+    "TWO_BLOCK_DIR",
+    "TWO_BLOCK_SEQ_BANNED",
+    "TWO_CHAT_LEN_CAP",
+    "TWO_CHAT_START",
+    "TWO_DRY_TOKENS_PER_ROUND",
+    "TWO_N_ROUNDS",
+    "TWO_POOL",
+    "TWO_SESSIONS",
+    "_M4C_LOGS",
+    "_StubEngine",
+    "_ask_all",
+    "_chat_scratch",
+    "_crit",
+    "_event",
+    "_explain",
+    "_m4c_cells",
+    "_m4c_witness_attached",
+    "_m4c_witness_cells",
+    "_m4c_witness_cells_zero",
+    "_m4c_write",
+    "_place_slots",
+    "_precheck_load",
+    "_rows_for_session",
+    "_selection",
+    "_two_norm",
+    "_two_plan_module",
+    "_two_selection_texts",
+    "_two_sha_stable",
+    "argparse",
+    "clean",
+    "cmd_build",
+    "cmd_chat",
+    "cmd_load",
+    "cmd_m1",
+    "cmd_save",
+    "cmd_two",
+    "datetime",
+    "die",
+    "json",
+    "main",
+    "ms",
+    "os",
+    "sqlite3",
+    "ss",
+    "sys",
+    "time",
+    "two_session_plan",
+    "two_session_run"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/chat_daily.py",
+   "sha16": "a55930d19218563b",
+   "bytes": 117037,
+   "lines": 2372,
+   "syntax_error": null,
+   "classes": {
+    "DailyError": [
+     "__init__"
+    ],
+    "StubEngine": [
+     "__init__",
+     "n_tokens",
+     "pos_max",
+     "bytes_per_token",
+     "pool_bytes",
+     "reset",
+     "_guess_tokens",
+     "write",
+     "write_at",
+     "save",
+     "load",
+     "load_strict",
+     "share",
+     "drop",
+     "repos_local",
+     "ask",
+     "stats",
+     "close"
+    ],
+    "DailyApp": [
+     "__init__",
+     "_log_pins",
+     "_log_begin",
+     "log_session",
+     "_log",
+     "_bootstrap",
+     "close",
+     "_ensure_meta",
+     "_meta_get",
+     "_meta_set",
+     "_canon_slots",
+     "_augment_slots",
+     "_canon_qslots",
+     "_slots_of",
+     "_insert_memory_block",
+     "_n_tokens_of",
+     "_created_at",
+     "memories",
+     "introspect",
+     "forget",
+     "_rollover_threshold",
+     "_turns_text",
+     "_summarize",
+     "_archive_dir",
+     "_write_archive_file",
+     "_maybe_rollover",
+     "_verify_run",
+     "_block_text",
+     "_now_line",
+     "_chat_prompt",
+     "_repair_prompt",
+     "_verify_event",
+     "_verified_finalize",
+     "_degraded_reply",
+     "_try_isolated",
+     "_auto_remember_candidate",
+     "_boundary_reply",
+     "ask",
+     "_ask_natural",
+     "_ask_strict",
+     "_chat_file",
+     "_transcript_path",
+     "save",
+     "_save_chat_only",
+     "load",
+     "_load_chat_only",
+     "_load_transcript",
+     "_sid_of",
+     "_path_of",
+     "_dll_pin",
+     "_spec_pin",
+     "status",
+     "_status_impl",
+     "health"
+    ]
+   },
+   "module_defs": [
+    "ANSWER_INSTRUCTION",
+    "ARCHIVE_MAX_CHARS",
+    "ARCHIVE_TAG",
+    "BLOCKS_DEFAULT",
+    "BOUNDARY_ENABLED",
+    "CHAT_BUDGET",
+    "CHAT_START",
+    "CHAT_START_DEFAULT",
+    "CODE_FILES",
+    "DB_DEFAULT",
+    "DEFAULT_TOPK",
+    "DLL_NAME",
+    "DailyApp",
+    "DailyError",
+    "E",
+    "GuardedLeases",
+    "HELP",
+    "HERE",
+    "ISOLATED_ENABLED",
+    "LIBRARY_MAX",
+    "LOG_SPEC_REL",
+    "MAX_MEMORIES",
+    "MAX_N_PREDICT",
+    "MAX_TEXT_CHARS",
+    "MAX_TOTAL_MEMORY_TOKENS",
+    "MEMORY_SAFETY_MARGIN",
+    "MODEL",
+    "NATURAL_MODE",
+    "N_CTX",
+    "N_CTX_DEFAULT",
+    "N_GPU_LAYERS_DEFAULT",
+    "N_PREDICT_DEFAULT",
+    "N_SEQ",
+    "PRODUCT_REFUSAL",
+    "RETRIEVAL_MODES",
+    "ROLLOVER_AT_DEFAULT",
+    "ROLLOVER_DROP_FRACTION",
+    "ROLLOVER_FALLBACK_CHARS",
+    "ROLLOVER_KEEP_FRACTION",
+    "ROLLOVER_KEEP_TURNS",
+    "ROLLOVER_SUMMARY_NPREDICT",
+    "ROLLOVER_SUMMARY_PROMPT",
+    "ROOT",
+    "SESSIONS_DEFAULT",
+    "SESSION_DEFAULT",
+    "SPEC_FREEZE_REL",
+    "SPEC_REL",
+    "SYSTEM_POLICY",
+    "StubEngine",
+    "VERIFY_ENABLED",
+    "VERIFY_FALLBACK_SENTENCE",
+    "VERIFY_REPAIR_BUDGET_S",
+    "VERSION",
+    "_DLL_CACHE",
+    "_FAKE_MODEL_PATH",
+    "_POLICY_ECHO_MARKERS",
+    "_THINK_BLOCK",
+    "_THINK_OPEN",
+    "_THINK_STRAY",
+    "_confirm",
+    "_get_verifier",
+    "_ok",
+    "_print_result",
+    "_tidy_answer",
+    "_verify_strip",
+    "alog",
+    "argparse",
+    "atomic_write_json",
+    "clean_answer",
+    "datetime",
+    "dryrun_paths",
+    "first_line",
+    "hashlib",
+    "install_fake_model",
+    "json",
+    "main",
+    "make_real_engine",
+    "memo",
+    "ms",
+    "os",
+    "re",
+    "run_repl",
+    "sha16_file",
+    "ss",
+    "strip_policy_echo",
+    "strip_think",
+    "sys",
+    "time",
+    "uuid",
+    "web_lookup"
+   ],
+   "self_calls": [
+    {
+     "name": "_archive_dir",
+     "lines": [
+      971
+     ]
+    },
+    {
+     "name": "_ask_natural",
+     "lines": [
+      1455
+     ]
+    },
+    {
+     "name": "_ask_strict",
+     "lines": [
+      1456
+     ]
+    },
+    {
+     "name": "_augment_slots",
+     "lines": [
+      781,
+      800
+     ]
+    },
+    {
+     "name": "_auto_remember_candidate",
+     "lines": [
+      1462,
+      1491
+     ]
+    },
+    {
+     "name": "_block_text",
+     "lines": [
+      1194
+     ]
+    },
+    {
+     "name": "_bootstrap",
+     "lines": [
+      576
+     ]
+    },
+    {
+     "name": "_boundary_reply",
+     "lines": [
+      1474
+     ]
+    },
+    {
+     "name": "_canon_slots",
+     "lines": [
+      775,
+      781
+     ]
+    },
+    {
+     "name": "_chat_prompt",
+     "lines": [
+      1191,
+      1336,
+      1645
+     ]
+    },
+    {
+     "name": "_created_at",
+     "lines": [
+      830
+     ]
+    },
+    {
+     "name": "_dll_pin",
+     "lines": [
+      2032
+     ]
+    },
+    {
+     "name": "_ensure_meta",
+     "lines": [
+      560
+     ]
+    },
+    {
+     "name": "_explicit_search",
+     "lines": [
+      1542
+     ]
+    },
+    {
+     "name": "_fit_budget",
+     "lines": [
+      1630,
+      1718
+     ]
+    },
+    {
+     "name": "_guess_tokens",
+     "lines": [
+      352,
+      359,
+      435
+     ]
+    },
+    {
+     "name": "_history_text",
+     "lines": [
+      1730,
+      1741
+     ]
+    },
+    {
+     "name": "_insert_memory_block",
+     "lines": [
+      1059,
+      1068,
+      1076
+     ]
+    },
+    {
+     "name": "_load_chat_only",
+     "lines": [
+      1900
+     ]
+    },
+    {
+     "name": "_load_transcript",
+     "lines": [
+      1915
+     ]
+    },
+    {
+     "name": "_local_time_reply",
+     "lines": [
+      1523
+     ]
+    },
+    {
+     "name": "_log",
+     "lines": [
+      880,
+      938,
+      1033,
+      1043,
+      1097,
+      1110,
+      1134,
+      1870,
+      1924,
+      1991
+     ]
+    },
+    {
+     "name": "_log_begin",
+     "lines": [
+      573
+     ]
+    },
+    {
+     "name": "_log_pins",
+     "lines": [
+      601
+     ]
+    },
+    {
+     "name": "_maybe_rollover",
+     "lines": [
+      1469,
+      1702
+     ]
+    },
+    {
+     "name": "_meta_get",
+     "lines": [
+      727,
+      1085
+     ]
+    },
+    {
+     "name": "_meta_set",
+     "lines": [
+      823,
+      853,
+      1086
+     ]
+    },
+    {
+     "name": "_n_tokens_of",
+     "lines": [
+      829
+     ]
+    },
+    {
+     "name": "_now_line",
+     "lines": [
+      1175
+     ]
+    },
+    {
+     "name": "_path_of",
+     "lines": [
+      1914
+     ]
+    },
+    {
+     "name": "_product_fact_question",
+     "lines": [
+      1734
+     ]
+    },
+    {
+     "name": "_put_memory_source",
+     "lines": [
+      820
+     ]
+    },
+    {
+     "name": "_repair_prompt",
+     "lines": [
+      1258
+     ]
+    },
+    {
+     "name": "_retrieval_select",
+     "lines": [
+      1501,
+      1708
+     ]
+    },
+    {
+     "name": "_rollback_source",
+     "lines": [
+      839,
+      842
+     ]
+    },
+    {
+     "name": "_rollover_threshold",
+     "lines": [
+      992,
+      2065,
+      2067
+     ]
+    },
+    {
+     "name": "_row_by_id",
+     "lines": [
+      798,
+      863,
+      908,
+      1329,
+      1514,
+      1589,
+      1658,
+      1789
+     ]
+    },
+    {
+     "name": "_rows",
+     "lines": [
+      615,
+      817,
+      873,
+      891,
+      939,
+      1601,
+      1607,
+      1720,
+      1954,
+      1958,
+      2021,
+      2074
+     ]
+    },
+    {
+     "name": "_rows_for_selection",
+     "lines": [
+      1630,
+      1717
+     ]
+    },
+    {
+     "name": "_save_chat_only",
+     "lines": [
+      1863
+     ]
+    },
+    {
+     "name": "_select",
+     "lines": [
+      1505,
+      1712
+     ]
+    },
+    {
+     "name": "_sid_of",
+     "lines": [
+      1911
+     ]
+    },
+    {
+     "name": "_spec_pin",
+     "lines": [
+      2030
+     ]
+    },
+    {
+     "name": "_status_impl",
+     "lines": [
+      1990
+     ]
+    },
+    {
+     "name": "_summarize",
+     "lines": [
+      1038
+     ]
+    },
+    {
+     "name": "_sync_mounts",
+     "lines": [
+      658,
+      937,
+      1108,
+      1636,
+      1766,
+      1918
+     ]
+    },
+    {
+     "name": "_total_tokens",
+     "lines": [
+      841,
+      2040
+     ]
+    },
+    {
+     "name": "_transcript_path",
+     "lines": [
+      1864,
+      1941
+     ]
+    },
+    {
+     "name": "_try_isolated",
+     "lines": [
+      1772
+     ]
+    },
+    {
+     "name": "_turns_text",
+     "lines": [
+      1028,
+      1105
+     ]
+    },
+    {
+     "name": "_unmount_all",
+     "lines": [
+      654,
+      671,
+      905,
+      1101,
+      1339,
+      1494,
+      1639,
+      1899,
+      1902
+     ]
+    },
+    {
+     "name": "_verified_finalize",
+     "lines": [
+      1373,
+      1666,
+      1800
+     ]
+    },
+    {
+     "name": "_verify_event",
+     "lines": [
+      1241,
+      1249,
+      1254,
+      1267,
+      1273,
+      1283
+     ]
+    },
+    {
+     "name": "_verify_run",
+     "lines": [
+      1231,
+      1276
+     ]
+    },
+    {
+     "name": "_web_answer",
+     "lines": [
+      1543
+     ]
+    },
+    {
+     "name": "_write_archive_file",
+     "lines": [
+      1055
+     ]
+    },
+    {
+     "name": "load",
+     "lines": [
+      401,
+      647,
+      1113
+     ]
+    },
+    {
+     "name": "memories",
+     "lines": [
+      885
+     ]
+    },
+    {
+     "name": "n_tokens",
+     "lines": [
+      366
+     ]
+    },
+    {
+     "name": "pos_max",
+     "lines": [
+      367
+     ]
+    },
+    {
+     "name": "remember",
+     "lines": [
+      1464
+     ]
+    },
+    {
+     "name": "save",
+     "lines": [
+      667,
+      1031
+     ]
+    },
+    {
+     "name": "status",
+     "lines": [
+      2073
+     ]
+    }
+   ],
+   "dangling_private": [
+    {
+     "name": "_explicit_search",
+     "lines": [
+      1542
+     ]
+    },
+    {
+     "name": "_fit_budget",
+     "lines": [
+      1630,
+      1718
+     ]
+    },
+    {
+     "name": "_history_text",
+     "lines": [
+      1730,
+      1741
+     ]
+    },
+    {
+     "name": "_local_time_reply",
+     "lines": [
+      1523
+     ]
+    },
+    {
+     "name": "_product_fact_question",
+     "lines": [
+      1734
+     ]
+    },
+    {
+     "name": "_put_memory_source",
+     "lines": [
+      820
+     ]
+    },
+    {
+     "name": "_retrieval_select",
+     "lines": [
+      1501,
+      1708
+     ]
+    },
+    {
+     "name": "_rollback_source",
+     "lines": [
+      839,
+      842
+     ]
+    },
+    {
+     "name": "_row_by_id",
+     "lines": [
+      798,
+      863,
+      908,
+      1329,
+      1514,
+      1589,
+      1658,
+      1789
+     ]
+    },
+    {
+     "name": "_rows",
+     "lines": [
+      615,
+      817,
+      873,
+      891,
+      939,
+      1601,
+      1607,
+      1720,
+      1954,
+      1958,
+      2021,
+      2074
+     ]
+    },
+    {
+     "name": "_rows_for_selection",
+     "lines": [
+      1630,
+      1717
+     ]
+    },
+    {
+     "name": "_select",
+     "lines": [
+      1505,
+      1712
+     ]
+    },
+    {
+     "name": "_sync_mounts",
+     "lines": [
+      658,
+      937,
+      1108,
+      1636,
+      1766,
+      1918
+     ]
+    },
+    {
+     "name": "_total_tokens",
+     "lines": [
+      841,
+      2040
+     ]
+    },
+    {
+     "name": "_unmount_all",
+     "lines": [
+      654,
+      671,
+      905,
+      1101,
+      1339,
+      1494,
+      1639,
+      1899,
+      1902
+     ]
+    },
+    {
+     "name": "_web_answer",
+     "lines": [
+      1543
+     ]
+    }
+   ],
+   "required_missing": [
+    "_rows",
+    "_row_by_id",
+    "_rows_for_selection",
+    "_fit_budget",
+    "_sync_mounts",
+    "_unmount_all",
+    "_select",
+    "_retrieval_select",
+    "_product_fact_question",
+    "_history_text",
+    "_total_tokens",
+    "_put_memory_source",
+    "_rollback_source",
+    "_local_time_reply",
+    "_web_answer",
+    "_explicit_search",
+    "remember"
+   ]
+  },
+  {
+   "path": "tools/chat_lease.py",
+   "sha16": "619a043215035de7",
+   "bytes": 19274,
+   "lines": 449,
+   "syntax_error": null,
+   "classes": {
+    "RecordingEngine": [
+     "__init__",
+     "__getattr__",
+     "__setattr__",
+     "share",
+     "drop",
+     "reset",
+     "_forward_logged",
+     "repos_local",
+     "load_strict",
+     "load",
+     "save"
+    ],
+    "GuardedLeases": [
+     "__init__",
+     "from_manifest",
+     "reset",
+     "attach",
+     "detach",
+     "report"
+    ]
+   },
+   "module_defs": [
+    "BlockLeases",
+    "DUNDERS_WE_DO_NOT_SUPPORT",
+    "EVENT_LOG",
+    "GuardedLeases",
+    "INTERCEPTED",
+    "LOG_DIR",
+    "LeaseError",
+    "OBSERVED",
+    "REFUSAL_LOG",
+    "RecordingEngine",
+    "STRICT",
+    "_BRIDGED",
+    "_LIVE",
+    "_M3",
+    "_PROXY_CACHE",
+    "_ROOT",
+    "_RUN",
+    "_active_for",
+    "_append",
+    "_defines",
+    "_stamp",
+    "annotations",
+    "assert_bridged",
+    "forwarding_truth",
+    "functools",
+    "hashlib",
+    "init_run",
+    "install_bridge",
+    "json",
+    "make_proxy",
+    "os",
+    "proxy_class",
+    "re",
+    "read_log",
+    "run_log",
+    "setattr_forwarding",
+    "surface",
+    "sys",
+    "time"
+   ],
+   "self_calls": [
+    {
+     "name": "__new__",
+     "lines": [
+      275
+     ]
+    },
+    {
+     "name": "_forward_logged",
+     "lines": [
+      248,
+      251,
+      254,
+      257
+     ]
+    },
+    {
+     "name": "cells_of",
+     "lines": [
+      327
+     ]
+    },
+    {
+     "name": "referrers",
+     "lines": [
+      323
+     ]
+    }
+   ],
+   "dangling_private": [
+    {
+     "name": "__new__",
+     "lines": [
+      275
+     ]
+    }
+   ],
+   "required_missing": []
+  },
+  {
+   "path": "tools/chat_service.py",
+   "sha16": "ec2de0563b34d5e8",
+   "bytes": 28443,
+   "lines": 635,
+   "syntax_error": null,
+   "classes": {
+    "Service": [
+     "__init__",
+     "call",
+     "service_info",
+     "dispatch"
+    ],
+    "Handler": [
+     "log_message",
+     "_send_json",
+     "_send_error",
+     "_read_payload",
+     "_handle",
+     "_apply_session_header",
+     "_models_payload",
+     "_chat_action",
+     "_completion_body",
+     "_handle_chat_completions",
+     "_send_sse",
+     "handle_one_request",
+     "do_GET",
+     "do_POST",
+     "do_PUT"
+    ],
+    "ServiceHTTPServer": [
+     "handle_error",
+     "__init__"
+    ]
+   },
+   "module_defs": [
+    "BaseHTTPRequestHandler",
+    "CONTEXT_WINDOW",
+    "D",
+    "DEFAULT_HOST",
+    "DEFAULT_PORT",
+    "FAKE_DATA_DEFAULT",
+    "HERE",
+    "HTTPServer",
+    "Handler",
+    "KNOWN_ROUTES",
+    "LOOPBACK",
+    "MAX_BODY",
+    "SERVICE_MODEL_ID",
+    "SERVICE_OWNER",
+    "SERVICE_VERSION",
+    "Service",
+    "ServiceHTTPServer",
+    "_ERR_HTTP",
+    "_OPENAI_TYPE",
+    "_req_text",
+    "alog",
+    "argparse",
+    "build_app",
+    "estimate_tokens",
+    "extract_last_user",
+    "json",
+    "main",
+    "openai_error",
+    "os",
+    "signal",
+    "socket",
+    "sys",
+    "threading",
+    "time",
+    "urlparse",
+    "uuid"
+   ],
+   "self_calls": [
+    {
+     "name": "_apply_session_header",
+     "lines": [
+      283,
+      367
+     ]
+    },
+    {
+     "name": "_chat_action",
+     "lines": [
+      390
+     ]
+    },
+    {
+     "name": "_completion_body",
+     "lines": [
+      392,
+      395
+     ]
+    },
+    {
+     "name": "_handle",
+     "lines": [
+      460,
+      467
+     ]
+    },
+    {
+     "name": "_handle_chat_completions",
+     "lines": [
+      465
+     ]
+    },
+    {
+     "name": "_models_payload",
+     "lines": [
+      458
+     ]
+    },
+    {
+     "name": "_read_payload",
+     "lines": [
+      284,
+      364
+     ]
+    },
+    {
+     "name": "_send_error",
+     "lines": [
+      294,
+      301,
+      470
+     ]
+    },
+    {
+     "name": "_send_json",
+     "lines": [
+      255,
+      288,
+      395,
+      397,
+      406,
+      458
+     ]
+    },
+    {
+     "name": "_send_sse",
+     "lines": [
+      392
+     ]
+    },
+    {
+     "name": "address_string",
+     "lines": [
+      237
+     ]
+    },
+    {
+     "name": "end_headers",
+     "lines": [
+      249,
+      421
+     ]
+    },
+    {
+     "name": "send_header",
+     "lines": [
+      243,
+      244,
+      245,
+      248,
+      415,
+      416,
+      417,
+      420
+     ]
+    },
+    {
+     "name": "send_response",
+     "lines": [
+      242,
+      414
+     ]
+    },
+    {
+     "name": "service_info",
+     "lines": [
+      150,
+      154
+     ]
+    }
+   ],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/check_chat_daily.py",
+   "sha16": "075b75bfe12d3f9a",
+   "bytes": 9667,
+   "lines": 213,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "REQUIRED_DAILY_METHODS",
+    "REQUIRED_QQ_METHODS",
+    "ROOT",
+    "TARGETS",
+    "TOOLS",
+    "_dangling",
+    "_defs_and_attrs",
+    "argparse",
+    "ast",
+    "check_module",
+    "datetime",
+    "importlib",
+    "json",
+    "main",
+    "os",
+    "run",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/diag_place.py",
+   "sha16": "4b8ec9f1830a9e16",
+   "bytes": 7657,
+   "lines": 193,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "CHAT",
+    "KVEngine",
+    "MODEL",
+    "PROFILE",
+    "PROJECT",
+    "Q1",
+    "Q2",
+    "modes",
+    "os",
+    "run",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/dl_14b.py",
+   "sha16": "eec1b5aa419cb654",
+   "bytes": 935,
+   "lines": 21,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "DST",
+    "PART",
+    "URL",
+    "os",
+    "req",
+    "sys",
+    "t0",
+    "time",
+    "urllib"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/dl_14b_par.py",
+   "sha16": "89eddd9e22087055",
+   "bytes": 2077,
+   "lines": 56,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "DST",
+    "N",
+    "URL",
+    "chunk",
+    "done",
+    "got",
+    "lock",
+    "os",
+    "part",
+    "req",
+    "sys",
+    "t0",
+    "threading",
+    "time",
+    "ts",
+    "urllib",
+    "worker"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/eval_heldout.py",
+   "sha16": "597fd0ca671e898e",
+   "bytes": 12294,
+   "lines": 247,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "BLOCKS",
+    "E",
+    "EVAL_VERSION",
+    "FROZEN",
+    "HERE",
+    "QUERIES",
+    "R",
+    "REPORT",
+    "ROOT",
+    "argparse",
+    "build",
+    "check_frozen",
+    "datetime",
+    "digest",
+    "hashlib",
+    "json",
+    "main",
+    "os",
+    "sqlite3",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/eval_retrieval.py",
+   "sha16": "bd838f6f109114a5",
+   "bytes": 7553,
+   "lines": 179,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "CORPUS",
+    "DB",
+    "HERE",
+    "QUERIES",
+    "R",
+    "ROOT",
+    "argparse",
+    "build",
+    "main",
+    "os",
+    "run",
+    "show",
+    "sqlite3",
+    "summarize",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/evidence.py",
+   "sha16": "4bf48589863c4ed7",
+   "bytes": 7115,
+   "lines": 152,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "BADGE",
+    "HERE",
+    "POLICY_VERSION",
+    "QUESTION",
+    "R",
+    "RECALL_VERB",
+    "REFUSAL",
+    "SELF_FACT",
+    "SELF_FACT_NEAR",
+    "WORLD",
+    "_content_terms",
+    "decide",
+    "dialogue_evidence",
+    "intent_of",
+    "main",
+    "os",
+    "re",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/facet_budget.py",
+   "sha16": "f9290bf464166ee4",
+   "bytes": 11561,
+   "lines": 272,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "ALPHAS",
+    "BUDGET",
+    "FacetIndex",
+    "HERE",
+    "QUAL",
+    "REGIMES",
+    "argparse",
+    "asked_types",
+    "load_blocks",
+    "load_qa",
+    "main",
+    "metrics",
+    "os",
+    "rank",
+    "sys",
+    "tokens_per_block"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/facet_index.py",
+   "sha16": "e410463a40ef459f",
+   "bytes": 13085,
+   "lines": 340,
+   "syntax_error": null,
+   "classes": {
+    "FacetIndex": [
+     "__init__",
+     "build",
+     "save",
+     "load",
+     "bm25",
+     "has_type",
+     "candidates",
+     "rank",
+     "facet_of"
+    ]
+   },
+   "module_defs": [
+    "CJK",
+    "Counter",
+    "FACET_PATTERNS",
+    "FACET_STOP",
+    "FacetIndex",
+    "HERE",
+    "QUAL",
+    "QUERY_TYPES",
+    "argparse",
+    "asked_types",
+    "bigrams",
+    "cmd_build",
+    "cmd_eval",
+    "cmd_query",
+    "extract_facets",
+    "json",
+    "load_blocks",
+    "load_qa",
+    "main",
+    "math",
+    "norm",
+    "os",
+    "re",
+    "sys"
+   ],
+   "self_calls": [
+    {
+     "name": "bm25",
+     "lines": [
+      232
+     ]
+    },
+    {
+     "name": "candidates",
+     "lines": [
+      234
+     ]
+    },
+    {
+     "name": "has_type",
+     "lines": [
+      222
+     ]
+    }
+   ],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/freeze_check.py",
+   "sha16": "6016085a05890581",
+   "bytes": 3053,
+   "lines": 79,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "FROZEN",
+    "FROZEN_THRESHOLDS",
+    "FROZEN_VERSIONS",
+    "HERE",
+    "check",
+    "digest",
+    "hashlib",
+    "os",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/grade_quality.py",
+   "sha16": "b8905cfabd371a5e",
+   "bytes": 4996,
+   "lines": 151,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "DIGIT_MAP",
+    "PUNCT",
+    "TRANS",
+    "argparse",
+    "glob",
+    "load_qa",
+    "load_results",
+    "main",
+    "norm",
+    "os",
+    "re",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/holdout_50.py",
+   "sha16": "0b2c1d121f3d3a52",
+   "bytes": 15043,
+   "lines": 289,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "A",
+    "BLOCKS",
+    "FREEZE",
+    "HERE",
+    "QUERIES",
+    "ROOT",
+    "SEALED",
+    "_digest",
+    "build",
+    "datetime",
+    "main",
+    "os",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/holdout_v2.py",
+   "sha16": "f768b359dc312308",
+   "bytes": 15592,
+   "lines": 293,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "BLOCKS",
+    "EVAL",
+    "HERE",
+    "QUERIES",
+    "ROOT",
+    "SEALED",
+    "_digest",
+    "build",
+    "datetime",
+    "main",
+    "os",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/holdout_v3.py",
+   "sha16": "18f2c84cfbfb2b8d",
+   "bytes": 14850,
+   "lines": 288,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "BLOCKS",
+    "EVAL",
+    "HERE",
+    "QUERIES",
+    "ROOT",
+    "SEALED",
+    "_digest",
+    "build",
+    "datetime",
+    "main",
+    "os",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/hole_matrix.py",
+   "sha16": "2c6984a7c1d3db40",
+   "bytes": 11521,
+   "lines": 284,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "BLOCKS",
+    "CHAT",
+    "DB",
+    "FILLER",
+    "HERE",
+    "KVEngine",
+    "LIVE",
+    "Q_CROSS",
+    "ROOT",
+    "argparse",
+    "ask",
+    "cross_repeat",
+    "demo",
+    "filler_text",
+    "gap_range",
+    "layout_blocks",
+    "main",
+    "ms",
+    "occlude",
+    "os",
+    "place",
+    "results",
+    "run_case",
+    "sys",
+    "verdict"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/hole_probe.py",
+   "sha16": "f400ee083454137e",
+   "bytes": 4555,
+   "lines": 112,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "BLOCKS",
+    "CHAT",
+    "DB",
+    "HERE",
+    "KVEngine",
+    "ROOT",
+    "demo",
+    "main",
+    "ms",
+    "os",
+    "place",
+    "state",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/inspect_logs.py",
+   "sha16": "73e67f47bd2a8b40",
+   "bytes": 11870,
+   "lines": 309,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "COMMON",
+    "HERE",
+    "L",
+    "ROOT",
+    "_line_sha",
+    "_load_events",
+    "_pct",
+    "argparse",
+    "datetime",
+    "export_summary",
+    "grep",
+    "hashlib",
+    "json",
+    "main",
+    "os",
+    "sessions",
+    "summary",
+    "sys",
+    "tail",
+    "time",
+    "verify"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/kv_audit.py",
+   "sha16": "65504b259b382fe9",
+   "bytes": 7164,
+   "lines": 198,
+   "syntax_error": null,
+   "classes": {
+    "PROCESS_MEMORY_COUNTERS": []
+   },
+   "module_defs": [
+    "BLOCK",
+    "CHAT",
+    "HERE",
+    "KVEngine",
+    "MODEL",
+    "PROCESS_MEMORY_COUNTERS",
+    "Q",
+    "_GET_WS",
+    "_K32",
+    "argparse",
+    "cmd_drift",
+    "cmd_rss",
+    "ctypes",
+    "diff_bytes",
+    "main",
+    "os",
+    "rss_mib",
+    "sys",
+    "wt"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/kv_budget.py",
+   "sha16": "033aa5096551ef86",
+   "bytes": 2062,
+   "lines": 59,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "L",
+    "PATH",
+    "WANT",
+    "kl",
+    "kvh",
+    "per_token_f16",
+    "per_token_q8",
+    "rd_str",
+    "rd_val",
+    "struct",
+    "vl"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/kvdrift.py",
+   "sha16": "fd8c580f5cd92866",
+   "bytes": 7027,
+   "lines": 168,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "BLOCK",
+    "CHAT",
+    "KVEngine",
+    "QUESTIONS",
+    "argparse",
+    "first_line",
+    "main",
+    "os",
+    "sys",
+    "time",
+    "turn"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/kvmem_test.py",
+   "sha16": "0340a5790fc8fa9b",
+   "bytes": 6281,
+   "lines": 169,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "ANSWER_KEY",
+    "MEMORY",
+    "QUESTION",
+    "argparse",
+    "ask",
+    "get_json",
+    "json",
+    "main",
+    "n_past_of",
+    "post_json",
+    "slot_action",
+    "sys",
+    "urllib"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/kvslots.py",
+   "sha16": "cfec958c19c62563",
+   "bytes": 27016,
+   "lines": 627,
+   "syntax_error": null,
+   "classes": {
+    "KVEngine": [
+     "__init__",
+     "bytes_per_token",
+     "pool_bytes",
+     "seq_bytes",
+     "n_tokens",
+     "pos_max",
+     "reset",
+     "write",
+     "write_at",
+     "ask",
+     "ask_at_topk",
+     "score_at",
+     "piece",
+     "save",
+     "load",
+     "load_strict",
+     "share",
+     "drop",
+     "repos",
+     "can_shift",
+     "repos_local",
+     "close"
+    ],
+    "PositionAllocator": [
+     "__init__",
+     "take"
+    ],
+    "SlotPool": [
+     "__init__",
+     "_path",
+     "_free_slot",
+     "touch",
+     "ask"
+    ]
+   },
+   "module_defs": [
+    "ASK_SUFFIX",
+    "KVEngine",
+    "PositionAllocator",
+    "SlotPool",
+    "_DURABILITY",
+    "_LLVM_BIN",
+    "_durable_replace",
+    "_movefile_ex_write_through",
+    "argparse",
+    "ctypes",
+    "durability_snapshot",
+    "first_line",
+    "main",
+    "mb",
+    "os",
+    "sys",
+    "time",
+    "turn",
+    "uuid"
+   ],
+   "self_calls": [
+    {
+     "name": "_free_slot",
+     "lines": [
+      393
+     ]
+    },
+    {
+     "name": "_path",
+     "lines": [
+      379,
+      382,
+      394
+     ]
+    },
+    {
+     "name": "touch",
+     "lines": [
+      410
+     ]
+    }
+   ],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/m2_probe_cells.py",
+   "sha16": "4b4059974eec5a91",
+   "bytes": 3883,
+   "lines": 97,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "D",
+    "HERE",
+    "K",
+    "MODEL",
+    "ORDER",
+    "ROOT",
+    "TEXT",
+    "ctypes",
+    "main",
+    "os",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/m2_probe_segments.py",
+   "sha16": "6e3579252bfa019c",
+   "bytes": 4892,
+   "lines": 117,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "HERE",
+    "K",
+    "MODEL",
+    "ROOT",
+    "SEG",
+    "main",
+    "os",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/m2_v1.py",
+   "sha16": "17a143b5748f8b22",
+   "bytes": 11667,
+   "lines": 280,
+   "syntax_error": null,
+   "classes": {
+    "Pool": [
+     "__init__",
+     "mount",
+     "evict",
+     "victim",
+     "place",
+     "top"
+    ]
+   },
+   "module_defs": [
+    "BLOCKS",
+    "CHAT",
+    "DIR",
+    "FACT_Q",
+    "HERE",
+    "K",
+    "LIVE",
+    "MANIFEST",
+    "MODEL",
+    "MOVES_BUDGET",
+    "POOL",
+    "Pool",
+    "REQ_BUDGET",
+    "ROOT",
+    "SLOT",
+    "assert_layout",
+    "block_hash_before",
+    "budget",
+    "check",
+    "evictions",
+    "freeze_check",
+    "h",
+    "hashlib",
+    "main",
+    "os",
+    "path_of",
+    "results",
+    "sys"
+   ],
+   "self_calls": [
+    {
+     "name": "evict",
+     "lines": [
+      152
+     ]
+    },
+    {
+     "name": "mount",
+     "lines": [
+      153
+     ]
+    },
+    {
+     "name": "victim",
+     "lines": [
+      145
+     ]
+    }
+   ],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/m2_visibility_probe.py",
+   "sha16": "0b45449c07ab06d9",
+   "bytes": 51157,
+   "lines": 1121,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "ARM_LAYOUT",
+    "ARM_TARGETS",
+    "B3_Q",
+    "B3_TEXTS",
+    "BLOCK_DIR",
+    "CHAT",
+    "CTRL",
+    "FILLER_UNITS",
+    "FULL",
+    "GPU",
+    "HERE",
+    "K",
+    "KV",
+    "LAYOUT_QUESTIONS",
+    "LIVE",
+    "M2_DIR",
+    "MANIFEST",
+    "MICRO",
+    "MODEL",
+    "N_CTX",
+    "N_PREDICT",
+    "N_SEQ",
+    "PROBE",
+    "REPORT_JSON",
+    "REPORT_MD",
+    "ROOT",
+    "RUN_DIR",
+    "SLOT",
+    "WORK_DIR",
+    "_common_report",
+    "_finish_fixture_failure",
+    "_finish_ok",
+    "_fmt_pos",
+    "_summarize_arm",
+    "_write_json",
+    "_write_report_files",
+    "argparse",
+    "arm_run_path",
+    "bind_raw",
+    "block_path",
+    "build_exact_text",
+    "cell_scan",
+    "coverage",
+    "ctypes",
+    "engine_identity",
+    "fact_ok",
+    "hashlib",
+    "json",
+    "layout_specs",
+    "load_and_place",
+    "load_manifest",
+    "log",
+    "main",
+    "measure",
+    "norm",
+    "open_engine",
+    "os",
+    "overlaps",
+    "platform",
+    "raw_pos_max",
+    "read_run",
+    "reset_all",
+    "run_all",
+    "run_arm",
+    "run_control",
+    "run_setup",
+    "sha256_file",
+    "share_layout",
+    "spawn",
+    "subprocess",
+    "sys",
+    "time"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/make_quality_set.py",
+   "sha16": "9762f0f356c1da56",
+   "bytes": 8286,
+   "lines": 164,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "ACT",
+    "DET",
+    "FACTS",
+    "HERE",
+    "OUT",
+    "SEED_FILLER",
+    "TIME",
+    "WHO",
+    "argparse",
+    "main",
+    "make_filler",
+    "os",
+    "random"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/memory_isolated.py",
+   "sha16": "30303fa476b95470",
+   "bytes": 7817,
+   "lines": 183,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "DEFAULT_SCRATCH",
+    "FALLBACK",
+    "ISOLATED_SEQ",
+    "_ROOT",
+    "_TOOLS",
+    "_cleanup",
+    "_sha16",
+    "annotations",
+    "answer_isolated",
+    "hashlib",
+    "ms",
+    "os",
+    "sys",
+    "time"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/memory_service.py",
+   "sha16": "7dcc62a0bae75cfc",
+   "bytes": 27982,
+   "lines": 605,
+   "syntax_error": null,
+   "classes": {
+    "RetrievalConfig": [
+     "__init__"
+    ]
+   },
+   "module_defs": [
+    "CJK_RUN",
+    "DEFAULT_CONFIG",
+    "DEFAULT_COVERAGE_MIN",
+    "DEFAULT_TOP_SCORE_MIN",
+    "LATIN_RUN",
+    "RECALL_VERB",
+    "RetrievalConfig",
+    "SHORT_QUERY_MAX_TOKENS",
+    "SHORT_QUERY_MIN_COVERAGE",
+    "SHORT_QUERY_MIN_SCORE",
+    "SLOT_KEYS",
+    "TAG_WEIGHT",
+    "UNVERIFIED_SLOT_KEYS",
+    "VERSION",
+    "_ACTION_WORDS",
+    "_CAUSE_RX",
+    "_CITY_LIST",
+    "_CONSTRAINT_RX",
+    "_DATE",
+    "_EVENT_WORDS",
+    "_FACT_HINT",
+    "_ID18",
+    "_ME",
+    "_METHOD_RX",
+    "_MODELNO",
+    "_MONEY",
+    "_ORG",
+    "_PERSON_RXS",
+    "_PET_NAME_RX",
+    "_PET_RX",
+    "_PHONE",
+    "_PLACE",
+    "_PLACE_SUFFIX_RX",
+    "_PLATE",
+    "_PREF",
+    "_PURPOSE_RX",
+    "_QUANTITY_RX",
+    "_QUESTION",
+    "_QUESTION_HINT",
+    "_REL_PERSON_RX",
+    "_RESULT_RX",
+    "_ROOM_RX",
+    "_SEARCH_HINT",
+    "_SELF_FACT",
+    "_TIME_RXS",
+    "_WANT_PATTERNS",
+    "_WORLD",
+    "_fact",
+    "_slot_norm",
+    "coverage_of",
+    "extract_facts",
+    "extract_slots",
+    "fact_key",
+    "filter_by_slots",
+    "introspect",
+    "is_fact_question",
+    "is_memory_recall_intent",
+    "needs_auto_remember",
+    "needs_lookup",
+    "plan_upsert",
+    "query_slots",
+    "re",
+    "retrieve",
+    "score_row",
+    "slot_bonus",
+    "slot_match",
+    "to_memory",
+    "tokens",
+    "unicodedata",
+    "unverified_slots"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/memory_source.py",
+   "sha16": "af380cca548e8112",
+   "bytes": 33867,
+   "lines": 722,
+   "syntax_error": null,
+   "classes": {
+    "Incompatible": [],
+    "SourceConflict": [
+     "__init__"
+    ],
+    "SourceHashMismatch": [
+     "__init__"
+    ],
+    "SourceNotAllowed": [],
+    "OriginError": [],
+    "OriginBadLength": [],
+    "OriginLinesChanged": [],
+    "OriginContainerStale": [],
+    "OriginJoinedMismatch": []
+   },
+   "module_defs": [
+    "BLOCKS",
+    "DB",
+    "HERE",
+    "Incompatible",
+    "MODEL",
+    "ORIGIN_HUMAN_TURNS",
+    "ORIGIN_LOOSE_RE",
+    "ORIGIN_RE",
+    "ORIGIN_SYNTHETIC",
+    "OriginBadLength",
+    "OriginContainerStale",
+    "OriginError",
+    "OriginJoinedMismatch",
+    "OriginLinesChanged",
+    "ROOT",
+    "SCHEMA",
+    "SCRATCH_SEQ",
+    "STATE_VERSION",
+    "SourceConflict",
+    "SourceHashMismatch",
+    "SourceNotAllowed",
+    "_verify_row",
+    "argparse",
+    "assert_m5_source_allowed",
+    "assert_origin_roundtrip",
+    "assert_unique_texts",
+    "block_rows",
+    "build_block",
+    "check_compatible",
+    "classify",
+    "connect",
+    "datetime",
+    "format_human_turns_origin",
+    "get_source",
+    "hashlib",
+    "indexable_sources",
+    "load_into",
+    "main",
+    "model_fp",
+    "origin_is_synthetic",
+    "os",
+    "parse_human_turns_origin",
+    "probe_text",
+    "put_source",
+    "re",
+    "rebuild",
+    "sha256_text",
+    "sqlite3",
+    "sys",
+    "verify",
+    "verify_human_turns_origin"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/p0_1a_check.py",
+   "sha16": "2aec301b9438341a",
+   "bytes": 11950,
+   "lines": 282,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "BLOCKS",
+    "CHAT",
+    "DB",
+    "HERE",
+    "KVEngine",
+    "LIVE",
+    "PROBES",
+    "ROOT",
+    "SCRATCH",
+    "attach_and_probe",
+    "check",
+    "demo",
+    "diff_bytes",
+    "fault_child",
+    "main",
+    "ms",
+    "os",
+    "results",
+    "sqlite3",
+    "sys",
+    "test_zero_side_effect"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/p0_1b_check.py",
+   "sha16": "79cc7e817db7d204",
+   "bytes": 5543,
+   "lines": 122,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "BLOCKS",
+    "DB",
+    "HERE",
+    "KVEngine",
+    "ROOT",
+    "check",
+    "demo",
+    "main",
+    "ms",
+    "os",
+    "results",
+    "shutil",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/p0_2_check.py",
+   "sha16": "4abdabfc50b232ef",
+   "bytes": 14562,
+   "lines": 307,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "BLOCKS",
+    "CHAT",
+    "DB",
+    "EXPECT",
+    "HERE",
+    "KVEngine",
+    "LIVE",
+    "PROBES",
+    "ROOT",
+    "SCRATCH",
+    "SESSIONS",
+    "SLOT",
+    "_refused",
+    "check",
+    "demo",
+    "json",
+    "main",
+    "ms",
+    "os",
+    "restore_child",
+    "results",
+    "shutil",
+    "ss",
+    "subprocess",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/p0_4b_right.py",
+   "sha16": "c12a43ee73e6cd2e",
+   "bytes": 7955,
+   "lines": 205,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "BLOCKS",
+    "CHAT",
+    "DB",
+    "FACTS",
+    "GAPS",
+    "HERE",
+    "KVEngine",
+    "LIVE",
+    "QUESTIONS",
+    "ROOT",
+    "SLOT",
+    "SOURCES",
+    "check",
+    "main",
+    "ms",
+    "os",
+    "place",
+    "results",
+    "run_arm",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/qq_bridge.py",
+   "sha16": "0ed698febc277018",
+   "bytes": 45361,
+   "lines": 1067,
+   "syntax_error": null,
+   "classes": {
+    "WSConn": [
+     "__init__",
+     "_send_frame",
+     "send_text",
+     "close",
+     "recv_json",
+     "call",
+     "_register_pending",
+     "run"
+    ],
+    "BridgeConfig": [
+     "normalized"
+    ],
+    "AssistantError": [
+     "__init__"
+    ],
+    "AssistantClient": [
+     "_request",
+     "ask",
+     "remember",
+     "memories",
+     "forget",
+     "status",
+     "health"
+    ],
+    "QQBridge": [
+     "__init__",
+     "_log_record",
+     "group_trigger",
+     "handle_event",
+     "process",
+     "_cmd_ask",
+     "_cmd_remember",
+     "_cmd_memories",
+     "_cmd_forget",
+     "_cmd_status",
+     "_cmd_health",
+     "send_reply",
+     "run",
+     "_run_reverse",
+     "_run_forward",
+     "stop"
+    ]
+   },
+   "module_defs": [
+    "Any",
+    "AssistantClient",
+    "AssistantError",
+    "Awaitable",
+    "BridgeConfig",
+    "COMMANDS",
+    "Callable",
+    "DEFAULT_CONFIG",
+    "HELP_TEXT",
+    "MAX_FRAME_BYTES",
+    "MAX_HEADER_BYTES",
+    "Optional",
+    "Path",
+    "QQBridge",
+    "WSConn",
+    "WS_GUID",
+    "_extract_token",
+    "_read_http_head",
+    "_reject",
+    "_safe_close",
+    "_split_ints",
+    "_strip_at_text",
+    "annotations",
+    "argparse",
+    "asdict",
+    "asyncio",
+    "at_self",
+    "base64",
+    "build_arg_parser",
+    "config_from_args",
+    "dataclass",
+    "datetime",
+    "encode_frame",
+    "field",
+    "format_answer",
+    "format_memories",
+    "hashlib",
+    "json",
+    "load_config",
+    "log",
+    "main",
+    "message_text",
+    "now_iso",
+    "os",
+    "parse_command",
+    "parse_qs",
+    "quote",
+    "read_frame",
+    "segments",
+    "split_reply",
+    "ssl",
+    "strip_leading_command",
+    "struct",
+    "sys",
+    "time",
+    "urllib",
+    "urlparse",
+    "uuid",
+    "ws_accept",
+    "ws_accept_key",
+    "ws_connect"
+   ],
+   "self_calls": [
+    {
+     "name": "_cmd_ask",
+     "lines": [
+      806,
+      808
+     ]
+    },
+    {
+     "name": "_cmd_forget",
+     "lines": [
+      798
+     ]
+    },
+    {
+     "name": "_cmd_health",
+     "lines": [
+      802
+     ]
+    },
+    {
+     "name": "_cmd_memories",
+     "lines": [
+      796
+     ]
+    },
+    {
+     "name": "_cmd_remember",
+     "lines": [
+      794
+     ]
+    },
+    {
+     "name": "_cmd_status",
+     "lines": [
+      800
+     ]
+    },
+    {
+     "name": "_log_record",
+     "lines": [
+      763,
+      771,
+      790,
+      811,
+      816,
+      821,
+      886,
+      891
+     ]
+    },
+    {
+     "name": "_register_pending",
+     "lines": [
+      264
+     ]
+    },
+    {
+     "name": "_request",
+     "lines": [
+      543,
+      546,
+      549,
+      552,
+      555,
+      558
+     ]
+    },
+    {
+     "name": "_run_forward",
+     "lines": [
+      901
+     ]
+    },
+    {
+     "name": "_run_reverse",
+     "lines": [
+      899
+     ]
+    },
+    {
+     "name": "_send_frame",
+     "lines": [
+      189,
+      196,
+      220,
+      226,
+      268
+     ]
+    },
+    {
+     "name": "_sleep",
+     "lines": [
+      937,
+      955
+     ]
+    },
+    {
+     "name": "group_trigger",
+     "lines": [
+      766
+     ]
+    },
+    {
+     "name": "process",
+     "lines": [
+      783
+     ]
+    },
+    {
+     "name": "recv_json",
+     "lines": [
+      285
+     ]
+    },
+    {
+     "name": "send_reply",
+     "lines": [
+      824
+     ]
+    }
+   ],
+   "dangling_private": [
+    {
+     "name": "_sleep",
+     "lines": [
+      937,
+      955
+     ]
+    }
+   ],
+   "required_missing": []
+  },
+  {
+   "path": "tools/recall_curve.py",
+   "sha16": "b9069c97ef6ab0a3",
+   "bytes": 4430,
+   "lines": 120,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "BINS",
+    "argparse",
+    "glob",
+    "load_meta",
+    "load_qa",
+    "main",
+    "norm",
+    "os",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/retrieval.py",
+   "sha16": "43f660196ab90a14",
+   "bytes": 18197,
+   "lines": 398,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "A",
+    "ABS_CUT",
+    "CLAUSE",
+    "COV_MIN",
+    "DDL",
+    "DEFAULT_DB",
+    "ENTITY",
+    "GATE",
+    "HERE",
+    "INDEX_VERSION",
+    "REL_CUT",
+    "ROOT",
+    "ROUTES",
+    "STOP_BIGRAMS",
+    "STOP_UNI",
+    "_bm25",
+    "_passes",
+    "_search_one",
+    "argparse",
+    "build_index",
+    "ensure",
+    "facets_of",
+    "index_version",
+    "is_stale",
+    "main",
+    "math",
+    "os",
+    "re",
+    "search",
+    "split_clauses",
+    "sqlite3",
+    "sys",
+    "tokenize"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/retrieval_baseline.py",
+   "sha16": "6f6fa7ba39fc7c0b",
+   "bytes": 4740,
+   "lines": 139,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "Counter",
+    "argparse",
+    "bigrams",
+    "bm25_rank",
+    "load_blocks",
+    "load_qa",
+    "main",
+    "math",
+    "norm",
+    "os",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/run_c_acceptance.py",
+   "sha16": "b20aa24c372ab525",
+   "bytes": 37368,
+   "lines": 860,
+   "syntax_error": null,
+   "classes": {
+    "VramSampler": [
+     "__init__",
+     "_which",
+     "_poll_nvidia",
+     "_poll_powershell",
+     "_poll",
+     "_run",
+     "start",
+     "stop",
+     "available",
+     "peak"
+    ],
+    "ChildChat": [
+     "__init__",
+     "_reader_loop",
+     "start",
+     "_next_line",
+     "wait_for",
+     "send",
+     "remember",
+     "ask",
+     "forget",
+     "quit",
+     "_wait_exit",
+     "kill_hard"
+    ],
+    "Acceptance": [
+     "__init__",
+     "dirs",
+     "child_args",
+     "open_child",
+     "scenario",
+     "modeval",
+     "struct",
+     "case",
+     "merged",
+     "_run_questions",
+     "s1",
+     "s2",
+     "s3_s4",
+     "s5",
+     "s6",
+     "s7",
+     "resources",
+     "verdict",
+     "gather_logs",
+     "write"
+    ]
+   },
+   "module_defs": [
+    "Acceptance",
+    "ChildChat",
+    "DAILY",
+    "DLL",
+    "HERE",
+    "INSPECT",
+    "KILL_WAIT_S",
+    "LOG_SPEC",
+    "MODEL_DEFAULT",
+    "OUT_DEFAULT",
+    "PROMPT_TIMEOUT",
+    "REFUSAL_MARKERS",
+    "ROOT",
+    "S1_FACTS",
+    "S1_QUESTIONS",
+    "S2_QUESTIONS",
+    "SCENARIO_TIMEOUT",
+    "SPEC",
+    "VRAM_FUSE_GIB",
+    "VramSampler",
+    "WORK_DEFAULT",
+    "argparse",
+    "atomic_json",
+    "datetime",
+    "hashlib",
+    "json",
+    "main",
+    "now_iso",
+    "os",
+    "re",
+    "sha16_file",
+    "subprocess",
+    "sys",
+    "threading",
+    "time",
+    "traceback"
+   ],
+   "self_calls": [
+    {
+     "name": "_next_line",
+     "lines": [
+      278
+     ]
+    },
+    {
+     "name": "_poll",
+     "lines": [
+      181
+     ]
+    },
+    {
+     "name": "_poll_nvidia",
+     "lines": [
+      170
+     ]
+    },
+    {
+     "name": "_poll_powershell",
+     "lines": [
+      173
+     ]
+    },
+    {
+     "name": "_wait_exit",
+     "lines": [
+      324,
+      344
+     ]
+    },
+    {
+     "name": "_which",
+     "lines": [
+      120,
+      121
+     ]
+    },
+    {
+     "name": "case",
+     "lines": [
+      464,
+      472,
+      500,
+      503,
+      524,
+      540,
+      544,
+      562,
+      566,
+      582,
+      584,
+      591,
+      595,
+      613,
+      616,
+      623,
+      627,
+      629,
+      654,
+      669,
+      692,
+      705
+     ]
+    },
+    {
+     "name": "child_args",
+     "lines": [
+      389
+     ]
+    },
+    {
+     "name": "dirs",
+     "lines": [
+      456,
+      489,
+      553,
+      575,
+      676
+     ]
+    },
+    {
+     "name": "gather_logs",
+     "lines": [
+      786
+     ]
+    },
+    {
+     "name": "merged",
+     "lines": [
+      485,
+      509,
+      531,
+      549,
+      571,
+      640,
+      716
+     ]
+    },
+    {
+     "name": "modeval",
+     "lines": [
+      470,
+      500,
+      503,
+      522,
+      563,
+      567,
+      585,
+      608,
+      616
+     ]
+    },
+    {
+     "name": "open_child",
+     "lines": [
+      457,
+      490,
+      515,
+      535,
+      554,
+      578,
+      601,
+      677
+     ]
+    },
+    {
+     "name": "resources",
+     "lines": [
+      763
+     ]
+    },
+    {
+     "name": "scenario",
+     "lines": [
+      439
+     ]
+    },
+    {
+     "name": "send",
+     "lines": [
+      287,
+      294,
+      313,
+      314,
+      319
+     ]
+    },
+    {
+     "name": "struct",
+     "lines": [
+      478,
+      480,
+      483,
+      506,
+      528,
+      568,
+      592,
+      618,
+      636,
+      712,
+      713,
+      714,
+      715
+     ]
+    },
+    {
+     "name": "verdict",
+     "lines": [
+      787
+     ]
+    },
+    {
+     "name": "wait_for",
+     "lines": [
+      247,
+      288,
+      295,
+      301,
+      315,
+      320
+     ]
+    }
+   ],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/session_state.py",
+   "sha16": "44b508a886dfb8f8",
+   "bytes": 24005,
+   "lines": 526,
+   "syntax_error": null,
+   "classes": {
+    "LayoutMismatch": []
+   },
+   "module_defs": [
+    "HERE",
+    "LayoutMismatch",
+    "MANIFEST_VERSION",
+    "PLANNER_VERSION",
+    "REQUIRED",
+    "_DURABILITY",
+    "_durable_replace",
+    "_emit_unvalidated",
+    "_movefile_ex_write_through",
+    "_req",
+    "_sha256_file",
+    "check_layout",
+    "check_placement",
+    "ctypes",
+    "datetime",
+    "durability_snapshot",
+    "hashlib",
+    "json",
+    "ms",
+    "os",
+    "plan_layout",
+    "read_manifest",
+    "resolve",
+    "restore_session",
+    "save_session",
+    "sys",
+    "validate_manifest"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/states_demo.py",
+   "sha16": "f279dc9ff6d08055",
+   "bytes": 3988,
+   "lines": 89,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "C",
+    "E",
+    "HERE",
+    "KVEngine",
+    "R",
+    "con",
+    "eng",
+    "ms",
+    "os",
+    "sys",
+    "turns"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/switch_model.py",
+   "sha16": "a2cf90064e9b60b8",
+   "bytes": 3975,
+   "lines": 108,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "ROOT",
+    "argparse",
+    "json",
+    "kill_port",
+    "main",
+    "os",
+    "rebuild",
+    "shutil",
+    "start",
+    "subprocess",
+    "sys",
+    "time",
+    "urllib",
+    "wait"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/t031_habit_para.py",
+   "sha16": "cd0c651aa2a3d14f",
+   "bytes": 9180,
+   "lines": 223,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "CANDIDATES",
+    "CHECK",
+    "HABIT",
+    "HERE",
+    "K",
+    "M2",
+    "OUT",
+    "P",
+    "ROOT",
+    "SCRATCH",
+    "SIDE",
+    "argparse",
+    "detok",
+    "hashlib",
+    "json",
+    "main",
+    "nt",
+    "os",
+    "phase_build",
+    "phase_tokens",
+    "seq_tokens",
+    "sha256",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/t031_patch_maskbias.py",
+   "sha16": "0593cef62a43be7d",
+   "bytes": 3910,
+   "lines": 112,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "anchor1",
+    "anchor2",
+    "anchor3",
+    "ins1",
+    "ins2",
+    "ins3",
+    "io",
+    "p",
+    "s",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_analysis.py",
+   "sha16": "cec5a83fd555e46d",
+   "bytes": 8427,
+   "lines": 194,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "A",
+    "ASKS_CASES",
+    "FAIL",
+    "HERE",
+    "NEAR_MISS",
+    "VALUES_NEGATIVE",
+    "VALUES_POSITIVE",
+    "check",
+    "main",
+    "os",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_answer_verifier_cpu.py",
+   "sha16": "3563b9cbe323fafa",
+   "bytes": 15608,
+   "lines": 288,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "A",
+    "CHECKS",
+    "HERE",
+    "check",
+    "main",
+    "os",
+    "sys",
+    "t2_checks"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_chat_daily_cpu.py",
+   "sha16": "8dd66e81bed997f3",
+   "bytes": 19505,
+   "lines": 457,
+   "syntax_error": null,
+   "classes": {
+    "GuardedStubEngine": [
+     "__init__",
+     "share",
+     "drop",
+     "repos_local",
+     "ask"
+    ]
+   },
+   "module_defs": [
+    "ASK_HIT",
+    "ASK_MISS",
+    "CHECKS",
+    "D",
+    "FACTS",
+    "FAILS",
+    "GuardedStubEngine",
+    "HERE",
+    "_os_env",
+    "check",
+    "io",
+    "json",
+    "main",
+    "make_app",
+    "os",
+    "re",
+    "shutil",
+    "sys",
+    "t_bad_input",
+    "t_capacity",
+    "t_clean_answer",
+    "t_forget",
+    "t_no_gpu_import",
+    "t_placement_guard",
+    "t_refusal",
+    "t_remember_and_ask",
+    "t_repl_dispatch",
+    "t_save_restore",
+    "t_status",
+    "tempfile",
+    "traceback"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_chat_service_cpu.py",
+   "sha16": "a4bb198f7a2e50a7",
+   "bytes": 10248,
+   "lines": 265,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "CHECKS",
+    "FAILS",
+    "HERE",
+    "ROOT",
+    "SCRIPT",
+    "check",
+    "free_port",
+    "http",
+    "json",
+    "main",
+    "os",
+    "port_free",
+    "socket",
+    "subprocess",
+    "sys",
+    "tempfile",
+    "threading",
+    "time",
+    "urllib",
+    "wait_health"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_logging_cpu.py",
+   "sha16": "1481ad0cbaac5f55",
+   "bytes": 9123,
+   "lines": 208,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "CHECKS",
+    "D",
+    "FAILS",
+    "HERE",
+    "L",
+    "ROOT",
+    "SENSITIVE",
+    "_os_env",
+    "check",
+    "json",
+    "main",
+    "mkapp",
+    "os",
+    "run_tool",
+    "shutil",
+    "subprocess",
+    "sys",
+    "tempfile"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_memory_graph_cpu.py",
+   "sha16": "b58cdbfc55647cf7",
+   "bytes": 12365,
+   "lines": 267,
+   "syntax_error": null,
+   "classes": {
+    "RecordingEngine": [
+     "__init__",
+     "repos_local",
+     "share",
+     "drop",
+     "ask"
+    ]
+   },
+   "module_defs": [
+    "CHECKS",
+    "D",
+    "FAILS",
+    "HERE",
+    "ROOT",
+    "RecordingEngine",
+    "_os_env",
+    "check",
+    "events",
+    "json",
+    "main",
+    "make_app",
+    "os",
+    "shutil",
+    "sys",
+    "t_budget_truncation",
+    "t_related_expansion",
+    "t_rollover_archive",
+    "t_similar_two",
+    "t_tags_and_memories",
+    "tempfile"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_memory_isolated_cpu.py",
+   "sha16": "8ee7088d91650807",
+   "bytes": 9237,
+   "lines": 236,
+   "syntax_error": null,
+   "classes": {
+    "FakeEngine": [
+     "__init__",
+     "reset",
+     "load",
+     "repos_local",
+     "share",
+     "ask",
+     "write_at",
+     "n_tokens",
+     "pos_max"
+    ],
+    "NoAnswer": [
+     "ask"
+    ]
+   },
+   "module_defs": [
+    "FakeEngine",
+    "MI",
+    "_ROOT",
+    "_install_fake_loader",
+    "_row",
+    "main",
+    "os",
+    "sys",
+    "test_bad_arguments",
+    "test_empty_answer_falls_back",
+    "test_empty_rows_allowed",
+    "test_failure_rolls_back",
+    "test_order_is_preserved",
+    "test_positions_and_isolation",
+    "test_token_count_mismatch_falls_back"
+   ],
+   "self_calls": [
+    {
+     "name": "reset",
+     "lines": [
+      44
+     ]
+    }
+   ],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_memory_isolated_gpu.py",
+   "sha16": "15571fcdeb873454",
+   "bytes": 4832,
+   "lines": 118,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "HISTORY",
+    "MI",
+    "NEW_TEXT",
+    "OLD_TEXT",
+    "QUESTION",
+    "_ROOT",
+    "argparse",
+    "json",
+    "kvslots",
+    "main",
+    "ms",
+    "os",
+    "shutil",
+    "sys",
+    "tempfile"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_memory_service_cpu.py",
+   "sha16": "8485c4024c759846",
+   "bytes": 6148,
+   "lines": 125,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "CHECKS",
+    "HERE",
+    "M",
+    "check",
+    "main",
+    "os",
+    "rows",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_openai_compat_cpu.py",
+   "sha16": "eca629043c6599a1",
+   "bytes": 14609,
+   "lines": 328,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "CHECKS",
+    "D",
+    "FAILS",
+    "HERE",
+    "MODEL_ID",
+    "ROOT",
+    "SCRIPT",
+    "_os_env",
+    "check",
+    "free_port",
+    "http_json",
+    "http_raw",
+    "json",
+    "main",
+    "os",
+    "socket",
+    "subprocess",
+    "sys",
+    "tempfile",
+    "threading",
+    "time",
+    "urllib",
+    "user",
+    "wait_health"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_policy_web_cpu.py",
+   "sha16": "7181db51d553e4f8",
+   "bytes": 5587,
+   "lines": 143,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "D",
+    "FAILS",
+    "HERE",
+    "LEAK",
+    "W",
+    "check",
+    "main",
+    "make_app",
+    "os",
+    "sys",
+    "t_local_time",
+    "t_policy_fallback_in_chat",
+    "t_strip_policy",
+    "t_web_paths",
+    "tempfile",
+    "time"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_qq_bridge_cpu.py",
+   "sha16": "5a9f089464a08eb5",
+   "bytes": 24991,
+   "lines": 555,
+   "syntax_error": null,
+   "classes": {
+    "MockAssistant": [
+     "__init__",
+     "_respond",
+     "start",
+     "stop",
+     "calls"
+    ],
+    "MockOneBot": [
+     "__init__",
+     "start",
+     "_accept",
+     "stop",
+     "read_action"
+    ],
+    "BridgeTestCase": [
+     "asyncSetUp",
+     "asyncTearDown",
+     "make_cfg",
+     "start_forward_bridge",
+     "start_reverse_bridge"
+    ],
+    "TestBasicFlow": [
+     "test_forward_private_message_ask_and_reply",
+     "test_group_at_trigger",
+     "test_group_without_trigger_is_ignored",
+     "test_prefix_trigger_mode",
+     "test_allowed_groups_filter"
+    ],
+    "TestCommands": [
+     "test_remember_memories_forget_status",
+     "test_admin_only_remember"
+    ],
+    "TestResilience": [
+     "test_assistant_timeout_error_receipt",
+     "test_assistant_http_500_error_receipt",
+     "test_assistant_unreachable_error_receipt",
+     "test_reconnect_backoff",
+     "test_serial_per_session_and_parallel_across_sessions"
+    ],
+    "TestReplyAndLogs": [
+     "test_long_reply_split",
+     "test_logs_are_metadata_only"
+    ],
+    "TestReverseMode": [
+     "test_reverse_mode_accepts_client",
+     "test_reverse_mode_rejects_bad_token",
+     "onebot_read_action"
+    ],
+    "Handler": [
+     "log_message",
+     "_read_body",
+     "_handle",
+     "do_GET",
+     "do_POST"
+    ]
+   },
+   "module_defs": [
+    "Any",
+    "BaseHTTPRequestHandler",
+    "BridgeTestCase",
+    "MockAssistant",
+    "MockOneBot",
+    "Optional",
+    "TOKEN",
+    "TestBasicFlow",
+    "TestCommands",
+    "TestReplyAndLogs",
+    "TestResilience",
+    "TestReverseMode",
+    "ThreadingHTTPServer",
+    "annotations",
+    "asyncio",
+    "free_port",
+    "group_event",
+    "json",
+    "os",
+    "private_event",
+    "qb",
+    "socket",
+    "sys",
+    "tempfile",
+    "threading",
+    "time",
+    "unittest",
+    "wait_until"
+   ],
+   "self_calls": [
+    {
+     "name": "_handle",
+     "lines": [
+      100,
+      103
+     ]
+    },
+    {
+     "name": "_read_body",
+     "lines": [
+      66
+     ]
+    },
+    {
+     "name": "assertEqual",
+     "lines": [
+      319,
+      320,
+      322,
+      323,
+      331,
+      332,
+      333,
+      340,
+      341,
+      349,
+      351,
+      358,
+      362,
+      380,
+      382,
+      383,
+      384,
+      385,
+      386,
+      395,
+      412,
+      472,
+      473,
+      474,
+      533
+     ]
+    },
+    {
+     "name": "assertGreaterEqual",
+     "lines": [
+      455,
+      498
+     ]
+    },
+    {
+     "name": "assertIn",
+     "lines": [
+      321,
+      381,
+      394,
+      410,
+      424,
+      436
+     ]
+    },
+    {
+     "name": "assertIsNotNone",
+     "lines": [
+      318,
+      330,
+      348,
+      361,
+      379,
+      393,
+      409,
+      423,
+      435,
+      469,
+      470,
+      532
+     ]
+    },
+    {
+     "name": "assertLess",
+     "lines": [
+      411
+     ]
+    },
+    {
+     "name": "assertLessEqual",
+     "lines": [
+      457,
+      475,
+      499,
+      501
+     ]
+    },
+    {
+     "name": "assertNotIn",
+     "lines": [
+      516
+     ]
+    },
+    {
+     "name": "assertRaises",
+     "lines": [
+      539
+     ]
+    },
+    {
+     "name": "assertTrue",
+     "lines": [
+      296,
+      308,
+      454,
+      456,
+      513,
+      518,
+      519,
+      528
+     ]
+    },
+    {
+     "name": "make_cfg",
+     "lines": [
+      290,
+      302,
+      449
+     ]
+    },
+    {
+     "name": "on_conn",
+     "lines": [
+      164
+     ]
+    },
+    {
+     "name": "onebot_read_action",
+     "lines": [
+      531
+     ]
+    },
+    {
+     "name": "start_forward_bridge",
+     "lines": [
+      314,
+      326,
+      336,
+      344,
+      354,
+      367,
+      389,
+      402,
+      419,
+      429,
+      462,
+      486,
+      506
+     ]
+    },
+    {
+     "name": "start_reverse_bridge",
+     "lines": [
+      524,
+      538
+     ]
+    }
+   ],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_refusal_cpu.py",
+   "sha16": "1e877b9f2de83b33",
+   "bytes": 2822,
+   "lines": 61,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "CHECKS",
+    "E",
+    "HIST",
+    "check",
+    "main",
+    "os",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_retrieval_cpu.py",
+   "sha16": "a1b682287a5ea849",
+   "bytes": 14280,
+   "lines": 347,
+   "syntax_error": null,
+   "classes": {
+    "RecordingEngine": [
+     "__init__",
+     "_guess_tokens",
+     "reset",
+     "load",
+     "load_strict",
+     "repos_local",
+     "share",
+     "drop",
+     "ask"
+    ]
+   },
+   "module_defs": [
+    "CHECKS",
+    "D",
+    "FAILS",
+    "HERE",
+    "ROOT",
+    "RecordingEngine",
+    "TOPIC_TEXTS",
+    "_os_env",
+    "check",
+    "free_port",
+    "http",
+    "json",
+    "main",
+    "make_app",
+    "os",
+    "seed",
+    "shutil",
+    "socket",
+    "subprocess",
+    "sys",
+    "t_budget_truncation",
+    "t_no_overlap_refuse",
+    "t_off_mode_parity",
+    "t_service_passthrough",
+    "t_switch_order",
+    "t_tokens_and_determinism",
+    "tempfile",
+    "time",
+    "urllib"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_retrieval_fallback_cpu.py",
+   "sha16": "515fa56eef34d88b",
+   "bytes": 6493,
+   "lines": 146,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "D",
+    "FACTS",
+    "FAILS",
+    "HERE",
+    "check",
+    "main",
+    "os",
+    "sys",
+    "tempfile",
+    "time"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_retrieval_judges.py",
+   "sha16": "73053556db580d50",
+   "bytes": 15108,
+   "lines": 337,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "A",
+    "CASES",
+    "FILLER",
+    "HERE",
+    "PHONE_BLOCK",
+    "R",
+    "ROOT",
+    "SCHEMA",
+    "a1",
+    "a10",
+    "a11",
+    "a12",
+    "a13",
+    "a14",
+    "a15",
+    "a16",
+    "a17",
+    "a2",
+    "a3",
+    "a4",
+    "a5",
+    "a6",
+    "a7",
+    "a8",
+    "a9",
+    "argparse",
+    "case",
+    "corpus",
+    "hashlib",
+    "ids",
+    "json",
+    "main",
+    "make_db",
+    "os",
+    "results",
+    "sha16",
+    "sqlite3",
+    "sys",
+    "tempfile",
+    "time"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_retrieval_service_cpu.py",
+   "sha16": "26dcbc28c096b321",
+   "bytes": 3534,
+   "lines": 101,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "D",
+    "FACTS",
+    "FAILS",
+    "HERE",
+    "check",
+    "main",
+    "make_app",
+    "os",
+    "sys",
+    "tempfile",
+    "time"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_rollover_cpu.py",
+   "sha16": "392011625a93656b",
+   "bytes": 13655,
+   "lines": 303,
+   "syntax_error": null,
+   "classes": {
+    "RecordingEngine": [
+     "__init__",
+     "ask",
+     "write_at",
+     "repos_local",
+     "share",
+     "drop"
+    ]
+   },
+   "module_defs": [
+    "CHECKS",
+    "D",
+    "FAILS",
+    "HERE",
+    "QUESTIONS",
+    "ROOT",
+    "RecordingEngine",
+    "_os_env",
+    "check",
+    "json",
+    "main",
+    "make_app",
+    "os",
+    "read_events",
+    "shutil",
+    "subprocess",
+    "sys",
+    "t_disabled",
+    "t_hard_failure",
+    "t_repl_notice",
+    "t_summary_fallback",
+    "t_trigger_sequence",
+    "tempfile"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_rollover_hier_cpu.py",
+   "sha16": "cfc6c4ba0917aab7",
+   "bytes": 6800,
+   "lines": 152,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "D",
+    "FAILS",
+    "HERE",
+    "check",
+    "hashlib",
+    "json",
+    "main",
+    "ms",
+    "os",
+    "sys",
+    "tempfile"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_slots_cpu.py",
+   "sha16": "880a7613e0abc4bc",
+   "bytes": 9307,
+   "lines": 193,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "CHECKS",
+    "D",
+    "HERE",
+    "M",
+    "MEM",
+    "ROOT",
+    "check",
+    "main",
+    "make_app",
+    "os",
+    "shutil",
+    "sys",
+    "tempfile"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_verify_cases_cpu.py",
+   "sha16": "85e981d567a09a3c",
+   "bytes": 9922,
+   "lines": 214,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "A",
+    "CASES",
+    "HERE",
+    "STRIP_CASES",
+    "_cnorm",
+    "argparse",
+    "blocks",
+    "case",
+    "main",
+    "os",
+    "run_strip_checks",
+    "run_verify_checks",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_verify_real_memory_cpu.py",
+   "sha16": "9435ea8329f5fa7a",
+   "bytes": 4446,
+   "lines": 110,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "AV",
+    "BLOCKS",
+    "D",
+    "FAILS",
+    "HERE",
+    "check",
+    "main",
+    "os",
+    "sys",
+    "t_chat_natural_grounded",
+    "t_no_blocks_no_evidence",
+    "t_verifier_matrix",
+    "tempfile",
+    "time"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_verify_wiring_cpu.py",
+   "sha16": "4cf6767e08840e65",
+   "bytes": 12455,
+   "lines": 335,
+   "syntax_error": null,
+   "classes": {
+    "FakeLogger": [
+     "__init__",
+     "log_ask",
+     "log_answer",
+     "log_warning",
+     "codes"
+    ],
+    "FakeVerifier": [
+     "__init__",
+     "verify_answer",
+     "strip_continuation"
+    ],
+    "_Iso": [
+     "answer_isolated"
+    ]
+   },
+   "module_defs": [
+    "D",
+    "FAILS",
+    "FakeLogger",
+    "FakeVerifier",
+    "HERE",
+    "TOTAL",
+    "_fake_iso",
+    "_install",
+    "check",
+    "main",
+    "make_app",
+    "no_repair",
+    "os",
+    "repair_const",
+    "sys",
+    "t_general_no_blocks_skipped",
+    "t_isolated_blocks_identity",
+    "t_isolated_seq6_busy",
+    "t_isolated_timeout",
+    "t_mount_path_wiring",
+    "t_no_evidence",
+    "t_pass",
+    "t_real_verifier_smoke",
+    "t_repair_budget",
+    "t_repair_fail_fallback",
+    "t_repair_pass",
+    "t_strip_continuation",
+    "t_verify_off",
+    "tempfile",
+    "time"
+   ],
+   "self_calls": [
+    {
+     "name": "_strip",
+     "lines": [
+      73
+     ]
+    }
+   ],
+   "dangling_private": [
+    {
+     "name": "_strip",
+     "lines": [
+      73
+     ]
+    }
+   ],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_web_clean_cpu.py",
+   "sha16": "393a71e468595f2d",
+   "bytes": 3430,
+   "lines": 100,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "CLEAN_CASES",
+    "FAILS",
+    "HERE",
+    "ROWS_IRRELEVANT",
+    "ROWS_RELEVANT",
+    "W",
+    "_fake_search",
+    "check",
+    "main",
+    "os",
+    "sys",
+    "t_clean",
+    "t_lookup_relevance"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/test_web_lookup_cpu.py",
+   "sha16": "84ed8f2a09aff793",
+   "bytes": 8527,
+   "lines": 210,
+   "syntax_error": null,
+   "classes": {
+    "BaseCase": [
+     "setUp",
+     "tearDown"
+    ],
+    "TestParse": [
+     "test_parse_two_results",
+     "test_html_unescape_and_script_stripped",
+     "test_dedupe_same_url",
+     "test_max_results",
+     "test_empty_page",
+     "test_structural_change_fails_closed",
+     "test_snippet_truncated"
+    ],
+    "TestUrls": [
+     "test_javascript_filtered",
+     "test_data_file_relative_filtered",
+     "test_fragment_stripped_and_scheme_kept"
+    ],
+    "TestSafeRead": [
+     "test_read_capped_1mib",
+     "test_read_capped_small"
+    ],
+    "TestSearchFallbacks": [
+     "test_timeout_returns_empty_and_logs",
+     "test_urlerror_returns_empty",
+     "test_generic_exception_returns_empty",
+     "test_empty_query"
+    ],
+    "TestLoggingAndText": [
+     "test_log_has_sha_no_query_text",
+     "test_lookup_text_stale_marker",
+     "test_lookup_text_no_marker_when_date_present",
+     "test_lookup_text_no_marker_for_static_query",
+     "test_lookup_text_empty_when_no_results"
+    ]
+   },
+   "module_defs": [
+    "BaseCase",
+    "Path",
+    "ROOT",
+    "TestLoggingAndText",
+    "TestParse",
+    "TestSafeRead",
+    "TestSearchFallbacks",
+    "TestUrls",
+    "_block",
+    "_html",
+    "annotations",
+    "json",
+    "mock",
+    "sys",
+    "tempfile",
+    "unittest",
+    "wl"
+   ],
+   "self_calls": [
+    {
+     "name": "assertEqual",
+     "lines": [
+      57,
+      58,
+      59,
+      65,
+      76,
+      80,
+      83,
+      84,
+      88,
+      100,
+      108,
+      113,
+      114,
+      126,
+      137,
+      144,
+      146,
+      153,
+      160,
+      162,
+      165,
+      167,
+      176,
+      182,
+      183,
+      206
+     ]
+    },
+    {
+     "name": "assertFalse",
+     "lines": [
+      138,
+      147,
+      155
+     ]
+    },
+    {
+     "name": "assertIn",
+     "lines": [
+      67,
+      156,
+      190
+     ]
+    },
+    {
+     "name": "assertLessEqual",
+     "lines": [
+      93
+     ]
+    },
+    {
+     "name": "assertNotIn",
+     "lines": [
+      66,
+      179,
+      196,
+      202
+     ]
+    },
+    {
+     "name": "assertTrue",
+     "lines": [
+      94,
+      125,
+      184
+     ]
+    }
+   ],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/variance_check.py",
+   "sha16": "9fa2200d2e35e037",
+   "bytes": 14422,
+   "lines": 313,
+   "syntax_error": null,
+   "classes": {},
+   "module_defs": [
+    "BLOCKS",
+    "CHAT",
+    "DB",
+    "EXPECT",
+    "GPU",
+    "HERE",
+    "KVEngine",
+    "LIVE",
+    "PROBES",
+    "ROOT",
+    "SLOT",
+    "WORK",
+    "build_session",
+    "demo",
+    "first_diff",
+    "h",
+    "hashlib",
+    "json",
+    "main",
+    "ms",
+    "os",
+    "run_orig",
+    "run_restore",
+    "shutil",
+    "ss",
+    "subprocess",
+    "sys"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  },
+  {
+   "path": "tools/web_lookup.py",
+   "sha16": "f1096cfdbd9ba477",
+   "bytes": 15225,
+   "lines": 377,
+   "syntax_error": null,
+   "classes": {
+    "_NoCookieRedirect": [
+     "redirect_request"
+    ],
+    "_TextExtractor": [
+     "__init__",
+     "handle_starttag",
+     "handle_endtag",
+     "handle_data"
+    ]
+   },
+   "module_defs": [
+    "ALLOWED_SCHEMES",
+    "HTMLParser",
+    "LOG_DIR",
+    "LOG_FILE",
+    "MAX_BYTES",
+    "MAX_REDIRECTS",
+    "Path",
+    "REPO",
+    "SEARCH_URL",
+    "SNIPPET_MAX",
+    "TIMEOUT_S",
+    "TIME_INFO_RE",
+    "TIME_SENSITIVE_RE",
+    "UA",
+    "_BLOCK_RE",
+    "_LINK_RE",
+    "_NoCookieRedirect",
+    "_P_RE",
+    "_QUERY_PREFIX_RE",
+    "_SEARCH_WORD_RE",
+    "_TRAIL_RE",
+    "_TextExtractor",
+    "_clean",
+    "_dedupe_key",
+    "_fetch_html",
+    "_has_time_info",
+    "_is_time_sensitive",
+    "_log_query",
+    "_opener",
+    "_read_capped",
+    "_safe_url",
+    "_text",
+    "_truncate",
+    "annotations",
+    "clean_query",
+    "datetime",
+    "hashlib",
+    "html",
+    "json",
+    "lookup_text",
+    "parse_results",
+    "query_keywords",
+    "re",
+    "search",
+    "time",
+    "urllib"
+   ],
+   "self_calls": [],
+   "dangling_private": [],
+   "required_missing": []
+  }
+ ],
+ "dangling": [
+  {
+   "file": "tools/chat_daily.py",
+   "calls": [
+    {
+     "name": "_explicit_search",
+     "lines": [
+      1542
+     ]
+    },
+    {
+     "name": "_fit_budget",
+     "lines": [
+      1630,
+      1718
+     ]
+    },
+    {
+     "name": "_history_text",
+     "lines": [
+      1730,
+      1741
+     ]
+    },
+    {
+     "name": "_local_time_reply",
+     "lines": [
+      1523
+     ]
+    },
+    {
+     "name": "_product_fact_question",
+     "lines": [
+      1734
+     ]
+    },
+    {
+     "name": "_put_memory_source",
+     "lines": [
+      820
+     ]
+    },
+    {
+     "name": "_retrieval_select",
+     "lines": [
+      1501,
+      1708
+     ]
+    },
+    {
+     "name": "_rollback_source",
+     "lines": [
+      839,
+      842
+     ]
+    },
+    {
+     "name": "_row_by_id",
+     "lines": [
+      798,
+      863,
+      908,
+      1329,
+      1514,
+      1589,
+      1658,
+      1789
+     ]
+    },
+    {
+     "name": "_rows",
+     "lines": [
+      615,
+      817,
+      873,
+      891,
+      939,
+      1601,
+      1607,
+      1720,
+      1954,
+      1958,
+      2021,
+      2074
+     ]
+    },
+    {
+     "name": "_rows_for_selection",
+     "lines": [
+      1630,
+      1717
+     ]
+    },
+    {
+     "name": "_select",
+     "lines": [
+      1505,
+      1712
+     ]
+    },
+    {
+     "name": "_sync_mounts",
+     "lines": [
+      658,
+      937,
+      1108,
+      1636,
+      1766,
+      1918
+     ]
+    },
+    {
+     "name": "_total_tokens",
+     "lines": [
+      841,
+      2040
+     ]
+    },
+    {
+     "name": "_unmount_all",
+     "lines": [
+      654,
+      671,
+      905,
+      1101,
+      1339,
+      1494,
+      1639,
+      1899,
+      1902
+     ]
+    },
+    {
+     "name": "_web_answer",
+     "lines": [
+      1543
+     ]
+    }
+   ]
+  },
+  {
+   "file": "tools/chat_lease.py",
+   "calls": [
+    {
+     "name": "__new__",
+     "lines": [
+      275
+     ]
+    }
+   ]
+  },
+  {
+   "file": "tools/qq_bridge.py",
+   "calls": [
+    {
+     "name": "_sleep",
+     "lines": [
+      937,
+      955
+     ]
+    }
+   ]
+  },
+  {
+   "file": "tools/test_verify_wiring_cpu.py",
+   "calls": [
+    {
+     "name": "_strip",
+     "lines": [
+      73
+     ]
+    }
+   ]
+  }
+ ],
+ "required_missing": [
+  {
+   "file": "tools/chat_daily.py",
+   "missing": [
+    "_rows",
+    "_row_by_id",
+    "_rows_for_selection",
+    "_fit_budget",
+    "_sync_mounts",
+    "_unmount_all",
+    "_select",
+    "_retrieval_select",
+    "_product_fact_question",
+    "_history_text",
+    "_total_tokens",
+    "_put_memory_source",
+    "_rollback_source",
+    "_local_time_reply",
+    "_web_answer",
+    "_explicit_search",
+    "remember"
+   ]
+  }
+ ],
+ "cross_file_imports": [],
+ "import_smoke": {
+  "tools/analysis.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/answer_verifier.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK answer-verifier-1.0"
+  },
+  "tools/assistant_log.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/block_info.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/chat.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/chat_daily.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK c-1.0"
+  },
+  "tools/chat_lease.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/chat_service.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/check_chat_daily.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/diag_place.py": {
+   "rc": "timeout",
+   "tail": "import timeout >10s"
+  },
+  "tools/dl_14b.py": {
+   "rc": "timeout",
+   "tail": "import timeout >10s"
+  },
+  "tools/dl_14b_par.py": {
+   "rc": "timeout",
+   "tail": "import timeout >10s"
+  },
+  "tools/eval_heldout.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/eval_retrieval.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/evidence.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/facet_budget.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/facet_index.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/freeze_check.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/grade_quality.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/holdout_50.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/holdout_v2.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/holdout_v3.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/hole_matrix.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/hole_probe.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/inspect_logs.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/kv_audit.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/kv_budget.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/kvdrift.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/kvmem_test.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/kvslots.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/m2_probe_cells.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/m2_probe_segments.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/m2_v1.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/m2_visibility_probe.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/make_quality_set.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/memory_isolated.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/memory_service.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK memory-service-1.0"
+  },
+  "tools/memory_source.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/p0_1a_check.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/p0_1b_check.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/p0_2_check.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/p0_4b_right.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/qq_bridge.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/recall_curve.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/retrieval.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/retrieval_baseline.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/run_c_acceptance.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/session_state.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/states_demo.py": {
+   "rc": "timeout",
+   "tail": "import timeout >10s"
+  },
+  "tools/switch_model.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/t031_habit_para.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/t031_patch_maskbias.py": {
+   "rc": 1,
+   "tail": "anchor2 occurs 0 times"
+  },
+  "tools/test_analysis.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_answer_verifier_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_chat_daily_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_chat_service_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_logging_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_memory_graph_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_memory_isolated_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_memory_isolated_gpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_memory_service_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_openai_compat_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_policy_web_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_qq_bridge_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_refusal_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_retrieval_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_retrieval_fallback_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_retrieval_judges.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_retrieval_service_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_rollover_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_rollover_hier_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_slots_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_verify_cases_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_verify_real_memory_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_verify_wiring_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_web_clean_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/test_web_lookup_cpu.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/variance_check.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  },
+  "tools/web_lookup.py": {
+   "rc": 0,
+   "tail": "IMPORT_OK"
+  }
+ },
+ "key_public_matrix": {
+  "tools/analysis.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/answer_verifier.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/assistant_log.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/block_info.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/chat.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/chat_daily.py": {
+   "remember": false,
+   "forget": true,
+   "memories": true,
+   "status": true,
+   "save": true,
+   "load": true,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/chat_lease.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": true,
+   "load": true,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/chat_service.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/check_chat_daily.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/diag_place.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/dl_14b.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/dl_14b_par.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/eval_heldout.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/eval_retrieval.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/evidence.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/facet_budget.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/facet_index.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": true,
+   "load": true,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/freeze_check.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/grade_quality.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/holdout_50.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/holdout_v2.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/holdout_v3.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/hole_matrix.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/hole_probe.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/inspect_logs.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/kv_audit.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/kv_budget.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/kvdrift.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/kvmem_test.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/kvslots.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": true,
+   "load": true,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/m2_probe_cells.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/m2_probe_segments.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/m2_v1.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/m2_visibility_probe.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/make_quality_set.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/memory_isolated.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/memory_service.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/memory_source.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/p0_1a_check.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/p0_1b_check.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/p0_2_check.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/p0_4b_right.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/qq_bridge.py": {
+   "remember": true,
+   "forget": true,
+   "memories": true,
+   "status": true,
+   "save": false,
+   "load": false,
+   "handle_event": true,
+   "group_trigger": true,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/recall_curve.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/retrieval.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": true,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/retrieval_baseline.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/run_c_acceptance.py": {
+   "remember": true,
+   "forget": true,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/session_state.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/states_demo.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/switch_model.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/t031_habit_para.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/t031_patch_maskbias.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_analysis.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_answer_verifier_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_chat_daily_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_chat_service_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_logging_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_memory_graph_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_memory_isolated_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": true,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_memory_isolated_gpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_memory_service_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_openai_compat_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_policy_web_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_qq_bridge_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_refusal_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_retrieval_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": true,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_retrieval_fallback_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_retrieval_judges.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_retrieval_service_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_rollover_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_rollover_hier_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_slots_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_verify_cases_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_verify_real_memory_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_verify_wiring_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_web_clean_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/test_web_lookup_cpu.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/variance_check.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": false,
+   "lookup_text": false,
+   "clean_query": false
+  },
+  "tools/web_lookup.py": {
+   "remember": false,
+   "forget": false,
+   "memories": false,
+   "status": false,
+   "save": false,
+   "load": false,
+   "handle_event": false,
+   "group_trigger": false,
+   "search": true,
+   "lookup_text": true,
+   "clean_query": true
+  }
+ },
+ "t15_memory_service": {
+  "module": "tools/memory_service.py",
+  "symbols": {
+   "extract_slots": {
+    "exists": true,
+    "callable": true,
+    "smoke": "ok"
+   },
+   "query_slots": {
+    "exists": true,
+    "callable": true,
+    "smoke": "ok"
+   },
+   "slot_match": {
+    "exists": true,
+    "callable": true,
+    "smoke": "checked-by-slot_match_smoke"
+   }
+  },
+  "slot_match_smoke": "True"
+ },
+ "check_chat_daily": {
+  "rc": 1,
+  "stdout": "[chat_daily] compile=ok import=ok\n[memory_service] compile=ok import=ok\n[web_lookup] compile=ok import=ok\n[qq_bridge] compile=ok import=ok\n[FAIL] chat_daily missing_required+dangling_call DailyApp._rows 同时存在悬空 self._rows( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._row_by_id 同时存在悬空 self._row_by_id( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._rows_for_selection 同时存在悬空 self._rows_for_selection( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._fit_budget 同时存在悬空 self._fit_budget( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._sync_mounts 同时存在悬空 self._sync_mounts( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._unmount_all 同时存在悬空 self._unmount_all( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._select 同时存在悬空 self._select( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._retrieval_select 同时存在悬空 self._retrieval_select( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._product_",
+  "stderr": ""
+ },
+ "triage": {
+  "critical": [
+   {
+    "file": "tools/chat_daily.py",
+    "kind": "mass_deleted_methods",
+    "sha": "a55930d19218563b",
+    "missing_required": 17,
+    "missing": [
+     "_rows",
+     "_row_by_id",
+     "_rows_for_selection",
+     "_fit_budget",
+     "_sync_mounts",
+     "_unmount_all",
+     "_select",
+     "_retrieval_select",
+     "_product_fact_question",
+     "_history_text",
+     "_total_tokens",
+     "_put_memory_source",
+     "_rollback_source",
+     "_local_time_reply",
+     "_web_answer",
+     "_explicit_search",
+     "remember"
+    ],
+    "dangling_calls": 16,
+    "dangling_lines": "见 dangling[0].calls（每项含 lines）",
+    "evidence": [
+     "tools/check_chat_daily.py rc=1：missing_required/dangling_calls 与上表一致",
+     "import 仍可成功，但 app.remember/_rows 等属性不存在"
+    ],
+    "blast_radius": [
+     "tools/chat_service.py:165,330 调 app.remember()",
+     "tools/run_c_acceptance.py:462,580,681 调 remember()",
+     "tools/test_chat_daily_cpu.py:120,130,139,158,195 调 remember()、:197 调 app._rows()"
+    ]
+   }
+  ],
+  "clean_targets": {
+   "tools/memory_service.py": {
+    "sha16": "7dcc62a0bae75cfc",
+    "dangling_private": 0,
+    "required_missing": 0,
+    "t15": "extract_slots/query_slots/slot_match 存在、可调用、smoke ok"
+   },
+   "tools/web_lookup.py": {
+    "sha16": "f1096cfdbd9ba477",
+    "dangling_private": 0,
+    "required_missing": 0,
+    "public": {
+     "search": true,
+     "lookup_text": true,
+     "clean_query": true
+    }
+   },
+   "tools/qq_bridge.py": {
+    "sha16": "0ed698febc277018",
+    "dangling_private": "仅 _sleep（动态属性，非缺失方法）",
+    "required_missing": 0,
+    "public": {
+     "handle_event": true,
+     "group_trigger": true,
+     "remember": true,
+     "forget": true,
+     "memories": true,
+     "status": true
+    }
+   },
+   "tools/chat_service.py": {
+    "sha16": "ec2de0563b34d5e8",
+    "dangling_private": 0,
+    "required_missing": 0,
+    "public": {
+     "dispatch": true,
+     "call": true,
+     "service_info": true
+    }
+   }
+  },
+  "false_positives": [
+   {
+    "file": "tools/chat_lease.py",
+    "line": 275,
+    "why": "cls.__new__(cls) 是类型属性查找，不是缺失方法"
+   },
+   {
+    "file": "tools/qq_bridge.py",
+    "line": 700,
+    "why": "self._sleep = sleep or asyncio.sleep 在 __init__ 动态赋值，调用点 :937,:955 合法"
+   },
+   {
+    "file": "tools/test_verify_wiring_cpu.py",
+    "line": 62,
+    "why": "self._strip 在测试桩 fixture 中赋值，:73 调用合法"
+   }
+  ],
+  "import_smoke_noise": [
+   {
+    "file": "tools/diag_place.py",
+    "why": "顶层重导入/初始化超时（脚本型，非删除方法）"
+   },
+   {
+    "file": "tools/dl_14b.py",
+    "why": "导入期阻塞（脚本型）"
+   },
+   {
+    "file": "tools/dl_14b_par.py",
+    "why": "导入期阻塞（脚本型）"
+   },
+   {
+    "file": "tools/states_demo.py",
+    "why": "导入期阻塞（脚本型）"
+   },
+   {
+    "file": "tools/t031_patch_maskbias.py",
+    "rc": 1,
+    "why": "顶层 patch 脚本，直接在 llama-kv-cache.cpp 找不到 anchor2（环境不匹配），非删除方法"
+   }
+  ],
+  "restore_sources": {
+   "tools/chat_daily.py.bak-20261027T224300": {
+    "sha16": "a55930d19218563b",
+    "note": "与受损版同 sha16 = 无可用旧副本（备份是损坏后复制的）"
+   },
+   "git_baseline": "tools/chat_daily.py 为 untracked（??），git log --all 无记录；full 分支无此文件",
+   "d_backup": "未在 D:\\llama-mem-backup-2026-10-25 及 D:\\ 浅层找到其它 chat_daily.py 副本"
+  },
+  "t15_check": {
+   "module": "tools/memory_service.py",
+   "symbols": {
+    "extract_slots": {
+     "exists": true,
+     "callable": true,
+     "smoke": "ok"
+    },
+    "query_slots": {
+     "exists": true,
+     "callable": true,
+     "smoke": "ok"
+    },
+    "slot_match": {
+     "exists": true,
+     "callable": true,
+     "smoke": "checked-by-slot_match_smoke"
+    }
+   },
+   "slot_match_smoke": "True"
+  },
+  "conclusion": "其他 4 个核心文件均无“被删方法/悬空私有调用”事故特征；唯一严重异常是 tools/chat_daily.py（17 个方法缺失，含公开 remember），且当前无可用旧副本，需重写/从编辑器历史恢复。"
+ }
+}

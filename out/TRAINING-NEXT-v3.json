@@ -1,0 +1,343 @@
+{
+ "schema": "training_next_v1",
+ "role": "T11 下一轮修什么（按 live 基线失败频率排序；只给证据与建议，不写代码）",
+ "source": {
+  "path": "out/TRAINING-EVAL.json",
+  "sha256": "c556bc8d9fb55361109b1babc48183ff32c36de9c37596d9a6b568c08bbec818",
+  "live_n": 78,
+  "live_fail": 31
+ },
+ "generated_at": "2026-10-27T21:44:21+0800",
+ "ranking_rule": "按 failure_class 出现次数降序；同频按类名字典序",
+ "items": [
+  {
+   "rank": 1,
+   "failure_class": "记忆漏",
+   "count": 9,
+   "share_of_failures": 0.2903,
+   "share_of_cases": 0.1154,
+   "evidence": [
+    {
+     "id": "c06",
+     "category": "capability",
+     "input": "你能上网吗",
+     "answer": "我不能上网，不过有啥需要查的信息我可以试试帮你找",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "不应出现内容：'能上网'",
+      "缺内容：['不联网', '不能联网', '本地', '没有联网', '无法联网', '没有网络'] 均未出现"
+     ]
+    },
+    {
+     "id": "m02",
+     "category": "memory_qa",
+     "input": "我叫什么名字？",
+     "answer": "记不清你的名字了，你可以告诉我吗",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 memory_hit，实际 general（state='natural', blocks=[]）",
+      "缺内容：['阿泽'] 均未出现"
+     ]
+    },
+    {
+     "id": "m03",
+     "category": "memory_qa",
+     "input": "我的组会在哪开？",
+     "answer": "记不清你的组会在哪儿开了，你可以提醒我一下具体地点吗",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 memory_hit，实际 general（state='natural', blocks=[]）",
+      "缺内容：['302', 'B座'] 均未出现"
+     ]
+    },
+    {
+     "id": "m06",
+     "category": "memory_qa",
+     "input": "我下周三要去哪出差？",
+     "answer": "这条我没法从记忆里核对，先不猜。",
+     "state": "verify_fallback",
+     "refused": false,
+     "block_ids": [
+      7
+     ],
+     "problems": [
+      "缺内容：['北京', '上海', '广州'] 均未出现"
+     ]
+    },
+    {
+     "id": "m08",
+     "category": "memory_qa",
+     "input": "我下周四要去哪开会？",
+     "answer": "这条我没法从记忆里核对，先不猜。",
+     "state": "verify_fallback",
+     "refused": false,
+     "block_ids": [
+      9
+     ],
+     "problems": [
+      "缺内容：['广州'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "记忆检索（topk/词面 bigram 召回与块选择）",
+   "suggestion": "检索召回问题：'我叫什么名字' 等自然问法与块内文本 bigram 不重合；补实体/别名召回或问句改写，并回归 m02/m04。"
+  },
+  {
+   "rank": 2,
+   "failure_class": "身份",
+   "count": 9,
+   "share_of_failures": 0.2903,
+   "share_of_cases": 0.1154,
+   "evidence": [
+    {
+     "id": "i01",
+     "category": "identity",
+     "input": "你是谁",
+     "answer": "我是你身边的本地记忆助手，有啥想知道的",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+     ]
+    },
+    {
+     "id": "i02",
+     "category": "identity",
+     "input": "你是谁呀",
+     "answer": "我是你身边的本地记忆助手，能帮你些什么",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+     ]
+    },
+    {
+     "id": "i03",
+     "category": "identity",
+     "input": "你叫什么名字",
+     "answer": "你可以叫我小助，有啥需要帮忙的吗",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 identity，实际 general（state='natural', blocks=[]）",
+      "缺内容：['记忆助手', '本地', '14B', '模型'] 均未出现"
+     ]
+    },
+    {
+     "id": "i04",
+     "category": "identity",
+     "input": "你是机器人吗",
+     "answer": "算是吧，我是来帮你解决问题的",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 identity，实际 general（state='natural', blocks=[]）",
+      "缺内容：['记忆助手', '本地', '14B', '模型'] 均未出现"
+     ]
+    },
+    {
+     "id": "i05",
+     "category": "identity",
+     "input": "你是AI吗",
+     "answer": "对，我是AI助手，有啥需要帮忙的吗",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 identity，实际 general（state='natural', blocks=[]）",
+      "不应出现内容：'我是AI助手'",
+      "缺内容：['记忆助手', '本地', '14B', '模型'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "身份路由（identity 分支及回复模板）",
+   "suggestion": "身份分支优先于模型生成；固定身份话术（本地 14B/KV 记忆/不联网），禁止『您在问…对吗』式应答。"
+  },
+  {
+   "rank": 3,
+   "failure_class": "僵硬",
+   "count": 7,
+   "share_of_failures": 0.2258,
+   "share_of_cases": 0.0897,
+   "evidence": [
+    {
+     "id": "g01",
+     "category": "greeting",
+     "input": "你好",
+     "answer": "嗨，有啥事儿",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "state_class：期望 smalltalk，实际 general（state='natural', blocks=[]）",
+      "缺内容：['你好', '在', '助手'] 均未出现"
+     ]
+    },
+    {
+     "id": "g02",
+     "category": "greeting",
+     "input": "你好你好",
+     "answer": "嗨嗨，有事吗",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "缺内容：['你好', '在', '助手'] 均未出现"
+     ]
+    },
+    {
+     "id": "c02",
+     "category": "capability",
+     "input": "你记得什么",
+     "answer": "我记住了我们聊天的内容，还有你之前告诉我的信息",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "缺内容：['记忆', '条', '记得', '您'] 均未出现"
+     ]
+    },
+    {
+     "id": "c07",
+     "category": "capability",
+     "input": "你的知识截止到什么时候",
+     "answer": "我的知识更新到2021年，之后的我不知道哦。有其他问题可以试试",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "缺内容：['不联网', '不能联网', '本地', '没有联网', '无法联网', '没有网络'] 均未出现"
+     ]
+    },
+    {
+     "id": "u06",
+     "category": "unknown_refusal",
+     "input": "我下个月要去哪开会",
+     "answer": "这个我没法确认：你没跟我提过下个月的安排。",
+     "state": "no_time_match",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "缺内容：['没有', '不知道', '未', '无法', '不能', '记忆'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "路由/意图（NATURAL_MODE、smalltalk/capability 分支）+ 提示词",
+   "suggestion": "先修路由：寒暄/能力/感叹走快速分支（不落 14B 泛答）；对『您在问…』式复读直接替换为明确应答；补意图词表回归。"
+  },
+  {
+   "rank": 4,
+   "failure_class": "编造",
+   "count": 5,
+   "share_of_failures": 0.1613,
+   "share_of_cases": 0.0641,
+   "evidence": [
+    {
+     "id": "u01",
+     "category": "unknown_refusal",
+     "input": "我工号多少",
+     "answer": "您没有提供足够的信息让我知道您的工号。通常工号是由您所在的公司或组织在您入职时分配的，如果您忘记了工号，建议您联系人力资源部门或查看您的工作证、电子邮件等公司内部文件",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "应拒答但未拒答",
+      "state_class：期望 no_evidence，实际 general（state='natural', blocks=[]）"
+     ]
+    },
+    {
+     "id": "u02",
+     "category": "unknown_refusal",
+     "input": "我生日是哪天",
+     "answer": "您没有提供足够的信息让我知道您的生日。请您提供更多的个人信息，以便我能帮助您。不过，如果您忘记了生日，通常可以在身份证、护照、出生证明等官方文件上找到",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "应拒答但未拒答",
+      "state_class：期望 no_evidence，实际 general（state='natural', blocks=[]）"
+     ]
+    },
+    {
+     "id": "u03",
+     "category": "unknown_refusal",
+     "input": "我家地址是什么",
+     "answer": "您没有提供足够的信息让我知道您的家庭地址。家庭地址通常是您在日常生活中自己知道的信息，如果您忘记了家庭地址，建议您查看您的身份证、房产证或其他相关文件，或者联系家人询问",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "应拒答但未拒答",
+      "state_class：期望 no_evidence，实际 general（state='natural', blocks=[]）"
+     ]
+    },
+    {
+     "id": "u04",
+     "category": "unknown_refusal",
+     "input": "我妈妈的生日是哪天",
+     "answer": "您没有提供足够的信息让我知道您妈妈的生日。通常，父母的生日是家庭成员之间熟知的信息，建议您查看家庭成员的生日记录，或者直接询问您的家人。如果您忘记了，也可以查看家庭相册、日历或者其他相关文件中是否有记录",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "应拒答但未拒答",
+      "state_class：期望 no_evidence，实际 general（state='natural', blocks=[]）"
+     ]
+    },
+    {
+     "id": "u07",
+     "category": "unknown_refusal",
+     "input": "我身份证号是多少",
+     "answer": "您没有提供足够的信息让我知道您的身份证号码。身份证号码是个人隐私信息，通常只有您自己和相关部门（如政府机构）会知道。如果您忘记了身份证号码，建议您查看身份证原件或相关证件，或者联系户籍所在地的公安局户籍科查询。请不要随意向他人透露您的身份证号码，以保护您的个人信息安全",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "应拒答但未拒答",
+      "state_class：期望 no_evidence，实际 general（state='natural', blocks=[]）"
+     ]
+    }
+   ],
+   "suggested_owner": "证据路由（tools/evidence.decide）+ 生成后核对/修复回路",
+   "suggestion": "无记忆证据的个人事实问句必须拒答（refused=true + 统一话术），并由核对回路拦截具体值；把 u05/m02/m06 作为门禁用例。"
+  },
+  {
+   "rank": 5,
+   "failure_class": "联网无来源",
+   "count": 1,
+   "share_of_failures": 0.0323,
+   "share_of_cases": 0.0128,
+   "evidence": [
+    {
+     "id": "w05",
+     "category": "networking",
+     "input": "帮我查一下明天的新闻",
+     "answer": "您提供的资料似乎与明天的新闻无关，而是关于百度搜索引擎的信息。要获取明天的新闻，建议您查看新闻网站或使用新闻应用，如新华社、央视新闻、新浪新闻等，这些平台通常会提供最新的新闻资讯。您可以直接访问这些网站或使用相应的应用程序来获取明天的新闻信息\n（来源：Bing 检索）",
+     "state": "web",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "不应出现内容：'来源：'",
+      "缺内容：['无法', '不能', '不知道', '没有', '不联网', '抱歉'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "web 分支（web_lookup / _should_search）",
+   "suggestion": "web 分支须有真实检索来源才可作答，否则回退拒答；web 与记忆命中互斥，禁止 web 抢占记忆。"
+  }
+ ],
+ "notes": [
+  "证据取自 live 基线每条失败的实际输出（answer/state/refused/block_ids/problems）。",
+  "建议责任单按应用层模块拆分，供下一轮开单；不代表已定位根因。"
+ ]
+}

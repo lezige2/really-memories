@@ -1,0 +1,1958 @@
+{
+ "schema": "behavior_eval_v1",
+ "role": "真实对话驱动的应用层行为回归（2026-10-27 真实使用；零 GPU）",
+ "source_cases": {
+  "path": "tmp/behavior_eval_cases.json",
+  "sha256": "29a38358d1e9be374e10e49b277217db9737014b4d243e91f95357ae14eba3d3",
+  "bytes": 15107,
+  "n_cases": 58,
+  "schema": "behavior_eval_cases_v1",
+  "source": "2026-10-27 真实使用事件（kvmem/daily/assistant/daily/2026-10-27.jsonl，179 条事件，文本脱敏）+ 用户贴出的真实对话（你好/你好你好、你是谁呀、车牌复读、记忆力有什么、能联网吗、我靠/我服了、下周三上海开会、明天去哪出差）"
+ },
+ "runner": {
+  "path": "tmp/run_behavior_eval.py",
+  "sha256": "6f2f088e8c68aaecb43e804545554cfe777753a306e02d54912fb8c9e959c3d5",
+  "app_version": "c-1.0",
+  "engine": "StubEngine (dry-run; no forward, no GPU)",
+  "isolation": "每条 case 独立 db/blocks/sessions 临时目录",
+  "eval_scope": "应用层 state/refused/内容包含/记忆增量/block_ids；stub 正文不做语义判分",
+  "web_offline_mocked": true
+ },
+ "pins": {
+  "chat_daily_sha256": "a4438c3f487154c939424db5518198370796f9418c65cd3c6f3a5d371ec1a859",
+  "evidence_sha256": "4bf48589863c4ed748d1a8882fdfbacbcaadef3657a29362787e750da5612ae5"
+ },
+ "started_at": "2026-10-27T17:50:29+0800",
+ "elapsed_s": 7.837,
+ "summary": {
+  "n": 58,
+  "pass": 53,
+  "fail": 5,
+  "pass_rate": 0.913793,
+  "by_category": {
+   "greeting": {
+    "n": 9,
+    "pass": 9,
+    "fail": 0
+   },
+   "identity": {
+    "n": 7,
+    "pass": 6,
+    "fail": 1
+   },
+   "memory_query": {
+    "n": 5,
+    "pass": 5,
+    "fail": 0
+   },
+   "networking": {
+    "n": 4,
+    "pass": 4,
+    "fail": 0
+   },
+   "exclamation": {
+    "n": 5,
+    "pass": 5,
+    "fail": 0
+   },
+   "auto_memory": {
+    "n": 6,
+    "pass": 6,
+    "fail": 0
+   },
+   "memory_qa": {
+    "n": 6,
+    "pass": 5,
+    "fail": 1
+   },
+   "unknown_refusal": {
+    "n": 5,
+    "pass": 5,
+    "fail": 0
+   },
+   "mixed": {
+    "n": 4,
+    "pass": 4,
+    "fail": 0
+   },
+   "chat_followup": {
+    "n": 3,
+    "pass": 3,
+    "fail": 0
+   },
+   "general_world": {
+    "n": 4,
+    "pass": 1,
+    "fail": 3
+   }
+  },
+  "failure_categories": {
+   "over_refusal": 5,
+   "state_mismatch": 2,
+   "content_missing_any": 1,
+   "memory_miss": 1,
+   "content_forbidden": 1
+  }
+ },
+ "failures": [
+  {
+   "id": "i07",
+   "category": "identity",
+   "input": "你是什么模型",
+   "prelude": [],
+   "expect": {
+    "expect_state_any": [
+     "smalltalk",
+     "capability"
+    ],
+    "expect_refusal": false,
+    "expect_contains_any": [
+     "本地",
+     "14B",
+     "模型"
+    ]
+   },
+   "actual": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 20.9
+   },
+   "pass": false,
+   "failure_categories": [
+    "over_refusal",
+    "state_mismatch",
+    "content_missing_any"
+   ],
+   "problems": [
+    "不应拒答但被拒答",
+    "state='no_evidence' 不在预期 ['smalltalk', 'capability']",
+    "未包含任一 ['本地', '14B', '模型']"
+   ],
+   "note": "模型身份问句（当前实现可能误拒）"
+  },
+  {
+   "id": "q06",
+   "category": "memory_qa",
+   "input": "我爱吃什么？",
+   "prelude": [
+    {
+     "action": "remember",
+     "ok": true,
+     "result": {
+      "id": 1,
+      "duplicate": false
+     }
+    }
+   ],
+   "expect": {
+    "expect_refusal": false,
+    "expect_state": "memory_hit",
+    "expect_block_ids_nonempty": true
+   },
+   "actual": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 1,
+    "memory_after": 1,
+    "latency_ms": 21.2
+   },
+   "pass": false,
+   "failure_categories": [
+    "over_refusal",
+    "state_mismatch",
+    "memory_miss"
+   ],
+   "problems": [
+    "不应拒答但被拒答",
+    "state='no_evidence' 不在预期 ['memory_hit']",
+    "预期记忆命中但 block_ids 为空"
+   ],
+   "note": "记忆问答/召回：饮食（「爱吃」与记忆「只喝美式咖啡，不吃香菜」无 bigram 重合，预期暴露词面召回限制）"
+  },
+  {
+   "id": "w01",
+   "category": "general_world",
+   "input": "解释一下什么是KV缓存",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": false,
+    "expect_not_contains": [
+     "没有提到",
+     "不想猜",
+     "记忆里没有"
+    ]
+   },
+   "actual": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 16.5
+   },
+   "pass": false,
+   "failure_categories": [
+    "over_refusal",
+    "content_forbidden"
+   ],
+   "problems": [
+    "不应拒答但被拒答",
+    "出现禁止内容 ['不想猜', '记忆里没有']"
+   ],
+   "note": "世界知识问句不得按个人事实拒答"
+  },
+  {
+   "id": "w02",
+   "category": "general_world",
+   "input": "为什么天是蓝的",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 16.7
+   },
+   "pass": false,
+   "failure_categories": [
+    "over_refusal"
+   ],
+   "problems": [
+    "不应拒答但被拒答"
+   ],
+   "note": "常识问句"
+  },
+  {
+   "id": "w04",
+   "category": "general_world",
+   "input": "今天适合穿什么",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 17.5
+   },
+   "pass": false,
+   "failure_categories": [
+    "over_refusal"
+   ],
+   "problems": [
+    "不应拒答但被拒答"
+   ],
+   "note": "通用建议问句（当前实现可能误拒）"
+  }
+ ],
+ "results": [
+  {
+   "id": "g01",
+   "category": "greeting",
+   "input": "你好",
+   "prelude": [],
+   "expect": {
+    "expect_state": "smalltalk",
+    "expect_refusal": false,
+    "expect_contains_any": [
+     "你好",
+     "记忆助手"
+    ]
+   },
+   "actual": {
+    "answer": "你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）",
+    "state": "smalltalk",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 21.0
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "真实对话：你好"
+  },
+  {
+   "id": "g02",
+   "category": "greeting",
+   "input": "您好",
+   "prelude": [],
+   "expect": {
+    "expect_state": "smalltalk",
+    "expect_refusal": false,
+    "expect_contains_any": [
+     "你好",
+     "记忆助手"
+    ]
+   },
+   "actual": {
+    "answer": "你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）",
+    "state": "smalltalk",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 22.0
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "敬语变体"
+  },
+  {
+   "id": "g03",
+   "category": "greeting",
+   "input": "嗨",
+   "prelude": [],
+   "expect": {
+    "expect_state": "smalltalk",
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）",
+    "state": "smalltalk",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 20.6
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "英文/单字变体"
+  },
+  {
+   "id": "g04",
+   "category": "greeting",
+   "input": "哈喽",
+   "prelude": [],
+   "expect": {
+    "expect_state": "smalltalk",
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）",
+    "state": "smalltalk",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 20.7
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "音译变体"
+  },
+  {
+   "id": "g05",
+   "category": "greeting",
+   "input": "hello",
+   "prelude": [],
+   "expect": {
+    "expect_state": "smalltalk",
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）",
+    "state": "smalltalk",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 21.0
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "英文变体"
+  },
+  {
+   "id": "g06",
+   "category": "greeting",
+   "input": "你好你好",
+   "prelude": [],
+   "expect": {
+    "expect_state": "smalltalk",
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）",
+    "state": "smalltalk",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 17.7
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "真实对话：重复问候"
+  },
+  {
+   "id": "g07",
+   "category": "greeting",
+   "input": "你好呀",
+   "prelude": [],
+   "expect": {
+    "expect_state": "smalltalk",
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）",
+    "state": "smalltalk",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 19.5
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "语气词变体"
+  },
+  {
+   "id": "g08",
+   "category": "greeting",
+   "input": "在吗",
+   "prelude": [],
+   "expect": {
+    "expect_state": "smalltalk",
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）",
+    "state": "smalltalk",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 22.1
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "在线问候"
+  },
+  {
+   "id": "g09",
+   "category": "greeting",
+   "input": "在不在",
+   "prelude": [],
+   "expect": {
+    "expect_state": "smalltalk",
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）",
+    "state": "smalltalk",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 22.8
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "在线问候变体"
+  },
+  {
+   "id": "i01",
+   "category": "identity",
+   "input": "你是谁",
+   "prelude": [],
+   "expect": {
+    "expect_state": "smalltalk",
+    "expect_refusal": false,
+    "expect_contains_any": [
+     "记忆助手",
+     "14B",
+     "本地"
+    ]
+   },
+   "actual": {
+    "answer": "我是本地 14B 记忆助手：记忆存在 KV 缓存里，不拼进 prompt；记忆里没有的我会说不知道。",
+    "state": "smalltalk",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 25.0
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "身份问句"
+  },
+  {
+   "id": "i02",
+   "category": "identity",
+   "input": "你是谁呀",
+   "prelude": [],
+   "expect": {
+    "expect_state": "smalltalk",
+    "expect_refusal": false,
+    "expect_contains_any": [
+     "记忆助手",
+     "14B"
+    ]
+   },
+   "actual": {
+    "answer": "我是本地 14B 记忆助手：记忆存在 KV 缓存里，不拼进 prompt；记忆里没有的我会说不知道。",
+    "state": "smalltalk",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 21.9
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "真实对话：你是谁呀"
+  },
+  {
+   "id": "i03",
+   "category": "identity",
+   "input": "你叫什么名字",
+   "prelude": [],
+   "expect": {
+    "expect_state": "smalltalk",
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "我是本地 14B 记忆助手：记忆存在 KV 缓存里，不拼进 prompt；记忆里没有的我会说不知道。",
+    "state": "smalltalk",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 22.0
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "名字变体"
+  },
+  {
+   "id": "i04",
+   "category": "identity",
+   "input": "你是机器人吗",
+   "prelude": [],
+   "expect": {
+    "expect_state": "smalltalk",
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "我是本地 14B 记忆助手：记忆存在 KV 缓存里，不拼进 prompt；记忆里没有的我会说不知道。",
+    "state": "smalltalk",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 21.2
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "身份确认"
+  },
+  {
+   "id": "i05",
+   "category": "identity",
+   "input": "你是AI吗",
+   "prelude": [],
+   "expect": {
+    "expect_state": "smalltalk",
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "我是本地 14B 记忆助手：记忆存在 KV 缓存里，不拼进 prompt；记忆里没有的我会说不知道。",
+    "state": "smalltalk",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 23.7
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "AI 身份"
+  },
+  {
+   "id": "i06",
+   "category": "identity",
+   "input": "你能做什么",
+   "prelude": [],
+   "expect": {
+    "expect_state": "smalltalk",
+    "expect_refusal": false,
+    "expect_contains_any": [
+     "记住",
+     "不知道",
+     "帮助"
+    ]
+   },
+   "actual": {
+    "answer": "我能：记住你说的事实（/remember）、按记忆回答、不知道就拒答、跨会话保留；命令见 /help。",
+    "state": "smalltalk",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 21.5
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "能力介绍"
+  },
+  {
+   "id": "i07",
+   "category": "identity",
+   "input": "你是什么模型",
+   "prelude": [],
+   "expect": {
+    "expect_state_any": [
+     "smalltalk",
+     "capability"
+    ],
+    "expect_refusal": false,
+    "expect_contains_any": [
+     "本地",
+     "14B",
+     "模型"
+    ]
+   },
+   "actual": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 20.9
+   },
+   "pass": false,
+   "failure_categories": [
+    "over_refusal",
+    "state_mismatch",
+    "content_missing_any"
+   ],
+   "problems": [
+    "不应拒答但被拒答",
+    "state='no_evidence' 不在预期 ['smalltalk', 'capability']",
+    "未包含任一 ['本地', '14B', '模型']"
+   ],
+   "note": "模型身份问句（当前实现可能误拒）"
+  },
+  {
+   "id": "m01",
+   "category": "memory_query",
+   "input": "记忆力有什么",
+   "prelude": [],
+   "expect": {
+    "expect_state": "capability",
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "现在记忆库是空的；用 /remember 记一条，我就能在之后的问题里用它。",
+    "state": "capability",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 21.8
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "真实对话：记忆力有什么"
+  },
+  {
+   "id": "m02",
+   "category": "memory_query",
+   "input": "你记得什么",
+   "prelude": [],
+   "expect": {
+    "expect_state": "capability",
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "现在记忆库是空的；用 /remember 记一条，我就能在之后的问题里用它。",
+    "state": "capability",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 19.8
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "记忆库查询变体"
+  },
+  {
+   "id": "m03",
+   "category": "memory_query",
+   "input": "记忆库有什么",
+   "prelude": [],
+   "expect": {
+    "expect_state": "capability",
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "现在记忆库是空的；用 /remember 记一条，我就能在之后的问题里用它。",
+    "state": "capability",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 19.6
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "记忆库查询变体"
+  },
+  {
+   "id": "m04",
+   "category": "memory_query",
+   "input": "记忆力有什么",
+   "prelude": [
+    {
+     "action": "remember",
+     "ok": true,
+     "result": {
+      "id": 1,
+      "duplicate": false
+     }
+    },
+    {
+     "action": "remember",
+     "ok": true,
+     "result": {
+      "id": 2,
+      "duplicate": false
+     }
+    }
+   ],
+   "expect": {
+    "expect_state": "capability",
+    "expect_refusal": false,
+    "expect_contains_any": [
+     "记得",
+     "条"
+    ]
+   },
+   "actual": {
+    "answer": "我现在记得 2 条：[1] 我每周三下午三点在3楼开会；[2] 我的车牌号是沪A-12345。用 /memories 看全部，/forget 删。",
+    "state": "capability",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 2,
+    "memory_after": 2,
+    "latency_ms": 24.9
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "有记忆时的记忆库查询"
+  },
+  {
+   "id": "m05",
+   "category": "memory_query",
+   "input": "你记得什么",
+   "prelude": [
+    {
+     "action": "remember",
+     "ok": true,
+     "result": {
+      "id": 1,
+      "duplicate": false
+     }
+    }
+   ],
+   "expect": {
+    "expect_state": "capability",
+    "expect_refusal": false,
+    "expect_contains_any": [
+     "记得",
+     "条"
+    ]
+   },
+   "actual": {
+    "answer": "我现在记得 1 条：[1] 我养了一只猫叫豆豆。用 /memories 看全部，/forget 删。",
+    "state": "capability",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 1,
+    "memory_after": 1,
+    "latency_ms": 21.7
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "有记忆时查询"
+  },
+  {
+   "id": "n01",
+   "category": "networking",
+   "input": "你能联网吗",
+   "prelude": [],
+   "expect": {
+    "expect_state": "capability",
+    "expect_refusal": false,
+    "expect_contains_any": [
+     "不联网",
+     "本地"
+    ]
+   },
+   "actual": {
+    "answer": "我是本地 14B 记忆助手，不联网；知识来自本地模型，记忆库里的内容由你 /remember 写入。记不住或不知道的我会直接说不知道。",
+    "state": "capability",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 22.6
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "真实对话：能联网吗"
+  },
+  {
+   "id": "n02",
+   "category": "networking",
+   "input": "你联网了吗",
+   "prelude": [],
+   "expect": {
+    "expect_state": "capability",
+    "expect_refusal": false,
+    "expect_contains_any": [
+     "不联网",
+     "本地"
+    ]
+   },
+   "actual": {
+    "answer": "我是本地 14B 记忆助手，不联网；知识来自本地模型，记忆库里的内容由你 /remember 写入。记不住或不知道的我会直接说不知道。",
+    "state": "capability",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 21.4
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "联网变体"
+  },
+  {
+   "id": "n03",
+   "category": "networking",
+   "input": "你的知识截止到什么时候",
+   "prelude": [],
+   "expect": {
+    "expect_state": "capability",
+    "expect_refusal": false,
+    "expect_contains_any": [
+     "不联网",
+     "本地"
+    ]
+   },
+   "actual": {
+    "answer": "我是本地 14B 记忆助手，不联网；知识来自本地模型，记忆库里的内容由你 /remember 写入。记不住或不知道的我会直接说不知道。",
+    "state": "capability",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 21.8
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "知识截止变体"
+  },
+  {
+   "id": "n04",
+   "category": "networking",
+   "input": "你能上网吗",
+   "prelude": [],
+   "expect": {
+    "expect_state": "capability",
+    "expect_refusal": false,
+    "expect_contains_any": [
+     "不联网",
+     "本地"
+    ]
+   },
+   "actual": {
+    "answer": "我是本地 14B 记忆助手，不联网；知识来自本地模型，记忆库里的内容由你 /remember 写入。记不住或不知道的我会直接说不知道。",
+    "state": "capability",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 18.4
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "上网变体"
+  },
+  {
+   "id": "e01",
+   "category": "exclamation",
+   "input": "我靠",
+   "prelude": [],
+   "expect": {
+    "expect_state": "capability",
+    "expect_refusal": false,
+    "expect_contains_any": [
+     "我在这儿",
+     "直接说"
+    ]
+   },
+   "actual": {
+    "answer": "……我在这儿。直接说你想问的；我会答，或者老实说不知道。",
+    "state": "capability",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 21.2
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "真实对话：我靠"
+  },
+  {
+   "id": "e02",
+   "category": "exclamation",
+   "input": "我服了",
+   "prelude": [],
+   "expect": {
+    "expect_state": "capability",
+    "expect_refusal": false,
+    "expect_contains_any": [
+     "我在这儿",
+     "直接说"
+    ]
+   },
+   "actual": {
+    "answer": "……我在这儿。直接说你想问的；我会答，或者老实说不知道。",
+    "state": "capability",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 22.6
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "真实对话：我服了"
+  },
+  {
+   "id": "e03",
+   "category": "exclamation",
+   "input": "无语",
+   "prelude": [],
+   "expect": {
+    "expect_state": "capability",
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "……我在这儿。直接说你想问的；我会答，或者老实说不知道。",
+    "state": "capability",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 20.6
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "感叹变体"
+  },
+  {
+   "id": "e04",
+   "category": "exclamation",
+   "input": "醉了",
+   "prelude": [],
+   "expect": {
+    "expect_state": "capability",
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "……我在这儿。直接说你想问的；我会答，或者老实说不知道。",
+    "state": "capability",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 17.5
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "感叹变体"
+  },
+  {
+   "id": "e05",
+   "category": "exclamation",
+   "input": "离谱",
+   "prelude": [],
+   "expect": {
+    "expect_state": "capability",
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "……我在这儿。直接说你想问的；我会答，或者老实说不知道。",
+    "state": "capability",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 19.3
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "感叹变体"
+  },
+  {
+   "id": "a01",
+   "category": "auto_memory",
+   "input": "我每周三下午三点在3楼开会",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": false,
+    "expect_memory_delta": 1
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "memory_delta": 1,
+    "memory_before": 0,
+    "memory_after": 1,
+    "latency_ms": 59.7
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "陈述自动记忆（真实对话：下周三上海开会）"
+  },
+  {
+   "id": "a02",
+   "category": "auto_memory",
+   "input": "我下周三去上海开会",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": false,
+    "expect_memory_delta": 1
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "memory_delta": 1,
+    "memory_before": 0,
+    "memory_after": 1,
+    "latency_ms": 69.0
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "真实对话：下周三上海开会"
+  },
+  {
+   "id": "a03",
+   "category": "auto_memory",
+   "input": "我的车牌号是沪A-12345",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": false,
+    "expect_memory_delta": 1
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "memory_delta": 1,
+    "memory_before": 0,
+    "memory_after": 1,
+    "latency_ms": 59.3
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "车牌陈述（真实对话：车牌复读）"
+  },
+  {
+   "id": "a04",
+   "category": "auto_memory",
+   "input": "我养了一只猫叫豆豆",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": false,
+    "expect_memory_delta": 1
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "memory_delta": 1,
+    "memory_before": 0,
+    "memory_after": 1,
+    "latency_ms": 66.4
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "宠物陈述"
+  },
+  {
+   "id": "a05",
+   "category": "auto_memory",
+   "input": "我明天要去上海出差",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": false,
+    "expect_memory_delta": 1
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "memory_delta": 1,
+    "memory_before": 0,
+    "memory_after": 1,
+    "latency_ms": 64.7
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "行程陈述"
+  },
+  {
+   "id": "a06",
+   "category": "auto_memory",
+   "input": "我的车牌号是沪A-12345",
+   "prelude": [
+    {
+     "action": "ask",
+     "state": "memory_hit",
+     "refused": false
+    }
+   ],
+   "expect": {
+    "expect_refusal": false,
+    "expect_memory_delta": 0
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "memory_delta": 0,
+    "memory_before": 1,
+    "memory_after": 1,
+    "latency_ms": 25.6
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "车牌复读：同一条重复陈述不得重复记忆/报错"
+  },
+  {
+   "id": "q01",
+   "category": "memory_qa",
+   "input": "我几点开会？",
+   "prelude": [
+    {
+     "action": "remember",
+     "ok": true,
+     "result": {
+      "id": 1,
+      "duplicate": false
+     }
+    }
+   ],
+   "expect": {
+    "expect_refusal": false,
+    "expect_state": "memory_hit",
+    "expect_block_ids_nonempty": true
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "memory_delta": 0,
+    "memory_before": 1,
+    "memory_after": 1,
+    "latency_ms": 22.2
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "记忆问答：会议时间"
+  },
+  {
+   "id": "q02",
+   "category": "memory_qa",
+   "input": "我的车牌号是多少？",
+   "prelude": [
+    {
+     "action": "remember",
+     "ok": true,
+     "result": {
+      "id": 1,
+      "duplicate": false
+     }
+    }
+   ],
+   "expect": {
+    "expect_refusal": false,
+    "expect_state": "memory_hit",
+    "expect_block_ids_nonempty": true
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "memory_delta": 0,
+    "memory_before": 1,
+    "memory_after": 1,
+    "latency_ms": 19.8
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "记忆问答：车牌"
+  },
+  {
+   "id": "q03",
+   "category": "memory_qa",
+   "input": "我养的猫叫什么？",
+   "prelude": [
+    {
+     "action": "remember",
+     "ok": true,
+     "result": {
+      "id": 1,
+      "duplicate": false
+     }
+    }
+   ],
+   "expect": {
+    "expect_refusal": false,
+    "expect_state": "memory_hit",
+    "expect_block_ids_nonempty": true
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "memory_delta": 0,
+    "memory_before": 1,
+    "memory_after": 1,
+    "latency_ms": 22.4
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "记忆问答：宠物名（自然问法；单字「猫」的召回另见 q06 备注）"
+  },
+  {
+   "id": "q04",
+   "category": "memory_qa",
+   "input": "我在几楼开会？",
+   "prelude": [
+    {
+     "action": "remember",
+     "ok": true,
+     "result": {
+      "id": 1,
+      "duplicate": false
+     }
+    }
+   ],
+   "expect": {
+    "expect_refusal": false,
+    "expect_state": "memory_hit",
+    "expect_block_ids_nonempty": true
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "memory_delta": 0,
+    "memory_before": 1,
+    "memory_after": 1,
+    "latency_ms": 20.5
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "记忆问答：楼层"
+  },
+  {
+   "id": "q05",
+   "category": "memory_qa",
+   "input": "我下周三去哪开会？",
+   "prelude": [
+    {
+     "action": "remember",
+     "ok": true,
+     "result": {
+      "id": 1,
+      "duplicate": false
+     }
+    }
+   ],
+   "expect": {
+    "expect_refusal": false,
+    "expect_state": "memory_hit",
+    "expect_block_ids_nonempty": true
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "memory_delta": 0,
+    "memory_before": 1,
+    "memory_after": 1,
+    "latency_ms": 26.7
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "记忆问答：地点"
+  },
+  {
+   "id": "q06",
+   "category": "memory_qa",
+   "input": "我爱吃什么？",
+   "prelude": [
+    {
+     "action": "remember",
+     "ok": true,
+     "result": {
+      "id": 1,
+      "duplicate": false
+     }
+    }
+   ],
+   "expect": {
+    "expect_refusal": false,
+    "expect_state": "memory_hit",
+    "expect_block_ids_nonempty": true
+   },
+   "actual": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 1,
+    "memory_after": 1,
+    "latency_ms": 21.2
+   },
+   "pass": false,
+   "failure_categories": [
+    "over_refusal",
+    "state_mismatch",
+    "memory_miss"
+   ],
+   "problems": [
+    "不应拒答但被拒答",
+    "state='no_evidence' 不在预期 ['memory_hit']",
+    "预期记忆命中但 block_ids 为空"
+   ],
+   "note": "记忆问答/召回：饮食（「爱吃」与记忆「只喝美式咖啡，不吃香菜」无 bigram 重合，预期暴露词面召回限制）"
+  },
+  {
+   "id": "u01",
+   "category": "unknown_refusal",
+   "input": "我明天要去哪里出差？",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": true,
+    "expect_state": "no_evidence",
+    "expect_contains_any": [
+     "没有提到",
+     "不想猜",
+     "记忆里没有",
+     "没有这条"
+    ]
+   },
+   "actual": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 22.6
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "真实对话：明天去哪出差（无记忆）"
+  },
+  {
+   "id": "u02",
+   "category": "unknown_refusal",
+   "input": "我的车牌号是多少？",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": true,
+    "expect_state": "no_evidence"
+   },
+   "actual": {
+    "answer": "长期记忆里没有这条，当前对话里也没有提到。我不想猜。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 22.9
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "无记忆车牌问句须拒答（不编造）"
+  },
+  {
+   "id": "u03",
+   "category": "unknown_refusal",
+   "input": "我工号多少",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": true,
+    "expect_state": "no_evidence"
+   },
+   "actual": {
+    "answer": "长期记忆里没有这条，当前对话里也没有提到。我不想猜。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 23.7
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "无记忆工号"
+  },
+  {
+   "id": "u04",
+   "category": "unknown_refusal",
+   "input": "我生日是哪天",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": true,
+    "expect_state": "no_evidence"
+   },
+   "actual": {
+    "answer": "长期记忆里没有这条，当前对话里也没有提到。我不想猜。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 21.5
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "无记忆生日"
+  },
+  {
+   "id": "u05",
+   "category": "unknown_refusal",
+   "input": "我家地址是什么",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": true,
+    "expect_state": "no_evidence"
+   },
+   "actual": {
+    "answer": "长期记忆里没有这条，当前对话里也没有提到。我不想猜。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 17.8
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "无记忆地址"
+  },
+  {
+   "id": "x01",
+   "category": "mixed",
+   "input": "你好，我的车牌是多少",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": true,
+    "expect_contains_any": [
+     "没有提到",
+     "不想猜",
+     "记忆里没有",
+     "没有这条"
+    ]
+   },
+   "actual": {
+    "answer": "长期记忆里没有这条，当前对话里也没有提到。我不想猜。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 19.5
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "混合句：问候+无记忆事实 ⇒ 不得编造"
+  },
+  {
+   "id": "x02",
+   "category": "mixed",
+   "input": "你好，我的车牌号是多少？",
+   "prelude": [
+    {
+     "action": "remember",
+     "ok": true,
+     "result": {
+      "id": 1,
+      "duplicate": false
+     }
+    }
+   ],
+   "expect": {
+    "expect_refusal": false,
+    "expect_state": "memory_hit",
+    "expect_block_ids_nonempty": true
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "memory_delta": 0,
+    "memory_before": 1,
+    "memory_after": 1,
+    "latency_ms": 17.2
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "混合句：问候+有记忆事实 ⇒ 正常命中"
+  },
+  {
+   "id": "x03",
+   "category": "mixed",
+   "input": "谢谢，我几点开会？",
+   "prelude": [
+    {
+     "action": "remember",
+     "ok": true,
+     "result": {
+      "id": 1,
+      "duplicate": false
+     }
+    }
+   ],
+   "expect": {
+    "expect_refusal": false,
+    "expect_state": "memory_hit",
+    "expect_block_ids_nonempty": true
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "memory_delta": 0,
+    "memory_before": 1,
+    "memory_after": 1,
+    "latency_ms": 18.5
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "混合句：致谢+记忆问题"
+  },
+  {
+   "id": "x04",
+   "category": "mixed",
+   "input": "在吗，我几点开会？",
+   "prelude": [
+    {
+     "action": "remember",
+     "ok": true,
+     "result": {
+      "id": 1,
+      "duplicate": false
+     }
+    }
+   ],
+   "expect": {
+    "expect_refusal": false,
+    "expect_state": "memory_hit",
+    "expect_block_ids_nonempty": true
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "memory_delta": 0,
+    "memory_before": 1,
+    "memory_after": 1,
+    "latency_ms": 19.4
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "混合句：在线问候+记忆问题"
+  },
+  {
+   "id": "c01",
+   "category": "chat_followup",
+   "input": "我刚才说要去哪里出差？",
+   "prelude": [
+    {
+     "action": "ask",
+     "state": "memory_hit",
+     "refused": false
+    }
+   ],
+   "expect": {
+    "expect_refusal": false,
+    "expect_state_any": [
+     "chat_only",
+     "memory_hit"
+    ]
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "memory_delta": 0,
+    "memory_before": 1,
+    "memory_after": 1,
+    "latency_ms": 18.4
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "对话内追问：不误杀"
+  },
+  {
+   "id": "c02",
+   "category": "chat_followup",
+   "input": "我刚才说要去哪开会？",
+   "prelude": [
+    {
+     "action": "ask",
+     "state": "memory_hit",
+     "refused": false
+    }
+   ],
+   "expect": {
+    "expect_refusal": false,
+    "expect_state_any": [
+     "chat_only",
+     "memory_hit"
+    ]
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "memory_delta": 0,
+    "memory_before": 1,
+    "memory_after": 1,
+    "latency_ms": 17.3
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "对话内追问：会议地点"
+  },
+  {
+   "id": "c03",
+   "category": "chat_followup",
+   "input": "我刚才说车牌号是多少？",
+   "prelude": [
+    {
+     "action": "ask",
+     "state": "memory_hit",
+     "refused": false
+    }
+   ],
+   "expect": {
+    "expect_refusal": false,
+    "expect_state_any": [
+     "chat_only",
+     "memory_hit"
+    ]
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "memory_hit",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "memory_delta": 0,
+    "memory_before": 1,
+    "memory_after": 1,
+    "latency_ms": 18.9
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "对话内追问：车牌"
+  },
+  {
+   "id": "w01",
+   "category": "general_world",
+   "input": "解释一下什么是KV缓存",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": false,
+    "expect_not_contains": [
+     "没有提到",
+     "不想猜",
+     "记忆里没有"
+    ]
+   },
+   "actual": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 16.5
+   },
+   "pass": false,
+   "failure_categories": [
+    "over_refusal",
+    "content_forbidden"
+   ],
+   "problems": [
+    "不应拒答但被拒答",
+    "出现禁止内容 ['不想猜', '记忆里没有']"
+   ],
+   "note": "世界知识问句不得按个人事实拒答"
+  },
+  {
+   "id": "w02",
+   "category": "general_world",
+   "input": "为什么天是蓝的",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 16.7
+   },
+   "pass": false,
+   "failure_categories": [
+    "over_refusal"
+   ],
+   "problems": [
+    "不应拒答但被拒答"
+   ],
+   "note": "常识问句"
+  },
+  {
+   "id": "w03",
+   "category": "general_world",
+   "input": "帮我写一个快速排序",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "state": "no_evidence",
+    "refused": false,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 19.3
+   },
+   "pass": true,
+   "failure_categories": [],
+   "problems": [],
+   "note": "任务型请求"
+  },
+  {
+   "id": "w04",
+   "category": "general_world",
+   "input": "今天适合穿什么",
+   "prelude": [],
+   "expect": {
+    "expect_refusal": false
+   },
+   "actual": {
+    "answer": "记忆里没有这条，我不想猜。直接告诉我一句事实，我会记住（也可以 /remember）。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "memory_delta": 0,
+    "memory_before": 0,
+    "memory_after": 0,
+    "latency_ms": 17.5
+   },
+   "pass": false,
+   "failure_categories": [
+    "over_refusal"
+   ],
+   "problems": [
+    "不应拒答但被拒答"
+   ],
+   "note": "通用建议问句（当前实现可能误拒）"
+  }
+ ],
+ "diagnostics": {
+  "network_on_observation": "手工探针（未 mock 联网）显示：「我几点开会？」及「谢谢/在吗 + 我几点开会？」会走 web 检索（state=web、block_ids 为空），即 search 分支抢占已命中的记忆；默认评测把联网 mock 成 None 以保持确定性，该现象需单独修复。",
+  "retrieval_recall_note": "记忆问答为词面 bigram 检索；「我爱吃什么」与记忆「只喝美式咖啡，不吃香菜」无 bigram 重合，属已知词面召回限制（不是拒答策略 bug）。"
+ },
+ "notes": [
+  "失败清单即下一轮修复候选；按 failure_categories 归类。",
+  "真号/产品验收另见 docs/QQ-ACCEPTANCE.md；本件不进研究线引用链。"
+ ]
+}

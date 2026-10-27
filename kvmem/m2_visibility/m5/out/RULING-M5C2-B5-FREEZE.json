@@ -1,7 +1,7 @@
 {
  "schema": "ruling_m5c2_b5_freeze_v2",
  "ruling_id": "RULING-M5C2-B5-FREEZE",
- "version": "1.1",
+ "version": "1.2",
  "ruled_at": "2026-10-26T21:40:00+08:00",
  "ruled_by": "LEAD",
  "correction": {
@@ -18,14 +18,17 @@
    "M5C2-DOC-LEDGER-SPOTCHECK.json 8ea9f475238239ad",
    "git cat-file -p full:docs/_work/PREREG-M5-C2-B5.md -> 14597 B 含 §9",
    "ls --time-style=full-iso -> 2026-10-26 19:54:15"
-  ]
+  ],
+  "v1_2_at": "2026-10-26T22:03:00+08:00",
+  "v1_2_prev_sha16": "133256d41eb56a27",
+  "v1_2_what": "只修 R4 的 §9.x 标签错位：§9.3=诊断指标（不参与判定）、§9.4=预设决策规则、§9.6=明令禁止；事实/结论不变"
  },
  "ruling_md": {
   "path": "docs/_work/RULING-M5C2-B5-FREEZE.md",
-  "sha16": "133256d41eb56a27",
-  "sha256": "133256d41eb56a27115139f2d4fcee00b204319b7beed43dd29ea87a7b3ba795",
-  "bytes": 6625,
-  "lines": 64
+  "sha16": "5a1419b3a9f40af4",
+  "sha256": "5a1419b3a9f40af4556e760115923b3550e413976a76a0b7f4e4d16688a5baa6",
+  "bytes": 7780,
+  "lines": 71
  },
  "objects": {
   "b5_current": {
@@ -100,6 +103,11 @@
    "id": "F8",
    "claim": "B5 第 6 行 b4 e9a88fda stale（实际 f30d89e3/10910），全树+blob+变体 0 命中",
    "evidence": "doc ledger+spotcheck"
+  },
+  {
+   "id": "F9",
+   "claim": "B5 内无 abort/失败归类规则（§9.3 诊断指标、§9.4 决策规则、§9.6 明令禁止）；abort 规则为另立冻结件 RULING-M5C2-B5-ABORT",
+   "evidence": "B5 L143-182 + RULING-M5C2-B5-ABORT"
   }
  ],
  "rulings": [
@@ -130,6 +138,10 @@
   {
    "id": "R7",
    "text": "冻结件今后双记 mtime+sha256+声明 frozen_at；三者不一致须显式注明；禁止只凭声明时间推断顺序"
+  },
+  {
+   "id": "R8",
+   "text": "B5 无 abort 语义 ⇒ 依 R7 另立 RULING-M5C2-B5-ABORT（frozen_rev=1）规定消耗/归类/重跑/partial/阶段分离/样本量兜底"
   }
  ],
  "other_inputs": {

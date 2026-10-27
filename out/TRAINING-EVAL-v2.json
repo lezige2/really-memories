@@ -1,0 +1,2752 @@
+{
+ "schema": "training_eval_v1",
+ "role": "T11 训练+测试闭环：真实对话用例集回归（2026-10-27）",
+ "generated_at": "2026-10-27T20:42:00+0800",
+ "mode": "live",
+ "partial": true,
+ "endpoint": "http://127.0.0.1:8765",
+ "source_cases": {
+  "path": "training/dialog_cases.jsonl",
+  "sha256": "bbd1388c5519680e60724c83a7ab761a5247101d8366675f0360b000bf1dcd96",
+  "bytes": 24962,
+  "n": 78
+ },
+ "runner": {
+  "path": "training/run_training_eval.py",
+  "sha256": "04b03edda7666b0510099747eda4cccf2c716ba068b811794ee410550f8bf810",
+  "timeout_s": 90.0,
+  "classifier": "9 类：串味/编造/误拒/僵硬/重复尾巴/身份/联网无来源/记忆漏/延迟",
+  "connection_retries": 2,
+  "retry_wait_s": 5.0,
+  "state_class_mapping": {
+   "refused": "no_evidence",
+   "state=identity": "identity",
+   "state=capability": "capability",
+   "state=smalltalk": "smalltalk",
+   "state=ack": "ack",
+   "state=web": "web",
+   "block_ids 非空": "memory_hit",
+   "其余": "general"
+  }
+ },
+ "service": {
+  "health_before": {
+   "status": "ok",
+   "model_pin": {
+    "model_path": "D:/models/Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+    "model_size": 8988110976,
+    "model_mtime": 1793102210
+   },
+   "dll_pin": {
+    "path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+    "present": true,
+    "bytes": 50007552,
+    "sha16": "9edbafa150700614"
+   },
+   "vram_gib": null,
+   "memories": 11,
+   "session": {
+    "path": "D:\\llama-mem\\kvmem\\daily\\sessions\\daily.json",
+    "exists": false,
+    "chat_tokens": 211,
+    "chat_budget": 8192,
+    "chat_start": 8192,
+    "n_ctx": 16384,
+    "mounted": 1,
+    "control": false,
+    "n_predict": 192,
+    "rollover_at": 0.75,
+    "rollover_threshold_tokens": 6144
+   },
+   "engine": {
+    "mode": "real",
+    "type": "KVEngine",
+    "n_ctx": 16384,
+    "n_seq": 8,
+    "n_gpu_layers": 34,
+    "bytes_per_token": 104448,
+    "kv_pool_gib": 1.594,
+    "mem_total_gib": 1.594
+   },
+   "retrieval": {
+    "mode": "topk",
+    "topk": 4,
+    "library_count": 11,
+    "library_max": 200,
+    "mounted_ids": [
+     3
+    ],
+    "mounted_count": 1,
+    "candidates": 1,
+    "related": 0,
+    "memory_budget": 7680,
+    "last_truncation": null
+   },
+   "version": "c-1.0",
+   "service": {
+    "version": "c-service-1.0",
+    "host": "127.0.0.1",
+    "port": 8765,
+    "serial": true,
+    "requests": 5,
+    "in_flight_max": 1,
+    "by_route": {
+     "GET /health": 4,
+     "POST /ask": 1
+    },
+    "uptime_s": 864.4,
+    "fake_engine": false
+   }
+  },
+  "health_after": {
+   "status": "ok",
+   "model_pin": {
+    "model_path": "D:/models/Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+    "model_size": 8988110976,
+    "model_mtime": 1793102210
+   },
+   "dll_pin": {
+    "path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+    "present": true,
+    "bytes": 50007552,
+    "sha16": "9edbafa150700614"
+   },
+   "vram_gib": null,
+   "memories": 11,
+   "session": {
+    "path": "D:\\llama-mem\\kvmem\\daily\\sessions\\daily.json",
+    "exists": false,
+    "chat_tokens": 211,
+    "chat_budget": 8192,
+    "chat_start": 8192,
+    "n_ctx": 16384,
+    "mounted": 1,
+    "control": false,
+    "n_predict": 192,
+    "rollover_at": 0.75,
+    "rollover_threshold_tokens": 6144
+   },
+   "engine": {
+    "mode": "real",
+    "type": "KVEngine",
+    "n_ctx": 16384,
+    "n_seq": 8,
+    "n_gpu_layers": 34,
+    "bytes_per_token": 104448,
+    "kv_pool_gib": 1.594,
+    "mem_total_gib": 1.594
+   },
+   "retrieval": {
+    "mode": "topk",
+    "topk": 4,
+    "library_count": 11,
+    "library_max": 200,
+    "mounted_ids": [
+     3
+    ],
+    "mounted_count": 1,
+    "candidates": 1,
+    "related": 0,
+    "memory_budget": 7680,
+    "last_truncation": null
+   },
+   "version": "c-1.0",
+   "service": {
+    "version": "c-service-1.0",
+    "host": "127.0.0.1",
+    "port": 8765,
+    "serial": true,
+    "requests": 5,
+    "in_flight_max": 1,
+    "by_route": {
+     "GET /health": 4,
+     "POST /ask": 1
+    },
+    "uptime_s": 864.4,
+    "fake_engine": false
+   }
+  },
+  "elapsed_s": 554.15
+ },
+ "summary": {
+  "scope": "live",
+  "n": 25,
+  "n_valid": 25,
+  "n_infra": 0,
+  "pass": 16,
+  "fail": 9,
+  "pass_rate": 0.64,
+  "pass_rate_including_infra": 0.64,
+  "by_category": {
+   "greeting": {
+    "n": 9,
+    "pass": 8,
+    "pass_rate": 0.888889
+   },
+   "identity": {
+    "n": 8,
+    "pass": 0,
+    "pass_rate": 0.0
+   },
+   "capability": {
+    "n": 8,
+    "pass": 8,
+    "pass_rate": 1.0
+   }
+  },
+  "failure_classes": {
+   "僵硬": 1,
+   "身份": 8
+  },
+  "failures": [
+   {
+    "id": "g01",
+    "category": "greeting",
+    "input": "你好",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "smalltalk",
+     "contains_any": [
+      "你好",
+      "在",
+      "助手"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗"
+     ]
+    },
+    "note": "真实抱怨：用户贴「你好」；曾出现重复尾巴/未走寒暄快速路径",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 13.629,
+     "latency_server_s": 13.6076,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "state_class：期望 smalltalk，实际 general（state='natural', blocks=[]）"
+    ]
+   },
+   {
+    "id": "i01",
+    "category": "identity",
+    "input": "你是谁",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "identity",
+     "contains_any": [
+      "记忆助手",
+      "本地",
+      "14B",
+      "模型"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗",
+      "DeepSeek",
+      "GPT",
+      "我是AI助手"
+     ]
+    },
+    "note": "真实抱怨：用户贴「你是谁呀」类问句；身份应答必须稳定",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 19.885,
+     "latency_server_s": 19.8637,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+    ]
+   },
+   {
+    "id": "i02",
+    "category": "identity",
+    "input": "你是谁呀",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "identity",
+     "contains_any": [
+      "记忆助手",
+      "本地",
+      "14B",
+      "模型"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗",
+      "DeepSeek",
+      "GPT",
+      "我是AI助手"
+     ]
+    },
+    "note": "真实抱怨：用户贴「你是谁呀」；曾被答成「您在问『你是谁呀』这个问题，对吗」",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 20.491,
+     "latency_server_s": 20.4715,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+    ]
+   },
+   {
+    "id": "i03",
+    "category": "identity",
+    "input": "你叫什么名字",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "identity",
+     "contains_any": [
+      "记忆助手",
+      "本地",
+      "14B",
+      "模型"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗",
+      "DeepSeek",
+      "GPT",
+      "我是AI助手"
+     ]
+    },
+    "note": "回归：名字变体",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 21.44,
+     "latency_server_s": 21.4184,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+    ]
+   },
+   {
+    "id": "i04",
+    "category": "identity",
+    "input": "你是机器人吗",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "identity",
+     "contains_any": [
+      "记忆助手",
+      "本地",
+      "14B",
+      "模型"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗",
+      "DeepSeek",
+      "GPT",
+      "我是AI助手"
+     ]
+    },
+    "note": "回归：身份确认",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 22.551,
+     "latency_server_s": 22.5308,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+    ]
+   },
+   {
+    "id": "i05",
+    "category": "identity",
+    "input": "你是AI吗",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "identity",
+     "contains_any": [
+      "记忆助手",
+      "本地",
+      "14B",
+      "模型"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗",
+      "DeepSeek",
+      "GPT",
+      "我是AI助手"
+     ]
+    },
+    "note": "回归：AI 身份",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 22.958,
+     "latency_server_s": 22.9364,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+    ]
+   },
+   {
+    "id": "i06",
+    "category": "identity",
+    "input": "你能做什么",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "identity",
+     "contains_any": [
+      "记",
+      "不知道",
+      "帮",
+      "回答",
+      "信息"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗"
+     ]
+    },
+    "note": "回归：能力介绍",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 23.569,
+     "latency_server_s": 23.5472,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+    ]
+   },
+   {
+    "id": "i07",
+    "category": "identity",
+    "input": "你是什么模型",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "identity",
+     "contains_any": [
+      "记忆助手",
+      "本地",
+      "14B",
+      "模型"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗",
+      "DeepSeek",
+      "GPT",
+      "我是AI助手"
+     ]
+    },
+    "note": "真实抱怨：用户贴「你是什么模型」；曾答成通用模型介绍/身份不稳",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 24.294,
+     "latency_server_s": 24.2722,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+    ]
+   },
+   {
+    "id": "i08",
+    "category": "identity",
+    "input": "你用的是什么模型",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "identity",
+     "contains_any": [
+      "记忆助手",
+      "本地",
+      "14B",
+      "模型"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗",
+      "DeepSeek",
+      "GPT",
+      "我是AI助手"
+     ]
+    },
+    "note": "回归：模型身份变体",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 24.978,
+     "latency_server_s": 24.9596,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+    ]
+   }
+  ],
+  "infra_errors": []
+ },
+ "live": {
+  "scope": "live",
+  "n": 25,
+  "n_valid": 25,
+  "n_infra": 0,
+  "pass": 16,
+  "fail": 9,
+  "pass_rate": 0.64,
+  "pass_rate_including_infra": 0.64,
+  "by_category": {
+   "greeting": {
+    "n": 9,
+    "pass": 8,
+    "pass_rate": 0.888889
+   },
+   "identity": {
+    "n": 8,
+    "pass": 0,
+    "pass_rate": 0.0
+   },
+   "capability": {
+    "n": 8,
+    "pass": 8,
+    "pass_rate": 1.0
+   }
+  },
+  "failure_classes": {
+   "僵硬": 1,
+   "身份": 8
+  },
+  "failures": [
+   {
+    "id": "g01",
+    "category": "greeting",
+    "input": "你好",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "smalltalk",
+     "contains_any": [
+      "你好",
+      "在",
+      "助手"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗"
+     ]
+    },
+    "note": "真实抱怨：用户贴「你好」；曾出现重复尾巴/未走寒暄快速路径",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 13.629,
+     "latency_server_s": 13.6076,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "state_class：期望 smalltalk，实际 general（state='natural', blocks=[]）"
+    ]
+   },
+   {
+    "id": "i01",
+    "category": "identity",
+    "input": "你是谁",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "identity",
+     "contains_any": [
+      "记忆助手",
+      "本地",
+      "14B",
+      "模型"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗",
+      "DeepSeek",
+      "GPT",
+      "我是AI助手"
+     ]
+    },
+    "note": "真实抱怨：用户贴「你是谁呀」类问句；身份应答必须稳定",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 19.885,
+     "latency_server_s": 19.8637,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+    ]
+   },
+   {
+    "id": "i02",
+    "category": "identity",
+    "input": "你是谁呀",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "identity",
+     "contains_any": [
+      "记忆助手",
+      "本地",
+      "14B",
+      "模型"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗",
+      "DeepSeek",
+      "GPT",
+      "我是AI助手"
+     ]
+    },
+    "note": "真实抱怨：用户贴「你是谁呀」；曾被答成「您在问『你是谁呀』这个问题，对吗」",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 20.491,
+     "latency_server_s": 20.4715,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+    ]
+   },
+   {
+    "id": "i03",
+    "category": "identity",
+    "input": "你叫什么名字",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "identity",
+     "contains_any": [
+      "记忆助手",
+      "本地",
+      "14B",
+      "模型"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗",
+      "DeepSeek",
+      "GPT",
+      "我是AI助手"
+     ]
+    },
+    "note": "回归：名字变体",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 21.44,
+     "latency_server_s": 21.4184,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+    ]
+   },
+   {
+    "id": "i04",
+    "category": "identity",
+    "input": "你是机器人吗",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "identity",
+     "contains_any": [
+      "记忆助手",
+      "本地",
+      "14B",
+      "模型"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗",
+      "DeepSeek",
+      "GPT",
+      "我是AI助手"
+     ]
+    },
+    "note": "回归：身份确认",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 22.551,
+     "latency_server_s": 22.5308,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+    ]
+   },
+   {
+    "id": "i05",
+    "category": "identity",
+    "input": "你是AI吗",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "identity",
+     "contains_any": [
+      "记忆助手",
+      "本地",
+      "14B",
+      "模型"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗",
+      "DeepSeek",
+      "GPT",
+      "我是AI助手"
+     ]
+    },
+    "note": "回归：AI 身份",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 22.958,
+     "latency_server_s": 22.9364,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+    ]
+   },
+   {
+    "id": "i06",
+    "category": "identity",
+    "input": "你能做什么",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "identity",
+     "contains_any": [
+      "记",
+      "不知道",
+      "帮",
+      "回答",
+      "信息"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗"
+     ]
+    },
+    "note": "回归：能力介绍",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 23.569,
+     "latency_server_s": 23.5472,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+    ]
+   },
+   {
+    "id": "i07",
+    "category": "identity",
+    "input": "你是什么模型",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "identity",
+     "contains_any": [
+      "记忆助手",
+      "本地",
+      "14B",
+      "模型"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗",
+      "DeepSeek",
+      "GPT",
+      "我是AI助手"
+     ]
+    },
+    "note": "真实抱怨：用户贴「你是什么模型」；曾答成通用模型介绍/身份不稳",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 24.294,
+     "latency_server_s": 24.2722,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+    ]
+   },
+   {
+    "id": "i08",
+    "category": "identity",
+    "input": "你用的是什么模型",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "identity",
+     "contains_any": [
+      "记忆助手",
+      "本地",
+      "14B",
+      "模型"
+     ],
+     "not_contains": [
+      "您在问",
+      "对吗",
+      "DeepSeek",
+      "GPT",
+      "我是AI助手"
+     ]
+    },
+    "note": "回归：模型身份变体",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 24.978,
+     "latency_server_s": 24.9596,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+    ]
+   }
+  ],
+  "infra_errors": []
+ },
+ "results": [
+  {
+   "id": "g01",
+   "category": "greeting",
+   "input": "你好",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "smalltalk",
+    "contains_any": [
+     "你好",
+     "在",
+     "助手"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你好」；曾出现重复尾巴/未走寒暄快速路径",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 13.629,
+    "latency_server_s": 13.6076,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "state_class：期望 smalltalk，实际 general（state='natural', blocks=[]）"
+   ]
+  },
+  {
+   "id": "g02",
+   "category": "greeting",
+   "input": "你好你好",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "你好",
+     "在",
+     "助手"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你好你好」；重复问候曾被复读",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 13.878,
+    "latency_server_s": 13.8565,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g03",
+   "category": "greeting",
+   "input": "您好",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "你好",
+     "您好",
+     "在",
+     "帮",
+     "好"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗"
+    ]
+   },
+   "note": "回归：敬语变体",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 15.117,
+    "latency_server_s": 15.0933,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g04",
+   "category": "greeting",
+   "input": "在吗",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "在",
+     "帮",
+     "你好"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗"
+    ]
+   },
+   "note": "真实抱怨：用户贴「在吗」；曾出现「您在问…对吗」式应答",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 15.756,
+    "latency_server_s": 15.7325,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g05",
+   "category": "greeting",
+   "input": "在不在",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "在",
+     "帮",
+     "你好"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗"
+    ]
+   },
+   "note": "回归：在线问候变体",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 16.456,
+    "latency_server_s": 16.436,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g06",
+   "category": "greeting",
+   "input": "早上好呀",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "早上好",
+     "早",
+     "好"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗"
+    ]
+   },
+   "note": "回归：时段问候",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 17.101,
+    "latency_server_s": 17.0813,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g07",
+   "category": "greeting",
+   "input": "嗨",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "无法回答"
+    ]
+   },
+   "note": "回归：英文/单字变体",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 18.105,
+    "latency_server_s": 18.0831,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g08",
+   "category": "greeting",
+   "input": "哈喽",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "无法回答"
+    ]
+   },
+   "note": "回归：音译变体",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 18.588,
+    "latency_server_s": 18.5648,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g09",
+   "category": "greeting",
+   "input": "hello",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "无法回答"
+    ]
+   },
+   "note": "回归：英文变体",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 19.25,
+    "latency_server_s": 19.2292,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "i01",
+   "category": "identity",
+   "input": "你是谁",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "identity",
+    "contains_any": [
+     "记忆助手",
+     "本地",
+     "14B",
+     "模型"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "DeepSeek",
+     "GPT",
+     "我是AI助手"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你是谁呀」类问句；身份应答必须稳定",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 19.885,
+    "latency_server_s": 19.8637,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+   ]
+  },
+  {
+   "id": "i02",
+   "category": "identity",
+   "input": "你是谁呀",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "identity",
+    "contains_any": [
+     "记忆助手",
+     "本地",
+     "14B",
+     "模型"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "DeepSeek",
+     "GPT",
+     "我是AI助手"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你是谁呀」；曾被答成「您在问『你是谁呀』这个问题，对吗」",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 20.491,
+    "latency_server_s": 20.4715,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+   ]
+  },
+  {
+   "id": "i03",
+   "category": "identity",
+   "input": "你叫什么名字",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "identity",
+    "contains_any": [
+     "记忆助手",
+     "本地",
+     "14B",
+     "模型"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "DeepSeek",
+     "GPT",
+     "我是AI助手"
+    ]
+   },
+   "note": "回归：名字变体",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 21.44,
+    "latency_server_s": 21.4184,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+   ]
+  },
+  {
+   "id": "i04",
+   "category": "identity",
+   "input": "你是机器人吗",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "identity",
+    "contains_any": [
+     "记忆助手",
+     "本地",
+     "14B",
+     "模型"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "DeepSeek",
+     "GPT",
+     "我是AI助手"
+    ]
+   },
+   "note": "回归：身份确认",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 22.551,
+    "latency_server_s": 22.5308,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+   ]
+  },
+  {
+   "id": "i05",
+   "category": "identity",
+   "input": "你是AI吗",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "identity",
+    "contains_any": [
+     "记忆助手",
+     "本地",
+     "14B",
+     "模型"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "DeepSeek",
+     "GPT",
+     "我是AI助手"
+    ]
+   },
+   "note": "回归：AI 身份",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 22.958,
+    "latency_server_s": 22.9364,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+   ]
+  },
+  {
+   "id": "i06",
+   "category": "identity",
+   "input": "你能做什么",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "identity",
+    "contains_any": [
+     "记",
+     "不知道",
+     "帮",
+     "回答",
+     "信息"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗"
+    ]
+   },
+   "note": "回归：能力介绍",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 23.569,
+    "latency_server_s": 23.5472,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+   ]
+  },
+  {
+   "id": "i07",
+   "category": "identity",
+   "input": "你是什么模型",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "identity",
+    "contains_any": [
+     "记忆助手",
+     "本地",
+     "14B",
+     "模型"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "DeepSeek",
+     "GPT",
+     "我是AI助手"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你是什么模型」；曾答成通用模型介绍/身份不稳",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 24.294,
+    "latency_server_s": 24.2722,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+   ]
+  },
+  {
+   "id": "i08",
+   "category": "identity",
+   "input": "你用的是什么模型",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "identity",
+    "contains_any": [
+     "记忆助手",
+     "本地",
+     "14B",
+     "模型"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "DeepSeek",
+     "GPT",
+     "我是AI助手"
+    ]
+   },
+   "note": "回归：模型身份变体",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 24.978,
+    "latency_server_s": 24.9596,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+   ]
+  },
+  {
+   "id": "c01",
+   "category": "capability",
+   "input": "记忆力有什么",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "记忆",
+     "条",
+     "记得",
+     "您"
+    ],
+    "not_contains": [
+     "大脑存储",
+     "长期记忆和短期记忆",
+     "您在问",
+     "人脑",
+     "识记",
+     "认知功能"
+    ]
+   },
+   "note": "真实抱怨：用户贴「记忆力有什么」；曾被答成「记忆力是大脑存储…」的百科句，且重复尾巴",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 25.561,
+    "latency_server_s": 25.5408,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "c02",
+   "category": "capability",
+   "input": "你记得什么",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "记忆",
+     "条",
+     "记得",
+     "您"
+    ],
+    "not_contains": [
+     "大脑存储",
+     "长期记忆和短期记忆",
+     "您在问"
+    ]
+   },
+   "note": "真实抱怨：问记忆库内容，应列记忆或说明已记条数",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 26.368,
+    "latency_server_s": 26.3483,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "c03",
+   "category": "capability",
+   "input": "记忆库有什么",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "记忆",
+     "条",
+     "记得",
+     "您"
+    ],
+    "not_contains": [
+     "大脑存储",
+     "长期记忆和短期记忆",
+     "您在问"
+    ]
+   },
+   "note": "回归：记忆库查询变体",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 27.03,
+    "latency_server_s": 27.0094,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "c04",
+   "category": "capability",
+   "input": "你能联网吗",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "不联网",
+     "不能联网",
+     "本地",
+     "没有联网",
+     "无法联网",
+     "没有网络"
+    ],
+    "not_contains": [
+     "可以联网",
+     "已联网",
+     "能上网",
+     "联网成功"
+    ]
+   },
+   "note": "真实抱怨：用户贴「能联网吗」；应明确不联网/本地",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 28.098,
+    "latency_server_s": 28.0761,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "c05",
+   "category": "capability",
+   "input": "你联网了吗",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "不联网",
+     "不能联网",
+     "本地",
+     "没有联网",
+     "无法联网",
+     "没有网络"
+    ],
+    "not_contains": [
+     "可以联网",
+     "已联网",
+     "能上网",
+     "联网成功"
+    ]
+   },
+   "note": "回归：联网状态变体",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 28.255,
+    "latency_server_s": 28.2344,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "c06",
+   "category": "capability",
+   "input": "你能上网吗",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "不联网",
+     "不能联网",
+     "本地",
+     "没有联网",
+     "无法联网",
+     "没有网络"
+    ],
+    "not_contains": [
+     "可以联网",
+     "已联网",
+     "能上网",
+     "联网成功"
+    ]
+   },
+   "note": "回归：上网变体",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 29.022,
+    "latency_server_s": 28.9692,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "c07",
+   "category": "capability",
+   "input": "你的知识截止到什么时候",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "不联网",
+     "不能联网",
+     "本地",
+     "没有联网",
+     "无法联网",
+     "没有网络"
+    ],
+    "not_contains": [
+     "可以联网",
+     "已联网",
+     "能上网",
+     "联网成功"
+    ]
+   },
+   "note": "回归：知识截止变体",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 29.937,
+    "latency_server_s": 29.9134,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "c08",
+   "category": "capability",
+   "input": "你能搜索吗",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "不能",
+     "不联网",
+     "本地",
+     "无法",
+     "没有"
+    ],
+    "not_contains": [
+     "能搜索",
+     "已搜索",
+     "可以搜索"
+    ]
+   },
+   "note": "回归：搜索能力问句",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 31.042,
+    "latency_server_s": 31.0203,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  }
+ ],
+ "notes": [
+  "live 模式：每条独立 setup（pre_state）→ 主问 → 用 /memories 前后差集删除本 case 新增块（绝不删用户既有记忆）；共享会话历史无法重置，后段用例可能受前段上下文影响（已按 read-only → 写入类顺序排列）。",
+  "dry-run-instance：每条独立 fake 实例（零 GPU/零模型），只判结构项（refusal/state_class/memory_delta/延迟），正文包含类检查 skipped，不与 live 基线混算。",
+  "expect 扩展：memory_delta 为 T11 跑器补充字段（自动记忆用例核对入记忆条数），其余字段沿用 LEAD 指定 schema。",
+  "连接层错误（服务被重启/拒绝连接）计入 n_infra，不计入 pass_rate 分母；若 n_infra 偏大说明评测窗口内服务被外部重启，基线只对 n_valid 条成立。",
+  "partial=true 表示本轮被中断/未跑完；可用 --resume 在同一 --out 上续跑。"
+ ],
+ "failures": [
+  {
+   "id": "g01",
+   "category": "greeting",
+   "input": "你好",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "smalltalk",
+    "contains_any": [
+     "你好",
+     "在",
+     "助手"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你好」；曾出现重复尾巴/未走寒暄快速路径",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 13.629,
+    "latency_server_s": 13.6076,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "state_class：期望 smalltalk，实际 general（state='natural', blocks=[]）"
+   ]
+  },
+  {
+   "id": "i01",
+   "category": "identity",
+   "input": "你是谁",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "identity",
+    "contains_any": [
+     "记忆助手",
+     "本地",
+     "14B",
+     "模型"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "DeepSeek",
+     "GPT",
+     "我是AI助手"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你是谁呀」类问句；身份应答必须稳定",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 19.885,
+    "latency_server_s": 19.8637,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+   ]
+  },
+  {
+   "id": "i02",
+   "category": "identity",
+   "input": "你是谁呀",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "identity",
+    "contains_any": [
+     "记忆助手",
+     "本地",
+     "14B",
+     "模型"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "DeepSeek",
+     "GPT",
+     "我是AI助手"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你是谁呀」；曾被答成「您在问『你是谁呀』这个问题，对吗」",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 20.491,
+    "latency_server_s": 20.4715,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+   ]
+  },
+  {
+   "id": "i03",
+   "category": "identity",
+   "input": "你叫什么名字",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "identity",
+    "contains_any": [
+     "记忆助手",
+     "本地",
+     "14B",
+     "模型"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "DeepSeek",
+     "GPT",
+     "我是AI助手"
+    ]
+   },
+   "note": "回归：名字变体",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 21.44,
+    "latency_server_s": 21.4184,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+   ]
+  },
+  {
+   "id": "i04",
+   "category": "identity",
+   "input": "你是机器人吗",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "identity",
+    "contains_any": [
+     "记忆助手",
+     "本地",
+     "14B",
+     "模型"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "DeepSeek",
+     "GPT",
+     "我是AI助手"
+    ]
+   },
+   "note": "回归：身份确认",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 22.551,
+    "latency_server_s": 22.5308,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+   ]
+  },
+  {
+   "id": "i05",
+   "category": "identity",
+   "input": "你是AI吗",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "identity",
+    "contains_any": [
+     "记忆助手",
+     "本地",
+     "14B",
+     "模型"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "DeepSeek",
+     "GPT",
+     "我是AI助手"
+    ]
+   },
+   "note": "回归：AI 身份",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 22.958,
+    "latency_server_s": 22.9364,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+   ]
+  },
+  {
+   "id": "i06",
+   "category": "identity",
+   "input": "你能做什么",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "identity",
+    "contains_any": [
+     "记",
+     "不知道",
+     "帮",
+     "回答",
+     "信息"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗"
+    ]
+   },
+   "note": "回归：能力介绍",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 23.569,
+    "latency_server_s": 23.5472,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+   ]
+  },
+  {
+   "id": "i07",
+   "category": "identity",
+   "input": "你是什么模型",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "identity",
+    "contains_any": [
+     "记忆助手",
+     "本地",
+     "14B",
+     "模型"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "DeepSeek",
+     "GPT",
+     "我是AI助手"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你是什么模型」；曾答成通用模型介绍/身份不稳",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 24.294,
+    "latency_server_s": 24.2722,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+   ]
+  },
+  {
+   "id": "i08",
+   "category": "identity",
+   "input": "你用的是什么模型",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "identity",
+    "contains_any": [
+     "记忆助手",
+     "本地",
+     "14B",
+     "模型"
+    ],
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "DeepSeek",
+     "GPT",
+     "我是AI助手"
+    ]
+   },
+   "note": "回归：模型身份变体",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "answer": "用户身边的本地记忆助手，说话自然、简短、口语化，像朋友聊天。用户告诉你事实时系统会在后台记住，你自然接话即可，不要说“已记住 id=…”这类系统话。回答个人事实优先依据记忆，记不清就自然说记不清，不要编造或用无关旧内容顶替。你不能操作任何应用（加好友/发消息/转账/删除等），被要求时自然说做不了，不要承诺、不要假装做过。你不是联网模型；只有本轮给了“检索资料”时才可引用并注明来源。不要自称某个具体模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 24.978,
+    "latency_server_s": 24.9596,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "state_class：期望 identity，实际 general（state='natural', blocks=[]）"
+   ]
+  }
+ ]
+}

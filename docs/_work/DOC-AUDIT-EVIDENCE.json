@@ -1,0 +1,498 @@
+{
+ "schema": "m5c2_doc_audit_evidence_v1",
+ "role": "旧文档说法 vs 代码/产物实际的逐条核验（只读；仅报已核过项）",
+ "generated_at": "2026-10-27T14:17:23+08:00",
+ "workspace": "D:\\llama-mem",
+ "scope": "README.md / docs/*.md 与 tools/·kvmem/m2_visibility/m5/ 代码与冻结产物",
+ "method": [
+  "读取文档指定行并引用原文",
+  "对其中的 sha/路径/常量到代码或产物中取实际值",
+  "判定：真不一致 / 表述过时 / 假不一致 / 未核实"
+ ],
+ "discipline": {
+  "read_only": true,
+  "zero_gpu": true,
+  "no_network": true,
+  "no_files_deleted": true,
+  "files_written": [
+   "docs/_work/DOC-AUDIT-EVIDENCE.json",
+   "docs/CODE-MAP.md"
+  ],
+  "note": "未删/未移/未压缩任何 D 盘文件"
+ },
+ "doc_vs_code_items": [
+  {
+   "id": "AU-1",
+   "claim": {
+    "doc": "README.md",
+    "line": 78,
+    "quote": "`M5C2-B7-VERDICT-SUPPLEMENT` = `5046d1c0fc697356`"
+   },
+   "actual": {
+    "path": "kvmem/m2_visibility/m5/out/M5C2-B7-VERDICT-SUPPLEMENT.json",
+    "line": 109,
+    "fact": "现行 v2 = a58c3c87393a5b0c/3,871 B；文件内 supersedes_sha16=5046d1c0fc697356（v1 已作废）；README.md:11 与 docs/PROJECT-STATE.md:15 均引 v2"
+   },
+   "verdict": "真不一致",
+   "severity": "medium",
+   "suggestion": "README.md:78 的 sha 改为 a58c3c87393a5b0c（或标 v2），与 README:11/PROJECT-STATE:15 对齐"
+  },
+  {
+   "id": "AU-2",
+   "claim": {
+    "doc": "git commit f9fb93c^:README.md",
+    "line": "11,74",
+    "quote": "M5 (a) 接地弃答（36 层）已验收；M5 (a) 36 层 | 已验收"
+   },
+   "actual": {
+    "path": "README.md; docs/archive/PROGRESS-AND-ROADMAP-ARCHIVE.md",
+    "line": "README:11/74-76; archive:2950",
+    "fact": "现行 README:11 写『旧装置（非 36 层）通过；36 层重探只到装置可用、试跑可用性 未通过』；archive:2950 红旗句同义；git log f9fb93c 提交说明明写『删除已验收误述』"
+   },
+   "verdict": "真不一致",
+   "severity": "medium",
+   "suggestion": "无需再改代码文档；保留本证据说明该误述已在 f9fb93c 更正（历史引用请走 ARCHIVE-INDEX 映射）"
+  },
+  {
+   "id": "AU-3",
+   "claim": {
+    "doc": "docs/PROJECT-STATE.md",
+    "line": 13,
+    "quote": "实测 VRAM 峰 ≈ 8.0 GiB（fuse 8.6）"
+   },
+   "actual": {
+    "path": "docs/PROJECT-STATE.md; docs/USER-GUIDE-C.md; tools/chat_daily.py",
+    "line": "PROJECT-STATE:23; USER-GUIDE:26/155; chat_daily:59",
+    "fact": "同文件 :23 写 7.997 GiB（v1.0）；USER-GUIDE:26 写『~8.2 GiB，实测 7.99–8.18』；chat_daily:59 注释『VRAM 峰 8.003 GiB』；三处口径不一"
+   },
+   "verdict": "表述过时",
+   "severity": "low",
+   "suggestion": "统一为：目标 ≤8.0 GiB / 实测峰值 7.997–8.18 GiB（随负载）/ 硬 fuse 8.6 GiB"
+  },
+  {
+   "id": "AU-4",
+   "claim": {
+    "doc": "docs/USER-GUIDE-C.md",
+    "line": "19,169-172",
+    "quote": "库容量上限 200 条（topk 模式；off 模式仍为 6 条全挂载）"
+   },
+   "actual": {
+    "path": "tools/chat_daily.py",
+    "line": "63-70,1003",
+    "fact": "N_SEQ=8、MAX_MEMORIES=6（同时挂载上限）、LIBRARY_MAX=200（检索模式库容量）；:1003 按模式取 cap。文档口径与代码一致"
+   },
+   "verdict": "假不一致",
+   "severity": "info",
+   "suggestion": "不需改；『6 条』指同时挂载、『200 条』指库容量，文档已区分"
+  },
+  {
+   "id": "AU-5",
+   "claim": {
+    "doc": "docs/PROJECT-STATE.md",
+    "line": "47-49",
+    "quote": "两读点估计均在 H1 线内，但 Wilson 上界均越线 ⇒ 擦边；A/B 同档 ⇒ headline 取 A_narrow"
+   },
+   "actual": {
+    "path": "docs/_work/RULING-M5C2-B7-A4.md; README.md",
+    "line": "A4:7-20; README:78",
+    "fact": "A4 R1/R2 要求两读并列、结论取较差档、禁止默认 A 为主读数；现行文档已按 A4/A3-V2 写『两读一致、同档取 A』"
+   },
+   "verdict": "假不一致",
+   "severity": "info",
+   "suggestion": "不需改；注意引用时写明日 headline=A 的前提是同档（A4 原文）"
+  },
+  {
+   "id": "AU-6",
+   "claim": {
+    "doc": "README.md; docs/README.md",
+    "line": "README:78; docs/README:52-54",
+    "quote": "PROGRESS-AND-ROADMAP.md（根）→ docs/archive/...；正文引『PROGRESS §13.x』"
+   },
+   "actual": {
+    "path": "docs/ARCHIVE-INDEX.md",
+    "line": "11-14",
+    "fact": "根 PROGRESS/HANDOFF 已于 2026-10-27 移入 docs/archive/；ARCHIVE-INDEX 明示『引用旧路径的文档/记录不追改，按本表映射』"
+   },
+   "verdict": "表述过时",
+   "severity": "low",
+   "suggestion": "保留；新文档引用历史时按 ARCHIVE-INDEX 映射到 docs/archive/PROGRESS-AND-ROADMAP-ARCHIVE.md"
+  },
+  {
+   "id": "AU-7",
+   "claim": {
+    "doc": "README.md",
+    "line": 41,
+    "quote": "CPU 单测 `test_*_cpu.py`（被扫描为 _cpu.py）"
+   },
+   "actual": {
+    "path": "tools/",
+    "line": "—",
+    "fact": "`test_*_cpu.py` 通配符不是文件名；tools/ 下存在多个 test_*_cpu.py"
+   },
+   "verdict": "假不一致",
+   "severity": "info",
+   "suggestion": "扫描器把通配符当路径；人工核过后无需改文档"
+  },
+  {
+   "id": "AU-8",
+   "claim": {
+    "doc": "docs/USER-GUIDE-C.md",
+    "line": 142,
+    "quote": "常驻 VRAM | 目标 ≤8.0 GiB；硬上限 8.6 GiB"
+   },
+   "actual": {
+    "path": "docs/USER-GUIDE-C.md; tools/chat_daily.py",
+    "line": "USER-GUIDE:26/155; chat_daily:59",
+    "fact": "实测峰 8.003（v1.0）/ 7.99–8.18（v1.1 长回答）；『目标 ≤8.0』与『实测可 >8.0』未在同一行说明"
+   },
+   "verdict": "表述过时",
+   "severity": "low",
+   "suggestion": "表内补『实测 7.99–8.18，目标为设计值』避免被读成硬保证"
+  },
+  {
+   "id": "AU-9",
+   "claim": {
+    "doc": "kvmem/m2_visibility/m5/out/M5C2-B7-ATTEMPTS.json",
+    "line": 160,
+    "quote": "resume 脚本 d29e1019/20206"
+   },
+   "actual": {
+    "path": "kvmem/m2_visibility/m5/out/M5C2-B7-EXTRACT-RESUME-SCRIPT-FREEZE.json",
+    "line": "script 字段",
+    "fact": "现行冻结 = run_m5c2_b7_extract_resume.py 8e6298a3bc5caff7/20,028 B；台账 r7 文本仍引旧版 d29e1019/20,206"
+   },
+   "verdict": "真不一致",
+   "severity": "low",
+   "suggestion": "台账下次更新（终值收口时）把 resume 脚本引用改为 8e6298a3/20028；当前属冻结窗口内脚本重生成后的引用滞后"
+  },
+  {
+   "id": "AU-10",
+   "claim": {
+    "doc": "docs/README-PHASE1-ENGINE.md",
+    "line": "全文",
+    "quote": "阶段文档（E10 前）的数字未随代码更新"
+   },
+   "actual": {
+    "path": "docs/ARCHIVE-INDEX.md",
+    "line": 23,
+    "fact": "ARCHIVE-INDEX 已标注该文『数字未随代码更新，不作现状引用；文内 ../PROJECT-STATE.md 指向已迁移』"
+   },
+   "verdict": "表述过时",
+   "severity": "info",
+   "suggestion": "保留历史；现行状态引用 docs/PROJECT-STATE.md"
+  }
+ ],
+ "path_reference_check": {
+  "scanned_docs": [
+   "README.md",
+   "docs/README.md",
+   "docs/PROJECT-STATE.md",
+   "docs/USER-GUIDE-C.md",
+   "docs/QQ-BRIDGE.md",
+   "docs/ARCHIVE-INDEX.md",
+   "docs/README-PHASE1-ENGINE.md"
+  ],
+  "n_refs": 83,
+  "n_unresolved": 16,
+  "unresolved_classification": [
+   {
+    "ref": "docs/CODE-MAP.md",
+    "verdict": "本次产出后存在",
+    "refs": [
+     "README.md:76"
+    ]
+   },
+   {
+    "ref": "PROGRESS-AND-ROADMAP.md",
+    "verdict": "已归档（docs/archive/PROGRESS-AND-ROADMAP-ARCHIVE.md），按 ARCHIVE-INDEX:11 有意保留引用",
+    "refs": [
+     "README.md:78",
+     "docs/README.md:52"
+    ]
+   },
+   {
+    "ref": "HANDOFF.md",
+    "verdict": "已归档（docs/archive/HANDOFF-ARCHIVE.md）",
+    "refs": [
+     "docs/README.md:53",
+     "docs/ARCHIVE-INDEX.md:13"
+    ]
+   },
+   {
+    "ref": "PROGRESS-AND-ROADMAP-ARCHIVE.md",
+    "verdict": "假不一致：实际位于 docs/archive/，文档写的是相对 docs/ 的简写",
+    "refs": [
+     "docs/PROJECT-STATE.md:4"
+    ]
+   },
+   {
+    "ref": "manifest.json / audit_index.json",
+    "verdict": "假不一致：位于 kvmem/assistant/ 下且存在",
+    "refs": [
+     "docs/USER-GUIDE-C.md:21"
+    ]
+   },
+   {
+    "ref": "incidents.json(l)",
+    "verdict": "未核实：按需生成，当前 kvmem/assistant/ 无 incidents.jsonl",
+    "refs": [
+     "docs/USER-GUIDE-C.md:21"
+    ]
+   },
+   {
+    "ref": "kvmem/sessions/daily.json",
+    "verdict": "假不一致：默认会话首次运行后生成（当前 kvmem/sessions 仅测试坏样本）",
+    "refs": [
+     "docs/USER-GUIDE-C.md:96"
+    ]
+   },
+   {
+    "ref": "kvmem\\assistant\\export.json",
+    "verdict": "假不一致：export 命令输出路径，未导出时不存在",
+    "refs": [
+     "docs/USER-GUIDE-C.md:276"
+    ]
+   },
+   {
+    "ref": "kvmem/_c_smoke/sessions/smoke.json",
+    "verdict": "未核实：验收临时样本路径",
+    "refs": [
+     "docs/USER-GUIDE-C.md:321"
+    ]
+   },
+   {
+    "ref": "tools/qq_bridge.json",
+    "verdict": "假不一致：由 qq_bridge.example.json 复制后生成，文档已写『复制成 tools/qq_bridge.json』",
+    "refs": [
+     "docs/QQ-BRIDGE.md:33,59"
+    ]
+   },
+   {
+    "ref": "kvmem/qq_logs/bridge-YYYYMMDD.json",
+    "verdict": "假不一致：YYYYMMDD 为占位符",
+    "refs": [
+     "docs/QQ-BRIDGE.md:119"
+    ]
+   },
+   {
+    "ref": "README-HANDOFF.md / README-HANDOFF-2.md / test_slot_save.py",
+    "verdict": "表述过时：属 docs/legacy-2026-10-24/ 历史文档与 E10 前脚本",
+    "refs": [
+     "docs/README-PHASE1-ENGINE.md:16-17,53,136"
+    ]
+   }
+  ]
+ },
+ "data_cleanup_candidates": [
+  {
+   "path": "D:\\models",
+   "size_mb": 13037.9,
+   "files": 2,
+   "referenced_in_docs": 23,
+   "role": "模型权重（14B Q4_K_M + 7B）",
+   "recommend": "保留（H1/复现必须；不可删）"
+  },
+  {
+   "path": "D:\\llama-mem",
+   "size_mb": 8913.9,
+   "files": 15949,
+   "referenced_in_docs": 36,
+   "role": "本项目主仓库（含构建产物/下载/legacy）",
+   "recommend": "保留；子项见 D-DRIVE-INVENTORY.md（构建产物≈2.96 GB 条件可回收、下载≈2.21 GB 重下载可回收，需人工确认后处理）"
+  },
+  {
+   "path": "D:\\agents",
+   "size_mb": 1326.7,
+   "files": 1391,
+   "referenced_in_docs": 1,
+   "role": "第三方应用（Agents Anywhere），非本项目",
+   "recommend": "保留（非本项目资产；不得按项目清理）"
+  },
+  {
+   "path": "D:\\m5c2-chain-repro-20261026-210154",
+   "size_mb": 23.0,
+   "files": 358,
+   "referenced_in_docs": 2,
+   "role": "M5C2 链复现证据（9 run）",
+   "recommend": "保留至外部专家复核完成"
+  },
+  {
+   "path": "D:\\crashdumps",
+   "size_mb": 21.2,
+   "files": 30,
+   "referenced_in_docs": 2,
+   "role": "BSOD 崩溃转储（10-26）",
+   "recommend": "保留（结案后再归档/删除）"
+  },
+  {
+   "path": "D:\\m5c2-freeze-verify-20261026-212752",
+   "size_mb": 12.4,
+   "files": 270,
+   "referenced_in_docs": 2,
+   "role": "冻结后字节未变校验副本",
+   "recommend": "保留至外部复核完成"
+  },
+  {
+   "path": "D:\\rev7-cleanroom-20261026-205205",
+   "size_mb": 9.4,
+   "files": 153,
+   "referenced_in_docs": 2,
+   "role": "rev7 干净房复现证据",
+   "recommend": "保留至外部复核完成"
+  },
+  {
+   "path": "D:\\llama-mem-verify-inspector-c3b",
+   "size_mb": 8.0,
+   "files": 595,
+   "referenced_in_docs": 1,
+   "role": "验证克隆（inspector）",
+   "recommend": "保留；复核结论入库后可删（可 git clone 重建）"
+  },
+  {
+   "path": "D:\\llama-mem-verify-clone",
+   "size_mb": 7.7,
+   "files": 510,
+   "referenced_in_docs": 2,
+   "role": "隔离验证克隆",
+   "recommend": "保留；复核结论入库后可删"
+  },
+  {
+   "path": "D:\\llama-mem-verify-inspector-2326",
+   "size_mb": 7.6,
+   "files": 566,
+   "referenced_in_docs": 1,
+   "role": "验证克隆（inspector）",
+   "recommend": "保留；复核结论入库后可删"
+  },
+  {
+   "path": "D:\\m5c2-chain-repro-20261026-210125",
+   "size_mb": 2.2,
+   "files": 30,
+   "referenced_in_docs": 2,
+   "role": "M5C2 链复现源快照（E1–E9）",
+   "recommend": "保留至外部复核完成"
+  },
+  {
+   "path": "D:\\llama-mem-backup-2026-10-25",
+   "size_mb": 1.6,
+   "files": 85,
+   "referenced_in_docs": 5,
+   "role": "10-25 部分备份快照",
+   "recommend": "确认未含唯一副本后删除（delete_after_confirm）"
+  },
+  {
+   "path": "D:\\m3fix-tmp",
+   "size_mb": 0.4,
+   "files": 139,
+   "referenced_in_docs": 1,
+   "role": "M3 修复临时脚本（10-25）",
+   "recommend": "确认无唯一内容后删除"
+  },
+  {
+   "path": "D:\\compare-verify",
+   "size_mb": 0.3,
+   "files": 57,
+   "referenced_in_docs": 2,
+   "role": "对比验证证据",
+   "recommend": "保留（证据）"
+  },
+  {
+   "path": "D:\\b6-review-20261026",
+   "size_mb": 0.2,
+   "files": 5,
+   "referenced_in_docs": 1,
+   "role": "b6 复核证据",
+   "recommend": "保留至 b6 归档"
+  },
+  {
+   "path": "D:\\m3fix-tmp-insp",
+   "size_mb": 0.1,
+   "files": 67,
+   "referenced_in_docs": 1,
+   "role": "M3 修复临时（inspector 侧）",
+   "recommend": "确认无唯一内容后删除"
+  },
+  {
+   "path": "D:\\crashfix",
+   "size_mb": 0.1,
+   "files": 6,
+   "referenced_in_docs": 2,
+   "role": "10-26 BSOD 修复脚本/报告",
+   "recommend": "保留（结论文档）；归档 docs/ 后可再议"
+  },
+  {
+   "path": "D:\\b5-blind-20261026",
+   "size_mb": 0.004,
+   "files": 3,
+   "referenced_in_docs": 0,
+   "role": "b5 盲标小样",
+   "recommend": "保留（体积极小、证据）"
+  },
+  {
+   "path": "D:\\b6-blind-a-20261027",
+   "size_mb": 0.004,
+   "files": 1,
+   "referenced_in_docs": 0,
+   "role": "b6 盲标 A 小样",
+   "recommend": "保留（体积极小、证据）"
+  },
+  {
+   "path": "D:\\b5-freezeaudit-20261026",
+   "size_mb": 0.004,
+   "files": 1,
+   "referenced_in_docs": 0,
+   "role": "b5 冻结审计小样",
+   "recommend": "保留（体积极小、证据）"
+  },
+  {
+   "path": "D:\\llama-mem-stage",
+   "size_mb": 0.02,
+   "files": 22,
+   "referenced_in_docs": 1,
+   "role": "暂存目录（空壳/旧 staging）",
+   "recommend": "确认无唯一文件后删除"
+  },
+  {
+   "path": "D:\\c",
+   "size_mb": 0.0,
+   "files": 0,
+   "referenced_in_docs": 0,
+   "role": "空目录树（D:\\c\\Users\\lezige\\AppData 空壳）",
+   "recommend": "可删除（空目录，无引用）"
+  },
+  {
+   "path": "D:\\d\\tmp\\svc_manual2",
+   "size_mb": 0.01,
+   "files": 2,
+   "referenced_in_docs": 0,
+   "role": "手工服务测试残留（sess.json/transcript）",
+   "recommend": "确认后删除（临时）"
+  },
+  {
+   "path": "D:\\kvmem",
+   "size_mb": 0.01,
+   "files": 1,
+   "referenced_in_docs": 0,
+   "role": "盘根 kvmem/lease_logs/guard_disabled.jsonl（非仓库内 kvmem）",
+   "recommend": "确认后删除（误放根目录的 lease 日志）"
+  },
+  {
+   "path": "D:\\tmp",
+   "size_mb": 0.0,
+   "files": 0,
+   "referenced_in_docs": 0,
+   "role": "空 tmp",
+   "recommend": "可删除（空目录）"
+  }
+ ],
+ "summary": {
+  "items_total": 10,
+  "true_inconsistency": 3,
+  "outdated": 4,
+  "false_positive": 3,
+  "unverified": 0,
+  "unresolved_path_refs": 16,
+  "cleanup_candidates": 25
+ },
+ "note": "D:\\DSH 按指令未触碰；所有清理建议均未执行。清理体积为 apparent size（os.walk st_size 求和），与 D-DRIVE-INVENTORY.md（2026-10-26）大体一致，新增/变化项已按 2026-10-27 实测更新。"
+}

@@ -1,0 +1,681 @@
+{
+ "schema": "c_refusal_fix_verify_v1",
+ "role": "independent CPU-only reproduction + verification of the server-side refusal fix (D13/D14)",
+ "environment": {
+  "cwd": "D:\\llama-mem",
+  "python": "3.14.5",
+  "gpu": false,
+  "model_load": false,
+  "network": "loopback only"
+ },
+ "pins": {
+  "git_head": "f9fb93c3af7613967a2a23714b93dd6e27fab6c3",
+  "git_show_old_evidence_sha256": "8f285c0ff2c4f2a19e32677622ccf9276c40a365354818ae762f3d4f4cb828f7",
+  "current_evidence_sha256": "4bf48589863c4ed748d1a8882fdfbacbcaadef3657a29362787e750da5612ae5",
+  "current_evidence_bytes": 7115,
+  "chat_daily_sha256": "9b68fdc1cb0f34652986ac40610949b2c8e4aa0897d51c65ba9bb114acea2a87",
+  "chat_daily_bytes": 91433,
+  "test_refusal_cpu_sha256": "834f6dce0183f2a0fa74dcc95e73d7cc4eb1f4d5766cbcefeab632ac9b1f85a0",
+  "chat_service_sha256": "ec2de0563b34d5e812c9f2882c37ac8270c2608b2260f7566a159b27be268d2e",
+  "retrieval_sha256": "43f660196ab90a1407c33ddd73b88e1f93c284debbc1bdd1bdeb832582278de3",
+  "git_diff_evidence_commands": [
+   "git diff -w tools/evidence.py",
+   "git show HEAD:tools/evidence.py"
+  ],
+  "fix_diff_summary": "dialogue_evidence(): +if not q: return False; +q = [t for t in q if not t.startswith('u:')]; +if not q: return False"
+ },
+ "old_bug_repro": {
+  "hist": "我是阿泽，今天做了b7实验，结论是擦边",
+  "query": "我明天要去哪里出差？",
+  "old_dialogue_evidence": true,
+  "new_dialogue_evidence": false,
+  "old_true_confirmed": true,
+  "new_false_confirmed": true,
+  "token_analysis": {
+   "query_tokens": [
+    "我明",
+    "明天",
+    "天要",
+    "要去",
+    "去哪",
+    "哪里",
+    "里出",
+    "出差",
+    "u:明",
+    "u:天",
+    "u:要",
+    "u:去",
+    "u:里",
+    "u:出",
+    "u:差"
+   ],
+   "transcript_tokens": [
+    "b",
+    "u:今",
+    "u:做",
+    "u:天",
+    "u:实",
+    "u:擦",
+    "u:泽",
+    "u:结",
+    "u:论",
+    "u:边",
+    "u:阿",
+    "u:验",
+    "今天",
+    "做了",
+    "天做",
+    "实验",
+    "擦边",
+    "是擦",
+    "是阿",
+    "结论",
+    "论是",
+    "阿泽"
+   ],
+   "old_hits": [
+    "u:天"
+   ],
+   "old_hits_single_char_only": true,
+   "new_query_tokens": [
+    "我明",
+    "明天",
+    "天要",
+    "要去",
+    "去哪",
+    "哪里",
+    "里出",
+    "出差"
+   ],
+   "new_hits": []
+  },
+  "old_meta": {
+   "git_show_cmd": "git show HEAD:tools/evidence.py",
+   "git_head": "f9fb93c3af7613967a2a23714b93dd6e27fab6c3",
+   "old_source_sha256": "8f285c0ff2c4f2a19e32677622ccf9276c40a365354818ae762f3d4f4cb828f7",
+   "old_source_bytes": 6851
+  }
+ },
+ "new_behavior": {
+  "no_memory_fact_not_in_chat": {
+   "query": "我明天要去哪里出差？",
+   "hist": "我是阿泽，今天做了b7实验，结论是擦边",
+   "new": false,
+   "partition_ok": true
+  },
+  "real_followup_still_in_chat": {
+   "query": "实验结论是什么？",
+   "hist": "我是阿泽，今天做了b7实验，结论是擦边",
+   "new": true,
+   "partition_ok": true,
+   "token_analysis": {
+    "query_tokens": [
+     "实验",
+     "验结",
+     "结论",
+     "论是",
+     "u:实",
+     "u:验",
+     "u:结",
+     "u:论"
+    ],
+    "transcript_tokens": [
+     "b",
+     "u:今",
+     "u:做",
+     "u:天",
+     "u:实",
+     "u:擦",
+     "u:泽",
+     "u:结",
+     "u:论",
+     "u:边",
+     "u:阿",
+     "u:验",
+     "今天",
+     "做了",
+     "天做",
+     "实验",
+     "擦边",
+     "是擦",
+     "是阿",
+     "结论",
+     "论是",
+     "阿泽"
+    ],
+    "old_hits": [
+     "实验",
+     "结论",
+     "论是",
+     "u:实",
+     "u:验",
+     "u:结",
+     "u:论"
+    ],
+    "old_hits_single_char_only": false,
+    "new_query_tokens": [
+     "实验",
+     "验结",
+     "结论",
+     "论是"
+    ],
+    "new_hits": [
+     "实验",
+     "结论",
+     "论是"
+    ]
+   }
+  },
+  "empty_transcript": {
+   "query": "我明天要去哪里出差？",
+   "new": false,
+   "partition_ok": true
+  }
+ },
+ "diff_scope": {
+  "probes": [
+   {
+    "query": "我明天要去哪里出差？",
+    "transcript": "我是阿泽，今天做了b7实验，结论是擦边",
+    "old": true,
+    "new": false,
+    "old_hits": [
+     "u:天"
+    ],
+    "change": "neg",
+    "change_explained_by_single_char_hits": true
+   },
+   {
+    "query": "我明天要去哪里出差？",
+    "transcript": "",
+    "old": false,
+    "new": false,
+    "old_hits": [],
+    "change": "same",
+    "change_explained_by_single_char_hits": false
+   },
+   {
+    "query": "实验结论是什么？",
+    "transcript": "我是阿泽，今天做了b7实验，结论是擦边",
+    "old": true,
+    "new": true,
+    "old_hits": [
+     "实验",
+     "结论",
+     "论是",
+     "u:实",
+     "u:验",
+     "u:结",
+     "u:论"
+    ],
+    "change": "same",
+    "change_explained_by_single_char_hits": false
+   },
+   {
+    "query": "我的车牌号是多少？",
+    "transcript": "我是阿泽，今天做了b7实验，结论是擦边",
+    "old": false,
+    "new": false,
+    "old_hits": [],
+    "change": "same",
+    "change_explained_by_single_char_hits": false
+   },
+   {
+    "query": "我明天要去哪里出差？",
+    "transcript": "明天我们聊过出差安排",
+    "old": true,
+    "new": true,
+    "old_hits": [
+     "明天",
+     "出差",
+     "u:明",
+     "u:天",
+     "u:出",
+     "u:差"
+    ],
+    "change": "same",
+    "change_explained_by_single_char_hits": false
+   },
+   {
+    "query": "会议几点开始？",
+    "transcript": "上次会议定在周三下午三点",
+    "old": true,
+    "new": true,
+    "old_hits": [
+     "会议",
+     "u:会",
+     "u:议",
+     "u:点"
+    ],
+    "change": "same",
+    "change_explained_by_single_char_hits": false
+   },
+   {
+    "query": "那家店叫什么？",
+    "transcript": "那家店叫顺捷搬家",
+    "old": true,
+    "new": true,
+    "old_hits": [
+     "那家",
+     "家店",
+     "店叫",
+     "u:那",
+     "u:家",
+     "u:店",
+     "u:叫"
+    ],
+    "change": "same",
+    "change_explained_by_single_char_hits": false
+   },
+   {
+    "query": "今天天气怎么样？",
+    "transcript": "我是阿泽，今天做了b7实验，结论是擦边",
+    "old": true,
+    "new": true,
+    "old_hits": [
+     "今天",
+     "u:今",
+     "u:天",
+     "u:天"
+    ],
+    "change": "same",
+    "change_explained_by_single_char_hits": false
+   }
+  ],
+  "changed_count": 1,
+  "all_changes_are_old_true_new_false": true,
+  "all_changes_explained_by_single_char_tokens": true,
+  "no_new_true_anywhere": true
+ },
+ "dry_run_e2e": {
+  "cli_rc": 0,
+  "cli_zero_gpu": true,
+  "rows": [
+   {
+    "prompt": "你好",
+    "found": true,
+    "answer": "你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）",
+    "tail": "（0.00s；依据：无（未命中长期记忆））",
+    "refused": false,
+    "answer_order": 1,
+    "inproc": {
+     "prompt": "你好",
+     "answer": "你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）",
+     "refused": false,
+     "state": "smalltalk",
+     "latency_s": 0.0,
+     "block_ids": []
+    },
+    "refused_structured": false,
+    "state_structured": "smalltalk"
+   },
+   {
+    "prompt": "你是谁",
+    "found": true,
+    "answer": "我是本地 14B 记忆助手：记忆存在 KV 缓存里，不拼进 prompt；记忆里没有的我会说不知道。",
+    "tail": "（0.00s；依据：无（未命中长期记忆））",
+    "refused": false,
+    "answer_order": 2,
+    "inproc": {
+     "prompt": "你是谁",
+     "answer": "我是本地 14B 记忆助手：记忆存在 KV 缓存里，不拼进 prompt；记忆里没有的我会说不知道。",
+     "refused": false,
+     "state": "smalltalk",
+     "latency_s": 0.0,
+     "block_ids": []
+    },
+    "refused_structured": false,
+    "state_structured": "smalltalk"
+   },
+   {
+    "prompt": "我明天要去哪里出差？",
+    "found": true,
+    "answer": "记忆里没有这条，我不想猜。可以先 /remember 告诉我。",
+    "tail": "（拒答；依据：无（未命中长期记忆））",
+    "refused": true,
+    "answer_order": 3,
+    "inproc": {
+     "prompt": "我明天要去哪里出差？",
+     "answer": "记忆里没有这条，我不想猜。可以先 /remember 告诉我。",
+     "refused": true,
+     "state": "no_evidence",
+     "latency_s": 0.0106,
+     "block_ids": []
+    },
+    "refused_structured": true,
+    "state_structured": "no_evidence"
+   },
+   {
+    "prompt": "我的车牌号是多少？",
+    "found": true,
+    "answer": "长期记忆里没有这条，当前对话里也没有提到。我不想猜。",
+    "tail": "（拒答；依据：无（未命中长期记忆））",
+    "refused": true,
+    "answer_order": 4,
+    "inproc": {
+     "prompt": "我的车牌号是多少？",
+     "answer": "长期记忆里没有这条，当前对话里也没有提到。我不想猜。",
+     "refused": true,
+     "state": "no_evidence",
+     "latency_s": 0.0093,
+     "block_ids": []
+    },
+    "refused_structured": true,
+    "state_structured": "no_evidence"
+   }
+  ],
+  "stdout_excerpt": "==================================================================\nC 版本地记忆助手 c-1.0（14B / KV 记忆 / 不拼 prompt / 无网络）\n==================================================================\n模型：D:\\llama-mem\\tmp\\_c_refusal_verify\\run\\dryrun_model.stub\n记忆：0 条 / 会话：D:\\llama-mem\\tmp\\_c_refusal_verify\\run\\sessions\\dry.json\n个体日志：D:\\llama-mem\\tmp\\_c_refusal_verify\\run\\assistant（assistant_id 19cbf094-9eb2-46de-a81c-eb2c091de1a9 / session s-20261027-163516-a534f1 / 隐私模式 redacted）\n输入 /help 看命令；/quit 退出（自动保存）。\n就绪（READY）\n你> 答：你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）\n   （0.00s；依据：无（未命中长期记忆））\n你> 答：我是本地 14B 记忆助手：记忆存在 KV 缓存里，不拼进 prompt；记忆里没有的我会说不知道。\n   （0.00s；依据：无（未命中长期记忆））\n你> 答：记忆里没有这条，我不想猜。可以先 /remember 告诉我。\n   （拒答；依据：无（未命中长期记忆））\n你> 答：长期记忆里没有这条，当前对话里也没有提到。我不想猜。\n   （拒答；依据：无（未命中长期记忆））\n你> 正在保存会话…\n已保存：D:\\llama-mem\\tmp\\_c_refusal_verify\\run\\sessions\\dry.json（sha16 196f0263ed5230f3）\n",
+  "inproc_rows": [
+   {
+    "prompt": "我是阿泽，今天做了b7实验，结论是擦边",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "refused": false,
+    "state": "no_evidence",
+    "latency_s": 0.0084,
+    "block_ids": []
+   },
+   {
+    "prompt": "你好",
+    "answer": "你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）",
+    "refused": false,
+    "state": "smalltalk",
+    "latency_s": 0.0,
+    "block_ids": []
+   },
+   {
+    "prompt": "你是谁",
+    "answer": "我是本地 14B 记忆助手：记忆存在 KV 缓存里，不拼进 prompt；记忆里没有的我会说不知道。",
+    "refused": false,
+    "state": "smalltalk",
+    "latency_s": 0.0,
+    "block_ids": []
+   },
+   {
+    "prompt": "我明天要去哪里出差？",
+    "answer": "记忆里没有这条，我不想猜。可以先 /remember 告诉我。",
+    "refused": true,
+    "state": "no_evidence",
+    "latency_s": 0.0106,
+    "block_ids": []
+   },
+   {
+    "prompt": "我的车牌号是多少？",
+    "answer": "长期记忆里没有这条，当前对话里也没有提到。我不想猜。",
+    "refused": true,
+    "state": "no_evidence",
+    "latency_s": 0.0093,
+    "block_ids": []
+   },
+   {
+    "prompt": "实验结论是什么？",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "refused": false,
+    "state": "chat_only",
+    "latency_s": 0.0105,
+    "block_ids": []
+   },
+   {
+    "prompt": "解释一下什么是 KV 缓存",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "refused": false,
+    "state": "chat_only",
+    "latency_s": 0.0098,
+    "block_ids": []
+   },
+   {
+    "prompt": "我的车牌号是沪A-12345",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "refused": false,
+    "state": "no_evidence",
+    "latency_s": 0.0133,
+    "block_ids": []
+   },
+   {
+    "prompt": "帮我记住这件事",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "refused": false,
+    "state": "no_evidence",
+    "latency_s": 0.0101,
+    "block_ids": []
+   }
+  ],
+  "engine": "StubEngine (no forward, no GPU)",
+  "data_dir": "D:\\llama-mem\\tmp\\_c_refusal_verify\\run"
+ },
+ "fake_service_e2e": {
+  "port": 65181,
+  "ready": true,
+  "engine": "fake-engine (StubEngine, zero GPU)",
+  "http_health": "{\n \"status\": \"ok\",\n \"model_pin\": {\n  \"model_path\": \"D:\\\\llama-mem\\\\tmp\\\\_c_refusal_verify\\\\run\\\\svc_data\\\\model.stub\",\n  \"model_size\": 45,\n  \"model_mtime\": 1793090116\n },\n \"dll_pin\": {\n  \"path\": \"D:\\\\llama-mem\\\\tools\\\\kvshim_vk.dll\",\n  \"present\": true,\n  \"bytes\": 50007552,\n  \"sha16\": \"9edbafa150700614\"\n },\n \"vram_gib\": null,\n \"memories\": 0,\n \"session\": {\n  \"path\": \"D:\\\\llama-mem\\\\tmp\\\\_c_refusal_verify\\\\run\\\\svc_data\\\\sessions\\\\svc.json\",\n  \"exists\": false,\n  \"chat_tokens\": 0,\n  \"chat_budget\": 8192,\n  \"chat_start\": 8192,\n  \"n_ctx\": 16384,\n  \"mounted\": 0,\n  \"control\": false,\n  \"n_predict\": 192,\n  \"rollover_at\": 0.75,\n  \"rollover_threshold_tokens\": 6144\n },\n \"engine\": {\n  \"mode\": \"stub\",\n  \"type\": \"StubEngine\",\n  \"n_ctx\": 16384,\n  \"n_seq\": 8,\n  \"n_gpu_layers\": 34,\n  \"bytes_per_token\": 1024,\n  \"kv_pool_gib\": 0.0,\n  \"mem_total_gib\": 0.0,\n  \"ask_calls\": 0,\n  \"max_active_asks\": 0,\n  \"share_calls\": 0,\n  \"drop_calls\": 0,\n  \"reset_calls\": 0\n },\n \"retrieval\": {\n  \"mode\": \"off\",\n  \"topk\": 4,\n  \"library_count\": 0,\n  \"library_max\": 6,\n  \"mounted_ids\": [],\n  \"mounted_count\": 0,\n  \"candidates\": 0,\n  \"related\": 0,\n  \"memory_budget\": 7680,\n  \"last_truncation\": null\n },\n \"version\": \"c-1.0\",\n \"service\": {\n  \"version\": \"c-service-1.0\",\n  \"host\": \"127.0.0.1\",\n  \"port\": 65181,\n  \"serial\": true,\n  \"requests\": 2,\n  \"in_flight_max\": 1,\n  \"by_route\": {\n   \"GET /health\": 2\n  },\n  \"uptime_s\": 0.3,\n  \"fake_engine\": true\n }\n}\n",
+  "asks": [
+   {
+    "prompt": "我是阿泽，今天做了b7实验，结论是擦边",
+    "refused": false,
+    "state": "no_evidence",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "latency_s": 0.0091
+   },
+   {
+    "prompt": "你好",
+    "refused": false,
+    "state": "smalltalk",
+    "answer": "你好，我是本地记忆助手。可以先用 /remember 记一条事实，或直接问我。（/help 看全部命令）",
+    "latency_s": 0.0
+   },
+   {
+    "prompt": "你是谁",
+    "refused": false,
+    "state": "smalltalk",
+    "answer": "我是本地 14B 记忆助手：记忆存在 KV 缓存里，不拼进 prompt；记忆里没有的我会说不知道。",
+    "latency_s": 0.0
+   },
+   {
+    "prompt": "我明天要去哪里出差？",
+    "refused": true,
+    "state": "no_evidence",
+    "answer": "记忆里没有这条，我不想猜。可以先 /remember 告诉我。",
+    "latency_s": 0.0124
+   },
+   {
+    "prompt": "我的车牌号是多少？",
+    "refused": true,
+    "state": "no_evidence",
+    "answer": "长期记忆里没有这条，当前对话里也没有提到。我不想猜。",
+    "latency_s": 0.0104
+   },
+   {
+    "prompt": "实验结论是什么？",
+    "refused": false,
+    "state": "chat_only",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "latency_s": 0.0102
+   },
+   {
+    "prompt": "解释一下什么是 KV 缓存",
+    "refused": false,
+    "state": "chat_only",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "latency_s": 0.0085
+   },
+   {
+    "prompt": "我的车牌号是沪A-12345",
+    "refused": false,
+    "state": "no_evidence",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "latency_s": 0.0113
+   },
+   {
+    "prompt": "帮我记住这件事",
+    "refused": false,
+    "state": "no_evidence",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "latency_s": 0.0105
+   }
+  ],
+  "openai_one": {
+   "id": "chatcmpl-d996623863b04217b517b5e0",
+   "object": "chat.completion",
+   "created": 1793090117,
+   "model": "local-14b-memory",
+   "choices": [
+    {
+     "index": 0,
+     "message": {
+      "role": "assistant",
+      "content": "记忆里没有这条，我不想猜。可以先 /remember 告诉我"
+     },
+     "finish_reason": "stop"
+    }
+   ],
+   "usage": {
+    "prompt_tokens": 5,
+    "completion_tokens": 15,
+    "total_tokens": 20
+   },
+   "system_fingerprint": "llama-mem-c1",
+   "x_memory": {
+    "block_ids": [],
+    "refused": true,
+    "remember": false
+   },
+   "x_notice": null
+  }
+ },
+ "real_service_reference": {
+  "source": "docs/_work/C-PRODUCT-ACCEPTANCE.md §6 (服务实测 4 例, 2026-10-27 16:28) + kvmem/daily/service.log",
+  "note": "本任务为 CPU-only：未重启 GPU 真实服务；下表为 LEAD 已实测值，由本次独立 fake-engine 服务复核同一应用层分支（该 4 例不依赖模型）",
+  "lead_measured": [
+   {
+    "#": 1,
+    "input": "你好",
+    "expected": "固定问候句",
+    "measured": "state=smalltalk"
+   },
+   {
+    "#": 2,
+    "input": "你是谁",
+    "expected": "固定能力句",
+    "measured": "state=smalltalk"
+   },
+   {
+    "#": 3,
+    "input": "我明天要去哪里出差？",
+    "expected": "固定拒答 refused=true",
+    "measured": "refused=true"
+   },
+   {
+    "#": 4,
+    "input": "我的车牌号是多少？",
+    "expected": "无记忆⇒固定拒答",
+    "measured": "refused=true"
+   }
+  ],
+  "doc_has_v12_record": true,
+  "service_log_sha256": "33c0d5bc7db6e2c50536adc3246d20c08991a940b898fec8845df4248beab04c"
+ },
+ "over_refusal_samples": {
+  "dry_run": [
+   {
+    "prompt": "实验结论是什么？",
+    "refused": false,
+    "state": "chat_only",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "should_answer": true,
+    "pass": true
+   },
+   {
+    "prompt": "解释一下什么是 KV 缓存",
+    "refused": false,
+    "state": "chat_only",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "should_answer": true,
+    "pass": true
+   },
+   {
+    "prompt": "我的车牌号是沪A-12345",
+    "refused": false,
+    "state": "no_evidence",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "should_answer": true,
+    "pass": true
+   },
+   {
+    "prompt": "帮我记住这件事",
+    "refused": false,
+    "state": "no_evidence",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "should_answer": true,
+    "pass": true
+   }
+  ],
+  "service": [
+   {
+    "prompt": "实验结论是什么？",
+    "refused": false,
+    "state": "chat_only",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "latency_s": 0.0102
+   },
+   {
+    "prompt": "解释一下什么是 KV 缓存",
+    "refused": false,
+    "state": "chat_only",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "latency_s": 0.0085
+   },
+   {
+    "prompt": "我的车牌号是沪A-12345",
+    "refused": false,
+    "state": "no_evidence",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "latency_s": 0.0113
+   },
+   {
+    "prompt": "帮我记住这件事",
+    "refused": false,
+    "state": "no_evidence",
+    "answer": "（干跑假引擎）我不掌握这条记忆",
+    "latency_s": 0.0105
+   }
+  ],
+  "pass": true
+ },
+ "reference_test_runner": {
+  "cmd": "python -X utf8 tools/test_refusal_cpu.py",
+  "rc": 0,
+  "stdout": "checks=13 failed=0\nALL PASS (CPU only)\n",
+  "stderr": ""
+ },
+ "checks": {
+  "old_bug_reproduced": true,
+  "new_false": true,
+  "followup_still_true": true,
+  "dry_run_cli_ok": true,
+  "dry_run_4_rows_complete": true,
+  "fake_service_ready": true,
+  "service_4_rows": true,
+  "over_refusal_3plus_pass": true,
+  "diff_scope_limited": true,
+  "reference_runner_pass": true
+ },
+ "pass": true,
+ "conclusion": {
+  "old_bug": "复现成功：旧 dialogue_evidence 对「我明天要去哪里出差？」+历史返回 True（单字 u:天 命中）",
+  "new_behavior": "当前实现返回 False；「实验结论是什么？」仍 True（bigram/实体命中）",
+  "affected_paths": "只影响「无记忆 + 非对话内」路径：变化仅出现在旧命中全为单字 u:* token 的样本；bigram/实体命中样本不变，无 old=False→new=True 的新增误判",
+  "over_refusal": "无过度拒答：4/4 个应回答样例在 dry-run 实测未被拒答",
+  "verdict": "fix_verified"
+ },
+ "commands": [
+  "git show HEAD:tools/evidence.py  (import old module in isolation)",
+  "python -X utf8 tools/chat_daily.py --dry-run --db <tmp>/daily.db --blocks <tmp>/blocks --sessions <tmp>/sessions --session dry.json",
+  "python -X utf8 tools/chat_service.py --fake-engine --data-dir <tmp>/svc_data --port <free>",
+  "python -X utf8 tools/test_refusal_cpu.py"
+ ],
+ "notes": [
+  "旧行为复现使用 git HEAD 的 evidence.py（git show），不依赖任何生产者脚本或结论。",
+  "新行为直接用当前 tools/evidence.py 的函数；对话内追问真命中用「实验结论是什么？」验证。",
+  "dry-run CLI 实例使用独立 db/blocks/sessions/model stub（零 GPU）；fake-engine HTTP 服务只绑 127.0.0.1，验证同一应用层分支。",
+  "真实服务 4 例为 LEAD 16:28 实测（acceptance §6）；本任务 CPU-only，未重启 GPU 真实服务，已在件内如实披露。"
+ ]
+}
