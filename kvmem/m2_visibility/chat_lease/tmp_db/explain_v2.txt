@@ -1,0 +1,20 @@
+explain_version: 2
+
+问：我的车牌号是多少？
+   2.125  conv_2026-10-25#L5 bm25=2.125, prop=plate, cov=0.11, score=2.125  [无块行→不可挂载]
+  可挂载集：（空）
+
+问：我的工号和项目代号分别是什么？
+   6.238  project   bm25=6.238, cov=0.28, score=6.238, clause=项目代号分别是什么  [可挂载]
+   4.234  profile   bm25=3.034, prop=member_id, route=id, cov=0.56, score=4.234, clause=我的工号  [可挂载]
+  可挂载集：project, profile
+
+问：我的猫叫什么？项目什么时候上线？
+   5.844  project   bm25=4.644, want=date, route=date, cov=0.12, score=5.844, clause=项目什么时候上线  [可挂载]
+   3.034  profile   bm25=3.034, want=name, cov=0.3, score=3.034, clause=我的猫叫什么  [可挂载]
+  可挂载集：project, profile
+
+问：例会订在哪个会议室？项目负责人是谁？
+   7.833  project   bm25=7.833, want=name, cov=0.3, score=7.833, clause=项目负责人是谁  [可挂载]
+   7.585  profile   bm25=7.585, want=location, cov=0.29, score=7.585, clause=例会订在哪个会议室  [可挂载]
+  可挂载集：project, profile

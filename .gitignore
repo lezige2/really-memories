@@ -223,3 +223,22 @@ third_party/
 tools/**/*.log
 **/node_modules/
 tmp/asar/node_modules/
+
+# ===== 2026-10-27 P1b：运行期隐私/日志/截图 —— 绝不入库 =====
+kvmem/assistant/
+kvmem/daily/
+kvmem/qq_logs/
+**/*.png
+
+# Windows 保留名残件（无法被 git 索引；D 盘盘点已登记）
+nul
+
+# 联网查询日志（含用户问题文本）
+kvmem/web_logs/
+
+# 进程号残件
+*.pid
+
+# 测试跑/服务日志（tmp 下 assistant 会话与 jsonl）——日志不入库
+tmp/**/*.jsonl
+tmp/**/assistant/

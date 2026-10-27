@@ -1,0 +1,15 @@
+引擎补丁 ins/del = 600/0（期望 500/0） **FAIL**
+--- 当前驱动指纹（信息）
+    _mask_run.py 5d6924c5f11756a0 369 行
+    _gate.py 5be03f50c1ac3215 230 行
+    _assert_trace.py 5df5ae7c539b377a 92 行
+ISOLATION-REPORT.md 与 .sha256 边车一致   PASS
+PS 内印的报告哈希与边车一致        PASS
+A1 冻结红臂 mask_iso_base_home (rc=6)      PASS
+A2 整类缺失 AB_B_seq99 (rc=6)              PASS
+B  冻结绿臂 mask_dup4_home (rc=0)          PASS
+C  新 run（四项 AND 全绿） (rc=0)       PASS
+D  新 run 缺 worker_counts → rc=7 (rc=7)   PASS
+E  日志删 10 行 blk → 3a/3b 同红 (rc=6) PASS
+---
+FAIL: 1/9 项未通过

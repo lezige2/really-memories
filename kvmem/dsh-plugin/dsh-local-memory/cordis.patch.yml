@@ -1,0 +1,12 @@
+# dsh-local-memory —— bundle patch
+#
+# 挂载声明：DSH 启动时把本插件的条目插入 profile 的配置树。
+# 宿主半侧（lib/index.js）只注册 /local-memory 反向代理路由；
+# 浏览器半侧（lib/client.js）由 client-modules 按 package.json 的
+# `dsh.client` 声明自动载入，无需在这里另写。
+#
+# 安装：由 DSH 插件管理器以 link: 方式加入 profile（见 README / 安装说明），
+# 不要手工把本文件内容并入其它插件。
+- insert:
+    - id: dsh-local-memory
+      name: dsh-local-memory

@@ -218,6 +218,9 @@ _POLICY_ECHO_MARKERS = (
     "不要编造", "无关旧内容", "不能操作任何应用", "加好友", "发消息", "转账",
     "被要求时自然说做不了", "不要假装做过", "不是联网模型", "检索资料", "注明来源",
     "不要自称某个具体模型", "你是本地记忆助手", "本地记忆助手",
+    "你自然说", "自然说记不清", "记不清记", "自然说做不了", "自然说不知道",
+    "自然接话", "自然说", "后台记住", "系统会在后台", "不要假装",
+    "不能操作任何应用", "加好友", "发消息给", "不要承诺",
 )
 
 
@@ -247,7 +250,13 @@ def strip_policy_echo(text):
     if len(out) < 16 and any(ch in out for ch in "标源"):
         out = re.sub(r"[标源…;；,，、]+", "", out)
     out = re.sub(r"\s+", " ", out).strip()
-    if not out or all(ch in "标源…;；,，" for ch in out):
+    hit_marker = any(m in t for m in _POLICY_ECHO_MARKERS)
+    if (not out or all(ch in "标源…;；,，" for ch in out)) or \
+            (hit_marker and len(out) < 6):
+        # 明确拒绝语境（加好友/自然说记不清…）残留 => 自然拒答；纯策略复读交给上层回退
+        if any(k in t for k in ("加好友", "自然说记不清", "记不清记", "做不了",
+                                "帮不了", "不能操作")):
+            return "这个我帮不了哦"
         return ""
     return out
 
@@ -766,6 +775,12 @@ class DailyApp:
             m = cls._SLOT_YM_RE.search(blob)
             if m:
                 out["time"] = m.group(0).strip()
+        if not out.get("place"):
+            m = re.search(r"[A-Za-z0-9一二三四五六七八九十]{0,4}\s*"
+                          r"(?:号|座|栋|楼)?\s*(?:会议室|教室|办公室|房间|室)",
+                          blob)
+            if m:
+                out["place"] = m.group(0).strip()
         if not out.get("object"):
             m = cls._PET_NAME_RE.search(blob)
             if m:
@@ -774,12 +789,29 @@ class DailyApp:
             out["event"] = "养宠物"
         return cls._canon_slots(out)
 
+    @staticmethod
+    def _slot_norm_time(t):
+        t = str(t or "").replace(" ", "")
+        t = t.replace("星期", "周").replace("礼拜", "周")
+        t = t.replace("星期六", "周六").replace("星期日", "周日").replace("星期天", "周日")
+        return t
+
     @classmethod
     def _canon_qslots(cls, qslots, text=""):
         q = dict(qslots or {})
         slots = dict(q.get("slots") or {})
         slots = cls._augment_slots(slots, text) if text else cls._canon_slots(slots)
-        q["slots"] = slots
+        # 疑问句里抽出的 place/person/event 常是"哪个/什么"本身，不是已知槽位：清掉
+        bad = ("哪", "什么", "谁", "几", "多少", "怎么", "怎样", "如何", "吗", "呢")
+        qtext = str(text or "")
+        for k in ("place", "person", "event", "object", "time"):
+            v = slots.get(k)
+            if not v:
+                continue
+            sv = str(v)
+            if sv == qtext or len(sv) > 20 or any(b in sv for b in bad):
+                slots[k] = None
+        q["slots"] = {k: v for k, v in slots.items() if v}
         return q
 
     def _slots_of(self, sid):
@@ -797,7 +829,16 @@ class DailyApp:
                 slots = {}
         r = self._row_by_id(sid)
         text = str(r[3]) if r else ""
-        return self._augment_slots(slots, text)
+        # 旧行/remember 直写路径可能没有 slots 列：实时从原文抽一遍再合并
+        try:
+            extracted = memo.extract_slots(text) if hasattr(memo, "extract_slots") else {}
+        except Exception:                                # noqa: BLE001
+            extracted = {}
+        merged = dict(slots or {})
+        for k, v in (extracted or {}).items():
+            if v and not merged.get(k):
+                merged[k] = v
+        return self._augment_slots(merged, text)
 
     def _insert_memory_block(self, text, label="日常记忆", mode="chat",
                              tags=None, related_ids=None, max_chars=None):
@@ -1538,6 +1579,25 @@ class DailyApp:
                     "refused": False, "state": "time_local", "chars": len(_t_reply),
                     "retrieval": None, "notice": (notice or {}).get("notice"),
                     "rollover": notice}
+        # 无证据兜底：个人事实问句且没有任何记忆命中 -> 明确说不知道，禁止编造
+        _FACTQ = re.compile(r"我叫什么|叫什么名字|是多少|在哪|去哪|几点|几号|多少钱|哪个|谁的|名字是")
+        if (is_question and not self.control and not selection
+                and "我" in text and _FACTQ.search(text)
+                and self._product_fact_question(text)):
+            reply = "这个我没法确认：你没跟我说过。"
+            latency = time.perf_counter() - t0
+            if self.logger:
+                ev = self.logger.log_ask(text, session_tokens=int(self.eng.n_tokens(0)))
+                seq = ev.get("seq") if ev else None
+                if seq is not None:
+                    self.logger.log_answer(reply, seq, [], {"seq_ids": [], "cells": 0},
+                                           latency * 1000.0, vram_gib=None, refused=False)
+            self.history.append({"q": text, "a": reply, "refused": False})
+            self.history = self.history[-40:]
+            return {"answer": reply, "block_ids": [], "latency_s": round(latency, 4),
+                    "refused": False, "state": "no_evidence", "chars": len(reply),
+                    "retrieval": None, "notice": (notice or {}).get("notice"), "rollover": notice}
+
         # 只读联网：仅在用户明确要求“查一下/搜一下”时检索（不自动抢答）
         if self._explicit_search(text):
             web = self._web_answer(text)
@@ -1984,6 +2044,580 @@ class DailyApp:
             out["freeze_sha16"] = sha16_file(pin)
         except (OSError, ValueError):
             out["freeze"] = None
+        return out
+
+    def _rows(self):
+        return [r for r in ms.block_rows(self.con) if r[5] is not None]
+
+    def _row_by_id(self, sid):
+        for r in self._rows():
+            if int(r[0]) == int(sid):
+                return r
+        return None
+
+    def _rows_for_selection(self, selection):
+        by_name = {r[1]: r for r in self._rows()}
+        return [by_name[s["name"]] for s in selection if s.get("name") in by_name]
+
+    def _fit_budget(self, rows):
+        kept, total = [], 0
+        for r in rows:
+            n = int(r[7])
+            if total + n > int(self.memory_budget):
+                break
+            kept.append(r)
+            total += n
+        dropped = [r for r in rows if r not in kept]
+        info = None
+        if dropped:
+            info = {"budget": int(self.memory_budget), "kept": len(kept),
+                    "dropped": len(dropped),
+                    "kept_ids": [int(r[0]) for r in kept],
+                    "dropped_ids": [int(r[0]) for r in dropped]}
+        return kept, info
+
+    def _sync_mounts(self):
+        if self.control:
+            self._unmount_all()
+            return
+        if self.retrieval_mode == "topk":
+            rows = self._rows_for_selection(self._last_selection or [])
+        else:
+            rows = self._rows()
+        rows, trunc = self._fit_budget(rows)
+        self._last_truncation = trunc
+        if trunc:
+            self.warnings.append("检索截断：预算 %d token，丢弃 %d 条（%s）"
+                                 % (trunc["budget"], trunc["dropped"],
+                                    trunc["dropped_ids"]))
+            if getattr(self, "logger", None):
+                try:
+                    self.logger.log_warning(
+                        "retrieval_truncated", "挂载超预算，已按分数截断",
+                        evidence={"budget": trunc["budget"],
+                                  "kept_ids": trunc["kept_ids"],
+                                  "dropped_ids": trunc["dropped_ids"]})
+                except Exception:                    # noqa: BLE001
+                    pass
+        want = [r[1] for r in rows]
+        if set(want) == set(self.mounted.keys()) and len(want) == len(self.mounted):
+            return
+        self._unmount_all()
+        if not rows:
+            return
+        cap = MAX_MEMORIES if self.retrieval_mode != "topk" else LIBRARY_MAX
+        if len(rows) > cap:
+            raise DailyError("memory_full",
+                             "挂载条数 %d 超过上限 %d" % (len(rows), cap))
+        leases = self.leases
+        cursor = self.chat_start
+        blocks = []
+        for i, row in enumerate(rows, start=1):
+            name, n_index = row[1], int(row[7])
+            leases.register_block(i, name)
+            ms.load_into(self.eng, row, self._scratch, model_path=self.model_path)
+            leases.reset(i, site="daily.mount.fresh")
+            n = ms.load_into(self.eng, row, i, model_path=self.model_path)
+            if int(n) != n_index:
+                raise DailyError("internal", "%s: 块 token %d != 索引 %d" % (name, n, n_index))
+            lo = cursor - n
+            base = self.eng.pos_max(i) + 1 - n
+            if base != lo:
+                moved = self.eng.repos_local(i, lo - base)
+                if int(moved) != int(n):
+                    raise DailyError("internal", "%s: repos_local 只移动 %d/%d" % (name, moved, n))
+            leases.attach(i, 0, lo, cursor, site="daily.mount.attach")
+            if int(self.eng.n_tokens(i)) != int(n) or int(self.eng.pos_max(i)) + 1 - n != lo:
+                raise DailyError("internal", "%s: 挂载后位置/计数自检失败" % name)
+            blocks.append({"seq": i, "source_id": row[0], "name": name,
+                           "lo": lo, "hi": cursor, "n_tokens": n, "path": row[6]})
+            self.mounted[name] = (i, lo, cursor)
+            cursor = lo
+        self.mounted_blocks = blocks
+
+    def _unmount_all(self):
+        for name, (seq, lo, hi) in list(self.mounted.items()):
+            try:
+                self.leases.detach(0, lo, hi, site="daily.unmount.detach")
+                self.leases.reset(seq, site="daily.unmount.reset")
+            except Exception as exc:                         # noqa: BLE001
+                self.warnings.append("卸载 %s 失败：%s" % (name, exc))
+        self.mounted = {}
+        self.mounted_blocks = []
+
+    def _select(self, text):
+        rows = self._rows()
+        if not rows:
+            return []
+        try:
+            import retrieval as R
+            if R.is_stale(self.con):
+                R.build_index(self.con, verbose=False)
+            hits = R.search(self.con, text, k=2)
+        except Exception:                                    # noqa: BLE001
+            hits = []
+        out = []
+        for h in hits:
+            if h.get("source_id") is None:
+                continue
+            out.append({"name": h.get("name"), "score": h.get("score"),
+                        "source_id": h.get("source_id")})
+        if not out:
+            out = self._retrieval_keyword_fallback(text)
+        return out
+
+    def _retrieval_tokens(self, text):
+        return memo.tokens(text)
+
+    _MEMQ = re.compile(
+        r"(你(的)?)?记忆(力)?(现在)?(里)?(有什么|有哪些|是什么)|你(都)?记得(什么|哪些)|"
+        r"你记住了(什么|哪些)|记忆库(里)?(有什么|有哪些)")
+    _NETQ = re.compile(r"你能联网|你联网|你能上网|你上网|你的知识|知识截止|你是联网", re.I)
+    _INTERJ = re.compile(r"^(我靠|我服了|服了|无语|醉了|哎|唉|草|卧槽|离谱|绝了)[!！。.~～\s]*$")
+    _FRIENDQ = re.compile(r"^(你想认识我吗|你想认识我嘛|想认识你)[?？!！。.\s]*$")
+
+    def _capability_reply(self, text):
+        """能力/记忆库/联网/感叹类问题：确定性回答（不调模型，避免虚构能力）。"""
+        q = str(text or "").strip()
+        if not q:
+            return None
+        if self._NETQ.search(q):
+            return ("我不能联网：只有你明确让我查、且我拿到检索资料时才会引用并注明来源；"
+                    "平时只按记忆回答。")
+        if self._MEMQ.search(q):
+            try:
+                n = len(self._rows())
+            except Exception:                            # noqa: BLE001
+                n = 0
+            return ("我记住 %d 条记忆（KV 块 + 原文）；你问起时我按记忆回答，记不清就直说。" % n)
+        if self._INTERJ.search(q):
+            return "哈哈，收到。"
+        if self._FRIENDQ.search(q):
+            return "我是本地助手，专注帮你记事和回答；先把你要记的事告诉我就行。"
+        return None
+
+    _SMALLTALK_RE = re.compile(
+        r"^(?:(?:你好|您好|嗨|哈喽|hello|hi|在吗|早上好|中午好|晚上好|早安|晚安|"
+        r"谢谢|多谢|感谢|再见|拜拜|bye|你是谁|你叫什么|你叫啥|你能做什么|你会什么|"
+        r"帮助|厉害|你神了)[呀啊哦呢吧]?[!！。.？?~～\s]*)+$", re.I)
+    _PRAISE_RE = re.compile(r"^(?:你神了|厉害|牛|太强了|真棒)[!！。.~～\s]*$")
+
+    def _smalltalk_reply(self, text):
+        """寒暄/身份/能力/称赞：确定性回复（不调模型）；非寒暄返回 None。"""
+        q = str(text or "").strip()
+        if not q:
+            return None
+        if self._capability_reply(q) is not None:
+            return self._capability_reply(q)
+        if not (self._SMALLTALK_RE.match(q) or self._PRAISE_RE.match(q)):
+            return None
+        if re.search(r"你是谁|你叫什么|你叫啥", q):
+            return ("我是本地记忆助手：本地模型 + KV 记忆块，不联网；"
+                    "你告诉我事实我会记住，问题我只按记忆回答。")
+        if re.search(r"能做什么|会什么|帮助", q):
+            return ("我能记住你告诉我事实（/remember 或直接说），并在你问起时按记忆回答；"
+                    "记不清我会直说。")
+        if re.search(r"谢谢|多谢|感谢", q):
+            return "不客气，还有事随时说。"
+        if re.search(r"再见|拜拜|bye|晚安", q):
+            return "好，回头见。"
+        return "你好，我在。想让我记点什么，或问点什么？"
+
+    def _retrieval_select(self, text):
+        rows = self._rows()
+        self._last_candidate_count = 0
+        self._last_related_count = 0
+        try:
+            self._last_qslots = (self._canon_qslots(memo.query_slots(text), text)
+                                 if hasattr(memo, "query_slots")
+                                 else {"want": None, "slots": {}, "structured": False})
+        except Exception:
+            self._last_qslots = {"want": None, "slots": {}, "structured": False}
+        if not rows:
+            return []
+        toks = memo.tokens(text)
+        if not toks:
+            return []
+        # time 硬过滤优先：有明确时间时，同时间多条一律取最大 id；
+        # event 只在没有时间时才作为主键（修"下周三开会"被旧 id 抢答）。
+        q_time = (self._last_qslots.get("slots") or {}).get("time")
+        if q_time:
+            qt = self._slot_norm_time(q_time)
+            cand = []
+            for r in rows:
+                slots = self._slots_of(int(r[0]))
+                mt_raw = slots.get("time") or ""
+                if not mt_raw:
+                    m = self._SLOT_YM_RE.search(str(r[3]))
+                    mt_raw = m.group(0) if m else ""
+                mt = self._slot_norm_time(mt_raw)
+                if (mt and (qt == mt or qt in self._slot_norm_time(str(r[3])))) \
+                        or qt in self._slot_norm_time(str(r[3])):
+                    cand.append(r)
+            if cand:
+                best = max(cand, key=lambda r: int(r[0]))
+                self._last_related_count = 0
+                self._last_candidate_count = len(cand)
+                return [{"name": best[1], "score": 9.0,
+                         "source_id": int(best[0]),
+                         "signals": {"hits": [], "tags": [],
+                                     "related": False,
+                                     "slots": {"time": q_time},
+                                     "time_hard": True,
+                                     "library": len(rows)}}]
+        structured = bool(self._last_qslots.get("structured"))
+        cand = self.topk * 3 if structured else self.topk
+        base, stats = memo.retrieve(text, rows, topk=cand,
+                                    meta_fn=self._meta_get, return_stats=True)
+        self._last_candidate_count = int(stats.get("candidates") or 0)
+        if not base:
+            fb = self._retrieval_keyword_fallback(text)
+            if fb:
+                self._last_candidate_count = max(self._last_candidate_count, len(fb))
+            return fb
+        by_id = {int(r[0]): r for r in rows}
+        out, chosen = [], set()
+        scored = []
+        for b in base:
+            sid = int(b["id"])
+            r = by_id.get(sid)
+            if r is None:
+                continue
+            slots = self._slots_of(sid) if hasattr(self, "_slots_of") else {}
+            if structured and hasattr(memo, "slot_match") \
+                    and not memo.slot_match(self._last_qslots, slots):
+                continue
+            bonus = (memo.slot_bonus(self._last_qslots, slots)
+                     if hasattr(memo, "slot_bonus") else 0.0)
+            if self._last_qslots.get("want") == "time" and re.search(
+                    r"[零一二三四五六七八九十两\d]{1,2}\s*[点时]", str(r[3])):
+                bonus += 5.0
+            scored.append((bonus, float(b["score"]), sid, r, b, slots))
+        scored.sort(key=lambda x: (-x[0], -x[1], -x[2] if structured else x[2]))
+        for bonus, bscore, sid, r, b, slots in scored[:self.topk]:
+            out.append({"name": r[1], "score": float(bscore), "source_id": sid,
+                        "signals": {"hits": b["hits"][:6], "tags": b["tag_hits"][:4],
+                                    "related": False, "library": len(rows),
+                                    "slot_bonus": bonus,
+                                    "slots": {k: v for k, v in (slots or {}).items() if v}}})
+            chosen.add(sid)
+        extra = []
+        for sid in list(chosen):
+            meta = self._meta_get(sid)
+            for rid in meta["related_ids"]:
+                if rid in chosen or rid not in by_id or rid in [e[1] for e in extra]:
+                    continue
+                r = by_id[rid]
+                extra.append((memo.score_row(r, toks, self._meta_get) + 0.5,
+                              rid, r, "related"))
+            tags = set(meta["tags"])
+            if tags:
+                for r2 in rows:
+                    rid = int(r2[0])
+                    if rid in chosen or rid in [e[1] for e in extra]:
+                        continue
+                    if tags & set(self._meta_get(rid)["tags"]):
+                        extra.append((memo.score_row(r2, toks, self._meta_get) + 0.25,
+                                      rid, r2, "same_tag"))
+        extra.sort(key=lambda x: (-x[0], x[1]))
+        for score, sid, r, why in extra:
+            if len(out) >= MAX_MEMORIES:
+                break
+            hits = sorted(t for t in toks if t in (str(r[3]) + "\n" + str(r[2])).lower())
+            out.append({"name": r[1], "score": float(round(score, 3)),
+                        "source_id": sid,
+                        "signals": {"hits": hits[:6],
+                                    "tags": self._meta_get(sid)["tags"][:4],
+                                    "related": True, "why": why, "library": len(rows)}})
+            chosen.add(sid)
+        if not out:
+            out = self._retrieval_keyword_fallback(text)
+        self._last_related_count = sum(1 for s in out if s["signals"].get("related"))
+        return out
+
+    _FB_RULES = (
+        (r"我叫|名字|姓名|叫什么", ("我叫", "名字", "姓名")),
+        (r"组会|开会|会议|例会", ("组会", "开会", "会议", "会议室", "B座", "302")),
+        (r"在哪|哪里|哪儿|哪个(地方|会议室|房间)|地点", ("地点", "会议室", "B座", "302", "层", "楼")),
+        (r"出差", ("出差",)),
+        (r"车牌|车号|车子", ("车牌", "车号")),
+        (r"工位|分机|办公", ("工位", "分机", "办公")),
+        (r"住址|地址|住在|家在哪", ("地址", "住在", "小区")),
+        (r"生日|出生", ("生日", "出生")),
+        (r"电话|手机|号码", ("电话", "手机", "号码")),
+        (r"爱好|喜欢", ("爱好", "喜欢")),
+        (r"猫|狗|宠物|养的", ("猫", "狗", "宠物", "叫")),
+        (r"工号|员工号|编号|学号", ("工号", "员工号", "编号", "学号")),
+        (r"几点|什么时候|何时|会议|开会", ("组会", "开会", "会议", "七点", "7点", "19点")),
+    )
+
+    def _retrieval_keyword_fallback(self, text):
+        q = str(text or "")
+        qslots0 = (self._canon_qslots(memo.query_slots(q), q)
+                   if hasattr(memo, "query_slots") else {"structured": False})
+        if "我" not in q and not qslots0.get("structured"):
+            return []
+        rows = self._rows()
+        if not rows:
+            return []
+        try:
+            bigrams = self._content_bigrams(q)
+        except Exception:
+            bigrams = []
+        hits = []
+        for r in rows:
+            blob = (str(r[3]) + "\n" + str(r[2])).lower()
+            score, matched = 0.0, []
+            for pat, words in self._FB_RULES:
+                if re.search(pat, q):
+                    for w in words:
+                        if w and w.lower() in blob:
+                            score += 3.0
+                            matched.append(w)
+            for bg in bigrams:
+                if bg.lower() in blob:
+                    score += 1.0
+                    matched.append(bg)
+            if score >= 1.0:
+                hits.append((score, r, matched))
+        if qslots0.get("structured") and hasattr(memo, "slot_match"):
+            kept = []
+            for sc, r, matched in hits:
+                slots = self._slots_of(int(r[0]))
+                if memo.slot_match(qslots0, slots):
+                    kept.append((sc + memo.slot_bonus(qslots0, slots), r, matched))
+            hits = kept
+        if qslots0.get("structured"):
+            hits.sort(key=lambda x: (-x[0], -int(x[1][0])))
+        else:
+            hits.sort(key=lambda x: (-x[0], int(x[1][0])))
+        if not hits:
+            return []
+        best = hits[0][0]
+        hits = [h for h in hits if h[0] >= max(1.0, best * 0.5)][:2]
+        out = []
+        for score, r, matched in hits:
+            out.append({"name": r[1], "score": float(round(score, 3)),
+                        "source_id": int(r[0]),
+                        "signals": {"fallback": True, "hits": matched[:6],
+                                    "related": False, "library": len(rows)}})
+        return out
+
+    def _product_fact_question(self, text):
+        """SPEC §3.3：记忆里没有的「具体事实」问句必须拒答，不编造。
+
+        evidence.decide 只把「我的+事实名词」判为 memory_recall；日常问法（「那家店
+        叫什么？」）会落到 general，从而把问题交给模型。C 版在应用层再加一道：
+        没有记忆命中 + 是问句 + 不是世界知识 => 按「不知道」处理（宁可多拒，不编）。
+        """
+        q = str(text or "").strip()
+        if not q:
+            return False
+        try:
+            if E.intent_of(q) == "memory_recall":
+                return True
+            if E.WORLD.search(q):
+                return False
+            if not E.QUESTION.search(q):
+                return False
+            return True
+        except Exception:                                    # noqa: BLE001
+            return False
+
+    def _history_text(self):
+        return "\n".join("用户：%s\n助手：%s" % (t["q"], t["a"])
+                         for t in self.history[-8:])
+
+    def _total_tokens(self):
+        return sum(int(r[7]) for r in self._rows())
+
+    def _put_memory_source(self, text, label="日常记忆", mode="chat"):
+        """写权威源行（text_kind=human_memory / contains_model_turns=0）。
+
+        memory_source.put_source() 的默认值是 conversation/1（M5 门会拒绝），产品记忆
+        必须显式声明 human_memory；这里按同一表结构插入，并复用 sha256_text 与不可变
+        触发器（不改 memory_source.py）。
+        """
+        name = "mem-" + ms.sha256_text(text)[:12]
+        h = ms.sha256_text(text)
+        prev = self.con.execute(
+            "SELECT id, source_hash FROM memory_source WHERE tenant='default' AND "
+            "scope='private' AND name=? ORDER BY id DESC LIMIT 1", (name,)).fetchone()
+        if prev:
+            if prev[1] == h:
+                return {"id": int(prev[0]), "name": name, "duplicate": True,
+                        "created_at": None}
+            raise DailyError("conflict", "记忆 %s 已存在且内容不同（历史不可变）" % name)
+        created = datetime.now().isoformat(timespec="seconds")
+        cur = self.con.execute(
+            "INSERT INTO memory_source (tenant,scope,mode,name,label,text,source_hash,"
+            "created_at,text_kind,contains_model_turns,is_excerpt,derived_from) "
+            "VALUES ('default','private',?,?,?,?,?,?,'human_memory',0,0,NULL)",
+            (mode, name, str(label), text, h, created))
+        self.con.commit()
+        return {"id": int(cur.lastrowid), "name": name, "duplicate": False,
+                "created_at": created}
+
+    def _rollback_source(self, sid):
+        path = None
+        row = self.con.execute(
+            "SELECT b.path FROM memory_source s LEFT JOIN memory_block b "
+            "ON b.source_id=s.id WHERE s.id=?", (int(sid),)).fetchone()
+        if row:
+            path = row[0]
+        self.con.execute("DELETE FROM memory_source WHERE id=?", (int(sid),))
+        self.con.commit()
+        if path and os.path.exists(path):
+            try:
+                os.remove(path)
+            except OSError:
+                pass
+
+    _LOCAL_TIME_RE = re.compile(
+        r"现在(?:是)?(?:几点了?|什么时间|什么时候|几点钟)|现在几点|几点了|"
+        r"今天(?:是)?(?:几号|星期几|周几|什么日子|日期)|当前时间")
+
+    def _local_time_reply(self, text):
+        if not self._LOCAL_TIME_RE.search(str(text or "")):
+            return None
+        now = datetime.now()
+        return ("现在是 %s 年 %d 月 %d 日 星期%s %02d:%02d:%02d（本地时间，不联网）"
+                % (now.year, now.month, now.day, "一二三四五六日"[now.weekday()],
+                   now.hour, now.minute, now.second))
+
+    def _web_answer(self, text):
+        try:
+            clean = (web_lookup.clean_query(text)
+                     if hasattr(web_lookup, "clean_query") else text)
+            kws = (web_lookup.query_keywords(clean)
+                   if hasattr(web_lookup, "query_keywords") else None)
+            try:
+                material = web_lookup.lookup_text(clean, max_results=3, keywords=kws)
+            except TypeError:
+                material = web_lookup.lookup_text(clean, max_results=3)
+        except Exception:
+            return None
+        if not material:
+            return None
+        prompt = self._chat_prompt(
+            SYSTEM_POLICY + "\n以下是从网上检索到的资料，只依据资料回答；资料不足就说不知道；"
+            "不要声称你自己能联网。",
+            "问题：" + clean + "\n资料：\n" + material)
+        pos = self.chat_start if int(self.eng.n_tokens(0)) == 0 else None
+        raw = self.eng.ask(0, prompt, n_predict=min(self.n_predict, 256), pos=pos)
+        ans = clean_answer(raw) or ""
+        body = ans.split("（来源")[0].strip()
+        if (not body or len(body) < 6 or "资料：" in body or "问题：" in body
+                or body.strip("？?。.!！ ") == (clean or "").strip("？?！!。 ")):
+            return None
+        if any(w in body for w in ("没法", "无法", "不知道", "不能", "没有", "不联网", "抱歉")):
+            return None
+        return body + "\n（来源：Bing 检索）"
+
+    _EXPLICIT_SEARCH = re.compile(
+        r"查一?下|查查|搜一?下|搜索一下|帮我查|帮我搜|上网查|网上查|最新消息|实时查|"
+        r"限行|限号|尾号|明天.*新闻", re.I)
+
+    def _explicit_search(self, text):
+        return bool(self._EXPLICIT_SEARCH.search(str(text or "")))
+
+    def remember(self, text, tags=None, supersedes=None, related_ids=None):
+        raw_text = str(text or "").strip()
+        if not raw_text:
+            raise DailyError("bad_request", "用法：/remember <要记住的事实>")
+        # 抽 #标签（正文里不保留），合并调用方 tags
+        hashed = re.findall(r"#([^\s#]+)", raw_text)
+        text = re.sub(r"[ \t]*#[^\s#]+", "", raw_text).strip()
+        if not text:
+            raise DailyError("bad_request", "记忆正文为空（只有标签）")
+        merged_tags = []
+        for t in list(tags or []) + hashed:
+            t = str(t).strip()
+            if t and t not in merged_tags:
+                merged_tags.append(t)
+        if len(text) > MAX_TEXT_CHARS:
+            raise DailyError("bad_request",
+                             "记忆过长（%d 字 > 上限 %d 字），请拆成多条短记忆"
+                             % (len(text), MAX_TEXT_CHARS))
+        cap = MAX_MEMORIES if self.retrieval_mode != "topk" else LIBRARY_MAX
+        if len(self._rows()) >= cap:
+            raise DailyError("memory_full", "记忆已达上限 %d 条，先 /forget 再记" % cap)
+        put = self._put_memory_source(text)
+        if put["duplicate"]:
+            self._sync_mounts()
+            meta = self._meta_get(put["id"])
+            return {"id": put["id"], "n_tokens": self._n_tokens_of(put["id"]),
+                    "created_at": self._created_at(put["id"]), "duplicate": True,
+                    "name": put["name"], "tags": meta.get("tags") or [],
+                    "source": meta.get("source") or "manual",
+                    "related_ids": meta.get("related_ids") or [],
+                    "slots": meta.get("slots") or {},
+                    "slots_unverified": (memo.unverified_slots(meta.get("slots") or {})
+                                         if hasattr(memo, "unverified_slots") else [])}
+        sid = put["id"]
+        try:
+            src_row = (sid, "default", "private", "chat", put["name"], "日常记忆",
+                       text, ms.sha256_text(text), put["created_at"])
+            bs = ms.build_block(self.eng, self.con, src_row, blocks_dir=self.blocks_dir,
+                                model_path=self.model_path, seq=self._scratch)
+        except Exception as exc:
+            self._rollback_source(sid)
+            raise DailyError("internal", "建块失败（已回滚该条记忆）：%s" % exc)
+        if self.retrieval_mode != "topk" and self._total_tokens() > int(self.memory_budget):
+            self._rollback_source(sid)
+            raise DailyError("memory_full",
+                             "记忆总 token 超过预算 %d，已回滚本条" % int(self.memory_budget))
+        try:
+            slots = memo.extract_slots(text) if hasattr(memo, "extract_slots") else {}
+            meta = self._meta_set(sid, tags=merged_tags, source="manual",
+                                  related_ids=(related_ids or []), slots=slots)
+        except Exception:
+            meta = {"tags": merged_tags, "source": "manual",
+                    "related_ids": list(related_ids or []), "slots": {}}
+        try:
+            import retrieval as R
+            R.build_index(self.con, verbose=False)
+        except Exception as exc:
+            self.warnings.append("检索索引重建失败：%s" % exc)
+        self._sync_mounts()
+        try:
+            try:
+                scrubbed = alog.scrub(text, self.logger.mode)[0]
+            except Exception:
+                scrubbed = text
+            block_sha = sha16_file(bs.get("path")) if bs.get("path") else None
+            self._log("remember", id=sid, len_tokens=int(bs["n_tokens"]),
+                      text=first_line(scrubbed),
+                      block_sha16=block_sha, tags=merged_tags,
+                      slots={k: v for k, v in (meta.get("slots") or {}).items() if v})
+        except Exception:
+            pass
+        return {"id": sid, "n_tokens": int(bs["n_tokens"]),
+                "created_at": put["created_at"], "duplicate": False,
+                "name": put["name"], "tags": meta.get("tags") or merged_tags,
+                "source": meta.get("source") or "manual",
+                "related_ids": meta.get("related_ids") or [],
+                "slots": meta.get("slots") or {},
+                "slots_unverified": (memo.unverified_slots(meta.get("slots") or {})
+                                     if hasattr(memo, "unverified_slots") else []),
+                "block_sha16": sha16_file(bs.get("path")) if bs.get("path") else None}
+
+    _STOP_CHARS = set("我的你他她它的了是在有和与就都也这那么什几谁哪吗呢吧啊呀哦"
+                      "吧么什怎为哪多少几")
+
+    @classmethod
+    def _content_bigrams(cls, text):
+        try:
+            import retrieval as R
+            toks = R.tokenize(text)
+        except Exception:
+            toks = []
+        out = []
+        for t in toks:
+            if t.startswith("u:") or len(t) < 2 or t in R.STOP_BIGRAMS:
+                continue
+            if all(ch not in cls._STOP_CHARS for ch in t):
+                out.append(t)
         return out
 
     def status(self):

@@ -1,7 +1,7 @@
 {
  "schema": "incident_t15_verify_v1",
  "role": "P0 事故 T15：chat_daily.py 恢复/重建版本独立验收",
- "started_at": "2026-10-27T22:47:51+0800",
+ "started_at": "2026-10-27T23:14:19+0800",
  "commands": {
   "static": "python -m py_compile tools/chat_daily.py；python tools/check_chat_daily.py",
   "suite": [
@@ -19,12 +19,12 @@
  "pins": {
   "chat_daily": {
    "path": "tools/chat_daily.py",
-   "sha256": "a55930d19218563bcadbfcd73c91e299ec20331a8de7bf78100cc65c91df45ca",
-   "bytes": 117037
+   "sha256": "75859eb6f8cd086b51eafbf019df069b4207ff6e03f33d3298dd8e222bd38e49",
+   "bytes": 147163
   },
   "check_chat_daily": {
    "path": "tools/check_chat_daily.py",
-   "sha256": "075b75bfe12d3f9a7839dcfd0d206d44fe2407e8d988d90c0220b239f7c182ec"
+   "sha256": "b5cfbbfd202228ba4bde32e4bdc01359fd15822eec211c38c5b5a12dc4ee794d"
   },
   "answer_verifier": {
    "path": "tools/answer_verifier.py",
@@ -38,7 +38,7 @@
    "detail": {
     "cmd": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 -m py_compile tools/chat_daily.py",
     "rc": 0,
-    "elapsed_s": 1.18,
+    "elapsed_s": 0.46,
     "stdout_tail": "",
     "stderr_tail": ""
    }
@@ -49,19 +49,19 @@
    "detail": {
     "cmd": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 -c import sys;sys.path.insert(0,'tools');import chat_daily as D;print('VERSION',getattr(D,'VERSION',None));print('DailyApp_ask',hasattr(D.DailyApp,'ask'))",
     "rc": 0,
-    "elapsed_s": 0.25,
+    "elapsed_s": 0.29,
     "stdout_tail": "VERSION c-1.0\nDailyApp_ask True\n",
     "stderr_tail": ""
    }
   },
   {
    "name": "tools/check_chat_daily.py rc=0 (17 methods)",
-   "pass": false,
+   "pass": true,
    "detail": {
     "cmd": "C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe -X utf8 tools/check_chat_daily.py",
-    "rc": 1,
-    "elapsed_s": 0.88,
-    "stdout_tail": "[chat_daily] compile=ok import=ok\n[memory_service] compile=ok import=ok\n[web_lookup] compile=ok import=ok\n[qq_bridge] compile=ok import=ok\n[FAIL] chat_daily missing_required+dangling_call DailyApp._rows 同时存在悬空 self._rows( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._row_by_id 同时存在悬空 self._row_by_id( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._rows_for_selection 同时存在悬空 self._rows_for_selection( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._fit_budget 同时存在悬空 self._fit_budget( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._sync_mounts 同时存在悬空 self._sync_mounts( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._unmount_all 同时存在悬空 self._unmount_all( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._select 同时存在悬空 self._select( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._retrieval_select 同时存在悬空 self._retrieval_select( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._product_fact_question 同时存在悬空 self._product_fact_question( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._history_text 同时存在悬空 self._history_text( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._total_tokens 同时存在悬空 self._total_tokens( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._put_memory_source 同时存在悬空 self._put_memory_source( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._rollback_source 同时存在悬空 self._rollback_source( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._local_time_reply 同时存在悬空 self._local_time_reply( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._web_answer 同时存在悬空 self._web_answer( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp._explicit_search 同时存在悬空 self._explicit_search( 调用\n[FAIL] chat_daily missing_required+dangling_call DailyApp.remember 同时存在悬空 self.remember( 调用\nSUMMARY issues=17 ok=False\n",
+    "rc": 0,
+    "elapsed_s": 0.95,
+    "stdout_tail": "[chat_daily:chat_daily.py] compile=ok import=ok\n[memory_service] compile=ok import=ok\n[web_lookup] compile=ok import=ok\n[qq_bridge] compile=ok import=ok\n[NOTE] static_called_via_self DailyApp._augment_slots 内部经 self 调用 classmethod 方法（可运行，非首选；建议 DailyApp._augment_slots）\n[NOTE] static_called_via_self DailyApp._turns_text 内部经 self 调用 staticmethod 方法（可运行，非首选；建议 DailyApp._turns_text）\n[NOTE] static_called_via_self DailyApp._slot_norm_time 内部经 self 调用 staticmethod 方法（可运行，非首选；建议 DailyApp._slot_norm_time）\n[NOTE] static_called_via_self DailyApp._canon_qslots 内部经 self 调用 classmethod 方法（可运行，非首选；建议 DailyApp._canon_qslots）\n[NOTE] static_called_via_self DailyApp._content_bigrams 内部经 self 调用 classmethod 方法（可运行，非首选；建议 DailyApp._content_bigrams）\n[NOTE] static_called_via_self DailyApp._block_text 内部经 self 调用 staticmethod 方法（可运行，非首选；建议 DailyApp._block_text）\nSUMMARY issues=0 style_notes=6 ok=True\n",
     "stderr_tail": ""
    },
    "missing_line": []
@@ -70,174 +70,316 @@
    "name": "chat_daily",
    "script": "test_chat_daily_cpu.py",
    "present": true,
-   "pass": false,
-   "rc": 1,
-   "checks": null,
-   "failed": null,
+   "pass": true,
+   "rc": 0,
+   "checks": 93,
+   "failed": 0,
    "expected_checks": 93,
-   "elapsed_s": 1.69,
-   "stdout_tail": "  T1.repl.unknown\nok   T1.repl.usage_forget\nok   T1.repl.usage_remember\nok   T1.repl.saved_on_quit\nok   T1.repl.session_file\nFAIL t_remember_and_ask raised\nFAIL t_refusal raised\nFAIL t_save_restore raised\nFAIL t_forget raised\nFAIL t_bad_input raised\nFAIL t_capacity raised\nFAIL t_status raised\nFAIL t_placement_guard raised\n\n23 checks, 11 failed\nFAILURES:\n - T1.repl.remember 命令：\n  /remember <文本>   记住一段事实（立即可用）\n  /memories          列出已存记忆\n  /forget <id>|all   删除记忆（会二次确认）\n  /ask <问题>        提问（等价于直接输入）\n  /save [路径]       保存会话（默认 kvmem/sessions/daily.json）\n  /load [路径]      \n - T1.repl.memories 命令：\n  /remember <文本>   记住一段事实（立即可用）\n  /memories          列出已存记忆\n  /forget <id>|all   删除记忆（会二次确认）\n  /ask <问题>        提问（等价于直接输入）\n  /save [路径]       保存会话（默认 kvmem/sessions/daily.json）\n  /load [路径]      \n - T1.repl.answer 命令：\n  /remember <文本>   记住一段事实（立即可用）\n  /memories          列出已存记忆\n  /forget <id>|all   删除记忆（会二次确认）\n  /ask <问题>        提问（等价于直接输入）\n  /save [路径]       保存会话（默认 kvmem/sessions/daily.json）\n  /load [路径]      \n - t_remember_and_ask raised\n - t_refusal raised\n - t_save_restore raised\n - t_forget raised\n - t_bad_input raised\n - t_capacity raised\n - t_status raised\n - t_placement_guard raised\n",
-   "stderr_tail": "at_daily_cpu.py\", line 439, in main\n    fn(sub, model)\n    ~~^^^^^^^^^^^^\n  File \"D:\\llama-mem\\tools\\test_chat_daily_cpu.py\", line 406, in t_status\n    app.remember(FACTS[\"weekly\"])\n    ^^^^^^^^^^^^\nAttributeError: 'DailyApp' object has no attribute 'remember'\nTraceback (most recent call last):\n  File \"D:\\llama-mem\\tools\\test_chat_daily_cpu.py\", line 439, in main\n    fn(sub, model)\n    ~~^^^^^^^^^^^^\n  File \"D:\\llama-mem\\tools\\test_chat_daily_cpu.py\", line 335, in t_placement_guard\n    app.remember(FACTS[\"weekly\"])\n    ^^^^^^^^^^^^\nAttributeError: 'DailyApp' object has no attribute 'remember'\n"
+   "elapsed_s": 2.47,
+   "stdout_tail": "nings\nok   T4.restore.chat_tokens\nok   T4.restore.mounted\nok   T4.restore.history\nok   T4.restore.ask_hit\nok   T4.explicit_load\nok   T5.deleted\nok   T5.row_gone\nok   T5.file_gone\nok   T5.dialogue_reset\nok   T5.after_forget_refused\nok   T5.repl.rc\nok   T5.cancel_kept\nok   T5.repl.deleted\nok   T5.repl.saved\nok   T5.repl.row_gone\nok   T6.empty_remember\nok   T6.too_long\nok   T6.forget_bad_id\nok   T6.forget_missing\nok   T6.forget_all_empty\nok   T6.empty_ask\nok   T6.load_missing\nok   T7.max_memories\nok   T7.over_limit\nok   T7.forget_all\nok   T7.empty_after_all\nok   T8.status.version\nok   T8.status.model_pin\nok   T8.status.dll_pin\nok   T8.status.engine\nok   T8.status.memories\nok   T8.status.session\nok   T8.status.vram_gib\nok   T8.status.warnings\nok   T8.health.status\nok   T8.health.model_pin\nok   T8.health.dll_pin\nok   T8.health.vram_gib\nok   T8.health.memories\nok   T8.health.session\nok   T8.health.ok\nok   T8.control_default_off\nok   T10.first_mount_ok\nok   T10.instruction_prefix\nok   T10.no_memory_text_in_prompt\nok   T10.remount_ok\nok   T10.two_mounted\nok   T10.guard_is_real\nok   T10.close_detached\nok   T10.close_reset\n\n93 checks, 0 failed\nALL PASS (zero GPU / zero model / zero network)\n",
+   "stderr_tail": ""
   },
   {
    "name": "retrieval",
    "script": "test_retrieval_cpu.py",
    "present": true,
-   "pass": false,
-   "rc": 1,
-   "checks": null,
-   "failed": null,
+   "pass": true,
+   "rc": 0,
+   "checks": 35,
+   "failed": 0,
    "expected_checks": null,
-   "elapsed_s": 0.43,
-   "stdout_tail": "",
-   "stderr_tail": "e 347, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"D:\\llama-mem\\tools\\test_retrieval_cpu.py\", line 324, in main\n    t_tokens_and_determinism(os.path.join(tmp, \"t1\"), model)\n    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\llama-mem\\tools\\test_retrieval_cpu.py\", line 128, in t_tokens_and_determinism\n    seed(app, TOPIC_TEXTS)\n    ~~~~^^^^^^^^^^^^^^^^^^\n  File \"D:\\llama-mem\\tools\\test_retrieval_cpu.py\", line 108, in seed\n    return [app.remember(t)[\"id\"] for t in texts]\n            ^^^^^^^^^^^^\nAttributeError: 'DailyApp' object has no attribute 'remember'\n"
+   "elapsed_s": 3.08,
+   "stdout_tail": "ok   T1.library_10\nok   T1.bigram\nok   T1.latin_word\nok   T1.deterministic\nok   T1.topk_cap\nok   T1.sorted_desc\nok   T1.hit_vehicle\nok   T1.topk_cut\nok   T1.tie_id_asc\nok   T2.first_mount\nok   T2.no_bad_repos\nok   T2.second_asked\nok   T2.detach_happened\nok   T2.repos_before_attach_1\nok   T2.no_bad_repos_switch\nok   T2.asked_second\nok   T3.refused\nok   T3.no_model\nok   T3.empty_selection\nok   T4.truncated_flag\nok   T4.mounted_limited\nok   T4.scores_kept\nok   T4.warning_logged\nok   T4.truncation_record\nok   T4.no_bad_repos\nok   T5.mode_off\nok   T5.library_max6\nok   T5.mounted_all\nok   T5.block_ids\nok   T5.cap_enforced\nok   T6.service_up\nok   T6.health_retrieval\nok   T6.health_topk\nok   T6.status_retrieval\nok   T6.status_library\n\n35 checks, 0 failed\nALL PASS (zero GPU / fake engine)\n",
+   "stderr_tail": ""
   },
   {
    "name": "refusal",
    "script": "test_refusal_cpu.py",
    "present": true,
-   "pass": false,
-   "rc": 1,
-   "checks": null,
-   "failed": null,
+   "pass": true,
+   "rc": 0,
+   "checks": 31,
+   "failed": 0,
    "expected_checks": null,
-   "elapsed_s": 0.39,
-   "stdout_tail": "",
-   "stderr_tail": "Traceback (most recent call last):\n  File \"D:\\llama-mem\\tools\\test_refusal_cpu.py\", line 60, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"D:\\llama-mem\\tools\\test_refusal_cpu.py\", line 28, in main\n    r = D.DailyApp._smalltalk_reply(app, q)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: type object 'DailyApp' has no attribute '_smalltalk_reply'\n"
+   "elapsed_s": 0.33,
+   "stdout_tail": "checks=31 failed=0\nALL PASS (CPU only)\n",
+   "stderr_tail": ""
   },
   {
    "name": "rollover",
    "script": "test_rollover_cpu.py",
    "present": true,
-   "pass": false,
-   "rc": 1,
-   "checks": null,
-   "failed": null,
+   "pass": true,
+   "rc": 0,
+   "checks": 33,
+   "failed": 0,
    "expected_checks": null,
-   "elapsed_s": 0.58,
-   "stdout_tail": "",
-   "stderr_tail": "Traceback (most recent call last):\n  File \"D:\\llama-mem\\tools\\test_rollover_cpu.py\", line 303, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"D:\\llama-mem\\tools\\test_rollover_cpu.py\", line 285, in main\n    t_trigger_sequence(os.path.join(tmp, \"t1\"), model)\n    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\llama-mem\\tools\\test_rollover_cpu.py\", line 119, in t_trigger_sequence\n    orig_unmount = app._unmount_all\n                   ^^^^^^^^^^^^^^^^\nAttributeError: 'DailyApp' object has no attribute '_unmount_all'\n"
+   "elapsed_s": 1.48,
+   "stdout_tail": "ok   T1.triggered\nok   T1.notice\nok   T1.rollover_fields\nok   T1.summary_forward\nok   T1.save_before_summary\nok   T1.remember_before_detach\nok   T1.reset0_after_detach\nok   T1.write_kept\nok   T1.attached_after_write\nok   T1.no_repos_on_attached\nok   T1.kept_turns\nok   T1.summary_memory\nok   T1.summary_id_recorded\nok   T1.log_event\nok   T1.log_before_tokens\nok   T1.log_after_tokens\nok   T1.log_summary_id\nok   T1.log_dropped_turns\nok   T1.log_shrunk\nok   T1.verify\nok   T2.notice\nok   T2.fallback_flag\nok   T2.warning\nok   T2.fallback_memory\nok   T3.no_notice\nok   T3.one_forward\nok   T3.no_rollover_event\nok   T3.chat_kept\nok   T4.raises\nok   T4.no_model_call\nok   T4.chat_kept\nok   T4.error_logged\nok   T5.repl_notice\n\n33 checks, 0 failed\nALL PASS (zero GPU / fake engine)\n",
+   "stderr_tail": ""
   },
   {
    "name": "rollover_hier",
    "script": "test_rollover_hier_cpu.py",
    "present": true,
-   "pass": false,
-   "rc": 1,
+   "pass": true,
+   "rc": 0,
    "checks": null,
    "failed": null,
    "expected_checks": null,
-   "elapsed_s": 0.53,
-   "stdout_tail": "",
-   "stderr_tail": "ne 152, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"D:\\llama-mem\\tools\\test_rollover_hier_cpu.py\", line 62, in main\n    r = app.ask(\"介绍一下第%d个历史景点的情况。\" % (i + 1))\n        ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\llama-mem\\tools\\chat_daily.py\", line 1456, in ask\n    return self._ask_strict(text, t0)\n           ~~~~~~~~~~~~~~~~^^^^^^^^^^\n  File \"D:\\llama-mem\\tools\\chat_daily.py\", line 1708, in _ask_strict\n    selection = self._retrieval_select(text)\n                ^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'DailyApp' object has no attribute '_retrieval_select'\n"
+   "elapsed_s": 0.49,
+   "stdout_tail": "ok   five_rounds_triggered\nok   status_rollover_last\nok   status_before_gt_after\nok   kept_ratio_60_70\nok   original_blocks_exist\nok   archive_block_exist\nok   summary_block_exist\nok   original_text_preserved\nok   archive_file\nok   archive_sidecar\nok   sidecar_cross_ref\nok   summary_related_all\nok   turn_to_summary_bidi\nok   archive_to_summary_bidi\nok   archive_path_in_tags\nok   archive_block_preserves_text\nok   block_path_exists\nok   original_text_hash_ok\nok   summary_hit\nok   related_expanded\nok   related_deduped\nok   related_mounted\nok   mounted_paths_exist\n\nALL PASS\n",
+   "stderr_tail": ""
   },
   {
    "name": "slots",
    "script": "test_slots_cpu.py",
    "present": true,
-   "pass": false,
-   "rc": 1,
-   "checks": null,
-   "failed": null,
+   "pass": true,
+   "rc": 0,
+   "checks": 43,
+   "failed": 0,
    "expected_checks": 43,
-   "elapsed_s": 0.48,
-   "stdout_tail": "ok   A.time\nok   A.place\nok   A.event\nok   A.action\nok   A.person\nok   A.object_pet\nok   A.place_room\nok   A.quantity\nok   A.cause\nok   A.result\nok   A.purpose\nok   A.method\nok   A.constraint\nok   A.schema_keys\nok   A.unverified\nok   A.empty\nok   B.want_place\nok   B.filter_time_event\nok   B.structured\nok   B.person\nok   B.object_pet\nok   B.quantity\nok   B.cause\nok   B.method\nok   B.unstructured\nok   C.time_match\nok   C.time_mismatch\nok   C.event_conflict\nok   C.want_missing\nok   C.unstructured_pass\nok   C.bonus_order\n",
-   "stderr_tail": "Traceback (most recent call last):\n  File \"D:\\llama-mem\\tools\\test_slots_cpu.py\", line 193, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"D:\\llama-mem\\tools\\test_slots_cpu.py\", line 122, in main\n    ids = [app.remember(t)[\"id\"] for t in MEM]\n           ^^^^^^^^^^^^\nAttributeError: 'DailyApp' object has no attribute 'remember'\n"
+   "elapsed_s": 1.0,
+   "stdout_tail": "ok   A.time\nok   A.place\nok   A.event\nok   A.action\nok   A.person\nok   A.object_pet\nok   A.place_room\nok   A.quantity\nok   A.cause\nok   A.result\nok   A.purpose\nok   A.method\nok   A.constraint\nok   A.schema_keys\nok   A.unverified\nok   A.empty\nok   B.want_place\nok   B.filter_time_event\nok   B.structured\nok   B.person\nok   B.object_pet\nok   B.quantity\nok   B.cause\nok   B.method\nok   B.unstructured\nok   C.time_match\nok   C.time_mismatch\nok   C.event_conflict\nok   C.want_missing\nok   C.unstructured_pass\nok   C.bonus_order\nok   D.meta_slots_saved\nok   D.slots_column\nok   D.archive_slots\nok   D.summary_slots\nok   D.newest_id\nok   E.gz_gz\nok   E.cd\nok   E.name\nok   E.meeting_place\nok   E.pet_name\nok   E.tomorrow_no_wrong_mount\nok   E.tomorrow_not_claiming\n\n43 checks, 0 failed\n",
+   "stderr_tail": ""
   },
   {
    "name": "retrieval_service",
    "script": "test_retrieval_service_cpu.py",
    "present": true,
-   "pass": false,
-   "rc": 1,
+   "pass": true,
+   "rc": 0,
    "checks": null,
    "failed": null,
    "expected_checks": null,
-   "elapsed_s": 0.42,
-   "stdout_tail": "",
-   "stderr_tail": "Traceback (most recent call last):\n  File \"D:\\llama-mem\\tools\\test_retrieval_service_cpu.py\", line 101, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"D:\\llama-mem\\tools\\test_retrieval_service_cpu.py\", line 63, in main\n    app.remember(f)\n    ^^^^^^^^^^^^\nAttributeError: 'DailyApp' object has no attribute 'remember'\n"
+   "elapsed_s": 1.31,
+   "stdout_tail": "ok   fixture_3_memories\nok   fixture_has_plate_fact\nok   retrieval_select_hits_plate\nok   retrieval_candidates_nonzero\nok   natural_mode_answered\nok   natural_mode_block_ids_nonempty\nok   natural_mode_mounted_plate_block\nok   natural_mode_state\nok   unrelated_no_plate_mount\n\nALL PASS\n",
+   "stderr_tail": ""
   },
   {
    "name": "verify_wiring",
    "script": "test_verify_wiring_cpu.py",
    "present": true,
-   "pass": false,
-   "rc": 1,
-   "checks": null,
-   "failed": null,
+   "pass": true,
+   "rc": 0,
+   "checks": 42,
+   "failed": 0,
    "expected_checks": 42,
-   "elapsed_s": 0.45,
-   "stdout_tail": "ok   pass_answer_kept\nok   pass_verified_true\nok   pass_verdict\nok   pass_no_repair\nok   repair_answer_used\nok   repair_verified_true\nok   repair_attempts_1\nok   repair_prompt_has_blocks\nok   repair_prompt_has_question\nok   repair_prompt_has_prev_answer\nok   repair_event_logged\nok   second_fail_sentence\nok   second_fail_state\nok   second_fail_verified_false\nok   second_fail_attempts_1\nok   fallback_event_logged\nok   no_evidence_sentence\nok   no_evidence_attempts_0\nok   no_evidence_state\nok   off_answer_kept\nok   off_verdict_disabled\nok   off_verifier_not_called\nok   general_skipped_verdict\nok   general_verifier_not_called\nok   budget_fallback_sentence\nok   budget_attempts_0\nok   budget_state\nok   strip_applied\nok   strip_called\nok   isolated_returns_answer\nok   isolated_verified_field\nok   isolated_blocks_same_as_generation\nok   seq6_busy_falls_back\nok   timeout_answer_fixed\nok   timeout_state\nok   timeout_event_logged\nok   real_verifier_shape\n\n36/37 passed\n",
-   "stderr_tail": "Traceback (most recent call last):\n  File \"D:\\llama-mem\\tools\\test_verify_wiring_cpu.py\", line 325, in main\n    t()\n    ~^^\n  File \"D:\\llama-mem\\tools\\test_verify_wiring_cpu.py\", line 295, in t_mount_path_wiring\n    res = app._ask_natural(\"我的车位在哪\", time.perf_counter())\n          ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\llama-mem\\tools\\chat_daily.py\", line 1523, in _ask_natural\n    _t_reply = self._local_time_reply(text)\n               ^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'DailyApp' object has no attribute '_local_time_reply'\n"
+   "elapsed_s": 0.32,
+   "stdout_tail": "ok   pass_answer_kept\nok   pass_verified_true\nok   pass_verdict\nok   pass_no_repair\nok   repair_answer_used\nok   repair_verified_true\nok   repair_attempts_1\nok   repair_prompt_has_blocks\nok   repair_prompt_has_question\nok   repair_prompt_has_prev_answer\nok   repair_event_logged\nok   second_fail_sentence\nok   second_fail_state\nok   second_fail_verified_false\nok   second_fail_attempts_1\nok   fallback_event_logged\nok   no_evidence_sentence\nok   no_evidence_attempts_0\nok   no_evidence_state\nok   off_answer_kept\nok   off_verdict_disabled\nok   off_verifier_not_called\nok   general_skipped_verdict\nok   general_verifier_not_called\nok   budget_fallback_sentence\nok   budget_attempts_0\nok   budget_state\nok   strip_applied\nok   strip_called\nok   isolated_returns_answer\nok   isolated_verified_field\nok   isolated_blocks_same_as_generation\nok   seq6_busy_falls_back\nok   timeout_answer_fixed\nok   timeout_state\nok   timeout_event_logged\nok   mount_answer_repaired\nok   mount_verified_true\nok   mount_verify_verdict\nok   mount_blocks_from_mounted\nok   mount_repair_event\nok   real_verifier_shape\n\n42/42 passed\n",
+   "stderr_tail": ""
   },
   {
    "name": "fake engine smoke (3 prompts + HTTP)",
-   "pass": false,
+   "pass": true,
    "detail": {
     "inproc": [
      {
       "input": "你好",
-      "error": "AttributeError: 'DailyApp' object has no attribute '_local_time_reply'",
-      "pass": false
+      "answer": "（干跑假引擎）我不掌握这条记忆",
+      "state": "natural",
+      "refused": false,
+      "has_verify": true,
+      "policy_echo": [],
+      "pass": true
      },
      {
       "input": "我下周三去哪开会？",
-      "error": "AttributeError: 'DailyApp' object has no attribute '_select'",
-      "pass": false
+      "answer": "这个我没法确认：你没跟我说过。",
+      "state": "no_evidence",
+      "refused": false,
+      "has_verify": false,
+      "policy_echo": [],
+      "pass": true
      },
      {
       "input": "我的车牌号是多少？",
-      "error": "AttributeError: 'DailyApp' object has no attribute '_select'",
-      "pass": false
+      "answer": "这个我没法确认：你没跟我说过。",
+      "state": "no_evidence",
+      "refused": false,
+      "has_verify": false,
+      "policy_echo": [],
+      "pass": true
      }
     ],
     "http": {
-     "port": 61538,
-     "ready": false,
+     "port": 56316,
+     "ready": true,
      "results": [
       {
        "input": "你好",
-       "http_status": null,
-       "answer": null,
+       "http_status": 200,
+       "answer": "（干跑假引擎）我不掌握这条记忆",
        "policy_echo": [],
-       "pass": false
+       "pass": true
       },
       {
        "input": "我下周三去哪开会？",
-       "http_status": null,
-       "answer": null,
+       "http_status": 200,
+       "answer": "这个我没法确认：你没跟我说过。",
        "policy_echo": [],
-       "pass": false
+       "pass": true
       },
       {
        "input": "我的车牌号是多少？",
-       "http_status": null,
-       "answer": null,
+       "http_status": 200,
+       "answer": "这个我没法确认：你没跟我说过。",
        "policy_echo": [],
-       "pass": false
+       "pass": true
       }
      ],
-     "stderr_tail": "HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n[service] 127.0.0.1 \"GET /health HTTP/1.1\" 500 -\n"
+     "stderr_tail": "[service] 127.0.0.1 \"GET /health HTTP/1.1\" 200 -\n[service] 127.0.0.1 \"POST /ask HTTP/1.1\" 200 -\n[service] 127.0.0.1 \"POST /ask HTTP/1.1\" 200 -\n[service] 127.0.0.1 \"POST /ask HTTP/1.1\" 200 -\n"
     },
-    "pass": false
+    "pass": true
+   }
+  },
+  {
+   "name": "online six cases (service 8765)",
+   "pass": false,
+   "detail": {
+    "service": "http://127.0.0.1:8765",
+    "ready": true,
+    "cases": [
+     {
+      "label": "下周三→广州",
+      "input": "我下周三去哪开会？",
+      "pass": true,
+      "http_status": 200,
+      "answer": "你下周三要去广州出差，不是开会",
+      "state": "natural",
+      "refused": false,
+      "latency_s": 2.785
+     },
+     {
+      "label": "下周五→成都",
+      "input": "我下周五去哪？",
+      "pass": true,
+      "http_status": 200,
+      "answer": "你下周五要去成都开会",
+      "state": "natural",
+      "refused": false,
+      "latency_s": 2.213
+     },
+     {
+      "label": "我叫什么→阿泽",
+      "input": "我叫什么名字？",
+      "pass": true,
+      "http_status": 200,
+      "answer": "你叫阿泽",
+      "state": "natural",
+      "refused": false,
+      "latency_s": 2.094
+     },
+     {
+      "label": "组会→B座302",
+      "input": "组会在哪开？",
+      "pass": true,
+      "http_status": 200,
+      "answer": "你的组会在B座302开",
+      "state": "natural",
+      "refused": false,
+      "latency_s": 2.964
+     },
+     {
+      "label": "养猫→豆豆",
+      "input": "我养的猫叫什么？",
+      "pass": false,
+      "http_status": 200,
+      "answer": "你养的猫叫“小花”",
+      "state": "natural",
+      "refused": false,
+      "latency_s": 2.569
+     },
+     {
+      "label": "明天→没提过",
+      "input": "我明天去哪出差？",
+      "pass": true,
+      "http_status": 200,
+      "answer": "这个我没法确认：你没跟我提过明天的安排。",
+      "state": "no_time_match",
+      "refused": false,
+      "latency_s": 0.028
+     }
+    ],
+    "pass": false,
+    "health": {
+     "status": "ok",
+     "model_pin": {
+      "model_path": "D:\\models\\Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+      "model_size": 8988110976,
+      "model_mtime": 1793102210
+     },
+     "dll_pin": {
+      "path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+      "present": true,
+      "bytes": 50007552,
+      "sha16": "9edbafa150700614"
+     },
+     "vram_gib": null,
+     "memories": 11,
+     "session": {
+      "path": "kvmem\\daily\\sessions\\eval2.json",
+      "exists": false,
+      "chat_tokens": 592,
+      "chat_budget": 24576,
+      "chat_start": 8192,
+      "n_ctx": 32768,
+      "mounted": 0,
+      "control": false,
+      "n_predict": 192,
+      "rollover_at": 0.75,
+      "rollover_threshold_tokens": 18432
+     },
+     "engine": {
+      "mode": "real",
+      "type": "KVEngine",
+      "n_ctx": 32768,
+      "n_seq": 8,
+      "n_gpu_layers": 28,
+      "bytes_per_token": 104448,
+      "kv_pool_gib": 3.188,
+      "mem_total_gib": 3.188
+     },
+     "retrieval": {
+      "mode": "topk",
+      "topk": 4,
+      "library_count": 11,
+      "library_max": 200,
+      "mounted_ids": [],
+      "mounted_count": 0,
+      "candidates": 8,
+      "related": 0,
+      "memory_budget": 7680,
+      "last_truncation": null
+     },
+     "version": "c-1.0",
+     "service": {
+      "version": "c-service-1.0",
+      "host": "127.0.0.1",
+      "port": 8765,
+      "serial": true,
+      "requests": 9,
+      "in_flight_max": 1,
+      "by_route": {
+       "GET /health": 2,
+       "POST /ask": 7
+      },
+      "uptime_s": 96.6,
+      "fake_engine": false
+     }
+    },
+    "status": "checked"
    }
   }
  ],
- "online_pending": {
-  "service": "http://127.0.0.1:8765",
-  "ready": false,
-  "cases": [],
-  "pass": null,
-  "error": "URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>",
-  "status": "pending_service_restart"
- },
  "summary": {
-  "n_checks": 12,
-  "n_pass": 2,
-  "n_fail": 10,
-  "local_pass": false,
-  "online": "pending_service_restart",
-  "elapsed_s": 43.11
+  "n_checks": 13,
+  "n_pass": 12,
+  "n_fail": 1,
+  "local_pass": true,
+  "online": false,
+  "elapsed_s": 25.71
  },
  "pass": false,
  "status": "fail"

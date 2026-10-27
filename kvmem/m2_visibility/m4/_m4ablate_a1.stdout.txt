@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "D:\llama-mem\kvmem\m2_visibility\m4\m4_ablate_plate.py", line 224, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "D:\llama-mem\kvmem\m2_visibility\m4\m4_ablate_plate.py", line 146, in main
+    res["arms"].append(ask_arm(eng, leases, "product_block_control", prod_path,
+                       ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                              PRODUCT_BLOCK, "control: known-answer block, untouched"))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\llama-mem\kvmem\m2_visibility\m4\m4_ablate_plate.py", line 83, in ask_arm
+    leases.detach(BLOCK_SEQ, LIVE, lo, hi)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: BlockLeases.detach() takes 4 positional arguments but 5 were given
+rc=1

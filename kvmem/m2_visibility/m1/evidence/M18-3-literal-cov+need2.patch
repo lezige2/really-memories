@@ -1,0 +1,20 @@
+--- tools/retrieval.py (M18-2+M18-1)
++++ tools/retrieval.py (M18-3 literal: cov分母+need=2)
+@@ -274,7 +274,7 @@
+     # In fallback mode the query is represented by its rare unigrams, so coverage must be
+     # measured there too. Measuring it over the bigrams (all of which are absent, by
+     # definition of a fallback) would drive coverage to zero and undo the fallback.
+-    active = rare if used_fallback else (bigrams + unigrams)
++    active = (rare + bigrams) if used_fallback else (bigrams + unigrams)
+     absent = [t for t in active if t not in idf_map]
+     idf_absent = math.log(1.0 + (n_docs + 0.5) / 0.5)
+     cov_den = sum(idf_map.values()) + len(absent) * idf_absent
+@@ -295,7 +295,7 @@
+             # Two rare characters is the normal bar. But when the value gate already left
+             # only a couple of admissible blocks, that bar is redundant: one rare match
+             # plus the gate is enough, and demanding two loses "我几点睡觉" -> sleep.
+-            need = 1 if (allowed is not None and len(allowed) <= 2) else 2
++            need = 2
+             if hits < need or cov.get(sid, 0.0) < COV_MIN:
+                 continue
+         s = base.get(sid, 0.0)

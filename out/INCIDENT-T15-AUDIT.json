@@ -1,0 +1,421 @@
+{
+ "schema": "incident_t15_audit_v1",
+ "incident_id": "INCIDENT-T15",
+ "auditor": "chain-repro",
+ "checked_at": "2026-10-27T22:51:51",
+ "scope": "T15 chat_daily 方法误删事故：只读审计（未改代码/未重建/未跑 GPU）",
+ "versions": {
+  "current": {
+   "path": "tools/chat_daily.py",
+   "sha16": "a55930d19218563b",
+   "sha256": "a55930d19218563bcadbfcd73c91e299ec20331a8de7bf78100cc65c91df45ca",
+   "bytes": 117037,
+   "mtime": "2026-10-27T22:38:00"
+  },
+  "code_backup": {
+   "path": "tools/chat_daily.py.bak-20261027T224300",
+   "sha16": "a55930d19218563b",
+   "sha256": "a55930d19218563bcadbfcd73c91e299ec20331a8de7bf78100cc65c91df45ca",
+   "bytes": 117037,
+   "mtime": "2026-10-27T22:43:00"
+  },
+  "lead_declared_bad": {
+   "bytes": 148942,
+   "sha16": "999bddd1",
+   "present_on_disk": false,
+   "note": "按 148,942 B/999bddd1 全仓搜索无匹配文件"
+  },
+  "lead_declared_good": {
+   "bytes": 140920,
+   "sha16": "dc0e32cf",
+   "present_on_disk": false,
+   "note": "按 140,920 B/dc0e32cf 全仓搜索无匹配文件；session code pin chat_daily.py:dc0e32cf422723a7（22:23）只存 pin，无文件"
+  },
+  "current_note": "当前 117,037 B（a55930d1）与 .bak-20261027T224300 完全同一坏版本；当前仍是缺损版，非已修复版"
+ },
+ "deleted": {
+  "count": 17,
+  "methods": [
+   "_rows",
+   "_row_by_id",
+   "_rows_for_selection",
+   "_fit_budget",
+   "_sync_mounts",
+   "_unmount_all",
+   "_select",
+   "_retrieval_select",
+   "_product_fact_question",
+   "_history_text",
+   "_total_tokens",
+   "_put_memory_source",
+   "_rollback_source",
+   "_local_time_reply",
+   "_web_answer",
+   "_explicit_search",
+   "remember"
+  ],
+  "evidence": "`python tools/check_chat_daily.py` 输出 17 个 `missing_required+dangling_call`（rc=1）：每个方法既不在 DailyApp 上定义，又有 `self.<method>(` 调用；方法清单与上面一致",
+  "current_class_methods": [
+   "__init__",
+   "_log_pins",
+   "_log_begin",
+   "log_session",
+   "_log",
+   "_bootstrap",
+   "close",
+   "_ensure_meta",
+   "_meta_get",
+   "_meta_set",
+   "_canon_slots",
+   "_augment_slots",
+   "_canon_qslots",
+   "_slots_of",
+   "_insert_memory_block",
+   "_n_tokens_of",
+   "_created_at",
+   "memories",
+   "introspect",
+   "forget",
+   "_rollover_threshold",
+   "_turns_text",
+   "_summarize",
+   "_archive_dir",
+   "_write_archive_file",
+   "_maybe_rollover",
+   "_verify_run",
+   "_block_text",
+   "_now_line",
+   "_chat_prompt",
+   "_repair_prompt",
+   "_verify_event",
+   "_verified_finalize",
+   "_degraded_reply",
+   "_try_isolated",
+   "_auto_remember_candidate",
+   "_boundary_reply",
+   "ask",
+   "_ask_natural",
+   "_ask_strict",
+   "_chat_file",
+   "_transcript_path",
+   "save",
+   "_save_chat_only",
+   "load",
+   "_load_chat_only",
+   "_load_transcript",
+   "_sid_of",
+   "_path_of",
+   "_dll_pin",
+   "_spec_pin",
+   "status",
+   "_status_impl",
+   "health"
+  ],
+  "impact": "缺失的 `_rows/_row_by_id/_retrieval_select/_sync_mounts/_unmount_all/_history_text/remember` 等是 natural/health/memory 核心调用；服务启动/导入不报错，请求期 AttributeError → /health /ask 500"
+ },
+ "why_missed": {
+  "one_line": "没有证据表明合并前跑过完整 CPU 测试（若完整跑，缺 `remember/_rows` 会立即失败）；实际只停留在 compile/import 级自检（导入不触发方法缺失），且现有测试顶部强制 strict，natural 默认路径与 HTTP 健康冒烟都不在覆盖内；check_chat_daily.py 22:47:41 才存在（晚于坏版 22:38-22:43）。",
+  "evidence": [
+   {
+    "what": "编译/导入可通过",
+    "why": "删除的是类方法定义，不是模块顶层语句；`chat_daily` 仍可 import、DailyApp 仍可实例化，错误延迟到调用"
+   },
+   {
+    "file": "tools/test_chat_daily_cpu.py",
+    "lines": "1-3",
+    "what": "顶部 `os.environ.setdefault('LLAMA_MEM_MODE','strict')`；测试只验 strict 契约，默认 natural 路径未覆盖"
+   },
+   {
+    "file": "tools/check_chat_daily.py",
+    "what": "该强制自检存在且能抓到 17 个缺失（rc=1），但文件 mtime 22:47:41，晚于事故发生/坏版落盘 22:38-22:43；说明它没有在合并前跑（或是事后补的）"
+   },
+   {
+    "file": "kvmem/daily/service_main.log",
+    "what": "出现大量 `GET /health HTTP/1.1 500`、`POST /ask HTTP/1.1 500`；合并前未做服务健康/请求冒烟"
+   },
+   {
+    "what": "chat_daily.py 未被 git 跟踪（tools/chat_daily.py 为 untracked）",
+    "why": "无 diff/review 可发现大规模删除；也无法用 git 回滚"
+   },
+   {
+    "what": "现有完整 CPU 测试若运行应能抓到",
+    "why": "test_chat_daily_cpu.py 会调用 `remember`（缺失）与 `_ask_strict` 所需方法；因此漏检更可能是‘未运行/只跑局部’而非测试本身无法发现。文件 mtime 17:52，事故前已存在。"
+   }
+  ],
+  "selfcheck_likely": "编辑器自检可能只做了 compileall/import（或未跑 test_chat_daily_cpu）；缺失方法在导入时不会 AttributeError，natural 默认路径又未被 strict 测试覆盖；服务 /health /ask 500 日志证明没有合并前 HTTP 冒烟。"
+ },
+ "premerge_checks": [
+  {
+   "id": "C1",
+   "name": "方法存在性/悬空调用",
+   "cmd": "python -X utf8 tools/check_chat_daily.py",
+   "pass": "rc=0；REQUIRED 方法全在，dangling self.* 调用为空"
+  },
+  {
+   "id": "C2",
+   "name": "编译+导入",
+   "cmd": "python -X utf8 -m py_compile tools/chat_daily.py && python -X utf8 -c 'import chat_daily'",
+   "pass": "exit 0；无 SyntaxError/ImportError"
+  },
+  {
+   "id": "C3",
+   "name": "CPU 单测（strict+natural 两模式）",
+   "cmd": "python -X utf8 tools/test_chat_daily_cpu.py；另加 natural 模式 fake-engine 冒烟（LLAMA_MEM_MODE=natural）",
+   "pass": "rc=0；natural 路径 `_ask_natural()->_ask_strict()->_rows/_retrieval_select/_sync_mounts` 全走通"
+  },
+  {
+   "id": "C4",
+   "name": "服务健康/请求冒烟",
+   "cmd": "起 fake-engine chat_service 临时端口；GET /health、POST /ask、GET /status、POST /v1/chat/completions",
+   "pass": "全部 HTTP 200；不得出现 500；natural/strict 两种模式各一次"
+  },
+  {
+   "id": "C5",
+   "name": "备份与数据一致性",
+   "cmd": "比对 chat_daily.py 与 .bak 的 sha/大小；sqlite PRAGMA integrity_check；memory_source/memory_block 计数=blocks 文件数；确认备份对为同代",
+   "pass": "代码备份 sha 与当前预期一致（非同一坏版）；DB/block 备份成对且计数相等，且覆盖事故发生前最近状态"
+  }
+ ],
+ "backup_chain": {
+  "code": {
+   "current": {
+    "path": "tools/chat_daily.py",
+    "sha16": "a55930d19218563b",
+    "sha256": "a55930d19218563bcadbfcd73c91e299ec20331a8de7bf78100cc65c91df45ca",
+    "bytes": 117037,
+    "mtime": "2026-10-27T22:38:00"
+   },
+   "backup": {
+    "path": "tools/chat_daily.py.bak-20261027T224300",
+    "sha16": "a55930d19218563b",
+    "sha256": "a55930d19218563bcadbfcd73c91e299ec20331a8de7bf78100cc65c91df45ca",
+    "bytes": 117037,
+    "mtime": "2026-10-27T22:43:00"
+   },
+   "backup_is_same_bad": true,
+   "good_version_present": false,
+   "bad_version_present": false,
+   "verdict": "incomplete：只有坏版 117,037/a559，且 .bak 与当前同字节；148,942/999bddd1 与 140,920/dc0e32cf 均无盘上副本；代码不可从备份恢复，只能重建/拼回 17 方法"
+  },
+  "db": [
+   {
+    "path": "kvmem/daily/chat.db",
+    "sha16": "4773deec37822c64",
+    "sha256": "4773deec37822c645f262ce3febe55f784948af2f54489ce2b1acf87d97fef86",
+    "bytes": 110592,
+    "mtime": "2026-10-27T22:36:30",
+    "counts": {
+     "memory_source": 17,
+     "memory_block": 17
+    },
+    "integrity": "ok"
+   },
+   {
+    "path": "kvmem/daily\\chat.db.bak-20261027T195900",
+    "sha16": "4116982ef177a65f",
+    "sha256": "4116982ef177a65f7c8ec85b3c0effff37b46c9b94b19b58dc8fff1c6ce556ad",
+    "bytes": 69632,
+    "mtime": "2026-10-27T19:59:00",
+    "counts": {
+     "memory_source": 11,
+     "memory_block": 11
+    },
+    "integrity": "ok"
+   },
+   {
+    "path": "kvmem/daily\\chat.db.bak-20261027T201101",
+    "sha16": "31b7e63df2fb9d17",
+    "sha256": "31b7e63df2fb9d179436a274f841cc730d7797874572eb1c7cce952e0c42ba4f",
+    "bytes": 69632,
+    "mtime": "2026-10-27T20:11:01",
+    "counts": {
+     "memory_source": 11,
+     "memory_block": 11
+    },
+    "integrity": "ok"
+   }
+  ],
+  "blocks": {
+   "current": {
+    "path": "kvmem/daily/blocks",
+    "n_files": 17,
+    "bytes": 35329028,
+    "files": [
+     {
+      "name": "mem-0a4325e4d0cb.kvmem",
+      "bytes": 1150292,
+      "sha16": "e23e8931f31ace61"
+     },
+     {
+      "name": "mem-1753efc2bd21.kvmem",
+      "bytes": 5955636,
+      "sha16": "1d0ee90ab32fbf4f"
+     },
+     {
+      "name": "mem-244442557566.kvmem",
+      "bytes": 627972,
+      "sha16": "20c4d717964ab9c5"
+     },
+     {
+      "name": "mem-2a8b339a11fa.kvmem",
+      "bytes": 627972,
+      "sha16": "acd33c69dc41802e"
+     },
+     {
+      "name": "mem-3c414059f1b8.kvmem",
+      "bytes": 1150292,
+      "sha16": "3be983d8e229f664"
+     },
+     {
+      "name": "mem-4a949732842e.kvmem",
+      "bytes": 732436,
+      "sha16": "46da1f5032d90396"
+     },
+     {
+      "name": "mem-704ddb89dd5f.kvmem",
+      "bytes": 627972,
+      "sha16": "9c62afac607a4d3c"
+     },
+     {
+      "name": "mem-854ba3615072.kvmem",
+      "bytes": 6791348,
+      "sha16": "68d85e1463264ba6"
+     },
+     {
+      "name": "mem-87c86a52a6b7.kvmem",
+      "bytes": 4493140,
+      "sha16": "51d37ab8773e75aa"
+     },
+     {
+      "name": "mem-a1ef1d66b647.kvmem",
+      "bytes": 627972,
+      "sha16": "af2743cce5b402ce"
+     },
+     {
+      "name": "mem-bce66192711b.kvmem",
+      "bytes": 4702068,
+      "sha16": "6f208f4c83b234e9"
+     },
+     {
+      "name": "mem-ccda57e4a444.kvmem",
+      "bytes": 627972,
+      "sha16": "989b2c9aadd2c8ab"
+     },
+     {
+      "name": "mem-d12be01f14a5.kvmem",
+      "bytes": 627972,
+      "sha16": "27ab4400beeb91b8"
+     },
+     {
+      "name": "mem-d5ba4d05e900.kvmem",
+      "bytes": 732436,
+      "sha16": "94d8a055b69c6850"
+     },
+     {
+      "name": "mem-eba6738b3a13.kvmem",
+      "bytes": 1777076,
+      "sha16": "63cfa1db404abbd4"
+     },
+     {
+      "name": "mem-f1940c9d6477.kvmem",
+      "bytes": 3448500,
+      "sha16": "9a76d473006746a4"
+     },
+     {
+      "name": "mem-f8f18cfa37b2.kvmem",
+      "bytes": 627972,
+      "sha16": "3d51be80ad540520"
+     }
+    ]
+   },
+   "backup": {
+    "path": "kvmem/daily/blocks.bak-20261027T201101",
+    "n_files": 11,
+    "bytes": 14951420,
+    "files": [
+     {
+      "name": "mem-244442557566.kvmem",
+      "bytes": 627972,
+      "sha16": "0890fbb05017787c"
+     },
+     {
+      "name": "mem-2a8b339a11fa.kvmem",
+      "bytes": 627972,
+      "sha16": "3a8fb3826a336791"
+     },
+     {
+      "name": "mem-4a949732842e.kvmem",
+      "bytes": 732436,
+      "sha16": "69d782d33b234748"
+     },
+     {
+      "name": "mem-704ddb89dd5f.kvmem",
+      "bytes": 627972,
+      "sha16": "927e73b4b9fe929a"
+     },
+     {
+      "name": "mem-87c86a52a6b7.kvmem",
+      "bytes": 4493140,
+      "sha16": "ff82972ea2be7972"
+     },
+     {
+      "name": "mem-a1ef1d66b647.kvmem",
+      "bytes": 627972,
+      "sha16": "952111058e490a49"
+     },
+     {
+      "name": "mem-d12be01f14a5.kvmem",
+      "bytes": 627972,
+      "sha16": "9fabc7a7695bb548"
+     },
+     {
+      "name": "mem-d5ba4d05e900.kvmem",
+      "bytes": 732436,
+      "sha16": "b9e3a0d5b76a28b6"
+     },
+     {
+      "name": "mem-eba6738b3a13.kvmem",
+      "bytes": 1777076,
+      "sha16": "fd3b5927acb3117e"
+     },
+     {
+      "name": "mem-f1940c9d6477.kvmem",
+      "bytes": 3448500,
+      "sha16": "57cde1b94d0a9d12"
+     },
+     {
+      "name": "mem-f8f18cfa37b2.kvmem",
+      "bytes": 627972,
+      "sha16": "ddf220ab9dc7b411"
+     }
+    ]
+   },
+   "current_count": 17,
+   "backup_count": 11,
+   "same_named_files_differ": true,
+   "verdict": "incomplete：当前 17 blocks/35,329,028 B；备份 11 blocks/14,951,420 B（20:11），比当前少 6 条；同名块 sha 不同；DB 备份 11 rows 对应当前 17 rows 之前的旧状态，无 22:4x 事故发生时的 DB/块快照"
+  },
+  "recoverability": "当前 chat.db（110,592 B, 17 rows, integrity ok）与当前 blocks（17 files）是可用的当前数据；代码坏版只能人工补齐 17 方法或从未损坏的 140,920/dc0e32cf 版本（盘上已无）恢复；备份只能回到 20:11 的旧状态（丢 6 条记忆）。"
+ },
+ "conclusion": {
+  "deleted_methods": 17,
+  "why_missed": "compile/import 级自检 + 未运行完整 CPU 测试（完整跑会因 remember/_rows 缺失失败）+ strict-only 测试未覆盖 natural + 无 HTTP 健康冒烟；check_chat_daily.py 事后 22:47 才有。",
+  "backup_chain_complete": false,
+  "risk": "当前坏版仍在盘上（117,037/a559；备份同坏），不可合并/不可发版；DB/块备份仅旧态（11/17），代码无好备份。"
+ },
+ "discipline": {
+  "read_only": true,
+  "no_code_change": true,
+  "no_rebuild": true,
+  "no_gpu": true,
+  "no_commit": true,
+  "writes": [
+   "out/INCIDENT-T15-AUDIT.json"
+  ]
+ },
+ "signature": {
+  "auditor": "chain-repro",
+  "signed_at": "2026-10-27T22:51:51",
+  "statement": "只读核 T15：当前 chat_daily 117,037/a559 与 .bak 同坏，check_chat_daily 实测 17 个缺失/悬空方法（清单见 deleted.methods）；漏检因 compile/import 与 strict-only 测试未覆盖 natural/服务冒烟；DB/块备份为 20:11 旧态（11 rows/11 blocks）且与当前 17 不一致，代码无好备份。未改任何代码。"
+ }
+}

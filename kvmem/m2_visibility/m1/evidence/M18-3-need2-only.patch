@@ -1,0 +1,11 @@
+--- tools/retrieval.py (M18-2+M18-1)
++++ tools/retrieval.py (M18-3 只改 need=2)
+@@ -295,7 +295,7 @@
+             # Two rare characters is the normal bar. But when the value gate already left
+             # only a couple of admissible blocks, that bar is redundant: one rare match
+             # plus the gate is enough, and demanding two loses "我几点睡觉" -> sleep.
+-            need = 1 if (allowed is not None and len(allowed) <= 2) else 2
++            need = 2
+             if hits < need or cov.get(sid, 0.0) < COV_MIN:
+                 continue
+         s = base.get(sid, 0.0)

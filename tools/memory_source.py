@@ -394,7 +394,8 @@ def check_compatible(row, model_path=MODEL, kv_type="q8_0"):
     if b_kv != kv_type:
         raise Incompatible("%s: built with kv=%s, engine is %s" % (name, b_kv, kv_type))
     fp = model_fp(model_path)
-    if (m_path, m_size, m_mtime) != (fp["model_path"], fp["model_size"], fp["model_mtime"]):
+    # 兼容路径分隔符/大小写差异：同一文件（size+mtime 相同）即视为同一模型
+    if (m_size, m_mtime) != (fp["model_size"], fp["model_mtime"]):
         raise Incompatible("%s: built with a different model (%s, %d B, mtime %d)"
                            % (name, m_path, m_size, m_mtime))
 

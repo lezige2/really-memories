@@ -1,0 +1,17 @@
+--- tools/retrieval.py@ac6ea8ccee09173b (M18-2+M18-1)
++++ tools/retrieval.py (M18-4 已落: keep 加 or out[:1])
+@@ -340,9 +340,11 @@
+         return []
+     top = out[0]["score"]
+     keep = [r for r in out if r["score"] >= max(top * REL_CUT, ABS_CUT)]
+-    if not keep and want_prop:
+-        # M18-1 放松：排序截断（ABS_CUT）是给「没有属性锚的候选」用的，不得删掉
+-        # ① 已放行的唯一块（否则「我的地址是什么」会在 _passes 过之后死在这里）。
++    if not keep:
++        # M18-4 修一致性（放松，仅让覆盖率路径可达）：走到这里说明 _passes(out[0]) 已为真
++        # （绝对证据或 cov≥COV_MIN 的「可解释覆盖」），而 `ABS_CUT` 只是**排序截断**的下限，
++        # 不是第二道准入。旧代码会把「cov 过、分低」的唯一候选删光 = 该答不答的假红。
++        # 注：M18-1 的属性保底（`if not keep and want_prop`）是它的真子集，这里一并覆盖。
+         keep = out[:1]
+     return keep[:k]
+ 

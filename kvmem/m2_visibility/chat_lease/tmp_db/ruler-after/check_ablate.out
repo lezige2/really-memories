@@ -1,0 +1,14 @@
+artifact : kvmem/m2_visibility/m4/run_m4_ablate_plate_a7.json
+verdict  : memory_carried_by_that_sentence_content_not_length
+[SKIP] n_predict                        [('product_block_control', 64, None), ('reencoded_with_sentence', 64, None), ('ablated_without_sentence', 64, None), ('length_matched_control', 64, None)]
+       declared 64; engine exposes no n_predict attribute = UNVERIFIED
+[OK  ] cells_span_matches_attach_range  [('product_block_control', True), ('reencoded_with_sentence', True), ('ablated_without_sentence', True), ('length_matched_control', True)]
+       None = --no-repos run, where the span is deliberately not asserted
+[OK  ] raw_pos_max_block_after_attach   [('product_block_control', 4095), ('reencoded_with_sentence', 4095), ('ablated_without_sentence', 4095), ('length_matched_control', 4095)]
+       must be 4095 once the cells are repositioned
+[OK  ] controls_answer_plate            [('product_block_control', True), ('reencoded_with_sentence', True), ('ablated_without_sentence', False), ('length_matched_control', False)]
+       if either control fails the run is inconclusive, whatever the ablation arms say
+[OK  ] confound_note                    both the deleted-sentence arm and the equal-length arm (same cells, same range, different plate words) failed, so the loss follows the CONTENT of that sentence, not the shorter block
+       equal-length arm ran, so the verdict may name content
+graded_by: external (this program read the artifact; the artifact did not grade itself)
+RESULT: PASS (0 failed, 1 unverified)

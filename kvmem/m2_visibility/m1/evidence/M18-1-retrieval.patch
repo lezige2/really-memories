@@ -1,0 +1,38 @@
+--- tools/retrieval.py@c8e9e332ef8fd367
++++ tools/retrieval.py (M18-1 已落)
+@@ -320,7 +320,10 @@
+                 s += 3.0
+                 sig["kind"] = name
+         sig["cov"] = round(cov.get(sid, 0.0), 2)
+-        if s > 0:
++        # M18-1 放松：属性闸门（①）已把块收窄到 allowed，词法分数不该再当第二道准入。
++        # 「我的地址是什么」的 allowed 含正确的 5 号块，但二元组（地址/住址）在块里不重叠，
++        # 旧代码 s>0 直接把它挡在候选之外 —— 这就是 legacy §8.2 第 1 条的复现点。
++        if s > 0 or (want_prop and allowed is not None and sid in allowed):
+             sig["score"] = round(s, 3)
+             out.append({"source_id": sid, "name": name, "score": s, "signals": sig})
+ 
+@@ -337,12 +340,21 @@
+         return []
+     top = out[0]["score"]
+     keep = [r for r in out if r["score"] >= max(top * REL_CUT, ABS_CUT)]
++    if not keep and want_prop:
++        # M18-1 放松：排序截断（ABS_CUT）是给「没有属性锚的候选」用的，不得删掉
++        # ① 已放行的唯一块（否则「我的地址是什么」会在 _passes 过之后死在这里）。
++        keep = out[:1]
+     return keep[:k]
+ 
+ 
+ def _passes(best):
+-    """Absolute evidence, or explanatory coverage."""
+-    return best["score"] >= GATE or best["signals"].get("cov", 0.0) >= COV_MIN
++    """Absolute evidence, or explanatory coverage, or a property anchor.
++
++    M18-1 放松：`prop` 命中意味着 ① 已证明「这块能答这类属性」，legacy L270 已裁
++    「属性一旦确定块，词法覆盖率不该再当裁判」。
++    """
++    return (best["score"] >= GATE or best["signals"].get("cov", 0.0) >= COV_MIN
++            or bool(best["signals"].get("prop")))
+ 
+ 
+ def main():

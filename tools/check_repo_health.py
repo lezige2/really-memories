@@ -92,8 +92,29 @@ def scan_file(path):
 
 
 def check_key_modules(files_rec):
-    """关键模块：import 冒烟 + 必需方法/符号；结果并入文件记录。"""
-    for mod, spec in GUARD.TARGETS.items():
+    """关键模块：复用 check_chat_daily（调用方权威）做 chat_daily，其余模块查必需符号。"""
+    # chat_daily：调用方权威检查（内部 self 调用 + 外部 DailyApp 引用 + 公开 API）
+    rec = files_rec.get("chat_daily.py")
+    if rec is not None:
+        try:
+            importlib.invalidate_caches()
+            importlib.import_module("chat_daily")
+            rec["import"] = "ok"
+        except Exception as exc:                  # noqa: BLE001
+            rec["import"] = "fail"
+            rec["issues"].append({"kind": "import_fail", "severity": "error",
+                                  "symbol": "chat_daily", "line": None,
+                                  "detail": str(exc)[:300]})
+        try:
+            cd = GUARD.check_chat_daily()
+        except Exception as exc:                  # noqa: BLE001
+            cd = {"issues": [{"kind": "guard_error", "symbol": "chat_daily",
+                              "detail": repr(exc)}]}
+        for i in cd.get("issues", []):
+            rec["issues"].append({"kind": i["kind"], "severity": "error",
+                                  "symbol": i.get("symbol"), "line": i.get("line"),
+                                  "detail": i.get("detail", "")})
+    for mod, spec in GUARD.OTHER_TARGETS.items():
         rec = files_rec.get(spec["file"])
         if rec is None:
             continue
@@ -107,21 +128,19 @@ def check_key_modules(files_rec):
                                   "symbol": mod, "line": None,
                                   "detail": str(exc)[:300]})
             continue
-        cls_name = spec.get("class")
-        if cls_name:
-            cls = getattr(m, cls_name, None)
-            for meth in spec.get("required_methods", []):
-                if cls is None or not hasattr(cls, meth):
-                    rec["issues"].append({"kind": "missing_required_method",
-                                          "severity": "error",
-                                          "symbol": "%s.%s" % (cls_name, meth),
-                                          "line": None,
-                                          "detail": "必需方法缺失"})
         for s in spec.get("required_symbols", []):
             if not hasattr(m, s):
                 rec["issues"].append({"kind": "missing_required_symbol",
                                       "severity": "error", "symbol": s,
                                       "line": None, "detail": "必需符号缺失"})
+        for cls_name, meths in spec.get("required_methods", {}).items():
+            cls = getattr(m, cls_name, None)
+            for meth in meths:
+                if cls is None or not hasattr(cls, meth):
+                    rec["issues"].append({"kind": "missing_required_method",
+                                          "severity": "error",
+                                          "symbol": "%s.%s" % (cls_name, meth),
+                                          "line": None, "detail": "必需方法缺失"})
     return files_rec
 
 
