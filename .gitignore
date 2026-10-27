@@ -242,3 +242,18 @@ kvmem/web_logs/
 # 测试跑/服务日志（tmp 下 assistant 会话与 jsonl）——日志不入库
 tmp/**/*.jsonl
 tmp/**/assistant/
+
+# ===== 密钥/私钥/压缩包：即使在放行目录内也绝不入库（最后兜底）=====
+kvmem/ssh/
+**/id_ed25519
+**/id_ed25519.pub
+**/id_rsa
+**/id_rsa.pub
+**/id_ecdsa*
+**/*.pem
+**/*.key
+**/*.zip
+**/*.7z
+**/*.tar
+**/*.tar.gz
+**/*.bak.*

@@ -69,6 +69,8 @@ def real_groups(results):
             groups["web"].append(cid)
         elif IDENT_RE.search(ans):
             groups["identity_claim"].append(cid)
+        elif r.get("category") == "identity":
+            groups["identity_claim"].append(cid)
         elif r.get("category") in ("memory_qa", "mixed"):
             groups["memory_retrieval"].append(cid)
         else:

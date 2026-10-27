@@ -76,6 +76,56 @@ def t_policy_fallback_in_chat():
         app.close()
 
 
+def t_policy_empty_action_fallback():
+    """拒绝语境 + 答案被政策清洗删空 => 必须「这个我帮不了哦」，不能「我记不清了」。"""
+    tmp = tempfile.mkdtemp(prefix="pw_act_")
+    app = make_app(tmp)
+    try:
+        app.eng.ask = lambda seq, text, n_predict=32, pos=None: LEAK
+        res = app._ask_natural("你能帮我个忙吗", time.perf_counter())
+        check("policy_empty_action_refusal", res["answer"] == "这个我帮不了哦",
+              res["answer"])
+        check("policy_empty_action_not_remember", res["answer"] != "我记不清了",
+              res["answer"])
+        # 普通问题仍回「我记不清了」
+        res2 = app._ask_natural("今天天气怎么样", time.perf_counter())
+        check("policy_empty_general_remember", res2["answer"] == "我记不清了",
+              res2["answer"])
+    finally:
+        app.close()
+
+
+def t_identity_fixes():
+    """v6 身份类回归：合法身份句保留；身份问句不拿用户名答；能力询问不走动作拒答。"""
+    ident = "我是你的本地记忆助手，说话自然、简短、口语化。"
+    out = D.strip_policy_echo(ident)
+    check("identity_sentence_kept", "本地记忆助手" in out, out)
+    check("identity_instruction_removed", "说话自然" not in out, out)
+    check("identity_pure_instruction_empty",
+          D.strip_policy_echo("说话自然；检索资料；用户告诉你事实时系统会在后台记住。") == "",
+          "policy-only should be empty")
+
+    tmp = tempfile.mkdtemp(prefix="pw_id_")
+    app = make_app(tmp)
+    try:
+        app.remember("我叫阿泽。")
+        app.eng.ask = lambda *a, **k: "我叫阿泽。"
+        for q in ("你是谁", "你是谁呀", "你叫什么", "你叫什么名字", "你叫啥",
+                  "你是什么模型", "你是AI吗", "你是机器人吗"):
+            r = app._ask_natural(q, time.perf_counter())
+            ok = ("本地记忆助手" in r["answer"]) and ("阿泽" not in r["answer"])
+            check("identity_q_" + q, ok and r.get("state") == "identity",
+                  "%s -> %s/%s" % (q, r.get("state"), r.get("answer")))
+        app.eng.ask = lambda *a, **k: ("不能操作任何应用（加好友/发消息/转账），"
+                                       "说话自然、简短、口语化。")
+        r = app._ask_natural("你能做什么", time.perf_counter())
+        check("capability_not_action_refusal",
+              r["answer"] != "这个我帮不了哦" and "本地记忆助手" in r["answer"],
+              r["answer"])
+    finally:
+        app.close()
+
+
 def t_local_time():
     tmp = tempfile.mkdtemp(prefix="pw_time_")
     app = make_app(tmp)
@@ -133,6 +183,8 @@ def t_web_paths():
 def main():
     t_strip_policy()
     t_policy_fallback_in_chat()
+    t_policy_empty_action_fallback()
+    t_identity_fixes()
     t_local_time()
     t_web_paths()
     print("\n%s" % ("ALL PASS" if not FAILS else "FAILURES: %r" % (FAILS,)))

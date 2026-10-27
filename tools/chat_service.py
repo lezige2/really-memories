@@ -165,6 +165,9 @@ class Service:
             r = app.remember(text)
             return {"id": r["id"], "len_tokens": r.get("n_tokens"),
                     "created_at": r.get("created_at"), "duplicate": r.get("duplicate")}
+        if method == "POST" and path == "/reset":
+            r = app.reset_session()
+            return {"reset": True, "chat_tokens": int(r.get("chat_tokens") or 0)}
         if method == "POST" and path == "/forget":
             if "id" not in payload:
                 raise D.DailyError("bad_request", "缺少字段 id（数字或 \"all\"）")
@@ -492,6 +495,7 @@ class ServiceHTTPServer(HTTPServer):
 KNOWN_ROUTES = {
     "/health": ("GET",), "/status": ("GET",), "/memories": ("GET",),
     "/ask": ("POST",), "/remember": ("POST",), "/forget": ("POST",),
+    "/reset": ("POST",),
     "/save": ("POST",), "/load": ("POST",),
     "/v1/models": ("GET",), "/v1/chat/completions": ("POST",),
 }

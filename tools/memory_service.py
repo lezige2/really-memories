@@ -602,3 +602,53 @@ def filter_by_slots(rows, qslots, meta_fn=None):
         if slot_match(qslots, slots):
             out.append(r)
     return out
+
+
+# ===========================================================================
+# c03 记忆元问题（“你有记忆吗/你记得什么/记忆存在哪/记忆会清空吗”）
+# 确定性回答真实状态：条数 + 最近 2–3 条首行（脱敏、截断；不暴露全文）。
+# ===========================================================================
+MEMORY_META_RX = re.compile(
+    r"你(的)?(长期)?记忆(力)?(现在)?(里|库|存在|放在|存哪|会清空|清空|保留|有吗|有没有)|"
+    r"你(都)?记得(什么|哪些|啥)|你记住了(什么|哪些|啥)|记忆(库|里)?(有什么|有哪些|存在哪|"
+    r"放在哪|会清空|清空|保留)|你有(没有)?(长期)?记忆|"
+    r"记忆[^，。；！？?]{0,12}(清空|保留|存在|放哪|存哪|在哪里|放哪|丢|丢失)")
+_PERSONAL_REF = re.compile(r"我的|我")
+_PHONE_RX = re.compile(r"(?<!\d)1[3-9]\d{9}(?!\d)")
+_ID18_RX = re.compile(r"(?<!\d)\d{17}[\dXx](?!\d)")
+
+
+def is_memory_meta_question(text):
+    """是否是“记忆能力/记忆库状态”元问题（不是问具体记忆内容）。"""
+    q = str(text or "").strip()
+    if not q or not MEMORY_META_RX.search(q):
+        return False
+    # “你记得我的车牌吗”是具体内容问题 -> 不走元问题快答
+    if _PERSONAL_REF.search(q) and re.search(r"我的|我的[\u4e00-\u9fff]{1,8}", q):
+        return False
+    return True
+
+
+def _redact_line(s, limit=24):
+    t = str(s or "").replace("\n", " ").strip()
+    t = _PHONE_RX.sub(lambda m: m.group(0)[:3] + "****" + m.group(0)[-4:], t)
+    t = _ID18_RX.sub(lambda m: m.group(0)[:3] + "*" * 11 + m.group(0)[-4:], t)
+    return (t[:limit] + "…") if len(t) > limit else t
+
+
+def memory_status_reply(rows, meta_fn=None, recent=3):
+    """确定性回答真实记忆状态（不调模型、不暴露全文）。"""
+    mems = [to_memory(r, meta_fn) for r in (rows or [])]
+    n = len(mems)
+    if n == 0:
+        return ("我有长期记忆库，现在是空的（0 条）；你告诉我事实我会存进去，"
+                "对话上下文是另外保存的，不会混在一起。")
+    mems.sort(key=lambda m: m["id"], reverse=True)
+    examples = []
+    for m in mems[:max(1, int(recent))]:
+        line = _redact_line(m.get("first_line") or m.get("text"))
+        if line and line not in examples:
+            examples.append(line)
+    head = "、".join(examples) if examples else "（暂无可用首行）"
+    return ("我有长期记忆库，现在存了 %d 条长期记忆（例如：%s…）；"
+            "对话上下文是另外保存的，不会清空记忆库。" % (n, head))

@@ -1,0 +1,146 @@
+{
+ "schema": "training_next_v1",
+ "role": "T11 下一轮修什么（按 live 基线失败频率排序；只给证据与建议，不写代码）",
+ "source": {
+  "path": "out/TRAINING-EVAL.json",
+  "sha256": "86598c0a3e1075b562ccc9ce639232f119f05acc1192d7a91980633e1a8b661a",
+  "live_n": 81,
+  "live_fail": 1
+ },
+ "generated_at": "2026-10-28T03:21:07+0800",
+ "ranking_rule": "按 failure_class 出现次数降序；同频按类名字典序",
+ "items": [
+  {
+   "rank": 1,
+   "failure_class": "僵硬",
+   "count": 1,
+   "share_of_failures": 1.0,
+   "share_of_cases": 0.0123,
+   "evidence": [
+    {
+     "id": "w02",
+     "category": "networking",
+     "input": "今天上海天气如何",
+     "answer": "我也查不到实时天气信息，建议你看看最新的天气预报吧",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "缺内容：['无法', '不能', '不联网', '没有', '抱歉', '不知道'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "路由/意图（NATURAL_MODE、smalltalk/capability 分支）+ 提示词",
+   "suggestion": "先修路由：寒暄/能力/感叹走快速分支（不落 14B 泛答）；对『您在问…』式复读直接替换为明确应答；补意图词表回归。"
+  }
+ ],
+ "notes": [
+  "证据取自 live 基线每条失败的实际输出（answer/state/refused/block_ids/problems）。",
+  "建议责任单按应用层模块拆分，供下一轮开单；不代表已定位根因。",
+  "唯一失败 w02 为判据字面（“我也查不到实时天气信息…”），正文诚实；建议 networking 词表加“查不到/无法查看”后可 100%。"
+ ],
+ "six_hard": {
+  "h02": {
+   "label": "下周三去哪开会→广州",
+   "present": true,
+   "pass": true,
+   "failure_class": null,
+   "answer": "你下周三要去广州出差"
+  },
+  "h03": {
+   "label": "下周五去哪开会→成都",
+   "present": true,
+   "pass": true,
+   "failure_class": null,
+   "answer": "你下周五要去成都开会"
+  },
+  "m02": {
+   "label": "我叫什么名字→阿泽",
+   "present": true,
+   "pass": true,
+   "failure_class": null,
+   "answer": "你叫阿泽"
+  },
+  "m03": {
+   "label": "组会在哪开→B座302",
+   "present": true,
+   "pass": true,
+   "failure_class": null,
+   "answer": "你的组会在B座302开"
+  },
+  "s03": {
+   "label": "养的猫叫什么→豆豆",
+   "present": true,
+   "pass": true,
+   "failure_class": null,
+   "answer": "你养的猫叫豆豆"
+  },
+  "u05": {
+   "label": "明天去哪出差→不得编造城市",
+   "present": true,
+   "pass": true,
+   "failure_class": null,
+   "answer": "这个我没法确认：你没跟我说过。"
+  }
+ },
+ "six_hard_all_pass": true,
+ "extra_hard": {
+  "h01": {
+   "label": "帮我加个好友→诚实说做不了",
+   "present": true,
+   "pass": true,
+   "failure_class": null,
+   "answer": "我做不到：我只能聊天和记住你告诉我事实，不能操作 QQ、加好友、替你发消息或做任何账号动作。"
+  }
+ },
+ "extra_hard_all_pass": true,
+ "infra": {
+  "http_500": [],
+  "connection_failed": [],
+  "policy_repeat": [],
+  "n_infra": 0
+ },
+ "pass_rate_excl_infra": 0.987654,
+ "real_failures": {
+  "memory_retrieval": {
+   "n": 0,
+   "ids": []
+  },
+  "verify": {
+   "n": 0,
+   "ids": []
+  },
+  "web": {
+   "n": 1,
+   "ids": [
+    "w02"
+   ]
+  },
+  "identity_claim": {
+   "n": 0,
+   "ids": []
+  },
+  "generation_degenerate": {
+   "n": 0,
+   "ids": []
+  },
+  "other": {
+   "n": 0,
+   "ids": []
+  }
+ },
+ "top3_real": [
+  [
+   "web",
+   1
+  ]
+ ],
+ "hermetic": {
+  "reset_supported": true,
+  "memories_before": 11,
+  "memories_after_cleanup": 11,
+  "added_total": 6,
+  "created_blocks_total": 15,
+  "cleaned_total": 15
+ }
+}

@@ -213,52 +213,70 @@ def strip_think(text):
 
 
 _POLICY_ECHO_MARKERS = (
-    "说话自然", "简短、口语化", "像朋友聊天", "不要输出思考过程", "think 标签",
+    "说话自然", "简短、口语化", "像朋友聊天", "不要输出思考", "think 标签",
     "用户告诉你事实时", "在后台记住", "已记住 id", "记不清就自然说记不清",
     "不要编造", "无关旧内容", "不能操作任何应用", "加好友", "发消息", "转账",
     "被要求时自然说做不了", "不要假装做过", "不是联网模型", "检索资料", "注明来源",
-    "不要自称某个具体模型", "你是本地记忆助手", "本地记忆助手",
-    "你自然说", "自然说记不清", "记不清记", "自然说做不了", "自然说不知道",
-    "自然接话", "自然说", "后台记住", "系统会在后台", "不要假装",
-    "不能操作任何应用", "加好友", "发消息给", "不要承诺",
+    "不要自称", "不要承诺", "你自然说", "自然说记不清", "记不清记", "自然接话",
+    "自然说", "后台记住", "系统会在后台", "不要假装", "不能操作", "标标",
 )
+_IDENTITY_SENTENCE = "我是你的本地记忆助手"
+
+
+def _policy_echo_ratio(text):
+    """答案的字符 3-gram 有多少比例来自系统策略文本（>55% 视为复读政策）。"""
+    try:
+        t = re.sub(r"\s+", "", str(text))
+        if len(t) < 8:
+            return 0.0
+        pol = re.sub(r"\s+", "", SYSTEM_POLICY)
+        pol_grams = {pol[i:i + 3] for i in range(len(pol) - 2)}
+        if not pol_grams:
+            return 0.0
+        grams = [t[i:i + 3] for i in range(len(t) - 2)]
+        hit = sum(1 for g in grams if g in pol_grams)
+        return hit / max(1, len(grams))
+    except Exception:                               # noqa: BLE001
+        return 0.0
 
 
 def strip_policy_echo(text):
-    """删掉模型复读出来的系统策略句子（长会话 general 路径的已知回归）。
+    """删掉模型复读出来的**指令性**策略残片，但保留合法自我介绍句。
 
-    按句切分，丢弃含策略标记的句子；同一字符连续重复 >6 次折叠；若最后只剩
-    标点/策略残渣则返回空，由调用方回退「我记不清了」。不依赖提示词。
+    规则：按句/逗号切分，只丢含指令标记的小句（说话自然/用户告诉你事实时/
+    检索资料/不能操作/加好友…），"我是…本地记忆助手"这类身份小句保留。
+    清空返回 ""，由调用方按问题类型决定兜底句（不是所有情况都叫记不清）。
     """
     t = str(text or "")
     if not t.strip():
         return ""
-    t = re.sub(r"(.)\1{6,}", r"\1\1\1", t)          # 标标标标… -> 标标标
-    parts = re.split(r"(?<=[。！？!?\n；;])", t)
-    kept = []
-    for part in parts:
-        if not part.strip():
+    t = re.sub(r"(.)\1{6,}", r"\1\1\1", t)
+    sentences = re.split(r"(?<=[。！？!?\n；;])", t)
+    kept_sentences = []
+    for sent in sentences:
+        if not sent.strip():
             continue
-        if any(m in part for m in _POLICY_ECHO_MARKERS):
-            continue
-        kept.append(part)
-    out = "".join(kept).strip()
-    # 粘连在开头/结尾、没有句读的策略片段，按标记直接剔除
-    for m in _POLICY_ECHO_MARKERS:
-        while m in out:
-            out = out.replace(m, "")
-    if len(out) < 16 and any(ch in out for ch in "标源"):
-        out = re.sub(r"[标源…;；,，、]+", "", out)
-    out = re.sub(r"\s+", " ", out).strip()
-    hit_marker = any(m in t for m in _POLICY_ECHO_MARKERS)
-    if (not out or all(ch in "标源…;；,，" for ch in out)) or \
-            (hit_marker and len(out) < 6):
-        # 明确拒绝语境（加好友/自然说记不清…）残留 => 自然拒答；纯策略复读交给上层回退
-        if any(k in t for k in ("加好友", "自然说记不清", "记不清记", "做不了",
-                                "帮不了", "不能操作")):
-            return "这个我帮不了哦"
+        clauses = re.split(r"(?<=[，,；;])", sent)
+        kept_clauses = []
+        for cl in clauses:
+            if not cl.strip():
+                continue
+            if any(m in cl for m in _POLICY_ECHO_MARKERS):
+                # 身份宣告 + 指令同句时，保留身份那半句
+                if "本地记忆助手" in cl and "说话自然" not in cl:
+                    continue
+                continue
+            kept_clauses.append(cl)
+        joined = "".join(kept_clauses)
+        if joined.strip():
+            kept_sentences.append(joined)
+    out = "".join(kept_sentences).strip()
+    # 身份句被指令同句吞掉时补回（仅当原文确实有身份宣告）
+    if not out and "本地记忆助手" in t:
+        return _IDENTITY_SENTENCE + "。"
+    if not out:
         return ""
-    return out
+    return out.strip()
 
 
 def clean_answer(raw):
@@ -764,6 +782,8 @@ class DailyApp:
         ev = out.get("event")
         if ev and str(ev) in cls._SLOT_EVENT_CANON:
             out["event"] = cls._SLOT_EVENT_CANON[str(ev)]
+        elif ev and any(k in str(ev) for k in ("猫", "狗", "宠物")):
+            out["event"] = "养宠物"      # 宠物事件统一口径，避免"养猫" vs "养宠物"冲突
         return out
 
     @classmethod
@@ -1270,6 +1290,13 @@ class DailyApp:
             return _verify_strip(answer, av), info
 
         v1 = self._verify_run(text, answer, blocks, mode, av)
+        if v1["verdict"] == "pass" and blocks and \
+                self._refusal_but_covered(text, answer, blocks):
+            _cov = self._covered_answer(text, blocks)
+            v1 = {"verdict": "unsupported", "mismatches": [
+                {"claim": "answer_refused_but_memory_has_it", "type": "refusal_ignored_memory"}],
+                "hint": "记忆里有这条内容，请只依据记忆原文重答。", "covered": bool(_cov)}
+            info["refusal_ignored_memory"] = True
         info["verify"] = v1
         if v1["verdict"] == "pass":
             info["verified"] = True
@@ -1315,6 +1342,17 @@ class DailyApp:
                                reason="repair_budget", latency_ms=info["repair_latency_ms"])
             return _verify_strip(VERIFY_FALLBACK_SENTENCE, av), info
         v2 = self._verify_run(text, repaired, blocks, mode, av)
+        if v2["verdict"] != "pass" and info.get("refusal_ignored_memory"):
+            cov = self._covered_answer(text, blocks)
+            if cov:
+                repaired = cov
+                v2 = self._verify_run(text, repaired, blocks, mode, av)
+        if v2["verdict"] == "pass" and blocks and \
+                self._refusal_but_covered(text, repaired, blocks):
+            cov = self._covered_answer(text, blocks)
+            if cov:
+                repaired = cov
+                v2 = self._verify_run(text, repaired, blocks, mode, av)
         info["verify_first"] = v1
         info["verify"] = v2
         if v2["verdict"] == "pass":
@@ -1471,6 +1509,147 @@ class DailyApp:
         r"帮我(发|加|删|改|转|同意|通过)|删了他|删了她|转账给|打个电话|发个邮件|发个短信",
         re.I)
 
+    @staticmethod
+    def _norm_fact(text):
+        return re.sub(r"[\s，,。.！!？?；;：:、“”\"'（）()]+", "", str(text or ""))
+
+    def _text_already_stored(self, text):
+        """同一条事实已在旧记忆里（子串级）=> 不再重复建块（a06 车牌重复）。"""
+        new = self._norm_fact(text)
+        if len(new) < 6:
+            return False
+        for r in self._rows():
+            old = self._norm_fact(r[3])
+            if new and (new in old or old in new):
+                return True
+        return False
+
+    def reset_session(self):
+        """评测密闭性：卸载挂载 + 清空对话 seq/history/政策标记；不动记忆库。"""
+        try:
+            self._unmount_all()
+        except Exception:                                # noqa: BLE001
+            pass
+        try:
+            self.eng.reset(0)
+        except Exception:                                # noqa: BLE001
+            pass
+        self.history = []
+        self._last_query = None
+        self._last_selection = []
+        self._last_truncation = None
+        self._last_qslots = {"want": None, "slots": {}, "structured": False}
+        self._policy_sent = False
+        return {"chat_tokens": int(self.eng.n_tokens(0))}
+
+    _ACTION_FALLBACK_RE = re.compile(
+        r"帮我|帮忙|加好友|加个好友|同意|通过一下|发消息|转账|删了|拉群|建群|"
+        r"打电话|发邮件|操作(一下|下)?|能不能帮|可以帮")
+
+    _IDENTITY_Q_RE = re.compile(
+        r"你是谁|你是谁呀|你叫什么|你叫啥|你的名字|你是什么模型|你是什么ai|"
+        r"你是ai|你是机器人|你是什么人|介绍一下你自己|介绍下你自己|你是哪个模型",
+        re.I)
+    _CAPABILITY_Q_RE = re.compile(
+        r"你能做什么|你会什么|你能干什么|会干什么|有什么功能|能帮什么|"
+        r"你会做啥|能做什么", re.I)
+
+    def _identity_question(self, text):
+        return bool(self._IDENTITY_Q_RE.search(str(text or "")))
+
+    @staticmethod
+    def _identity_reply():
+        return "我是你的本地记忆助手，有啥想聊的？"
+
+    @staticmethod
+    def _capability_identity_reply():
+        return ("我是你的本地记忆助手：能帮你记住事实、按记忆回答问题，"
+                "也能只读查资料。")
+
+    _FACT_KEYS = ("生日", "地址", "电话", "手机", "身份证", "工号", "尾号", "账号",
+                  "密码", "车牌", "工位", "公司", "名字", "叫", "银行", "卡号")
+    _SYN_GROUPS = (
+        ("开会", "会议", "组会", "例会"),
+        ("银行卡", "卡号", "尾号", "账号", "余额"),
+        ("生日", "出生", "生日是"),
+        ("地址", "住在", "家在哪", "住址"),
+        ("电话", "手机", "号码"),
+    )
+    _GREET_PREFIX_RE = re.compile(
+        r"^(?:在吗|在不在|你好|您好|嗨|哈喽|问一下|请问|那个|嗯+|哦+|喂|"
+        r"打扰一下|hello|hi)[，,。.！!？?\s]*", re.I)
+    _FOLLOWUP_RE = re.compile(r"刚才|刚刚|上一条|上一次|我刚说|我前面说")
+
+    def _retrieval_text(self, text):
+        """检索前剥离前导寒暄词（"在吗，我几点开会" -> "我几点开会"）。"""
+        q = str(text or "").strip()
+        for _ in range(4):
+            new = self._GREET_PREFIX_RE.sub("", q).strip()
+            if new == q:
+                break
+            q = new
+        return q or str(text or "")
+
+    def _refusal_but_covered(self, text, answer, blocks):
+        """答案在拒答，但挂载块其实覆盖问句事实 => 视为 unsupported（触发修复）。"""
+        ans = str(answer or "")
+        if not re.search(r"没有告诉|没告诉我|没跟我说|不清楚|不知道|无法|记不清", ans):
+            return False
+        q = str(text or "")
+        keys = [k for k in self._FACT_KEYS if k in q]
+        for b in (blocks or []):
+            blob = str((b or {}).get("text") or "")
+            if any(k in blob for k in keys):
+                return True
+            for group in self._SYN_GROUPS:
+                if any(t in q for t in group) and any(t in blob for t in group):
+                    return True
+        return False
+
+    def _covered_answer(self, text, blocks):
+        """确定性回查：取覆盖问句关键字的挂载块原文（拒答修复兜底）。"""
+        q = str(text or "")
+        keys = [k for k in self._FACT_KEYS if k in q]
+        for b in (blocks or []):
+            blob = str((b or {}).get("text") or "")
+            if any(k in blob for k in keys):
+                return blob
+            for group in self._SYN_GROUPS:
+                if any(t in q for t in group) and any(t in blob for t in group):
+                    return blob
+        return None
+
+    def _selection_relevant(self, text, selection):
+        """选中的记忆是否真的覆盖问句关键词（防"随便挂一条"后模型编造）。"""
+        q = str(text or "")
+        try:
+            bigrams = self._content_bigrams(q)
+        except Exception:                                # noqa: BLE001
+            bigrams = []
+        keys = [k for k in self._FACT_KEYS if k in q]
+        for s_ in (selection or []):
+            row = self._row_by_id(s_.get("source_id"))
+            blob = str(row[3]) if row is not None else ""
+            if any(k in blob for k in keys):
+                return True
+            for group in self._SYN_GROUPS:
+                if any(t in q for t in group) and any(t in blob for t in group):
+                    return True
+            if any(bg and bg in blob for bg in bigrams):
+                return True
+        return False
+
+    def _empty_answer_fallback(self, text):
+        """答案被清洗为空时的兜底：按**问题类型**决定，不按答案内容猜。"""
+        q = str(text or "")
+        if self._identity_question(q):
+            return self._identity_reply()
+        if self._CAPABILITY_Q_RE.search(q):
+            return self._capability_identity_reply()
+        if self._boundary_reply(q) is not None or self._ACTION_FALLBACK_RE.search(q):
+            return "这个我帮不了哦"
+        return "我记不清了"
+
     def _auto_remember_candidate(self, text):
         """陈述"我的事实"-> 应静默写入（判据在 memory_service.needs_auto_remember）。
 
@@ -1498,13 +1677,37 @@ class DailyApp:
 
     def _ask_natural(self, text, t0):
         """自然对话模式：代码只负责记忆读写/检索/联网，不替模型决定措辞。"""
+        # c03: 记忆元问题 -> 确定性回答真实库状态（不调模型；不再出现“对话结束就清空”）
+        _meta_ans = self._memory_meta_answer(text)
+        if _meta_ans is not None:
+            latency = time.perf_counter() - t0
+            if self.logger:
+                ev = self.logger.log_ask(text, session_tokens=int(self.eng.n_tokens(0)))
+                seq = ev.get("seq") if ev else None
+                if seq is not None:
+                    self.logger.log_answer(_meta_ans, seq, [],
+                                           {"seq_ids": [], "cells": 0},
+                                           latency * 1000.0, vram_gib=None,
+                                           refused=False)
+            self.history.append({"q": text, "a": _meta_ans, "refused": False})
+            self.history = self.history[-40:]
+            return {"answer": _meta_ans, "block_ids": [],
+                    "latency_s": round(latency, 4), "refused": False,
+                    "state": "memory_meta", "chars": len(_meta_ans),
+                    "retrieval": None, "notice": None, "rollover": None}
         np_ = min(int(self.n_predict), 128)      # 自然模式：短回答上限，避免长思考拖慢
         # 1) 静默自动记忆（陈述句事实）
         if not self.control and self._auto_remember_candidate(text):
             try:
-                self.remember(text)
-            except Exception:                            # noqa: BLE001
-                pass
+                if not self._text_already_stored(text):
+                    self.remember(text)
+            except Exception as exc:                     # noqa: BLE001
+                try:
+                    self._log("warning", code="auto_remember_failed",
+                              message="%s: %s" % (type(exc).__name__, exc),
+                              text_sha16=alog.sha16(text))
+                except Exception:
+                    pass
         # 上下文压缩：自然模式也必须在 ≥75% 时 rollover，否则 KV 无限累积（复述/卡死根因）
         try:
             notice = self._maybe_rollover()
@@ -1512,7 +1715,43 @@ class DailyApp:
             notice = None
         if notice and notice.get("rollover"):
             self._policy_sent = False      # 压缩后上下文重建，重新注入一次政策
-        bnd = self._boundary_reply(text) if BOUNDARY_ENABLED else None
+        # 身份问句：确定性自述，绝不用用户记忆里的名字/模型自报（v6 身份 bug）
+        if self._identity_question(text):
+            reply = self._identity_reply()
+            latency = time.perf_counter() - t0
+            if self.logger:
+                try:
+                    ev = self.logger.log_ask(text, session_tokens=int(self.eng.n_tokens(0)))
+                    seq = ev.get("seq") if ev else None
+                    if seq is not None:
+                        self.logger.log_answer(reply, seq, [], {"seq_ids": [], "cells": 0},
+                                               latency * 1000.0, vram_gib=None, refused=False)
+                except Exception:                    # noqa: BLE001
+                    pass
+            self.history.append({"q": text, "a": reply, "refused": False})
+            self.history = self.history[-40:]
+            return {"answer": reply, "block_ids": [], "latency_s": round(latency, 4),
+                    "refused": False, "state": "identity", "chars": len(reply),
+                    "retrieval": None, "notice": None, "rollover": None}
+        cap = self._capability_reply(text)
+        if cap is not None:
+            latency = time.perf_counter() - t0
+            if self.logger:
+                try:
+                    ev = self.logger.log_ask(text, session_tokens=int(self.eng.n_tokens(0)))
+                    seq = ev.get("seq") if ev else None
+                    if seq is not None:
+                        self.logger.log_answer(cap, seq, [], {"seq_ids": [], "cells": 0},
+                                               latency * 1000.0, vram_gib=None, refused=False)
+                except Exception:                    # noqa: BLE001
+                    pass
+            self.history.append({"q": text, "a": cap, "refused": False})
+            self.history = self.history[-40:]
+            return {"answer": cap, "block_ids": [], "latency_s": round(latency, 4),
+                    "refused": False, "state": "capability", "chars": len(cap),
+                    "retrieval": None, "notice": (notice or {}).get("notice"),
+                    "rollover": notice}
+        bnd = self._boundary_reply(text)          # 动作请求必须确定性拒绝（不依赖 env 开关）
         if bnd is not None:
             latency = time.perf_counter() - t0
             if self.logger:
@@ -1580,9 +1819,12 @@ class DailyApp:
                     "retrieval": None, "notice": (notice or {}).get("notice"),
                     "rollover": notice}
         # 无证据兜底：个人事实问句且没有任何记忆命中 -> 明确说不知道，禁止编造
-        _FACTQ = re.compile(r"我叫什么|叫什么名字|是多少|在哪|去哪|几点|几号|多少钱|哪个|谁的|名字是")
-        if (is_question and not self.control and not selection
-                and "我" in text and _FACTQ.search(text)
+        _FACTQ = re.compile(r"我叫什么|叫什么名字|是多少|在哪|去哪|几点|几号|哪天|什么时候|"
+                            r"多少钱|哪个|谁的|名字是|生日|地址|电话|手机号|身份证|工号|"
+                            r"尾号|账号|密码|车牌|工位|公司是")
+        if (is_question and not self.control and "我" in text
+                and _FACTQ.search(text)
+                and (not selection or not self._selection_relevant(text, selection))
                 and self._product_fact_question(text)):
             reply = "这个我没法确认：你没跟我说过。"
             latency = time.perf_counter() - t0
@@ -1705,7 +1947,7 @@ class DailyApp:
         prompt = self._chat_prompt(SYSTEM_POLICY, text, hint=note)
         pos = self.chat_start if int(self.eng.n_tokens(0)) == 0 else None
         raw = self.eng.ask(0, prompt, n_predict=np_, pos=pos)
-        answer = clean_answer(raw) or "我记不清了"
+        answer = clean_answer(raw) or self._empty_answer_fallback(text)
         # 去重复/续写（模型偶发复读），不改语义
         try:
             answer = _verify_strip(answer, _get_verifier())
@@ -1758,6 +2000,24 @@ class DailyApp:
                 "retrieval": None, "notice": (notice or {}).get("notice"), "rollover": notice}
 
     def _ask_strict(self, text, t0):
+        # c03: 记忆元问题 -> 确定性回答真实库状态（不调模型；不再出现“对话结束就清空”）
+        _meta_ans = self._memory_meta_answer(text)
+        if _meta_ans is not None:
+            latency = time.perf_counter() - t0
+            if self.logger:
+                ev = self.logger.log_ask(text, session_tokens=int(self.eng.n_tokens(0)))
+                seq = ev.get("seq") if ev else None
+                if seq is not None:
+                    self.logger.log_answer(_meta_ans, seq, [],
+                                           {"seq_ids": [], "cells": 0},
+                                           latency * 1000.0, vram_gib=None,
+                                           refused=False)
+            self.history.append({"q": text, "a": _meta_ans, "refused": False})
+            self.history = self.history[-40:]
+            return {"answer": _meta_ans, "block_ids": [],
+                    "latency_s": round(latency, 4), "refused": False,
+                    "state": "memory_meta", "chars": len(_meta_ans),
+                    "retrieval": None, "notice": None, "rollover": None}
         np_ = min(int(self.n_predict), 128)      # 自然模式：短回答上限，避免长思考拖慢
         notice = self._maybe_rollover()
 
@@ -2176,6 +2436,15 @@ class DailyApp:
     _INTERJ = re.compile(r"^(我靠|我服了|服了|无语|醉了|哎|唉|草|卧槽|离谱|绝了)[!！。.~～\s]*$")
     _FRIENDQ = re.compile(r"^(你想认识我吗|你想认识我嘛|想认识你)[?？!！。.\s]*$")
 
+    def _memory_meta_answer(self, text):
+        """c03：记忆元问题（你有记忆吗/记得什么/存在哪/会清空吗）确定性真实状态。"""
+        try:
+            if not memo.is_memory_meta_question(text):
+                return None
+            return memo.memory_status_reply(self._rows(), meta_fn=self._meta_get)
+        except Exception:                                # noqa: BLE001
+            return None
+
     def _capability_reply(self, text):
         """能力/记忆库/联网/感叹类问题：确定性回答（不调模型，避免虚构能力）。"""
         q = str(text or "").strip()
@@ -2185,6 +2454,10 @@ class DailyApp:
             return ("我不能联网：只有你明确让我查、且我拿到检索资料时才会引用并注明来源；"
                     "平时只按记忆回答。")
         if self._MEMQ.search(q):
+            # c03：优先给真实库状态（条数+最近首行，脱敏）；异常时保留旧文案兜底
+            ans = self._memory_meta_answer(q)
+            if ans is not None:
+                return ans
             try:
                 n = len(self._rows())
             except Exception:                            # noqa: BLE001
@@ -2194,6 +2467,10 @@ class DailyApp:
             return "哈哈，收到。"
         if self._FRIENDQ.search(q):
             return "我是本地助手，专注帮你记事和回答；先把你要记的事告诉我就行。"
+        if re.search(r"你能做什么|你会什么|你会做啥|你能干什么|会干什么|"
+                     r"有什么功能|能帮什么|能做什么", q):
+            return ("我是你的本地记忆助手：能帮你记住事实、按记忆回答问题，"
+                    "也能只读查资料。")
         return None
 
     _SMALLTALK_RE = re.compile(
@@ -2224,6 +2501,19 @@ class DailyApp:
         return "你好，我在。想让我记点什么，或问点什么？"
 
     def _retrieval_select(self, text):
+        text = self._retrieval_text(text)
+        if self._FOLLOWUP_RE.search(str(text or "")):
+            # "我刚才说…" => 最新写入的那条事实优先（只看最新 5 条内存，按 id 倒序）
+            rows = sorted(self._rows(), key=lambda r: -int(r[0]))[:5]
+            if rows:
+                best = rows[0]
+                self._last_candidate_count = len(rows)
+                self._last_related_count = 0
+                return [{"name": best[1], "score": 9.0,
+                         "source_id": int(best[0]),
+                         "signals": {"hits": [], "tags": [], "related": False,
+                                     "followup": True,
+                                     "library": len(self._rows())}}]
         rows = self._rows()
         self._last_candidate_count = 0
         self._last_related_count = 0
@@ -2348,11 +2638,12 @@ class DailyApp:
         (r"爱好|喜欢", ("爱好", "喜欢")),
         (r"猫|狗|宠物|养的", ("猫", "狗", "宠物", "叫")),
         (r"工号|员工号|编号|学号", ("工号", "员工号", "编号", "学号")),
+        (r"银行卡|卡号|尾号|账号|余额", ("银行卡", "卡号", "尾号", "账号", "余额")),
         (r"几点|什么时候|何时|会议|开会", ("组会", "开会", "会议", "七点", "7点", "19点")),
     )
 
     def _retrieval_keyword_fallback(self, text):
-        q = str(text or "")
+        q = self._retrieval_text(text)
         qslots0 = (self._canon_qslots(memo.query_slots(q), q)
                    if hasattr(memo, "query_slots") else {"structured": False})
         if "我" not in q and not qslots0.get("structured"):
@@ -2516,7 +2807,7 @@ class DailyApp:
 
     _EXPLICIT_SEARCH = re.compile(
         r"查一?下|查查|搜一?下|搜索一下|帮我查|帮我搜|上网查|网上查|最新消息|实时查|"
-        r"限行|限号|尾号|明天.*新闻", re.I)
+        r"限行|限号|限行尾号|车牌尾号|明天.*新闻", re.I)
 
     def _explicit_search(self, text):
         return bool(self._EXPLICIT_SEARCH.search(str(text or "")))

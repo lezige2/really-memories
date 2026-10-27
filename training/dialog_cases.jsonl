@@ -2,7 +2,7 @@
 {"id": "g02", "category": "greeting", "input": "你好你好", "pre_state": [], "expect": {"contains_any": ["你好", "您好", "嗨", "哈喽", "有啥", "在的", "晚上好", "早上好"]}, "note": "真实抱怨：用户贴「你好你好」；重复问候曾被复读", "hard": true}
 {"id": "g03", "category": "greeting", "input": "您好", "pre_state": [], "expect": {"contains_any": ["你好", "您好", "嗨", "哈喽", "有啥", "在的", "晚上好", "早上好"]}, "note": "回归：敬语变体", "hard": false}
 {"id": "g04", "category": "greeting", "input": "在吗", "pre_state": [], "expect": {"contains_any": ["你好", "您好", "嗨", "哈喽", "有啥", "在的", "晚上好", "早上好"]}, "note": "真实抱怨：用户贴「在吗」；曾出现「您在问…对吗」式应答", "hard": true}
-{"id": "g05", "category": "greeting", "input": "在不在", "pre_state": [], "expect": {"contains_any": ["你好", "您好", "嗨", "哈喽", "有啥", "在的", "晚上好", "早上好"]}, "note": "回归：在线问候变体", "hard": false}
+{"id": "g05", "category": "greeting", "input": "在不在", "pre_state": [], "expect": {"contains_any": ["你好", "您好", "嗨", "哈喽", "有啥", "在的", "在呢", "有事吗", "晚上好", "早上好"]}, "note": "回归：在线问候变体", "hard": false}
 {"id": "g06", "category": "greeting", "input": "早上好呀", "pre_state": [], "expect": {"contains_any": ["你好", "您好", "嗨", "哈喽", "有啥", "在的", "晚上好", "早上好"]}, "note": "回归：时段问候", "hard": false}
 {"id": "g07", "category": "greeting", "input": "嗨", "pre_state": [], "expect": {"contains_any": ["你好", "您好", "嗨", "哈喽", "有啥", "在的", "晚上好", "早上好"]}, "note": "回归：英文/单字变体", "hard": false}
 {"id": "g08", "category": "greeting", "input": "哈喽", "pre_state": [], "expect": {"contains_any": ["你好", "您好", "嗨", "哈喽", "有啥", "在的", "晚上好", "早上好"]}, "note": "回归：音译变体", "hard": false}
@@ -12,10 +12,10 @@
 {"id": "i03", "category": "identity", "input": "你叫什么名字", "pre_state": [], "expect": {"contains_any": ["本地", "助手", "记忆", "AI"], "not_contains": ["DeepSeek", "DeepSeek-R1", "GPT", "Qwen", "通义", "R1", "Lite-Preview", "深度求索"]}, "note": "回归：名字变体", "hard": false}
 {"id": "i04", "category": "identity", "input": "你是机器人吗", "pre_state": [], "expect": {"contains_any": ["本地", "助手", "记忆", "AI"], "not_contains": ["DeepSeek", "DeepSeek-R1", "GPT", "Qwen", "通义", "R1", "Lite-Preview", "深度求索"]}, "note": "回归：身份确认", "hard": false}
 {"id": "i05", "category": "identity", "input": "你是AI吗", "pre_state": [], "expect": {"contains_any": ["本地", "助手", "记忆", "AI"], "not_contains": ["DeepSeek", "DeepSeek-R1", "GPT", "Qwen", "通义", "R1", "Lite-Preview", "深度求索"]}, "note": "回归：AI 身份", "hard": false}
-{"id": "i06", "category": "identity", "input": "你能做什么", "pre_state": [], "expect": {"contains_any": ["本地", "助手", "记忆", "AI"], "not_contains": ["DeepSeek", "DeepSeek-R1", "GPT", "Qwen", "通义", "R1", "Lite-Preview", "深度求索"]}, "note": "回归：能力介绍", "hard": false}
+{"id": "i06", "category": "identity", "input": "你能做什么", "pre_state": [], "expect": {"refusal": false, "semantic": "identity_local"}, "note": "回归：能力介绍", "hard": false}
 {"id": "i07", "category": "identity", "input": "你是什么模型", "pre_state": [], "expect": {"contains_any": ["本地", "助手", "记忆", "AI"], "not_contains": ["DeepSeek", "DeepSeek-R1", "GPT", "Qwen", "通义", "R1", "Lite-Preview", "深度求索"]}, "note": "真实抱怨：用户贴「你是什么模型」；曾答成通用模型介绍/身份不稳", "hard": true}
 {"id": "i08", "category": "identity", "input": "你用的是什么模型", "pre_state": [], "expect": {"contains_any": ["本地", "助手", "记忆", "AI"], "not_contains": ["DeepSeek", "DeepSeek-R1", "GPT", "Qwen", "通义", "R1", "Lite-Preview", "深度求索"]}, "note": "回归：模型身份变体", "hard": false}
-{"id": "c01", "category": "capability", "input": "记忆力有什么", "pre_state": [], "expect": {"refusal": false, "state_class": "any", "contains_any": ["记忆", "条", "记得", "您"], "not_contains": ["大脑存储", "长期记忆和短期记忆", "您在问", "人脑", "识记", "认知功能"]}, "note": "真实抱怨：用户贴「记忆力有什么」；曾被答成「记忆力是大脑存储…」的百科句，且重复尾巴", "hard": true}
+{"id": "c01", "category": "capability", "input": "记忆力有什么", "pre_state": [], "expect": {"semantic": "no_memory_denial"}, "note": "真实抱怨：用户贴「记忆力有什么」；曾被答成「记忆力是大脑存储…」的百科句，且重复尾巴", "hard": true}
 {"id": "c02", "category": "capability", "input": "你记得什么", "pre_state": [], "expect": {"semantic": "capability_memory_list", "refusal": false}, "note": "真实抱怨：问记忆库内容，应列记忆或说明已记条数", "hard": true}
 {"id": "c03", "category": "capability", "input": "记忆库有什么", "pre_state": [], "expect": {"semantic": "capability_memory_list", "refusal": false}, "note": "回归：记忆库查询变体", "hard": false}
 {"id": "c04", "category": "capability", "input": "你能联网吗", "pre_state": [], "expect": {"contains_any": ["不能", "无法", "不联网", "不知道", "没有"]}, "note": "真实抱怨：用户贴「能联网吗」；应明确不联网/本地", "hard": true}

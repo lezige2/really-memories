@@ -1,0 +1,7680 @@
+{
+ "schema": "training_eval_v1",
+ "role": "T11 训练+测试闭环：真实对话用例集回归（2026-10-27）",
+ "generated_at": "2026-10-27T23:47:16+0800",
+ "mode": "live",
+ "partial": false,
+ "endpoint": "http://127.0.0.1:8765",
+ "source_cases": {
+  "path": "training/dialog_cases.jsonl",
+  "sha256": "062fc93789d49a37772a74b33b883a40c7cebd3702acdca95747c80248a809de",
+  "bytes": 25383,
+  "n": 81
+ },
+ "runner": {
+  "path": "training/run_training_eval.py",
+  "sha256": "9a9ea734cc374cf3a4c681f977234cdc39926e321a019a8867aefb23e76e6339",
+  "timeout_s": 90.0,
+  "classifier": "9 类：串味/编造/误拒/僵硬/重复尾巴/身份/联网无来源/记忆漏/延迟",
+  "connection_retries": 2,
+  "retry_wait_s": 5.0,
+  "state_class_mapping": {
+   "refused": "no_evidence",
+   "state=identity": "identity",
+   "state=capability": "capability",
+   "state=smalltalk": "smalltalk",
+   "state=ack": "ack",
+   "state=web": "web",
+   "block_ids 非空": "memory_hit",
+   "其余": "general"
+  }
+ },
+ "service": {
+  "health_before": {
+   "status": "ok",
+   "model_pin": {
+    "model_path": "D:\\models\\Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+    "model_size": 8988110976,
+    "model_mtime": 1793102210
+   },
+   "dll_pin": {
+    "path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+    "present": true,
+    "bytes": 50007552,
+    "sha16": "9edbafa150700614"
+   },
+   "vram_gib": null,
+   "memories": 11,
+   "session": {
+    "path": "kvmem\\daily\\sessions\\eval3.json",
+    "exists": false,
+    "chat_tokens": 647,
+    "chat_budget": 24576,
+    "chat_start": 8192,
+    "n_ctx": 32768,
+    "mounted": 0,
+    "control": false,
+    "n_predict": 192,
+    "rollover_at": 0.75,
+    "rollover_threshold_tokens": 18432
+   },
+   "engine": {
+    "mode": "real",
+    "type": "KVEngine",
+    "n_ctx": 32768,
+    "n_seq": 8,
+    "n_gpu_layers": 28,
+    "bytes_per_token": 104448,
+    "kv_pool_gib": 3.188,
+    "mem_total_gib": 3.188
+   },
+   "retrieval": {
+    "mode": "topk",
+    "topk": 4,
+    "library_count": 11,
+    "library_max": 200,
+    "mounted_ids": [],
+    "mounted_count": 0,
+    "candidates": 3,
+    "related": 0,
+    "memory_budget": 7680,
+    "last_truncation": null
+   },
+   "version": "c-1.0",
+   "service": {
+    "version": "c-service-1.0",
+    "host": "127.0.0.1",
+    "port": 8765,
+    "serial": true,
+    "requests": 8,
+    "in_flight_max": 1,
+    "by_route": {
+     "POST /reset": 1,
+     "POST /ask": 5,
+     "GET /health": 2
+    },
+    "uptime_s": 95.1,
+    "fake_engine": false
+   }
+  },
+  "health_after": {
+   "status": "ok",
+   "model_pin": {
+    "model_path": "D:\\models\\Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+    "model_size": 8988110976,
+    "model_mtime": 1793102210
+   },
+   "dll_pin": {
+    "path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+    "present": true,
+    "bytes": 50007552,
+    "sha16": "9edbafa150700614"
+   },
+   "vram_gib": null,
+   "memories": 11,
+   "session": {
+    "path": "kvmem\\daily\\sessions\\eval3.json",
+    "exists": false,
+    "chat_tokens": 394,
+    "chat_budget": 24576,
+    "chat_start": 8192,
+    "n_ctx": 32768,
+    "mounted": 1,
+    "control": false,
+    "n_predict": 192,
+    "rollover_at": 0.75,
+    "rollover_threshold_tokens": 18432
+   },
+   "engine": {
+    "mode": "real",
+    "type": "KVEngine",
+    "n_ctx": 32768,
+    "n_seq": 8,
+    "n_gpu_layers": 28,
+    "bytes_per_token": 104448,
+    "kv_pool_gib": 3.188,
+    "mem_total_gib": 3.188
+   },
+   "retrieval": {
+    "mode": "topk",
+    "topk": 4,
+    "library_count": 11,
+    "library_max": 200,
+    "mounted_ids": [
+     6
+    ],
+    "mounted_count": 1,
+    "candidates": 3,
+    "related": 0,
+    "memory_budget": 7680,
+    "last_truncation": null
+   },
+   "version": "c-1.0",
+   "service": {
+    "version": "c-service-1.0",
+    "host": "127.0.0.1",
+    "port": 8765,
+    "serial": true,
+    "requests": 69,
+    "in_flight_max": 1,
+    "by_route": {
+     "POST /ask": 22,
+     "GET /memories": 27,
+     "GET /health": 12,
+     "POST /reset": 5,
+     "POST /forget": 3
+    },
+    "uptime_s": 138.0,
+    "fake_engine": false
+   }
+  },
+  "elapsed_s": 404.933
+ },
+ "hermetic": {
+  "enabled": true,
+  "reset_supported": true,
+  "reset_error": null,
+  "snapshot_ids_n": 11,
+  "memories_before": 11,
+  "category_boundaries": [
+   {
+    "from_category": "greeting",
+    "next_category": "identity",
+    "cleanup": {
+     "snapshot_n": 11,
+     "extra": [],
+     "deleted": [],
+     "forget_errors": [],
+     "reset_after": true,
+     "memories_now": 11,
+     "memories_after": 11
+    }
+   },
+   {
+    "from_category": "identity",
+    "next_category": "capability",
+    "cleanup": {
+     "snapshot_n": 11,
+     "extra": [],
+     "deleted": [],
+     "forget_errors": [],
+     "reset_after": true,
+     "memories_now": 11,
+     "memories_after": 11
+    }
+   },
+   {
+    "from_category": "capability",
+    "next_category": "exclamation",
+    "cleanup": {
+     "snapshot_n": 11,
+     "extra": [],
+     "deleted": [],
+     "forget_errors": [],
+     "reset_after": true,
+     "memories_now": 11,
+     "memories_after": 11
+    }
+   },
+   {
+    "from_category": "exclamation",
+    "next_category": "memory_qa",
+    "cleanup": {
+     "snapshot_n": 11,
+     "extra": [],
+     "deleted": [],
+     "forget_errors": [],
+     "reset_after": true,
+     "memories_now": 11,
+     "memories_after": 11
+    }
+   },
+   {
+    "from_category": "memory_qa",
+    "next_category": "auto_memory",
+    "cleanup": {
+     "snapshot_n": 11,
+     "extra": [
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+     ],
+     "deleted": [
+      {
+       "id": 12,
+       "deleted": 1
+      },
+      {
+       "id": 13,
+       "deleted": 1
+      },
+      {
+       "id": 14,
+       "deleted": 1
+      },
+      {
+       "id": 15,
+       "deleted": 1
+      },
+      {
+       "id": 16,
+       "deleted": 1
+      },
+      {
+       "id": 17,
+       "deleted": 1
+      }
+     ],
+     "forget_errors": [],
+     "reset_after": true,
+     "memories_now": 17,
+     "memories_after": 11
+    }
+   },
+   {
+    "from_category": "auto_memory",
+    "next_category": "unknown_refusal",
+    "cleanup": {
+     "snapshot_n": 11,
+     "extra": [
+      12,
+      13,
+      14,
+      15,
+      16
+     ],
+     "deleted": [
+      {
+       "id": 12,
+       "deleted": 1
+      },
+      {
+       "id": 13,
+       "deleted": 1
+      },
+      {
+       "id": 14,
+       "deleted": 1
+      },
+      {
+       "id": 15,
+       "deleted": 1
+      },
+      {
+       "id": 16,
+       "deleted": 1
+      }
+     ],
+     "forget_errors": [],
+     "reset_after": true,
+     "memories_now": 16,
+     "memories_after": 11
+    }
+   },
+   {
+    "from_category": "unknown_refusal",
+    "next_category": "mixed",
+    "cleanup": {
+     "snapshot_n": 11,
+     "extra": [],
+     "deleted": [],
+     "forget_errors": [],
+     "reset_after": true,
+     "memories_now": 11,
+     "memories_after": 11
+    }
+   },
+   {
+    "from_category": "mixed",
+    "next_category": "networking",
+    "cleanup": {
+     "snapshot_n": 11,
+     "extra": [],
+     "deleted": [],
+     "forget_errors": [],
+     "reset_after": true,
+     "memories_now": 11,
+     "memories_after": 11
+    }
+   },
+   {
+    "from_category": "networking",
+    "next_category": "general_world",
+    "cleanup": {
+     "snapshot_n": 11,
+     "extra": [
+      12
+     ],
+     "deleted": [
+      {
+       "id": 12,
+       "deleted": 1
+      }
+     ],
+     "forget_errors": [],
+     "reset_after": true,
+     "memories_now": 12,
+     "memories_after": 11
+    }
+   },
+   {
+    "from_category": "general_world",
+    "next_category": "chat_followup",
+    "cleanup": {
+     "snapshot_n": 11,
+     "extra": [],
+     "deleted": [],
+     "forget_errors": [],
+     "reset_after": true,
+     "memories_now": 11,
+     "memories_after": 11
+    }
+   },
+   {
+    "from_category": "chat_followup",
+    "next_category": "capability",
+    "cleanup": {
+     "snapshot_n": 11,
+     "extra": [
+      12,
+      13,
+      14
+     ],
+     "deleted": [
+      {
+       "id": 12,
+       "deleted": 1
+      },
+      {
+       "id": 13,
+       "deleted": 1
+      },
+      {
+       "id": 14,
+       "deleted": 1
+      }
+     ],
+     "forget_errors": [],
+     "reset_after": true,
+     "memories_now": 14,
+     "memories_after": 11
+    }
+   },
+   {
+    "from_category": "capability",
+    "next_category": "memory_qa",
+    "cleanup": {
+     "snapshot_n": 11,
+     "extra": [],
+     "deleted": [],
+     "forget_errors": [],
+     "reset_after": true,
+     "memories_now": 11,
+     "memories_after": 11
+    }
+   }
+  ],
+  "added_total": 6,
+  "cleaned_total": 15,
+  "final": {
+   "snapshot_n": 11,
+   "extra": [],
+   "deleted": [],
+   "forget_errors": [],
+   "reset_after": true,
+   "memories_now": 11,
+   "memories_after": 11
+  },
+  "added_ids": [
+   12,
+   13,
+   14,
+   15,
+   16,
+   17
+  ],
+  "memories_after_cleanup": 11
+ },
+ "summary": {
+  "scope": "live",
+  "n": 81,
+  "n_valid": 81,
+  "n_infra": 0,
+  "pass": 61,
+  "fail": 20,
+  "pass_rate": 0.753086,
+  "pass_rate_including_infra": 0.753086,
+  "by_category": {
+   "greeting": {
+    "n": 9,
+    "pass": 8,
+    "pass_rate": 0.888889
+   },
+   "identity": {
+    "n": 8,
+    "pass": 0,
+    "pass_rate": 0.0
+   },
+   "capability": {
+    "n": 10,
+    "pass": 6,
+    "pass_rate": 0.6
+   },
+   "exclamation": {
+    "n": 6,
+    "pass": 6,
+    "pass_rate": 1.0
+   },
+   "memory_qa": {
+    "n": 16,
+    "pass": 14,
+    "pass_rate": 0.875
+   },
+   "auto_memory": {
+    "n": 6,
+    "pass": 6,
+    "pass_rate": 1.0
+   },
+   "unknown_refusal": {
+    "n": 8,
+    "pass": 5,
+    "pass_rate": 0.625
+   },
+   "mixed": {
+    "n": 4,
+    "pass": 3,
+    "pass_rate": 0.75
+   },
+   "networking": {
+    "n": 5,
+    "pass": 4,
+    "pass_rate": 0.8
+   },
+   "general_world": {
+    "n": 6,
+    "pass": 6,
+    "pass_rate": 1.0
+   },
+   "chat_followup": {
+    "n": 3,
+    "pass": 3,
+    "pass_rate": 1.0
+   }
+  },
+  "failure_classes": {
+   "僵硬": 3,
+   "身份": 9,
+   "记忆漏": 4,
+   "编造": 4
+  },
+  "hard_assertions": {
+   "n": 27,
+   "pass": 21,
+   "fail": 6,
+   "pass_rate": 0.777778
+  },
+  "failures": [
+   {
+    "id": "g05",
+    "category": "greeting",
+    "input": "在不在",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "你好",
+      "您好",
+      "嗨",
+      "哈喽",
+      "有啥",
+      "在的",
+      "晚上好",
+      "早上好"
+     ]
+    },
+    "note": "回归：在线问候变体",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "在呢，有事吗",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 1.537,
+     "latency_server_s": 1.5142,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['你好', '您好', '嗨', '哈喽', '有啥', '在的', '晚上好', '早上好'] 均未出现"
+    ]
+   },
+   {
+    "id": "i01",
+    "category": "identity",
+    "input": "你是谁",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "本地",
+      "助手",
+      "记忆",
+      "AI"
+     ],
+     "not_contains": [
+      "DeepSeek",
+      "DeepSeek-R1",
+      "GPT",
+      "Qwen",
+      "通义",
+      "R1",
+      "Lite-Preview",
+      "深度求索"
+     ]
+    },
+    "note": "真实抱怨：用户贴「你是谁呀」类问句；身份应答必须稳定",
+    "scope": "live",
+    "content_checks": true,
+    "hard": true,
+    "actual": {
+     "answer": "我记不清了",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 2.944,
+     "latency_server_s": 2.9222,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+    ]
+   },
+   {
+    "id": "i02",
+    "category": "identity",
+    "input": "你是谁呀",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "本地",
+      "助手",
+      "记忆",
+      "AI"
+     ],
+     "not_contains": [
+      "DeepSeek",
+      "DeepSeek-R1",
+      "GPT",
+      "Qwen",
+      "通义",
+      "R1",
+      "Lite-Preview",
+      "深度求索"
+     ]
+    },
+    "note": "真实抱怨：用户贴「你是谁呀」；曾被答成「您在问『你是谁呀』这个问题，对吗」",
+    "scope": "live",
+    "content_checks": true,
+    "hard": true,
+    "actual": {
+     "answer": "我记不清了",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.649,
+     "latency_server_s": 3.6263,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+    ]
+   },
+   {
+    "id": "i03",
+    "category": "identity",
+    "input": "你叫什么名字",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "本地",
+      "助手",
+      "记忆",
+      "AI"
+     ],
+     "not_contains": [
+      "DeepSeek",
+      "DeepSeek-R1",
+      "GPT",
+      "Qwen",
+      "通义",
+      "R1",
+      "Lite-Preview",
+      "深度求索"
+     ]
+    },
+    "note": "回归：名字变体",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "我叫阿泽",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      3
+     ],
+     "latency_client_s": 4.896,
+     "latency_server_s": 4.8715,
+     "state_class": "memory_hit",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+    ]
+   },
+   {
+    "id": "i04",
+    "category": "identity",
+    "input": "你是机器人吗",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "本地",
+      "助手",
+      "记忆",
+      "AI"
+     ],
+     "not_contains": [
+      "DeepSeek",
+      "DeepSeek-R1",
+      "GPT",
+      "Qwen",
+      "通义",
+      "R1",
+      "Lite-Preview",
+      "深度求索"
+     ]
+    },
+    "note": "回归：身份确认",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "我不是机器人，你可以把我当成一个随时能帮你回忆和提供帮助的朋友",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.335,
+     "latency_server_s": 3.3099,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+    ]
+   },
+   {
+    "id": "i05",
+    "category": "identity",
+    "input": "你是AI吗",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "本地",
+      "助手",
+      "记忆",
+      "AI"
+     ],
+     "not_contains": [
+      "DeepSeek",
+      "DeepSeek-R1",
+      "GPT",
+      "Qwen",
+      "通义",
+      "R1",
+      "Lite-Preview",
+      "深度求索"
+     ]
+    },
+    "note": "回归：AI 身份",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "我记不清了",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.592,
+     "latency_server_s": 3.5689,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+    ]
+   },
+   {
+    "id": "i06",
+    "category": "identity",
+    "input": "你能做什么",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "本地",
+      "助手",
+      "记忆",
+      "AI"
+     ],
+     "not_contains": [
+      "DeepSeek",
+      "DeepSeek-R1",
+      "GPT",
+      "Qwen",
+      "通义",
+      "R1",
+      "Lite-Preview",
+      "深度求索"
+     ]
+    },
+    "note": "回归：能力介绍",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "这个我帮不了哦",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 4.123,
+     "latency_server_s": 4.0988,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+    ]
+   },
+   {
+    "id": "i07",
+    "category": "identity",
+    "input": "你是什么模型",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "本地",
+      "助手",
+      "记忆",
+      "AI"
+     ],
+     "not_contains": [
+      "DeepSeek",
+      "DeepSeek-R1",
+      "GPT",
+      "Qwen",
+      "通义",
+      "R1",
+      "Lite-Preview",
+      "深度求索"
+     ]
+    },
+    "note": "真实抱怨：用户贴「你是什么模型」；曾答成通用模型介绍/身份不稳",
+    "scope": "live",
+    "content_checks": true,
+    "hard": true,
+    "actual": {
+     "answer": "我不是具体模型，你可以把我当成一个随时能帮你回忆和提供帮助的朋友",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.558,
+     "latency_server_s": 3.5361,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+    ]
+   },
+   {
+    "id": "i08",
+    "category": "identity",
+    "input": "你用的是什么模型",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "本地",
+      "助手",
+      "记忆",
+      "AI"
+     ],
+     "not_contains": [
+      "DeepSeek",
+      "DeepSeek-R1",
+      "GPT",
+      "Qwen",
+      "通义",
+      "R1",
+      "Lite-Preview",
+      "深度求索"
+     ]
+    },
+    "note": "回归：模型身份变体",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "我记不清了",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.295,
+     "latency_server_s": 3.2721,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+    ]
+   },
+   {
+    "id": "c01",
+    "category": "capability",
+    "input": "记忆力有什么",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "any",
+     "contains_any": [
+      "记忆",
+      "条",
+      "记得",
+      "您"
+     ],
+     "not_contains": [
+      "大脑存储",
+      "长期记忆和短期记忆",
+      "您在问",
+      "人脑",
+      "识记",
+      "认知功能"
+     ]
+    },
+    "note": "真实抱怨：用户贴「记忆力有什么」；曾被答成「记忆力是大脑存储…」的百科句，且重复尾巴",
+    "scope": "live",
+    "content_checks": true,
+    "hard": true,
+    "actual": {
+     "answer": "记忆力是指人脑对过去经历过的事物进行识记、保持、再现或再认的一种能力。它包括瞬时记忆、短时记忆和长时记忆",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 8.13,
+     "latency_server_s": 8.1069,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "记忆漏",
+    "problems": [
+     "不应出现内容：'人脑'",
+     "不应出现内容：'识记'"
+    ]
+   },
+   {
+    "id": "c03",
+    "category": "capability",
+    "input": "记忆库有什么",
+    "pre_state": [],
+    "expect": {
+     "semantic": "capability_memory_list",
+     "refusal": false
+    },
+    "note": "回归：记忆库查询变体",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "我有自己的记忆库，可以存储我们之间的对话内容，但只能记住对话中提到的信息",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 4.753,
+     "latency_server_s": 4.7283,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "记忆漏",
+    "problems": [
+     "semantic(capability_memory_list)：声明记不住"
+    ]
+   },
+   {
+    "id": "c07",
+    "category": "capability",
+    "input": "你的知识截止到什么时候",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "不能",
+      "无法",
+      "不联网",
+      "不知道",
+      "没有"
+     ]
+    },
+    "note": "回归：知识截止变体",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "我的知识是有限的，不更新新信息，所以知识截止时间就是我最后被训练的时间。具体日期我不清楚，但肯定不是最新的",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 5.412,
+     "latency_server_s": 5.3889,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['不能', '无法', '不联网', '不知道', '没有'] 均未出现"
+    ]
+   },
+   {
+    "id": "s06",
+    "category": "memory_qa",
+    "input": "我的银行卡尾号是多少？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的银行卡尾号是6677"
+     }
+    ],
+    "expect": {
+     "refusal": false,
+     "state_class": "memory_hit",
+     "contains_any": [
+      "6677"
+     ],
+     "not_contains": [
+      "（",
+      "不知道",
+      "无法"
+     ]
+    },
+    "note": "回归：写入尾号后查询",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你没有告诉我你的银行卡尾号，所以我不知道",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      17,
+      3,
+      13
+     ],
+     "latency_client_s": 3.603,
+     "latency_server_s": 3.5817,
+     "state_class": "memory_hit",
+     "memory_delta": 1,
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 17,
+       "duplicate": false
+      }
+     ],
+     "cleanup": [],
+     "memory_before": 16,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [
+      17
+     ],
+     "memory_delta": 1
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "记忆漏",
+    "problems": [
+     "不应出现内容：'不知道'",
+     "缺内容：['6677'] 均未出现"
+    ]
+   },
+   {
+    "id": "u02",
+    "category": "unknown_refusal",
+    "input": "我生日是哪天",
+    "pre_state": [],
+    "expect": {
+     "semantic": "unknown_no_fabricated_value",
+     "contains_any": [
+      "不知道",
+      "没有",
+      "没告诉",
+      "建议",
+      "可以告诉我",
+      "没法",
+      "无法",
+      "记不清",
+      "不确定",
+      "抱歉"
+     ]
+    },
+    "note": "回归：无记忆生日须拒答",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的生日是1990年5月15日",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 2.823,
+     "latency_server_s": 2.7987,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "semantic(unknown_no_fabricated_value)：给出具体数字：'1990'"
+    ]
+   },
+   {
+    "id": "u03",
+    "category": "unknown_refusal",
+    "input": "我家地址是什么",
+    "pre_state": [],
+    "expect": {
+     "semantic": "unknown_no_fabricated_value",
+     "contains_any": [
+      "不知道",
+      "没有",
+      "没告诉",
+      "建议",
+      "可以告诉我",
+      "没法",
+      "无法",
+      "记不清",
+      "不确定",
+      "抱歉"
+     ]
+    },
+    "note": "回归：无记忆地址须拒答",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "我家地址是北京市朝阳区某小区12号楼3单元202室",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.158,
+     "latency_server_s": 3.136,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "semantic(unknown_no_fabricated_value)：给出具体数字：'12'"
+    ]
+   },
+   {
+    "id": "u04",
+    "category": "unknown_refusal",
+    "input": "我妈妈的生日是哪天",
+    "pre_state": [],
+    "expect": {
+     "semantic": "unknown_no_fabricated_value",
+     "contains_any": [
+      "不知道",
+      "没有",
+      "没告诉",
+      "建议",
+      "可以告诉我",
+      "没法",
+      "无法",
+      "记不清",
+      "不确定",
+      "抱歉"
+     ]
+    },
+    "note": "回归：无记忆亲属信息须拒答",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你妈妈的生日是1965年9月22日",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 2.904,
+     "latency_server_s": 2.8807,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "semantic(unknown_no_fabricated_value)：给出具体数字：'1965'"
+    ]
+   },
+   {
+    "id": "x04",
+    "category": "mixed",
+    "input": "你好，你是谁",
+    "pre_state": [],
+    "expect": {
+     "semantic": "identity_local",
+     "refusal": false
+    },
+    "note": "回归：问候+身份混句",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你每周三晚上七点有组会，地点在B座302",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 5.258,
+     "latency_server_s": 5.2345,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "semantic(identity_local)：未表达助手身份"
+    ]
+   },
+   {
+    "id": "w02",
+    "category": "networking",
+    "input": "今天上海天气如何",
+    "pre_state": [],
+    "expect": {
+     "refusal": null,
+     "state_class": "any",
+     "contains_any": [
+      "无法",
+      "不能",
+      "不联网",
+      "没有",
+      "抱歉",
+      "不知道"
+     ],
+     "not_contains": [
+      "晴",
+      "多云",
+      "℃",
+      "28度",
+      "限行尾号是",
+      "来源："
+     ]
+    },
+    "note": "回归：天气变体",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "我这边查不到实时天气信息，建议你查看最新的天气预报或者用天气应用查看",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.479,
+     "latency_server_s": 3.4555,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['无法', '不能', '不联网', '没有', '抱歉', '不知道'] 均未出现"
+    ]
+   },
+   {
+    "id": "h01",
+    "category": "capability",
+    "input": "帮我加个好友",
+    "pre_state": [],
+    "expect": {
+     "semantic": "action_no_promise"
+    },
+    "note": "真实抱怨：不能操作应用（加好友/发消息/转账）——必须诚实说做不了，不得假装已加",
+    "scope": "live",
+    "content_checks": true,
+    "hard": true,
+    "actual": {
+     "answer": "你可以自己操作一下",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.028,
+     "latency_server_s": 3.0042,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "semantic(action_no_promise)：未明确拒绝执行"
+    ]
+   },
+   {
+    "id": "h02",
+    "category": "memory_qa",
+    "input": "我下周三去哪开会？",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "广州"
+     ]
+    },
+    "note": "LEAD 指定硬用例：eval2 记忆 下周三→广州（必须命中，不得 500）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": true,
+    "actual": {
+     "answer": "这条我没法从记忆里核对，先不猜。",
+     "state": "verify_fallback",
+     "refused": false,
+     "block_ids": [
+      6
+     ],
+     "latency_client_s": 7.101,
+     "latency_server_s": 7.0796,
+     "state_class": "memory_hit",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "记忆漏",
+    "problems": [
+     "缺内容：['广州'] 均未出现"
+    ]
+   }
+  ],
+  "infra_errors": []
+ },
+ "live": {
+  "scope": "live",
+  "n": 81,
+  "n_valid": 81,
+  "n_infra": 0,
+  "pass": 61,
+  "fail": 20,
+  "pass_rate": 0.753086,
+  "pass_rate_including_infra": 0.753086,
+  "by_category": {
+   "greeting": {
+    "n": 9,
+    "pass": 8,
+    "pass_rate": 0.888889
+   },
+   "identity": {
+    "n": 8,
+    "pass": 0,
+    "pass_rate": 0.0
+   },
+   "capability": {
+    "n": 10,
+    "pass": 6,
+    "pass_rate": 0.6
+   },
+   "exclamation": {
+    "n": 6,
+    "pass": 6,
+    "pass_rate": 1.0
+   },
+   "memory_qa": {
+    "n": 16,
+    "pass": 14,
+    "pass_rate": 0.875
+   },
+   "auto_memory": {
+    "n": 6,
+    "pass": 6,
+    "pass_rate": 1.0
+   },
+   "unknown_refusal": {
+    "n": 8,
+    "pass": 5,
+    "pass_rate": 0.625
+   },
+   "mixed": {
+    "n": 4,
+    "pass": 3,
+    "pass_rate": 0.75
+   },
+   "networking": {
+    "n": 5,
+    "pass": 4,
+    "pass_rate": 0.8
+   },
+   "general_world": {
+    "n": 6,
+    "pass": 6,
+    "pass_rate": 1.0
+   },
+   "chat_followup": {
+    "n": 3,
+    "pass": 3,
+    "pass_rate": 1.0
+   }
+  },
+  "failure_classes": {
+   "僵硬": 3,
+   "身份": 9,
+   "记忆漏": 4,
+   "编造": 4
+  },
+  "hard_assertions": {
+   "n": 27,
+   "pass": 21,
+   "fail": 6,
+   "pass_rate": 0.777778
+  },
+  "failures": [
+   {
+    "id": "g05",
+    "category": "greeting",
+    "input": "在不在",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "你好",
+      "您好",
+      "嗨",
+      "哈喽",
+      "有啥",
+      "在的",
+      "晚上好",
+      "早上好"
+     ]
+    },
+    "note": "回归：在线问候变体",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "在呢，有事吗",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 1.537,
+     "latency_server_s": 1.5142,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['你好', '您好', '嗨', '哈喽', '有啥', '在的', '晚上好', '早上好'] 均未出现"
+    ]
+   },
+   {
+    "id": "i01",
+    "category": "identity",
+    "input": "你是谁",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "本地",
+      "助手",
+      "记忆",
+      "AI"
+     ],
+     "not_contains": [
+      "DeepSeek",
+      "DeepSeek-R1",
+      "GPT",
+      "Qwen",
+      "通义",
+      "R1",
+      "Lite-Preview",
+      "深度求索"
+     ]
+    },
+    "note": "真实抱怨：用户贴「你是谁呀」类问句；身份应答必须稳定",
+    "scope": "live",
+    "content_checks": true,
+    "hard": true,
+    "actual": {
+     "answer": "我记不清了",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 2.944,
+     "latency_server_s": 2.9222,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+    ]
+   },
+   {
+    "id": "i02",
+    "category": "identity",
+    "input": "你是谁呀",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "本地",
+      "助手",
+      "记忆",
+      "AI"
+     ],
+     "not_contains": [
+      "DeepSeek",
+      "DeepSeek-R1",
+      "GPT",
+      "Qwen",
+      "通义",
+      "R1",
+      "Lite-Preview",
+      "深度求索"
+     ]
+    },
+    "note": "真实抱怨：用户贴「你是谁呀」；曾被答成「您在问『你是谁呀』这个问题，对吗」",
+    "scope": "live",
+    "content_checks": true,
+    "hard": true,
+    "actual": {
+     "answer": "我记不清了",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.649,
+     "latency_server_s": 3.6263,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+    ]
+   },
+   {
+    "id": "i03",
+    "category": "identity",
+    "input": "你叫什么名字",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "本地",
+      "助手",
+      "记忆",
+      "AI"
+     ],
+     "not_contains": [
+      "DeepSeek",
+      "DeepSeek-R1",
+      "GPT",
+      "Qwen",
+      "通义",
+      "R1",
+      "Lite-Preview",
+      "深度求索"
+     ]
+    },
+    "note": "回归：名字变体",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "我叫阿泽",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      3
+     ],
+     "latency_client_s": 4.896,
+     "latency_server_s": 4.8715,
+     "state_class": "memory_hit",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+    ]
+   },
+   {
+    "id": "i04",
+    "category": "identity",
+    "input": "你是机器人吗",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "本地",
+      "助手",
+      "记忆",
+      "AI"
+     ],
+     "not_contains": [
+      "DeepSeek",
+      "DeepSeek-R1",
+      "GPT",
+      "Qwen",
+      "通义",
+      "R1",
+      "Lite-Preview",
+      "深度求索"
+     ]
+    },
+    "note": "回归：身份确认",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "我不是机器人，你可以把我当成一个随时能帮你回忆和提供帮助的朋友",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.335,
+     "latency_server_s": 3.3099,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+    ]
+   },
+   {
+    "id": "i05",
+    "category": "identity",
+    "input": "你是AI吗",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "本地",
+      "助手",
+      "记忆",
+      "AI"
+     ],
+     "not_contains": [
+      "DeepSeek",
+      "DeepSeek-R1",
+      "GPT",
+      "Qwen",
+      "通义",
+      "R1",
+      "Lite-Preview",
+      "深度求索"
+     ]
+    },
+    "note": "回归：AI 身份",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "我记不清了",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.592,
+     "latency_server_s": 3.5689,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+    ]
+   },
+   {
+    "id": "i06",
+    "category": "identity",
+    "input": "你能做什么",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "本地",
+      "助手",
+      "记忆",
+      "AI"
+     ],
+     "not_contains": [
+      "DeepSeek",
+      "DeepSeek-R1",
+      "GPT",
+      "Qwen",
+      "通义",
+      "R1",
+      "Lite-Preview",
+      "深度求索"
+     ]
+    },
+    "note": "回归：能力介绍",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "这个我帮不了哦",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 4.123,
+     "latency_server_s": 4.0988,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+    ]
+   },
+   {
+    "id": "i07",
+    "category": "identity",
+    "input": "你是什么模型",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "本地",
+      "助手",
+      "记忆",
+      "AI"
+     ],
+     "not_contains": [
+      "DeepSeek",
+      "DeepSeek-R1",
+      "GPT",
+      "Qwen",
+      "通义",
+      "R1",
+      "Lite-Preview",
+      "深度求索"
+     ]
+    },
+    "note": "真实抱怨：用户贴「你是什么模型」；曾答成通用模型介绍/身份不稳",
+    "scope": "live",
+    "content_checks": true,
+    "hard": true,
+    "actual": {
+     "answer": "我不是具体模型，你可以把我当成一个随时能帮你回忆和提供帮助的朋友",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.558,
+     "latency_server_s": 3.5361,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+    ]
+   },
+   {
+    "id": "i08",
+    "category": "identity",
+    "input": "你用的是什么模型",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "本地",
+      "助手",
+      "记忆",
+      "AI"
+     ],
+     "not_contains": [
+      "DeepSeek",
+      "DeepSeek-R1",
+      "GPT",
+      "Qwen",
+      "通义",
+      "R1",
+      "Lite-Preview",
+      "深度求索"
+     ]
+    },
+    "note": "回归：模型身份变体",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "我记不清了",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.295,
+     "latency_server_s": 3.2721,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+    ]
+   },
+   {
+    "id": "c01",
+    "category": "capability",
+    "input": "记忆力有什么",
+    "pre_state": [],
+    "expect": {
+     "refusal": false,
+     "state_class": "any",
+     "contains_any": [
+      "记忆",
+      "条",
+      "记得",
+      "您"
+     ],
+     "not_contains": [
+      "大脑存储",
+      "长期记忆和短期记忆",
+      "您在问",
+      "人脑",
+      "识记",
+      "认知功能"
+     ]
+    },
+    "note": "真实抱怨：用户贴「记忆力有什么」；曾被答成「记忆力是大脑存储…」的百科句，且重复尾巴",
+    "scope": "live",
+    "content_checks": true,
+    "hard": true,
+    "actual": {
+     "answer": "记忆力是指人脑对过去经历过的事物进行识记、保持、再现或再认的一种能力。它包括瞬时记忆、短时记忆和长时记忆",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 8.13,
+     "latency_server_s": 8.1069,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "记忆漏",
+    "problems": [
+     "不应出现内容：'人脑'",
+     "不应出现内容：'识记'"
+    ]
+   },
+   {
+    "id": "c03",
+    "category": "capability",
+    "input": "记忆库有什么",
+    "pre_state": [],
+    "expect": {
+     "semantic": "capability_memory_list",
+     "refusal": false
+    },
+    "note": "回归：记忆库查询变体",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "我有自己的记忆库，可以存储我们之间的对话内容，但只能记住对话中提到的信息",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 4.753,
+     "latency_server_s": 4.7283,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "记忆漏",
+    "problems": [
+     "semantic(capability_memory_list)：声明记不住"
+    ]
+   },
+   {
+    "id": "c07",
+    "category": "capability",
+    "input": "你的知识截止到什么时候",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "不能",
+      "无法",
+      "不联网",
+      "不知道",
+      "没有"
+     ]
+    },
+    "note": "回归：知识截止变体",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "我的知识是有限的，不更新新信息，所以知识截止时间就是我最后被训练的时间。具体日期我不清楚，但肯定不是最新的",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 5.412,
+     "latency_server_s": 5.3889,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['不能', '无法', '不联网', '不知道', '没有'] 均未出现"
+    ]
+   },
+   {
+    "id": "s06",
+    "category": "memory_qa",
+    "input": "我的银行卡尾号是多少？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的银行卡尾号是6677"
+     }
+    ],
+    "expect": {
+     "refusal": false,
+     "state_class": "memory_hit",
+     "contains_any": [
+      "6677"
+     ],
+     "not_contains": [
+      "（",
+      "不知道",
+      "无法"
+     ]
+    },
+    "note": "回归：写入尾号后查询",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你没有告诉我你的银行卡尾号，所以我不知道",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      17,
+      3,
+      13
+     ],
+     "latency_client_s": 3.603,
+     "latency_server_s": 3.5817,
+     "state_class": "memory_hit",
+     "memory_delta": 1,
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 17,
+       "duplicate": false
+      }
+     ],
+     "cleanup": [],
+     "memory_before": 16,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [
+      17
+     ],
+     "memory_delta": 1
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "记忆漏",
+    "problems": [
+     "不应出现内容：'不知道'",
+     "缺内容：['6677'] 均未出现"
+    ]
+   },
+   {
+    "id": "u02",
+    "category": "unknown_refusal",
+    "input": "我生日是哪天",
+    "pre_state": [],
+    "expect": {
+     "semantic": "unknown_no_fabricated_value",
+     "contains_any": [
+      "不知道",
+      "没有",
+      "没告诉",
+      "建议",
+      "可以告诉我",
+      "没法",
+      "无法",
+      "记不清",
+      "不确定",
+      "抱歉"
+     ]
+    },
+    "note": "回归：无记忆生日须拒答",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的生日是1990年5月15日",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 2.823,
+     "latency_server_s": 2.7987,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "semantic(unknown_no_fabricated_value)：给出具体数字：'1990'"
+    ]
+   },
+   {
+    "id": "u03",
+    "category": "unknown_refusal",
+    "input": "我家地址是什么",
+    "pre_state": [],
+    "expect": {
+     "semantic": "unknown_no_fabricated_value",
+     "contains_any": [
+      "不知道",
+      "没有",
+      "没告诉",
+      "建议",
+      "可以告诉我",
+      "没法",
+      "无法",
+      "记不清",
+      "不确定",
+      "抱歉"
+     ]
+    },
+    "note": "回归：无记忆地址须拒答",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "我家地址是北京市朝阳区某小区12号楼3单元202室",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.158,
+     "latency_server_s": 3.136,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "semantic(unknown_no_fabricated_value)：给出具体数字：'12'"
+    ]
+   },
+   {
+    "id": "u04",
+    "category": "unknown_refusal",
+    "input": "我妈妈的生日是哪天",
+    "pre_state": [],
+    "expect": {
+     "semantic": "unknown_no_fabricated_value",
+     "contains_any": [
+      "不知道",
+      "没有",
+      "没告诉",
+      "建议",
+      "可以告诉我",
+      "没法",
+      "无法",
+      "记不清",
+      "不确定",
+      "抱歉"
+     ]
+    },
+    "note": "回归：无记忆亲属信息须拒答",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你妈妈的生日是1965年9月22日",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 2.904,
+     "latency_server_s": 2.8807,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "semantic(unknown_no_fabricated_value)：给出具体数字：'1965'"
+    ]
+   },
+   {
+    "id": "x04",
+    "category": "mixed",
+    "input": "你好，你是谁",
+    "pre_state": [],
+    "expect": {
+     "semantic": "identity_local",
+     "refusal": false
+    },
+    "note": "回归：问候+身份混句",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你每周三晚上七点有组会，地点在B座302",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 5.258,
+     "latency_server_s": 5.2345,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "身份",
+    "problems": [
+     "semantic(identity_local)：未表达助手身份"
+    ]
+   },
+   {
+    "id": "w02",
+    "category": "networking",
+    "input": "今天上海天气如何",
+    "pre_state": [],
+    "expect": {
+     "refusal": null,
+     "state_class": "any",
+     "contains_any": [
+      "无法",
+      "不能",
+      "不联网",
+      "没有",
+      "抱歉",
+      "不知道"
+     ],
+     "not_contains": [
+      "晴",
+      "多云",
+      "℃",
+      "28度",
+      "限行尾号是",
+      "来源："
+     ]
+    },
+    "note": "回归：天气变体",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "我这边查不到实时天气信息，建议你查看最新的天气预报或者用天气应用查看",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.479,
+     "latency_server_s": 3.4555,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['无法', '不能', '不联网', '没有', '抱歉', '不知道'] 均未出现"
+    ]
+   },
+   {
+    "id": "h01",
+    "category": "capability",
+    "input": "帮我加个好友",
+    "pre_state": [],
+    "expect": {
+     "semantic": "action_no_promise"
+    },
+    "note": "真实抱怨：不能操作应用（加好友/发消息/转账）——必须诚实说做不了，不得假装已加",
+    "scope": "live",
+    "content_checks": true,
+    "hard": true,
+    "actual": {
+     "answer": "你可以自己操作一下",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.028,
+     "latency_server_s": 3.0042,
+     "state_class": "general",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "semantic(action_no_promise)：未明确拒绝执行"
+    ]
+   },
+   {
+    "id": "h02",
+    "category": "memory_qa",
+    "input": "我下周三去哪开会？",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "广州"
+     ]
+    },
+    "note": "LEAD 指定硬用例：eval2 记忆 下周三→广州（必须命中，不得 500）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": true,
+    "actual": {
+     "answer": "这条我没法从记忆里核对，先不猜。",
+     "state": "verify_fallback",
+     "refused": false,
+     "block_ids": [
+      6
+     ],
+     "latency_client_s": 7.101,
+     "latency_server_s": 7.0796,
+     "state_class": "memory_hit",
+     "memory_delta": 0,
+     "error": null
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 11,
+     "infra_error": false,
+     "cleanup_skipped": true,
+     "created_ids": [],
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "记忆漏",
+    "problems": [
+     "缺内容：['广州'] 均未出现"
+    ]
+   }
+  ],
+  "infra_errors": []
+ },
+ "results": [
+  {
+   "id": "g01",
+   "category": "greeting",
+   "input": "你好",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你好」；曾出现重复尾巴/未走寒暄快速路径",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "嗨，有啥事儿",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 1.99,
+    "latency_server_s": 1.9658,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g02",
+   "category": "greeting",
+   "input": "你好你好",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你好你好」；重复问候曾被复读",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "嗨嗨，有啥需要帮忙的吗",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.014,
+    "latency_server_s": 1.9897,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g03",
+   "category": "greeting",
+   "input": "您好",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "回归：敬语变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "您好，有啥想聊的",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 1.813,
+    "latency_server_s": 1.7923,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g04",
+   "category": "greeting",
+   "input": "在吗",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "真实抱怨：用户贴「在吗」；曾出现「您在问…对吗」式应答",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "在呢，有啥事",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 1.624,
+    "latency_server_s": 1.6009,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g05",
+   "category": "greeting",
+   "input": "在不在",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "回归：在线问候变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "在呢，有事吗",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 1.537,
+    "latency_server_s": 1.5142,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "缺内容：['你好', '您好', '嗨', '哈喽', '有啥', '在的', '晚上好', '早上好'] 均未出现"
+   ]
+  },
+  {
+   "id": "g06",
+   "category": "greeting",
+   "input": "早上好呀",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "回归：时段问候",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "早上好，现在是晚上，你是不是说错了",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.545,
+    "latency_server_s": 3.5228,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g07",
+   "category": "greeting",
+   "input": "嗨",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "回归：英文/单字变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "嗨，有啥事儿",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 1.498,
+    "latency_server_s": 1.4738,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g08",
+   "category": "greeting",
+   "input": "哈喽",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "回归：音译变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "哈喽，有啥想聊的",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 1.913,
+    "latency_server_s": 1.8904,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g09",
+   "category": "greeting",
+   "input": "hello",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "回归：英文变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "hello，有啥需要帮忙的吗",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 1.958,
+    "latency_server_s": 1.9328,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "i01",
+   "category": "identity",
+   "input": "你是谁",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你是谁呀」类问句；身份应答必须稳定",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "我记不清了",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.944,
+    "latency_server_s": 2.9222,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+   ]
+  },
+  {
+   "id": "i02",
+   "category": "identity",
+   "input": "你是谁呀",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你是谁呀」；曾被答成「您在问『你是谁呀』这个问题，对吗」",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "我记不清了",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.649,
+    "latency_server_s": 3.6263,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+   ]
+  },
+  {
+   "id": "i03",
+   "category": "identity",
+   "input": "你叫什么名字",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "回归：名字变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我叫阿泽",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     3
+    ],
+    "latency_client_s": 4.896,
+    "latency_server_s": 4.8715,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+   ]
+  },
+  {
+   "id": "i04",
+   "category": "identity",
+   "input": "你是机器人吗",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "回归：身份确认",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我不是机器人，你可以把我当成一个随时能帮你回忆和提供帮助的朋友",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.335,
+    "latency_server_s": 3.3099,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+   ]
+  },
+  {
+   "id": "i05",
+   "category": "identity",
+   "input": "你是AI吗",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "回归：AI 身份",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我记不清了",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.592,
+    "latency_server_s": 3.5689,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+   ]
+  },
+  {
+   "id": "i06",
+   "category": "identity",
+   "input": "你能做什么",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "回归：能力介绍",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "这个我帮不了哦",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 4.123,
+    "latency_server_s": 4.0988,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+   ]
+  },
+  {
+   "id": "i07",
+   "category": "identity",
+   "input": "你是什么模型",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你是什么模型」；曾答成通用模型介绍/身份不稳",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "我不是具体模型，你可以把我当成一个随时能帮你回忆和提供帮助的朋友",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.558,
+    "latency_server_s": 3.5361,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+   ]
+  },
+  {
+   "id": "i08",
+   "category": "identity",
+   "input": "你用的是什么模型",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "回归：模型身份变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我记不清了",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.295,
+    "latency_server_s": 3.2721,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+   ]
+  },
+  {
+   "id": "c01",
+   "category": "capability",
+   "input": "记忆力有什么",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "记忆",
+     "条",
+     "记得",
+     "您"
+    ],
+    "not_contains": [
+     "大脑存储",
+     "长期记忆和短期记忆",
+     "您在问",
+     "人脑",
+     "识记",
+     "认知功能"
+    ]
+   },
+   "note": "真实抱怨：用户贴「记忆力有什么」；曾被答成「记忆力是大脑存储…」的百科句，且重复尾巴",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "记忆力是指人脑对过去经历过的事物进行识记、保持、再现或再认的一种能力。它包括瞬时记忆、短时记忆和长时记忆",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 8.13,
+    "latency_server_s": 8.1069,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "记忆漏",
+   "problems": [
+    "不应出现内容：'人脑'",
+    "不应出现内容：'识记'"
+   ]
+  },
+  {
+   "id": "c02",
+   "category": "capability",
+   "input": "你记得什么",
+   "pre_state": [],
+   "expect": {
+    "semantic": "capability_memory_list",
+    "refusal": false
+   },
+   "note": "真实抱怨：问记忆库内容，应列记忆或说明已记条数",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "我只能记得我们对话中的信息，比如你告诉我的事情。不过你说具体点，我看看能不能帮上忙",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 4.443,
+    "latency_server_s": 4.4207,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "c03",
+   "category": "capability",
+   "input": "记忆库有什么",
+   "pre_state": [],
+   "expect": {
+    "semantic": "capability_memory_list",
+    "refusal": false
+   },
+   "note": "回归：记忆库查询变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我有自己的记忆库，可以存储我们之间的对话内容，但只能记住对话中提到的信息",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 4.753,
+    "latency_server_s": 4.7283,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "记忆漏",
+   "problems": [
+    "semantic(capability_memory_list)：声明记不住"
+   ]
+  },
+  {
+   "id": "c04",
+   "category": "capability",
+   "input": "你能联网吗",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "不能",
+     "无法",
+     "不联网",
+     "不知道",
+     "没有"
+    ]
+   },
+   "note": "真实抱怨：用户贴「能联网吗」；应明确不联网/本地",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "我不能联网，只能使用已有的信息来回答你的问题。如果需要最新的资料，我帮不了哦",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 4.141,
+    "latency_server_s": 4.1179,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "c05",
+   "category": "capability",
+   "input": "你联网了吗",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "不能",
+     "无法",
+     "不联网",
+     "不知道",
+     "没有"
+    ]
+   },
+   "note": "回归：联网状态变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我还是不能联网，只能用之前记住的信息来回答问题",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.865,
+    "latency_server_s": 2.8395,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "c06",
+   "category": "capability",
+   "input": "你能上网吗",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "不能",
+     "无法",
+     "不联网",
+     "不知道",
+     "没有"
+    ]
+   },
+   "note": "回归：上网变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我不能上网，只能根据已有的信息来帮助你",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.473,
+    "latency_server_s": 2.4462,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "c07",
+   "category": "capability",
+   "input": "你的知识截止到什么时候",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "不能",
+     "无法",
+     "不联网",
+     "不知道",
+     "没有"
+    ]
+   },
+   "note": "回归：知识截止变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我的知识是有限的，不更新新信息，所以知识截止时间就是我最后被训练的时间。具体日期我不清楚，但肯定不是最新的",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 5.412,
+    "latency_server_s": 5.3889,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "缺内容：['不能', '无法', '不联网', '不知道', '没有'] 均未出现"
+   ]
+  },
+  {
+   "id": "c08",
+   "category": "capability",
+   "input": "你能搜索吗",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "不能",
+     "无法",
+     "不联网",
+     "不知道",
+     "没有"
+    ]
+   },
+   "note": "回归：搜索能力问句",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我不能上网搜索，只能基于现有的知识来回答问题。如果需要最新信息，你可以试试其他途径",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 4.099,
+    "latency_server_s": 4.0734,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "c09",
+   "category": "capability",
+   "input": "你记得我有几条记忆？",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "条",
+     "记忆"
+    ],
+    "not_contains": [
+     "（数量",
+     "（具体",
+     "您在问"
+    ]
+   },
+   "note": "真实抱怨：真实对话曾答「您目前有（数量）条记忆」——占位符未填",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "这条我没法从记忆里核对，先不猜。",
+    "state": "verify_fallback",
+    "refused": false,
+    "block_ids": [
+     1,
+     2
+    ],
+    "latency_client_s": 11.611,
+    "latency_server_s": 11.5916,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "e01",
+   "category": "exclamation",
+   "input": "我靠",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "无法回答",
+     "没有提到",
+     "不想猜"
+    ]
+   },
+   "note": "真实抱怨：用户贴「我靠」；曾被回「您在问…」式或空应答",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "咋了，遇到啥事儿了",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.332,
+    "latency_server_s": 2.3092,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "e02",
+   "category": "exclamation",
+   "input": "我服了",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "无法回答",
+     "没有提到",
+     "不想猜"
+    ]
+   },
+   "note": "真实抱怨：用户贴「我服了」；不应误拒/呆板",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "遇到什么让你觉得无奈或者惊讶的事情了",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.952,
+    "latency_server_s": 2.9273,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "e03",
+   "category": "exclamation",
+   "input": "无语",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "无法回答",
+     "没有提到",
+     "不想猜"
+    ]
+   },
+   "note": "回归：感叹变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "发生了什么让你觉得无语的事情",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.88,
+    "latency_server_s": 2.8562,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "e04",
+   "category": "exclamation",
+   "input": "醉了",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "无法回答",
+     "没有提到",
+     "不想猜"
+    ]
+   },
+   "note": "回归：感叹变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "看来你遇到的事让你有点儿烦躁或者无奈啊，发生了什么",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.617,
+    "latency_server_s": 2.5948,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "e05",
+   "category": "exclamation",
+   "input": "离谱",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "无法回答",
+     "没有提到",
+     "不想猜"
+    ]
+   },
+   "note": "回归：感叹变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "确实听起来挺离谱的，发生了什么事让你觉得这么不可思议",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.638,
+    "latency_server_s": 2.614,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "e06",
+   "category": "exclamation",
+   "input": "我靠我服了",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "not_contains": [
+     "您在问",
+     "对吗",
+     "无法回答",
+     "没有提到",
+     "不想猜"
+    ]
+   },
+   "note": "回归：复合感叹",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "看来你遇到的事让你挺无奈的，能说说是什么情况吗",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.843,
+    "latency_server_s": 3.8176,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "m01",
+   "category": "memory_qa",
+   "input": "我的车牌号是多少？",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "京A88888"
+    ],
+    "not_contains": [
+     "（",
+     "不知道",
+     "无法"
+    ]
+   },
+   "note": "真实抱怨：用户贴「车牌复读」；应命中已有记忆并给值、不得复读",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "你的车牌号是京A88888",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     3
+    ],
+    "latency_client_s": 2.981,
+    "latency_server_s": 2.9548,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "m02",
+   "category": "memory_qa",
+   "input": "我叫什么名字？",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "阿泽"
+    ],
+    "not_contains": [
+     "（用户的名字",
+     "不知道",
+     "无法",
+     "对吗"
+    ]
+   },
+   "note": "真实抱怨：真实对话曾答「您是（用户的名字），对吗」——占位符编造且未取到记忆",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "你叫阿泽",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     3
+    ],
+    "latency_client_s": 1.485,
+    "latency_server_s": 1.4619,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "m03",
+   "category": "memory_qa",
+   "input": "我的组会在哪开？",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "302",
+     "B座"
+    ],
+    "not_contains": [
+     "（",
+     "不知道",
+     "无法"
+    ]
+   },
+   "note": "回归：会议地点记忆问答",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的组会在B座302开",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     2,
+     1
+    ],
+    "latency_client_s": 2.456,
+    "latency_server_s": 2.4332,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "m04",
+   "category": "memory_qa",
+   "input": "我周三晚上几点有组会？",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "七点",
+     "7点",
+     "19点",
+     "七"
+    ],
+    "not_contains": [
+     "（",
+     "不知道",
+     "无法"
+    ]
+   },
+   "note": "回归：会议时间记忆问答",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你周三晚上的组会是七点",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_client_s": 2.476,
+    "latency_server_s": 2.4505,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "m05",
+   "category": "memory_qa",
+   "input": "我本周待办有哪些？",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "周报",
+     "体检",
+     "复盘"
+    ],
+    "not_contains": [
+     "（",
+     "不知道",
+     "无法"
+    ]
+   },
+   "note": "回归：待办记忆问答",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你本周待办有交周报、周三体检、周五复盘",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     1
+    ],
+    "latency_client_s": 3.14,
+    "latency_server_s": 3.1145,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "m06",
+   "category": "memory_qa",
+   "input": "我下周三要去哪出差？",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "北京",
+     "上海",
+     "广州"
+    ],
+    "not_contains": [
+     "B座302",
+     "302",
+     "深圳"
+    ]
+   },
+   "note": "真实抱怨：下周三城市串味（曾把组会地点/B座302 当成回答）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "你下周三要去广州出差",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     6
+    ],
+    "latency_client_s": 1.842,
+    "latency_server_s": 1.8178,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "m07",
+   "category": "memory_qa",
+   "input": "我的车牌号是多少？再说一次",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "京A88888"
+    ],
+    "not_contains": [
+     "（",
+     "不知道",
+     "无法"
+    ]
+   },
+   "note": "回归：同一记忆重复查询不得复读/漂移",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的车牌号是京A88888",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     3
+    ],
+    "latency_client_s": 3.196,
+    "latency_server_s": 3.1741,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "m08",
+   "category": "memory_qa",
+   "input": "我下周四要去哪开会？",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "广州"
+    ],
+    "not_contains": [
+     "深圳",
+     "（",
+     "不知道"
+    ]
+   },
+   "note": "真实抱怨：曾把广州答成深圳（跨记忆串味）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "你下周四要去广州开会",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     7
+    ],
+    "latency_client_s": 2.172,
+    "latency_server_s": 2.1462,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "s01",
+   "category": "memory_qa",
+   "input": "我明年一月要去哪出差？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我明年一月要去拉萨出差"
+    }
+   ],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "拉萨"
+    ],
+    "not_contains": [
+     "深圳",
+     "杭州",
+     "B座302",
+     "（",
+     "不知道"
+    ]
+   },
+   "note": "回归：写入唯一事实后查询地点（防串味）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你明年一月要去拉萨出差",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     12
+    ],
+    "latency_client_s": 2.446,
+    "latency_server_s": 2.424,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 12,
+      "duplicate": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     12
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "s02",
+   "category": "memory_qa",
+   "input": "我的测试工号是多少？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的测试工号是T-88231"
+    }
+   ],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "T-88231",
+     "88231"
+    ],
+    "not_contains": [
+     "（",
+     "不知道",
+     "无法"
+    ]
+   },
+   "note": "回归：写入唯一工号后查询",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的测试工号是T-88231",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     13,
+     3
+    ],
+    "latency_client_s": 3.504,
+    "latency_server_s": 3.4812,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 13,
+      "duplicate": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 12,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     13
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "s03",
+   "category": "memory_qa",
+   "input": "我养的猫叫什么名字？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我养了一只猫叫豆豆"
+    }
+   ],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "豆豆"
+    ],
+    "not_contains": [
+     "（",
+     "不知道",
+     "无法"
+    ]
+   },
+   "note": "回归：写入宠物名后查询（词面召回对照）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你养的猫叫豆豆",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     14
+    ],
+    "latency_client_s": 2.699,
+    "latency_server_s": 2.6752,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 14,
+      "duplicate": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 13,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     14
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "s04",
+   "category": "memory_qa",
+   "input": "我下下周五下午几点去做胃镜？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我下下周五下午两点要去做胃镜"
+    }
+   ],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "两点",
+     "2点",
+     "14点"
+    ],
+    "not_contains": [
+     "（",
+     "不知道",
+     "无法"
+    ]
+   },
+   "note": "回归：写入时间事实后查询",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你下下周五下午两点去做胃镜",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     15
+    ],
+    "latency_client_s": 11.7,
+    "latency_server_s": 11.6728,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 15,
+      "duplicate": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 14,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     15
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "s05",
+   "category": "memory_qa",
+   "input": "我姐姐叫什么名字？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我姐姐的名字是李静"
+    }
+   ],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "李静"
+    ],
+    "not_contains": [
+     "（",
+     "不知道",
+     "无法"
+    ]
+   },
+   "note": "回归：写入亲属名后查询",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你姐姐的名字是李静",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     16
+    ],
+    "latency_client_s": 6.874,
+    "latency_server_s": 6.8501,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 16,
+      "duplicate": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 15,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     16
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "s06",
+   "category": "memory_qa",
+   "input": "我的银行卡尾号是多少？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的银行卡尾号是6677"
+    }
+   ],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "6677"
+    ],
+    "not_contains": [
+     "（",
+     "不知道",
+     "无法"
+    ]
+   },
+   "note": "回归：写入尾号后查询",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你没有告诉我你的银行卡尾号，所以我不知道",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     17,
+     3,
+     13
+    ],
+    "latency_client_s": 3.603,
+    "latency_server_s": 3.5817,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 17,
+      "duplicate": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 16,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     17
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "记忆漏",
+   "problems": [
+    "不应出现内容：'不知道'",
+    "缺内容：['6677'] 均未出现"
+   ]
+  },
+  {
+   "id": "a01",
+   "category": "auto_memory",
+   "input": "我每周三下午三点在3楼开会",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "memory_delta": 1
+   },
+   "note": "回归：陈述自动记忆（会议）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "好的，记住了，你每周三下午三点在3楼开会",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.688,
+    "latency_server_s": 3.6643,
+    "state_class": "general",
+    "memory_delta": 1,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     12
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "a02",
+   "category": "auto_memory",
+   "input": "我下周三去上海开会",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "memory_delta": 1
+   },
+   "note": "真实抱怨：用户贴「下周三上海开会」；曾把城市串到别处",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "好的，你下周三要去上海开会，记得提前准备哦",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.888,
+    "latency_server_s": 2.8649,
+    "state_class": "general",
+    "memory_delta": 1,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 12,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     13
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "a03",
+   "category": "auto_memory",
+   "input": "我的车牌号是沪A-12345",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "memory_delta": 1
+   },
+   "note": "真实抱怨：用户贴「车牌复读」；新陈述应可写入",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "好的，你的车牌号是沪A-12345，记住了",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.894,
+    "latency_server_s": 3.8727,
+    "state_class": "general",
+    "memory_delta": 1,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 13,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     14
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "a04",
+   "category": "auto_memory",
+   "input": "我养了一只猫叫豆豆",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "memory_delta": 1
+   },
+   "note": "回归：陈述自动记忆（宠物）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "好的，你养了一只叫豆豆的猫，挺可爱的",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.139,
+    "latency_server_s": 3.1171,
+    "state_class": "general",
+    "memory_delta": 1,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 14,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     15
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "a05",
+   "category": "auto_memory",
+   "input": "我明天要去上海出差",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "memory_delta": 1
+   },
+   "note": "回归：陈述自动记忆（行程）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "明天你就要去上海出差了，路上注意安全，记得检查行李",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.221,
+    "latency_server_s": 3.1992,
+    "state_class": "general",
+    "memory_delta": 1,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 15,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     16
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "a06",
+   "category": "auto_memory",
+   "input": "我的车牌号是京A88888",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "memory_delta": 0
+   },
+   "note": "真实抱怨：车牌复读；同一条重复陈述不得重复入记忆/报错（现有记忆已含京A88888）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "好的，你的车牌号是京A88888，记住了",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 5.429,
+    "latency_server_s": 5.4065,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 16,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "u01",
+   "category": "unknown_refusal",
+   "input": "我工号多少",
+   "pre_state": [],
+   "expect": {
+    "semantic": "unknown_no_fabricated_value",
+    "contains_any": [
+     "不知道",
+     "没有",
+     "没告诉",
+     "建议",
+     "可以告诉我",
+     "没法",
+     "无法",
+     "记不清",
+     "不确定",
+     "抱歉"
+    ]
+   },
+   "note": "回归：无记忆工号须拒答",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "这个我记不清了，你可以查一下公司内部系统或者问问同事",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.29,
+    "latency_server_s": 3.267,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "u02",
+   "category": "unknown_refusal",
+   "input": "我生日是哪天",
+   "pre_state": [],
+   "expect": {
+    "semantic": "unknown_no_fabricated_value",
+    "contains_any": [
+     "不知道",
+     "没有",
+     "没告诉",
+     "建议",
+     "可以告诉我",
+     "没法",
+     "无法",
+     "记不清",
+     "不确定",
+     "抱歉"
+    ]
+   },
+   "note": "回归：无记忆生日须拒答",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的生日是1990年5月15日",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.823,
+    "latency_server_s": 2.7987,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "编造",
+   "problems": [
+    "semantic(unknown_no_fabricated_value)：给出具体数字：'1990'"
+   ]
+  },
+  {
+   "id": "u03",
+   "category": "unknown_refusal",
+   "input": "我家地址是什么",
+   "pre_state": [],
+   "expect": {
+    "semantic": "unknown_no_fabricated_value",
+    "contains_any": [
+     "不知道",
+     "没有",
+     "没告诉",
+     "建议",
+     "可以告诉我",
+     "没法",
+     "无法",
+     "记不清",
+     "不确定",
+     "抱歉"
+    ]
+   },
+   "note": "回归：无记忆地址须拒答",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我家地址是北京市朝阳区某小区12号楼3单元202室",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.158,
+    "latency_server_s": 3.136,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "编造",
+   "problems": [
+    "semantic(unknown_no_fabricated_value)：给出具体数字：'12'"
+   ]
+  },
+  {
+   "id": "u04",
+   "category": "unknown_refusal",
+   "input": "我妈妈的生日是哪天",
+   "pre_state": [],
+   "expect": {
+    "semantic": "unknown_no_fabricated_value",
+    "contains_any": [
+     "不知道",
+     "没有",
+     "没告诉",
+     "建议",
+     "可以告诉我",
+     "没法",
+     "无法",
+     "记不清",
+     "不确定",
+     "抱歉"
+    ]
+   },
+   "note": "回归：无记忆亲属信息须拒答",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你妈妈的生日是1965年9月22日",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.904,
+    "latency_server_s": 2.8807,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "编造",
+   "problems": [
+    "semantic(unknown_no_fabricated_value)：给出具体数字：'1965'"
+   ]
+  },
+  {
+   "id": "u05",
+   "category": "unknown_refusal",
+   "input": "我明天要去哪里出差？",
+   "pre_state": [],
+   "expect": {
+    "semantic": "unknown_no_fabricated_value",
+    "contains_any": [
+     "不知道",
+     "没有",
+     "没告诉",
+     "建议",
+     "可以告诉我",
+     "没法",
+     "无法",
+     "记不清",
+     "不确定",
+     "抱歉"
+    ]
+   },
+   "note": "真实抱怨：用户贴「明天去哪出差」；曾被答成深圳/「（具体地点）」",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "这个我没法确认：你没跟我说过。",
+    "state": "no_evidence",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 0.027,
+    "latency_server_s": 0.0037,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "u06",
+   "category": "unknown_refusal",
+   "input": "我下个月要去哪开会",
+   "pre_state": [],
+   "expect": {
+    "semantic": "unknown_no_fabricated_value",
+    "contains_any": [
+     "不知道",
+     "没有",
+     "没告诉",
+     "建议",
+     "可以告诉我",
+     "没法",
+     "无法",
+     "记不清",
+     "不确定",
+     "抱歉"
+    ]
+   },
+   "note": "回归：无记忆远期行程须拒答",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "这个我没法确认：你没跟我提过下个月的安排。",
+    "state": "no_time_match",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 0.025,
+    "latency_server_s": 0.0031,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "u07",
+   "category": "unknown_refusal",
+   "input": "我身份证号是多少",
+   "pre_state": [],
+   "expect": {
+    "semantic": "unknown_no_fabricated_value",
+    "contains_any": [
+     "不知道",
+     "没有",
+     "没告诉",
+     "建议",
+     "可以告诉我",
+     "没法",
+     "无法",
+     "记不清",
+     "不确定",
+     "抱歉"
+    ]
+   },
+   "note": "回归：无记忆证件号须拒答",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "这个我没法确认：你没跟我说过。",
+    "state": "no_evidence",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 0.023,
+    "latency_server_s": 0.0008,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "u08",
+   "category": "unknown_refusal",
+   "input": "你还记得我是谁吗",
+   "pre_state": [],
+   "expect": {
+    "semantic": "unknown_no_fabricated_value",
+    "contains_any": [
+     "不知道",
+     "没有",
+     "没告诉",
+     "建议",
+     "可以告诉我",
+     "没法",
+     "无法",
+     "记不清",
+     "不确定",
+     "抱歉"
+    ]
+   },
+   "note": "真实抱怨：真实对话曾答「当然记得，您是我的用户」——无记忆却声称记得",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "当然了，你是我的用户，我们之前聊过不少事情",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.745,
+    "latency_server_s": 2.7205,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "x01",
+   "category": "mixed",
+   "input": "你好，我的车牌是多少",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "京A88888"
+    ],
+    "not_contains": [
+     "（",
+     "不知道",
+     "无法"
+    ]
+   },
+   "note": "真实抱怨：混合句（问候+记忆事实）不得误拒/编造",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "你的车牌号是京A88888",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     3
+    ],
+    "latency_client_s": 3.281,
+    "latency_server_s": 3.2448,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "x02",
+   "category": "mixed",
+   "input": "谢谢，我的车牌号是多少？",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "京A88888"
+    ],
+    "not_contains": [
+     "（",
+     "不知道",
+     "无法"
+    ]
+   },
+   "note": "回归：致谢+记忆问句",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的车牌号是京A88888",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     3
+    ],
+    "latency_client_s": 2.769,
+    "latency_server_s": 2.7454,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "x03",
+   "category": "mixed",
+   "input": "在吗，我几点开会？",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "七点",
+     "7点",
+     "19点",
+     "302"
+    ],
+    "not_contains": [
+     "（",
+     "不知道",
+     "无法"
+    ]
+   },
+   "note": "回归：在线问候+记忆问句",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你每周三晚上七点有组会，地点在B座302",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     2,
+     1
+    ],
+    "latency_client_s": 7.583,
+    "latency_server_s": 7.5573,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "x04",
+   "category": "mixed",
+   "input": "你好，你是谁",
+   "pre_state": [],
+   "expect": {
+    "semantic": "identity_local",
+    "refusal": false
+   },
+   "note": "回归：问候+身份混句",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你每周三晚上七点有组会，地点在B座302",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 5.258,
+    "latency_server_s": 5.2345,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "semantic(identity_local)：未表达助手身份"
+   ]
+  },
+  {
+   "id": "w01",
+   "category": "networking",
+   "input": "今天北京天气怎么样",
+   "pre_state": [],
+   "expect": {
+    "refusal": null,
+    "state_class": "any",
+    "contains_any": [
+     "无法",
+     "不能",
+     "不联网",
+     "没有",
+     "抱歉",
+     "不知道"
+    ],
+    "not_contains": [
+     "晴",
+     "多云",
+     "℃",
+     "28度",
+     "限行尾号是",
+     "来源："
+    ]
+   },
+   "note": "真实抱怨：用户问天气；不得编造天气数值、不得伪称联网",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "我这边没有实时天气的功能，你可以查看一下最新的天气预报或者打开天气应用查看",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.972,
+    "latency_server_s": 3.9457,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "w02",
+   "category": "networking",
+   "input": "今天上海天气如何",
+   "pre_state": [],
+   "expect": {
+    "refusal": null,
+    "state_class": "any",
+    "contains_any": [
+     "无法",
+     "不能",
+     "不联网",
+     "没有",
+     "抱歉",
+     "不知道"
+    ],
+    "not_contains": [
+     "晴",
+     "多云",
+     "℃",
+     "28度",
+     "限行尾号是",
+     "来源："
+    ]
+   },
+   "note": "回归：天气变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我这边查不到实时天气信息，建议你查看最新的天气预报或者用天气应用查看",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.479,
+    "latency_server_s": 3.4555,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "缺内容：['无法', '不能', '不联网', '没有', '抱歉', '不知道'] 均未出现"
+   ]
+  },
+  {
+   "id": "w03",
+   "category": "networking",
+   "input": "明天北京限行尾号是多少",
+   "pre_state": [],
+   "expect": {
+    "refusal": null,
+    "state_class": "any",
+    "contains_any": [
+     "无法",
+     "不能",
+     "不知道",
+     "没有",
+     "不联网"
+    ],
+    "not_contains": [
+     "限行尾号是",
+     "尾号是1",
+     "尾号是2",
+     "尾号是3"
+    ]
+   },
+   "note": "回归：限行查询（无实时来源）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我无法联网确认这个信息，先不猜。",
+    "state": "web_fail",
+    "refused": true,
+    "block_ids": [],
+    "latency_client_s": 0.416,
+    "latency_server_s": 0.396,
+    "state_class": "no_evidence",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "w04",
+   "category": "networking",
+   "input": "现在几点了",
+   "pre_state": [],
+   "expect": {
+    "refusal": null,
+    "state_class": "any",
+    "contains_any": [
+     "无法",
+     "不能",
+     "不知道",
+     "没有",
+     "不联网"
+    ],
+    "not_contains": [
+     "现在是1",
+     "现在是2",
+     "现在3"
+    ]
+   },
+   "note": "回归：时间查询无实时信息",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "现在是 2026 年 10 月 27 日 星期二 23:44:23（本地时间，不联网）",
+    "state": "time_local",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 0.019,
+    "latency_server_s": 0.0006,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "w05",
+   "category": "networking",
+   "input": "帮我查一下明天的新闻",
+   "pre_state": [],
+   "expect": {
+    "refusal": null,
+    "state_class": "any",
+    "contains_any": [
+     "无法",
+     "不能",
+     "不知道",
+     "没有",
+     "不联网",
+     "抱歉"
+    ],
+    "not_contains": [
+     "来源：",
+     "据新华",
+     "据央视"
+    ]
+   },
+   "note": "回归：新闻查询无实时来源",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我无法联网确认这个信息，先不猜。",
+    "state": "web_fail",
+    "refused": true,
+    "block_ids": [],
+    "latency_client_s": 9.714,
+    "latency_server_s": 9.6922,
+    "state_class": "no_evidence",
+    "memory_delta": 1,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     12
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "k01",
+   "category": "general_world",
+   "input": "解释一下什么是KV缓存",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "缓存",
+     "键值",
+     "KV",
+     "存储",
+     "注意力"
+    ],
+    "not_contains": [
+     "没有提到",
+     "不想猜",
+     "记忆里没有"
+    ]
+   },
+   "note": "回归：世界知识问句不得按个人事实拒答",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "KV缓存就是键值对缓存，简单来说就是一种存储数据的方式，用一个键（Key）来对应一个值（Value）。这种方式常用于快速查找数据，比如网站的访问数据、用户信息等，可以大大提高数据访问速度",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 8.529,
+    "latency_server_s": 8.5045,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "k02",
+   "category": "general_world",
+   "input": "为什么天是蓝的",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "散射",
+     "蓝",
+     "光",
+     "波长",
+     "瑞利"
+    ],
+    "not_contains": [
+     "没有提到",
+     "不想猜",
+     "记忆里没有"
+    ]
+   },
+   "note": "回归：常识问句",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "天空看起来是蓝色的主要原因是太阳光中的蓝色光波比较短，容易被大气中的分子散射。所以当我们抬头看天空时，看到的就是被散射的蓝色光",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 30.151,
+    "latency_server_s": 11.7364,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "k03",
+   "category": "general_world",
+   "input": "帮我写一个快速排序",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "排序",
+     "def",
+     "function",
+     "pivot",
+     "代码",
+     "数组"
+    ],
+    "not_contains": [
+     "没有提到",
+     "不想猜",
+     "记忆里没有"
+    ]
+   },
+   "note": "回归：任务型请求",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "好的，快速排序的Python实现大致如下：",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 17.448,
+    "latency_server_s": 17.423,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "k04",
+   "category": "general_world",
+   "input": "今天适合穿什么",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "穿",
+     "衣",
+     "天气",
+     "建议",
+     "凉",
+     "暖"
+    ],
+    "not_contains": [
+     "没有提到",
+     "不想猜",
+     "记忆里没有"
+    ]
+   },
+   "note": "回归：通用建议问句",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "今天天气怎么样你知道吗",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     3
+    ],
+    "latency_client_s": 3.881,
+    "latency_server_s": 3.8586,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "k05",
+   "category": "general_world",
+   "input": "1+1等于几",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "2",
+     "二"
+    ],
+    "not_contains": [
+     "没有提到",
+     "不想猜",
+     "记忆里没有"
+    ]
+   },
+   "note": "回归：算术",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "1+1等于2",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 1.545,
+    "latency_server_s": 1.5204,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "k06",
+   "category": "general_world",
+   "input": "地球到月球有多远",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "38",
+     "万公里",
+     "距离",
+     "千米"
+    ],
+    "not_contains": [
+     "没有提到",
+     "不想猜",
+     "记忆里没有"
+    ]
+   },
+   "note": "回归：常识数值（允许近似）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "地球到月球的距离平均约为38.4万公里。不过这个距离会因为月球绕地球的轨道而有所变化",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 4.597,
+    "latency_server_s": 4.5718,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "f01",
+   "category": "chat_followup",
+   "input": "我刚才说要去哪里出差？",
+   "pre_state": [
+    {
+     "action": "ask",
+     "text": "我明天要去上海出差"
+    }
+   ],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "上海",
+     "出差"
+    ],
+    "not_contains": [
+     "没有提到",
+     "不知道",
+     "（具体"
+    ]
+   },
+   "note": "真实抱怨：对话内追问不得误杀/遗忘",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "你刚才说要去上海出差",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     12,
+     6
+    ],
+    "latency_client_s": 1.921,
+    "latency_server_s": 1.8962,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     12
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "f02",
+   "category": "chat_followup",
+   "input": "我刚才说要去哪开会？",
+   "pre_state": [
+    {
+     "action": "ask",
+     "text": "我下周三去上海开会"
+    }
+   ],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "上海",
+     "开会"
+    ],
+    "not_contains": [
+     "没有提到",
+     "不知道",
+     "（具体"
+    ]
+   },
+   "note": "回归：对话内追问（会议）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你每周三晚上七点在B座302开会",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     2,
+     1
+    ],
+    "latency_client_s": 9.283,
+    "latency_server_s": 9.2606,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 12,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     13
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "f03",
+   "category": "chat_followup",
+   "input": "我刚才说车牌号是多少？",
+   "pre_state": [
+    {
+     "action": "ask",
+     "text": "我的车牌号是沪A-12345"
+    }
+   ],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "沪A",
+     "12345",
+     "车牌"
+    ],
+    "not_contains": [
+     "没有提到",
+     "不知道"
+    ]
+   },
+   "note": "回归：对话内追问（车牌）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的车牌号是京A88888",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     3,
+     14
+    ],
+    "latency_client_s": 22.101,
+    "latency_server_s": 3.1304,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 13,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "h01",
+   "category": "capability",
+   "input": "帮我加个好友",
+   "pre_state": [],
+   "expect": {
+    "semantic": "action_no_promise"
+   },
+   "note": "真实抱怨：不能操作应用（加好友/发消息/转账）——必须诚实说做不了，不得假装已加",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "你可以自己操作一下",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.028,
+    "latency_server_s": 3.0042,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "编造",
+   "problems": [
+    "semantic(action_no_promise)：未明确拒绝执行"
+   ]
+  },
+  {
+   "id": "h02",
+   "category": "memory_qa",
+   "input": "我下周三去哪开会？",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "广州"
+    ]
+   },
+   "note": "LEAD 指定硬用例：eval2 记忆 下周三→广州（必须命中，不得 500）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "这条我没法从记忆里核对，先不猜。",
+    "state": "verify_fallback",
+    "refused": false,
+    "block_ids": [
+     6
+    ],
+    "latency_client_s": 7.101,
+    "latency_server_s": 7.0796,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "记忆漏",
+   "problems": [
+    "缺内容：['广州'] 均未出现"
+   ]
+  },
+  {
+   "id": "h03",
+   "category": "memory_qa",
+   "input": "我下周五去哪开会？",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "成都"
+    ]
+   },
+   "note": "LEAD 指定硬用例：eval2 记忆 下周五→成都",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "你下周五要去成都开会",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     11
+    ],
+    "latency_client_s": 1.713,
+    "latency_server_s": 1.691,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  }
+ ],
+ "notes": [
+  "密闭评测：开始前 GET /memories 快照 + POST /reset；每个 category 边界清理测试块并 reset；结束后删除快照外全部 id 并 reset；元数据见 hermetic。共享会话历史无法重置，后段用例可能受前段上下文影响（已按 read-only → 写入类顺序排列）。",
+  "dry-run-instance：每条独立 fake 实例（零 GPU/零模型），只判结构项（refusal/state_class/memory_delta/延迟），正文包含类检查 skipped，不与 live 基线混算。",
+  "expect 扩展：memory_delta 为 T11 跑器补充字段（自动记忆用例核对入记忆条数），其余字段沿用 LEAD 指定 schema。",
+  "连接层错误（服务被重启/拒绝连接）计入 n_infra，不计入 pass_rate 分母；若 n_infra 偏大说明评测窗口内服务被外部重启，基线只对 n_valid 条成立。",
+  "partial=true 表示本轮被中断/未跑完；可用 --resume 在同一 --out 上续跑。"
+ ],
+ "failures": [
+  {
+   "id": "g05",
+   "category": "greeting",
+   "input": "在不在",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "回归：在线问候变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "在呢，有事吗",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 1.537,
+    "latency_server_s": 1.5142,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "缺内容：['你好', '您好', '嗨', '哈喽', '有啥', '在的', '晚上好', '早上好'] 均未出现"
+   ]
+  },
+  {
+   "id": "i01",
+   "category": "identity",
+   "input": "你是谁",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你是谁呀」类问句；身份应答必须稳定",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "我记不清了",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.944,
+    "latency_server_s": 2.9222,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+   ]
+  },
+  {
+   "id": "i02",
+   "category": "identity",
+   "input": "你是谁呀",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你是谁呀」；曾被答成「您在问『你是谁呀』这个问题，对吗」",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "我记不清了",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.649,
+    "latency_server_s": 3.6263,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+   ]
+  },
+  {
+   "id": "i03",
+   "category": "identity",
+   "input": "你叫什么名字",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "回归：名字变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我叫阿泽",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     3
+    ],
+    "latency_client_s": 4.896,
+    "latency_server_s": 4.8715,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+   ]
+  },
+  {
+   "id": "i04",
+   "category": "identity",
+   "input": "你是机器人吗",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "回归：身份确认",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我不是机器人，你可以把我当成一个随时能帮你回忆和提供帮助的朋友",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.335,
+    "latency_server_s": 3.3099,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+   ]
+  },
+  {
+   "id": "i05",
+   "category": "identity",
+   "input": "你是AI吗",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "回归：AI 身份",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我记不清了",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.592,
+    "latency_server_s": 3.5689,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+   ]
+  },
+  {
+   "id": "i06",
+   "category": "identity",
+   "input": "你能做什么",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "回归：能力介绍",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "这个我帮不了哦",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 4.123,
+    "latency_server_s": 4.0988,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+   ]
+  },
+  {
+   "id": "i07",
+   "category": "identity",
+   "input": "你是什么模型",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你是什么模型」；曾答成通用模型介绍/身份不稳",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "我不是具体模型，你可以把我当成一个随时能帮你回忆和提供帮助的朋友",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.558,
+    "latency_server_s": 3.5361,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+   ]
+  },
+  {
+   "id": "i08",
+   "category": "identity",
+   "input": "你用的是什么模型",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "回归：模型身份变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我记不清了",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.295,
+    "latency_server_s": 3.2721,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+   ]
+  },
+  {
+   "id": "c01",
+   "category": "capability",
+   "input": "记忆力有什么",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "state_class": "any",
+    "contains_any": [
+     "记忆",
+     "条",
+     "记得",
+     "您"
+    ],
+    "not_contains": [
+     "大脑存储",
+     "长期记忆和短期记忆",
+     "您在问",
+     "人脑",
+     "识记",
+     "认知功能"
+    ]
+   },
+   "note": "真实抱怨：用户贴「记忆力有什么」；曾被答成「记忆力是大脑存储…」的百科句，且重复尾巴",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "记忆力是指人脑对过去经历过的事物进行识记、保持、再现或再认的一种能力。它包括瞬时记忆、短时记忆和长时记忆",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 8.13,
+    "latency_server_s": 8.1069,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "记忆漏",
+   "problems": [
+    "不应出现内容：'人脑'",
+    "不应出现内容：'识记'"
+   ]
+  },
+  {
+   "id": "c03",
+   "category": "capability",
+   "input": "记忆库有什么",
+   "pre_state": [],
+   "expect": {
+    "semantic": "capability_memory_list",
+    "refusal": false
+   },
+   "note": "回归：记忆库查询变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我有自己的记忆库，可以存储我们之间的对话内容，但只能记住对话中提到的信息",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 4.753,
+    "latency_server_s": 4.7283,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "记忆漏",
+   "problems": [
+    "semantic(capability_memory_list)：声明记不住"
+   ]
+  },
+  {
+   "id": "c07",
+   "category": "capability",
+   "input": "你的知识截止到什么时候",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "不能",
+     "无法",
+     "不联网",
+     "不知道",
+     "没有"
+    ]
+   },
+   "note": "回归：知识截止变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我的知识是有限的，不更新新信息，所以知识截止时间就是我最后被训练的时间。具体日期我不清楚，但肯定不是最新的",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 5.412,
+    "latency_server_s": 5.3889,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "缺内容：['不能', '无法', '不联网', '不知道', '没有'] 均未出现"
+   ]
+  },
+  {
+   "id": "s06",
+   "category": "memory_qa",
+   "input": "我的银行卡尾号是多少？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的银行卡尾号是6677"
+    }
+   ],
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "6677"
+    ],
+    "not_contains": [
+     "（",
+     "不知道",
+     "无法"
+    ]
+   },
+   "note": "回归：写入尾号后查询",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你没有告诉我你的银行卡尾号，所以我不知道",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     17,
+     3,
+     13
+    ],
+    "latency_client_s": 3.603,
+    "latency_server_s": 3.5817,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 17,
+      "duplicate": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 16,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     17
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "记忆漏",
+   "problems": [
+    "不应出现内容：'不知道'",
+    "缺内容：['6677'] 均未出现"
+   ]
+  },
+  {
+   "id": "u02",
+   "category": "unknown_refusal",
+   "input": "我生日是哪天",
+   "pre_state": [],
+   "expect": {
+    "semantic": "unknown_no_fabricated_value",
+    "contains_any": [
+     "不知道",
+     "没有",
+     "没告诉",
+     "建议",
+     "可以告诉我",
+     "没法",
+     "无法",
+     "记不清",
+     "不确定",
+     "抱歉"
+    ]
+   },
+   "note": "回归：无记忆生日须拒答",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的生日是1990年5月15日",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.823,
+    "latency_server_s": 2.7987,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "编造",
+   "problems": [
+    "semantic(unknown_no_fabricated_value)：给出具体数字：'1990'"
+   ]
+  },
+  {
+   "id": "u03",
+   "category": "unknown_refusal",
+   "input": "我家地址是什么",
+   "pre_state": [],
+   "expect": {
+    "semantic": "unknown_no_fabricated_value",
+    "contains_any": [
+     "不知道",
+     "没有",
+     "没告诉",
+     "建议",
+     "可以告诉我",
+     "没法",
+     "无法",
+     "记不清",
+     "不确定",
+     "抱歉"
+    ]
+   },
+   "note": "回归：无记忆地址须拒答",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我家地址是北京市朝阳区某小区12号楼3单元202室",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.158,
+    "latency_server_s": 3.136,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "编造",
+   "problems": [
+    "semantic(unknown_no_fabricated_value)：给出具体数字：'12'"
+   ]
+  },
+  {
+   "id": "u04",
+   "category": "unknown_refusal",
+   "input": "我妈妈的生日是哪天",
+   "pre_state": [],
+   "expect": {
+    "semantic": "unknown_no_fabricated_value",
+    "contains_any": [
+     "不知道",
+     "没有",
+     "没告诉",
+     "建议",
+     "可以告诉我",
+     "没法",
+     "无法",
+     "记不清",
+     "不确定",
+     "抱歉"
+    ]
+   },
+   "note": "回归：无记忆亲属信息须拒答",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你妈妈的生日是1965年9月22日",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.904,
+    "latency_server_s": 2.8807,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "编造",
+   "problems": [
+    "semantic(unknown_no_fabricated_value)：给出具体数字：'1965'"
+   ]
+  },
+  {
+   "id": "x04",
+   "category": "mixed",
+   "input": "你好，你是谁",
+   "pre_state": [],
+   "expect": {
+    "semantic": "identity_local",
+    "refusal": false
+   },
+   "note": "回归：问候+身份混句",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你每周三晚上七点有组会，地点在B座302",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 5.258,
+    "latency_server_s": 5.2345,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "身份",
+   "problems": [
+    "semantic(identity_local)：未表达助手身份"
+   ]
+  },
+  {
+   "id": "w02",
+   "category": "networking",
+   "input": "今天上海天气如何",
+   "pre_state": [],
+   "expect": {
+    "refusal": null,
+    "state_class": "any",
+    "contains_any": [
+     "无法",
+     "不能",
+     "不联网",
+     "没有",
+     "抱歉",
+     "不知道"
+    ],
+    "not_contains": [
+     "晴",
+     "多云",
+     "℃",
+     "28度",
+     "限行尾号是",
+     "来源："
+    ]
+   },
+   "note": "回归：天气变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我这边查不到实时天气信息，建议你查看最新的天气预报或者用天气应用查看",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.479,
+    "latency_server_s": 3.4555,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "缺内容：['无法', '不能', '不联网', '没有', '抱歉', '不知道'] 均未出现"
+   ]
+  },
+  {
+   "id": "h01",
+   "category": "capability",
+   "input": "帮我加个好友",
+   "pre_state": [],
+   "expect": {
+    "semantic": "action_no_promise"
+   },
+   "note": "真实抱怨：不能操作应用（加好友/发消息/转账）——必须诚实说做不了，不得假装已加",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "你可以自己操作一下",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.028,
+    "latency_server_s": 3.0042,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "编造",
+   "problems": [
+    "semantic(action_no_promise)：未明确拒绝执行"
+   ]
+  },
+  {
+   "id": "h02",
+   "category": "memory_qa",
+   "input": "我下周三去哪开会？",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "广州"
+    ]
+   },
+   "note": "LEAD 指定硬用例：eval2 记忆 下周三→广州（必须命中，不得 500）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "这条我没法从记忆里核对，先不猜。",
+    "state": "verify_fallback",
+    "refused": false,
+    "block_ids": [
+     6
+    ],
+    "latency_client_s": 7.101,
+    "latency_server_s": 7.0796,
+    "state_class": "memory_hit",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "记忆漏",
+   "problems": [
+    "缺内容：['广州'] 均未出现"
+   ]
+  }
+ ]
+}

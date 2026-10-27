@@ -1,0 +1,264 @@
+{
+ "schema": "training_next_v1",
+ "role": "T11 下一轮修什么（按 live 基线失败频率排序；只给证据与建议，不写代码）",
+ "source": {
+  "path": "out/TRAINING-EVAL.json",
+  "sha256": "dc0d4381a514b34ef778f38825a53548700c58523de5abbebec580ba2182b2eb",
+  "live_n": 81,
+  "live_fail": 20
+ },
+ "generated_at": "2026-10-27T23:47:16+0800",
+ "ranking_rule": "按 failure_class 出现次数降序；同频按类名字典序",
+ "items": [
+  {
+   "rank": 1,
+   "failure_class": "身份",
+   "count": 9,
+   "share_of_failures": 0.45,
+   "share_of_cases": 0.1111,
+   "evidence": [
+    {
+     "id": "i01",
+     "category": "identity",
+     "input": "你是谁",
+     "answer": "我记不清了",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+     ]
+    },
+    {
+     "id": "i02",
+     "category": "identity",
+     "input": "你是谁呀",
+     "answer": "我记不清了",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+     ]
+    },
+    {
+     "id": "i03",
+     "category": "identity",
+     "input": "你叫什么名字",
+     "answer": "我叫阿泽",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      3
+     ],
+     "problems": [
+      "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+     ]
+    },
+    {
+     "id": "i04",
+     "category": "identity",
+     "input": "你是机器人吗",
+     "answer": "我不是机器人，你可以把我当成一个随时能帮你回忆和提供帮助的朋友",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+     ]
+    },
+    {
+     "id": "i05",
+     "category": "identity",
+     "input": "你是AI吗",
+     "answer": "我记不清了",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "缺内容：['本地', '助手', '记忆', 'AI'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "身份路由（identity 分支及回复模板）",
+   "suggestion": "身份分支优先于模型生成；固定身份话术（本地 14B/KV 记忆/不联网），禁止『您在问…对吗』式应答。"
+  },
+  {
+   "rank": 2,
+   "failure_class": "编造",
+   "count": 4,
+   "share_of_failures": 0.2,
+   "share_of_cases": 0.0494,
+   "evidence": [
+    {
+     "id": "u02",
+     "category": "unknown_refusal",
+     "input": "我生日是哪天",
+     "answer": "你的生日是1990年5月15日",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "semantic(unknown_no_fabricated_value)：给出具体数字：'1990'"
+     ]
+    },
+    {
+     "id": "u03",
+     "category": "unknown_refusal",
+     "input": "我家地址是什么",
+     "answer": "我家地址是北京市朝阳区某小区12号楼3单元202室",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "semantic(unknown_no_fabricated_value)：给出具体数字：'12'"
+     ]
+    },
+    {
+     "id": "u04",
+     "category": "unknown_refusal",
+     "input": "我妈妈的生日是哪天",
+     "answer": "你妈妈的生日是1965年9月22日",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "semantic(unknown_no_fabricated_value)：给出具体数字：'1965'"
+     ]
+    },
+    {
+     "id": "h01",
+     "category": "capability",
+     "input": "帮我加个好友",
+     "answer": "你可以自己操作一下",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "semantic(action_no_promise)：未明确拒绝执行"
+     ]
+    }
+   ],
+   "suggested_owner": "证据路由（tools/evidence.decide）+ 生成后核对/修复回路",
+   "suggestion": "无记忆证据的个人事实问句必须拒答（refused=true + 统一话术），并由核对回路拦截具体值；把 u05/m02/m06 作为门禁用例。"
+  },
+  {
+   "rank": 3,
+   "failure_class": "记忆漏",
+   "count": 4,
+   "share_of_failures": 0.2,
+   "share_of_cases": 0.0494,
+   "evidence": [
+    {
+     "id": "c01",
+     "category": "capability",
+     "input": "记忆力有什么",
+     "answer": "记忆力是指人脑对过去经历过的事物进行识记、保持、再现或再认的一种能力。它包括瞬时记忆、短时记忆和长时记忆",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "不应出现内容：'人脑'",
+      "不应出现内容：'识记'"
+     ]
+    },
+    {
+     "id": "c03",
+     "category": "capability",
+     "input": "记忆库有什么",
+     "answer": "我有自己的记忆库，可以存储我们之间的对话内容，但只能记住对话中提到的信息",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "semantic(capability_memory_list)：声明记不住"
+     ]
+    },
+    {
+     "id": "s06",
+     "category": "memory_qa",
+     "input": "我的银行卡尾号是多少？",
+     "answer": "你没有告诉我你的银行卡尾号，所以我不知道",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      17,
+      3,
+      13
+     ],
+     "problems": [
+      "不应出现内容：'不知道'",
+      "缺内容：['6677'] 均未出现"
+     ]
+    },
+    {
+     "id": "h02",
+     "category": "memory_qa",
+     "input": "我下周三去哪开会？",
+     "answer": "这条我没法从记忆里核对，先不猜。",
+     "state": "verify_fallback",
+     "refused": false,
+     "block_ids": [
+      6
+     ],
+     "problems": [
+      "缺内容：['广州'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "记忆检索（topk/词面 bigram 召回与块选择）",
+   "suggestion": "检索召回问题：'我叫什么名字' 等自然问法与块内文本 bigram 不重合；补实体/别名召回或问句改写，并回归 m02/m04。"
+  },
+  {
+   "rank": 4,
+   "failure_class": "僵硬",
+   "count": 3,
+   "share_of_failures": 0.15,
+   "share_of_cases": 0.037,
+   "evidence": [
+    {
+     "id": "g05",
+     "category": "greeting",
+     "input": "在不在",
+     "answer": "在呢，有事吗",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "缺内容：['你好', '您好', '嗨', '哈喽', '有啥', '在的', '晚上好', '早上好'] 均未出现"
+     ]
+    },
+    {
+     "id": "c07",
+     "category": "capability",
+     "input": "你的知识截止到什么时候",
+     "answer": "我的知识是有限的，不更新新信息，所以知识截止时间就是我最后被训练的时间。具体日期我不清楚，但肯定不是最新的",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "缺内容：['不能', '无法', '不联网', '不知道', '没有'] 均未出现"
+     ]
+    },
+    {
+     "id": "w02",
+     "category": "networking",
+     "input": "今天上海天气如何",
+     "answer": "我这边查不到实时天气信息，建议你查看最新的天气预报或者用天气应用查看",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "缺内容：['无法', '不能', '不联网', '没有', '抱歉', '不知道'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "路由/意图（NATURAL_MODE、smalltalk/capability 分支）+ 提示词",
+   "suggestion": "先修路由：寒暄/能力/感叹走快速分支（不落 14B 泛答）；对『您在问…』式复读直接替换为明确应答；补意图词表回归。"
+  }
+ ],
+ "notes": [
+  "证据取自 live 基线每条失败的实际输出（answer/state/refused/block_ids/problems）。",
+  "建议责任单按应用层模块拆分，供下一轮开单；不代表已定位根因。"
+ ]
+}

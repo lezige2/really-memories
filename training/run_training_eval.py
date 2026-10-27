@@ -105,6 +105,42 @@ def http_memory_ids(endpoint, timeout=15.0):
     return {int(r["id"]) for r in rows if isinstance(r, dict) and "id" in r}
 
 
+def service_reset(endpoint, timeout=15.0):
+    """POST /reset：清当前对话上下文（不动长期记忆块）。返回 (ok, err)。"""
+    try:
+        r = http_json(endpoint.rstrip("/") + "/reset", {}, timeout)
+        return True, r
+    except Exception as exc:  # noqa: BLE001
+        return False, "%s: %s" % (type(exc).__name__, exc)
+
+
+def cleanup_extra_memories(endpoint, snapshot_ids, timeout=15.0):
+    """删除快照之外的记忆块（本轮测试写入），并尽量 reset 会话。"""
+    info = {"snapshot_n": len(snapshot_ids), "extra": [], "deleted": [],
+            "forget_errors": [], "reset_after": None}
+    try:
+        cur = http_memory_ids(endpoint, timeout)
+    except Exception as exc:  # noqa: BLE001
+        info["forget_errors"].append("list_memories: %s" % exc)
+        return info
+    extra = sorted(cur - set(snapshot_ids))
+    info["extra"] = extra
+    info["memories_now"] = len(cur)
+    for ident in extra:
+        try:
+            r = http_json(endpoint.rstrip("/") + "/forget", {"id": ident}, timeout)
+            info["deleted"].append({"id": ident, "deleted": r.get("deleted")})
+        except Exception as exc:  # noqa: BLE001
+            info["forget_errors"].append("forget %s: %s" % (ident, exc))
+    ok, _ = service_reset(endpoint, timeout)
+    info["reset_after"] = ok
+    try:
+        info["memories_after"] = len(http_memory_ids(endpoint, timeout))
+    except Exception:  # noqa: BLE001
+        info["memories_after"] = None
+    return info
+
+
 def wait_service_ready(endpoint, wait_s=180.0, poll_s=3.0):
     """串行队列健康门：等到 /health 在 2s 内返回 ok 再发下一条，避免客户端超时
     放弃后服务端仍在算、积压滚雪球。返回 health dict 或 None。"""
@@ -238,10 +274,23 @@ def sem_action_no_promise(answer):
                "已发送", "已发", "好的，我加", "我加一下", "已经发送", "已帮你")
     if any(p in a for p in promise):
         return False, "假装已执行动作（%s）" % next(p for p in promise if p in a)
-    refuse = ("做不了", "不能", "无法", "不行", "没法", "不会", "不能操作", "抱歉", "不承诺")
+    refuse = ("做不了", "帮不了", "帮不上", "做不到", "办不到", "不能", "无法", "不行",
+              "没法", "不会", "不能操作", "抱歉", "不承诺")
     if any(x in a for x in refuse):
         return True, "诚实说做不了"
     return False, "未明确拒绝执行"
+
+
+def sem_no_memory_denial(answer):
+    """c01 类知识问答：只要不否认自身记忆能力（我没有记忆/我记不住…）即 pass。"""
+    a = str(answer or "")
+    if not a.strip():
+        return False, "空回答"
+    denial = ("我没有记忆", "我没有记忆力", "我记不住", "我记不了", "记不住任何",
+              "没有记忆库", "没有长期记忆", "我记不清任何")
+    if any(d in a for d in denial):
+        return False, "否认自身记忆能力（%s）" % next(d for d in denial if d in a)
+    return True, "非否认记忆（知识问答/正常回答）"
 
 
 SEMANTICS = {
@@ -251,6 +300,7 @@ SEMANTICS = {
     "capability_memory_list": sem_capability_memory_list,
     "unknown_no_fabricated_value": sem_unknown_no_fabricated_value,
     "action_no_promise": sem_action_no_promise,
+    "no_memory_denial": sem_no_memory_denial,
 }
 SEMANTIC_FAIL_CLASS = {
     "identity_local": "身份",
@@ -259,6 +309,7 @@ SEMANTIC_FAIL_CLASS = {
     "capability_memory_list": "记忆漏",
     "unknown_no_fabricated_value": "编造",
     "action_no_promise": "编造",
+    "no_memory_denial": "记忆漏",
 }
 
 
@@ -613,7 +664,7 @@ def write_artifact(path, doc):
 
 
 def make_doc(mode, endpoint, args, cases, results, health_before, health_after,
-             elapsed, partial=False):
+             elapsed, partial=False, hermetic=None):
     summary_all = summarize(results, mode)
     return {
         "schema": "training_eval_v1",
@@ -644,11 +695,14 @@ def make_doc(mode, endpoint, args, cases, results, health_before, health_after,
         },
         "service": {"health_before": health_before, "health_after": health_after,
                     "elapsed_s": elapsed},
+        "hermetic": hermetic,
         "summary": summary_all,
         mode: summary_all,
         "results": results,
         "notes": [
-            "live 模式：每条独立 setup（pre_state）→ 主问 → 用 /memories 前后差集删除本 case 新增块（绝不删用户既有记忆）；"
+            ("密闭评测：开始前 GET /memories 快照 + POST /reset；每个 category 边界清理测试块并 reset；"
+             "结束后删除快照外全部 id 并 reset；元数据见 hermetic。" if hermetic else
+             "live 模式：每条独立 setup（pre_state）→ 主问 → 用 /memories 前后差集删除本 case 新增块（绝不删用户既有记忆）；") +
             "共享会话历史无法重置，后段用例可能受前段上下文影响（已按 read-only → 写入类顺序排列）。",
             "dry-run-instance：每条独立 fake 实例（零 GPU/零模型），只判结构项（refusal/state_class/memory_delta/延迟），"
             "正文包含类检查 skipped，不与 live 基线混算。",
@@ -885,6 +939,8 @@ def main(argv=None):
                     help="若 --out 已存在，则跳过其中非 infra 的已完成用例，合并写回")
     ap.add_argument("--max-wait", type=float, default=180.0,
                     help="健康门最长等待秒（默认 180）")
+    ap.add_argument("--hermetic", action="store_true",
+                    help="密闭评测：/memories 快照 + 前后 /reset + category 边界清理测试块 + 结束按快照删新增块")
     ap.add_argument("--no-cleanup", action="store_true",
                     help="不调用 /forget（/forget 会 reset 当前对话会话）；测试新增块保留并记录")
     ap.add_argument("--flush-every", type=int, default=1,
@@ -907,6 +963,18 @@ def main(argv=None):
     endpoint = args.endpoint if not args.dry_run_instance else "(per-case fake instances)"
     health_before = ({"mode": "dry-run-instance", "per_case_fake": True}
                      if args.dry_run_instance else (wait_service_ready(endpoint, args.max_wait) or http_health(endpoint)))
+    hermetic = None
+    snapshot_ids = set()
+    if args.hermetic and not args.dry_run_instance:
+        wait_service_ready(endpoint, args.max_wait)
+        snapshot_ids = http_memory_ids(endpoint)
+        reset_ok, reset_err = service_reset(endpoint)
+        hermetic = {"enabled": True, "reset_supported": bool(reset_ok),
+                    "reset_error": (None if reset_ok else reset_err),
+                    "snapshot_ids_n": len(snapshot_ids),
+                    "memories_before": len(snapshot_ids),
+                    "category_boundaries": [], "created_ids": set(),
+                    "added_total": 0, "cleaned_total": 0, "final": None}
     t_start = time.time()
     prev = {}
     if args.resume and not args.dry_run_instance and Path(args.out).exists():
@@ -926,6 +994,19 @@ def main(argv=None):
             continue
         fake_i = None
         ep = endpoint
+        if hermetic is not None:
+            cur_cat = hermetic.get("_cur_cat")
+            if case["category"] != cur_cat:
+                if cur_cat is not None:
+                    cl = cleanup_extra_memories(endpoint, snapshot_ids)
+                    hermetic["category_boundaries"].append(
+                        {"from_category": cur_cat, "next_category": case["category"],
+                         "cleanup": cl})
+                    hermetic["cleaned_total"] += len(cl.get("deleted") or [])
+                    hermetic["created_ids"].update(cl.get("extra") or [])
+                else:
+                    service_reset(endpoint)
+                hermetic["_cur_cat"] = case["category"]
         if args.dry_run_instance:
             fake_i = FakeInstance()
             ep = fake_i.endpoint
@@ -936,7 +1017,7 @@ def main(argv=None):
                                                  % args.max_wait)
             resp, lat, log = run_case_http(case, ep, args.timeout,
                                            args.retries, args.retry_wait,
-                                           args.no_cleanup)
+                                           True if hermetic is not None else args.no_cleanup)
             content_check = not args.dry_run_instance
             res = build_result(case, resp, lat, log, mode, content_check)
         except Exception as exc:  # noqa: BLE001
@@ -957,7 +1038,9 @@ def main(argv=None):
         if args.flush_every and mode == "live" and (i % args.flush_every == 0):
             write_artifact(Path(args.out), make_doc(
                 mode, endpoint, args, cases, results, health_before,
-                health_before, round(time.time() - t_start, 3), partial=True))
+                health_before, round(time.time() - t_start, 3), partial=True,
+                hermetic=({k: v for k, v in (hermetic or {}).items()
+                           if not k.startswith("_") and not isinstance(v, set)} if hermetic else None)))
         if not res["pass"]:
             print("[FAIL %2d/%d] %-4s %-18s %r -> [%s] %s"
                   % (i, len(cases), res["id"], res["category"], res["input"],
@@ -969,9 +1052,23 @@ def main(argv=None):
     health_after = ({"mode": "dry-run-instance", "per_case_fake": True}
                     if args.dry_run_instance else http_health(endpoint))
 
+    if hermetic is not None:
+        fin = cleanup_extra_memories(endpoint, snapshot_ids)
+        hermetic["final"] = fin
+        hermetic["cleaned_total"] += len(fin.get("deleted") or [])
+        hermetic["created_ids"].update(fin.get("extra") or [])
+        hermetic["added_total"] = len(hermetic.get("created_ids") or set())
+        hermetic["added_ids"] = sorted(hermetic.get("created_ids") or set())
+        try:
+            hermetic["memories_after_cleanup"] = len(http_memory_ids(endpoint))
+        except Exception:  # noqa: BLE001
+            hermetic["memories_after_cleanup"] = None
+        hermetic.pop("_cur_cat", None)
     summary_all = summarize(results, mode)
     doc = make_doc(mode, endpoint, args, cases, results, health_before, health_after,
-                   elapsed, partial=False)
+                   elapsed, partial=False,
+                   hermetic=({k: v for k, v in (hermetic or {}).items()
+                              if not k.startswith("_") and not isinstance(v, set)} if hermetic else None))
     out_path = Path(args.out)
     write_artifact(out_path, doc)
 
