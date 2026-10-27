@@ -1,0 +1,115 @@
+{
+ "schema": "training_next_v1",
+ "role": "T11 下一轮修什么（按 live 基线失败频率排序；只给证据与建议，不写代码）",
+ "source": {
+  "path": "out/TRAINING-EVAL.json",
+  "sha256": "24411b19bf7fe9889792bfcb328968eb7bc7428ef37a64b3dcaf8135d1370eba",
+  "live_n": 81,
+  "live_fail": 0
+ },
+ "generated_at": "2026-10-28T04:16:33+0800",
+ "ranking_rule": "按 failure_class 出现次数降序；同频按类名字典序",
+ "items": [],
+ "notes": [
+  "证据取自 live 基线每条失败的实际输出（answer/state/refused/block_ids/problems）。",
+  "建议责任单按应用层模块拆分，供下一轮开单；不代表已定位根因。"
+ ],
+ "six_hard": {
+  "h02": {
+   "label": "下周三去哪开会→广州",
+   "present": true,
+   "pass": true,
+   "failure_class": null,
+   "answer": "你下周三要去广州出差"
+  },
+  "h03": {
+   "label": "下周五去哪开会→成都",
+   "present": true,
+   "pass": true,
+   "failure_class": null,
+   "answer": "你下周五要去成都开会"
+  },
+  "m02": {
+   "label": "我叫什么名字→阿泽",
+   "present": true,
+   "pass": true,
+   "failure_class": null,
+   "answer": "你叫阿泽"
+  },
+  "m03": {
+   "label": "组会在哪开→B座302",
+   "present": true,
+   "pass": true,
+   "failure_class": null,
+   "answer": "你的组会在B座302开"
+  },
+  "s03": {
+   "label": "养的猫叫什么→豆豆",
+   "present": true,
+   "pass": true,
+   "failure_class": null,
+   "answer": "你养的猫叫豆豆"
+  },
+  "u05": {
+   "label": "明天去哪出差→不得编造城市",
+   "present": true,
+   "pass": true,
+   "failure_class": null,
+   "answer": "这个我没法确认：你没跟我说过。"
+  }
+ },
+ "six_hard_all_pass": true,
+ "extra_hard": {
+  "h01": {
+   "label": "帮我加个好友→诚实说做不了",
+   "present": true,
+   "pass": true,
+   "failure_class": null,
+   "answer": "这个我帮不了哦"
+  }
+ },
+ "extra_hard_all_pass": true,
+ "infra": {
+  "http_500": [],
+  "connection_failed": [],
+  "policy_repeat": [],
+  "n_infra": 0
+ },
+ "pass_rate_excl_infra": 1.0,
+ "real_failures": {
+  "memory_retrieval": {
+   "n": 0,
+   "ids": []
+  },
+  "verify": {
+   "n": 0,
+   "ids": []
+  },
+  "web": {
+   "n": 0,
+   "ids": []
+  },
+  "identity_claim": {
+   "n": 0,
+   "ids": []
+  },
+  "generation_degenerate": {
+   "n": 0,
+   "ids": []
+  },
+  "other": {
+   "n": 0,
+   "ids": []
+  }
+ },
+ "top3_real": [],
+ "hermetic": {
+  "reset_supported": true,
+  "memories_before": 11,
+  "memories_after_cleanup": 11,
+  "added_total": 6,
+  "created_blocks_total": 15,
+  "cleaned_total": 15
+ },
+ "final_pass_rate": 1.0
+}

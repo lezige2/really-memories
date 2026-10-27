@@ -28,7 +28,7 @@ import re
 import sys
 import time
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -1506,7 +1506,10 @@ class DailyApp:
     _ACTION_RE = re.compile(
         r"同意一下|同意下|同意吧|通过一下|通过吧|加一下|加个好友|加好友|加他|加她|加我|"
         r"添加好友|拉我进|拉个群|建个群|发给他|发给她|发消息给|发给|替我(发|加|删|改|转)|"
-        r"帮我(发|加|删|改|转|同意|通过)|删了他|删了她|转账给|打个电话|发个邮件|发个短信",
+        r"帮我(发|加|删|改|转|同意|通过)|删了他|删了她|转账给|打个电话|发个邮件|发个短信|"
+        r"回复(一下|下)?|转发|点评|点赞|点(?:个|一下)?赞|评论|发朋友圈|发通知|发群消息|"
+        r"给[^，。；;\s]{1,8}转|转\s*\d+|替我给|帮我给|帮我发|替我发|"
+        r"发条消息|发一条消息|发微信|回个消息|回消息",
         re.I)
 
     @staticmethod
@@ -1566,9 +1569,15 @@ class DailyApp:
         return ("我是你的本地记忆助手：能帮你记住事实、按记忆回答问题，"
                 "也能只读查资料。")
 
-    _FACT_KEYS = ("生日", "地址", "电话", "手机", "身份证", "工号", "尾号", "账号",
+    _FACTQ_PERSON = re.compile(r"我叫什么|叫什么名字|是多少|在哪|去哪|几点|几号|哪天|什么时候|"
+                              r"多少钱|哪个|谁的|名字是|生日|地址|电话|手机号|身份证|工号|"
+                              r"尾号|账号|密码|车牌|工位|公司|单位|学校|猫|狗|女儿|儿子")
+    _FACT_KEYS = ("公司", "单位", "学校", "大学", "车", "车牌", "名字", "组会", "工位",
+                  "上班", "女儿", "儿子", "猫", "狗", "生日", "地址", "电话", "手机", "身份证", "工号", "尾号", "账号",
                   "密码", "车牌", "工位", "公司", "名字", "叫", "银行", "卡号")
     _SYN_GROUPS = (
+        ("名字", "我叫", "叫啥"),
+        ("猫", "狗", "宠物", "养了"),
         ("开会", "会议", "组会", "例会"),
         ("银行卡", "卡号", "尾号", "账号", "余额"),
         ("生日", "出生", "生日是"),
@@ -1596,7 +1605,7 @@ class DailyApp:
         if not re.search(r"没有告诉|没告诉我|没跟我说|不清楚|不知道|无法|记不清", ans):
             return False
         q = str(text or "")
-        keys = [k for k in self._FACT_KEYS if k in q]
+        keys = [k for k in self._FACT_KEYS if len(k) >= 2 and k in q]
         for b in (blocks or []):
             blob = str((b or {}).get("text") or "")
             if any(k in blob for k in keys):
@@ -1609,7 +1618,7 @@ class DailyApp:
     def _covered_answer(self, text, blocks):
         """确定性回查：取覆盖问句关键字的挂载块原文（拒答修复兜底）。"""
         q = str(text or "")
-        keys = [k for k in self._FACT_KEYS if k in q]
+        keys = [k for k in self._FACT_KEYS if len(k) >= 2 and k in q]
         for b in (blocks or []):
             blob = str((b or {}).get("text") or "")
             if any(k in blob for k in keys):
@@ -1626,7 +1635,7 @@ class DailyApp:
             bigrams = self._content_bigrams(q)
         except Exception:                                # noqa: BLE001
             bigrams = []
-        keys = [k for k in self._FACT_KEYS if k in q]
+        keys = [k for k in self._FACT_KEYS if len(k) >= 2 and k in q]
         for s_ in (selection or []):
             row = self._row_by_id(s_.get("source_id"))
             blob = str(row[3]) if row is not None else ""
@@ -1635,7 +1644,9 @@ class DailyApp:
             for group in self._SYN_GROUPS:
                 if any(t in q for t in group) and any(t in blob for t in group):
                     return True
-            if any(bg and bg in blob for bg in bigrams):
+            _GENERIC = {"我的", "我的", "什么", "叫什", "么名", "哪些", "怎么", "多少",
+                        "几点", "在哪", "一个", "一下", "现在", "告诉", "知道"}
+            if any(bg and bg in blob for bg in bigrams if bg not in _GENERIC):
                 return True
         return False
 
@@ -1663,7 +1674,7 @@ class DailyApp:
     def _boundary_reply(self, text):
         """动作类请求：确定性拒绝（不承诺、不假装执行），避免"我会同意/已添加"式幻觉。"""
         if self._ACTION_RE.search(str(text or "")):
-            return ("我做不到：我只能聊天和记住你告诉我事实，不能操作 QQ、加好友、替你发消息或做任何账号动作。")
+            return "这个我帮不了哦"
         return None
 
     def ask(self, text):
@@ -1751,6 +1762,24 @@ class DailyApp:
                     "refused": False, "state": "capability", "chars": len(cap),
                     "retrieval": None, "notice": (notice or {}).get("notice"),
                     "rollover": notice}
+        _t_early = self._local_time_reply(text)
+        if _t_early is not None:
+            latency = time.perf_counter() - t0
+            if self.logger:
+                try:
+                    ev = self.logger.log_ask(text, session_tokens=int(self.eng.n_tokens(0)))
+                    seq = ev.get("seq") if ev else None
+                    if seq is not None:
+                        self.logger.log_answer(_t_early, seq, [], {"seq_ids": [], "cells": 0},
+                                               latency * 1000.0, vram_gib=None, refused=False)
+                except Exception:                    # noqa: BLE001
+                    pass
+            self.history.append({"q": text, "a": _t_early, "refused": False})
+            self.history = self.history[-40:]
+            return {"answer": _t_early, "block_ids": [], "latency_s": round(latency, 4),
+                    "refused": False, "state": "time_local", "chars": len(_t_early),
+                    "retrieval": None, "notice": (notice or {}).get("notice"),
+                    "rollover": notice}
         bnd = self._boundary_reply(text)          # 动作请求必须确定性拒绝（不依赖 env 开关）
         if bnd is not None:
             latency = time.perf_counter() - t0
@@ -1818,6 +1847,16 @@ class DailyApp:
                     "refused": False, "state": "time_local", "chars": len(_t_reply),
                     "retrieval": None, "notice": (notice or {}).get("notice"),
                     "rollover": notice}
+        # 个人事实问句：选中的块若不覆盖问句属性（如问"公司"却挂到"车牌"块）→ 视为无证据
+        if selection and "我" in text and self._FACTQ_PERSON.search(text):
+            try:
+                if not self._selection_relevant(text, selection):
+                    selection = []
+                    self._last_selection = []
+                    self._last_query = text
+            except Exception:                            # noqa: BLE001
+                pass
+
         # 无证据兜底：个人事实问句且没有任何记忆命中 -> 明确说不知道，禁止编造
         _FACTQ = re.compile(r"我叫什么|叫什么名字|是多少|在哪|去哪|几点|几号|哪天|什么时候|"
                             r"多少钱|哪个|谁的|名字是|生日|地址|电话|手机号|身份证|工号|"
@@ -2504,9 +2543,16 @@ class DailyApp:
         text = self._retrieval_text(text)
         if self._FOLLOWUP_RE.search(str(text or "")):
             # "我刚才说…" => 最新写入的那条事实优先（只看最新 5 条内存，按 id 倒序）
-            rows = sorted(self._rows(), key=lambda r: -int(r[0]))[:5]
+            rows = sorted(self._rows(), key=lambda r: -int(r[0]))[:8]
             if rows:
-                best = rows[0]
+                _stop = set("我刚刚才说了什么上一条次前面的 是在哪吗呢吧的了")
+                _chars = {c for c in str(text) if "\u4e00" <= c <= "\u9fff" and c not in _stop}
+                best, best_score = rows[0], -1
+                for r in rows:
+                    blob = str(r[3])
+                    score = sum(1 for c in _chars if c in blob)
+                    if score > best_score:
+                        best, best_score = r, score
                 self._last_candidate_count = len(rows)
                 self._last_related_count = 0
                 return [{"name": best[1], "score": 9.0,
@@ -2765,16 +2811,72 @@ class DailyApp:
                 pass
 
     _LOCAL_TIME_RE = re.compile(
-        r"现在(?:是)?(?:几点了?|什么时间|什么时候|几点钟)|现在几点|几点了|"
-        r"今天(?:是)?(?:几号|星期几|周几|什么日子|日期)|当前时间")
+        r"现在(?:是)?(?:几点了?|什么时间|什么时候|几点钟)|现在几点|几点了|当前时间|"
+        r"(?:今天|明天|后天|昨天|前天)(?:是)?(?:几号|星期几|周几|什么日子|日期|几月几号)|"
+        r"(?:下周|下星期|本周|这周|这个?星期)[一二三四五六日天](?:是)?(?:几号|星期几|周几|日期|几月几号)|"
+        r"[周星期][一二三四五六日天](?:是)?(?:几号|星期几|周几|日期|几月几号)")
+
+    @staticmethod
+    def _cn_weekday(d):
+        return "一二三四五六日"[d.weekday()]
 
     def _local_time_reply(self, text):
-        if not self._LOCAL_TIME_RE.search(str(text or "")):
+        """纯时间/日期问句：用本地时钟直接回答（不联网、不查记忆、不进 verify）。"""
+        q = str(text or "")
+        if not self._LOCAL_TIME_RE.search(q):
             return None
         now = datetime.now()
-        return ("现在是 %s 年 %d 月 %d 日 星期%s %02d:%02d:%02d（本地时间，不联网）"
-                % (now.year, now.month, now.day, "一二三四五六日"[now.weekday()],
-                   now.hour, now.minute, now.second))
+        today = now.date()
+        suffix = "（本地时间，不联网）"
+        # 现在几点
+        if re.search(r"现在(?:是)?(?:几点了?|什么时间|什么时候|几点钟)|现在几点|几点了|当前时间", q):
+            return ("现在是 %s 年 %d 月 %d 日 星期%s %02d:%02d:%02d%s"
+                    % (now.year, now.month, now.day, self._cn_weekday(today),
+                       now.hour, now.minute, now.second, suffix))
+        # 今天/明天/后天/昨天/前天 + 星期几/几号
+        m = re.search(r"今天|明天|后天|昨天|前天", q)
+        if m:
+            word = m.group(0)
+            offset = {"今天": 0, "明天": 1, "后天": 2, "昨天": -1, "前天": -2}[word]
+            d = today + timedelta(days=offset)
+        else:
+            word = ""
+            d = None
+        if d is None:
+            # 下周X / 本周X / 周X
+            m2 = re.search(r"(下周|下星期|本周|这周|这个?星期)?([周星期])([一二三四五六日天])", q)
+            if not m2:
+                return None
+            scope, _pre, wd = m2.group(1) or "", m2.group(2), m2.group(3)
+            idx = "一二三四五六日".index("日" if wd == "天" else wd)
+            monday = today - timedelta(days=today.weekday())
+            if scope in ("下周", "下星期"):
+                d = monday + timedelta(days=7 + idx)
+            elif scope in ("本周", "这周", "这个星期"):
+                d = monday + timedelta(days=idx)
+            else:
+                # 裸"周X"：取最近的未来（含今天）
+                d = monday + timedelta(days=idx)
+                if d < today:
+                    d += timedelta(days=7)
+            word = ""
+        ask_weekday = bool(re.search(r"星期几|周几", q))
+        ask_date = bool(re.search(r"几号|几月几号|日期|什么日子", q))
+        if word:
+            if ask_weekday and not ask_date:
+                return "%s是 %d 年 %d 月 %d 日 星期%s%s" % (
+                    word, d.year, d.month, d.day, self._cn_weekday(d), suffix)
+            if ask_date:
+                return "%s是 %d 年 %d 月 %d 日 星期%s%s" % (
+                    word, d.year, d.month, d.day, self._cn_weekday(d), suffix)
+        if ask_weekday:
+            return "%d 年 %d 月 %d 日是星期%s%s" % (
+                d.year, d.month, d.day, self._cn_weekday(d), suffix)
+        if ask_date:
+            return "%d 年 %d 月 %d 日（星期%s）%s" % (
+                d.year, d.month, d.day, self._cn_weekday(d), suffix)
+        return "%d 年 %d 月 %d 日 星期%s%s" % (
+            d.year, d.month, d.day, self._cn_weekday(d), suffix)
 
     def _web_answer(self, text):
         try:
