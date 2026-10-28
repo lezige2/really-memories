@@ -1,0 +1,715 @@
+{
+ "schema": "sft_audit_v2_independent",
+ "task": "TASK-003",
+ "generated_at": "2026-10-28T17:43:15",
+ "checks": {
+  "file_sha256": {
+   "train": {
+    "actual": "7c660a48f61b9476d6a1017d453c7424f9b436afce439851510866e8d9250589",
+    "declared": "7c660a48f61b9476d6a1017d453c7424f9b436afce439851510866e8d9250589",
+    "match": true
+   },
+   "val": {
+    "actual": "65315a7be24bd118052b62950160c7926d3877d6d4d7767cd7980fe2df8019fa",
+    "declared": "65315a7be24bd118052b62950160c7926d3877d6d4d7767cd7980fe2df8019fa",
+    "match": true
+   },
+   "data": {
+    "actual": "7c660a48f61b9476d6a1017d453c7424f9b436afce439851510866e8d9250589",
+    "declared": "7c660a48f61b9476d6a1017d453c7424f9b436afce439851510866e8d9250589",
+    "match": true
+   }
+  },
+  "data_equals_train_bytes": {
+   "equal": true,
+   "detail": [
+    "7c660a48f61b9476",
+    "7c660a48f61b9476"
+   ]
+  },
+  "rerun_determinism": {
+   "r1": {
+    "train": "7c660a48f61b9476",
+    "val": "65315a7be24bd118",
+    "data": "7c660a48f61b9476"
+   },
+   "r2": {
+    "train": "7c660a48f61b9476",
+    "val": "65315a7be24bd118",
+    "data": "7c660a48f61b9476"
+   },
+   "r1_eq_r2": true,
+   "official_eq_rerun": true,
+   "official": {
+    "train": "7c660a48f61b9476",
+    "val": "65315a7be24bd118",
+    "data": "7c660a48f61b9476"
+   }
+  },
+  "rerun_audit_equal_except_generated_at": true,
+  "rows": {
+   "train": 2526,
+   "val": 159,
+   "sum": 2685,
+   "data": 2526,
+   "audit_declared": {
+    "rows": 2685,
+    "train_rows": 2526,
+    "val_rows": 159
+   },
+   "data_eq_train_rows": true
+  },
+  "schema": {
+   "all_3msg_system_user_assistant": true,
+   "bad_rows": []
+  },
+  "category_counts": {
+   "computed": {
+    "boundary": 470,
+    "chat": 120,
+    "identity": 480,
+    "latest": 48,
+    "memory": 438,
+    "privacy": 300,
+    "time": 280,
+    "unknown": 549
+   },
+   "declared": {
+    "identity": 480,
+    "boundary": 470,
+    "unknown": 560,
+    "privacy": 300,
+    "chat": 120,
+    "time": 280,
+    "memory": 430,
+    "latest": 45
+   },
+   "equal": false,
+   "questions_missing_in_meta": 0
+  },
+  "duplicates": {
+   "rows": 2685,
+   "unique_pairs": 2685,
+   "pair_dup_rate": 0.0,
+   "declared_pair_dup_rate": 0.0,
+   "exact_dup_rate_old_metric": 0.0,
+   "exact_dup_rows": 0,
+   "max_template_share": 0.007821
+  },
+  "val_leakage": {
+   "val_rows": 159,
+   "val_train_question_overlap": 0,
+   "val_train_exact_message_overlap": 0,
+   "exact_overlap_rate": 0.0,
+   "question_overlap_rate": 0.0
+  },
+  "chat": {
+   "rows": 120,
+   "match": 120,
+   "match_rate": 1.0,
+   "declared_rate": 1.0,
+   "mismatch_samples": []
+  },
+  "grammar_denylist": {
+   "violations": 0,
+   "declared": 0,
+   "samples": []
+  },
+  "eval_overlap": {
+   "eval_inputs": 167,
+   "overlap": 0,
+   "declared": 0,
+   "samples": []
+  },
+  "unique_questions": {
+   "count": 755,
+   "declared": 755
+  },
+  "latest": {
+   "rows_mems_ge2": 45,
+   "rows_with_mems_ge2": 45,
+   "rows_answer_contains_last": 45,
+   "bad": 0,
+   "declared_latest_priority_rows": 45,
+   "meta_mapped_latest_rows": 48,
+   "sample_24": [
+    {
+     "q": "下周三去哪开会？",
+     "mems": 3,
+     "last_kv": "广州",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周三要去广州开会。"
+    },
+    {
+     "q": "下周三的会在哪开？",
+     "mems": 3,
+     "last_kv": "广州",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周三要去广州开会。"
+    },
+    {
+     "q": "我下周三要去哪？",
+     "mems": 3,
+     "last_kv": "广州",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周三要去广州开会。"
+    },
+    {
+     "q": "下周三去哪开会？",
+     "mems": 3,
+     "last_kv": "成都",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周三要去成都开会。"
+    },
+    {
+     "q": "下周三的会在哪开？",
+     "mems": 3,
+     "last_kv": "成都",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周三要去成都开会。"
+    },
+    {
+     "q": "我下周三要去哪？",
+     "mems": 3,
+     "last_kv": "成都",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周三要去成都开会。"
+    },
+    {
+     "q": "下周三去哪开会？",
+     "mems": 3,
+     "last_kv": "南京",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周三要去南京开会。"
+    },
+    {
+     "q": "下周三的会在哪开？",
+     "mems": 3,
+     "last_kv": "南京",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周三要去南京开会。"
+    },
+    {
+     "q": "我下周三要去哪？",
+     "mems": 3,
+     "last_kv": "南京",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周三要去南京开会。"
+    },
+    {
+     "q": "下周三去哪开会？",
+     "mems": 3,
+     "last_kv": "重庆",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周三要去重庆开会。"
+    },
+    {
+     "q": "下周三的会在哪开？",
+     "mems": 3,
+     "last_kv": "重庆",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周三要去重庆开会。"
+    },
+    {
+     "q": "我下周三要去哪？",
+     "mems": 3,
+     "last_kv": "重庆",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周三要去重庆开会。"
+    },
+    {
+     "q": "下周三去哪开会？",
+     "mems": 3,
+     "last_kv": "青岛",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周三要去青岛开会。"
+    },
+    {
+     "q": "下周三的会在哪开？",
+     "mems": 3,
+     "last_kv": "青岛",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周三要去青岛开会。"
+    },
+    {
+     "q": "我下周三要去哪？",
+     "mems": 3,
+     "last_kv": "青岛",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周三要去青岛开会。"
+    },
+    {
+     "q": "下周五的差去哪出？",
+     "mems": 3,
+     "last_kv": "广州",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周五要去广州出差。"
+    },
+    {
+     "q": "我下周五要去哪？",
+     "mems": 3,
+     "last_kv": "广州",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周五要去广州出差。"
+    },
+    {
+     "q": "下周五的差去哪出？",
+     "mems": 3,
+     "last_kv": "成都",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周五要去成都出差。"
+    },
+    {
+     "q": "我下周五要去哪？",
+     "mems": 3,
+     "last_kv": "成都",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周五要去成都出差。"
+    },
+    {
+     "q": "下周五的差去哪出？",
+     "mems": 3,
+     "last_kv": "南京",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周五要去南京出差。"
+    },
+    {
+     "q": "我下周五要去哪？",
+     "mems": 3,
+     "last_kv": "南京",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周五要去南京出差。"
+    },
+    {
+     "q": "下周五的差去哪出？",
+     "mems": 3,
+     "last_kv": "重庆",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周五要去重庆出差。"
+    },
+    {
+     "q": "我下周五要去哪？",
+     "mems": 3,
+     "last_kv": "重庆",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周五要去重庆出差。"
+    },
+    {
+     "q": "下周五的差去哪出？",
+     "mems": 3,
+     "last_kv": "青岛",
+     "contains_last": true,
+     "earlier_hit": [],
+     "a": "你下周五要去青岛出差。"
+    }
+   ]
+  },
+  "policy": {
+   "policy_chars": 242,
+   "policy_sha256": "92e92217a74eb81e551f4a3fc618758e2acace7ecea3e946345026a1c052ff09",
+   "meta_policy_sha256": "92e92217a74eb81e551f4a3fc618758e2acace7ecea3e946345026a1c052ff09",
+   "sha_match": true,
+   "rows_containing_policy": 2407,
+   "rows_endswith_policy": 2407,
+   "rows_policy_middle": 0,
+   "system_part_hist": {
+    "2": 1682,
+    "1": 278,
+    "3": 725
+   },
+   "declared_policy_equals_runtime": {
+    "matched": 725,
+    "policy_rows": 725,
+    "equal": true
+   },
+   "continuation_rows": 278,
+   "continuation_ratio": 0.103538,
+   "declared_continuation_rows": 278
+  },
+  "time_consistency": {
+   "time_rows": 280,
+   "checked": 280,
+   "no_time_line": 0,
+   "mismatch": 0,
+   "declared": [
+    280,
+    0
+   ],
+   "mismatch_samples": [],
+   "random30_all_ok": true,
+   "random30": [
+    {
+     "q": "问一下，后天几号？",
+     "sys_time": "2026-10-28 09:30",
+     "a": "后天 10 月 30 号。",
+     "ok": true
+    },
+    {
+     "q": "后天几号？",
+     "sys_time": "2026-11-02 23:10",
+     "a": "后天 11 月 4 号。",
+     "ok": true
+    },
+    {
+     "q": "这个月还剩几天？",
+     "sys_time": "2026-10-28 09:30",
+     "a": "这个月还有 3 天。",
+     "ok": true
+    },
+    {
+     "q": "问一下，昨天几号？",
+     "sys_time": "2026-11-02 23:10",
+     "a": "昨天 11 月 1 号。",
+     "ok": true
+    },
+    {
+     "q": "在吗，明天是星期几？",
+     "sys_time": "2026-10-31 19:20",
+     "a": "明天是星期日。",
+     "ok": true
+    },
+    {
+     "q": "问一下，明天几号？",
+     "sys_time": "2026-10-27 21:00",
+     "a": "明天 10 月 28 号，星期三。",
+     "ok": true
+    },
+    {
+     "q": "这个月还剩几天？",
+     "sys_time": "2026-10-31 19:20",
+     "a": "这个月还有 0 天。",
+     "ok": true
+    },
+    {
+     "q": "问一下，前天星期几？",
+     "sys_time": "2026-10-29 15:00",
+     "a": "前天星期二。",
+     "ok": true
+    },
+    {
+     "q": "问一下，明天是星期几？",
+     "sys_time": "2026-10-27 21:00",
+     "a": "明天是星期三。",
+     "ok": true
+    },
+    {
+     "q": "明天星期几？",
+     "sys_time": "2026-11-01 08:00",
+     "a": "明天星期一。",
+     "ok": true
+    },
+    {
+     "q": "在吗，现在几点？",
+     "sys_time": "2026-12-31 12:00",
+     "a": "现在是 12:00。",
+     "ok": true
+    },
+    {
+     "q": "在吗，昨天几号？",
+     "sys_time": "2026-10-29 15:00",
+     "a": "昨天 10 月 28 号。",
+     "ok": true
+    },
+    {
+     "q": "在吗，昨天星期几？",
+     "sys_time": "2026-10-30 07:45",
+     "a": "昨天星期四。",
+     "ok": true
+    },
+    {
+     "q": "在吗，今天是几月几号？",
+     "sys_time": "2026-10-30 07:45",
+     "a": "今天是 10 月 30 号，星期五。",
+     "ok": true
+    },
+    {
+     "q": "昨天几号？",
+     "sys_time": "2026-10-31 19:20",
+     "a": "昨天 10 月 30 号。",
+     "ok": true
+    },
+    {
+     "q": "问一下，今天几号？",
+     "sys_time": "2026-11-02 23:10",
+     "a": "今天 11 月 2 号。",
+     "ok": true
+    },
+    {
+     "q": "在吗，现在几点？",
+     "sys_time": "2026-10-31 19:20",
+     "a": "现在是 19:20。",
+     "ok": true
+    },
+    {
+     "q": "后天几号？",
+     "sys_time": "2026-10-28 09:30",
+     "a": "后天 10 月 30 号。",
+     "ok": true
+    },
+    {
+     "q": "问一下，现在几点？",
+     "sys_time": "2026-10-30 07:45",
+     "a": "现在是 07:45。",
+     "ok": true
+    },
+    {
+     "q": "后天星期几？",
+     "sys_time": "2026-10-27 21:00",
+     "a": "后天星期四。",
+     "ok": true
+    },
+    {
+     "q": "在吗，今天几号？",
+     "sys_time": "2026-10-29 15:00",
+     "a": "今天 10 月 29 号。",
+     "ok": true
+    },
+    {
+     "q": "昨天星期几？",
+     "sys_time": "2026-10-27 21:00",
+     "a": "昨天星期一。",
+     "ok": true
+    },
+    {
+     "q": "在吗，明天几号？",
+     "sys_time": "2026-11-01 08:00",
+     "a": "明天 11 月 2 号，星期一。",
+     "ok": true
+    },
+    {
+     "q": "问一下，下周三几号？",
+     "sys_time": "2026-11-02 23:10",
+     "a": "下周三 11 月 11 号，星期三。",
+     "ok": true
+    },
+    {
+     "q": "前天几号？",
+     "sys_time": "2026-10-31 19:20",
+     "a": "前天 10 月 29 号。",
+     "ok": true
+    },
+    {
+     "q": "问一下，前天星期几？",
+     "sys_time": "2026-10-30 07:45",
+     "a": "前天星期三。",
+     "ok": true
+    },
+    {
+     "q": "问一下，后天几号？",
+     "sys_time": "2026-11-02 23:10",
+     "a": "后天 11 月 4 号。",
+     "ok": true
+    },
+    {
+     "q": "在吗，昨天星期几？",
+     "sys_time": "2026-10-29 15:00",
+     "a": "昨天星期三。",
+     "ok": true
+    },
+    {
+     "q": "问一下，现在几点？",
+     "sys_time": "2026-10-29 15:00",
+     "a": "现在是 15:00。",
+     "ok": true
+    },
+    {
+     "q": "在吗，这个月还剩几天？",
+     "sys_time": "2026-11-01 08:00",
+     "a": "这个月还有 29 天。",
+     "ok": true
+    }
+   ]
+  },
+  "category_counts_signature": {
+   "computed": {
+    "boundary": 470,
+    "chat": 120,
+    "identity_or_other": 480,
+    "latest": 45,
+    "memory": 430,
+    "privacy": 300,
+    "time": 280,
+    "unknown": 560
+   },
+   "declared": {
+    "identity": 480,
+    "boundary": 470,
+    "unknown": 560,
+    "privacy": 300,
+    "chat": 120,
+    "time": 280,
+    "memory": 430,
+    "latest": 45
+   },
+   "matches_declared": true,
+   "method": "latest=system记忆行≥2；memory=记忆行=1；unknown/privacy/chat/boundary 用答案文本签名；time 用问句模式；identity=剩余",
+   "val_by_signature": {
+    "boundary": 80,
+    "chat": 22,
+    "identity_or_other": 4,
+    "latest": 5,
+    "memory": 12,
+    "privacy": 4,
+    "time": 3,
+    "unknown": 29
+   },
+   "val_category_coverage": [
+    "boundary",
+    "chat",
+    "identity_or_other",
+    "latest",
+    "memory",
+    "privacy",
+    "time",
+    "unknown"
+   ]
+  },
+  "meta_category_ambiguity": {
+   "ambiguous_questions": 4,
+   "rows_affected": 57,
+   "detail": {
+    "我下周三要去哪？": [
+     "latest",
+     "unknown"
+    ],
+    "我在哪家公司上班？": [
+     "memory",
+     "unknown"
+    ],
+    "问一下，我养的猫叫什么名字？": [
+     "memory",
+     "unknown"
+    ],
+    "问一下，我的车牌号是多少？": [
+     "memory",
+     "unknown"
+    ]
+   },
+   "meta_category_of_q_n": 755
+  },
+  "extra": {
+   "system_time_values": {
+    "2026-10-27 21:00": 2449,
+    "2026-10-30 07:45": 34,
+    "2026-10-31 19:20": 32,
+    "2026-10-29 15:00": 39,
+    "2026-11-02 23:10": 38,
+    "2026-11-01 08:00": 33,
+    "2026-10-28 09:30": 34,
+    "2026-12-31 12:00": 26
+   },
+   "n_system_time_outside_anchors": 0,
+   "system_time_outside_samples": [],
+   "system_part_hist": {
+    "2": 1682,
+    "1": 278,
+    "3": 725
+   },
+   "continuation_rows_not_pure_time_line": 0,
+   "lint": {
+    "double_qmark": 0,
+    "space_before_qmark": 0,
+    "empty_q": 0,
+    "empty_a": 0
+   },
+   "unique_answers": 348,
+   "p99_chars_recomputed": 436,
+   "declared_p99_chars": 436,
+   "self_sha256": "8078ef4fa590caa0f170013b99f397fc1e9ef0f5f2113eaac82878c2c0b31756",
+   "declared_self_sha256": "8078ef4fa590caa0f170013b99f397fc1e9ef0f5f2113eaac82878c2c0b31756"
+  },
+  "gate_recompute": {
+   "recomputed": {
+    "rows_2600_3200": true,
+    "pair_dup_lt_2pct": true,
+    "val_train_overlap_zero": true,
+    "chat_match_100": true,
+    "grammar_zero": true,
+    "latest_ge_20": true,
+    "memory_facts_ge_120": true,
+    "policy_equals_runtime": true,
+    "eval_overlap_zero": true,
+    "unique_questions_ge_300": true,
+    "max_question_share_le_2pct": true,
+    "time_consistency": true,
+    "data_equals_train_bytes": true,
+    "val_140_160": true
+   },
+   "declared_all_ok": true,
+   "declared": {
+    "rows_2600_3200": true,
+    "pair_dup_lt_2pct": true,
+    "val_train_overlap_zero": true,
+    "chat_match_100": true,
+    "grammar_zero": true,
+    "latest_ge_20": true,
+    "memory_facts_ge_120": true,
+    "policy_equals_runtime": true,
+    "eval_overlap_zero": true,
+    "unique_questions_ge_300": true,
+    "max_question_share_le_2pct": true,
+    "time_consistency": true,
+    "data_equals_train_bytes": true,
+    "val_140_160": true
+   },
+   "memory_facts": 163,
+   "declared_facts": 142
+  },
+  "old_vs_new": {
+   "old_dataset": {
+    "rows": 2850,
+    "val_rows": 151,
+    "sha256_16": "8d2b19bde6b20f26"
+   },
+   "duplicate_rate": {
+    "old_exact_dup_rows_in_groups_pct": 87.09,
+    "old_unique_questions": 220,
+    "old_unique_answers": 75,
+    "new_exact_dup_pct": 0.0,
+    "new_pair_dup_pct": 0.0,
+    "new_unique_questions": 755
+   },
+   "val_leakage": {
+    "old_exact_overlap_pct": 79.09,
+    "old_question_overlap_pct": 95.24,
+    "new_exact_overlap_pct": 0.0,
+    "new_question_overlap_pct": 0.0
+   },
+   "chat_mismatch": {
+    "old_chat_rows": 378,
+    "old_mismatch_pct": 88.36,
+    "new_chat_rows": 120,
+    "new_mismatch_pct": 0.0
+   }
+  }
+ },
+ "must_fix": [],
+ "warn": [
+  "meta.category_of_q 非单射：4 个问句跨 memory/unknown/latest、57 行无法用 meta 唯一还原分类（签名法计数与自报一致，数据本身无矛盾）",
+  "val 各类别覆盖不均，<5 行的类别：{'privacy': 4, 'time': 3, 'identity_or_other': 4}（比例代表性弱）"
+ ],
+ "samples": {}
+}
