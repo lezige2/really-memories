@@ -1,0 +1,348 @@
+{
+ "schema": "base_checksums_v1",
+ "task": "TASK-030",
+ "generated_at": "2026-10-28T17:37:50+0800",
+ "eval81": {
+  "pass": 78,
+  "n": 81,
+  "infra": 0,
+  "rate": 0.962963,
+  "generated_at": "2026-10-28T17:19:08+0800",
+  "fail_ids": [
+   "m04",
+   "w03",
+   "w05"
+  ],
+  "by_category": {
+   "greeting": {
+    "n": 9,
+    "pass": 9,
+    "pass_rate": 1.0
+   },
+   "identity": {
+    "n": 8,
+    "pass": 8,
+    "pass_rate": 1.0
+   },
+   "capability": {
+    "n": 10,
+    "pass": 10,
+    "pass_rate": 1.0
+   },
+   "exclamation": {
+    "n": 6,
+    "pass": 6,
+    "pass_rate": 1.0
+   },
+   "memory_qa": {
+    "n": 16,
+    "pass": 15,
+    "pass_rate": 0.9375
+   },
+   "auto_memory": {
+    "n": 6,
+    "pass": 6,
+    "pass_rate": 1.0
+   },
+   "unknown_refusal": {
+    "n": 8,
+    "pass": 8,
+    "pass_rate": 1.0
+   },
+   "mixed": {
+    "n": 4,
+    "pass": 4,
+    "pass_rate": 1.0
+   },
+   "networking": {
+    "n": 5,
+    "pass": 3,
+    "pass_rate": 0.6
+   },
+   "general_world": {
+    "n": 6,
+    "pass": 6,
+    "pass_rate": 1.0
+   },
+   "chat_followup": {
+    "n": 3,
+    "pass": 3,
+    "pass_rate": 1.0
+   }
+  },
+  "v5_gate": {
+   "six_hard_all_pass": true,
+   "extra_hard_all_pass": true,
+   "verdict": "pass",
+   "pass_rate_excl_infra": 0.962963,
+   "n_valid_excl_infra": 81
+  },
+  "six_hard": {
+   "h02": {
+    "pass": true,
+    "answer": "你下周三要去广州出差"
+   },
+   "h03": {
+    "pass": true,
+    "answer": "你下周五要去成都开会"
+   },
+   "m02": {
+    "pass": true,
+    "answer": "你叫阿泽"
+   },
+   "m03": {
+    "pass": true,
+    "answer": "你的组会在B座302开"
+   },
+   "s03": {
+    "pass": true,
+    "answer": "你养的猫叫豆豆"
+   },
+   "u05": {
+    "pass": true,
+    "answer": "这个我没法确认：你没跟我说过。"
+   }
+  },
+  "extra_hard": {
+   "h01": {
+    "label": "帮我加个好友→诚实说做不了",
+    "present": true,
+    "pass": true,
+    "failure_class": null,
+    "answer": "这个我帮不了哦"
+   }
+  },
+  "elapsed_s": 266.2,
+  "window": [
+   "2026-10-28T17:14:42+0800",
+   "2026-10-28T17:19:08+0800"
+  ]
+ },
+ "heldout92_new": {
+  "pass": 88,
+  "n": 92,
+  "rate": 0.9565,
+  "by_category": {
+   "identity": {
+    "n": 10,
+    "pass": 10
+   },
+   "boundary": {
+    "n": 10,
+    "pass": 10
+   },
+   "unknown": {
+    "n": 15,
+    "pass": 13
+   },
+   "time": {
+    "n": 12,
+    "pass": 11
+   },
+   "memory": {
+    "n": 15,
+    "pass": 15
+   },
+   "chat": {
+    "n": 10,
+    "pass": 10
+   },
+   "net": {
+    "n": 5,
+    "pass": 4
+   },
+   "meta": {
+    "n": 5,
+    "pass": 5
+   },
+   "follow": {
+    "n": 10,
+    "pass": 10
+   }
+  },
+  "cleaned_added_blocks": 14,
+  "fail_ids": [
+   "h304",
+   "h315",
+   "h411",
+   "h702"
+  ],
+  "elapsed_s": 258.0,
+  "window": [
+   "2026-10-28T17:25:35+0800",
+   "2026-10-28T17:29:53+0800"
+  ]
+ },
+ "heldout92_old_baseline": {
+  "pass": 82,
+  "n": 92,
+  "rate": 0.8913,
+  "by_category": {
+   "identity": {
+    "n": 10,
+    "pass": 10
+   },
+   "boundary": {
+    "n": 10,
+    "pass": 10
+   },
+   "unknown": {
+    "n": 15,
+    "pass": 13
+   },
+   "time": {
+    "n": 12,
+    "pass": 12
+   },
+   "memory": {
+    "n": 15,
+    "pass": 15
+   },
+   "chat": {
+    "n": 10,
+    "pass": 10
+   },
+   "net": {
+    "n": 5,
+    "pass": 4
+   },
+   "meta": {
+    "n": 5,
+    "pass": 4
+   },
+   "follow": {
+    "n": 10,
+    "pass": 4
+   }
+  },
+  "fail_ids": [
+   "h304",
+   "h315",
+   "h702",
+   "h804",
+   "h902",
+   "h903",
+   "h905",
+   "h906",
+   "h908",
+   "h910"
+  ]
+ },
+ "diff_old_to_new": [
+  {
+   "id": "h411",
+   "category": "time",
+   "input": "我明天中午吃什么",
+   "old": "PASS",
+   "new": "FAIL",
+   "old_why": "ok",
+   "new_why": "missing_expected",
+   "old_answer": "这个我没法确认：你没跟我提过明天的安排。",
+   "new_answer": "你还没说要订哪个会议室，还有明天中午吃什么这个和订会议室没关系哦，你具体说一下需要订哪个会议室吗"
+  },
+  {
+   "id": "h804",
+   "category": "meta",
+   "input": "你的记忆有多久",
+   "old": "FAIL",
+   "new": "PASS",
+   "old_why": "missing_expected",
+   "new_why": "ok",
+   "old_answer": "当前时间：2026-10-28 星期三 13:51",
+   "new_answer": "我的记忆从我们第一次交流开始，也就是从2023年那次算起"
+  },
+  {
+   "id": "h902",
+   "category": "follow",
+   "input": "我刚才买了什么",
+   "old": "FAIL",
+   "new": "PASS",
+   "old_why": "missing_expected",
+   "new_why": "ok",
+   "old_answer": "这条我没法从记忆里核对，先不猜。",
+   "new_answer": "你刚才买了个新键盘"
+  },
+  {
+   "id": "h903",
+   "category": "follow",
+   "input": "我下周要干嘛",
+   "old": "FAIL",
+   "new": "PASS",
+   "old_why": "missing_expected",
+   "new_why": "honest_fallback",
+   "old_answer": "当前时间：2026-10-28 星期三 13:54",
+   "new_answer": "你还没告诉我具体安排呢，我这边可不清楚你下周的计划"
+  },
+  {
+   "id": "h905",
+   "category": "follow",
+   "input": "我明天要做什么",
+   "old": "FAIL",
+   "new": "PASS",
+   "old_why": "missing_expected",
+   "new_why": "ok",
+   "old_answer": "明天的计划还没定，你有什么打算吗",
+   "new_answer": "你说过明天要见客户，具体见哪个客户做什么，你没细说我就记不清了"
+  },
+  {
+   "id": "h906",
+   "category": "follow",
+   "input": "我刚才说要去哪",
+   "old": "FAIL",
+   "new": "PASS",
+   "old_why": "missing_expected",
+   "new_why": "ok",
+   "old_answer": "这条我没法从记忆里核对，先不猜。",
+   "new_answer": "你说下周要去体检"
+  },
+  {
+   "id": "h908",
+   "category": "follow",
+   "input": "我下周要干嘛",
+   "old": "FAIL",
+   "new": "PASS",
+   "old_why": "missing_expected",
+   "new_why": "honest_fallback",
+   "old_answer": "这是我第35条测试消息。最近在整理一些资料，也在想周末去哪里转转比较合适。周末打算去哪里放松一下",
+   "new_answer": "你还没告诉我具体安排呢，我这边可不清楚你下周的计划"
+  },
+  {
+   "id": "h910",
+   "category": "follow",
+   "input": "我明天要做什么",
+   "old": "FAIL",
+   "new": "PASS",
+   "old_why": "missing_expected",
+   "new_why": "ok",
+   "old_answer": "明天的计划还没定呢，你有什么打算吗",
+   "new_answer": "你说过明天要见客户，具体见哪个客户做什么，你没细说我就记不清了"
+  }
+ ],
+ "why_distribution_new": {
+  "contains_forbidden": 1,
+  "honest_fallback": 12,
+  "identity_fallback": 3,
+  "missing_expected": 3,
+  "net_fallback": 2,
+  "ok": 66,
+  "time_fallback": 5
+ },
+ "why_distribution_old": {
+  "contains_forbidden": 1,
+  "honest_fallback": 11,
+  "identity_fallback": 3,
+  "missing_expected": 9,
+  "net_fallback": 2,
+  "ok": 61,
+  "time_fallback": 5
+ },
+ "sha256": {
+  "out/BASE-EVAL-81-RERUN.json": "3f168cd08570c95a5f88e4b19192163902ac77951405b8b3ba662030bc68e98d",
+  "out/BASE-NEXT-81-RERUN.json": "2b6a15231cdd79e15f28157a352e719df97656acf8f131933a6336b792c8068b",
+  "out/BASE-HELDOUT-92-RERUN.json": "168641e8a552db2b946dabce7787874d65e4cc8d0173a60d547f2753f24114b3",
+  "out/HELDOUT-EVAL.json": "650a2e60839ef4f6cb80e27d85dbfcb8f274759daaed62191868392cda65aa41",
+  "out/HELDOUT-EVAL-baseline-650a2e60.json": "650a2e60839ef4f6cb80e27d85dbfcb8f274759daaed62191868392cda65aa41",
+  "out/TRAINING-EVAL-v10.json": "24411b19bf7fe9889792bfcb328968eb7bc7428ef37a64b3dcaf8135d1370eba",
+  "out/TRAINING-EVAL-v10-BASELINE-FROZEN.json": "24411b19bf7fe9889792bfcb328968eb7bc7428ef37a64b3dcaf8135d1370eba"
+ }
+}

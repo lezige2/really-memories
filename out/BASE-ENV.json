@@ -1,0 +1,112 @@
+{
+ "schema": "base_env_v1",
+ "task": "TASK-030",
+ "captured_at": "2026-10-28T17:14:26+0800",
+ "host_os": "Windows-11-10.0.22631-SP0",
+ "python": "3.14.5 (tags/v3.14.5:5607950, May 10 2026, 10:43:50) [MSC v.1944 64 bit (AMD64)]",
+ "cwd": "D:\\llama-mem",
+ "endpoint": "http://127.0.0.1:8765",
+ "health": {
+  "status": "ok",
+  "model_pin": {
+   "model_path": "D:\\models\\Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+   "model_size": 8988110976,
+   "model_mtime": 1793102210
+  },
+  "dll_pin": {
+   "path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+   "present": true,
+   "bytes": 50007552,
+   "sha16": "9edbafa150700614"
+  },
+  "vram_gib": null,
+  "memories": 20,
+  "session": {
+   "path": "kvmem\\daily\\sessions\\eval3.json",
+   "exists": true,
+   "chat_tokens": 4376,
+   "chat_budget": 24576,
+   "chat_start": 8192,
+   "n_ctx": 32768,
+   "mounted": 0,
+   "control": false,
+   "n_predict": 192,
+   "rollover_at": 0.75,
+   "rollover_threshold_tokens": 18432
+  },
+  "engine": {
+   "mode": "real",
+   "type": "KVEngine",
+   "n_ctx": 32768,
+   "n_seq": 8,
+   "n_gpu_layers": 28,
+   "bytes_per_token": 104448,
+   "kv_pool_gib": 3.188,
+   "mem_total_gib": 3.188
+  },
+  "retrieval": {
+   "mode": "topk",
+   "topk": 4,
+   "library_count": 20,
+   "library_max": 200,
+   "mounted_ids": [],
+   "mounted_count": 0,
+   "candidates": 6,
+   "related": 2,
+   "memory_budget": 7680,
+   "last_truncation": null
+  },
+  "version": "c-1.0",
+  "service": {
+   "version": "c-service-1.0",
+   "host": "127.0.0.1",
+   "port": 8765,
+   "serial": true,
+   "requests": 443,
+   "in_flight_max": 1,
+   "by_route": {
+    "GET /status": 201,
+    "POST /ask": 227,
+    "GET /health": 11,
+    "POST /reset": 4
+   },
+   "uptime_s": 4716.6,
+   "fake_engine": false,
+   "degraded": false,
+   "ask_timeout_s": 90.0
+  }
+ },
+ "baseline_files_before": {
+  "out/TRAINING-EVAL-v10.json": {
+   "bytes": 103137,
+   "sha16": "24411b19bf7fe988",
+   "mtime": "2026-10-28T04:17:19+0800"
+  },
+  "out/HELDOUT-EVAL.json": {
+   "bytes": 22806,
+   "sha16": "650a2e60839ef4f6",
+   "mtime": "2026-10-28T13:59:47+0800"
+  },
+  "training/dialog_cases.jsonl": {
+   "bytes": 25628,
+   "sha16": "a81853c6a8f164c0",
+   "mtime": "2026-10-28T03:27:24+0800"
+  },
+  "training/run_training_eval.py": {
+   "bytes": 52789,
+   "sha16": "70ee0fa9b7f31211",
+   "mtime": "2026-10-28T03:11:59+0800"
+  },
+  "training/run_v5_gate.py": {
+   "bytes": 8124,
+   "sha16": "486cd5815a398c13",
+   "mtime": "2026-10-27T23:33:28+0800"
+  },
+  "training/heldout/run_heldout.py": {
+   "bytes": 11605,
+   "sha16": "e54410fb7841d004",
+   "mtime": "2026-10-28T04:09:19+0800"
+  }
+ },
+ "notes": "独占基线重跑前置快照；服务由 Lead 管理，本窗口不重启"
+}

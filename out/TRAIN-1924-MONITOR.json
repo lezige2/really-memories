@@ -296,22 +296,281 @@
     "LOSS_JSON NONE"
    ],
    "anomalies": []
+  },
+  {
+   "ts": "2026-10-28T17:11:45+0800",
+   "ssh": {
+    "rc": 0,
+    "elapsed_s": 1.4,
+    "stderr": ""
+   },
+   "progress": {
+    "step": 78,
+    "total": 356,
+    "elapsed": "23:45",
+    "eta": "1:28:12",
+    "s_per_it": 19.04,
+    "pct": 21.91
+   },
+   "loss": null,
+   "loss_step": null,
+   "anomaly_hits": [
+    {
+     "kind": "process_exit",
+     "line": " 22%|██▏       | 78/356 [23:45<1:28:12, 19.04s/it]slurmstepd-co2-cn2: error: *** JOB 1924 ON co2-cn2 CANCELLED AT 2026-10-28T16:57:35 ***"
+    }
+   ],
+   "substeps": [
+    {
+     "jobid": "1924.batch",
+     "state": "CANCELLED",
+     "elapsed": "00:27:05"
+    },
+    {
+     "jobid": "1924.0",
+     "state": "CANCELLED",
+     "elapsed": "00:00:11"
+    }
+   ],
+   "substep_warnings": [
+    {
+     "jobid": "1924.batch",
+     "state": "CANCELLED",
+     "elapsed": "00:27:05"
+    },
+    {
+     "jobid": "1924.0",
+     "state": "CANCELLED",
+     "elapsed": "00:00:11"
+    }
+   ],
+   "job_state_sacct": "CANCELLED+",
+   "job_state_squeue": null,
+   "raw_tail": [
+    " 21%|██        | 75/356 [22:47<1:29:04, 19.02s/it]",
+    " 21%|██▏       | 76/356 [23:06<1:28:47, 19.03s/it]",
+    " 22%|██▏       | 77/356 [23:25<1:28:28, 19.03s/it]",
+    " 22%|██▏       | 78/356 [23:45<1:28:12, 19.04s/it]slurmstepd-co2-cn2: error: *** JOB 1924 ON co2-cn2 CANCELLED AT 2026-10-28T16:57:35 ***",
+    "---SQUEUE---",
+    "             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)",
+    "---SACCT---",
+    "1924         CANCELLED+   00:27:05      billing=16,cpu=16,gres/gpu=2,node=1",
+    "1924.batch    CANCELLED   00:27:05           cpu=16,gres/gpu=2,mem=0,node=1",
+    "1924.0        CANCELLED   00:00:11           cpu=16,gres/gpu=2,mem=0,node=1",
+    "---STATE---",
+    "LOSS_JSON NONE"
+   ],
+   "anomalies": [
+    {
+     "kind": "process_exit",
+     "line": " 22%|██▏       | 78/356 [23:45<1:28:12, 19.04s/it]slurmstepd-co2-cn2: error: *** JOB 1924 ON co2-cn2 CANCELLED AT 2026-10-28T16:57:35 ***"
+    },
+    {
+     "kind": "job_not_running",
+     "line": "state=CANCELLED+"
+    }
+   ]
+  },
+  {
+   "ts": "2026-10-28T17:26:46+0800",
+   "ssh": {
+    "rc": 0,
+    "elapsed_s": 1.76,
+    "stderr": ""
+   },
+   "progress": {
+    "step": 78,
+    "total": 356,
+    "elapsed": "23:45",
+    "eta": "1:28:12",
+    "s_per_it": 19.04,
+    "pct": 21.91
+   },
+   "loss": null,
+   "loss_step": null,
+   "anomaly_hits": [
+    {
+     "kind": "process_exit",
+     "line": " 22%|██▏       | 78/356 [23:45<1:28:12, 19.04s/it]slurmstepd-co2-cn2: error: *** JOB 1924 ON co2-cn2 CANCELLED AT 2026-10-28T16:57:35 ***"
+    }
+   ],
+   "substeps": [
+    {
+     "jobid": "1924.batch",
+     "state": "CANCELLED",
+     "elapsed": "00:27:05"
+    },
+    {
+     "jobid": "1924.0",
+     "state": "CANCELLED",
+     "elapsed": "00:00:11"
+    }
+   ],
+   "substep_warnings": [
+    {
+     "jobid": "1924.batch",
+     "state": "CANCELLED",
+     "elapsed": "00:27:05"
+    },
+    {
+     "jobid": "1924.0",
+     "state": "CANCELLED",
+     "elapsed": "00:00:11"
+    }
+   ],
+   "job_state_sacct": "CANCELLED+",
+   "job_state_squeue": null,
+   "raw_tail": [
+    " 21%|██        | 75/356 [22:47<1:29:04, 19.02s/it]",
+    " 21%|██▏       | 76/356 [23:06<1:28:47, 19.03s/it]",
+    " 22%|██▏       | 77/356 [23:25<1:28:28, 19.03s/it]",
+    " 22%|██▏       | 78/356 [23:45<1:28:12, 19.04s/it]slurmstepd-co2-cn2: error: *** JOB 1924 ON co2-cn2 CANCELLED AT 2026-10-28T16:57:35 ***",
+    "---SQUEUE---",
+    "             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)",
+    "---SACCT---",
+    "1924         CANCELLED+   00:27:05      billing=16,cpu=16,gres/gpu=2,node=1",
+    "1924.batch    CANCELLED   00:27:05           cpu=16,gres/gpu=2,mem=0,node=1",
+    "1924.0        CANCELLED   00:00:11           cpu=16,gres/gpu=2,mem=0,node=1",
+    "---STATE---",
+    "LOSS_JSON NONE"
+   ],
+   "anomalies": [
+    {
+     "kind": "process_exit",
+     "line": " 22%|██▏       | 78/356 [23:45<1:28:12, 19.04s/it]slurmstepd-co2-cn2: error: *** JOB 1924 ON co2-cn2 CANCELLED AT 2026-10-28T16:57:35 ***"
+    },
+    {
+     "kind": "job_not_running",
+     "line": "state=CANCELLED+"
+    }
+   ]
+  },
+  {
+   "ts": "2026-10-28T17:41:48+0800",
+   "ssh": {
+    "rc": 0,
+    "elapsed_s": 1.44,
+    "stderr": ""
+   },
+   "progress": {
+    "step": 78,
+    "total": 356,
+    "elapsed": "23:45",
+    "eta": "1:28:12",
+    "s_per_it": 19.04,
+    "pct": 21.91
+   },
+   "loss": null,
+   "loss_step": null,
+   "anomaly_hits": [
+    {
+     "kind": "process_exit",
+     "line": " 22%|██▏       | 78/356 [23:45<1:28:12, 19.04s/it]slurmstepd-co2-cn2: error: *** JOB 1924 ON co2-cn2 CANCELLED AT 2026-10-28T16:57:35 ***"
+    }
+   ],
+   "substeps": [
+    {
+     "jobid": "1924.batch",
+     "state": "CANCELLED",
+     "elapsed": "00:27:05"
+    },
+    {
+     "jobid": "1924.0",
+     "state": "CANCELLED",
+     "elapsed": "00:00:11"
+    }
+   ],
+   "substep_warnings": [
+    {
+     "jobid": "1924.batch",
+     "state": "CANCELLED",
+     "elapsed": "00:27:05"
+    },
+    {
+     "jobid": "1924.0",
+     "state": "CANCELLED",
+     "elapsed": "00:00:11"
+    }
+   ],
+   "job_state_sacct": "CANCELLED+",
+   "job_state_squeue": null,
+   "raw_tail": [
+    " 21%|██        | 75/356 [22:47<1:29:04, 19.02s/it]",
+    " 21%|██▏       | 76/356 [23:06<1:28:47, 19.03s/it]",
+    " 22%|██▏       | 77/356 [23:25<1:28:28, 19.03s/it]",
+    " 22%|██▏       | 78/356 [23:45<1:28:12, 19.04s/it]slurmstepd-co2-cn2: error: *** JOB 1924 ON co2-cn2 CANCELLED AT 2026-10-28T16:57:35 ***",
+    "---SQUEUE---",
+    "             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)",
+    "---SACCT---",
+    "1924         CANCELLED+   00:27:05      billing=16,cpu=16,gres/gpu=2,node=1",
+    "1924.batch    CANCELLED   00:27:05           cpu=16,gres/gpu=2,mem=0,node=1",
+    "1924.0        CANCELLED   00:00:11           cpu=16,gres/gpu=2,mem=0,node=1",
+    "---STATE---",
+    "LOSS_JSON NONE"
+   ],
+   "anomalies": [
+    {
+     "kind": "process_exit",
+     "line": " 22%|██▏       | 78/356 [23:45<1:28:12, 19.04s/it]slurmstepd-co2-cn2: error: *** JOB 1924 ON co2-cn2 CANCELLED AT 2026-10-28T16:57:35 ***"
+    },
+    {
+     "kind": "job_not_running",
+     "line": "state=CANCELLED+"
+    }
+   ]
   }
  ],
- "alerts": [],
- "last_updated": "2026-10-28T16:56:43+0800",
+ "alerts": [
+  {
+   "ts": "2026-10-28T17:11:45+0800",
+   "n": 2,
+   "kinds": [
+    "job_not_running",
+    "process_exit"
+   ],
+   "lines": [
+    " 22%|██▏       | 78/356 [23:45<1:28:12, 19.04s/it]slurmstepd-co2-cn2: error: *** JOB 1924 ON co2-cn2 CANCELLED AT 2026-10-28T16:57:35 ***",
+    "state=CANCELLED+"
+   ]
+  },
+  {
+   "ts": "2026-10-28T17:26:46+0800",
+   "n": 2,
+   "kinds": [
+    "job_not_running",
+    "process_exit"
+   ],
+   "lines": [
+    " 22%|██▏       | 78/356 [23:45<1:28:12, 19.04s/it]slurmstepd-co2-cn2: error: *** JOB 1924 ON co2-cn2 CANCELLED AT 2026-10-28T16:57:35 ***",
+    "state=CANCELLED+"
+   ]
+  },
+  {
+   "ts": "2026-10-28T17:41:48+0800",
+   "n": 2,
+   "kinds": [
+    "job_not_running",
+    "process_exit"
+   ],
+   "lines": [
+    " 22%|██▏       | 78/356 [23:45<1:28:12, 19.04s/it]slurmstepd-co2-cn2: error: *** JOB 1924 ON co2-cn2 CANCELLED AT 2026-10-28T16:57:35 ***",
+    "state=CANCELLED+"
+   ]
+  }
+ ],
+ "last_updated": "2026-10-28T17:41:48+0800",
  "latest": {
-  "ts": "2026-10-28T16:56:43+0800",
-  "step": 75,
+  "ts": "2026-10-28T17:41:48+0800",
+  "step": 78,
   "total": 356,
-  "s_per_it": 19.02,
-  "eta": "1:29:04",
+  "s_per_it": 19.04,
+  "eta": "1:28:12",
   "loss": null,
   "loss_step": null,
-  "job_state": "RUNNING",
-  "n_anomalies": 0
+  "job_state": "CANCELLED+",
+  "n_anomalies": 2
  },
- "n_samples": 6,
+ "n_samples": 9,
  "anomaly_policy": "alerts 只报：主作业(1924)非 RUNNING、NaN/Inf、device mismatch、OOM、Traceback、srun error；子步骤(1924.x) CANCELLED/FAILED 仅记 substep_warnings（如 srun nvidia-smi 超时不等于训练失败）。",
  "corrections": [
   {
