@@ -1,0 +1,1114 @@
+{
+ "schema": "sft_proxy_6way_v1",
+ "task": "TASK-v7",
+ "proxy_note": "proxy≠service：llama-server /completion 文本记忆；不可与 service 78/81、90/92 横比；仅 base/v2/v3/v4 同 prompt(temp=0,top_k=1)/同判据/同冻结时间相对对比。v4 autonomy 的 D 类为**空 user**口径（v2/v3/base 为文本触发句），D 类数字跨口径不可直接比，需看同一文件内 A/B/C。",
+ "inputs": {
+  "base": {
+   "path": "out\\PROXY-base.json",
+   "sha16": "396688d6e780a597",
+   "adapter_sha256": "",
+   "lora": ""
+  },
+  "v2": {
+   "path": "out\\PROXY-sft.json",
+   "sha16": "2185999b665753b8",
+   "adapter_sha256": "ccc30b1f87ec3cd268ac196d18d970c7447bc6f0cbcf6f70c4f99804b4cbf009",
+   "lora": "D:/models/sft/qwen-sft-lora.gguf"
+  },
+  "v3": {
+   "path": "out\\PROXY-sft-v3.json",
+   "sha16": "2dcff4391ff560cb",
+   "adapter_sha256": "667361341e955e7dc60b211643cd4a2e02569226552100197d87c9ecf9d05720",
+   "lora": "D:/models/qwen-sft-parts/_v3_lora/out/qwen-sft-v3-lora.gguf"
+  },
+  "v4": {
+   "path": "out\\PROXY-v4.json",
+   "sha16": "f499a5718f29896c",
+   "adapter_sha256": "6ca1effdacf0efd53abf0d14d1f08d07f3cad245d2a71a63f86dcb2187610cf3",
+   "lora": "D:/models/v4/qwen-sft-v4-lora.gguf"
+  },
+  "v5": {
+   "path": "out\\PROXY-v5.json",
+   "sha16": "65b1393fa9c37e2c",
+   "adapter_sha256": "33cf2ad68c308c311b9003142cf088205b007c96dda22d73ce19ccc1d7e6db75",
+   "lora": "D:/models/v5/qwen-sft-v5-lora.gguf"
+  },
+  "v7": {
+   "path": "out\\PROXY-v7.json",
+   "sha16": "91b4ca87354e14af",
+   "adapter_sha256": "fe9afb66724717cf58d38850133d2ff282d4a41aa6eb4d75789d5b2d27793ea5",
+   "lora": "D:/models/v7/qwen-sft-v7-lora.gguf"
+  }
+ },
+ "autonomy_inputs": {
+  "base": {
+   "path": "out\\PROXY-autonomy-base-dempty.json",
+   "sha16": "998fe8d05d3a37de",
+   "d_mode": "empty_user"
+  },
+  "v2": {
+   "path": "out\\PROXY-autonomy-sft.json",
+   "sha16": "c6d78ec812360751",
+   "d_mode": "text_trigger"
+  },
+  "v3": {
+   "path": "out\\PROXY-autonomy-sft-v3.json",
+   "sha16": "dff7239e95ad67e4",
+   "d_mode": "text_trigger"
+  },
+  "v4": {
+   "path": "out\\PROXY-autonomy-v4.json",
+   "sha16": "285fc699f95e4256",
+   "d_mode": "empty_user"
+  },
+  "v5": {
+   "path": "out\\PROXY-autonomy-v5.json",
+   "sha16": "22572165d42ae6ed",
+   "d_mode": "empty_user"
+  },
+  "v7": {
+   "path": "out\\PROXY-autonomy-v7.json",
+   "sha16": "9db295ce9d1fac26",
+   "d_mode": "empty_user"
+  }
+ },
+ "missing": [],
+ "warnings": [
+  "autonomy 用例 sha 跨臂不同（v4 D 类为空 user 口径，属预期；A/B/C 仍可比）"
+ ],
+ "main": {
+  "base": {
+   "eval81": {
+    "n": 81,
+    "pass": 61,
+    "excluded_n": 0,
+    "effective_n": 81,
+    "effective_pass": 61
+   },
+   "heldout92": {
+    "n": 92,
+    "pass": 76,
+    "excluded_n": 16,
+    "effective_n": 76,
+    "effective_pass": 65
+   },
+   "extra20": {
+    "n": 20,
+    "pass": 19,
+    "excluded_n": 3,
+    "effective_n": 17,
+    "effective_pass": 16
+   },
+   "_total": {
+    "n": 193,
+    "pass": 156,
+    "effective_n": 174,
+    "effective_pass": 142
+   }
+  },
+  "v2": {
+   "eval81": {
+    "n": 81,
+    "pass": 61,
+    "excluded_n": 0,
+    "effective_n": 81,
+    "effective_pass": 61
+   },
+   "heldout92": {
+    "n": 92,
+    "pass": 89,
+    "excluded_n": 16,
+    "effective_n": 76,
+    "effective_pass": 73
+   },
+   "extra20": {
+    "n": 20,
+    "pass": 17,
+    "excluded_n": 3,
+    "effective_n": 17,
+    "effective_pass": 15
+   },
+   "_total": {
+    "n": 193,
+    "pass": 167,
+    "effective_n": 174,
+    "effective_pass": 149
+   }
+  },
+  "v3": {
+   "eval81": {
+    "n": 81,
+    "pass": 59,
+    "excluded_n": 0,
+    "effective_n": 81,
+    "effective_pass": 59
+   },
+   "heldout92": {
+    "n": 92,
+    "pass": 90,
+    "excluded_n": 16,
+    "effective_n": 76,
+    "effective_pass": 74
+   },
+   "extra20": {
+    "n": 20,
+    "pass": 20,
+    "excluded_n": 3,
+    "effective_n": 17,
+    "effective_pass": 17
+   },
+   "_total": {
+    "n": 193,
+    "pass": 169,
+    "effective_n": 174,
+    "effective_pass": 150
+   }
+  },
+  "v4": {
+   "eval81": {
+    "n": 81,
+    "pass": 63,
+    "excluded_n": 0,
+    "effective_n": 81,
+    "effective_pass": 63
+   },
+   "heldout92": {
+    "n": 92,
+    "pass": 86,
+    "excluded_n": 16,
+    "effective_n": 76,
+    "effective_pass": 70
+   },
+   "extra20": {
+    "n": 20,
+    "pass": 19,
+    "excluded_n": 3,
+    "effective_n": 17,
+    "effective_pass": 16
+   },
+   "_total": {
+    "n": 193,
+    "pass": 168,
+    "effective_n": 174,
+    "effective_pass": 149
+   }
+  },
+  "v5": {
+   "eval81": {
+    "n": 81,
+    "pass": 65,
+    "excluded_n": 0,
+    "effective_n": 81,
+    "effective_pass": 65
+   },
+   "heldout92": {
+    "n": 92,
+    "pass": 89,
+    "excluded_n": 16,
+    "effective_n": 76,
+    "effective_pass": 73
+   },
+   "extra20": {
+    "n": 20,
+    "pass": 19,
+    "excluded_n": 3,
+    "effective_n": 17,
+    "effective_pass": 16
+   },
+   "_total": {
+    "n": 193,
+    "pass": 173,
+    "effective_n": 174,
+    "effective_pass": 154
+   }
+  },
+  "v7": {
+   "eval81": {
+    "n": 81,
+    "pass": 66,
+    "excluded_n": 0,
+    "effective_n": 81,
+    "effective_pass": 66
+   },
+   "heldout92": {
+    "n": 92,
+    "pass": 85,
+    "excluded_n": 16,
+    "effective_n": 76,
+    "effective_pass": 70
+   },
+   "extra20": {
+    "n": 20,
+    "pass": 19,
+    "excluded_n": 3,
+    "effective_n": 17,
+    "effective_pass": 16
+   },
+   "_total": {
+    "n": 193,
+    "pass": 170,
+    "effective_n": 174,
+    "effective_pass": 152
+   }
+  }
+ },
+ "main_diffs": {
+  "v5->v7": {
+   "new_pass": [
+    "c07",
+    "w03"
+   ],
+   "new_fail": [
+    "c02",
+    "h602",
+    "h608",
+    "h802",
+    "h805"
+   ],
+   "identical_answer_n": 78,
+   "pairs": 193
+  },
+  "v4->v7": {
+   "new_pass": [
+    "c03",
+    "c07",
+    "c08",
+    "k03",
+    "h105",
+    "h606",
+    "h610"
+   ],
+   "new_fail": [
+    "c02",
+    "h602",
+    "h608",
+    "h801",
+    "h805"
+   ],
+   "identical_answer_n": 58,
+   "pairs": 193
+  },
+  "v3->v7": {
+   "new_pass": [
+    "g04",
+    "c05",
+    "c06",
+    "c07",
+    "c09",
+    "w01",
+    "w02",
+    "w03",
+    "h606",
+    "h701"
+   ],
+   "new_fail": [
+    "c02",
+    "h411",
+    "h602",
+    "h608",
+    "h801",
+    "h802",
+    "h804",
+    "h805",
+    "L09"
+   ],
+   "identical_answer_n": 41,
+   "pairs": 193
+  },
+  "base->v7": {
+   "new_pass": [
+    "i04",
+    "c05",
+    "c07",
+    "u02",
+    "w03",
+    "h109",
+    "h203",
+    "h208",
+    "h301",
+    "h308",
+    "h311",
+    "h312",
+    "h314",
+    "h315",
+    "h502",
+    "h505",
+    "h515",
+    "h702",
+    "R09"
+   ],
+   "new_fail": [
+    "h608",
+    "h802",
+    "h804",
+    "h805",
+    "L09"
+   ],
+   "identical_answer_n": 18,
+   "pairs": 193
+  },
+  "v4->v5": {
+   "new_pass": [
+    "c03",
+    "c08",
+    "k03",
+    "h105",
+    "h606",
+    "h610",
+    "h802"
+   ],
+   "new_fail": [
+    "w03",
+    "h801"
+   ],
+   "identical_answer_n": 42,
+   "pairs": 193
+  },
+  "v3->v5": {
+   "new_pass": [
+    "g04",
+    "c05",
+    "c06",
+    "c09",
+    "w01",
+    "w02",
+    "h606",
+    "h701"
+   ],
+   "new_fail": [
+    "h411",
+    "h801",
+    "h804",
+    "L09"
+   ],
+   "identical_answer_n": 37,
+   "pairs": 193
+  },
+  "v2->v5": {
+   "new_pass": [
+    "c03",
+    "c04",
+    "c05",
+    "c06",
+    "c09",
+    "h602",
+    "h610",
+    "h805",
+    "L04",
+    "L10"
+   ],
+   "new_fail": [
+    "w03",
+    "h411",
+    "h801",
+    "h804"
+   ],
+   "identical_answer_n": 53,
+   "pairs": 193
+  },
+  "base->v5": {
+   "new_pass": [
+    "i04",
+    "c02",
+    "c05",
+    "u02",
+    "h109",
+    "h203",
+    "h208",
+    "h301",
+    "h308",
+    "h311",
+    "h312",
+    "h314",
+    "h315",
+    "h502",
+    "h505",
+    "h515",
+    "h602",
+    "h702",
+    "R09"
+   ],
+   "new_fail": [
+    "h804",
+    "L09"
+   ],
+   "identical_answer_n": 21,
+   "pairs": 193
+  },
+  "v3->v4": {
+   "new_pass": [
+    "g04",
+    "c05",
+    "c06",
+    "c09",
+    "w01",
+    "w02",
+    "w03",
+    "h701"
+   ],
+   "new_fail": [
+    "c03",
+    "c08",
+    "k03",
+    "h105",
+    "h411",
+    "h610",
+    "h802",
+    "h804",
+    "L09"
+   ],
+   "identical_answer_n": 22,
+   "pairs": 193
+  },
+  "v2->v4": {
+   "new_pass": [
+    "c04",
+    "c05",
+    "c06",
+    "c09",
+    "h602",
+    "h805",
+    "L04",
+    "L10"
+   ],
+   "new_fail": [
+    "c08",
+    "k03",
+    "h105",
+    "h411",
+    "h606",
+    "h802",
+    "h804"
+   ],
+   "identical_answer_n": 31,
+   "pairs": 193
+  },
+  "base->v4": {
+   "new_pass": [
+    "i04",
+    "c02",
+    "c05",
+    "u02",
+    "w03",
+    "h109",
+    "h203",
+    "h208",
+    "h301",
+    "h308",
+    "h311",
+    "h312",
+    "h314",
+    "h315",
+    "h502",
+    "h505",
+    "h515",
+    "h602",
+    "h702",
+    "h801",
+    "R09"
+   ],
+   "new_fail": [
+    "c03",
+    "c08",
+    "k03",
+    "h105",
+    "h606",
+    "h610",
+    "h802",
+    "h804",
+    "L09"
+   ],
+   "identical_answer_n": 19,
+   "pairs": 193
+  },
+  "v3->v2": {
+   "new_pass": [
+    "g04",
+    "w01",
+    "w02",
+    "w03",
+    "h606",
+    "h701"
+   ],
+   "new_fail": [
+    "c03",
+    "c04",
+    "h602",
+    "h610",
+    "h805",
+    "L04",
+    "L09",
+    "L10"
+   ],
+   "identical_answer_n": 94,
+   "pairs": 193
+  }
+ },
+ "guard_fail_ids": {
+  "base": {
+   "memory": [
+    "m01",
+    "m02",
+    "m03",
+    "m04",
+    "m05",
+    "m06",
+    "m07",
+    "m08",
+    "h02",
+    "h03",
+    "h502",
+    "h505",
+    "h515"
+   ],
+   "unknown_refusal": [
+    "u02",
+    "h301",
+    "h308",
+    "h311",
+    "h312",
+    "h314",
+    "h315",
+    "R09"
+   ],
+   "follow": []
+  },
+  "v2": {
+   "memory": [
+    "m01",
+    "m02",
+    "m03",
+    "m04",
+    "m05",
+    "m06",
+    "m07",
+    "m08",
+    "h02",
+    "h03",
+    "L04",
+    "L09",
+    "L10"
+   ],
+   "unknown_refusal": [],
+   "follow": []
+  },
+  "v3": {
+   "memory": [
+    "m01",
+    "m02",
+    "m03",
+    "m04",
+    "m05",
+    "m06",
+    "m07",
+    "m08",
+    "h02",
+    "h03"
+   ],
+   "unknown_refusal": [],
+   "follow": []
+  },
+  "v4": {
+   "memory": [
+    "m01",
+    "m02",
+    "m03",
+    "m04",
+    "m05",
+    "m06",
+    "m07",
+    "m08",
+    "h02",
+    "h03",
+    "L09"
+   ],
+   "unknown_refusal": [],
+   "follow": []
+  },
+  "v5": {
+   "memory": [
+    "m01",
+    "m02",
+    "m03",
+    "m04",
+    "m05",
+    "m06",
+    "m07",
+    "m08",
+    "h02",
+    "h03",
+    "L09"
+   ],
+   "unknown_refusal": [],
+   "follow": []
+  },
+  "v7": {
+   "memory": [
+    "m01",
+    "m02",
+    "m03",
+    "m04",
+    "m05",
+    "m06",
+    "m07",
+    "m08",
+    "h02",
+    "h03",
+    "L09"
+   ],
+   "unknown_refusal": [],
+   "follow": []
+  }
+ },
+ "autonomy": {
+  "base": {
+   "A": {
+    "n": 4,
+    "pass": 4,
+    "fail_ids": [],
+    "empty_user_n": 0
+   },
+   "B": {
+    "n": 4,
+    "pass": 3,
+    "fail_ids": [
+     "B01"
+    ],
+    "empty_user_n": 0
+   },
+   "C": {
+    "n": 4,
+    "pass": 4,
+    "fail_ids": [],
+    "empty_user_n": 0
+   },
+   "D": {
+    "n": 5,
+    "pass": 5,
+    "fail_ids": [],
+    "empty_user_n": 5
+   },
+   "_total": {
+    "n": 37,
+    "pass": 35
+   }
+  },
+  "v2": {
+   "A": {
+    "n": 4,
+    "pass": 4,
+    "fail_ids": [],
+    "empty_user_n": 0
+   },
+   "B": {
+    "n": 4,
+    "pass": 0,
+    "fail_ids": [
+     "B01",
+     "B02",
+     "B03",
+     "B04"
+    ],
+    "empty_user_n": 0
+   },
+   "C": {
+    "n": 4,
+    "pass": 2,
+    "fail_ids": [
+     "C01",
+     "C02"
+    ],
+    "empty_user_n": 0
+   },
+   "D": {
+    "n": 5,
+    "pass": 0,
+    "fail_ids": [
+     "D01",
+     "D02",
+     "D03",
+     "D04",
+     "D05"
+    ],
+    "empty_user_n": 0
+   },
+   "_total": {
+    "n": 37,
+    "pass": 23
+   }
+  },
+  "v3": {
+   "A": {
+    "n": 4,
+    "pass": 4,
+    "fail_ids": [],
+    "empty_user_n": 0
+   },
+   "B": {
+    "n": 4,
+    "pass": 2,
+    "fail_ids": [
+     "B01",
+     "B03"
+    ],
+    "empty_user_n": 0
+   },
+   "C": {
+    "n": 4,
+    "pass": 3,
+    "fail_ids": [
+     "C01"
+    ],
+    "empty_user_n": 0
+   },
+   "D": {
+    "n": 5,
+    "pass": 5,
+    "fail_ids": [],
+    "empty_user_n": 0
+   },
+   "_total": {
+    "n": 37,
+    "pass": 34
+   }
+  },
+  "v4": {
+   "A": {
+    "n": 4,
+    "pass": 4,
+    "fail_ids": [],
+    "empty_user_n": 0
+   },
+   "B": {
+    "n": 4,
+    "pass": 1,
+    "fail_ids": [
+     "B01",
+     "B02",
+     "B04"
+    ],
+    "empty_user_n": 0
+   },
+   "C": {
+    "n": 4,
+    "pass": 4,
+    "fail_ids": [],
+    "empty_user_n": 0
+   },
+   "D": {
+    "n": 5,
+    "pass": 2,
+    "fail_ids": [
+     "D03",
+     "D04",
+     "D05"
+    ],
+    "empty_user_n": 5
+   },
+   "_total": {
+    "n": 37,
+    "pass": 30
+   }
+  },
+  "v5": {
+   "A": {
+    "n": 4,
+    "pass": 4,
+    "fail_ids": [],
+    "empty_user_n": 0
+   },
+   "B": {
+    "n": 4,
+    "pass": 0,
+    "fail_ids": [
+     "B01",
+     "B02",
+     "B03",
+     "B04"
+    ],
+    "empty_user_n": 0
+   },
+   "C": {
+    "n": 4,
+    "pass": 4,
+    "fail_ids": [],
+    "empty_user_n": 0
+   },
+   "D": {
+    "n": 5,
+    "pass": 4,
+    "fail_ids": [
+     "D03"
+    ],
+    "empty_user_n": 5
+   },
+   "_total": {
+    "n": 37,
+    "pass": 31
+   }
+  },
+  "v7": {
+   "A": {
+    "n": 4,
+    "pass": 4,
+    "fail_ids": [],
+    "empty_user_n": 0
+   },
+   "B": {
+    "n": 4,
+    "pass": 1,
+    "fail_ids": [
+     "B01",
+     "B02",
+     "B04"
+    ],
+    "empty_user_n": 0
+   },
+   "C": {
+    "n": 4,
+    "pass": 4,
+    "fail_ids": [],
+    "empty_user_n": 0
+   },
+   "D": {
+    "n": 5,
+    "pass": 2,
+    "fail_ids": [
+     "D03",
+     "D04",
+     "D05"
+    ],
+    "empty_user_n": 5
+   },
+   "_total": {
+    "n": 37,
+    "pass": 30
+   }
+  }
+ },
+ "autonomy_diffs": {
+  "v5->v7": {
+   "new_pass": [
+    "B03"
+   ],
+   "new_fail": [
+    "D04",
+    "D05"
+   ],
+   "identical_answer_n": 24,
+   "pairs": 37
+  },
+  "v4->v7": {
+   "new_pass": [],
+   "new_fail": [],
+   "identical_answer_n": 15,
+   "pairs": 37
+  },
+  "v3->v7": {
+   "new_pass": [
+    "B03",
+    "C01"
+   ],
+   "new_fail": [
+    "L09",
+    "B02",
+    "B04",
+    "D03",
+    "D04",
+    "D05"
+   ],
+   "identical_answer_n": 11,
+   "pairs": 37
+  },
+  "base->v7": {
+   "new_pass": [
+    "R09"
+   ],
+   "new_fail": [
+    "L09",
+    "B02",
+    "B04",
+    "D03",
+    "D04",
+    "D05"
+   ],
+   "identical_answer_n": 7,
+   "pairs": 37
+  },
+  "v4->v5": {
+   "new_pass": [
+    "D04",
+    "D05"
+   ],
+   "new_fail": [
+    "B03"
+   ],
+   "identical_answer_n": 18,
+   "pairs": 37
+  },
+  "v3->v5": {
+   "new_pass": [
+    "C01"
+   ],
+   "new_fail": [
+    "L09",
+    "B02",
+    "B04",
+    "D03"
+   ],
+   "identical_answer_n": 10,
+   "pairs": 37
+  },
+  "v2->v5": {
+   "new_pass": [
+    "L04",
+    "L10",
+    "C01",
+    "C02",
+    "D01",
+    "D02",
+    "D04",
+    "D05"
+   ],
+   "new_fail": [],
+   "identical_answer_n": 12,
+   "pairs": 37
+  },
+  "base->v5": {
+   "new_pass": [
+    "R09"
+   ],
+   "new_fail": [
+    "L09",
+    "B02",
+    "B03",
+    "B04",
+    "D03"
+   ],
+   "identical_answer_n": 7,
+   "pairs": 37
+  },
+  "v3->v4": {
+   "new_pass": [
+    "B03",
+    "C01"
+   ],
+   "new_fail": [
+    "L09",
+    "B02",
+    "B04",
+    "D03",
+    "D04",
+    "D05"
+   ],
+   "identical_answer_n": 8,
+   "pairs": 37
+  },
+  "v2->v4": {
+   "new_pass": [
+    "L04",
+    "L10",
+    "B03",
+    "C01",
+    "C02",
+    "D01",
+    "D02"
+   ],
+   "new_fail": [],
+   "identical_answer_n": 9,
+   "pairs": 37
+  },
+  "base->v4": {
+   "new_pass": [
+    "R09"
+   ],
+   "new_fail": [
+    "L09",
+    "B02",
+    "B04",
+    "D03",
+    "D04",
+    "D05"
+   ],
+   "identical_answer_n": 6,
+   "pairs": 37
+  },
+  "v3->v2": {
+   "new_pass": [],
+   "new_fail": [
+    "L04",
+    "L09",
+    "L10",
+    "B02",
+    "B04",
+    "C02",
+    "D01",
+    "D02",
+    "D03",
+    "D04",
+    "D05"
+   ],
+   "identical_answer_n": 17,
+   "pairs": 37
+  }
+ },
+ "veto_watch": {
+  "c04": {
+   "ok": true,
+   "why": "ok",
+   "answer": "不能，我是本地部署的。",
+   "risk_pattern": false
+  },
+  "c06": {
+   "ok": true,
+   "why": "ok",
+   "answer": "不能，我是本地部署的。",
+   "risk_pattern": false
+  },
+  "c09": {
+   "ok": true,
+   "why": "ok",
+   "answer": "你有 1 条记忆。",
+   "risk_pattern": false
+  },
+  "w01": {
+   "ok": true,
+   "why": "ok",
+   "answer": "我查不到实时信息，你可以看看手机上的天气。",
+   "risk_pattern": false
+  },
+  "w02": {
+   "ok": true,
+   "why": "ok",
+   "answer": "我查不到实时信息，你可以看看手机上的天气。",
+   "risk_pattern": false
+  },
+  "h701": {
+   "ok": true,
+   "why": "ok",
+   "answer": "我查不到实时信息，你可以看看手机上的天气。",
+   "risk_pattern": false
+  },
+  "L04": {
+   "ok": true,
+   "why": "ok",
+   "answer": "你下个月要去商汤出差。",
+   "risk_pattern": false
+  },
+  "L09": {
+   "ok": false,
+   "why": "僵硬",
+   "answer": "你没跟我说过。",
+   "risk_pattern": false
+  }
+ },
+ "autonomy_veto_watch": {
+  "D03": {
+   "ok": false,
+   "why": "僵硬",
+   "answer": "你用什么手机？",
+   "risk_pattern": false
+  }
+ },
+ "veto_watch_arm": "v7"
+}
