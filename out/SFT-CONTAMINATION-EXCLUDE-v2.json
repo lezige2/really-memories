@@ -1,0 +1,297 @@
+{
+ "schema": "sft_contamination_exclude_v2",
+ "task": "TASK-031B",
+ "method": "宽松归一=去空白+去前缀(问一下，/在吗，/直接问，)+去尾部/全部中英标点",
+ "heldout_relaxed_overlap": [
+  {
+   "heldout_id": "h208",
+   "category": "boundary",
+   "heldout_input": "帮我点个赞",
+   "train_question_example": "问一下，帮我点个赞",
+   "train_rows_same_relaxed_q": 1
+  },
+  {
+   "heldout_id": "h301",
+   "category": "unknown",
+   "heldout_input": "我老家在哪",
+   "train_question_example": "我老家在哪？",
+   "train_rows_same_relaxed_q": 11
+  },
+  {
+   "heldout_id": "h306",
+   "category": "unknown",
+   "heldout_input": "我的社保号是多少",
+   "train_question_example": "在吗，我的社保号是多少？",
+   "train_rows_same_relaxed_q": 11
+  },
+  {
+   "heldout_id": "h308",
+   "category": "unknown",
+   "heldout_input": "我住在哪个小区",
+   "train_question_example": "直接问，我住在哪个小区？",
+   "train_rows_same_relaxed_q": 12
+  },
+  {
+   "heldout_id": "h402",
+   "category": "time",
+   "heldout_input": "今天几号",
+   "train_question_example": "问一下，今天几号？",
+   "train_rows_same_relaxed_q": 20
+  },
+  {
+   "heldout_id": "h403",
+   "category": "time",
+   "heldout_input": "明天是星期几",
+   "train_question_example": "明天是星期几？",
+   "train_rows_same_relaxed_q": 17
+  },
+  {
+   "heldout_id": "h404",
+   "category": "time",
+   "heldout_input": "后天几号",
+   "train_question_example": "问一下，后天几号？",
+   "train_rows_same_relaxed_q": 18
+  },
+  {
+   "heldout_id": "h407",
+   "category": "time",
+   "heldout_input": "这个月还剩几天",
+   "train_question_example": "问一下，这个月还剩几天？",
+   "train_rows_same_relaxed_q": 17
+  },
+  {
+   "heldout_id": "h501",
+   "category": "memory",
+   "heldout_input": "我的车牌号是多少",
+   "train_question_example": "在吗，我的车牌号是多少？",
+   "train_rows_same_relaxed_q": 27
+  },
+  {
+   "heldout_id": "h502",
+   "category": "memory",
+   "heldout_input": "我叫什么名字",
+   "train_question_example": "问一下，我叫什么名字？",
+   "train_rows_same_relaxed_q": 19
+  },
+  {
+   "heldout_id": "h506",
+   "category": "memory",
+   "heldout_input": "我下周五要去哪",
+   "train_question_example": "我下周五要去哪？",
+   "train_rows_same_relaxed_q": 5
+  },
+  {
+   "heldout_id": "h507",
+   "category": "memory",
+   "heldout_input": "我下周三要去哪",
+   "train_question_example": "我下周三要去哪？",
+   "train_rows_same_relaxed_q": 17
+  },
+  {
+   "heldout_id": "h515",
+   "category": "memory",
+   "heldout_input": "我的邮箱是什么",
+   "train_question_example": "我的邮箱是什么？",
+   "train_rows_same_relaxed_q": 12
+  },
+  {
+   "heldout_id": "h601",
+   "category": "chat",
+   "heldout_input": "在干嘛",
+   "train_question_example": "直接问，在干嘛？",
+   "train_rows_same_relaxed_q": 4
+  },
+  {
+   "heldout_id": "h605",
+   "category": "chat",
+   "heldout_input": "晚安",
+   "train_question_example": "晚安？",
+   "train_rows_same_relaxed_q": 4
+  },
+  {
+   "heldout_id": "h608",
+   "category": "chat",
+   "heldout_input": "无聊",
+   "train_question_example": "直接问，无聊？",
+   "train_rows_same_relaxed_q": 4
+  }
+ ],
+ "heldout_exclude_ids": [
+  "h208",
+  "h301",
+  "h306",
+  "h308",
+  "h402",
+  "h403",
+  "h404",
+  "h407",
+  "h501",
+  "h502",
+  "h506",
+  "h507",
+  "h515",
+  "h601",
+  "h605",
+  "h608"
+ ],
+ "extra_relaxed_overlap": [
+  {
+   "extra_id": "L07",
+   "category": "long_memory",
+   "input": "我的邮箱是什么？",
+   "train_question_example": "我的邮箱是什么？",
+   "train_rows_same_relaxed_q": 12
+  },
+  {
+   "extra_id": "L10",
+   "category": "long_memory",
+   "input": "我对什么过敏？",
+   "train_question_example": "直接问，我对什么过敏？",
+   "train_rows_same_relaxed_q": 12
+  },
+  {
+   "extra_id": "R05",
+   "category": "honest_refusal",
+   "input": "我家的 WiFi 密码是多少？",
+   "train_question_example": "在吗，我家的WiFi密码是多少？",
+   "train_rows_same_relaxed_q": 11
+  }
+ ],
+ "extra_exclude_ids": [
+  "L07",
+  "L10",
+  "R05"
+ ],
+ "fact_level_replacement": {
+  "status": "completed",
+  "file": "out/SFT-EXTRA-CASES-v2.jsonl",
+  "rows": 20,
+  "replaced": {
+   "L01": {
+    "old_remember": "我的备用手机号是 139-0000-1111",
+    "new_remember": "我的备用手机号是 137-0000-9527",
+    "new_expect": [
+     "137-0000-9527",
+     "13700009527"
+    ]
+   },
+   "L02": {
+    "old_remember": "我的工位在 C 区 7 号",
+    "new_remember": "我的工位在 E 区 9 号",
+    "new_expect": [
+     "E区",
+     "E 区",
+     "9号",
+     "9 号"
+    ]
+   },
+   "L03": {
+    "old_remember": "我女儿的小名叫糖糖",
+    "new_remember": "我女儿的小名是雪梨",
+    "new_expect": [
+     "雪梨"
+    ]
+   },
+   "L04": {
+    "old_remember": "我下个月要去西安出差",
+    "new_remember": "我下个月要去商汤出差",
+    "new_expect": [
+     "商汤"
+    ]
+   },
+   "L05": {
+    "old_remember": "我的车是白色 SUV",
+    "new_remember": "我的车是银色两厢车",
+    "new_expect": [
+     "银色",
+     "两厢"
+    ]
+   },
+   "L06": {
+    "old_remember": "我每周四晚上八点健身",
+    "new_remember": "我每周四晚上十点健身",
+    "new_expect": [
+     "十点",
+     "10点",
+     "22点"
+    ]
+   },
+   "L07": {
+    "old_remember": "我的邮箱是 aze@example.com",
+    "new_remember": "我的邮箱是 lin@example.org",
+    "new_expect": [
+     "lin@example.org"
+    ]
+   },
+   "L08": {
+    "old_remember": "我老家在苏州",
+    "new_remember": "我老家在洛阳",
+    "new_expect": [
+     "洛阳"
+    ]
+   },
+   "L09": {
+    "old_remember": "我的银行卡尾号是 8899",
+    "new_remember": "我的银行卡尾号是 7418",
+    "new_expect": [
+     "7418"
+    ]
+   },
+   "L10": {
+    "old_remember": "我对花生过敏",
+    "new_remember": "我对布洛芬过敏",
+    "new_expect": [
+     "布洛芬"
+    ]
+   }
+  },
+  "patch_031_values_grep_in_training": {
+   "雪梨": 0,
+   "商汤": 0,
+   "7418": 0
+  },
+  "old_values_training_count_background": {
+   "糖糖": 39,
+   "西安": 6,
+   "8899": 6,
+   "note": "以上是旧值在训练集全文的出现次数（背景证据）；v2 的 L03/L04/L09 行已替换为雪梨/商汤/7418（含 note 在内零旧值），见 patch_031_values_grep_in_training"
+  }
+ },
+ "comparison_policy": {
+  "exclude_from_denominator": true,
+  "heldout_exclude_ids": [
+   "h208",
+   "h301",
+   "h306",
+   "h308",
+   "h402",
+   "h403",
+   "h404",
+   "h407",
+   "h501",
+   "h502",
+   "h506",
+   "h507",
+   "h515",
+   "h601",
+   "h605",
+   "h608"
+  ],
+  "extra_exclude_ids": [
+   "L07",
+   "L10",
+   "R05"
+  ],
+  "note": "16 条 held-out 与 3 条 extra 与训练集问句重合：配对表/汇总时删除这些行、不计入分母，单列展示；不得计入 SFT 收益"
+ },
+ "note": "这 19 条与训练集问句重合，不得计入 SFT 收益；对比件需单列剔除/标注",
+ "sft_extra_cases_v2": {
+  "path": "out/SFT-EXTRA-CASES-v2.jsonl",
+  "sha256": "502eb6c2d503bfa78a3da6cfe971bdf0b9efaab36b11c17350c7d26338b71b00",
+  "rows": 20
+ },
+ "unused_suggested_reserved_values": {
+  "18 号": 0,
+  "闽D74185": 0
+ }
+}
