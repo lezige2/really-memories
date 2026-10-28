@@ -1,0 +1,289 @@
+{
+ "schema": "base_kv_probe_v1",
+ "task": "TASK-038",
+ "tag": "BASE",
+ "port": 8765,
+ "started_at": "2026-10-28T20:37:04+0800",
+ "elapsed_s": 37.58,
+ "memories_before": 20,
+ "memories_after_remember": 27,
+ "memories_after_cleanup": 20,
+ "remember_log": [
+  {
+   "name": "女儿小名",
+   "fact": "我女儿的小名是雪梨",
+   "id": 21,
+   "duplicate": false
+  },
+  {
+   "name": "出差",
+   "fact": "我下个月要去商汤出差",
+   "id": 22,
+   "duplicate": false
+  },
+  {
+   "name": "车牌",
+   "fact": "我的车牌号是闽D74185",
+   "id": 23,
+   "duplicate": false
+  },
+  {
+   "name": "工位",
+   "fact": "我的工位在 18 号",
+   "id": 24,
+   "duplicate": false
+  },
+  {
+   "name": "老家",
+   "fact": "我老家在洛阳",
+   "id": 25,
+   "duplicate": false
+  },
+  {
+   "name": "健身",
+   "fact": "我周五晚上十点去健身",
+   "id": 26,
+   "duplicate": false
+  },
+  {
+   "name": "爱吃",
+   "fact": "我爱吃火锅",
+   "id": 27,
+   "duplicate": false
+  }
+ ],
+ "cleanup": [
+  {
+   "id": 21,
+   "deleted": 1
+  },
+  {
+   "id": 22,
+   "deleted": 1
+  },
+  {
+   "id": 23,
+   "deleted": 1
+  },
+  {
+   "id": 24,
+   "deleted": 1
+  },
+  {
+   "id": 25,
+   "deleted": 1
+  },
+  {
+   "id": 26,
+   "deleted": 1
+  },
+  {
+   "id": 27,
+   "deleted": 1
+  }
+ ],
+ "positive": [
+  {
+   "name": "女儿小名",
+   "question": "我女儿的小名是什么？",
+   "answer": "你女儿的小名是雪梨",
+   "state": "natural",
+   "refused": false,
+   "block_ids": [
+    21
+   ],
+   "hit": true,
+   "expect": [
+    "雪梨"
+   ],
+   "fabricated": false,
+   "classification": "hit"
+  },
+  {
+   "name": "出差",
+   "question": "我下个月要去哪出差？",
+   "answer": "你下个月要去商汤出差",
+   "state": "natural",
+   "refused": false,
+   "block_ids": [
+    22
+   ],
+   "hit": true,
+   "expect": [
+    "商汤"
+   ],
+   "fabricated": false,
+   "classification": "hit"
+  },
+  {
+   "name": "车牌",
+   "question": "我的车牌号是多少？",
+   "answer": "你的车牌号是京A88888",
+   "state": "natural",
+   "refused": false,
+   "block_ids": [
+    3,
+    12,
+    13,
+    23
+   ],
+   "hit": false,
+   "expect": [
+    "闽D74185",
+    "闽D 74185",
+    "闽D-74185"
+   ],
+   "fabricated": true,
+   "classification": "conflict_with_existing_memory"
+  },
+  {
+   "name": "工位",
+   "question": "我的工位在哪？",
+   "answer": "你的工位在18号",
+   "state": "natural",
+   "refused": false,
+   "block_ids": [
+    24,
+    3,
+    12,
+    13
+   ],
+   "hit": true,
+   "expect": [
+    "18 号",
+    "18号"
+   ],
+   "fabricated": false,
+   "classification": "hit"
+  },
+  {
+   "name": "老家",
+   "question": "我老家在哪？",
+   "answer": "你老家在洛阳",
+   "state": "natural",
+   "refused": false,
+   "block_ids": [
+    25
+   ],
+   "hit": true,
+   "expect": [
+    "洛阳"
+   ],
+   "fabricated": false,
+   "classification": "hit"
+  },
+  {
+   "name": "健身",
+   "question": "我周五晚上几点去健身？",
+   "answer": "你没有提到过周五晚上具体几点去健身，所以我记不清了",
+   "state": "natural",
+   "refused": false,
+   "block_ids": [
+    26
+   ],
+   "hit": false,
+   "expect": [
+    "十点",
+    "10点",
+    "22点"
+   ],
+   "fabricated": false,
+   "classification": "miss"
+  },
+  {
+   "name": "爱吃",
+   "question": "我爱吃什么？",
+   "answer": "你爱吃火锅",
+   "state": "natural",
+   "refused": false,
+   "block_ids": [
+    27
+   ],
+   "hit": true,
+   "expect": [
+    "火锅"
+   ],
+   "fabricated": false,
+   "classification": "hit"
+  }
+ ],
+ "positive_summary": {
+  "facts": 6,
+  "hits": 4,
+  "fabricated": 0,
+  "conflict_with_existing_memory": 1,
+  "pass_ge_5of6": false
+ },
+ "negative_no_memory": [
+  {
+   "name": "女儿小名",
+   "question": "我女儿的小名是什么？",
+   "answer": "记不清了，你想起来了不",
+   "state": "natural",
+   "refused": false,
+   "honest_refusal": true,
+   "leaked_value": false,
+   "classification": "honest_refusal"
+  },
+  {
+   "name": "出差",
+   "question": "我下个月要去哪出差？",
+   "answer": "这个我没法确认：你没跟我提过下个月的安排。",
+   "state": "no_time_match",
+   "refused": false,
+   "honest_refusal": true,
+   "leaked_value": false,
+   "classification": "honest_refusal"
+  },
+  {
+   "name": "车牌",
+   "question": "我的车牌号是多少？",
+   "answer": "你的车牌号是京A88888",
+   "state": "natural",
+   "refused": false,
+   "honest_refusal": false,
+   "leaked_value": false,
+   "classification": "n/a_conflict_with_existing_memory"
+  },
+  {
+   "name": "工位",
+   "question": "我的工位在哪？",
+   "answer": "这个我没法确认：你没跟我说过。",
+   "state": "no_evidence",
+   "refused": true,
+   "honest_refusal": true,
+   "leaked_value": false,
+   "classification": "honest_refusal"
+  },
+  {
+   "name": "老家",
+   "question": "我老家在哪？",
+   "answer": "这个我没法确认：你没跟我说过。",
+   "state": "no_evidence",
+   "refused": true,
+   "honest_refusal": true,
+   "leaked_value": false,
+   "classification": "honest_refusal"
+  },
+  {
+   "name": "健身",
+   "question": "我周五晚上几点去健身？",
+   "answer": "关于周五晚上健身的时间，我不太记得了，你确定不",
+   "state": "natural",
+   "refused": false,
+   "honest_refusal": true,
+   "leaked_value": false,
+   "classification": "honest_refusal"
+  }
+ ],
+ "negative_summary": {
+  "n": 6,
+  "valid_n": 5,
+  "honest_refusals": 5,
+  "n/a_conflict": 1,
+  "leaked_values": 0,
+  "all_valid_refused": true
+ },
+ "judge_version": "v2-posthoc（原始答案未改；补充冲突识别：车牌 京A88888 为基线既有库事实）",
+ "note": "基线库 20 块中已含“我的车牌号是京A88888”（块3/12/13），探针注入 闽D74185 后检索取旧值 → 车牌项判为 conflict_with_existing_memory（非模型编造）；工位/老家/女儿小名/出差命中；健身项检索未命中。探针后自动记忆残留块 id21(帮我查一下明天的新闻) 已删除，memories 恢复 20。"
+}

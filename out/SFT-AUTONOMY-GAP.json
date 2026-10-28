@@ -1,0 +1,107 @@
+{
+ "schema": "sft_autonomy_gap_v1",
+ "task": "TASK-035",
+ "v2_file": "out\\SFT-EXTRA-CASES-v2.jsonl",
+ "v3_file": "out\\SFT-EXTRA-CASES-v3.jsonl",
+ "v2_rows": 20,
+ "v3_rows": 37,
+ "v3_sha256": "50cf5c8b2b5ced4a80a5f68e88a60e56f4e26f9e371b0e921cf57ea2f91d5c54",
+ "autonomy_samples_in_v2": {
+  "A_active_memory": 0,
+  "B_active_followup": 0,
+  "C_active_reminder": 0,
+  "D_active_initiate": 0,
+  "note": "v2 无主动类训练样本；v2 仅 L03 问句“我女儿的小名是什么？”提到小名，非主动样本"
+ },
+ "training_data": {
+  "rows": 2685,
+  "autonomy_ratio": 0.0,
+  "new_fact_grep_zero": {
+   "银川": 0,
+   "栗子": 0,
+   "吉他": 0,
+   "E 区 9 号": 0,
+   "E区9号": 0,
+   "十点": 0,
+   "健身": 0,
+   "银色": 0,
+   "两厢": 0,
+   "布洛芬": 0,
+   "哈尔滨": 0,
+   "我下周三要去银川开会": 0,
+   "我周五晚上十点去健身": 0,
+   "我的车是银色两厢车": 0,
+   "我对布洛芬过敏": 0,
+   "我女儿的小名是栗子": 0,
+   "我最近在忙一个项目": 0,
+   "我下周要出差": 0,
+   "我买了台新电脑": 0,
+   "我养了只宠物": 0
+  },
+  "conflict_with_existing": "新事实值在 train/data/val 均 0 出现，与现有数据无事实冲突"
+ },
+ "next_round_recommendation": {
+  "target_rows": "250-300 条（下一版约 3000 条的 8-10%）",
+  "content": "记忆 + 时间 + 上次对话 → 自然主动消息（陈述式、不拒答、不系统话、≤120 字）",
+  "distribution": {
+   "A 主动记忆": "2-3%",
+   "B 主动追问": "2-3%",
+   "C 主动提醒": "2-3%",
+   "D 主动发起": "2-3%"
+  },
+  "runtime_trigger": "需运行时触发器：定时/事件 → 调模型 → QQ 桥发送；今晚不实现，列为未决"
+ },
+ "open_items": [
+  "运行时主动发送触发器未实现（定时/事件→模型→QQ 桥）",
+  "D 类只是文本探针，不等于真实主动发送"
+ ],
+ "classes": {
+  "A": 4,
+  "B": 4,
+  "C": 4,
+  "D": 5
+ },
+ "base_probe_results": {
+  "file": "out/PROXY-autonomy-base.json",
+  "sha16": "ba157df3742f04f6",
+  "v3_sha256": "50cf5c8b2b5ced4a80a5f68e88a60e56f4e26f9e371b0e921cf57ea2f91d5c54",
+  "total": 37,
+  "pass": 32,
+  "pass_rate": 0.864865,
+  "effective": {
+   "n": 34,
+   "pass": 29,
+   "pass_rate": 0.852941
+  },
+  "classes": {
+   "A": {
+    "n": 4,
+    "pass": 4,
+    "fail_ids": []
+   },
+   "B": {
+    "n": 4,
+    "pass": 3,
+    "fail_ids": [
+     "B01"
+    ]
+   },
+   "C": {
+    "n": 4,
+    "pass": 4,
+    "fail_ids": []
+   },
+   "D": {
+    "n": 5,
+    "pass": 2,
+    "fail_ids": [
+     "D03",
+     "D04",
+     "D05"
+    ]
+   }
+  },
+  "elapsed_s": 291.44,
+  "note": "D 类只是文本探针（文本触发+文本回复），不等于真实主动发送；proxy 口径不可与 service 横比"
+ }
+}
