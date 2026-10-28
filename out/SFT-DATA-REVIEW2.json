@@ -1,0 +1,331 @@
+{
+ "schema": "sft_data_review2_v1",
+ "audited": {
+  "host": "ssh.dftcloud.cn:6023",
+  "user": "xy002",
+  "remote_dir": "~/llm-ft",
+  "train": {
+   "path": "~/llm-ft/data.jsonl",
+   "sha256_remote": "8d2b19bde6b20f268e3ad7688830351a19431d6ab87172784e1696c8f243e781",
+   "sha256_local": "8d2b19bde6b20f268e3ad7688830351a19431d6ab87172784e1696c8f243e781",
+   "bytes": 1720250,
+   "lines": 2850
+  },
+  "val": {
+   "path": "~/llm-ft/val.jsonl",
+   "sha256_remote": "596c5d64527dac4d80e5540139a66aba135152991dff357baec117c94c050c57",
+   "sha256_local": "596c5d64527dac4d80e5540139a66aba135152991dff357baec117c94c050c57",
+   "bytes": 91450,
+   "lines": 151
+  },
+  "builder": "~/llm-ft/build_dataset.py（只读核对，见根因行号）"
+ },
+ "method": "从远端只读拉取 data.jsonl/val.jsonl（sha256 与远端一致）；本地正则+统计审计；未改远端、未提交作业；临时副本审计后删除。",
+ "checks": {
+  "format": {
+   "train_rows": 2850,
+   "val_rows": 151,
+   "json_parse_ok": true,
+   "roles_ok": true,
+   "system_now": "2026-10-27 星期二 21:00（全量固定）",
+   "rows_with_memory": 1120
+  },
+  "categories": {
+   "identity": 300,
+   "time": 548,
+   "chat_or_other": 684,
+   "unknown": 500,
+   "memory": 653,
+   "boundary": 316
+  },
+  "identity": {
+   "rows": 300,
+   "distinct_answers": 10,
+   "persona_name_rows": 27,
+   "user_name_questions": 125,
+   "user_name_answers_ok": 125,
+   "assistant_first_person_user_name_claims": 0,
+   "verdict": "labels_safe（无“用户名字→助手名”泄漏；仅 27 行给助手起名“小助”，与其余 9 种身份回答不一致，低风险）"
+  },
+  "boundary": {
+   "rows": 316,
+   "refusal_missing": 0,
+   "app_mismatch_rows": 26,
+   "verdict": "边界全部明确说做不了；但 26 行以“没法操作 QQ/微信”回绝了发邮件/点赞/发朋友圈等其它请求，理由与请求不匹配（低风险）"
+  },
+  "unknown": {
+   "rows": 500,
+   "dishonest": 0,
+   "grammar_defect_rows": 6,
+   "verdict": "500/500 诚实拒答；仅 6 行用户问句有“我的养的猫…”语法错误"
+  },
+  "conflicts": {
+   "rows_total": 3001,
+   "distinct_questions": 223,
+   "no_memory_contradiction_examples": [
+    {
+     "q": "在吗",
+     "answers": [
+      "不客气～",
+      "你刚才说下周五要去成都开会。",
+      "刚才聊到你下周五要去成都开会。",
+      "哈喽，有啥想聊的？",
+      "嗨嗨，有啥需要帮忙的吗？",
+      "嗨，有啥事儿？"
+     ]
+    },
+    {
+     "q": "在不在",
+     "answers": [
+      "不客气～",
+      "你刚才说下周五要去成都开会。",
+      "刚才聊到你下周五要去成都开会。",
+      "哈喽，有啥想聊的？",
+      "嗨嗨，有啥需要帮忙的吗？",
+      "嗨，有啥事儿？"
+     ]
+    },
+    {
+     "q": "谢谢",
+     "answers": [
+      "不客气～",
+      "你刚才说下周五要去成都开会。",
+      "刚才聊到你下周五要去成都开会。",
+      "哈喽，有啥想聊的？",
+      "嗨嗨，有啥需要帮忙的吗？",
+      "嗨，有啥事儿？"
+     ]
+    },
+    {
+     "q": "我们刚才聊了什么",
+     "answers": [
+      "不客气～",
+      "你刚才说下周五要去成都开会。",
+      "刚才聊到你下周五要去成都开会。",
+      "哈喽，有啥想聊的？",
+      "嗨嗨，有啥需要帮忙的吗？",
+      "在呢，有啥事？"
+     ]
+    },
+    {
+     "q": "我有点累",
+     "answers": [
+      "不客气～",
+      "你刚才说下周五要去成都开会。",
+      "刚才聊到你下周五要去成都开会。",
+      "哈喽，有啥想聊的？",
+      "嗨，有啥事儿？",
+      "在呢，有啥事？"
+     ]
+    },
+    {
+     "q": "你好你好",
+     "answers": [
+      "不客气～",
+      "你刚才说下周五要去成都开会。",
+      "刚才聊到你下周五要去成都开会。",
+      "哈喽，有啥想聊的？",
+      "嗨嗨，有啥需要帮忙的吗？",
+      "嗨，有啥事儿？"
+     ]
+    }
+   ],
+   "chat_pair_violations": "353/400",
+   "chat_no_memory_recall_claims": 64,
+   "time_period_mismatch_rows": 153,
+   "latest_wins_samples": 1,
+   "verdict": "严重：问候/闲聊被随机答案污染（88% chat 行答案与规范配对不符，60 行无记忆却答“你刚才说下周五…”）；时间题 144 行问/答周期不一致",
+   "distinct_questions_no_memory": 212,
+   "example_conflict_groups": [
+    {
+     "q": "我下周三去哪出差（不同记忆上下文）",
+     "answers": [
+      "你下周一（11 月 2 日）要去北京开会。",
+      "你下周三（11 月 4 日）要去广州出差。",
+      "你下周五（11 月 6 日）要去成都开会。",
+      "你每周三晚上七点有组会。"
+     ]
+    },
+    {
+     "q": "我下周三去哪开会（3 条记忆→期望最新=广州）",
+     "answers": [
+      "你下周三要去广州出差。"
+     ]
+    },
+    {
+     "q": "我下周五去哪开会",
+     "answers": [
+      "你下周五要去成都开会。",
+      "你下周三（11 月 4 日）要去广州出差。",
+      "你每周三晚上七点有组会。",
+      "你下周一（11 月 2 日）要去北京开会。"
+     ]
+    },
+    {
+     "q": "你好（无记忆）",
+     "answers": [
+      "不客气～",
+      "你刚才说下周五要去成都开会。",
+      "刚才聊到你下周五要去成都开会。",
+      "嗨嗨，有啥需要帮忙的吗？",
+      "嗨，有啥事儿？",
+      "在呢，有啥事？",
+      "在的，你说。",
+      "好啊，最近有啥新鲜事儿吗？"
+     ]
+    }
+   ],
+   "double_check": {
+    "distinct_questions": 223,
+    "multi_answer_groups": 137
+   },
+   "multi_answer_groups_all": 137,
+   "multi_answer_groups_no_memory": 128
+  },
+  "memory_grounding": {
+   "rows_with_memory": 1191,
+   "checked_key_entity_rows": 1059,
+   "unsupported_rows": 195,
+   "unsupported_rate": 0.1841,
+   "verdict": "18.7% 的记忆行答案实体不在所给记忆里（gen_time 独立抽 q/记忆/答案所致）"
+  },
+  "duplication_split": {
+   "train_duplicate_rows": 2133,
+   "train_unique_rows": 717,
+   "train_dup_rate": 0.7484,
+   "val_duplicate_rows": 41,
+   "train_val_exact_overlap": 87,
+   "val_covered_by_train_pairs": 83,
+   "val_size": 151,
+   "verdict": "train 74.8% 重复；val 78.3% 被 train 覆盖（87 行完全相同）⇒ 泄漏+重复记忆，泛化评估失效"
+  },
+  "privacy": {
+   "phone": 0,
+   "id_number": 0,
+   "bank_card": 0,
+   "email": 0,
+   "license_plates_synthetic": 118,
+   "answers_revealing_secrets": 0,
+   "verdict": "未发现真实手机号/身份证/银行卡/邮箱；车牌为合成测试值（京A88888 等），非真实隐私，但建议标注/替换为明显假值"
+  },
+  "time_absolutes": {
+   "fixed_qa_pairs": 10,
+   "all_consistent_with_system_now": true,
+   "risk": "“今天星期几/现在几点”答案绑死 2026-10-27 星期二 21:00；换日期推理时可能背答案"
+  }
+ },
+ "findings": [
+  {
+   "id": "F1",
+   "severity": "P0",
+   "title": "chat 生成器独立抽样问答对：353/400 行闲聊答案与问题不符；64 行无记忆却声称“你刚才说下周五要去成都开会”",
+   "root_cause": "build_dataset.py:171-172（rng.choice(qs)+rng.choice(ans) 独立抽）",
+   "evidence": {
+    "chat_pair_violations": "353/400",
+    "examples": [
+     "嗨→你刚才说下周五要去成都开会。",
+     "早上好呀→你刚才说下周五要去成都开会。",
+     "谢谢→你刚才说…"
+    ],
+    "chat_no_memory_recall_claims": 64
+   }
+  },
+  {
+   "id": "F2",
+   "severity": "P0",
+   "title": "时间题把问题/记忆/答案独立抽样：153 行问答周期不一致、195 行答案不被记忆支持（checked 1059）",
+   "root_cause": "build_dataset.py:107-115（mem,ans 与 q 分开 rng.choice）",
+   "evidence": {
+    "period_mismatch_rows": 153,
+    "unsupported_rows": 195,
+    "examples": [
+     "我下周一去哪开会→你下周五（11月6日）要去成都开会。",
+     "我每周三有什么安排→你每周三晚上七点有组会。（记忆=下周五成都）"
+    ]
+   }
+  },
+  {
+   "id": "F3",
+   "severity": "P1",
+   "title": "train 74.8% 行完全重复；val 78.3% 被 train 覆盖（87 行完全相同）",
+   "root_cause": "随机模板小样本池 + 未去重即切分（build_dataset.py main：shuffle 后直接 95/5 切分）",
+   "evidence": {
+    "train_unique": 717,
+    "val_covered": 83,
+    "val_size": 151
+   }
+  },
+  {
+   "id": "F4",
+   "severity": "P1",
+   "title": "冲突“以最新为准”只有 1 条（3 条记忆→广州）；223 个去重问题中 137 组存在多答案（其中 128 个无记忆问题答案互斥）",
+   "root_cause": "build_dataset.py:152-154 仅手工一条冲突样本；随机生成制造了更多互斥答案",
+   "evidence": {
+    "latest_wins_samples": 1,
+    "no_memory_contradiction_questions": 128,
+    "multi_answer_groups_all": 137
+   }
+  },
+  {
+   "id": "F5",
+   "severity": "P2",
+   "title": "同类问题跨类别答案相反：我养的猫/狗叫什么名字（155 行：30 行拒答/125 行给名），另有 6 行问句语法错误“我的养的猫…”",
+   "root_cause": "gen_unknown 与 gen_memory 共用同一问句模板；'我的'+'养的猫叫什么名字' 拼接",
+   "evidence": {
+    "cat_question_rows": 155,
+    "cat_refusal_rows": 30,
+    "cat_answer_rows": 125,
+    "grammar_rows": 6
+   }
+  },
+  {
+   "id": "F6",
+   "severity": "P2",
+   "title": "身份：助手有时自称“小助”（27/300），其余 9 种身份回答不提名字；无用户名字→助手名泄漏",
+   "root_cause": "gen_identity 答案池不一致",
+   "evidence": {
+    "distinct_answers": 10,
+    "persona_rows": 27
+   }
+  }
+ ],
+ "recommendations": [
+  {
+   "rank": 1,
+   "action": "修生成器：问答/记忆必须成对抽样（chat 只从固定 pairs 抽；time 先按 q 选匹配的 mem+ans；删除随机组合路径），重生成全量数据",
+   "acceptance": "无记忆行答案=问题规范答案 100%；时间题 period(q)==period(ans) 100%；有记忆行答案实体⊆记忆 100%（或明确拒答）",
+   "files": [
+    "~/llm-ft/build_dataset.py:107-115",
+    "~/llm-ft/build_dataset.py:159-172"
+   ]
+  },
+  {
+   "rank": 2,
+   "action": "去重后按“问题模板/事实族”分组重切 train/val（不要随机切）",
+   "acceptance": "train 重复率 <2%；val∩train 精确重复=0、(user,answer,hasmem)族重叠=0；val ≥300 行",
+   "files": [
+    "~/llm-ft/build_dataset.py main()"
+   ]
+  },
+  {
+   "rank": 3,
+   "action": "补足冲突/时序样本并治理绝对时间题：同题多记忆+期望最新（每类≥20 条、记忆按时间排序并在 system 明示“以最新为准”）；“今天星期几/现在几点”改为按 system 时间计算或删除",
+   "acceptance": "冲突类≥6 题型×20 条且答案=最后一条记忆；绝对时间答案与 system NOW 一致率 100%，无固定日期硬编码",
+   "files": [
+    "~/llm-ft/build_dataset.py:92-115,152-154"
+   ]
+  }
+ ],
+ "labels_summary": {
+  "identity": "safe（无用户名字冒充；小助命名不一致只是风格问题）",
+  "boundary": "316/316 行明确拒做（0 误答应）；26 行理由提“QQ/微信”但请求是发邮件/点赞等不相关动作（低风险）",
+  "unknown": "honest（500/500 拒答，无编造）"
+ },
+ "no_remote_modification": true,
+ "no_job_submitted": true,
+ "limits": [
+  "人工规则审计，未训练/未推理验证；重复/冲突按字符串与模板判定",
+  "问句分类为启发式（含少量 chat/隐私混类）",
+  "临时下载副本已在审计后删除"
+ ]
+}

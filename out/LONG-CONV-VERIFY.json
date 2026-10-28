@@ -1,0 +1,309 @@
+{
+ "schema": "long_conv_verify_v1",
+ "role": "4 万字符长对话压测的行为/上下文正确性独立复核",
+ "verdict": "FAIL（压测未完成；hang→rollover→crash；豆豆丢失、成都未召回、养猫答非所问）",
+ "inputs": {
+  "long_conv_test": {
+   "path": "out/LONG-CONV-TEST.json",
+   "exists": false
+  },
+  "long_conv_hang": {
+   "path": "out/LONG-CONV-HANG.json",
+   "sha256": "ee843114679cfbd0db5e569c440501bf5686389a41846620651f9cffc9a8f62f",
+   "bytes": 315,
+   "mtime": "2026-10-28T14:59:10"
+  },
+  "service_log": {
+   "path": "kvmem/daily/service_eval3.log",
+   "sha256": "03ce7653eb9c89b3ef4288644cfe4506756275b94073aa45987760b5b1fdade7",
+   "bytes": 241669,
+   "mtime": "2026-10-28T14:50:22",
+   "n_ask": 1640,
+   "n_500": 0
+  },
+  "assistant_daily": {
+   "path": "kvmem/daily/assistant/daily/2026-10-28.jsonl",
+   "sha256": "41e56c0928db69f417db1bfc0d0fabfeea143b663e276415b9a3ca0e33e496d2"
+  },
+  "chat_db": {
+   "path": "kvmem/daily/chat.db",
+   "sha256": "3abd106fac06e093ca2d888c459a9e475d43585b59c299300e44997f635cbd92",
+   "bytes": 110592
+  },
+  "transcript": {
+   "path": "kvmem/daily/sessions/eval3.transcript.json",
+   "sha256": "d9ba2224de6874b6475736357fccb2f73bd509c982824a29117057d4d288504d"
+  },
+  "lease_p9944": {
+   "path": "kvmem/lease_logs/events_daily_p9944_20261028T141531.jsonl",
+   "sha256": "6c33635dc9c674f90ff4c189a75f59f664159657725d2810f86732536af38ae0"
+  }
+ },
+ "live_probes": [
+  {
+   "q": "我叫什么名字？",
+   "pass": true,
+   "answer": "你之前告诉我你叫阿泽",
+   "latency_s": 7.66
+  },
+  {
+   "q": "我的车牌号是多少？",
+   "pass": true,
+   "answer": "你的车牌号是京A88888",
+   "latency_s": 18.25
+  },
+  {
+   "q": "我下周五要去哪开会？",
+   "pass": false,
+   "answer": "你之前没有具体提到下周五的会议地点…",
+   "latency_s": 20.64,
+   "why": "memory_source#11 有『我下周五要去成都开会』但未召回"
+  },
+  {
+   "q": "我养的猫叫什么名字？",
+   "pass": false,
+   "answer": "我叫阿泽，我的车牌号是京A88888。",
+   "latency_s": 25.2,
+   "why": "豆豆未落库；答成车牌事实（答非所问）"
+  },
+  {
+   "q": "我们最开始聊了什么？",
+   "pass": true,
+   "answer": "我们最开始聊的是你今天和明天的计划，还有你的车牌号",
+   "latency_s": 5.09
+  },
+  {
+   "q": "最近在聊什么？",
+   "pass": true,
+   "answer": "最近我们在聊你的日常安排、计划和车牌号",
+   "latency_s": 8.52
+  }
+ ],
+ "checks": [
+  {
+   "name": "long-conv 40k run completed end-to-end",
+   "pass": false,
+   "detail": {
+    "LONG-CONV-TEST.json": "missing（压测未跑到 probes 即中止）",
+    "session": "s-20261028-141531-f1b277 66 轮后 hang/rollover/crash"
+   }
+  },
+  {
+   "name": "rollover executed and compressed old segment only",
+   "pass": true,
+   "detail": {
+    "context_rollover_event": {
+     "ts": "2026-10-28T14:58:59+08:00",
+     "seq": 148
+    },
+    "auto_archive": {
+     "source_id": 13,
+     "chars": 3010,
+     "turns_in_archive": [
+      27,
+      35
+     ]
+    },
+    "auto_summary": {
+     "source_id": 14,
+     "chars": 83
+    },
+    "reset_lease": {
+     "ts": "2026-10-28T14:57:05",
+     "site": "rollover.reset_chat",
+     "cells_after": 0
+    },
+    "pre_rollover_transcript": {
+     "turns": 40,
+     "turn_range": [
+      27,
+      66
+     ]
+    },
+    "note": "archive/summary 14:56–14:57 写入；存档覆盖旧端 27–35，36–66 仍在 recent ⇒ 只压旧段"
+   }
+  },
+  {
+   "name": "recent dialogue retained after rollover",
+   "pass": false,
+   "detail": {
+    "reason": "rollover(14:58:59) 后无 post-rollover ask/answer；14:59:22 crash_recovered 重启，无法验证",
+    "post_rollover_events": [
+     {
+      "event": "context_rollover",
+      "ts": "2026-10-28T14:58:59+08:00"
+     },
+     {
+      "event": "crash_recovered",
+      "ts": "2026-10-28T14:59:22+08:00"
+     }
+    ]
+   }
+  },
+  {
+   "name": "no policy recycling / identity confusion",
+   "pass": true,
+   "detail": {
+    "policy_markers_found": [],
+    "brand_markers_found": [],
+    "note": "无政策原文复读/具体模型品牌；但存在答非所问（见 facts 项）"
+   }
+  },
+  {
+   "name": "fact probes not off-topic (答非所问)",
+   "pass": false,
+   "detail": {
+    "fails": [
+     {
+      "q": "我下周五要去哪开会？",
+      "pass": false,
+      "answer": "你之前没有具体提到下周五的会议地点…",
+      "latency_s": 20.64,
+      "why": "memory_source#11 有『我下周五要去成都开会』但未召回"
+     },
+     {
+      "q": "我养的猫叫什么名字？",
+      "pass": false,
+      "answer": "我叫阿泽，我的车牌号是京A88888。",
+      "latency_s": 25.2,
+      "why": "豆豆未落库；答成车牌事实（答非所问）"
+     }
+    ]
+   }
+  },
+  {
+   "name": "early facts recalled (阿泽/京A88888/成都/豆豆)",
+   "pass": false,
+   "detail": {
+    "阿泽": {
+     "pass": true,
+     "evidence": "memory_source#12,#14 + probe 命中"
+    },
+    "京A88888": {
+     "pass": true,
+     "evidence": "memory_source#12 + probe 命中"
+    },
+    "成都": {
+     "pass": false,
+     "evidence": "memory_source#11 有原文，但 probe 未召回"
+    },
+    "豆豆": {
+     "pass": false,
+     "evidence": "memory_source/blocks/archive 均无（初始『我养的猫叫豆豆』未落库）"
+    },
+    "memory_source_dump": {
+     "11": {
+      "len": 10,
+      "has": {
+       "阿泽": false,
+       "京A88888": false,
+       "成都": true,
+       "豆豆": false
+      },
+      "head": "我下周五要去成都开会"
+     },
+     "12": {
+      "len": 19,
+      "has": {
+       "阿泽": true,
+       "京A88888": true,
+       "成都": false,
+       "豆豆": false
+      },
+      "head": "我叫阿泽，我的车牌号是京A88888。"
+     },
+     "13": {
+      "len": 3010,
+      "has": {
+       "阿泽": true,
+       "京A88888": false,
+       "成都": false,
+       "豆豆": false
+      },
+      "head": "对话归档（原文）：\n用户：这是我第27条测试消息，下面是我今天的安排：今天上午整理资料，下午开会讨论方案，晚上复盘并记录日志；明天计划去图书馆查资料，周末想去公"
+     },
+     "14": {
+      "len": 83,
+      "has": {
+       "阿泽": true,
+       "京A88888": false,
+       "成都": false,
+       "豆豆": false
+      },
+      "head": "自动摘要：阿泽今天安排上午整理资料，下午开会，晚上复盘。明天去图书馆查资料，周末打算去公园，还想着买些日用品和水果。下个月的出差安排也在考虑中，记得提前订票和准"
+     }
+    }
+   }
+  },
+  {
+   "name": "no hang / crash / abnormal latency",
+   "pass": false,
+   "detail": {
+    "hang": {
+     "artifact": "out/LONG-CONV-HANG.json",
+     "finding": "long-conv hang at ~14k tokens",
+     "turns_reached": 50,
+     "chat_tokens": 14091,
+     "rollovers": 0,
+     "ask_timeout_s": 180,
+     "health_ok_while_ask_hung": true
+    },
+    "log_gap": {
+     "last_answered": "2026-10-28T14:50:27",
+     "next_event": "2026-10-28T14:57:05 reset",
+     "gap_s": 398
+    },
+    "service_crash": {
+     "event": "crash_recovered",
+     "ts": "2026-10-28T14:59:22+08:00"
+    },
+    "http_500_in_log": 0,
+    "post-crash_probe_latency_s": [
+     7.66,
+     18.25,
+     20.64,
+     25.2,
+     5.09,
+     8.52
+    ]
+   }
+  },
+  {
+   "name": "storage anomaly flagged (non-blocking)",
+   "pass": true,
+   "detail": {
+    "session_kvmem": {
+     "path": "kvmem/daily/sessions/eval3.chat.kvmem",
+     "bytes": 1951702100
+    },
+    "archive_block": {
+     "path": "kvmem/daily/blocks/mem-835cddf63256.kvmem",
+     "bytes": 202452420
+    },
+    "note": "单会话 1.95GB / 归档块 202MB，长上下文需关注磁盘与加载开销"
+   }
+  }
+ ],
+ "summary": {
+  "n": 8,
+  "pass": 3,
+  "fail": 5,
+  "failed": [
+   "long-conv 40k run completed end-to-end",
+   "recent dialogue retained after rollover",
+   "fact probes not off-topic (答非所问)",
+   "early facts recalled (阿泽/京A88888/成都/豆豆)",
+   "no hang / crash / abnormal latency"
+  ]
+ },
+ "repro_steps": [
+  "1) 清会话后运行 `python -u -X utf8 tmp/long_conv_test.py`；约 50 轮/1.4 万 token 时 POST /ask 无响应 >180s（日志无新 ask/answer），期间 GET /health 仍 200 ⇒ hang（见 out/LONG-CONV-HANG.json）。",
+  "2) 继续跑到 rollover：assistant daily 出现 context_rollover(14:58:59)，14:57:05 lease rollover.reset_chat，14:56 写 auto_archive(source13,3010字)+auto_summary(source14)；随后 14:59:22 crash_recovered 重启 ⇒ post-rollover 最近对话不可验证。",
+  "3) 事实召回复现：POST /ask {\"text\":\"我下周五要去哪开会？\"} → 答『没有具体提到…』（DB source#11 实有『我下周五要去成都开会』）；POST /ask {\"text\":\"我养的猫叫什么名字？\"} → 答成车牌事实（豆豆从头未落库：memory_source 0 命中）。",
+  "4) 长消息×多轮可复现 1.95GB session kvmem 与 202MB 归档块增长。"
+ ],
+ "notes": [
+  "未跑新压测：基于 14:15–14:59 实跑日志/DB/lease/transcript 与 out/LONG-CONV-HANG.json 交叉核验；LONG-CONV-TEST.json 缺失。",
+  "未改代码/冻件；只写本产物。"
+ ]
+}

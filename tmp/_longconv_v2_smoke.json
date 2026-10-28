@@ -1,0 +1,224 @@
+{
+ "schema": "long_conv_test_v2",
+ "version": 2,
+ "started_at": "2026-10-28T13:56:26+08:00",
+ "plan": {
+  "script": "long_conv_test_v2.py",
+  "script_sha256": "68775f8248ae21d9ceed7171e7d2adc720648f0c91316170eb80cc8a740e2cf2",
+  "endpoint": "http://127.0.0.1:8765",
+  "target_chars": 250,
+  "max_turns": 20,
+  "request_timeout_s": 120.0,
+  "retries": 3,
+  "backoff_s": 1.0,
+  "reset_first": true,
+  "seed": 20261028,
+  "status_every": 1,
+  "facts": [
+   {
+    "id": 1,
+    "tier": "early",
+    "threshold": 3000,
+    "question": "我的车牌号是多少？",
+    "keywords": [
+     "京A88888"
+    ]
+   },
+   {
+    "id": 2,
+    "tier": "early",
+    "threshold": 6500,
+    "question": "我养的猫叫什么名字？",
+    "keywords": [
+     "豆豆"
+    ]
+   },
+   {
+    "id": 3,
+    "tier": "mid",
+    "threshold": 11000,
+    "question": "我下周五要去哪开会？",
+    "keywords": [
+     "成都"
+    ]
+   },
+   {
+    "id": 4,
+    "tier": "mid",
+    "threshold": 16000,
+    "question": "我的工号是多少？",
+    "keywords": [
+     "A12345"
+    ]
+   },
+   {
+    "id": 5,
+    "tier": "mid",
+    "threshold": 21000,
+    "question": "我妻子叫什么名字？",
+    "keywords": [
+     "李娜"
+    ]
+   },
+   {
+    "id": 6,
+    "tier": "mid",
+    "threshold": 26000,
+    "question": "我老家在哪里？",
+    "keywords": [
+     "青岛"
+    ]
+   },
+   {
+    "id": 7,
+    "tier": "recent",
+    "threshold": 32000,
+    "question": "我的手机号是多少？",
+    "keywords": [
+     "13800138000"
+    ]
+   },
+   {
+    "id": 8,
+    "tier": "recent",
+    "threshold": 37000,
+    "question": "我下个月要去哪出差？",
+    "keywords": [
+     "西安"
+    ]
+   }
+  ],
+  "probe_sets": [
+   "8 facts recall",
+   "repeated same fact x3",
+   "post-rollover '刚才说的'",
+   "10x continuous no-reset"
+  ]
+ },
+ "service_before": {
+  "version": "c-1.0",
+  "engine_meta": {
+   "n_ctx": 32768,
+   "n_gpu_layers": 28,
+   "chat_start": 8192,
+   "chat_budget": 24576,
+   "memory_budget": 7680,
+   "kv": "q8_0",
+   "n_seq": 8
+  },
+  "session": {
+   "path": "kvmem\\daily\\sessions\\eval3.json",
+   "exists": false,
+   "chat_tokens": 1339,
+   "chat_budget": 24576,
+   "chat_start": 8192,
+   "n_ctx": 32768,
+   "mounted": 1,
+   "control": false,
+   "n_predict": 192,
+   "rollover_at": 0.75,
+   "rollover_threshold_tokens": 18432
+  },
+  "memories": {
+   "count": 18,
+   "total_tokens": 189,
+   "max_memories": 200,
+   "max_total_tokens": 7680
+  }
+ },
+ "turns": [
+  {
+   "turn": 1,
+   "chars_before": 0,
+   "text_len": 56,
+   "is_fact": false,
+   "fact_id": null,
+   "elapsed_s": 33.565,
+   "attempts": 1,
+   "error": null,
+   "chat_tokens": 1276,
+   "state": "natural",
+   "refused": false,
+   "answer_len": 5,
+   "status_error": null,
+   "rollover": null
+  },
+  {
+   "turn": 2,
+   "chars_before": 56,
+   "text_len": 57,
+   "is_fact": false,
+   "fact_id": null,
+   "elapsed_s": 16.315,
+   "attempts": 1,
+   "error": null,
+   "chat_tokens": 733,
+   "state": "natural",
+   "refused": false,
+   "answer_len": 34,
+   "status_error": null,
+   "rollover": null
+  },
+  {
+   "turn": 3,
+   "chars_before": 113,
+   "text_len": 54,
+   "is_fact": false,
+   "fact_id": null,
+   "elapsed_s": 24.435,
+   "attempts": 1,
+   "error": null,
+   "chat_tokens": 487,
+   "state": "natural",
+   "refused": false,
+   "answer_len": 48,
+   "status_error": null,
+   "rollover": null
+  },
+  {
+   "turn": 4,
+   "chars_before": 167,
+   "text_len": 57,
+   "is_fact": false,
+   "fact_id": null,
+   "elapsed_s": 12.008,
+   "attempts": 1,
+   "error": null,
+   "chat_tokens": 0,
+   "state": "natural",
+   "refused": false,
+   "answer_len": 34,
+   "status_error": null,
+   "rollover": null
+  },
+  {
+   "turn": 5,
+   "chars_before": 224,
+   "text_len": 54,
+   "is_fact": false,
+   "fact_id": null,
+   "elapsed_s": 30.394,
+   "attempts": 1,
+   "error": null,
+   "chat_tokens": 895,
+   "state": "natural",
+   "refused": false,
+   "answer_len": 8,
+   "status_error": null,
+   "rollover": null
+  }
+ ],
+ "rollovers": [],
+ "facts": [],
+ "probes": {
+  "facts": [],
+  "repeated": null,
+  "post_rollover": null
+ },
+ "scenarios": {
+  "no_reset_continuous": null
+ },
+ "errors": [],
+ "summary": {},
+ "partial": true
+}

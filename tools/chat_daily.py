@@ -81,6 +81,7 @@ ROLLOVER_KEEP_TURNS = 2         # 兼容旧常量（不再作为主判据）
 ROLLOVER_SUMMARY_NPREDICT = 200
 ROLLOVER_FALLBACK_CHARS = 1500
 ARCHIVE_MAX_CHARS = 3000
+BLOCK_MAX_CHARS = 140          # KV 块正文上限（~15 MB < 20 MB；源文本不受影响）
 ARCHIVE_TAG = "auto_archive"
 ROLLOVER_SUMMARY_PROMPT = ("请把下面这段较早的对话压缩成不超过 200 字的要点摘要，"
                            "只输出摘要本身，不要复述原句：\n")
@@ -564,6 +565,8 @@ class DailyApp:
         self._last_related_count = 0
         self._last_truncation = None
         self._last_rollover = None
+        self._batch_db = False
+        self._db_commit_count = 0
         try:
             self.rollover_at = min(1.0, max(0.0, float(rollover_at)))
         except (TypeError, ValueError):
@@ -764,7 +767,9 @@ class DailyApp:
             (int(sid), json.dumps(tags, ensure_ascii=False), source,
              json.dumps(rel, ensure_ascii=False),
              json.dumps(sl, ensure_ascii=False)))
-        self.con.commit()
+        if not getattr(self, "_batch_db", False):
+            self.con.commit()
+            self._db_commit_count += 1
         return {"tags": tags, "source": source, "related_ids": rel, "slots": sl}
 
     _SLOT_EVENT_CANON = {"开会": "会议", "会议": "会议", "组会": "会议", "例会": "会议"}
@@ -861,7 +866,8 @@ class DailyApp:
         return self._augment_slots(merged, text)
 
     def _insert_memory_block(self, text, label="日常记忆", mode="chat",
-                             tags=None, related_ids=None, max_chars=None):
+                             tags=None, related_ids=None, max_chars=None,
+                             block_text=None, skip_index=False):
         """插入源行 + 建 KV 块；返回 dict（不挂载、不重选、不写 remember 日志）。
 
         超限/建块失败会回滚 source/block/文件；off 模式仍查记忆区总预算，
@@ -894,8 +900,12 @@ class DailyApp:
         try:
             src_row = (sid, "default", "private", str(mode), put["name"], str(label),
                        text, ms.sha256_text(text), put["created_at"])
+            _bt = block_text if block_text is not None else text
+            if len(_bt) > BLOCK_MAX_CHARS:
+                _bt = _bt[:BLOCK_MAX_CHARS] + "…"
             bs = ms.build_block(self.eng, self.con, src_row, blocks_dir=self.blocks_dir,
-                                model_path=self.model_path, seq=self._scratch)
+                                model_path=self.model_path, seq=self._scratch,
+                                block_text=_bt)
         except Exception as exc:                             # noqa: BLE001
             self._rollback_source(sid)
             raise DailyError("internal", "建块失败（已回滚该条记忆）：%s" % exc)
@@ -904,11 +914,12 @@ class DailyApp:
             raise DailyError("memory_full",
                              "记忆总 token 超过预算 %d，已回滚本条"
                              % int(self.memory_budget))
-        try:
-            import retrieval as R
-            R.build_index(self.con, verbose=False)
-        except Exception as exc:                             # noqa: BLE001
-            self.warnings.append("检索索引重建失败：%s" % exc)
+        if not skip_index:
+            try:
+                import retrieval as R
+                R.build_index(self.con, verbose=False)
+            except Exception as exc:                     # noqa: BLE001
+                self.warnings.append("检索索引重建失败：%s" % exc)
         src_kind = ("auto_summary" if mode == "auto_summary"
                     else "auto_archive" if mode == "auto_archive" else "manual")
         meta = self._meta_set(sid, tags=(tags or []), source=src_kind,
@@ -1087,9 +1098,17 @@ class DailyApp:
         if not dropped:
             return None
         dropped_text = self._turns_text(dropped)
-        # a) 先原子保存
+        # a) 会话落盘不再由 rollover 同步触发（KV 状态可达 0.5–1.5 GB）：
+        #    real 引擎只记 defer（由显式 /save、退出或后台线程保存）；stub 测试保留
+        #    原硬保护契约（save 失败 => rollover_failed）。
+        saved = None
         try:
-            saved = self.save()
+            if getattr(self.eng, "mode", "real") != "stub":
+                self._log("warning", code="rollover_save_deferred",
+                          message="rollover 不再同步保存会话 KV（体积保护）",
+                          evidence={"chat_tokens": before})
+            else:
+                saved = self.save()
         except Exception as exc:                             # noqa: BLE001
             self._log("error", code="rollover_failed",
                       message="上下文压缩前会话保存失败：%s" % exc, where="rollover.save")
@@ -1111,40 +1130,57 @@ class DailyApp:
         archive_id = None
         turn_ids = []
         summary_id = None
+        self._batch_db = True
         try:
-            # c1) 全文归档文件（原文完整）
+            # c1) 全文归档文件（原文完整；文件保留时间，块文本去掉时间避免 time 硬过滤误杀）
             archive_path = self._write_archive_file(dropped_text)
-            # c2) 逐轮原文块（保留原文 + KV 块；来源=turn）
-            for i, t in enumerate(dropped, start=1):
-                turn_text = "用户：%s\n助手：%s" % (t.get("q") or "", t.get("a") or "")
+            arch_tag = "archive:%s" % os.path.basename(archive_path)
+            cap = LIBRARY_MAX if self.retrieval_mode == "topk" else MAX_MEMORIES
+            free = max(0, int(cap) - len(self._rows()))
+            # c2) 先写 archive（原文档里不含时间戳，避免被当作 time 槽位）
+            if free >= 1:
+                archive_text = "对话归档（原文）：\n%s" % dropped_text[:ARCHIVE_MAX_CHARS]
+                res_a = self._insert_memory_block(
+                    archive_text, label="对话归档 %s" % ts, mode="auto_archive",
+                    tags=[ARCHIVE_TAG, date_tag, arch_tag],
+                    max_chars=ARCHIVE_MAX_CHARS + 64, skip_index=True,
+                    block_text="对话归档索引：%d 轮，全文见 %s"
+                               % (len(dropped), os.path.basename(archive_path)))
+                archive_id = int(res_a["id"])
+                free -= 1
+            # c3) 再写 summary（related 先指 archive，turn 块写完后回填）
+            if free >= 1:
+                res_s = self._insert_memory_block(
+                    "自动摘要：%s" % summary,
+                    label="自动摘要 %s" % ts, mode="auto_summary",
+                    tags=["auto_summary", date_tag, arch_tag],
+                    related_ids=([archive_id] if archive_id else []), skip_index=True,
+                    block_text="自动摘要：%s" % summary[:120])
+                summary_id = int(res_s["id"])
+                free -= 1
+            # c4) 最后写 turn 块：3–5 轮合并成 1 块，先 archive/summary 已占位
+            CHUNK = 4
+            chunks = [dropped[i:i + CHUNK] for i in range(0, len(dropped), CHUNK)]
+            for ci, chunk in enumerate(chunks, start=1):
+                if free <= 0:
+                    break
+                turn_text = "\n".join(
+                    "用户：%s\n助手：%s" % (t.get("q") or "", t.get("a") or "")
+                    for t in chunk)
                 res_t = self._insert_memory_block(
-                    turn_text, label="对话原文 %s #%d" % (ts, i), mode="auto_turn",
-                    tags=["auto_turn", date_tag, "archive:%s" % os.path.basename(archive_path)],
-                    max_chars=MAX_TEXT_CHARS)
+                    turn_text, label="对话原文 %s #%d" % (ts, ci), mode="auto_turn",
+                    tags=["auto_turn", date_tag, arch_tag], max_chars=MAX_TEXT_CHARS,
+                    skip_index=True)
                 turn_ids.append(int(res_t["id"]))
-            # c3) 全文聚合块（带归档抬头，避免与单轮原文块同文本被判重；
-            #     原文仍完整保留在块内 + 归档文件里）
-            archive_text = ("对话归档 %s（原文）：\n%s"
-                            % (ts, dropped_text[:ARCHIVE_MAX_CHARS]))
-            res_a = self._insert_memory_block(
-                archive_text, label="对话归档 %s" % ts, mode="auto_archive",
-                tags=[ARCHIVE_TAG, date_tag,
-                      "archive:%s" % os.path.basename(archive_path)],
-                max_chars=ARCHIVE_MAX_CHARS + 64)
-            archive_id = int(res_a["id"])
-            # c4) 摘要索引块：related_ids 指向原文块 + 归档块
-            related = list(turn_ids) + ([archive_id] if archive_id else [])
-            res_s = self._insert_memory_block(
-                "自动摘要 %s：%s" % (ts, summary),
-                label="自动摘要 %s" % ts, mode="auto_summary",
-                tags=["auto_summary", date_tag,
-                      "archive:%s" % os.path.basename(archive_path)],
-                related_ids=related)
-            summary_id = int(res_s["id"])
-            # c5) 双向引用：原文块/归档块回指摘要；sidecar 记录三元组
-            for sid in turn_ids + ([archive_id] if archive_id else []):
-                m = self._meta_get(sid)
-                self._meta_set(sid, tags=m["tags"], related_ids=[summary_id])
+                free -= 1
+            # c5) 双向引用：turn/archive 回指摘要；摘要 related 回填 turn+archive
+            if summary_id:
+                rel = list(turn_ids) + ([archive_id] if archive_id else [])
+                m = self._meta_get(summary_id)
+                self._meta_set(summary_id, tags=m["tags"], related_ids=rel)
+                for sid in rel:
+                    mm = self._meta_get(sid)
+                    self._meta_set(sid, tags=mm["tags"], related_ids=[summary_id])
             sidecar = archive_path + ".meta.json"
             tmp = sidecar + ".tmp"
             with open(tmp, "w", encoding="utf-8", newline="\n") as f:
@@ -1154,6 +1190,12 @@ class DailyApp:
                           f, ensure_ascii=False, indent=1)
                 f.write("\n")
             os.replace(tmp, sidecar)
+            if turn_ids or archive_id or summary_id:
+                try:
+                    import retrieval as R
+                    R.build_index(self.con, verbose=False)
+                except Exception as exc:                 # noqa: BLE001
+                    self.warnings.append("rollover 索引重建失败：%s" % exc)
         except Exception as exc:                             # noqa: BLE001
             self._log("warning", code="rollover_archive_failed",
                       message=str(exc), evidence={"dropped_turns": len(dropped)})
@@ -1171,6 +1213,8 @@ class DailyApp:
             self._log("error", code="rollover_failed",
                       message="压缩后对话重建失败：%s" % exc, where="rollover.rebuild")
             try:
+                if saved is None:
+                    raise RuntimeError("no saved checkpoint (long-chat save skipped)")
                 self.load(saved["path"])
             except Exception as exc2:                        # noqa: BLE001
                 self.warnings.append("压缩失败后恢复会话也失败：%s" % exc2)
@@ -1197,7 +1241,7 @@ class DailyApp:
                   kept_turns=len(kept), fallback=fallback,
                   archive_id=archive_id, archive_path=archive_path,
                   turn_ids=turn_ids, kept_ratio=info["kept_ratio"],
-                  saved_sha16=saved.get("sha16"))
+                  saved_sha16=(saved.get("sha16") if saved else None))
         return info
 
     # -- verify + one-shot repair (LLAMA_MEM_VERIFY, default on) -----------
@@ -1873,10 +1917,10 @@ class DailyApp:
                 if seq is not None:
                     self.logger.log_answer(reply, seq, [], {"seq_ids": [], "cells": 0},
                                            latency * 1000.0, vram_gib=None, refused=False)
-            self.history.append({"q": text, "a": reply, "refused": False})
+            self.history.append({"q": text, "a": reply, "refused": True})
             self.history = self.history[-40:]
             return {"answer": reply, "block_ids": [], "latency_s": round(latency, 4),
-                    "refused": False, "state": "no_evidence", "chars": len(reply),
+                    "refused": True, "state": "no_evidence", "chars": len(reply),
                     "retrieval": None, "notice": (notice or {}).get("notice"), "rollover": notice}
 
         # 只读联网：仅在用户明确要求“查一下/搜一下”时检索（不自动抢答）
@@ -2207,11 +2251,25 @@ class DailyApp:
     def _transcript_path(self, path):
         return os.path.splitext(os.path.abspath(path))[0] + ".transcript.json"
 
+    SAVE_MAX_BYTES = 1 << 30
+
     def save(self, path=None):
         path = os.path.abspath(path or self.session_path)
         os.makedirs(os.path.dirname(path), exist_ok=True)
         blocks = list(self.mounted_blocks)
         chat_n = int(self.eng.n_tokens(0))
+        try:
+            est = chat_n * int(self.eng.bytes_per_token())
+        except Exception:                                # noqa: BLE001
+            est = 0
+        if est > self.SAVE_MAX_BYTES:
+            self._log("warning", code="save_too_large",
+                      message="会话 KV 预计 %.2f GiB > 1 GiB，拒绝保存"
+                              % (est / float(1 << 30)),
+                      evidence={"chat_tokens": chat_n, "est_bytes": est})
+            raise DailyError("save_too_large",
+                             "会话 KV 预计 %.2f GiB 超过 1 GiB，已拒绝保存；"
+                             "请先 rollover 或 /reset" % (est / float(1 << 30)))
         if blocks:
             manifest = ss.save_session(self.eng, self.con, path, blocks,
                                        anchor=self.chat_start, slot_capacity=None,
@@ -2717,13 +2775,15 @@ class DailyApp:
                     matched.append(bg)
             if score >= 1.0:
                 hits.append((score, r, matched))
+        raw_hits = list(hits)
         if qslots0.get("structured") and hasattr(memo, "slot_match"):
             kept = []
             for sc, r, matched in hits:
                 slots = self._slots_of(int(r[0]))
                 if memo.slot_match(qslots0, slots):
                     kept.append((sc + memo.slot_bonus(qslots0, slots), r, matched))
-            hits = kept
+            # 空槽/未命中：槽位过滤后为空则回退纯关键词（不因槽位把正确块全丢）
+            hits = kept if kept else raw_hits
         if qslots0.get("structured"):
             hits.sort(key=lambda x: (-x[0], -int(x[1][0])))
         else:
@@ -2791,7 +2851,9 @@ class DailyApp:
             "created_at,text_kind,contains_model_turns,is_excerpt,derived_from) "
             "VALUES ('default','private',?,?,?,?,?,?,'human_memory',0,0,NULL)",
             (mode, name, str(label), text, h, created))
-        self.con.commit()
+        if not getattr(self, "_batch_db", False):
+            self.con.commit()
+            self._db_commit_count += 1
         return {"id": int(cur.lastrowid), "name": name, "duplicate": False,
                 "created_at": created}
 
@@ -2951,8 +3013,10 @@ class DailyApp:
         try:
             src_row = (sid, "default", "private", "chat", put["name"], "日常记忆",
                        text, ms.sha256_text(text), put["created_at"])
+            _bt = text if len(text) <= BLOCK_MAX_CHARS else text[:BLOCK_MAX_CHARS] + "…"
             bs = ms.build_block(self.eng, self.con, src_row, blocks_dir=self.blocks_dir,
-                                model_path=self.model_path, seq=self._scratch)
+                                model_path=self.model_path, seq=self._scratch,
+                                block_text=_bt)
         except Exception as exc:
             self._rollback_source(sid)
             raise DailyError("internal", "建块失败（已回滚该条记忆）：%s" % exc)

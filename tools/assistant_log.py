@@ -29,6 +29,13 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 
 SCHEMA = "assistant_log_v1"
+LOG_FSYNC = os.environ.get("LLAMA_MEM_LOG_FSYNC", "0").strip() in ("1", "true", "yes")
+FSYNC_CALLS = [0]   # 诊断：进程内 fsync 调用计数
+
+
+def _fsync(f):
+    FSYNC_CALLS[0] += 1
+    os.fsync(f.fileno())
 MANIFEST_SCHEMA = "assistant_manifest_v1"
 AUDIT_SCHEMA = "assistant_audit_v1"
 DAILY_SCHEMA = "assistant_daily_v1"
@@ -204,7 +211,7 @@ class AssistantLog:
             json.dump(man, f, ensure_ascii=False, indent=1)
             f.write("\n")
             f.flush()
-            os.fsync(f.fileno())
+            _fsync(f)
         os.replace(tmp, self.manifest_path)
 
     def set_display_name(self, name):
@@ -322,7 +329,8 @@ class AssistantLog:
         with open(path, "ab") as f:
             f.write(data)          # 整行一次写出
             f.flush()
-            os.fsync(f.fileno())
+            if LOG_FSYNC:          # 默认关闭逐事件 fsync，session_end/close 时统一刷
+                _fsync(f)
         return line, data
 
     def _rotate_if_needed(self):
@@ -362,6 +370,12 @@ class AssistantLog:
             s["bytes"] += len(data)
             s["events"] += 1
             self._daily_append(payload)
+            if event == "session_end":
+                try:
+                    with open(s["path"], "ab") as _f:
+                        _fsync(_f)
+                except Exception:                    # noqa: BLE001
+                    pass
             if event in ("error", "warning", "crash_recovered"):
                 self._incident_append(payload)
             if rotated:
@@ -417,7 +431,8 @@ class AssistantLog:
             json.dump(audit, f, ensure_ascii=False, indent=1)
             f.write("\n")
             f.flush()
-            os.fsync(f.fileno())
+            if LOG_FSYNC:
+                _fsync(f)
         os.replace(tmp, self.audit_path)
 
     # -- 高层事件（带隐私策略）------------------------------------------

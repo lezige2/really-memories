@@ -1,0 +1,70 @@
+{
+ "status": "ok",
+ "model_pin": {
+  "model_path": "D:\\models\\Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+  "model_size": 8988110976,
+  "model_mtime": 1793102210
+ },
+ "dll_pin": {
+  "path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+  "present": true,
+  "bytes": 50007552,
+  "sha16": "9edbafa150700614"
+ },
+ "vram_gib": null,
+ "memories": 12,
+ "session": {
+  "path": "kvmem\\daily\\sessions\\eval3.json",
+  "exists": true,
+  "chat_tokens": 209,
+  "chat_budget": 24576,
+  "chat_start": 8192,
+  "n_ctx": 32768,
+  "mounted": 0,
+  "control": false,
+  "n_predict": 192,
+  "rollover_at": 0.75,
+  "rollover_threshold_tokens": 18432
+ },
+ "engine": {
+  "mode": "real",
+  "type": "KVEngine",
+  "n_ctx": 32768,
+  "n_seq": 8,
+  "n_gpu_layers": 28,
+  "bytes_per_token": 104448,
+  "kv_pool_gib": 3.188,
+  "mem_total_gib": 3.188
+ },
+ "retrieval": {
+  "mode": "topk",
+  "topk": 4,
+  "library_count": 12,
+  "library_max": 200,
+  "mounted_ids": [],
+  "mounted_count": 0,
+  "candidates": 2,
+  "related": 0,
+  "memory_budget": 7680,
+  "last_truncation": null
+ },
+ "version": "c-1.0",
+ "service": {
+  "version": "c-service-1.0",
+  "host": "127.0.0.1",
+  "port": 8765,
+  "serial": true,
+  "requests": 48,
+  "in_flight_max": 1,
+  "by_route": {
+   "GET /status": 21,
+   "POST /ask": 22,
+   "GET /health": 2,
+   "POST /reset": 3
+  },
+  "uptime_s": 101.0,
+  "fake_engine": false,
+  "degraded": false,
+  "ask_timeout_s": 90.0
+ }
+}

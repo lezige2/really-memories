@@ -192,6 +192,14 @@ os._exit(7)
         app3.close(save=False, reason="eof")
         check("T7.purge", before > 0 and r["removed"] > 0, str(r))
         check("T7.purge_empty", after == 0, "sessions left=%d" % after)
+
+        # T8 fsync 预算：每轮 remember+ask 的 fsync ≤1（批量后应为 0）
+        app4 = mkapp(tmp, os.path.join(tmp, "fs_assistant"), model)
+        L.FSYNC_CALLS[0] = 0          # 初始化/manifest 的 1 次 fsync 不算每轮
+        app4.remember("我的车牌号是京A88888。")
+        app4.ask("我的车牌号是多少？")
+        check("fsync_per_turn_le_1", L.FSYNC_CALLS[0] <= 1, L.FSYNC_CALLS[0])
+        app4.close(save=False, reason="eof")
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     print("\n%d checks, %d failed" % (len(CHECKS), len(FAILS)))

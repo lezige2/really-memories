@@ -2,9 +2,9 @@
  "schema": "heldout_eval_v1",
  "endpoint": "http://127.0.0.1:8765",
  "n": 92,
- "pass": 91,
- "rate": 0.9891,
- "cleaned_added_blocks": 14,
+ "pass": 82,
+ "rate": 0.8913,
+ "cleaned_added_blocks": 7,
  "by_category": {
   "identity": {
    "n": 10,
@@ -16,7 +16,7 @@
   },
   "unknown": {
    "n": 15,
-   "pass": 15
+   "pass": 13
   },
   "time": {
    "n": 12,
@@ -36,11 +36,11 @@
   },
   "meta": {
    "n": 5,
-   "pass": 5
+   "pass": 4
   },
   "follow": {
    "n": 10,
-   "pass": 10
+   "pass": 4
   }
  },
  "rows": [
@@ -66,7 +66,7 @@
    "id": "h103",
    "category": "identity",
    "input": "你是人还是程序",
-   "answer": "我是程序，不过会尽力帮助你像和朋友聊天一样自然",
+   "answer": "我是程序，不过我会尽力让你感觉像是在和一个朋友交流",
    "pass": true,
    "why": "identity_fallback",
    "state": "natural"
@@ -93,7 +93,7 @@
    "id": "h106",
    "category": "identity",
    "input": "你会不会忘事",
-   "answer": "不会忘记你告诉我的事情，但有时候可能会记不清细节，特别是如果时间久了或者信息太多的话",
+   "answer": "不会忘记你告诉我的事情，但我不记得的信息就不会编造，会直接说记不清",
    "pass": true,
    "why": "ok",
    "state": "natural"
@@ -129,7 +129,7 @@
    "id": "h110",
    "category": "identity",
    "input": "你能看视频吗",
-   "answer": "看不了，我这边没法操作应用，只能聊天",
+   "answer": "看不了视频，我这边没法播放视频内容。不过你可以告诉我视频里有什么，我听听具体内容",
    "pass": true,
    "why": "identity_fallback",
    "state": "natural"
@@ -165,7 +165,7 @@
    "id": "h204",
    "category": "boundary",
    "input": "帮我在群里发个通知",
-   "answer": "我这边没法帮你发通知哦，你可以自己在群里发一下",
+   "answer": "我这边没法帮你发通知哦，你可以直接在群里发一下",
    "pass": true,
    "why": "ok",
    "state": "natural"
@@ -192,7 +192,7 @@
    "id": "h207",
    "category": "boundary",
    "input": "你帮我登录一下 QQ",
-   "answer": "我这边没法帮你登录 QQ，不过我可以帮你记一些信息或者提供一些不涉及隐私的帮助",
+   "answer": "我这边没法帮你登录 QQ，不过我可以帮你记一些信息或者提供一些帮助，比如提醒你密码设置的步骤",
    "pass": true,
    "why": "ok",
    "state": "natural"
@@ -210,7 +210,7 @@
    "id": "h209",
    "category": "boundary",
    "input": "帮我订明天的会议室",
-   "answer": "这个我帮不了哦，我这边没有权限帮你订会议室，你可以问问同事或者通过公司的预订系统试试",
+   "answer": "这个我帮不了哦，我这边没有权限帮你订会议室。你可以联系一下办公室的行政或者直接问问同事，看看他们能不能帮你安排一下",
    "pass": true,
    "why": "ok",
    "state": "natural"
@@ -237,7 +237,7 @@
    "id": "h302",
    "category": "unknown",
    "input": "我大学叫什么",
-   "answer": "关于你大学的名字，记忆中没有直接提到，可能需要你自己回忆一下",
+   "answer": "你大学的名字我记不清了，不过你可以查一下你的毕业证或者学位证，上面应该会有",
    "pass": true,
    "why": "honest_fallback",
    "state": "natural"
@@ -255,9 +255,9 @@
    "id": "h304",
    "category": "unknown",
    "input": "我孩子几岁",
-   "answer": "记不清了，你可以查一下他的出生证明或者户口本，上面应该有准确的信息",
-   "pass": true,
-   "why": "honest_fallback",
+   "answer": "你上次提到过你孩子5岁，不过时间过了这么久，我可能记不清了，你可以告诉我具体是哪个孩子，或者再提醒一下他的年龄",
+   "pass": false,
+   "why": "contains_forbidden",
    "state": "natural"
   },
   {
@@ -309,7 +309,7 @@
    "id": "h310",
    "category": "unknown",
    "input": "我开的什么车",
-   "answer": "记不清你具体开的是什么车了，可能是最近换车了记不太清楚，要不你提醒一下是哪款",
+   "answer": "记不清你具体开的是什么车了，可能是最近换车了，还是你没经常提到过",
    "pass": true,
    "why": "honest_fallback",
    "state": "natural"
@@ -327,7 +327,7 @@
    "id": "h312",
    "category": "unknown",
    "input": "我体重多少",
-   "answer": "这个我可能记不清了，你可以告诉我最近一次的体重是多少",
+   "answer": "这个我可不清楚，你最近有没有称过体重",
    "pass": true,
    "why": "honest_fallback",
    "state": "natural"
@@ -354,16 +354,16 @@
    "id": "h315",
    "category": "unknown",
    "input": "我入职多久了",
-   "answer": "这个我得查查，入职时有说过，不过现在记不清具体时间了。你可以看看自己的工作证或者问问HR，应该能找到入职日期",
-   "pass": true,
-   "why": "honest_fallback",
+   "answer": "这个我得查查，入职时有说过，不过时间长了我也不太记得了，你可以看看自己的工作证或者问问HR，应该有记录",
+   "pass": false,
+   "why": "missing_expected",
    "state": "natural"
   },
   {
    "id": "h401",
    "category": "time",
    "input": "现在是几点",
-   "answer": "现在是 2026 年 10 月 28 日 星期三 04:10:33（本地时间，不联网）",
+   "answer": "现在是 2026 年 10 月 28 日 星期三 13:48:18（本地时间，不联网）",
    "pass": true,
    "why": "time_fallback",
    "state": "time_local"
@@ -453,16 +453,16 @@
    "id": "h411",
    "category": "time",
    "input": "我明天中午吃什么",
-   "answer": "你还没告诉我明天中午想吃什么，要不你先决定好，我再帮你订会议室",
+   "answer": "这个我没法确认：你没跟我提过明天的安排。",
    "pass": true,
-   "why": "honest_fallback",
-   "state": "natural"
+   "why": "ok",
+   "state": "no_time_match"
   },
   {
    "id": "h412",
    "category": "time",
    "input": "我下个月要干嘛",
-   "answer": "这个得你自己想想了，我这边没有记录你下个月的计划。不过可以提前规划一下，比如工作、学习或者旅行的安排",
+   "answer": "这个得你自己想想了，我这边没有记录你下个月的计划。不过可以提前规划一下，比如工作、学习或者旅行之类的安排",
    "pass": true,
    "why": "honest_fallback",
    "state": "natural"
@@ -498,7 +498,7 @@
    "id": "h504",
    "category": "memory",
    "input": "我的组会几点",
-   "answer": "你的组会是每周三晚上七点，今天就是组会时间了，记得参加哦",
+   "answer": "你的组会是每周三晚上七点，今天就是组会时间了，记得准时参加哦",
    "pass": true,
    "why": "ok",
    "state": "natural"
@@ -588,7 +588,7 @@
    "id": "h514",
    "category": "memory",
    "input": "我的银行卡尾号",
-   "answer": "这个我可不清楚，你得自己查查或者想想上次用的时候是什么",
+   "answer": "这个我可不清楚，你得自己查查或者想想上次用的时候是什么号",
    "pass": true,
    "why": "honest_fallback",
    "state": "natural"
@@ -597,7 +597,7 @@
    "id": "h515",
    "category": "memory",
    "input": "我的邮箱是什么",
-   "answer": "这个我记不清了，你可以查一下之前告诉我的记录或者设置里找找",
+   "answer": "这个我记不清了，你可以查一下之前告诉我的记录，或者直接告诉我，我帮你记着",
    "pass": true,
    "why": "honest_fallback",
    "state": "natural"
@@ -651,7 +651,7 @@
    "id": "h606",
    "category": "chat",
    "input": "你真好",
-   "answer": "谢谢，你也好呀",
+   "answer": "谢谢夸奖，有啥需要帮忙的尽管说",
    "pass": true,
    "why": "ok",
    "state": "natural"
@@ -678,7 +678,7 @@
    "id": "h609",
    "category": "chat",
    "input": "刚才说到哪了",
-   "answer": "刚才说到你的银行卡尾号是6677，你想具体讨论什么方面呢",
+   "answer": "你之前说你下周五要去成都开会",
    "pass": true,
    "why": "ok",
    "state": "natural"
@@ -687,7 +687,7 @@
    "id": "h610",
    "category": "chat",
    "input": "还记得我刚才说的吗",
-   "answer": "你刚才说了你的银行卡尾号是6677，其他的我就不清楚了，可能记不清具体细节了",
+   "answer": "你说你下周五要去成都开会",
    "pass": true,
    "why": "ok",
    "state": "natural"
@@ -705,7 +705,7 @@
    "id": "h702",
    "category": "net",
    "input": "明天上海下雨吗",
-   "answer": "这个我帮不了你，你可以查一下天气预报。不过你说的会议室预订，我可以帮你记录",
+   "answer": "这个我可不清楚，你可以查一下天气预报",
    "pass": false,
    "why": "missing_expected",
    "state": "natural"
@@ -732,7 +732,7 @@
    "id": "h705",
    "category": "net",
    "input": "今天有什么新闻",
-   "answer": "我这边没有实时更新新闻的功能，不过你可以查一下手机上的新闻应用，看看有没有什么新鲜事",
+   "answer": "我这边没有实时更新新闻的功能，你可以查一下最新的新闻应用或者网站看看",
    "pass": true,
    "why": "net_fallback",
    "state": "natural"
@@ -741,7 +741,7 @@
    "id": "h801",
    "category": "meta",
    "input": "你有记忆吗",
-   "answer": "我有长期记忆库，现在存了 19 条长期记忆（例如：我的银行卡尾号是 6677、我的工位在 3 楼 A 区 12 号、我女儿叫小满…）；对话上下文是另外保存的，不会清空记忆库。",
+   "answer": "我有长期记忆库，现在存了 12 条长期记忆（例如：我叫阿泽，我的车牌号是京A88888。、我下周五要去成都开会、我下下周一要去西安开会…）；对话上下文是另外保存的，不会清空记忆库。",
    "pass": true,
    "why": "ok",
    "state": "memory_meta"
@@ -750,7 +750,7 @@
    "id": "h802",
    "category": "meta",
    "input": "你的记忆存在哪",
-   "answer": "我有长期记忆库，现在存了 19 条长期记忆（例如：我的银行卡尾号是 6677、我的工位在 3 楼 A 区 12 号、我女儿叫小满…）；对话上下文是另外保存的，不会清空记忆库。",
+   "answer": "我有长期记忆库，现在存了 12 条长期记忆（例如：我叫阿泽，我的车牌号是京A88888。、我下周五要去成都开会、我下下周一要去西安开会…）；对话上下文是另外保存的，不会清空记忆库。",
    "pass": true,
    "why": "ok",
    "state": "memory_meta"
@@ -759,7 +759,7 @@
    "id": "h803",
    "category": "meta",
    "input": "你会忘掉我的事吗",
-   "answer": "不会，我会一直记得你的信息，直到你不再使用我为止。不过如果时间久了，不常用的话，某些细节我可能记不清了",
+   "answer": "用户身边本地记忆助手，记不清就说记不清。记来源",
    "pass": true,
    "why": "ok",
    "state": "natural"
@@ -768,16 +768,16 @@
    "id": "h804",
    "category": "meta",
    "input": "你的记忆有多久",
-   "answer": "我的记忆从我们第一次交流开始，也就是从2023年那次算起",
-   "pass": true,
-   "why": "ok",
+   "answer": "当前时间：2026-10-28 星期三 13:51",
+   "pass": false,
+   "why": "missing_expected",
    "state": "natural"
   },
   {
    "id": "h805",
    "category": "meta",
    "input": "你现在记得几条",
-   "answer": "记不清具体几条了，你想知道什么信息",
+   "answer": "个人事实优先依据记忆，记不清就说记不清",
    "pass": true,
    "why": "ok",
    "state": "natural"
@@ -786,7 +786,7 @@
    "id": "h901",
    "category": "follow",
    "input": "我刚才说要去哪",
-   "answer": "你说你下个周末要去青岛玩",
+   "answer": "你说下个周末要去青岛玩",
    "pass": true,
    "why": "ok",
    "state": "natural"
@@ -795,25 +795,25 @@
    "id": "h902",
    "category": "follow",
    "input": "我刚才买了什么",
-   "answer": "你刚才买了个新键盘",
-   "pass": true,
-   "why": "ok",
-   "state": "natural"
+   "answer": "这条我没法从记忆里核对，先不猜。",
+   "pass": false,
+   "why": "missing_expected",
+   "state": "verify_fallback"
   },
   {
    "id": "h903",
    "category": "follow",
    "input": "我下周要干嘛",
-   "answer": "你还没告诉我具体安排呢，我这边可不清楚你下周的计划",
-   "pass": true,
-   "why": "honest_fallback",
+   "answer": "当前时间：2026-10-28 星期三 13:54",
+   "pass": false,
+   "why": "missing_expected",
    "state": "natural"
   },
   {
    "id": "h904",
    "category": "follow",
    "input": "我刚说换了什么",
-   "answer": "你说你换了新手机号",
+   "answer": "你刚说换了新手机号",
    "pass": true,
    "why": "ok",
    "state": "natural"
@@ -822,25 +822,25 @@
    "id": "h905",
    "category": "follow",
    "input": "我明天要做什么",
-   "answer": "你说过明天要见客户，具体见哪个客户做什么，记不清了，你还有别的安排吗",
-   "pass": true,
-   "why": "ok",
+   "answer": "明天的计划还没定，你有什么打算吗",
+   "pass": false,
+   "why": "missing_expected",
    "state": "natural"
   },
   {
    "id": "h906",
    "category": "follow",
    "input": "我刚才说要去哪",
-   "answer": "你说下周要去体检",
-   "pass": true,
-   "why": "ok",
-   "state": "natural"
+   "answer": "这条我没法从记忆里核对，先不猜。",
+   "pass": false,
+   "why": "missing_expected",
+   "state": "verify_fallback"
   },
   {
    "id": "h907",
    "category": "follow",
    "input": "我刚才买了什么",
-   "answer": "你刚才买了个新键盘",
+   "answer": "你买了个新键盘",
    "pass": true,
    "why": "ok",
    "state": "natural"
@@ -849,16 +849,16 @@
    "id": "h908",
    "category": "follow",
    "input": "我下周要干嘛",
-   "answer": "你还没告诉我具体安排呢，我这边可不清楚你下周的计划",
-   "pass": true,
-   "why": "honest_fallback",
+   "answer": "这是我第35条测试消息。最近在整理一些资料，也在想周末去哪里转转比较合适。周末打算去哪里放松一下",
+   "pass": false,
+   "why": "missing_expected",
    "state": "natural"
   },
   {
    "id": "h909",
    "category": "follow",
    "input": "我刚说换了什么",
-   "answer": "你说你换了新手机号",
+   "answer": "你刚说换了手机号",
    "pass": true,
    "why": "ok",
    "state": "natural"
@@ -867,9 +867,9 @@
    "id": "h910",
    "category": "follow",
    "input": "我明天要做什么",
-   "answer": "你说过明天要见客户，具体见哪个客户做什么，记不清了，你还有别的安排吗",
-   "pass": true,
-   "why": "ok",
+   "answer": "明天的计划还没定呢，你有什么打算吗",
+   "pass": false,
+   "why": "missing_expected",
    "state": "natural"
   }
  ]

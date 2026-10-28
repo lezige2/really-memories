@@ -1,0 +1,269 @@
+{
+ "schema": "io_fix_tracking_v1",
+ "coordinator": "rev7-auditor",
+ "updated_at": "2026-10-28T15:57:23+0800",
+ "sequence": [
+  "①会话保存护栏",
+  "②索引增量",
+  "③块上限",
+  "④看门狗",
+  "⑤fsync",
+  "⑥n_seq"
+ ],
+ "steps": [
+  {
+   "step": 1,
+   "name": "会话保存护栏",
+   "status": "verified",
+   "sha256": {
+    "tools/chat_daily.py": "70601259d8bbb0c10052a8cab453373b78d1f20c543e9fd1d0c6af8e09839843"
+   },
+   "changes": [
+    "rollover real 引擎不同步 save（rollover_save_deferred）",
+    "save() 增加 1 GiB 护栏 save_too_large"
+   ],
+   "evidence_lines": {
+    "chat_daily.py": [
+     1103,
+     2257,
+     2265
+    ]
+   },
+   "independent_checks": {
+    "chat_daily_cpu": "93/0",
+    "retrieval_cpu": "35/0",
+    "rollover_cpu": "33/0",
+    "verify_wiring_cpu": "42/42",
+    "long_context_cpu": "ALL PASS"
+   },
+   "data": {
+    "bytes_per_token_claim": 104448,
+    "1GiB_tokens_cutoff": 10280.0
+   }
+  },
+  {
+   "step": 2,
+   "name": "索引增量",
+   "status": "verified",
+   "sha256": {
+    "tools/chat_daily.py": "70601259d8bbb0c10052a8cab453373b78d1f20c543e9fd1d0c6af8e09839843"
+   },
+   "changes": [
+    "_insert_memory_block(skip_index=True)",
+    "rollover 内 archive/summary/turn 全部 skip_index，rollover 结束仅 1 次 R.build_index"
+   ],
+   "evidence_lines": {
+    "chat_daily.py": [
+     866,
+     913,
+     1141,
+     1152,
+     1168,
+     1191
+    ]
+   },
+   "data": {
+    "build_index_per_rollover": "1（此前 2+N）"
+   }
+  },
+  {
+   "step": 3,
+   "name": "块上限",
+   "status": "verified",
+   "sha256": {
+    "tools/chat_daily.py": "70601259d8bbb0c10052a8cab453373b78d1f20c543e9fd1d0c6af8e09839843",
+    "tools/test_long_context_cpu.py": "3b080f86333e48da317a7990140d3d1d5794aeacdf3059d49d2f3bff63d69699"
+   },
+   "changes": [
+    "BLOCK_MAX_CHARS=140 默认（所有 KV 块正文上限）",
+    "archive=短索引、summary≤120字、turn≤140字；源文本仍完整入库"
+   ],
+   "evidence_lines": {
+    "chat_daily.py": [
+     84,
+     1135,
+     1145,
+     1162,
+     913
+    ],
+    "test_long_context_cpu.py": [
+     166,
+     172,
+     174,
+     175
+    ]
+   },
+   "data": {
+    "block_max_MB": 13.9,
+    "archive_tokens_max": 512,
+    "summary_tokens_max": 256,
+    "rollover_block_bytes_est_MB": 62
+   },
+   "independent_checks": {
+    "long_context_cpu": "ALL PASS (archive_block_tokens_small/summary_block_tokens_small/block_under_15mb/block_cap_constant)",
+    "chat_daily_cpu": "93/0",
+    "retrieval_cpu": "35/0",
+    "rollover_cpu": "33/0",
+    "verify_wiring_cpu": "42/42"
+   }
+  },
+  {
+   "step": 4,
+   "name": "worker 看门狗（含跨线程回归修复）",
+   "status": "verified",
+   "sha256": {
+    "tools/chat_service.py": "fd0f57927c0d2026a2070a9dc16bc534323a23045d9e5e46f690e9e23d8c1242",
+    "tools/memory_source.py": "ae130877ffab2e08aeec7c4754e60c6579025f25d2ae7b9297cf5fe515e7f4a1",
+    "tools/chat_daily.py": "ebcc3a3c9952789e74773542fd48ebb152f66c3f2b5efe992fede107b9f45883",
+    "tools/test_watchdog_cpu.py": "7b3dad7b0d6722a504e075389527e3281baa7559d5ace8529ebceea0ca43b8be"
+   },
+   "changes": [
+    "/ask daemon 线程 + LLAMA_MEM_ASK_TIMEOUT=90s -> ask_timeout -> 503；degraded 标记；health/status 200；worker 收尾恢复",
+    "memory_source.connect(check_same_thread=False) 修 worker 线程 SQLite 跨线程回归",
+    "chat_daily no_evidence 兜底 refused=True（服务语义一致）"
+   ],
+   "evidence_lines": {
+    "chat_service.py": [
+     117,
+     174,
+     185,
+     190
+    ],
+    "memory_source.py": [
+     158
+    ]
+   },
+   "independent_checks": {
+    "test_watchdog_cpu": "7/0 rc=0",
+    "test_chat_service_cpu natural/strict": "35/0 rc=0",
+    "chat_daily_cpu": "ALL PASS",
+    "retrieval_cpu": "ALL PASS",
+    "rollover_cpu": "ALL PASS",
+    "rollover_hier_cpu": "ALL PASS",
+    "refusal_cpu": "ALL PASS",
+    "slots_cpu": "43/0",
+    "verify_wiring_cpu": "42/42",
+    "long_context_cpu": "ALL PASS"
+   },
+   "regression_resolved": {
+    "was": "test_chat_service_cpu 35/3 fail (SQLite cross-thread)",
+    "fix_sha": "memory_source ae130877…",
+    "now": "35/0"
+   }
+  },
+  {
+   "step": 5,
+   "name": "fsync/commit 批量",
+   "status": "verified",
+   "sha256": {
+    "tools/chat_daily.py": "d9da888a3027502a85ceff7627dc19b93bf138eab5cf0e0e4f370d822ee57dba",
+    "tools/assistant_log.py": "711ea0b4f9f48548105a8f067c051f3abf3d4857f261bda11c0c02758b620d63",
+    "tools/test_logging_cpu.py": "c8f17d9d8f1c798af7612c4381290df662a07c2da1bc93e1433f992aea108067",
+    "tools/test_long_context_cpu.py": "5071ec04d1bd5ddd74fd91babbecf7d1f9612d8ec603d449e14fdc02f75879ee"
+   },
+   "changes": [
+    "LLAMA_MEM_LOG_FSYNC 默认关：logger 每轮 fsync 4→0（manifest 初始化/session_end 保留 fsync）",
+    "rollover 内 DB 整段 _batch_db：逐条 commit → 1 次 commit（try/finally 保证收尾）"
+   ],
+   "data": {
+    "fsync_per_turn_before": 4,
+    "fsync_per_turn_after": 0,
+    "rollover_commit_before": "N",
+    "rollover_commit_after": 1,
+    "new_assertions": [
+     "fsync_per_turn_le_1",
+     "batch_commit_le_1",
+     "index_rebuild_le_1"
+    ]
+   },
+   "independent_checks": {
+    "test_logging_cpu": "ALL PASS rc=0",
+    "test_long_context_cpu": "ALL PASS rc=0",
+    "chat_daily_cpu": "ALL PASS",
+    "retrieval_cpu": "ALL PASS",
+    "rollover_cpu": "ALL PASS",
+    "rollover_hier_cpu": "ALL PASS",
+    "refusal_cpu": "ALL PASS",
+    "slots_cpu": "43/0",
+    "verify_wiring_cpu": "42/42",
+    "watchdog_cpu": "7/0",
+    "chat_service_cpu natural/strict": "ALL PASS / ALL PASS",
+    "n_seq_compat_cpu": "5/0"
+   }
+  },
+  {
+   "step": 6,
+   "name": "n_seq 8→4",
+   "status": "reverted_with_rationale",
+   "sha256": {
+    "tools/test_n_seq_compat_cpu.py": "dec9630395cda5bbf33c5ec6a7b0006027da57a9d2f97d2e44e6e3287fb8f3a8"
+   },
+   "changes": [
+    "回退不改：n_seq=4 需联动改块/隔离/scratch/测试，风险高；静态兼容检查 5/0 记录理由"
+   ],
+   "data": {
+    "n_seq_kept": 8,
+    "compat_checks": "5/0 rc=0"
+   }
+  }
+ ],
+ "pending": [
+  5,
+  6
+ ],
+ "acceptance_thresholds_frozen": {
+  "kv_block_max_MB": 15,
+  "archive_block_tokens_max": 512,
+  "summary_block_tokens_max": 256,
+  "rollover_build_index_max": 1,
+  "rollover_sync_session_save": "forbidden (real engine)",
+  "save_guard_GiB": 1,
+  "v2_facts_recall": "8/8",
+  "v2_verdict": "PASS",
+  "v2_rollover_min": 1,
+  "ask_timeout_watchdog_s": 90,
+  "http_5xx_on_timeout": 503,
+  "no_hang_gt": 90,
+  "volume_single_write_max_MB": 500
+ },
+ "status": "all_steps_delivered",
+ "final_shas": {
+  "tools/chat_daily.py": "d9da888a3027502a85ceff7627dc19b93bf138eab5cf0e0e4f370d822ee57dba",
+  "tools/memory_source.py": "ae130877ffab2e08aeec7c4754e60c6579025f25d2ae7b9297cf5fe515e7f4a1",
+  "tools/chat_service.py": "fd0f57927c0d2026a2070a9dc16bc534323a23045d9e5e46f690e9e23d8c1242",
+  "tools/assistant_log.py": "711ea0b4f9f48548105a8f067c051f3abf3d4857f261bda11c0c02758b620d63",
+  "tools/memory_service.py": "0f2197bfd52f112e6f5251bbae17d7821b6ab5737580b69fd0ff8fb9fe013629"
+ },
+ "acceptance_script_review": {
+  "path": "training/longconv_v2_accept.py",
+  "sha256": "d8e33d1fdd7ad603a05ed2d80d4470424c9e1b3dbc1b124d542ad42aaff542e7",
+  "limits": {
+   "per_ask_write_bytes_lt": 5242880,
+   "rollover_total_write_bytes_lt": 157286400,
+   "session_file_bytes_lt": 1073741824
+  },
+  "recall": "early(车牌/猫)+mid(成都/工号/妻子/老家) 全对；recent 诊断",
+  "verdict_rule": "PASS=all thresholds & no discrepancies"
+ },
+ "acceptance": {
+  "status": "go_sent",
+  "lead_restart_confirmed": true,
+  "restart_at": "2026-10-28T15:52:19+08:00",
+  "service_pid": 12796,
+  "code_loaded": "chat_daily d9da888a…",
+  "lead_stale_cleanup": "eval3.chat.kvmem 1.8GiB + rollover_test 0.06G deleted",
+  "thresholds": {
+   "per_ask_write_bytes_lt": 5242880,
+   "rollover_total_write_bytes_lt": 157286400,
+   "session_file_bytes_lt": 1073741824,
+   "recall": "early+mid all pass",
+   "verdict": "PASS=all thresholds & no discrepancies"
+  },
+  "baselines": {
+   "v11_main": "out/TRAINING-EVAL-v11.json 35116e7a (22 overlap, partial)",
+   "v10_full": "out/TRAINING-EVAL-v10.json 24411b19bf7fe988 (81)"
+  },
+  "owner": "cleanroom-auditor",
+  "supervisor": "rev7-auditor (coordinator)"
+ }
+}

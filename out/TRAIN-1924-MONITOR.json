@@ -1,0 +1,324 @@
+{
+ "schema": "train_1924_monitor_v1",
+ "job_id": "1924",
+ "node": "co2-cn2",
+ "gpus": "2x V100-SXM2-16GB",
+ "remote_log": "~/llm-ft/slurm-1924.out",
+ "interval_s": 900,
+ "samples": [
+  {
+   "ts": "2026-10-28T16:41:28+0800",
+   "ssh": {
+    "rc": 0,
+    "elapsed_s": 2.77,
+    "stderr": ""
+   },
+   "progress": {
+    "step": 24,
+    "total": 356,
+    "elapsed": "07:21",
+    "eta": "1:39:18",
+    "s_per_it": 17.95,
+    "pct": 6.74
+   },
+   "loss": null,
+   "anomaly_hits": [],
+   "job_state_sacct": "RUNNING",
+   "job_state_squeue": "RUNNING",
+   "raw_tail": [
+    "",
+    "",
+    "  6%|▌         | 20/356 [06:10<1:42:31, 18.31s/it]",
+    "  6%|▌         | 21/356 [06:28<1:41:10, 18.12s/it]",
+    "  6%|▌         | 22/356 [06:46<1:40:27, 18.05s/it]",
+    "  6%|▋         | 23/356 [07:03<1:39:52, 18.00s/it]",
+    "  7%|▋         | 24/356 [07:21<1:39:18, 17.95s/it]---SQUEUE---",
+    "             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)",
+    "              1924       gpu    qlora    xy002  R      11:01      1 co2-cn2",
+    "---SACCT---",
+    "1924            RUNNING   00:11:01      billing=16,cpu=16,gres/gpu=2,node=1",
+    "1924.batch      RUNNING   00:11:01           cpu=16,gres/gpu=2,mem=0,node=1"
+   ],
+   "anomalies": []
+  },
+  {
+   "ts": "2026-10-28T16:41:40+0800",
+   "ssh": {
+    "rc": 0,
+    "elapsed_s": 3.09,
+    "stderr": ""
+   },
+   "progress": {
+    "step": 26,
+    "total": 356,
+    "elapsed": "07:57",
+    "eta": "1:38:17",
+    "s_per_it": 17.87,
+    "pct": 7.3
+   },
+   "loss": null,
+   "anomaly_hits": [],
+   "job_state_sacct": "RUNNING",
+   "job_state_squeue": "RUNNING",
+   "raw_tail": [
+    "  6%|▌         | 20/356 [06:10<1:42:31, 18.31s/it]",
+    "  6%|▌         | 21/356 [06:28<1:41:10, 18.12s/it]",
+    "  6%|▌         | 22/356 [06:46<1:40:27, 18.05s/it]",
+    "  6%|▋         | 23/356 [07:03<1:39:52, 18.00s/it]",
+    "  7%|▋         | 24/356 [07:21<1:39:18, 17.95s/it]",
+    "  7%|▋         | 25/356 [07:39<1:38:50, 17.92s/it]",
+    "  7%|▋         | 26/356 [07:57<1:38:17, 17.87s/it]---SQUEUE---",
+    "             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)",
+    "              1924       gpu    qlora    xy002  R      11:14      1 co2-cn2",
+    "---SACCT---",
+    "1924            RUNNING   00:11:14      billing=16,cpu=16,gres/gpu=2,node=1",
+    "1924.batch      RUNNING   00:11:14           cpu=16,gres/gpu=2,mem=0,node=1"
+   ],
+   "anomalies": []
+  },
+  {
+   "ts": "2026-10-28T16:53:13+0800",
+   "ssh": {
+    "rc": 0,
+    "elapsed_s": 1.47,
+    "stderr": ""
+   },
+   "progress": {
+    "step": 63,
+    "total": 356,
+    "elapsed": "18:59",
+    "eta": "1:28:42",
+    "s_per_it": 18.16,
+    "pct": 17.7
+   },
+   "loss": null,
+   "loss_step": null,
+   "anomaly_hits": [
+    {
+     "kind": "process_exit",
+     "line": "1924.0        CANCELLED   00:00:11           cpu=16,gres/gpu=2,mem=0,node=1"
+    }
+   ],
+   "job_state_sacct": "RUNNING",
+   "job_state_squeue": "RUNNING",
+   "raw_tail": [
+    " 17%|█▋        | 60/356 [18:04<1:28:19, 17.91s/it]",
+    " 17%|█▋        | 61/356 [18:22<1:28:03, 17.91s/it]",
+    " 17%|█▋        | 62/356 [18:40<1:27:30, 17.86s/it]",
+    " 18%|█▊        | 63/356 [18:59<1:28:42, 18.16s/it]---SQUEUE---",
+    "             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)",
+    "              1924       gpu    qlora    xy002  R      22:45      1 co2-cn2",
+    "---SACCT---",
+    "1924            RUNNING   00:22:45      billing=16,cpu=16,gres/gpu=2,node=1",
+    "1924.batch      RUNNING   00:22:45           cpu=16,gres/gpu=2,mem=0,node=1",
+    "1924.0        CANCELLED   00:00:11           cpu=16,gres/gpu=2,mem=0,node=1",
+    "---STATE---",
+    "LOSS_JSON NONE"
+   ],
+   "anomalies": [
+    {
+     "kind": "process_exit",
+     "line": "1924.0        CANCELLED   00:00:11           cpu=16,gres/gpu=2,mem=0,node=1"
+    }
+   ]
+  },
+  {
+   "ts": "2026-10-28T16:54:30+0800",
+   "ssh": {
+    "rc": 0,
+    "elapsed_s": 1.55,
+    "stderr": ""
+   },
+   "progress": {
+    "step": 68,
+    "total": 356,
+    "elapsed": "20:34",
+    "eta": "1:30:46",
+    "s_per_it": 18.91,
+    "pct": 19.1
+   },
+   "loss": null,
+   "loss_step": null,
+   "anomaly_hits": [
+    {
+     "kind": "process_exit",
+     "line": "1924.0        CANCELLED   00:00:11           cpu=16,gres/gpu=2,mem=0,node=1"
+    }
+   ],
+   "substeps": [
+    {
+     "jobid": "1924.batch",
+     "state": "RUNNING",
+     "elapsed": "00:24:02"
+    },
+    {
+     "jobid": "1924.0",
+     "state": "CANCELLED",
+     "elapsed": "00:00:11"
+    }
+   ],
+   "substep_warnings": [
+    {
+     "jobid": "1924.0",
+     "state": "CANCELLED",
+     "elapsed": "00:00:11"
+    }
+   ],
+   "job_state_sacct": "RUNNING",
+   "job_state_squeue": "RUNNING",
+   "raw_tail": [
+    " 18%|█▊        | 65/356 [19:37<1:30:21, 18.63s/it]",
+    " 19%|█▊        | 66/356 [19:56<1:30:41, 18.76s/it]",
+    " 19%|█▉        | 67/356 [20:15<1:30:46, 18.84s/it]",
+    " 19%|█▉        | 68/356 [20:34<1:30:46, 18.91s/it]---SQUEUE---",
+    "             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)",
+    "              1924       gpu    qlora    xy002  R      24:02      1 co2-cn2",
+    "---SACCT---",
+    "1924            RUNNING   00:24:02      billing=16,cpu=16,gres/gpu=2,node=1",
+    "1924.batch      RUNNING   00:24:02           cpu=16,gres/gpu=2,mem=0,node=1",
+    "1924.0        CANCELLED   00:00:11           cpu=16,gres/gpu=2,mem=0,node=1",
+    "---STATE---",
+    "LOSS_JSON NONE"
+   ],
+   "anomalies": [
+    {
+     "kind": "process_exit",
+     "line": "1924.0        CANCELLED   00:00:11           cpu=16,gres/gpu=2,mem=0,node=1"
+    }
+   ]
+  },
+  {
+   "ts": "2026-10-28T16:54:51+0800",
+   "ssh": {
+    "rc": 0,
+    "elapsed_s": 1.63,
+    "stderr": ""
+   },
+   "progress": {
+    "step": 68,
+    "total": 356,
+    "elapsed": "20:34",
+    "eta": "1:30:46",
+    "s_per_it": 18.91,
+    "pct": 19.1
+   },
+   "loss": null,
+   "loss_step": null,
+   "anomaly_hits": [],
+   "substeps": [
+    {
+     "jobid": "1924.batch",
+     "state": "RUNNING",
+     "elapsed": "00:24:23"
+    },
+    {
+     "jobid": "1924.0",
+     "state": "CANCELLED",
+     "elapsed": "00:00:11"
+    }
+   ],
+   "substep_warnings": [
+    {
+     "jobid": "1924.0",
+     "state": "CANCELLED",
+     "elapsed": "00:00:11"
+    }
+   ],
+   "job_state_sacct": "RUNNING",
+   "job_state_squeue": "RUNNING",
+   "raw_tail": [
+    " 18%|█▊        | 65/356 [19:37<1:30:21, 18.63s/it]",
+    " 19%|█▊        | 66/356 [19:56<1:30:41, 18.76s/it]",
+    " 19%|█▉        | 67/356 [20:15<1:30:46, 18.84s/it]",
+    " 19%|█▉        | 68/356 [20:34<1:30:46, 18.91s/it]---SQUEUE---",
+    "             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)",
+    "              1924       gpu    qlora    xy002  R      24:23      1 co2-cn2",
+    "---SACCT---",
+    "1924            RUNNING   00:24:23      billing=16,cpu=16,gres/gpu=2,node=1",
+    "1924.batch      RUNNING   00:24:23           cpu=16,gres/gpu=2,mem=0,node=1",
+    "1924.0        CANCELLED   00:00:11           cpu=16,gres/gpu=2,mem=0,node=1",
+    "---STATE---",
+    "LOSS_JSON NONE"
+   ],
+   "anomalies": []
+  },
+  {
+   "ts": "2026-10-28T16:56:43+0800",
+   "ssh": {
+    "rc": 0,
+    "elapsed_s": 1.53,
+    "stderr": ""
+   },
+   "progress": {
+    "step": 75,
+    "total": 356,
+    "elapsed": "22:47",
+    "eta": "1:29:04",
+    "s_per_it": 19.02,
+    "pct": 21.07
+   },
+   "loss": null,
+   "loss_step": null,
+   "anomaly_hits": [],
+   "substeps": [
+    {
+     "jobid": "1924.batch",
+     "state": "RUNNING",
+     "elapsed": "00:26:15"
+    },
+    {
+     "jobid": "1924.0",
+     "state": "CANCELLED",
+     "elapsed": "00:00:11"
+    }
+   ],
+   "substep_warnings": [
+    {
+     "jobid": "1924.0",
+     "state": "CANCELLED",
+     "elapsed": "00:00:11"
+    }
+   ],
+   "job_state_sacct": "RUNNING",
+   "job_state_squeue": "RUNNING",
+   "raw_tail": [
+    " 20%|██        | 72/356 [21:50<1:30:02, 19.02s/it]",
+    " 21%|██        | 73/356 [22:09<1:29:46, 19.04s/it]",
+    " 21%|██        | 74/356 [22:28<1:29:29, 19.04s/it]",
+    " 21%|██        | 75/356 [22:47<1:29:04, 19.02s/it]---SQUEUE---",
+    "             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)",
+    "              1924       gpu    qlora    xy002  R      26:15      1 co2-cn2",
+    "---SACCT---",
+    "1924            RUNNING   00:26:15      billing=16,cpu=16,gres/gpu=2,node=1",
+    "1924.batch      RUNNING   00:26:15           cpu=16,gres/gpu=2,mem=0,node=1",
+    "1924.0        CANCELLED   00:00:11           cpu=16,gres/gpu=2,mem=0,node=1",
+    "---STATE---",
+    "LOSS_JSON NONE"
+   ],
+   "anomalies": []
+  }
+ ],
+ "alerts": [],
+ "last_updated": "2026-10-28T16:56:43+0800",
+ "latest": {
+  "ts": "2026-10-28T16:56:43+0800",
+  "step": 75,
+  "total": 356,
+  "s_per_it": 19.02,
+  "eta": "1:29:04",
+  "loss": null,
+  "loss_step": null,
+  "job_state": "RUNNING",
+  "n_anomalies": 0
+ },
+ "n_samples": 6,
+ "anomaly_policy": "alerts 只报：主作业(1924)非 RUNNING、NaN/Inf、device mismatch、OOM、Traceback、srun error；子步骤(1924.x) CANCELLED/FAILED 仅记 substep_warnings（如 srun nvidia-smi 超时不等于训练失败）。",
+ "corrections": [
+  {
+   "at": "2026-10-28T16:54:30+08:00",
+   "issue": "初版把 sacct 子步骤 1924.0(nvidia-smi) CANCELLED 误判为训练异常",
+   "fix": "异常扫描只读日志段；子步骤异常改记 substep_warnings（主作业 RUNNING 时不计 alert）",
+   "removed_false_alerts": 2
+  }
+ ]
+}

@@ -1,0 +1,1444 @@
+{
+ "schema": "training_eval_v1",
+ "role": "T11 训练+测试闭环：真实对话用例集回归（2026-10-27）",
+ "generated_at": "2026-10-28T13:52:29+0800",
+ "mode": "live",
+ "partial": true,
+ "endpoint": "http://127.0.0.1:8765",
+ "source_cases": {
+  "path": "training/dialog_cases.jsonl",
+  "sha256": "a81853c6a8f164c026beb9bc643554f3b4f7315b878c479ba70d7acecd872556",
+  "bytes": 25628,
+  "n": 81
+ },
+ "runner": {
+  "path": "training/run_training_eval.py",
+  "sha256": "70ee0fa9b7f3121129fafe4675b4fe0ac84e3b12524ee97d322bf37fced4d63b",
+  "timeout_s": 90.0,
+  "classifier": "9 类：串味/编造/误拒/僵硬/重复尾巴/身份/联网无来源/记忆漏/延迟",
+  "connection_retries": 2,
+  "retry_wait_s": 5.0,
+  "state_class_mapping": {
+   "refused": "no_evidence",
+   "state=identity": "identity",
+   "state=capability": "capability",
+   "state=smalltalk": "smalltalk",
+   "state=ack": "ack",
+   "state=web": "web",
+   "block_ids 非空": "memory_hit",
+   "其余": "general"
+  }
+ },
+ "service": {
+  "health_before": {
+   "status": "ok",
+   "model_pin": {
+    "model_path": "D:\\models\\Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+    "model_size": 8988110976,
+    "model_mtime": 1793102210
+   },
+   "dll_pin": {
+    "path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+    "present": true,
+    "bytes": 50007552,
+    "sha16": "9edbafa150700614"
+   },
+   "vram_gib": null,
+   "memories": 11,
+   "session": {
+    "path": "kvmem\\daily\\sessions\\eval3.json",
+    "exists": false,
+    "chat_tokens": 218,
+    "chat_budget": 24576,
+    "chat_start": 8192,
+    "n_ctx": 32768,
+    "mounted": 0,
+    "control": false,
+    "n_predict": 192,
+    "rollover_at": 0.75,
+    "rollover_threshold_tokens": 18432
+   },
+   "engine": {
+    "mode": "real",
+    "type": "KVEngine",
+    "n_ctx": 32768,
+    "n_seq": 8,
+    "n_gpu_layers": 28,
+    "bytes_per_token": 104448,
+    "kv_pool_gib": 3.188,
+    "mem_total_gib": 3.188
+   },
+   "retrieval": {
+    "mode": "topk",
+    "topk": 4,
+    "library_count": 11,
+    "library_max": 200,
+    "mounted_ids": [],
+    "mounted_count": 0,
+    "candidates": 11,
+    "related": 0,
+    "memory_budget": 7680,
+    "last_truncation": null
+   },
+   "version": "c-1.0",
+   "service": {
+    "version": "c-service-1.0",
+    "host": "127.0.0.1",
+    "port": 8765,
+    "serial": true,
+    "requests": 810,
+    "in_flight_max": 1,
+    "by_route": {
+     "POST /remember": 38,
+     "POST /reset": 204,
+     "POST /ask": 272,
+     "GET /health": 91,
+     "GET /memories": 190,
+     "POST /forget": 15
+    },
+    "uptime_s": 34976.5,
+    "fake_engine": false
+   }
+  },
+  "health_after": {
+   "status": "ok",
+   "model_pin": {
+    "model_path": "D:\\models\\Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+    "model_size": 8988110976,
+    "model_mtime": 1793102210
+   },
+   "dll_pin": {
+    "path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+    "present": true,
+    "bytes": 50007552,
+    "sha16": "9edbafa150700614"
+   },
+   "vram_gib": null,
+   "memories": 11,
+   "session": {
+    "path": "kvmem\\daily\\sessions\\eval3.json",
+    "exists": false,
+    "chat_tokens": 218,
+    "chat_budget": 24576,
+    "chat_start": 8192,
+    "n_ctx": 32768,
+    "mounted": 0,
+    "control": false,
+    "n_predict": 192,
+    "rollover_at": 0.75,
+    "rollover_threshold_tokens": 18432
+   },
+   "engine": {
+    "mode": "real",
+    "type": "KVEngine",
+    "n_ctx": 32768,
+    "n_seq": 8,
+    "n_gpu_layers": 28,
+    "bytes_per_token": 104448,
+    "kv_pool_gib": 3.188,
+    "mem_total_gib": 3.188
+   },
+   "retrieval": {
+    "mode": "topk",
+    "topk": 4,
+    "library_count": 11,
+    "library_max": 200,
+    "mounted_ids": [],
+    "mounted_count": 0,
+    "candidates": 11,
+    "related": 0,
+    "memory_budget": 7680,
+    "last_truncation": null
+   },
+   "version": "c-1.0",
+   "service": {
+    "version": "c-service-1.0",
+    "host": "127.0.0.1",
+    "port": 8765,
+    "serial": true,
+    "requests": 810,
+    "in_flight_max": 1,
+    "by_route": {
+     "POST /remember": 38,
+     "POST /reset": 204,
+     "POST /ask": 272,
+     "GET /health": 91,
+     "GET /memories": 190,
+     "POST /forget": 15
+    },
+    "uptime_s": 34976.5,
+    "fake_engine": false
+   }
+  },
+  "elapsed_s": 336.744
+ },
+ "hermetic": {
+  "enabled": true,
+  "reset_supported": true,
+  "reset_error": null,
+  "snapshot_ids_n": 11,
+  "memories_before": 11,
+  "category_boundaries": [
+   {
+    "from_category": "greeting",
+    "next_category": "identity",
+    "cleanup": {
+     "snapshot_n": 11,
+     "extra": [
+      12,
+      13
+     ],
+     "deleted": [
+      {
+       "id": 12,
+       "deleted": 1
+      },
+      {
+       "id": 13,
+       "deleted": 1
+      }
+     ],
+     "forget_errors": [],
+     "reset_after": true,
+     "memories_now": 13,
+     "memories_after": 11
+    }
+   },
+   {
+    "from_category": "identity",
+    "next_category": "capability",
+    "cleanup": {
+     "snapshot_n": 11,
+     "extra": [
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+     ],
+     "deleted": [
+      {
+       "id": 12,
+       "deleted": 1
+      },
+      {
+       "id": 13,
+       "deleted": 1
+      },
+      {
+       "id": 14,
+       "deleted": 1
+      },
+      {
+       "id": 15,
+       "deleted": 1
+      },
+      {
+       "id": 16,
+       "deleted": 1
+      },
+      {
+       "id": 17,
+       "deleted": 1
+      }
+     ],
+     "forget_errors": [],
+     "reset_after": true,
+     "memories_now": 17,
+     "memories_after": 11
+    }
+   }
+  ],
+  "added_total": 0,
+  "cleaned_total": 8,
+  "final": null
+ },
+ "summary": {
+  "scope": "live",
+  "n": 22,
+  "n_valid": 20,
+  "n_infra": 2,
+  "pass": 20,
+  "fail": 0,
+  "pass_rate": 1.0,
+  "pass_rate_including_infra": 0.909091,
+  "by_category": {
+   "greeting": {
+    "n": 9,
+    "pass": 9,
+    "pass_rate": 1.0
+   },
+   "identity": {
+    "n": 8,
+    "pass": 8,
+    "pass_rate": 1.0
+   },
+   "capability": {
+    "n": 3,
+    "pass": 3,
+    "pass_rate": 1.0
+   }
+  },
+  "failure_classes": {},
+  "hard_assertions": {
+   "n": 8,
+   "pass": 8,
+   "fail": 0,
+   "pass_rate": 1.0
+  },
+  "failures": [],
+  "infra_errors": [
+   {
+    "id": "c04",
+    "category": "capability",
+    "input": "你能联网吗",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "不能",
+      "无法",
+      "不联网",
+      "不知道",
+      "没有"
+     ]
+    },
+    "note": "真实抱怨：用户贴「能联网吗」；应明确不联网/本地",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "error": "TimeoutError: timed out"
+    },
+    "setup": {},
+    "infra_error": true,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "exception: timed out"
+    ]
+   },
+   {
+    "id": "c05",
+    "category": "capability",
+    "input": "你联网了吗",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "不能",
+      "无法",
+      "不联网",
+      "不知道",
+      "没有"
+     ]
+    },
+    "note": "回归：联网状态变体",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "error": "TimeoutError: timed out"
+    },
+    "setup": {},
+    "infra_error": true,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "exception: timed out"
+    ]
+   }
+  ]
+ },
+ "live": {
+  "scope": "live",
+  "n": 22,
+  "n_valid": 20,
+  "n_infra": 2,
+  "pass": 20,
+  "fail": 0,
+  "pass_rate": 1.0,
+  "pass_rate_including_infra": 0.909091,
+  "by_category": {
+   "greeting": {
+    "n": 9,
+    "pass": 9,
+    "pass_rate": 1.0
+   },
+   "identity": {
+    "n": 8,
+    "pass": 8,
+    "pass_rate": 1.0
+   },
+   "capability": {
+    "n": 3,
+    "pass": 3,
+    "pass_rate": 1.0
+   }
+  },
+  "failure_classes": {},
+  "hard_assertions": {
+   "n": 8,
+   "pass": 8,
+   "fail": 0,
+   "pass_rate": 1.0
+  },
+  "failures": [],
+  "infra_errors": [
+   {
+    "id": "c04",
+    "category": "capability",
+    "input": "你能联网吗",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "不能",
+      "无法",
+      "不联网",
+      "不知道",
+      "没有"
+     ]
+    },
+    "note": "真实抱怨：用户贴「能联网吗」；应明确不联网/本地",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "error": "TimeoutError: timed out"
+    },
+    "setup": {},
+    "infra_error": true,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "exception: timed out"
+    ]
+   },
+   {
+    "id": "c05",
+    "category": "capability",
+    "input": "你联网了吗",
+    "pre_state": [],
+    "expect": {
+     "contains_any": [
+      "不能",
+      "无法",
+      "不联网",
+      "不知道",
+      "没有"
+     ]
+    },
+    "note": "回归：联网状态变体",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "error": "TimeoutError: timed out"
+    },
+    "setup": {},
+    "infra_error": true,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "exception: timed out"
+    ]
+   }
+  ]
+ },
+ "results": [
+  {
+   "id": "g01",
+   "category": "greeting",
+   "input": "你好",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你好」；曾出现重复尾巴/未走寒暄快速路径",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "嗨，有啥事儿",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.086,
+    "latency_server_s": 2.0625,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g02",
+   "category": "greeting",
+   "input": "你好你好",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你好你好」；重复问候曾被复读",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "嗨，有啥事儿吗",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.146,
+    "latency_server_s": 2.1043,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g03",
+   "category": "greeting",
+   "input": "您好",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "回归：敬语变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "您好，有啥需要帮忙的吗",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.55,
+    "latency_server_s": 2.5068,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g04",
+   "category": "greeting",
+   "input": "在吗",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "真实抱怨：用户贴「在吗」；曾出现「您在问…对吗」式应答",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "在呢，有啥事儿",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.339,
+    "latency_server_s": 2.2864,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 13,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g05",
+   "category": "greeting",
+   "input": "在不在",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "在呢",
+     "有事吗",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "回归：在线问候变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "在呢，有啥事儿",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.236,
+    "latency_server_s": 2.1853,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 13,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g06",
+   "category": "greeting",
+   "input": "早上好呀",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "回归：时段问候",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "早上好，今天感觉怎么样",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 6.319,
+    "latency_server_s": 1.8531,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 13,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g07",
+   "category": "greeting",
+   "input": "嗨",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "回归：英文/单字变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "嗨，最近咋样",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 5.081,
+    "latency_server_s": 1.5027,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 13,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g08",
+   "category": "greeting",
+   "input": "哈喽",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "回归：音译变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "嗨，有啥事儿吗",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 7.852,
+    "latency_server_s": 1.7018,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 13,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "g09",
+   "category": "greeting",
+   "input": "hello",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "你好",
+     "您好",
+     "嗨",
+     "哈喽",
+     "有啥",
+     "在的",
+     "晚上好",
+     "早上好"
+    ]
+   },
+   "note": "回归：英文变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "嗨，有啥事儿吗",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.248,
+    "latency_server_s": 2.2027,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 13,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "i01",
+   "category": "identity",
+   "input": "你是谁",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你是谁呀」类问句；身份应答必须稳定",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "我是你的本地记忆助手，有啥想聊的？",
+    "state": "identity",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 0.018,
+    "latency_server_s": 0.0,
+    "state_class": "identity",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "i02",
+   "category": "identity",
+   "input": "你是谁呀",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你是谁呀」；曾被答成「您在问『你是谁呀』这个问题，对吗」",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "我是你的本地记忆助手，有啥想聊的？",
+    "state": "identity",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 0.05,
+    "latency_server_s": 0.0,
+    "state_class": "identity",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "i03",
+   "category": "identity",
+   "input": "你叫什么名字",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "回归：名字变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我是你的本地记忆助手，有啥想聊的？",
+    "state": "identity",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 0.048,
+    "latency_server_s": 0.0,
+    "state_class": "identity",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "i04",
+   "category": "identity",
+   "input": "你是机器人吗",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "回归：身份确认",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我是你的本地记忆助手，有啥想聊的？",
+    "state": "identity",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.039,
+    "latency_server_s": 0.0,
+    "state_class": "identity",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 12,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "i05",
+   "category": "identity",
+   "input": "你是AI吗",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "回归：AI 身份",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我是你的本地记忆助手，有啥想聊的？",
+    "state": "identity",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 4.359,
+    "latency_server_s": 0.0,
+    "state_class": "identity",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 12,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "i06",
+   "category": "identity",
+   "input": "你能做什么",
+   "pre_state": [],
+   "expect": {
+    "refusal": false,
+    "semantic": "identity_local"
+   },
+   "note": "回归：能力介绍",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我是你的本地记忆助手：能帮你记住事实、按记忆回答问题，也能只读查资料。",
+    "state": "capability",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 0.598,
+    "latency_server_s": 0.0,
+    "state_class": "capability",
+    "memory_delta": 1,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 12,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     13
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "i07",
+   "category": "identity",
+   "input": "你是什么模型",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "真实抱怨：用户贴「你是什么模型」；曾答成通用模型介绍/身份不稳",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "我是你的本地记忆助手，有啥想聊的？",
+    "state": "identity",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 0.034,
+    "latency_server_s": 0.0,
+    "state_class": "identity",
+    "memory_delta": 1,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 14,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     15
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "i08",
+   "category": "identity",
+   "input": "你用的是什么模型",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "本地",
+     "助手",
+     "记忆",
+     "AI"
+    ],
+    "not_contains": [
+     "DeepSeek",
+     "DeepSeek-R1",
+     "GPT",
+     "Qwen",
+     "通义",
+     "R1",
+     "Lite-Preview",
+     "深度求索"
+    ]
+   },
+   "note": "回归：模型身份变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我是本地记忆助手，不是基于特定的模型，所以没法告诉你具体是哪种模型",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 7.12,
+    "latency_server_s": 3.7602,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 16,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "c01",
+   "category": "capability",
+   "input": "记忆力有什么",
+   "pre_state": [],
+   "expect": {
+    "semantic": "no_memory_denial"
+   },
+   "note": "真实抱怨：用户贴「记忆力有什么」；曾被答成「记忆力是大脑存储…」的百科句，且重复尾巴",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "我记住 11 条记忆（KV 块 + 原文）；你问起时我按记忆回答，记不清就直说。",
+    "state": "capability",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.193,
+    "latency_server_s": 0.0002,
+    "state_class": "capability",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "c02",
+   "category": "capability",
+   "input": "你记得什么",
+   "pre_state": [],
+   "expect": {
+    "semantic": "capability_memory_list",
+    "refusal": false
+   },
+   "note": "真实抱怨：问记忆库内容，应列记忆或说明已记条数",
+   "scope": "live",
+   "content_checks": true,
+   "hard": true,
+   "actual": {
+    "answer": "我有长期记忆库，现在存了 11 条长期记忆（例如：我下周五要去成都开会、我下下周一要去西安开会、我下下周一要去成都开会…）；对话上下文是另外保存的，不会清空记忆库。",
+    "state": "memory_meta",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 2.704,
+    "latency_server_s": 0.0007,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 11,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "c03",
+   "category": "capability",
+   "input": "记忆库有什么",
+   "pre_state": [],
+   "expect": {
+    "semantic": "capability_memory_list",
+    "refusal": false
+   },
+   "note": "回归：记忆库查询变体",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "我有长期记忆库，现在存了 12 条长期记忆（例如：我叫阿泽，我的车牌号是京A88888。、我下周五要去成都开会、我下下周一要去西安开会…）；对话上下文是另外保存的，不会清空记忆库。",
+    "state": "memory_meta",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.822,
+    "latency_server_s": 0.0006,
+    "state_class": "general",
+    "memory_delta": 0,
+    "error": null
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 12,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [],
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "c04",
+   "category": "capability",
+   "input": "你能联网吗",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "不能",
+     "无法",
+     "不联网",
+     "不知道",
+     "没有"
+    ]
+   },
+   "note": "真实抱怨：用户贴「能联网吗」；应明确不联网/本地",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "error": "TimeoutError: timed out"
+   },
+   "setup": {},
+   "infra_error": true,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "exception: timed out"
+   ]
+  },
+  {
+   "id": "c05",
+   "category": "capability",
+   "input": "你联网了吗",
+   "pre_state": [],
+   "expect": {
+    "contains_any": [
+     "不能",
+     "无法",
+     "不联网",
+     "不知道",
+     "没有"
+    ]
+   },
+   "note": "回归：联网状态变体",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "error": "TimeoutError: timed out"
+   },
+   "setup": {},
+   "infra_error": true,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "exception: timed out"
+   ]
+  }
+ ],
+ "notes": [
+  "密闭评测：开始前 GET /memories 快照 + POST /reset；每个 category 边界清理测试块并 reset；结束后删除快照外全部 id 并 reset；元数据见 hermetic。共享会话历史无法重置，后段用例可能受前段上下文影响（已按 read-only → 写入类顺序排列）。",
+  "dry-run-instance：每条独立 fake 实例（零 GPU/零模型），只判结构项（refusal/state_class/memory_delta/延迟），正文包含类检查 skipped，不与 live 基线混算。",
+  "expect 扩展：memory_delta 为 T11 跑器补充字段（自动记忆用例核对入记忆条数），其余字段沿用 LEAD 指定 schema。",
+  "连接层错误（服务被重启/拒绝连接）计入 n_infra，不计入 pass_rate 分母；若 n_infra 偏大说明评测窗口内服务被外部重启，基线只对 n_valid 条成立。",
+  "partial=true 表示本轮被中断/未跑完；可用 --resume 在同一 --out 上续跑。"
+ ],
+ "failures": []
+}

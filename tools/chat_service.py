@@ -78,6 +78,8 @@ _ERR_HTTP = {
     "unavailable": 503,
     "method_not_allowed": 405,
     "queue_timeout": 429,
+    "ask_timeout": 503,
+    "service_degraded": 503,
     "model_error": 500,
 }
 
@@ -111,6 +113,12 @@ class Service:
         self.in_flight = 0
         self.in_flight_max = 0
         self.by_route = {}
+        try:
+            self.ask_timeout = float(os.environ.get("LLAMA_MEM_ASK_TIMEOUT", "90"))
+        except ValueError:
+            self.ask_timeout = 90.0
+        self.degraded = False
+        self._worker = None
 
     # -- 统一调用入口：任何动作都在锁内串行执行 ---------------------------
     def call(self, route, fn, timeout=None):
@@ -136,7 +144,9 @@ class Service:
                 "in_flight_max": self.in_flight_max,
                 "by_route": dict(self.by_route),
                 "uptime_s": round(time.time() - self.started_at, 1),
-                "fake_engine": getattr(self.app.eng, "mode", "real") != "real"}
+                "fake_engine": getattr(self.app.eng, "mode", "real") != "real",
+                "degraded": bool(self.degraded),
+                "ask_timeout_s": self.ask_timeout}
 
     # -- 路由 -------------------------------------------------------------
     def dispatch(self, method, path, payload):
@@ -157,7 +167,40 @@ class Service:
             return app.memories()
         if method == "POST" and path == "/ask":
             text = _req_text(payload, "text")
-            r = app.ask(text)
+            if self.degraded:
+                raise D.DailyError("service_degraded",
+                                   "上一个 /ask 仍未收尾，服务降级中；请稍后重启服务")
+            box, err = {}, []
+            def _run():
+                try:
+                    box["r"] = app.ask(text)
+                except Exception as exc:                 # noqa: BLE001
+                    err.append(exc)
+                finally:
+                    self.degraded = False
+            th = threading.Thread(target=_run, daemon=True)
+            self._worker = th
+            self.degraded = True
+            th.start()
+            th.join(max(0.05, float(self.ask_timeout)))
+            if th.is_alive():
+                self.degraded = True
+                try:
+                    if app.logger:
+                        app.logger.log_error(
+                            "ask_timeout", "ask 超过 %.0fs 未返回，返回 503"
+                            % self.ask_timeout, where="service:POST /ask")
+                except Exception:                        # noqa: BLE001
+                    pass
+                raise D.DailyError("ask_timeout",
+                                   "请求超过 %.0fs 未返回，已返回 503；worker 仍在收尾"
+                                   % self.ask_timeout)
+            self.degraded = False
+            if err:
+                raise err[0]
+            r = box.get("r")
+            if r is None:
+                raise D.DailyError("internal", "ask worker 无结果")
             r["session"] = app.session_path
             return r
         if method == "POST" and path == "/remember":

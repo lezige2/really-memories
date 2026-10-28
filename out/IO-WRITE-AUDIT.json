@@ -1,0 +1,502 @@
+{
+ "schema": "io_write_audit_v1",
+ "role": "长上下文 I/O 风暴写盘审计（只读代码+日志；不改代码）",
+ "generated_at": "2026-10-28T15:25:38+0800",
+ "constants": {
+  "bytes_per_token_B": 104553.2,
+  "token_per_char": 0.8011,
+  "formula": "file ≈ 12 + 4N + B*N",
+  "BLOCK_MAX_CHARS": 140,
+  "ARCHIVE_MAX_CHARS": 3000,
+  "MAX_TEXT_CHARS": 600,
+  "MAX_MEMORIES": 6,
+  "LIBRARY_MAX": 200,
+  "ROLLOVER_DROP_FRACTION": 0.35,
+  "rollover_threshold_tokens": "18432 (0.75*chat_budget 24576)",
+  "rollover_skip_save_over_tokens": 8000
+ },
+ "inputs": {
+  "block_size_probe": {
+   "path": "out/BLOCK-SIZE-PROBE.json",
+   "sha256": "4ad1fcc9b9c5285fedd4835b5f8fcde62d10a0ee212ce13472b9baf6a788e069",
+   "B_mean": 104553.2,
+   "samples": [
+    {
+     "path": "kvmem/daily/sessions/daily.chat.kvmem.bak-20261027T193457",
+     "n_tokens": 6340,
+     "bytes": 662302948,
+     "payload": 662277576,
+     "bytes_per_token": 104460.2,
+     "state_version": 4,
+     "mtime": "2026-10-27T19:35"
+    },
+    {
+     "path": "kvmem/m2_visibility/m5/out/M5B2-probe.kvmem",
+     "n_tokens": 1062,
+     "bytes": 110941956,
+     "payload": 110937696,
+     "bytes_per_token": 104461.1,
+     "state_version": 4,
+     "mtime": "2026-10-26T14:29"
+    },
+    {
+     "path": "kvmem/daily/sessions/rollover_test.chat.kvmem",
+     "n_tokens": 658,
+     "bytes": 68738500,
+     "payload": 68735856,
+     "bytes_per_token": 104461.8,
+     "state_version": 4,
+     "mtime": "2026-10-27T20:44"
+    }
+   ]
+  },
+  "code_pins": {
+   "tools/chat_daily.py": {
+    "path": "tools/chat_daily.py",
+    "sha256": "ddea00a13cc5e9bfe64b1aa49af8120f816053df1c1df353fa20cbafdf2d47a9",
+    "bytes": 171124,
+    "mtime": "2026-10-28T15:19:30"
+   },
+   "tools/session_state.py": {
+    "path": "tools/session_state.py",
+    "sha256": "44b508a886dfb8f89210f3e817e8b9ba33827312323c6b67e4bce3550d6a21da",
+    "bytes": 24005,
+    "mtime": "2026-10-26T10:13:03"
+   },
+   "tools/memory_source.py": {
+    "path": "tools/memory_source.py",
+    "sha256": "4686beaa58ae692a6bc65af4b84dab6455b25c3795a1bab4e0d24ae7a620fe6d",
+    "bytes": 33282,
+    "mtime": "2026-10-28T15:18:19"
+   },
+   "tools/assistant_log.py": {
+    "path": "tools/assistant_log.py",
+    "sha256": "c474effc7fd357bb5a37ebacaf8c0559e124598ff49b233bce26e203e8382b42",
+    "bytes": 23756,
+    "mtime": "2026-10-27T00:44:21"
+   },
+   "tools/chat_service.py": {
+    "path": "tools/chat_service.py",
+    "sha256": "67fe5ae1fc2fe4feef276885255405dc4b141ff0830882b6d1fea7ed48a6045c",
+    "bytes": 28636,
+    "mtime": "2026-10-27T23:35:33"
+   }
+  }
+ },
+ "write_paths": [
+  {
+   "id": "W1",
+   "name": "会话 KV 快照 eng.save(seq0)",
+   "file": "tools/chat_daily.py",
+   "func": "_save_chat_only",
+   "lines": [
+    2263,
+    2269
+   ],
+   "also": [
+    "tools/session_state.py:292 (save_session eng.save)"
+   ],
+   "trigger": "显式 /save、close(save=True)、rollover 前保存（仅 before<=8000 时）",
+   "per_turn": false,
+   "target": "sessions/<name>.chat.kvmem",
+   "formula": "12 + 4N + 104553.2*N",
+   "estimate": {
+    "n_tokens": 5060,
+    "bytes": 529059444,
+    "MiB": 504.55
+   },
+   "max_scale": "500MB 级：5060 token ≈ 529MB（实测历史 528MB）；662MB .bak=6340 token",
+   "evidence": [
+    "BLOCK-SIZE-PROBE measurements: 662302948B/6340tok",
+    "长测历史 eval3.chat.kvmem 1.95GB",
+    "LEAD 观察 528MB"
+   ],
+   "guards": "rollover 内 before>8000 ⇒ 跳过（rollover_save_skipped warning）；但显式 save/close 无上限"
+  },
+  {
+   "id": "W2",
+   "name": "rollover 前整段保存（同一 W1 的调用点）",
+   "file": "tools/chat_daily.py",
+   "func": "_maybe_rollover -> self.save()",
+   "lines": [
+    1104
+   ],
+   "also": [
+    "1051 _maybe_rollover"
+   ],
+   "trigger": "每次 ask 先判阈值(18432 token)，达到时执行；保存分支受 before>8000 保护",
+   "per_turn": "precheck only (write only at rollover)",
+   "target": "sessions/<name>.chat.kvmem",
+   "estimate": {
+    "n_tokens": 18432,
+    "bytes": 1927198322,
+    "MiB": 1837.92
+   },
+   "max_scale": "若未被 8000 保护：18432 token ≈ 1.84GB",
+   "evidence": [
+    "lines 1104,1150-1156 guards"
+   ]
+  },
+  {
+   "id": "W3",
+   "name": "archive KV 记忆块（auto_archive）",
+   "file": "tools/chat_daily.py",
+   "func": "_maybe_rollover -> _insert_memory_block",
+   "lines": [
+    1128,
+    1135,
+    864
+   ],
+   "also": [
+    "tools/memory_source.py:350 eng.save(seq)",
+    "tools/memory_source.py:358-373 DB insert"
+   ],
+   "trigger": "rollover 触发（每次 rollover 1 条）",
+   "per_turn": false,
+   "target": "kvmem/daily/blocks/mem-*.kvmem + memory_source/memory_block/meta 行",
+   "estimate": {
+    "current_index_only": {
+     "n_tokens": 32.0,
+     "bytes": 3350443,
+     "MiB": 3.2
+    },
+    "pre_fix_full_text": {
+     "n_tokens": 2403.3,
+     "bytes": 251282331,
+     "MiB": 239.64
+    }
+   },
+   "max_scale": "500MB 级（历史）：实测 202MB（≈1935 token）",
+   "evidence": [
+    "LEAD: archive 202MB",
+    "BLOCK-SIZE-PROBE conclusions[4]"
+   ],
+   "guards": "BLOCK_MAX_CHARS=140（line 84）：block_text >140 字截断"
+  },
+  {
+   "id": "W4",
+   "name": "summary KV 记忆块（auto_summary）",
+   "file": "tools/chat_daily.py",
+   "func": "_maybe_rollover -> _insert_memory_block",
+   "lines": [
+    1145,
+    864
+   ],
+   "also": [
+    "tools/memory_source.py:350"
+   ],
+   "trigger": "rollover 触发（每次 1 条）",
+   "per_turn": false,
+   "target": "kvmem/daily/blocks/mem-*.kvmem + DB",
+   "estimate": {
+    "current_capped_120chars": {
+     "n_tokens": 96.1,
+     "bytes": 10051305,
+     "MiB": 9.59
+    },
+    "observed_pre_fix": {
+     "n_tokens": 1300,
+     "bytes": 135924372,
+     "MiB": 129.63
+    }
+   },
+   "max_scale": "observed 136MB（≈1300 token）",
+   "evidence": [
+    "LEAD: summary 136MB"
+   ],
+   "guards": "block_text 取 summary[:120]（line 1151）"
+  },
+  {
+   "id": "W5",
+   "name": "turn 原文块（auto_turn，4 轮/块）",
+   "file": "tools/chat_daily.py",
+   "func": "_maybe_rollover -> _insert_memory_block loop",
+   "lines": [
+    1162,
+    1166,
+    864
+   ],
+   "also": [
+    "tools/memory_source.py:350"
+   ],
+   "trigger": "rollover 触发；每个 chunk 一次建块+DB+commit",
+   "per_turn": false,
+   "target": "kvmem/daily/blocks/mem-*.kvmem + DB",
+   "estimate": {
+    "current_capped_140chars": {
+     "n_tokens": 112.2,
+     "bytes": 11726520,
+     "MiB": 11.18
+    },
+    "pre_fix_chunk_1600chars": {
+     "n_tokens": 1281.8,
+     "bytes": 134017249,
+     "MiB": 127.81
+    }
+   },
+   "max_scale": "500MB 级（历史，多块叠加）：5-11 块 × 100-200MB ⇒ 0.5-1.5GB/次 rollover",
+   "evidence": [
+    "lines 1162-1170 CHUNK=4",
+    "BLOCK-SIZE-PROBE B=104553.2"
+   ],
+   "guards": "block_text 未显式传 ⇒ 走 text，截断到 BLOCK_MAX_CHARS=140"
+  },
+  {
+   "id": "W6",
+   "name": "archive 全文文本文件 + sidecar",
+   "file": "tools/chat_daily.py",
+   "func": "_write_archive_file / sidecar",
+   "lines": [
+    1036,
+    1043,
+    1048,
+    1175,
+    1184
+   ],
+   "trigger": "rollover 触发",
+   "per_turn": false,
+   "target": "kvmem/daily/archive/*.txt(+.meta.json)",
+   "estimate": {
+    "text_chars_example": 14000,
+    "text_bytes": 14000,
+    "sidecar_bytes": 300
+   },
+   "max_scale": "KB 级（非 500MB 级）；全文不受 BLOCK_MAX_CHARS 限制，但总量≈35% 被丢对话字符",
+   "evidence": [
+    "lines 1036-1048"
+   ]
+  },
+  {
+   "id": "W7",
+   "name": "transcript / manifest 原子写",
+   "file": "tools/chat_daily.py",
+   "func": "atomic_write_json",
+   "lines": [
+    189,
+    199,
+    2252,
+    2277
+   ],
+   "also": [
+    "tools/assistant_log.py:202-208 manifest",
+    "tools/assistant_log.py:416-420 audit_index"
+   ],
+   "trigger": "save/close（transcript+manifest 各 1 次）；logger 启动/会话切换（manifest/audit）",
+   "per_turn": false,
+   "target": "sessions/<name>.transcript.json、sessions/<name>.json、assistant/manifest.json、audit_index.json",
+   "estimate": {
+    "n_turns": 40,
+    "chars_per_turn": 800,
+    "bytes": 32000
+   },
+   "max_scale": "10KB-200KB（长答案时）；非 500MB 级",
+   "evidence": [
+    "line 2252-2253",
+    "assistant_log 202-208,416-420"
+   ]
+  },
+  {
+   "id": "W8",
+   "name": "logger 逐事件行追加（session jsonl + daily jsonl）",
+   "file": "tools/assistant_log.py",
+   "func": "_append_line / event / _daily_append",
+   "lines": [
+    316,
+    322,
+    325,
+    341,
+    364,
+    375,
+    386
+   ],
+   "trigger": "每轮 ask 至少 log_ask+log_answer（或 log_refuse），另加 status/warning；每个 event 写 session jsonl + daily jsonl 两份",
+   "per_turn": true,
+   "target": "kvmem/daily/assistant/sessions/<sid>.jsonl、assistant/daily/YYYY-MM-DD.jsonl",
+   "estimate": {
+    "per_event_line_bytes": 400,
+    "per_turn_events": 2,
+    "per_turn_writes": 4,
+    "per_turn_bytes": 1600
+   },
+   "max_scale": "KB 级但 fsync 密集：每行 1 次 open+write+flush+fsync ⇒ ~4 fsync/轮",
+   "evidence": [
+    "lines 322-325 append+fsync",
+    "375-386 daily append"
+   ]
+  },
+  {
+   "id": "W9",
+   "name": "DB 写入（memory_source / memory_block / daily_memory_meta）",
+   "file": "tools/chat_daily.py",
+   "func": "_put_memory_source / _meta_set / _insert_memory_block / forget",
+   "lines": [
+    2802,
+    2821,
+    2825,
+    754,
+    761,
+    768,
+    864,
+    883,
+    920,
+    954,
+    981,
+    992
+   ],
+   "also": [
+    "tools/memory_source.py:358-373 INSERT memory_block+commit"
+   ],
+   "trigger": "陈述自动记忆/remember/forget/rollover 建块时",
+   "per_turn": "仅当陈述句自动记忆或 /remember",
+   "target": "kvmem/daily/chat.db(+wal)",
+   "estimate": {
+    "source_row_chars_max": 600,
+    "meta_json_bytes": 300,
+    "block_row_bytes": 250
+   },
+   "max_scale": "行级 KB；但每次写入后 R.build_index 全量重建 ⇒ DB 重写 + WAL 膨胀",
+   "evidence": [
+    "915/992/3005 build_index",
+    "line 358-373 commit"
+   ]
+  },
+  {
+   "id": "W10",
+   "name": "检索索引重建 R.build_index",
+   "file": "tools/chat_daily.py / tools/retrieval.py",
+   "func": "R.build_index",
+   "lines": [
+    915,
+    992,
+    2483,
+    3005
+   ],
+   "also": [
+    "tools/retrieval.py:115"
+   ],
+   "trigger": "每次 _insert_memory_block / forget 后（含 rollover 的每个块）",
+   "per_turn": "仅记忆变更轮",
+   "target": "chat.db 索引表(term/doc/facet/attr/value_kind/index_meta)",
+   "estimate": {
+    "current_db_bytes": 139264,
+    "per_rebuild_rewrite": "≈DB 大小(0.1-5MB)"
+   },
+   "max_scale": "MB 级；rollover 一次建 2+N 块 ⇒ 触发 2+N 次全量重建",
+   "evidence": [
+    "115 retrieval.build_index",
+    "lines 915,992"
+   ]
+  },
+  {
+   "id": "W11",
+   "name": "rollover 元数据回填 meta 双向引用 + lease 记录",
+   "file": "tools/chat_daily.py",
+   "func": "_meta_set / leases.reset",
+   "lines": [
+    1171,
+    1174,
+    1190
+   ],
+   "trigger": "rollover",
+   "per_turn": false,
+   "target": "chat.db daily_memory_meta + kvmem/lease_logs/*.jsonl(小)",
+   "estimate": {
+    "bytes": 2000
+   },
+   "max_scale": "KB 级"
+  }
+ ],
+ "per_10_turns": {
+  "chat_only_no_statement": {
+   "logger_bytes": 16000,
+   "logger_fsyncs": 40,
+   "db_bytes": 0,
+   "block_bytes": 0,
+   "note": "10 轮×2 events×2 文件×~400B"
+  },
+  "with_one_short_statement": {
+   "logger_bytes": 16000,
+   "block_bytes": "2.5-5MB (30-60 字→24-48 tok；上限 140 字→11.7MB)",
+   "db_bytes": "0.1-5MB（行+全量索引重建）",
+   "total_typical": "~3-10MB / 10 轮"
+  },
+  "rollover_amortized_current": {
+   "assumption": "threshold 18432 tok；长消息 ~350-500 tok/轮 ⇒ 每 ~40-50 轮一次 rollover",
+   "per_rollover_bytes_current": "archive 3.4MB + summary 10MB + turn 块 5×11.7MB≈58MB + 文本/sidecar/meta 0.1MB ≈ 72-75MB（session 保存已跳过）",
+   "per_10_turns_amortized": "~15MB / 10 轮",
+   "total_with_statement": "~18-25MB / 10 轮"
+  },
+  "rollover_observed_pre_fix": {
+   "per_rollover_bytes": "session 528MB + archive 202MB + summary 136MB + turn chunk(100-200MB)×5-11 ⇒ 1.0-2.5GB/次",
+   "per_10_turns_amortized": "~200-500MB / 10 轮（500MB 级来源）",
+   "evidence": [
+    "LEAD: 202MB/136MB/528MB",
+    "662MB bak=6340tok",
+    "eval3.chat.kvmem 1.95GB 历史值"
+   ]
+  }
+ },
+ "heavy_500mb_rank": [
+  {
+   "rank": 1,
+   "path": "W5 turn 原文块（auto_turn，每 chunk 全量 KV）",
+   "pre_fix_each": "~130-200MB",
+   "count_per_rollover": "5-11",
+   "total": "0.5-1.5GB",
+   "current": "每块≤140 字→≤11.7MB"
+  },
+  {
+   "rank": 2,
+   "path": "W1/W2 会话 KV 快照 eng.save(seq0)",
+   "observed": "528MB @5060 tok；662MB @6340 tok；1.95GB 历史",
+   "current_guard": "rollover 内 >8000 token 跳过；显式 /save/close 仍可写"
+  },
+  {
+   "rank": 3,
+   "path": "W3 archive KV 块（历史全文）",
+   "observed": "202MB（≈1935 tok）",
+   "current": "改为索引句(~40 字)⇒~3.4MB"
+  },
+  {
+   "rank": 4,
+   "path": "W4 summary KV 块（历史全文）",
+   "observed": "136MB（≈1300 tok）",
+   "current": "summary[:120] ⇒ ~10MB"
+  }
+ ],
+ "findings": [
+  "500MB 级写盘全部来自 KV 状态文件：单次会话快照≈N*104.5KB；rollover 一次会写 archive+summary+N 个 turn 块，块文本越长文件越大。",
+  "当前代码已加两道护栏：BLOCK_MAX_CHARS=140（archive/summary/turn 块正文截断）与 rollover 前 >8000 token 跳过整段保存 ⇒ 500MB 级单文件基本压到 ≤12MB（session 显式 save 除外）。",
+  "历史 202MB archive/136MB summary/528MB session 是护栏前（或护栏未覆盖）的整段文本 KV 化结果：202MB≈1935 tok、136MB≈1300 tok、528MB≈5050 tok，均符合 B≈104.5KB/token。",
+  "每轮真正常写的只有 logger（2-4 行，~1.6KB，但 4 次 fsync）；rollover 是唯一大写入点（amortized 当前 ~15MB/10轮、修复前 ~200-500MB/10轮）。",
+  "每条陈述自动记忆额外写 1 个 KV 块（≤11.7MB，典型 2.5-5MB）+ DB 行 + 全量索引重建 ⇒ 短事实密集对话也是 MB/10轮 量级。",
+  "IOPS 风险：assistant_log 每个事件 1 次 open+write+fsync（session+daily 两份）；DB 每次记忆变更 commit + R.build_index 全量重建；rollover 时 2+N 次建块 ⇒ 2+N 次全量索引重建。",
+  "archive 全文 .txt 与 transcript JSON 是文本级（KB-200KB），不是风暴来源。"
+ ],
+ "recommendations": [
+  "1) 保持/加强 KV 块文本上限（已 140 字）：archive/summary 用文本+索引，不把全文 KV 化；turn 块仅存摘要句或 ≤256 token。",
+  "2) 会话保存改为按 token 上限裁剪或仅在显式 /save 时写；rollover 路径保持 >8000 token 跳过，并在 save() 入口也加同一护栏（防 /save/close 写出 500MB+）。",
+  "3) archive 文本文件与 transcript 可合并/去重；不要把 35% 丢弃对话同时存：archive txt + auto_turn 块 + DB source 三份。",
+  "4) 每轮 logger 的 4 次 fsync 可合并（write 后单次 fsync；daily/session 双写改异步/批量）——字节不大但 IOPS 高。",
+  "5) 记忆写入后 R.build_index 全量重建改为增量/条件重建；rollover 的多块写入只重建一次索引。"
+ ],
+ "evidence_log_samples": {
+  "service_eval3_log_tail": [
+   "last mtime 14:50:22；之后无新 POST /ask 行（hang 期间请求不返回，日志不落）"
+  ],
+  "assistant_daily": {
+   "path": "kvmem/daily/assistant/daily/2026-10-28.jsonl",
+   "sha256": "807c615e13e4fb23a9600ef21820484d3d3a1e274927634146be505ea3774f7f"
+  },
+  "lease_rollover": {
+   "path": "kvmem/lease_logs/events_daily_p11784_20261028T145922.jsonl",
+   "sha256": "4e0311abcc02f9f07d73ef738263a99223a07681263a62c2219a8e6d824d6a7a",
+   "last_event": "rollover.reset_chat @15:06:41"
+  }
+ },
+ "notes": [
+  "只读代码/日志；未改代码、未跑 GPU、未写除本件外文件。",
+  "估算公式与 B 取自 out/BLOCK-SIZE-PROBE.json（49 文件实测）。",
+  "历史体积（202/136/528MB）作为证据引用，其文件已被清理，无法再次直测。"
+ ]
+}

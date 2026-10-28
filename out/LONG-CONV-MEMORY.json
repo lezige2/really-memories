@@ -1,0 +1,504 @@
+{
+ "schema": "long_conv_memory_analysis_v2",
+ "generated_at": "2026-10-28T14:04:52+08:00",
+ "readonly": true,
+ "A_live_snapshot": {
+  "db_mtime": "2026-10-28T13:59:47",
+  "sources": 11,
+  "modes": {
+   "chat": 11
+  },
+  "auto_blocks": 0,
+  "latest_rows": [
+   [
+    7,
+    "chat",
+    10,
+    "2026-10-27T20:00:13"
+   ],
+   [
+    8,
+    "chat",
+    10,
+    "2026-10-27T20:00:13"
+   ],
+   [
+    9,
+    "chat",
+    11,
+    "2026-10-27T20:00:13"
+   ],
+   [
+    10,
+    "chat",
+    11,
+    "2026-10-27T20:00:14"
+   ],
+   [
+    11,
+    "chat",
+    10,
+    "2026-10-27T20:00:14"
+   ]
+  ],
+  "long_run_first_ts": "2026-10-28T13:50:04+08:00",
+  "long_run_turns": 119,
+  "long_run_chars": 7550,
+  "chat_tokens_last": 6048,
+  "token_per_char": 0.8011,
+  "threshold_tokens": 18432,
+  "est_chars_to_threshold": 23009,
+  "rollover_events_this_session": 0,
+  "rollover_events_all": 0
+ },
+ "B_simulation": {
+  "method": "临时 DB 副本 + 当前 chat_daily._retrieval_select（fake engine）；按 rollover 代码语义模拟 3 轮（逐轮 auto_turn/archive/summary，LIBRARY_MAX=200，插入顺序 auto_turn 先于 archive/summary）。",
+  "planned_chars": 40024,
+  "rounds": [
+   {
+    "round": 1,
+    "dropped_turns": 310,
+    "turn_blocks_written": 189,
+    "archive_id": null,
+    "summary_id": null,
+    "cap_dropped_turns": 121,
+    "db_rows_after": 200,
+    "kept_turns": 571
+   },
+   {
+    "round": 2,
+    "dropped_turns": 200,
+    "turn_blocks_written": 0,
+    "archive_id": null,
+    "summary_id": null,
+    "cap_dropped_turns": 200,
+    "db_rows_after": 200,
+    "kept_turns": 371
+   },
+   {
+    "round": 3,
+    "dropped_turns": 130,
+    "turn_blocks_written": 0,
+    "archive_id": null,
+    "summary_id": null,
+    "cap_dropped_turns": 130,
+    "db_rows_after": 200,
+    "kept_turns": 241
+   }
+  ],
+  "facts_present_in_sim_rows": {
+   "京A88888": [
+    3,
+    80
+   ],
+   "豆豆": [
+    157
+   ],
+   "成都": [
+    9,
+    11
+   ],
+   "A12345": [],
+   "李娜": [],
+   "青岛": [],
+   "13800138000": [],
+   "西安": [
+    10
+   ],
+   "阿泽": [
+    3
+   ]
+  },
+  "tests": [
+   {
+    "fact": "京A88888",
+    "tier": "early",
+    "query": "我的车牌号是多少？",
+    "selected_ids": [
+     3,
+     80,
+     12,
+     13,
+     14,
+     15
+    ],
+    "found": true,
+    "found_by_fallback": false,
+    "qslots": {
+     "want": "quantity",
+     "slots": {},
+     "structured": false
+    }
+   },
+   {
+    "fact": "豆豆",
+    "tier": "early",
+    "query": "我养的猫叫什么名字？",
+    "selected_ids": [
+     157,
+     12,
+     13,
+     14,
+     15,
+     16
+    ],
+    "found": true,
+    "found_by_fallback": false,
+    "qslots": {
+     "want": "object",
+     "slots": {
+      "event": "养宠物"
+     },
+     "structured": true
+    }
+   },
+   {
+    "fact": "成都",
+    "tier": "mid",
+    "query": "我下周五要去哪开会？",
+    "selected_ids": [
+     11
+    ],
+    "found": true,
+    "found_by_fallback": false,
+    "qslots": {
+     "want": "place",
+     "slots": {
+      "time": "下周五",
+      "event": "会议"
+     },
+     "structured": true
+    }
+   },
+   {
+    "fact": "A12345",
+    "tier": "mid",
+    "query": "我的工号是多少？",
+    "selected_ids": [
+     3,
+     80,
+     12,
+     20,
+     28,
+     36
+    ],
+    "found": false,
+    "found_by_fallback": false,
+    "qslots": {
+     "want": "quantity",
+     "slots": {},
+     "structured": false
+    }
+   },
+   {
+    "fact": "李娜",
+    "tier": "mid",
+    "query": "我妻子叫什么名字？",
+    "selected_ids": [
+     3
+    ],
+    "found": false,
+    "found_by_fallback": false,
+    "qslots": {
+     "want": "person",
+     "slots": {},
+     "structured": true
+    }
+   },
+   {
+    "fact": "青岛",
+    "tier": "mid",
+    "query": "我老家在哪里？",
+    "selected_ids": [
+     1,
+     2
+    ],
+    "found": false,
+    "found_by_fallback": false,
+    "qslots": {
+     "want": "place",
+     "slots": {},
+     "structured": false
+    }
+   },
+   {
+    "fact": "13800138000",
+    "tier": "recent",
+    "query": "我的手机号是多少？",
+    "selected_ids": [],
+    "found": false,
+    "found_by_fallback": false,
+    "qslots": {
+     "want": "quantity",
+     "slots": {},
+     "structured": false
+    }
+   },
+   {
+    "fact": "西安",
+    "tier": "recent",
+    "query": "我下个月要去哪出差？",
+    "selected_ids": [
+     6,
+     4
+    ],
+    "found": false,
+    "found_by_fallback": false,
+    "qslots": {
+     "want": "place",
+     "slots": {
+      "event": "出差"
+     },
+     "structured": true
+    }
+   },
+   {
+    "fact": "阿泽",
+    "tier": "base",
+    "query": "我叫什么名字？",
+    "selected_ids": [
+     3
+    ],
+    "found": true,
+    "found_by_fallback": false,
+    "qslots": {
+     "want": "person",
+     "slots": {},
+     "structured": true
+    }
+   }
+  ],
+  "slot_diagnostics": {
+   "补充一个事实：我养的猫叫豆豆。": {
+    "slots": {
+     "time": null,
+     "person": null,
+     "event": null,
+     "place": null,
+     "action": "养",
+     "object": null,
+     "cause": null,
+     "result": null,
+     "quantity": "一个",
+     "purpose": null,
+     "method": null,
+     "constraint": null
+    },
+    "query": {
+     "want": "object",
+     "slots": {},
+     "structured": true
+    }
+   },
+   "记一下：我妻子叫李娜。": {
+    "slots": {
+     "time": null,
+     "person": null,
+     "event": null,
+     "place": null,
+     "action": null,
+     "object": null,
+     "cause": null,
+     "result": null,
+     "quantity": null,
+     "purpose": null,
+     "method": null,
+     "constraint": null
+    },
+    "query": {
+     "want": "person",
+     "slots": {},
+     "structured": true
+    }
+   },
+   "再记一条：我下周五要去成都开会。": {
+    "slots": {
+     "time": "下周五",
+     "person": null,
+     "event": "开会",
+     "place": "成都",
+     "action": "去",
+     "object": null,
+     "cause": null,
+     "result": null,
+     "quantity": "一条",
+     "purpose": null,
+     "method": null,
+     "constraint": null
+    },
+    "query": {
+     "want": "place",
+     "slots": {
+      "time": "下周五",
+      "event": "开会"
+     },
+     "structured": true
+    }
+   },
+   "我的车牌号是京A88888。": {
+    "slots": {
+     "time": null,
+     "person": null,
+     "event": null,
+     "place": null,
+     "action": null,
+     "object": null,
+     "cause": null,
+     "result": null,
+     "quantity": null,
+     "purpose": null,
+     "method": null,
+     "constraint": null
+    },
+    "query": {
+     "want": "quantity",
+     "slots": {},
+     "structured": false
+    }
+   }
+  },
+  "archive_slots": null
+ },
+ "C_findings": [
+  "live 快照：auto_* 块=0（DB 仅 chat 记忆，且 13:59 曾被重置回 11 条基线）；当前 rollover 尚未落块，因此此刻“检索不到 auto 块”是块不存在，不是检索丢块。",
+  "live：长跑窗口 119 轮/7550 字符，chat_tokens=6048，token/字符≈0.8011，达到 18432 token 阈值约需 23009 字符 ⇒ 40k 字符会触发 rollover（预计 ~23009 字符）。",
+  "模拟 3 轮 rollover 后 early 事实检索：{'京A88888': True, '豆豆': True}",
+  "模拟全事实命中 4/9；未命中 ['A12345', '李娜', '青岛', '13800138000', '西安']（含 recent 未进 dropped 段/被 cap 丢/槽位过滤）。",
+  "cap 证据：[{'round': 1, 'dropped_turns': 310, 'turn_blocks_written': 189, 'archive_id': None, 'summary_id': None, 'cap_dropped_turns': 121, 'db_rows_after': 200}, {'round': 2, 'dropped_turns': 200, 'turn_blocks_written': 0, 'archive_id': None, 'summary_id': None, 'cap_dropped_turns': 200, 'db_rows_after': 200}, {'round': 3, 'dropped_turns': 130, 'turn_blocks_written': 0, 'archive_id': None, 'summary_id': None, 'cap_dropped_turns': 130, 'db_rows_after': 200}]。auto_turn 按轮逐条写，占满 200 后 archive/summary 写不进去；40k 字符模拟中 round1 的 dropped 轮数已超过 189 个空位（310），因此归档/摘要块从第一轮起就可能缺失；实际首次 rollover 预计在 ~23009 字符，届时 dropped 轮数较少，archive/summary 可能写成，但后续轮次仍会被 cap 吃掉。",
+  "槽位缺口：『我妻子叫李娜』person=None（REL_PERSON 不含妻子；X叫Y 边界要求标点）⇒ 查询 want=person 时会被 slot_match 硬丢。",
+  "数据层 extract_slots 对『我养的猫叫豆豆』未直接抽到 object（PET_NAME 正则覆盖不足）；chat_daily 的 _augment_slots 会从原文补 object，因此模拟中豆豆仍可召回——但这是接线层兜底，数据层本身仍有槽位缺口。"
+ ],
+ "D_minimal_fixes": [
+  "1) 容量：auto_turn 按 3–5 轮合并为 1 块（或 auto_* 不占 LIBRARY_MAX 的 200、单独给归档/摘要预留配额），避免 200 上限先被 turn 块吃满导致 archive/summary 丢失。",
+  "2) 插入顺序/保护：先写 archive+summary，再写 auto_turn；cap 不足时宁可少写 turn 块也要保证摘要索引与归档存在（摘要 related_ids 是快定位入口）。",
+  "3) 槽位：REL_PERSON 增加 妻子/丈夫/父母/孩子/家人；『关系+叫+名』加入 person 正则；want=person 且槽位缺失时降级为关键词检索，而不是直接丢块。",
+  "4) auto_archive 不写单一 time 槽（或标记 derived/aggregate），time 硬过滤只对 auto_turn/自然记忆生效；摘要索引块 related 展开应绕过槽位过滤。",
+  "5) 检索兜底：_retrieval_select 在“base 被 slot_match 过滤为空”后也应回退 _retrieval_keyword_fallback（当前只在 base 为空时回退）；time 硬过滤返回 max(id) 前应加 event/want 同分约束，避免被更新的无关同时间记忆抢答。"
+ ],
+ "E_answers": {
+  "q1_early_facts_retrievable_after_rollover": {
+   "京A88888": true,
+   "豆豆": true,
+   "成都": true,
+   "阿泽": true
+  },
+  "q1_note": "模拟 rollover 落块后 4/4 可召回；但 live 当前 auto_*=0（rollover 未触发，预计 ~23009 字符才触发，当前仅 7550 字符），此刻检索不到 auto 块=块不存在。",
+  "q2_why_missing": "(1) live：rollover 还没触发（auto_*=0、0 次 context_rollover），所以没有归档块可检索；(2) 模拟：LIBRARY_MAX=200 先被逐轮 auto_turn 占满（[121, 200, 130]），后续 turn 块被 cap 丢、archive/summary 因插入顺序在后写不进去；(3) 槽位层：妻子等关系词抽不到 person、want=person 时 slot_match 硬丢；archive 单 time 槽位会误导 time 硬过滤；slot 过滤后为空不回退 keyword fallback。",
+  "q3_minimal_fix": "auto_turn 合并 3–5 轮/块 + 给 archive/summary 预留配额（先写 archive/summary）；REL_PERSON 补妻子/丈夫等且允许“关系+叫+名”；archive 不写单一 time；slot 过滤后为空要回退 keyword fallback；time 硬过滤加 event/want 约束而非只 max(id)。",
+  "q3_minimal_fix_status": "已由 rev7-impl 修复并独立复跑通过；详见 F_fix_verification"
+ },
+ "C_findings_pre_fix": [
+  "live 快照：auto_* 块=0（DB 仅 chat 记忆，且 13:59 曾被重置回 11 条基线）；当前 rollover 尚未落块，因此此刻“检索不到 auto 块”是块不存在，不是检索丢块。",
+  "live：长跑窗口 119 轮/7550 字符，chat_tokens=6048，token/字符≈0.8011，达到 18432 token 阈值约需 23009 字符 ⇒ 40k 字符会触发 rollover（预计 ~23009 字符）。",
+  "模拟 3 轮 rollover 后 early 事实检索：{'京A88888': True, '豆豆': True}",
+  "模拟全事实命中 4/9；未命中 ['A12345', '李娜', '青岛', '13800138000', '西安']（含 recent 未进 dropped 段/被 cap 丢/槽位过滤）。",
+  "cap 证据：[{'round': 1, 'dropped_turns': 310, 'turn_blocks_written': 189, 'archive_id': None, 'summary_id': None, 'cap_dropped_turns': 121, 'db_rows_after': 200}, {'round': 2, 'dropped_turns': 200, 'turn_blocks_written': 0, 'archive_id': None, 'summary_id': None, 'cap_dropped_turns': 200, 'db_rows_after': 200}, {'round': 3, 'dropped_turns': 130, 'turn_blocks_written': 0, 'archive_id': None, 'summary_id': None, 'cap_dropped_turns': 130, 'db_rows_after': 200}]。auto_turn 按轮逐条写，占满 200 后 archive/summary 写不进去；40k 字符模拟中 round1 的 dropped 轮数已超过 189 个空位（310），因此归档/摘要块从第一轮起就可能缺失；实际首次 rollover 预计在 ~23009 字符，届时 dropped 轮数较少，archive/summary 可能写成，但后续轮次仍会被 cap 吃掉。",
+  "槽位缺口：『我妻子叫李娜』person=None（REL_PERSON 不含妻子；X叫Y 边界要求标点）⇒ 查询 want=person 时会被 slot_match 硬丢。",
+  "数据层 extract_slots 对『我养的猫叫豆豆』未直接抽到 object（PET_NAME 正则覆盖不足）；chat_daily 的 _augment_slots 会从原文补 object，因此模拟中豆豆仍可召回——但这是接线层兜底，数据层本身仍有槽位缺口。"
+ ],
+ "F_fix_verification": {
+  "schema": "long_conv_memory_fix_verification_v1",
+  "generated_at": "2026-10-28T14:15:46+08:00",
+  "code_versions": {
+   "tools/chat_daily.py": {
+    "sha16": "c900304d6798f2e9",
+    "bytes": 169907
+   },
+   "tools/memory_service.py": {
+    "sha16": "0f2197bfd52f112e",
+    "bytes": 30960
+   },
+   "tools/test_long_context_cpu.py": {
+    "sha16": "c54f34538ed9a610",
+    "bytes": 6072
+   }
+  },
+  "independent_rc": {
+   "test_long_context_cpu": "rc=0",
+   "test_slots_cpu": "43/0 rc=0",
+   "test_memory_meta_cpu": "41/0 rc=0",
+   "test_chat_daily_cpu": "93/0 rc=0",
+   "test_retrieval_cpu": "35/0 rc=0",
+   "test_rollover_cpu": "33/0 rc=0",
+   "test_refusal_cpu": "31/0 rc=0",
+   "test_memory_graph_cpu": "41/0 rc=0",
+   "test_logging_cpu": "29/0 rc=0",
+   "test_openai_compat_cpu": "37/0 rc=0",
+   "test_answer_verifier_cpu": "rc=0",
+   "test_verify_cases_cpu": "37/0 rc=0"
+  },
+  "fixes_confirmed_in_code": [
+   "rollover 先写 auto_archive、再 auto_summary，最后写 auto_turn，且按 cap 剩余空间 free 控制（archive/summary 有预留）",
+   "auto_turn 改为 4 轮合并 1 块（CHUNK=4），40k 字符模拟 dropped 310 轮 => 约 78 个 turn 块，不再吃满 LIBRARY_MAX=200",
+   "archive_text/摘要文本去掉时间戳（archive_time_neutral：time 槽 None），避免 time 硬过滤误杀",
+   "auto_summary related_ids 先指 archive，turn 块写完后回填（双向引用）",
+   "_retrieval_keyword_fallback 已用于槽位过滤后为空的回退路径",
+   "memory_service _REL_PERSON_RX：关系词(妻子/丈夫/儿子/女儿等)+叫/名字叫/是+名字 -> person=名字（不再把关系称谓当 person）"
+  ],
+  "post_fix_projection": {
+   "cap_for_40k": "旧：310 轮*1块 >189 空位 => archive/summary 丢失；新：ceil(310/4)≈78 + base 12 + archive/summary 6（3轮）≈96 <200 => cap 不触发，archive/summary/turn 块均可写入",
+   "early_facts": {
+    "京A88888": "auto_turn/archive 均可召回",
+    "豆豆": "auto_turn 可召回",
+    "成都": "auto_turn 可召回",
+    "阿泽": "基线记忆/auto_turn 可召回"
+   },
+   "mid_recent_facts": "3 轮 rollover 后 8 个事实都进入 dropped 段并落块，理论均可检索；实际待服务重启后长测线上复核",
+   "residual_risks": [
+    "auto_turn 4 轮合并后 MAX_TEXT_CHARS=600 可能截断超长轮次中的事实（长回答场景）",
+    "time 硬过滤仍取同时间 max(id)，后续无关同时间记忆可能抢答（建议再加 event/want 约束）",
+    "auto_summary 摘要文本若模型丢失细节，仍依赖 related 展开；related 展开绕过槽位过滤已修",
+    "线上服务仍是旧代码 PID 8000，需 LEAD 重启后才会加载 c900/0f21"
+   ]
+  },
+  "live_snapshot_at_fix_verification": {
+   "db_mtime": "2026-10-28T13:59:47",
+   "sources": 11,
+   "modes": {
+    "chat": 11
+   },
+   "auto_blocks": 0,
+   "latest_rows": [
+    [
+     7,
+     "chat",
+     10,
+     "2026-10-27T20:00:13"
+    ],
+    [
+     8,
+     "chat",
+     10,
+     "2026-10-27T20:00:13"
+    ],
+    [
+     9,
+     "chat",
+     11,
+     "2026-10-27T20:00:13"
+    ],
+    [
+     10,
+     "chat",
+     11,
+     "2026-10-27T20:00:14"
+    ],
+    [
+     11,
+     "chat",
+     10,
+     "2026-10-27T20:00:14"
+    ]
+   ],
+   "long_run_first_ts": "2026-10-28T13:50:04+08:00",
+   "long_run_turns": 119,
+   "long_run_chars": 7550,
+   "chat_tokens_last": 6048,
+   "token_per_char": 0.8011,
+   "threshold_tokens": 18432,
+   "est_chars_to_threshold": 23009,
+   "rollover_events_this_session": 0,
+   "rollover_events_all": 0
+  }
+ }
+}

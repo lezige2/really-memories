@@ -1,0 +1,286 @@
+{
+ "schema": "io_memory_audit_v1",
+ "generated_at": "2026-10-28T15:23:52+08:00",
+ "readonly": true,
+ "A_kv_metrics": {
+  "bytes_per_token": 104553.1,
+  "bytes_per_token_human": "≈104.5 KB/token（102 KiB），实测 n_bytes/n_tokens",
+  "blocks_dir": {
+   "files": 24,
+   "total_mb": 40.67,
+   "db_referenced_files": 12,
+   "db_referenced_mb": 16.73,
+   "orphan_files": 12,
+   "orphan_mb": 23.94,
+   "orphan_examples": [
+    [
+     "mem-0431815de344.kvmem",
+     1.15,
+     "10-27 23:27"
+    ],
+    [
+     "mem-0a4325e4d0cb.kvmem",
+     1.15,
+     "10-27 20:44"
+    ],
+    [
+     "mem-1753efc2bd21.kvmem",
+     5.96,
+     "10-27 20:44"
+    ],
+    [
+     "mem-3604fcb3765c.kvmem",
+     0.73,
+     "10-28 13:53"
+    ],
+    [
+     "mem-3c414059f1b8.kvmem",
+     1.15,
+     "10-27 20:44"
+    ],
+    [
+     "mem-45c45e854e67.kvmem",
+     0.52,
+     "10-28 13:55"
+    ]
+   ]
+  },
+  "db_rows": {
+   "n": 12,
+   "tokens": 160,
+   "n_bytes_mb": 16.73
+  },
+  "estimate_auto_blocks": {
+   "auto_archive": {
+    "chars": 3000,
+    "tokens": 2500.0,
+    "kv_mb": 261.38,
+    "basis": "ARCHIVE_MAX_CHARS=3000；按实测 104,553 B/token、≈1.2 字/token"
+   },
+   "auto_summary": {
+    "chars": 200,
+    "tokens": 167.0,
+    "kv_mb": 17.43,
+    "basis": "ROLLOVER_SUMMARY_NPREDICT=200, ROLLOVER_SUMMARY_PROMPT 要求≤200字"
+   },
+   "auto_turn_chunk": {
+    "chars_max": 600,
+    "tokens_max": 500.0,
+    "kv_mb_max": 52.28,
+    "chars_typical": 280,
+    "tokens_typical": 233.0,
+    "kv_mb_typical": 24.4,
+    "basis": "CHUNK=4 轮合并，MAX_TEXT_CHARS=600；典型 4 轮≈280 字"
+   },
+   "auto_turn_old_per_turn": {
+    "chars_typical": 70,
+    "tokens": 58.0,
+    "kv_mb": 6.1,
+    "basis": "旧版逐轮 auto_turn；实测 51 字块 n_tokens=43 (4.49MB)"
+   },
+   "auto_remember": {
+    "chars_typical": 20,
+    "tokens": 17.0,
+    "kv_mb": 1.74,
+    "observed_rows": [
+     {
+      "chars": 40,
+      "n_tokens": 33,
+      "kv_mb": 3.45
+     },
+     {
+      "chars": 20,
+      "n_tokens": 17,
+      "kv_mb": 1.78
+     },
+     {
+      "chars": 51,
+      "n_tokens": 43,
+      "kv_mb": 4.49
+     },
+     {
+      "chars": 10,
+      "n_tokens": 6,
+      "kv_mb": 0.63
+     },
+     {
+      "chars": 10,
+      "n_tokens": 6,
+      "kv_mb": 0.63
+     }
+    ]
+   }
+  },
+  "observed_rollovers": [
+   {
+    "rollover": "2026-10-28 14:56",
+    "archive_txt": "kvmem/daily/daily/archive/20261028-145646-976844.txt",
+    "chars": 5221,
+    "txt_bytes": 15553,
+    "archive_block_chars_capped": 3000,
+    "est_tokens": 2500.0,
+    "est_kv_mb": 261.38
+   },
+   {
+    "rollover": "2026-10-28 15:06",
+    "archive_txt": "kvmem/daily/daily/archive/20261028-150630-f7c456.txt",
+    "chars": 1976,
+    "txt_bytes": 5888,
+    "archive_block_chars_capped": 1976,
+    "est_tokens": 1647.0,
+    "est_kv_mb": 172.16
+   }
+  ],
+  "per_rollover_estimates": [
+   {
+    "rollover": "2026-10-28 14:56",
+    "dropped_turns": 14,
+    "turn_blocks_merged": 4,
+    "archive_kv_mb": 261.38,
+    "summary_kv_mb": 17.43,
+    "turn_kv_mb": 97.6,
+    "total_kv_mb": 376.41,
+    "avoidable_kv_mb": 352.01,
+    "avoidable_pct": 93.5
+   },
+   {
+    "rollover": "2026-10-28 15:06",
+    "dropped_turns": 7,
+    "turn_blocks_merged": 2,
+    "archive_kv_mb": 172.16,
+    "summary_kv_mb": 17.43,
+    "turn_kv_mb": 48.8,
+    "total_kv_mb": 238.39,
+    "avoidable_kv_mb": 226.19,
+    "avoidable_pct": 94.9
+   }
+  ]
+ },
+ "B_write_path": {
+  "library_max": 200,
+  "rollover_quota": "新代码 free=max(0,cap-len(rows))；先 archive、再 summary、最后 4轮/块 auto_turn",
+  "db_commit_frequency_per_insert": [
+   "_put_memory_source: commit",
+   "memory_service.build_block: 写 block 文件+DB(commit)",
+   "_meta_set: commit",
+   "R.build_index: DELETE+INSERT 5 表+commit"
+  ],
+  "rollover_meta_write_loop": "c5 对每个 related 块 _meta_get + _meta_set（各一次 commit）",
+  "index_rebuild": "每次 _insert_memory_block 都调用 retrieval.build_index（全量 DELETE/INSERT doc/term/facet/attr/value_kind）",
+  "remember_frequency_evidence": "assistant 日志：388 asks 会话里 55 次 remember；最近会话 66/32/34 asks 对应 0/0/2 remember",
+  "index_table_rows_at_snapshot": {
+   "doc": 12,
+   "term": 262,
+   "facet": 8,
+   "attr": 11,
+   "value_kind": 23
+  }
+ },
+ "C_avoidable_kv": [
+  {
+   "id": "A1",
+   "item": "auto_archive 写 KV（本可文本-only）",
+   "why": "归档块只用于索引/后备核对；全文已在 memory_source.text + archive/*.txt，KV 仅在选择挂载时用；可按文本检索/核对，不挂 KV",
+   "unit": "每轮 rollover（dropped_text 截 3000 字）",
+   "est_tokens": 2500.0,
+   "est_kv_mb": 261.38,
+   "confidence": "high"
+  },
+  {
+   "id": "A2",
+   "item": "auto_summary 写 KV（本可文本-only）",
+   "why": "摘要≤200字，仅作为 related_ids 索引入口；回答靠展开 turn/archive 块，不需要摘要 KV",
+   "unit": "每轮 rollover",
+   "est_tokens": 167.0,
+   "est_kv_mb": 17.43,
+   "confidence": "high"
+  },
+  {
+   "id": "A3",
+   "item": "auto_turn 块按需/懒构建（只给会被挂载的块建 KV）",
+   "why": "长测中 topk=4，绝大多数 rollover 块从未被选中挂载；先存文本+槽位，命中时再 build_block",
+   "unit": "每轮 rollover（4 轮/块，14 轮=>4 块）",
+   "est_tokens": 932.0,
+   "est_kv_mb": 97.6,
+   "avoidable_fraction": 0.75,
+   "est_saving_mb": 73.2,
+   "confidence": "medium"
+  },
+  {
+   "id": "A4",
+   "item": "孤儿 KV 文件未 GC（forget/DB还原后残留）",
+   "why": "blocks/ 下 24 个文件 40.67MB，其中 12 个 orphan 23.94MB 已无 DB 行引用（含 10/27 rollover 的 4.70/5.96/6.79MB 大块与 13:53 自动记忆块）",
+   "unit": "当前磁盘一次性",
+   "est_tokens": null,
+   "est_kv_mb": 23.94,
+   "avoidable_fraction": 1.0,
+   "est_saving_mb": 23.94,
+   "confidence": "high"
+  },
+  {
+   "id": "A5",
+   "item": "archive 全文三写（DB text + KV + archive .txt）",
+   "why": "同一份归档文本进 memory_source.text、KV 块、archive/*.txt（另 sidecar），KV 可去掉（与 A1 同源，不重复计）",
+   "unit": "每轮 rollover",
+   "est_kv_mb": 0,
+   "confidence": "high",
+   "note": "已含在 A1"
+  },
+  {
+   "id": "A6",
+   "item": "索引全量重建在每次 _insert_memory_block 后",
+   "why": "R.build_index 每次 DELETE 5 张表再全量 INSERT；rollover 每块一次（≈6-7 次/轮），应批量/轮末重建一次",
+   "unit": "每轮 rollover",
+   "index_rows_per_rebuild": 316,
+   "est_rebuilds_per_rollover": 7,
+   "avoidable_fraction": 0.857,
+   "confidence": "high"
+  },
+  {
+   "id": "A7",
+   "item": "DB 元数据/关联的逐块提交（每块多次 commit + c5 双向引用逐块 _meta_set）",
+   "why": "_insert_memory_block 至少 source/block/meta 3 次 commit；rollover c5 对每个 related 块再 2 次 meta 调用；应单事务批量",
+   "unit": "每轮 rollover",
+   "est_commits_per_rollover": 30,
+   "avoidable_fraction": 0.9,
+   "confidence": "high"
+  },
+  {
+   "id": "A8",
+   "item": "自动记忆每句写盘 + 重建索引（长测 filler 也触发候选）",
+   "why": "auto-remember 每次 source+block+meta+index rebuild；日志显示 388 asks 中 55 次 remember，长跑 filler 里也有写入",
+   "unit": "每次 remember",
+   "est_kv_mb": 1.74,
+   "observed_kv_mb_range": [
+    0.63,
+    4.49
+   ],
+   "avoidable_fraction": null,
+   "confidence": "medium"
+  }
+ ],
+ "D_minimal_changes": [
+  "auto_archive/auto_summary：不 build_block，只写文本+slots+tags/related；检索按文本选中，回答需要原文时走 related 的 auto_turn 块（或按需 build）",
+  "auto_turn：先写文本+槽位，首次被选为挂载目标时再 build_block（懒构建）；或只对 topk 命中的块建 KV",
+  "rollover 批量：所有块插入后只 build_index 一次；source/block/meta 单事务 commit；c5 双向引用合并为一次批量 meta 写",
+  "blocks GC：forget/手动还原 DB 后扫描 blocks/*.kvmem 中无 memory_block 引用的文件并删除（当前可回收 23.94MB）",
+  "限制 archive KV 文本长度：若必须保留 archive KV，3000 字≈2500 token≈261MB/轮，建议 archive 不超 600 字或直接文本-only",
+  "自动记忆：更严格的候选/去重/批量（同一轮多句合并一次写+索引重建一次）"
+ ],
+ "E_conservative_savings": {
+  "per_rollover_typical_14_turns": {
+   "total_kv_mb": 376.41,
+   "avoidable_kv_mb": 352.01,
+   "avoidable_pct": 93.5,
+   "breakdown": {
+    "archive": 261.38,
+    "summary": 17.43,
+    "auto_turn_lazy": 73.2
+   }
+  },
+  "current_orphan_reclaim_mb": 23.94,
+  "index_rebuild_write_reduction": "每轮 ~7 次全量重建 -> 1 次（约 86% 索引写减少）",
+  "db_commit_reduction": "每轮 ~30 次 commit -> ~3 次（约 90% 减少）",
+  "note": "估算基于实测 104,553 B/token、1.2 字/token、ARCHIVE_MAX_CHARS=3000、summary≤200字；实际取决于 dropped_text 长度/块是否被挂载"
+ }
+}

@@ -155,7 +155,7 @@ def model_fp(model_path):
 def connect(path=None):
     path = path or DB
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    con = sqlite3.connect(path)
+    con = sqlite3.connect(path, check_same_thread=False)
     con.execute("PRAGMA foreign_keys = ON")
     con.executescript(SCHEMA)
     con.commit()
@@ -332,7 +332,7 @@ def probe_text(con, source_id):
 
 
 def build_block(eng, con, src_row, blocks_dir=None, kv_type="q8_0", model_path=MODEL,
-                seq=None):
+                seq=None, block_text=None):
     """Encode the source at position 0 and save the state file. Returns a dict.
 
     `seq` exists because the caller may already be using SCRATCH_SEQ for a live block
@@ -344,7 +344,7 @@ def build_block(eng, con, src_row, blocks_dir=None, kv_type="q8_0", model_path=M
     sid, _tenant, _scope, _mode, name, _label, text, _h, _ts = src_row
 
     eng.reset(seq)
-    eng.write_at(seq, text, 0)
+    eng.write_at(seq, block_text if block_text is not None else text, 0)
     n = eng.n_tokens(seq)
     path = os.path.join(blocks_dir, name + ".kvmem")
     nb = eng.save(seq, path)

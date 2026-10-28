@@ -1,0 +1,373 @@
+{
+ "schema": "block_size_probe_v1",
+ "generated_at": "2026-10-28T15:16:11+08:00",
+ "scope": {
+  "workspace": "D:\\llama-mem",
+  "task": "量化 block/session 文件体积与 n_ctx 的关系（只读；临时引擎探测受运行中服务阻塞）",
+  "service_running": {
+   "health": "ok",
+   "engine_meta": {
+    "n_ctx": 32768,
+    "n_gpu_layers": 28,
+    "chat_start": 8192,
+    "chat_budget": 24576,
+    "memory_budget": 7680,
+    "kv": "q8_0",
+    "n_seq": 8
+   },
+   "session_chat_tokens": 4761,
+   "model": {
+    "model_path": "D:\\models\\Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+    "model_size": 8988110976,
+    "model_mtime": 1793102210
+   }
+  },
+  "gpu_procs_gt256MB": "pid_12776_luid_0x00000000_0x0000C3A2_phys_0 7563894784\npid_1752_luid_0x00000000_0x0000C3A2_phys_0 273289216"
+ },
+ "probe_status": {
+  "direct_engine_probe": "blocked",
+  "reason": "服务正在运行并占用 GPU/RAM：GPU python 进程 DedicatedUsage≈7.48GB（总 10GB）、系统 RAM free≈0.4GB/15.9GB；再加载一个 14B 引擎（模型 8.99GB）会 OOM。按纪律服务只能由 LEAD 重启，本次未停止/未重启服务，故未执行 build_block/eng.save 直测。",
+  "alternate_method": "解析既有 .kvmem 文件头（llama state seq 格式：magic/version/n_token_count/tokens）+ llama.cpp 源码路径证明 + 服务 /status 的 chat_tokens 交叉验证"
+ },
+ "method": {
+  "state_file_format": {
+   "magic": "0x67677371 (ggsq)",
+   "version": 4,
+   "header": "u32 magic + u32 version + u32 n_token_count + n_token_count*4 bytes tokens + KV state payload",
+   "source": "llama.cpp/src/llama-context.cpp:3608-3626 (state_seq_save_file), llama.h:43-49"
+  },
+  "size_rule": {
+   "formula": "file_bytes ≈ 12 + 4*N_tokens + N_tokens * B",
+   "B_note": "B = 每 token 的 KV 状态字节数，由模型/KV 量化/n_seq 决定，与 n_ctx 无关",
+   "state_write_cells": "llama.cpp/src/llama-kv-cache.cpp:2567-2635：只写本 seq 的非空 cell（cell_count），不写满 n_ctx"
+  },
+  "load_rule": {
+   "source": "llama.cpp/src/llama-kv-cache.cpp:2770-2840 (state_read_meta)",
+   "checks": [
+    "cell_count > cells.size()（cells.size()=目标 n_ctx）⇒ 加载失败",
+    "n_stream 必须与目标一致（本仓 n_stream=1，见 llama-kv-cache.cpp:285 n_stream=1）",
+    "model arch 必须一致（llama-context.cpp:3638-3650）",
+    "kv_type/state_version 不同会导致状态字节布局/版本不匹配"
+   ],
+   "implication": "源 n_ctx 不参与校验；只要求源文件 N_tokens ≤ 目标 n_ctx"
+  },
+  "measured_files": {
+   "total_parsed": 49,
+   "main_cluster_n": 40,
+   "other_cluster": [
+    {
+     "path": "tools/quality/blk_moved.kvmem",
+     "n_tokens": 59,
+     "bytes": 1799028,
+     "payload": 1798780,
+     "bytes_per_token": 30487.8,
+     "state_version": 4,
+     "mtime": "2026-10-24T15:07"
+    },
+    {
+     "path": "tools/quality/blk_native.kvmem",
+     "n_tokens": 59,
+     "bytes": 1799028,
+     "payload": 1798780,
+     "bytes_per_token": 30487.8,
+     "state_version": 4,
+     "mtime": "2026-10-24T15:07"
+    },
+    {
+     "path": "tools/quality/conv_A.kvmem",
+     "n_tokens": 52,
+     "bytes": 1585668,
+     "payload": 1585448,
+     "bytes_per_token": 30489.4,
+     "state_version": 4,
+     "mtime": "2026-10-24T15:07"
+    },
+    {
+     "path": "tools/quality/conv_B.kvmem",
+     "n_tokens": 52,
+     "bytes": 1585668,
+     "payload": 1585448,
+     "bytes_per_token": 30489.4,
+     "state_version": 4,
+     "mtime": "2026-10-24T15:07"
+    },
+    {
+     "path": "tools/quality/conv_C.kvmem",
+     "n_tokens": 59,
+     "bytes": 1799028,
+     "payload": 1798780,
+     "bytes_per_token": 30487.8,
+     "state_version": 4,
+     "mtime": "2026-10-24T15:07"
+    },
+    {
+     "path": "tools/quality/drift_blk.kvmem",
+     "n_tokens": 145,
+     "bytes": 4420308,
+     "payload": 4419716,
+     "bytes_per_token": 30480.8,
+     "state_version": 4,
+     "mtime": "2026-10-24T16:27"
+    },
+    {
+     "path": "tools/quality/hold_n0.kvmem",
+     "n_tokens": 48,
+     "bytes": 1463748,
+     "payload": 1463544,
+     "bytes_per_token": 30490.5,
+     "state_version": 4,
+     "mtime": "2026-10-24T16:27"
+    },
+    {
+     "path": "tools/quality/hold_n100.kvmem",
+     "n_tokens": 48,
+     "bytes": 1463748,
+     "payload": 1463544,
+     "bytes_per_token": 30490.5,
+     "state_version": 4,
+     "mtime": "2026-10-24T15:37"
+    },
+    {
+     "path": "tools/quality/hold_n20.kvmem",
+     "n_tokens": 48,
+     "bytes": 1463748,
+     "payload": 1463544,
+     "bytes_per_token": 30490.5,
+     "state_version": 4,
+     "mtime": "2026-10-24T16:27"
+    }
+   ]
+  }
+ },
+ "measurements": {
+  "bytes_per_token": {
+   "main_cluster": {
+    "n": 40,
+    "min": 104460.2,
+    "max": 104754.0,
+    "mean": 104553.2
+   },
+   "other_cluster": {
+    "n": 9,
+    "min": 30480.8,
+    "max": 30490.5,
+    "mean": 30488.3
+   }
+  },
+  "B_used_for_estimates": 104553.2,
+  "samples": [
+   {
+    "path": "kvmem/daily/sessions/daily.chat.kvmem.bak-20261027T193457",
+    "n_tokens": 6340,
+    "bytes": 662302948,
+    "payload": 662277576,
+    "bytes_per_token": 104460.2,
+    "state_version": 4,
+    "mtime": "2026-10-27T19:35"
+   },
+   {
+    "path": "kvmem/m2_visibility/m5/out/M5B2-probe.kvmem",
+    "n_tokens": 1062,
+    "bytes": 110941956,
+    "payload": 110937696,
+    "bytes_per_token": 104461.1,
+    "state_version": 4,
+    "mtime": "2026-10-26T14:29"
+   },
+   {
+    "path": "kvmem/daily/sessions/rollover_test.chat.kvmem",
+    "n_tokens": 658,
+    "bytes": 68738500,
+    "payload": 68735856,
+    "bytes_per_token": 104461.8,
+    "state_version": 4,
+    "mtime": "2026-10-27T20:44"
+   },
+   {
+    "path": "kvmem/_c_regression2/B-rollover/sessions/daily.chat.kvmem",
+    "n_tokens": 400,
+    "bytes": 41786788,
+    "payload": 41785176,
+    "bytes_per_token": 104462.9,
+    "state_version": 4,
+    "mtime": "2026-10-27T13:58"
+   },
+   {
+    "path": "kvmem/_c_regression/B-rollover/sessions/daily.chat.kvmem",
+    "n_tokens": 400,
+    "bytes": 41786788,
+    "payload": 41785176,
+    "bytes_per_token": 104462.9,
+    "state_version": 4,
+    "mtime": "2026-10-27T13:54"
+   },
+   {
+    "path": "kvmem/_c_acceptance_r2/S1/sessions/daily.chat.kvmem",
+    "n_tokens": 372,
+    "bytes": 38861796,
+    "payload": 38860296,
+    "bytes_per_token": 104463.2,
+    "state_version": 4,
+    "mtime": "2026-10-27T01:22"
+   },
+   {
+    "path": "kvmem/_c_regression2/C-long/sessions/daily.chat.kvmem",
+    "n_tokens": 278,
+    "bytes": 29042180,
+    "payload": 29041056,
+    "bytes_per_token": 104464.2,
+    "state_version": 4,
+    "mtime": "2026-10-27T13:58"
+   },
+   {
+    "path": "kvmem/_c_regression/C-long/sessions/daily.chat.kvmem",
+    "n_tokens": 278,
+    "bytes": 29042180,
+    "payload": 29041056,
+    "bytes_per_token": 104464.2,
+    "state_version": 4,
+    "mtime": "2026-10-27T13:54"
+   },
+   {
+    "path": "kvmem/_c_acceptance_real2/S1/sessions/daily.chat.kvmem",
+    "n_tokens": 270,
+    "bytes": 28206468,
+    "payload": 28205376,
+    "bytes_per_token": 104464.4,
+    "state_version": 4,
+    "mtime": "2026-10-27T00:24"
+   },
+   {
+    "path": "kvmem/_c_regression2/A-retrieval/sessions/daily.chat.kvmem",
+    "n_tokens": 270,
+    "bytes": 28206468,
+    "payload": 28205376,
+    "bytes_per_token": 104464.4,
+    "state_version": 4,
+    "mtime": "2026-10-27T13:56"
+   },
+   {
+    "path": "kvmem/_c_regression/A-retrieval/sessions/daily.chat.kvmem",
+    "n_tokens": 270,
+    "bytes": 28206468,
+    "payload": 28205376,
+    "bytes_per_token": 104464.4,
+    "state_version": 4,
+    "mtime": "2026-10-27T13:52"
+   },
+   {
+    "path": "kvmem/_c_acceptance_r2/S6/sessions/daily.chat.kvmem",
+    "n_tokens": 190,
+    "bytes": 19849348,
+    "payload": 19848576,
+    "bytes_per_token": 104466.2,
+    "state_version": 4,
+    "mtime": "2026-10-27T01:23"
+   },
+   {
+    "path": "kvmem/_c_acceptance_real2/S6/sessions/daily.chat.kvmem",
+    "n_tokens": 139,
+    "bytes": 14521684,
+    "payload": 14521116,
+    "bytes_per_token": 104468.5,
+    "state_version": 4,
+    "mtime": "2026-10-27T00:24"
+   },
+   {
+    "path": "kvmem/_c_acceptance_r2/S7/sessions/daily.chat.kvmem",
+    "n_tokens": 87,
+    "bytes": 9089556,
+    "payload": 9089196,
+    "bytes_per_token": 104473.5,
+    "state_version": 4,
+    "mtime": "2026-10-27T01:23"
+   },
+   {
+    "path": "kvmem/_c_acceptance_real2/S7/sessions/daily.chat.kvmem",
+    "n_tokens": 67,
+    "bytes": 7000276,
+    "payload": 6999996,
+    "bytes_per_token": 104477.6,
+    "state_version": 4,
+    "mtime": "2026-10-27T00:25"
+   },
+   {
+    "path": "kvmem/daily/blocks/mem-854ba3615072.kvmem",
+    "n_tokens": 65,
+    "bytes": 6791348,
+    "payload": 6791076,
+    "bytes_per_token": 104478.1,
+    "state_version": 4,
+    "mtime": "2026-10-27T20:44"
+   }
+  ],
+  "observed_live_session": {
+   "chat_tokens": 4761,
+   "n_ctx": 32768,
+   "predicted_bytes": 497777785,
+   "note": "与磁盘上 32k 会话文件（如每天 632MB/6340 tok、528MB≈5300 tok）同量级"
+  },
+  "lead_reported_files": {
+   "archive_block_MB": {
+    "size_MB": 202,
+    "est_tokens": 2025.9
+   },
+   "summary_block_MB": {
+    "size_MB": 136,
+    "est_tokens": 1364.0
+   },
+   "session_file_MB": {
+    "size_MB": 528,
+    "est_tokens": 5295.4
+   },
+   "note": "token 数由 size/B 反推；202MB≈2028 tok、136MB≈1365 tok、528MB≈5300 tok"
+  }
+ },
+ "conclusions": [
+  "文件大小**不随 n_ctx 线性增长**：同一模型/kv 下每 token 的 KV payload 恒定（实测 B≈104.4-104.5 KB/token，49 个文件跨 10/26-10/28 多个服务配置）；n_ctx 只决定‘最多可放多少 token’。",
+  "文件大小**随已用 token 数线性增长**：file ≈ 12 + 4N + B·N；大文件 = token 多的 archive/summary/session（32k 配置下 rollover 阈值 18432 token、chat_budget 24576 ⇒ 会话可累积到数千 token）。",
+  "4096/8192 建的 memory block 文件同样按 token 计费（与 32768 建的**同 token 数文件字节数相同**），可 load/mount 进 32k 推理引擎——前提：N_tokens ≤ 目标 n_ctx、model arch 一致、kv_type/state_version 一致、n_stream 一致（本仓 n_stream=1）。",
+  "反向不成立：32k 配置产生的 >4096 token 的 block/session 不能 load 进 n_ctx=4096 引擎（cell_count > cells.size() 直接失败）；n_ctx 差异本身不报错，token 数超容量才报错。",
+  "怀疑 202MB archive /136MB summary 是‘把整段对话/长摘要按 KV 序列存盘’造成的 token 膨胀（≈2028/1365 token），不是 n_ctx 的字节线性项。"
+ ],
+ "recommendations": [
+  {
+   "priority": 1,
+   "action": "建长期记忆块用 n_ctx=4096 或 8192（或专用小 ctx 建块引擎）：payload/token 不变、文件不更大，且能 load 进 32k 推理引擎；n_tokens 仍受目标 n_ctx 约束",
+   "expected": "同 token 数下文件大小与 32768 建块完全一致（≈4.19MB/40 tok）"
+  },
+  {
+   "priority": 1,
+   "action": "不要把整段对话/长摘要存成 KV block：archive 应存文本（transcript 已存在）或把 archive KV 限制在 ≤512–1024 token（≈54–107MB→建议≤50MB）；summary 建议 ≤256 token 或直接存文本",
+   "expected": "archive 202MB→≤50-100MB；summary 136MB→≤25MB"
+  },
+  {
+   "priority": 2,
+   "action": "会话文件按 token 线性增长：528MB≈5300 token；若需要小文件，降低 chat_budget/rollover 阈值或定期 save 后裁剪，而不是换小 n_ctx（换 n_ctx 不减小同 token 文件）",
+   "expected": "session bytes ≈ 12 + 4N + 104.5KB·N"
+  },
+  {
+   "priority": 2,
+   "action": "在 memory_source.load_into/check_compatible 增加前置检查：读文件头 n_tokens ≤ 目标 n_ctx；不满足给可读错误（避免 cell_count>cells.size() 崩溃）",
+   "expected": "设计建议，未改代码"
+  },
+  {
+   "priority": 3,
+   "action": "在 LEAD 给的窗口（停服务 10–15 分钟）跑直测确认：同一文本用 n_ctx=4096/8192/32768 各 build_block 1 条 + eng.save(0) 1 次，记录 bytes/n_tokens/耗时",
+   "expected": "预计三条 block 字节数相同（±header），session 字节数只随写入 token 数变化；耗时随 n_ctx 略增（load/alloc）"
+  }
+ ],
+ "probe_plan_for_lead": {
+  "requires": "LEAD 停止当前服务（释放 GPU 7.48GB 与 RAM），脚本只读/临时目录，不碰正式库",
+  "sketch": [
+   "for ctx in (4096,8192,32768): eng=KVEngine(model, n_ctx=ctx, n_seq=8, gpu=99, kv='q8_0'); con=memory_source.connect(tmpdb); memory_source.put_source(...); memory_source.build_block(eng,con,row,blocks_dir=tmpblocks); 记录 path size, n_tokens, elapsed; eng.reset(0); eng.write(0,text); eng.save(0,tmpsess); 记录 size",
+   "对比: bytes ≈ 12+4N+B*N；load 测试: KVEngine(model,n_ctx=32768).load(0, block_4096) 必须成功；KVEngine(...,n_ctx=4096).load(0, block_32768_with>4096tok) 预期失败"
+  ],
+  "note": "本次未执行（服务运行中，GPU/RAM 不允许）"
+ },
+ "limits": [
+  "未做真实 build_block/save 直测（服务运行 + 纪律）；结论基于 49 个既有文件头实测 + llama.cpp 源码路径",
+  "B 随模型/KV/n_seq 变化：本机 14B q8_0 n_seq=8 为 104.4-104.5KB/token；7B 或 f16 需重算",
+  "tools/quality/blocks20k 的 9 个文件 B≈30KB/token（10/24 另一模型/KV 配置），未混入主统计"
+ ]
+}
