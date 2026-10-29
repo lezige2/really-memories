@@ -1,0 +1,1244 @@
+{
+ "schema": "training_eval_v1",
+ "role": "T11 训练+测试闭环：真实对话用例集回归（2026-10-27）",
+ "generated_at": "2026-10-29T14:29:22+0800",
+ "mode": "live",
+ "partial": true,
+ "endpoint": "http://127.0.0.1:8765",
+ "source_cases": {
+  "path": "out/SFT-EXTRA-CASES-v2.jsonl",
+  "sha256": "502eb6c2d503bfa78a3da6cfe971bdf0b9efaab36b11c17350c7d26338b71b00",
+  "bytes": 11511,
+  "n": 20
+ },
+ "runner": {
+  "path": "training/run_training_eval.py",
+  "sha256": "41edc22baf4b9b866b248f22a0fe9059f5b40293a991a4c5ffbd0989e53b61c9",
+  "timeout_s": 90.0,
+  "classifier": "9 类：串味/编造/误拒/僵硬/重复尾巴/身份/联网无来源/记忆漏/延迟",
+  "connection_retries": 2,
+  "retry_wait_s": 5.0,
+  "state_class_mapping": {
+   "refused": "no_evidence",
+   "state=identity": "identity",
+   "state=capability": "capability",
+   "state=smalltalk": "smalltalk",
+   "state=ack": "ack",
+   "state=web": "web",
+   "block_ids 非空": "memory_hit",
+   "其余": "general"
+  }
+ },
+ "service": {
+  "health_before": {
+   "status": "ok",
+   "model_pin": {
+    "model_path": "D:\\models\\Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+    "model_size": 8988110976,
+    "model_mtime": 1793102210
+   },
+   "dll_pin": {
+    "path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+    "present": true,
+    "bytes": 50007552,
+    "sha16": "9edbafa150700614"
+   },
+   "vram_gib": null,
+   "memories": 20,
+   "session": {
+    "path": "kvmem\\daily\\sessions\\eval3.json",
+    "exists": true,
+    "chat_tokens": 0,
+    "chat_budget": 24576,
+    "chat_start": 8192,
+    "n_ctx": 32768,
+    "mounted": 0,
+    "control": false,
+    "n_predict": 192,
+    "rollover_at": 0.75,
+    "rollover_threshold_tokens": 18432
+   },
+   "engine": {
+    "mode": "real",
+    "type": "KVEngine",
+    "n_ctx": 32768,
+    "n_seq": 8,
+    "n_gpu_layers": 28,
+    "bytes_per_token": 104448,
+    "kv_pool_gib": 3.188,
+    "mem_total_gib": 3.188
+   },
+   "retrieval": {
+    "mode": "topk",
+    "topk": 4,
+    "library_count": 20,
+    "library_max": 200,
+    "mounted_ids": [],
+    "mounted_count": 0,
+    "candidates": 20,
+    "related": 0,
+    "memory_budget": 7680,
+    "last_truncation": null
+   },
+   "version": "c-1.0",
+   "service": {
+    "version": "c-service-1.0",
+    "host": "127.0.0.1",
+    "port": 8765,
+    "serial": true,
+    "requests": 161,
+    "in_flight_max": 1,
+    "by_route": {
+     "POST /ask": 81,
+     "GET /memories": 40,
+     "GET /health": 20,
+     "POST /remember": 7,
+     "POST /forget": 11,
+     "POST /reset": 2
+    },
+    "uptime_s": 302.2,
+    "fake_engine": false,
+    "degraded": false,
+    "ask_timeout_s": 90.0
+   }
+  },
+  "health_after": {
+   "status": "ok",
+   "model_pin": {
+    "model_path": "D:\\models\\Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+    "model_size": 8988110976,
+    "model_mtime": 1793102210
+   },
+   "dll_pin": {
+    "path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+    "present": true,
+    "bytes": 50007552,
+    "sha16": "9edbafa150700614"
+   },
+   "vram_gib": null,
+   "memories": 20,
+   "session": {
+    "path": "kvmem\\daily\\sessions\\eval3.json",
+    "exists": true,
+    "chat_tokens": 0,
+    "chat_budget": 24576,
+    "chat_start": 8192,
+    "n_ctx": 32768,
+    "mounted": 0,
+    "control": false,
+    "n_predict": 192,
+    "rollover_at": 0.75,
+    "rollover_threshold_tokens": 18432
+   },
+   "engine": {
+    "mode": "real",
+    "type": "KVEngine",
+    "n_ctx": 32768,
+    "n_seq": 8,
+    "n_gpu_layers": 28,
+    "bytes_per_token": 104448,
+    "kv_pool_gib": 3.188,
+    "mem_total_gib": 3.188
+   },
+   "retrieval": {
+    "mode": "topk",
+    "topk": 4,
+    "library_count": 20,
+    "library_max": 200,
+    "mounted_ids": [],
+    "mounted_count": 0,
+    "candidates": 20,
+    "related": 0,
+    "memory_budget": 7680,
+    "last_truncation": null
+   },
+   "version": "c-1.0",
+   "service": {
+    "version": "c-service-1.0",
+    "host": "127.0.0.1",
+    "port": 8765,
+    "serial": true,
+    "requests": 161,
+    "in_flight_max": 1,
+    "by_route": {
+     "POST /ask": 81,
+     "GET /memories": 40,
+     "GET /health": 20,
+     "POST /remember": 7,
+     "POST /forget": 11,
+     "POST /reset": 2
+    },
+    "uptime_s": 302.2,
+    "fake_engine": false,
+    "degraded": false,
+    "ask_timeout_s": 90.0
+   }
+  },
+  "preflight": {
+   "expect_memories": 20,
+   "got_memories": 20,
+   "ok": true
+  },
+  "elapsed_s": 235.33
+ },
+ "hermetic": {
+  "enabled": true,
+  "reset_supported": true,
+  "reset_error": null,
+  "snapshot_ids_n": 20,
+  "memories_before": 20,
+  "category_boundaries": [],
+  "added_total": 0,
+  "cleaned_total": 0,
+  "final": null
+ },
+ "summary": {
+  "scope": "live",
+  "n": 7,
+  "n_valid": 7,
+  "n_infra": 0,
+  "pass": 7,
+  "fail": 0,
+  "pass_rate": 1.0,
+  "pass_rate_including_infra": 1.0,
+  "by_category": {
+   "long_memory": {
+    "n": 7,
+    "pass": 7,
+    "pass_rate": 1.0
+   }
+  },
+  "failure_classes": {},
+  "hard_assertions": {
+   "n": 0,
+   "pass": 0,
+   "fail": 0,
+   "pass_rate": null
+  },
+  "failures": [],
+  "infra_errors": []
+ },
+ "live": {
+  "scope": "live",
+  "n": 7,
+  "n_valid": 7,
+  "n_infra": 0,
+  "pass": 7,
+  "fail": 0,
+  "pass_rate": 1.0,
+  "pass_rate_including_infra": 1.0,
+  "by_category": {
+   "long_memory": {
+    "n": 7,
+    "pass": 7,
+    "pass_rate": 1.0
+   }
+  },
+  "failure_classes": {},
+  "hard_assertions": {
+   "n": 0,
+   "pass": 0,
+   "fail": 0,
+   "pass_rate": null
+  },
+  "failures": [],
+  "infra_errors": []
+ },
+ "results": [
+  {
+   "id": "L01",
+   "category": "long_memory",
+   "input": "我的备用手机号是多少？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的备用手机号是 137-0000-9527"
+    },
+    {
+     "action": "ask",
+     "text": "在吗"
+    },
+    {
+     "action": "ask",
+     "text": "谢谢"
+    },
+    {
+     "action": "ask",
+     "text": "今天过得怎么样"
+    },
+    {
+     "action": "ask",
+     "text": "随便聊聊吧"
+    },
+    {
+     "action": "ask",
+     "text": "讲个短句"
+    },
+    {
+     "action": "ask",
+     "text": "继续"
+    },
+    {
+     "action": "ask",
+     "text": "嗯嗯"
+    },
+    {
+     "action": "ask",
+     "text": "好的"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "137-0000-9527",
+     "13700009527"
+    ],
+    "refusal": false
+   },
+   "note": "[v2] 长对话/记忆召回 10 条之一：remember + 8 轮闲聊后召回｜去污染：remember 事实已替换为训练集零出现保留值（旧值→新值对照见 out/SFT-CONTAMINATION-EXCLUDE-v2.json 的 fact_level_replacement）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的备用手机号是137-0000-9527",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     21,
+     3,
+     12,
+     13
+    ],
+    "latency_client_s": 3.783,
+    "latency_server_s": 3.7694,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 20,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     21
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "L02",
+   "category": "long_memory",
+   "input": "我的工位在哪个区几号？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的工位在 E 区 9 号"
+    },
+    {
+     "action": "ask",
+     "text": "在吗"
+    },
+    {
+     "action": "ask",
+     "text": "谢谢"
+    },
+    {
+     "action": "ask",
+     "text": "今天过得怎么样"
+    },
+    {
+     "action": "ask",
+     "text": "随便聊聊吧"
+    },
+    {
+     "action": "ask",
+     "text": "讲个短句"
+    },
+    {
+     "action": "ask",
+     "text": "继续"
+    },
+    {
+     "action": "ask",
+     "text": "嗯嗯"
+    },
+    {
+     "action": "ask",
+     "text": "好的"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "E区",
+     "E 区",
+     "9号",
+     "9 号"
+    ],
+    "refusal": false
+   },
+   "note": "[v2] 长对话/记忆召回 10 条之一：remember + 8 轮闲聊后召回｜去污染：remember 事实已替换为训练集零出现保留值（旧值→新值对照见 out/SFT-CONTAMINATION-EXCLUDE-v2.json 的 fact_level_replacement）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的工位在E区9号",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     22,
+     3,
+     12,
+     13
+    ],
+    "latency_client_s": 2.844,
+    "latency_server_s": 2.8289,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 21,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     22
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "L03",
+   "category": "long_memory",
+   "input": "我女儿的小名是什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我女儿的小名是雪梨"
+    },
+    {
+     "action": "ask",
+     "text": "在吗"
+    },
+    {
+     "action": "ask",
+     "text": "谢谢"
+    },
+    {
+     "action": "ask",
+     "text": "今天过得怎么样"
+    },
+    {
+     "action": "ask",
+     "text": "随便聊聊吧"
+    },
+    {
+     "action": "ask",
+     "text": "讲个短句"
+    },
+    {
+     "action": "ask",
+     "text": "继续"
+    },
+    {
+     "action": "ask",
+     "text": "嗯嗯"
+    },
+    {
+     "action": "ask",
+     "text": "好的"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "雪梨"
+    ],
+    "refusal": false
+   },
+   "note": "[v2] 长对话/记忆召回 10 条之一：remember + 8 轮闲聊后召回｜去污染：remember 事实已替换为训练集零出现保留值（旧值→新值对照见 out/SFT-CONTAMINATION-EXCLUDE-v2.json 的 fact_level_replacement）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你女儿的小名是雪梨",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     23
+    ],
+    "latency_client_s": 2.637,
+    "latency_server_s": 2.6211,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 23,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 22,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     23
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "L04",
+   "category": "long_memory",
+   "input": "我下个月要去哪里出差？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我下个月要去商汤出差"
+    },
+    {
+     "action": "ask",
+     "text": "在吗"
+    },
+    {
+     "action": "ask",
+     "text": "谢谢"
+    },
+    {
+     "action": "ask",
+     "text": "今天过得怎么样"
+    },
+    {
+     "action": "ask",
+     "text": "随便聊聊吧"
+    },
+    {
+     "action": "ask",
+     "text": "讲个短句"
+    },
+    {
+     "action": "ask",
+     "text": "继续"
+    },
+    {
+     "action": "ask",
+     "text": "嗯嗯"
+    },
+    {
+     "action": "ask",
+     "text": "好的"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "商汤"
+    ],
+    "refusal": false
+   },
+   "note": "[v2] 长对话/记忆召回 10 条之一：remember + 8 轮闲聊后召回｜去污染：remember 事实已替换为训练集零出现保留值（旧值→新值对照见 out/SFT-CONTAMINATION-EXCLUDE-v2.json 的 fact_level_replacement）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你下个月要去商汤出差",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     24
+    ],
+    "latency_client_s": 2.957,
+    "latency_server_s": 2.9416,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 24,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 23,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     24
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "L05",
+   "category": "long_memory",
+   "input": "我的车是什么颜色、什么车型？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的车是银色两厢车"
+    },
+    {
+     "action": "ask",
+     "text": "在吗"
+    },
+    {
+     "action": "ask",
+     "text": "谢谢"
+    },
+    {
+     "action": "ask",
+     "text": "今天过得怎么样"
+    },
+    {
+     "action": "ask",
+     "text": "随便聊聊吧"
+    },
+    {
+     "action": "ask",
+     "text": "讲个短句"
+    },
+    {
+     "action": "ask",
+     "text": "继续"
+    },
+    {
+     "action": "ask",
+     "text": "嗯嗯"
+    },
+    {
+     "action": "ask",
+     "text": "好的"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "银色",
+     "两厢"
+    ],
+    "refusal": false
+   },
+   "note": "[v2] 长对话/记忆召回 10 条之一：remember + 8 轮闲聊后召回｜去污染：remember 事实已替换为训练集零出现保留值（旧值→新值对照见 out/SFT-CONTAMINATION-EXCLUDE-v2.json 的 fact_level_replacement）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的车是银色两厢车",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     25,
+     3,
+     12,
+     13
+    ],
+    "latency_client_s": 13.476,
+    "latency_server_s": 13.4608,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 25,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 24,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     25
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "L06",
+   "category": "long_memory",
+   "input": "我每周四几点健身？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我每周四晚上十点健身"
+    },
+    {
+     "action": "ask",
+     "text": "在吗"
+    },
+    {
+     "action": "ask",
+     "text": "谢谢"
+    },
+    {
+     "action": "ask",
+     "text": "今天过得怎么样"
+    },
+    {
+     "action": "ask",
+     "text": "随便聊聊吧"
+    },
+    {
+     "action": "ask",
+     "text": "讲个短句"
+    },
+    {
+     "action": "ask",
+     "text": "继续"
+    },
+    {
+     "action": "ask",
+     "text": "嗯嗯"
+    },
+    {
+     "action": "ask",
+     "text": "好的"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "十点",
+     "10点",
+     "22点"
+    ],
+    "refusal": false
+   },
+   "note": "[v2] 长对话/记忆召回 10 条之一：remember + 8 轮闲聊后召回｜去污染：remember 事实已替换为训练集零出现保留值（旧值→新值对照见 out/SFT-CONTAMINATION-EXCLUDE-v2.json 的 fact_level_replacement）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你提到的是每周四晚上十点健身",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     26
+    ],
+    "latency_client_s": 4.023,
+    "latency_server_s": 4.0096,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 26,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 25,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     26
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "L07",
+   "category": "long_memory",
+   "input": "我的邮箱是什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的邮箱是 lin@example.org"
+    },
+    {
+     "action": "ask",
+     "text": "在吗"
+    },
+    {
+     "action": "ask",
+     "text": "谢谢"
+    },
+    {
+     "action": "ask",
+     "text": "今天过得怎么样"
+    },
+    {
+     "action": "ask",
+     "text": "随便聊聊吧"
+    },
+    {
+     "action": "ask",
+     "text": "讲个短句"
+    },
+    {
+     "action": "ask",
+     "text": "继续"
+    },
+    {
+     "action": "ask",
+     "text": "嗯嗯"
+    },
+    {
+     "action": "ask",
+     "text": "好的"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "lin@example.org"
+    ],
+    "refusal": false
+   },
+   "note": "[v2] 长对话/记忆召回 10 条之一：remember + 8 轮闲聊后召回｜去污染：remember 事实已替换为训练集零出现保留值（旧值→新值对照见 out/SFT-CONTAMINATION-EXCLUDE-v2.json 的 fact_level_replacement）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的邮箱是lin@example.org",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     27,
+     3,
+     12,
+     13
+    ],
+    "latency_client_s": 11.626,
+    "latency_server_s": 11.6072,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 27,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 26,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     27
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  }
+ ],
+ "notes": [
+  "密闭评测：开始前 GET /memories 快照 + POST /reset；每个 category 边界清理测试块并 reset；结束后删除快照外全部 id 并 reset；元数据见 hermetic。共享会话历史无法重置，后段用例可能受前段上下文影响（已按 read-only → 写入类顺序排列）。",
+  "dry-run-instance：每条独立 fake 实例（零 GPU/零模型），只判结构项（refusal/state_class/memory_delta/延迟），正文包含类检查 skipped，不与 live 基线混算。",
+  "expect 扩展：memory_delta 为 T11 跑器补充字段（自动记忆用例核对入记忆条数），其余字段沿用 LEAD 指定 schema。",
+  "连接层错误（服务被重启/拒绝连接）计入 n_infra，不计入 pass_rate 分母；若 n_infra 偏大说明评测窗口内服务被外部重启，基线只对 n_valid 条成立。",
+  "partial=true 表示本轮被中断/未跑完；可用 --resume 在同一 --out 上续跑。",
+  "",
+  ""
+ ],
+ "failures": []
+}

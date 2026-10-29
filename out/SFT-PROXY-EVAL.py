@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """TASK-033/035 proxy harness：llama-server 跑 base vs base+lora（PP1-PP4 + extra-cases/only-extra）；proxy 无 KV/service 验证逻辑，不可与 78/81、90/92 横比。"""
-import argparse, ast, hashlib, importlib.util, json, os, sys, time, urllib.request
+import argparse, ast, hashlib, importlib.util, json, os, re, sys, time, urllib.request
 from datetime import datetime
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WD = "一二三四五六日"
@@ -27,6 +27,35 @@ def now_line(now):
     return "当前时间：%s 星期%s %s。" % (d.strftime("%Y-%m-%d"), WD[d.weekday()], d.strftime("%H:%M"))
 def make_system(policy, mems, tl):
     return "\n\n".join((["\n".join(mems)] if mems else []) + [tl, policy])   # PP3 裸文本记忆行
+def history_pairs(fixed):
+    """TASK-084/085：把 3-8 轮固定 history 解析成 [(user,assistant),...]。
+    支持 [{"role","content"}] / [{"q","a"}] / [[q,a]]；并对“分组排列”（前段全 user、后段全 assistant）
+    做兜底按索引配对（M-b）。丢弃不完整对。"""
+    pairs, seq = [], []
+    for t in fixed or []:
+        if isinstance(t, dict) and "q" in t and "a" in t:
+            pairs.append((str(t["q"]), str(t["a"]))); continue
+        if isinstance(t, (list, tuple)) and len(t) == 2:
+            pairs.append((str(t[0]), str(t[1]))); continue
+        if not isinstance(t, dict):
+            continue
+        role = str(t.get("role") or "")
+        content = str(t.get("content") or "")
+        if role in ("user", "assistant"):
+            seq.append((role, content))
+    out, pending = [], None
+    for role, content in seq:
+        if role == "user":
+            pending = content
+        elif role == "assistant" and pending is not None:
+            out.append((pending, content)); pending = None
+    users = [c for r, c in seq if r == "user"]
+    assts = [c for r, c in seq if r == "assistant"]
+    grouped = (len(seq) == len(users) + len(assts) and len(users) == len(assts) and len(users) > 0
+               and [r for r, _ in seq] == ["user"] * len(users) + ["assistant"] * len(assts))
+    if grouped and len(out) != len(users):        # 兜底：分组排列按索引配对
+        out = [(users[i], assts[i]) for i in range(len(users))]
+    return pairs + out
 def chatml(system, history, user):
     s = "<|im_start|>system\n" + system + "<|im_end|>\n"
     for q, a in history:
@@ -52,6 +81,16 @@ def score81(case, answer, latency, rte):
     c = dict(case); c["expect"] = expect
     ok, problems, primary = rte.evaluate(c, {"answer": answer, "state": None, "refused": False,
                                              "block_ids": [], "error": None}, latency, 0, content_check=True)
+    exp = case.get("expect") or {}
+    na = re.sub(r"\s+", "", str(answer or ""))
+    if ok and exp.get("contains_all"):                    # TASK-091 R3：新值完整要素必须全出现
+        miss = [t for t in exp["contains_all"] if re.sub(r"\s+", "", str(t)) not in na]
+        if miss:
+            ok, problems, primary = False, ["contains_all_miss:%r" % miss], "僵硬"
+    if ok and exp.get("conflict_if_all"):                 # TASK-091 R3：新旧值同现才 fail
+        for pair in exp["conflict_if_all"]:
+            if all(re.sub(r"\s+", "", str(t)) in na for t in pair):
+                ok, problems, primary = False, ["conflict_old_new:%r" % pair], "串味"
     return ok, (primary if not ok else "ok"), problems, dropped
 def main():
     ap = argparse.ArgumentParser(description="proxy harness: base vs base+lora via llama-server /completion")
@@ -106,10 +145,13 @@ def main():
         hexcl, eexcl = set(), set()
     def run_case(case, source):
         mems, history = [], []
+        fixed = history_pairs(case.get("history"))            # v9 多轮：system + 3-8 轮 history + 最后提问
+        if fixed:
+            history = list(fixed)
         for act in case.get("pre_state") or []:
             if act.get("action") == "remember" and act.get("text"):
                 mems.append(act["text"])
-            elif act.get("action") == "ask" and act.get("text"):
+            elif act.get("action") == "ask" and act.get("text") and not fixed:
                 a = complete(args.port, chatml(make_system(policy, mems, now_line(args.now)), history,
                                                act["text"]), args.timeout, args.n_predict)
                 history.append((act["text"], a))

@@ -59,6 +59,15 @@ class CleanAnswerTest(unittest.TestCase):
         self.assertIn("def long_func", out)
         self.assertLessEqual(out.count("```"), 2)
 
+    def test_policy_fragment_becomes_refusal(self):
+        out = self.mod.clean_answer("记不清或编造或顶替")
+        self.assertIn("没法确认", out)
+        self.assertGreaterEqual(len(out), 8)
+
+    def test_echo_sentence_becomes_refusal(self):
+        out = self.mod.clean_answer("记不清就自然说记不清，不要编造或用无关旧内容顶替")
+        self.assertIn("没法确认", out)
+
     def test_question_echo_removed(self):
         out = self.mod.clean_answer("我不知道。\n你叫什么名字？")
         self.assertNotIn("你叫什么名字", out)

@@ -155,6 +155,15 @@ SYSTEM_POLICY = (
     "不要自称某个具体模型或公司，你是本地记忆助手。"
 )
 
+# policy A/B 调试开关（2026-10-29）：环境变量可覆盖 SYSTEM_POLICY，便于对比"文档/策略"对行为的影响
+_POLICY_OVERRIDE = os.environ.get("LLAMA_MEM_POLICY_FILE") or os.environ.get("LLAMA_MEM_POLICY_TEXT")
+if _POLICY_OVERRIDE:
+    if os.path.isfile(_POLICY_OVERRIDE):
+        with open(_POLICY_OVERRIDE, encoding="utf-8") as _pf:
+            SYSTEM_POLICY = _pf.read().strip()
+    else:
+        SYSTEM_POLICY = _POLICY_OVERRIDE
+
 ANSWER_INSTRUCTION = ("只依据记忆回答；记忆里没有就说不知道；"
                       "只回答当前这一个问题，不要复述问题也不要续写问答模板；"
                       "若有多条相似记忆，按标签/时间区分，拿不准就说不确定。")
@@ -220,6 +229,12 @@ _POLICY_ECHO_MARKERS = (
     "被要求时自然说做不了", "不要假装做过", "不是联网模型", "检索资料", "注明来源",
     "不要自称", "不要承诺", "你自然说", "自然说记不清", "记不清记", "自然接话",
     "自然说", "后台记住", "系统会在后台", "不要假装", "不能操作", "标标",
+    "你之前记住的用户事实", "回答个人事实前", "只用于个人事实", "不要复述",
+    "回答个人事实优先使用", "只有本轮对话来源记忆", "只有上下对话记忆", "用户身边的本地记忆助手，",
+    "不要联网", "也不操作应用", "操作应用", "具体模型或公司", "不要自称某个具体模型",
+    "你是本地记忆助手", "记不清或编造或顶替", "编造或顶替", "或顶替", "优先使用",
+    "本轮对话来源记忆", "记不清或编造", "不要编造或",
+    "不要推测", "不要编造数字", "订票", "预约", "不要询问细节", "不要假装推进",
 )
 _IDENTITY_SENTENCE = "我是你的本地记忆助手"
 
@@ -326,8 +341,12 @@ def clean_answer(raw):
         idx = qm.start()
         cut = max(t.rfind(ch, 0, idx) for ch in "。！？\n")
         t = t[:cut + 1] if cut > 0 else t[:idx]
-    t = strip_policy_echo(t)
-    return t.strip(" 　\t，,。;；")
+    t = strip_policy_echo(t).strip(" 　\t，,。;；")
+    # 反回声过滤可能把整句削空、或只剩策略词碎片；给安全兜底，避免空回答/残片直出
+    if not t or (len(t) < 8 and sum(1 for w in ("记不清", "编造", "顶替", "优先", "系统", "政策")
+                                    if w in t) >= 2):
+        t = "这个我没法确认：你没跟我说过。"
+    return t
 
 
 def first_line(text, limit=48):

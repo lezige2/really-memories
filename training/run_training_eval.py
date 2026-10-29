@@ -694,6 +694,9 @@ def make_doc(mode, endpoint, args, cases, results, health_before, health_after,
             },
         },
         "service": {"health_before": health_before, "health_after": health_after,
+                    "preflight": {"expect_memories": getattr(args, "expect_memories", None),
+                                  "got_memories": (health_before or {}).get("memories"),
+                                  "ok": (health_before or {}).get("memories") in (None, getattr(args, "expect_memories", None))},
                     "elapsed_s": elapsed},
         "hermetic": hermetic,
         "summary": summary_all,
@@ -710,6 +713,10 @@ def make_doc(mode, endpoint, args, cases, results, health_before, health_after,
             "连接层错误（服务被重启/拒绝连接）计入 n_infra，不计入 pass_rate 分母；"
             "若 n_infra 偏大说明评测窗口内服务被外部重启，基线只对 n_valid 条成立。",
             "partial=true 表示本轮被中断/未跑完；可用 --resume 在同一 --out 上续跑。",
+            ("--reset-per-case：每条 case 主问和 pre_state 之前先 POST /reset 清会话（每条独立会话；"
+             "case 内 pre_state ask 仍连续，供 MT20 多轮使用）。" if getattr(args, "reset_per_case", False) else ""),
+            ("--forget-created-per-case：每条 case 结束立即删除本 case /remember 创建的块（hermetic 下也生效），"
+             "保证下一条 memory_before 恒定。" if getattr(args, "forget_created_per_case", False) else ""),
         ],
         "failures": [r for r in results if not r["pass"] and not r.get("infra_error")],
     }
@@ -728,10 +735,17 @@ def load_cases(path):
     return cases
 
 
-def run_case_http(case, endpoint, timeout, retries=0, retry_wait=5.0, no_cleanup=False):
-    """对真实/ fake 服务跑一条：记录 pre_state、主问、memory 增量、清理。"""
+def run_case_http(case, endpoint, timeout, retries=0, retry_wait=5.0, no_cleanup=False,
+                  reset_per_case=False):
+    """对真实/ fake 服务跑一条：记录 pre_state、主问、memory 增量、清理。
+    reset_per_case=True 时在**本条 case 任何 ask 之前**先 POST /reset（每条独立会话；
+    case 内部的 pre_state ask 序列仍保留，支持 MT20 多轮）。"""
+    log = {"prelude": [], "cleanup": [], "memory_before": 0, "infra_error": False}
+    if reset_per_case:
+        ok, err = service_reset(endpoint)
+        log["reset_per_case"] = {"ok": bool(ok), "error": err}
     before = http_memory_ids(endpoint)
-    log = {"prelude": [], "cleanup": [], "memory_before": len(before), "infra_error": False}
+    log["memory_before"] = len(before)
     created = set()
     try:
         for act in case.get("pre_state") or []:
@@ -757,6 +771,8 @@ def run_case_http(case, endpoint, timeout, retries=0, retry_wait=5.0, no_cleanup
         resp = http_json(endpoint.rstrip("/") + "/ask", {"text": case["input"]}, timeout,
                           retries, retry_wait)
         latency_client = round(time.time() - t0, 3)
+        if isinstance(resp, dict) and resp.get("retrieval") is not None:
+            log["retrieval"] = resp.get("retrieval")
     except Exception as exc:  # noqa: BLE001
         resp = {"error": "%s: %s" % (type(exc).__name__, exc)}
         latency_client = round(time.time() - t0, 3) if "t0" in dir() else 0.0
@@ -804,6 +820,8 @@ def build_result(case, resp, latency_client, log, mode, content_check):
         "latency_server_s": resp.get("latency_s"),
         "state_class": actual_class(resp),
         "memory_delta": delta,
+        "retrieval": log.get("retrieval"),
+        "selected_ids": ((log.get("retrieval") or {}).get("selected_ids") or []),
         "error": resp.get("error"),
     }
     return {
@@ -939,6 +957,13 @@ def main(argv=None):
                     help="若 --out 已存在，则跳过其中非 infra 的已完成用例，合并写回")
     ap.add_argument("--max-wait", type=float, default=180.0,
                     help="健康门最长等待秒（默认 180）")
+    ap.add_argument("--expect-memories", type=int, default=20,
+                    help="preflight：service.health.memories 必须等于该值，否则 abort（默认 20；空库用 0）")
+    ap.add_argument("--reset-per-case", action="store_true",
+                    help="每条 case 开始前 POST /reset（每条独立会话；默认关闭，不影响旧行为）")
+    ap.add_argument("--forget-created-per-case", action="store_true",
+                    help="每条 case 结束即 /forget 本 case 由 /remember 创建的块（含 hermetic 模式，防同 category 累积；"
+                         "MT20 用；默认关闭）")
     ap.add_argument("--hermetic", action="store_true",
                     help="密闭评测：/memories 快照 + 前后 /reset + category 边界清理测试块 + 结束按快照删新增块")
     ap.add_argument("--no-cleanup", action="store_true",
@@ -963,6 +988,14 @@ def main(argv=None):
     endpoint = args.endpoint if not args.dry_run_instance else "(per-case fake instances)"
     health_before = ({"mode": "dry-run-instance", "per_case_fake": True}
                      if args.dry_run_instance else (wait_service_ready(endpoint, args.max_wait) or http_health(endpoint)))
+    if not args.dry_run_instance:
+        exp_mem = int(getattr(args, "expect_memories", 20))
+        got_mem = (health_before or {}).get("memories")
+        if got_mem is not None and int(got_mem) != exp_mem:
+            print(json.dumps({"status": "ABORT", "reason": "preflight memories mismatch",
+                              "expect_memories": exp_mem, "got_memories": got_mem, "endpoint": endpoint},
+                             ensure_ascii=False))
+            return 3
     hermetic = None
     snapshot_ids = set()
     if args.hermetic and not args.dry_run_instance:
@@ -1017,7 +1050,9 @@ def main(argv=None):
                                                  % args.max_wait)
             resp, lat, log = run_case_http(case, ep, args.timeout,
                                            args.retries, args.retry_wait,
-                                           True if hermetic is not None else args.no_cleanup)
+                                           (True if hermetic is not None else args.no_cleanup)
+                                           and not getattr(args, "forget_created_per_case", False),
+                                           reset_per_case=(args.reset_per_case and not args.dry_run_instance))
             content_check = not args.dry_run_instance
             res = build_result(case, resp, lat, log, mode, content_check)
         except Exception as exc:  # noqa: BLE001

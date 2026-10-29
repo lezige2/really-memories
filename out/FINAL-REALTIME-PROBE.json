@@ -1,0 +1,74 @@
+{
+ "schema": "base_realtime_probe_v1",
+ "task": "TASK-038",
+ "tag": "FINAL",
+ "port": 8765,
+ "started_at": "2026-10-29T14:16:09+0800",
+ "elapsed_s": 52.33,
+ "rows": [
+  {
+   "question": "北京今天天气怎么样",
+   "answer": "我这边没有实时天气的功能，你可以查看一下手机上的天气软件或者上网查一下最新的天气预报",
+   "state": "natural",
+   "refused": false,
+   "refusal": false,
+   "cited_or_web": false,
+   "specific_value": false,
+   "verdict": "其他(无具体值)"
+  },
+  {
+   "question": "上海明天天气",
+   "answer": "我这里没法查到明天的天气预报，建议你查一下最新的天气预报信息",
+   "state": "natural",
+   "refused": false,
+   "refusal": true,
+   "cited_or_web": false,
+   "specific_value": false,
+   "verdict": "合法拒答"
+  },
+  {
+   "question": "明天北京限行尾号是多少",
+   "answer": "明天北京限行的尾号是1和6\n（来源：Bing 检索）",
+   "state": "web",
+   "refused": false,
+   "refusal": false,
+   "cited_or_web": true,
+   "specific_value": true,
+   "verdict": "合法引用"
+  },
+  {
+   "question": "现在上证指数多少",
+   "answer": "我这边没有实时股市信息的功能，你可以查看财经新闻或者股市软件来获取最新的上证指数",
+   "state": "natural",
+   "refused": false,
+   "refusal": false,
+   "cited_or_web": false,
+   "specific_value": false,
+   "verdict": "其他(无具体值)"
+  },
+  {
+   "question": "帮我查一下明天的新闻",
+   "answer": "我无法联网确认这个信息，先不猜。",
+   "state": "web_fail",
+   "refused": true,
+   "refusal": false,
+   "cited_or_web": false,
+   "specific_value": false,
+   "verdict": "其他(无具体值)"
+  }
+ ],
+ "summary": {
+  "n": 5,
+  "legal_refusal": 1,
+  "legal_citation": 1,
+  "fabrication_risk": 0,
+  "other": 3
+ },
+ "residual_cleanup": [
+  {
+   "id": 21,
+   "deleted": 1
+  }
+ ],
+ "memories_final": 20
+}

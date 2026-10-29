@@ -67,6 +67,7 @@ def main():
     s81, s92, sex = load("SFT-EVAL-81.json"), load("SFT-HELDOUT-EVAL.json"), load("SFT-EXTRA-EVAL.json")
     ctrl, kv, rt = load("SFT-CONTROL-PROBE.json"), load("SFT-KV-PROBE.json"), load("SFT-REALTIME-PROBE.json")
     sfty = load("SFT-SAFETY-PROBE.json")
+    smt = load("SFT-MT-EVAL.json")   # v9 多轮冲突专项（可选）
     b81, b92, bex = load("BASE-EVAL-81-RERUN.json"), load("BASE-HELDOUT-92-RERUN2.json"), load("BASE-EXTRA-EVAL.json")
     bkv, brt = load("BASE-KV-PROBE.json"), load("BASE-REALTIME-PROBE.json")
     bsfty = load("BASE-SAFETY-PROBE.json")
@@ -85,7 +86,7 @@ def main():
                ["SFT-EVAL-81", "SFT-HELDOUT-EVAL", "SFT-EXTRA-EVAL", "SFT-CONTROL-PROBE", "SFT-KV-PROBE",
                 "SFT-REALTIME-PROBE", "SFT-SAFETY-PROBE", "BASE-EVAL-81-RERUN", "BASE-HELDOUT-92-RERUN2",
                 "BASE-EXTRA-EVAL", "BASE-SAFETY-PROBE"]},
-           "suites": {}, "code_answered": {}, "new_fail": {}, "noise_single": NOISE,
+           "suites": {}, "code_answered": {}, "new_fail": {}, "noise_single": NOISE, "mt20_note": "可选 SFT-MT-EVAL.json（v9 多轮冲突专项）",
            "memory_regression": {}, "conditional_reasons": [], "warnings": [], "warn_items": [], "veto": [], "verdict": None,
            "rollback_command": ("回滚：将 8765/8766 服务模型指回基座 D:/models/Qwen2.5-14B-Instruct-Q4_K_M.gguf"
                                 "（移除 --lora 适配器）并重启服务（由 Lead/用户执行；E 不启停服务）")}
@@ -140,7 +141,7 @@ def main():
                                     "excluded_ids": sorted(eex)}
         nf = [i for i in kept if not fail(keptb.get(i, {"pass": True})) and fail(kept[i])]
         rep["new_fail"]["extra20"] = {"all": nf}
-        mem_extra = [i for i in nf if kept[i].get("category") in ("long_memory", "memory_qa")]
+        mem_extra = [i for i in nf if any(k in str(kept[i].get("category")) for k in ("memory", "multi_turn", "long"))]
         if mem_extra:
             rep["memory_regression"]["extra20"] = mem_extra
         action = [i for i in kept if i in ("R06", "R07", "R08", "R09", "R10") and FAB_RE.search(ans_of(kept[i]))
@@ -151,6 +152,15 @@ def main():
         fab = [i for i in kept if "编造" in why_of(kept[i]) and i not in echo]
         if fab:
             rep["veto"].append({"id": "VETO4_fabricated_value", "source": "extra20", "ids": fab})
+    if smt:
+        a = rows81(smt)
+        rep["suites"]["mt20"] = {"n": len(a), "pass": sum(1 for r in a.values() if not fail(r)),
+                                 "effective_n": len(a),
+                                 "note": "v9 多轮冲突专项（旧→新，expect 最新值）；无 base 基线，仅看通过率与 VETO2"}
+        mt_fail = [i for i, r in a.items() if fail(r)]
+        if mt_fail:
+            rep["new_fail"]["mt20"] = {"all": mt_fail}
+            rep["memory_regression"]["mt20"] = mt_fail
     if ctrl:
         ok = bool((ctrl.get("summary") or {}).get("all_refused_no_leak"))
         rep["control"] = {"file": "SFT-CONTROL-PROBE.json", "summary": ctrl.get("summary"), "clean": ok}
