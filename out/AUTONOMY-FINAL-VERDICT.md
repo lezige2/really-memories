@@ -11,7 +11,7 @@
 | v2 | 715 行，负例 215（30.07%），但 false 行 assistant 是普通接话 | **RED-02 数据缺陷**：全库 `<SILENCE>` 计数 0/715，模型学不到闭嘴；run1 的 61% 是标签后果 |
 | v3 | 仅把 215 条 false 行 assistant 改 `<SILENCE>`，行/切分/字段不变 | 门禁三 split real_fail=0、pass_rate_real=1.0；G2/G8 各 215 条 known_fp（`<SILENCE>` 短答案），与负例一一对应 |
 
-- v3 sha256：train `7594812b…`、dev `b34707b0…`、test `0131c282…`；FREEZE-v3 `45EAF986…`。
+- v3 sha256：train `7594812b…`、dev `b34707b0…`、test `0131c282…`；FREEZE-v3 `AF87B91B…`。
 - dev/test 各 4 族、每族约 10 条：**±1 条≈10pp，样本量不支持“达标”声明**。
 
 ## 3 训练

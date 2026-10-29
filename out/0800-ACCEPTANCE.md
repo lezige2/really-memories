@@ -15,7 +15,7 @@
 | 最终判定 | `out/AUTONOMY-FINAL-VERDICT.md` | 见 E commit |
 | run2 eval | `out/AUTONOMY-RUN2-EVAL.json` | 见 D 日志 |
 | run2 train.log | `out/AUTONOMY-RUN2-TRAIN.log` | `99e3c42b…` |
-| v3 数据/冻结 | `out/autonomy600_v3/` | train `7594812b…` / FREEZE `45EAF986…` |
+| v3 数据/冻结 | `out/autonomy600_v3/` | train `7594812b…` / FREEZE `AF87B91B…` |
 | B 100 锚 | `out/autonomy600/B-ANCHOR-100.jsonl` | `047c5ccf…` |
 | sim cases（N/A） | `out/AUTONOMY-SIM-CASES.jsonl` | `2ad36c18…` |
 
