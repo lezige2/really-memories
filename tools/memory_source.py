@@ -94,6 +94,14 @@ BEGIN
         'memory_source.text is immutable: insert a new row instead of editing history');
 END;
 
+-- created_at 是时间戳排序/过期的依据，同样不可回写（只防未来更新，不回填历史）
+CREATE TRIGGER IF NOT EXISTS memory_source_created_at_is_immutable
+BEFORE UPDATE OF created_at ON memory_source
+BEGIN
+    SELECT RAISE(ABORT,
+        'memory_source.created_at is immutable: insert a new row instead of rewriting the timestamp');
+END;
+
 CREATE TABLE IF NOT EXISTS memory_block (
     source_id     INTEGER PRIMARY KEY REFERENCES memory_source(id) ON DELETE CASCADE,
     path          TEXT    NOT NULL,

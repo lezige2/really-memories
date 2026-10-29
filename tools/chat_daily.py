@@ -46,6 +46,7 @@ import evidence as E                # noqa: E402  (CPU: rule-based decision)
 from chat_lease import GuardedLeases  # noqa: E402  (imports m3_lease; no engine yet)
 import assistant_log as alog            # noqa: E402  (个体日志：只追加 JSONL)
 import memory_service as memo           # noqa: E402  (记忆数据层：抽取/去重/检索/判据)
+import k2_family as _k2f               # noqa: E402  (K2 同族只留最新；默认 off)
 
 try:                                                     # Windows 控制台 UTF-8
     sys.stdout.reconfigure(encoding="utf-8")
@@ -565,6 +566,7 @@ class DailyApp:
                  restore=True, verbose=False, log_root=None, log_mode=None,
                  log=True, display_name=None, logger=None,
                  retrieval_mode="off", topk=DEFAULT_TOPK,
+                 k2_family=False,
                  rollover_at=ROLLOVER_AT_DEFAULT,
                  n_ctx=N_CTX_DEFAULT, chat_start=CHAT_START_DEFAULT,
                  n_gpu_layers=N_GPU_LAYERS_DEFAULT):
@@ -591,6 +593,7 @@ class DailyApp:
             raise DailyError("bad_request",
                              "--retrieval 只能取 %s" % "/".join(RETRIEVAL_MODES))
         self.retrieval_mode = mode
+        self.k2_family = bool(k2_family)   # K2 同族只留最新；默认关
         self.topk = max(1, min(int(topk), MAX_MEMORIES))
         self._last_query = None
         self._last_selection = []      # [{name, score, source_id, signals}]
@@ -2631,6 +2634,51 @@ class DailyApp:
         return "你好，我在。想让我记点什么，或问点什么？"
 
     def _retrieval_select(self, text):
+        """K2 开关前置：开 = 同族只留最新并过滤同族旧块；关 = 原逻辑逐字不变。"""
+        if not getattr(self, "k2_family", False):
+            return self._retrieval_select_normal(text)
+        try:
+            meta = {int(r[0]): {"created_at": r[1], "mode": r[2]}
+                    for r in self.con.execute(
+                        "SELECT id,created_at,mode FROM memory_source")}
+        except Exception:                                    # noqa: BLE001
+            meta = None
+        try:
+            sel = _k2f.select_k2(self._rows(), text, self.topk, times=meta)
+        except Exception:                                    # noqa: BLE001
+            sel = None                                       # 任何异常都回退原逻辑
+        if not sel:
+            return self._retrieval_select_normal(text)
+        prev_cand = int(getattr(self, "_last_candidate_count", 0) or 0)
+        prev_rel = int(getattr(self, "_last_related_count", 0) or 0)
+        try:
+            base = self._retrieval_select_normal(text)
+        except Exception:                                    # noqa: BLE001
+            base = []
+            self._last_candidate_count = prev_cand
+            self._last_related_count = prev_rel
+        hit = sel[0]
+        drop = set(hit["signals"].get("hidden_ids") or [])
+        out, have = [hit], {hit["source_id"]}
+        for s in base:
+            if len(out) >= self.topk:
+                break
+            sid = s.get("source_id")
+            if sid in have or sid in drop:
+                continue
+            have.add(sid)
+            s2 = dict(s)
+            s2["signals"] = dict(s.get("signals") or {})
+            s2["signals"]["k2_fill"] = True
+            out.append(s2)
+        # 不覆盖候选/相关计数：原逻辑刚写入的是真实候选数（stats["candidates"]），
+        # 这里若压成"族内成员数"会与 /health、校验入口径不一致（K2c 回归根因之一）。
+        # 仅当原逻辑没留下计数时才用库大小兜底，绝不把候选数压小。
+        if not int(self._last_candidate_count or 0):
+            self._last_candidate_count = len(self._rows())
+        return out[:self.topk]
+
+    def _retrieval_select_normal(self, text):
         text = self._retrieval_text(text)
         if self._FOLLOWUP_RE.search(str(text or "")):
             # "我刚才说…" => 最新写入的那条事实优先（只看最新 5 条内存，按 id 倒序）
@@ -3437,6 +3485,9 @@ def main(argv=None):
     ap.add_argument("--retrieval", choices=list(RETRIEVAL_MODES), default="off",
                     help="挂载模式：off=全部挂载（默认，保持 S1–S7 行为）；"
                          "topk=每问只挂最相关的 topk 条")
+    ap.add_argument("--k2-family", action="store_true", default=False,
+                    help="K2 同族只留最新（默认关；会议/出差需带日期，"
+                         "仅对识别出族键的问句生效）")
     ap.add_argument("--n-ctx", type=int, default=N_CTX_DEFAULT,
                     help="上下文长度（默认 %d；GPU 选型后可调大）" % N_CTX_DEFAULT)
     ap.add_argument("--n-gpu-layers", type=int, default=N_GPU_LAYERS_DEFAULT,
@@ -3472,6 +3523,7 @@ def main(argv=None):
                        sessions_dir=paths["sessions"], session_path=args.session,
                        model_path=paths["model"], control=args.control,
                        n_predict=args.n_predict, retrieval_mode=args.retrieval,
+                       k2_family=args.k2_family,
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
                        n_gpu_layers=args.n_gpu_layers)
