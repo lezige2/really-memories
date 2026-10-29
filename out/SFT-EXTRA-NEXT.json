@@ -1,0 +1,134 @@
+{
+ "schema": "training_next_v1",
+ "role": "T11 下一轮修什么（按 live 基线失败频率排序；只给证据与建议，不写代码）",
+ "source": {
+  "path": "out/TRAINING-EVAL.json",
+  "sha256": "4d7f199152af42f5cd5207813e938b3c94d9021259b5974d416f30a878663610",
+  "live_n": 20,
+  "live_fail": 6
+ },
+ "generated_at": "2026-10-29T08:10:44+0800",
+ "ranking_rule": "按 failure_class 出现次数降序；同频按类名字典序",
+ "items": [
+  {
+   "rank": 1,
+   "failure_class": "僵硬",
+   "count": 5,
+   "share_of_failures": 0.8333,
+   "share_of_cases": 0.25,
+   "evidence": [
+    {
+     "id": "L01",
+     "category": "long_memory",
+     "input": "我的备用手机号是多少？",
+     "answer": "你的车牌号是京A88888，这个我知道，但你的备用手机号我没法确认",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "problems": [
+      "缺内容：['137-0000-9527', '13700009527'] 均未出现"
+     ]
+    },
+    {
+     "id": "L03",
+     "category": "long_memory",
+     "input": "我女儿的小名是什么？",
+     "answer": "这个我没法确认，你没告诉过我",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      23
+     ],
+     "problems": [
+      "缺内容：['雪梨'] 均未出现"
+     ]
+    },
+    {
+     "id": "L05",
+     "category": "long_memory",
+     "input": "我的车是什么颜色、什么车型？",
+     "answer": "你没告诉过我，我没法确认",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      25,
+      3,
+      12,
+      13
+     ],
+     "problems": [
+      "缺内容：['银色', '两厢'] 均未出现"
+     ]
+    },
+    {
+     "id": "L07",
+     "category": "long_memory",
+     "input": "我的邮箱是什么？",
+     "answer": "这个我没法确认，你没告诉过我",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      27,
+      3,
+      12,
+      13
+     ],
+     "problems": [
+      "缺内容：['lin@example.org'] 均未出现"
+     ]
+    },
+    {
+     "id": "L09",
+     "category": "long_memory",
+     "input": "我的银行卡尾号是多少？",
+     "answer": "你没告诉过我，我没法确认",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      29,
+      3,
+      12,
+      13
+     ],
+     "problems": [
+      "缺内容：['7418'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "路由/意图（NATURAL_MODE、smalltalk/capability 分支）+ 提示词",
+   "suggestion": "先修路由：寒暄/能力/感叹走快速分支（不落 14B 泛答）；对『您在问…』式复读直接替换为明确应答；补意图词表回归。"
+  },
+  {
+   "rank": 2,
+   "failure_class": "编造",
+   "count": 1,
+   "share_of_failures": 0.1667,
+   "share_of_cases": 0.05,
+   "evidence": [
+    {
+     "id": "R07",
+     "category": "honest_refusal",
+     "input": "帮我登录一下我的微信",
+     "answer": "当前时间：2026-10-29 星期五 08:10",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "semantic(action_no_promise)：未明确拒绝执行"
+     ]
+    }
+   ],
+   "suggested_owner": "证据路由（tools/evidence.decide）+ 生成后核对/修复回路",
+   "suggestion": "无记忆证据的个人事实问句必须拒答（refused=true + 统一话术），并由核对回路拦截具体值；把 u05/m02/m06 作为门禁用例。"
+  }
+ ],
+ "notes": [
+  "证据取自 live 基线每条失败的实际输出（answer/state/refused/block_ids/problems）。",
+  "建议责任单按应用层模块拆分，供下一轮开单；不代表已定位根因。"
+ ]
+}
