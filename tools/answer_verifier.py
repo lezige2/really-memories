@@ -20,10 +20,17 @@ API:
   * 其余 unsupported，hint 给模型重答指令（≤200 字）。
 """
 
+import os
 import re
 import unicodedata
 
 VERSION = "answer-verifier-1.0"
+VERIFIER_VERSION_ENV = "VERIFIER_VERSION"
+
+
+def verifier_version():
+    """v1（默认，逐字旧路径）/ v2（槽位唯一值校验）。"""
+    return (os.environ.get(VERIFIER_VERSION_ENV) or "v1").strip().lower()
 
 HONEST = re.compile(r"不知道|不晓得|没有|未提及|无法|不清楚|不确定|不想猜|记忆里没有|没记录|没有记录")
 THINK_TAG = re.compile(r"</?\s*(?:redacted_thinking|thinking|think|response|end_of_query|end)\b[^>]*>", re.I)
@@ -409,6 +416,8 @@ def _is_honest_refusal(answer):
 
 def verify(question, answer, blocks, mode="general"):
     """核对答案与记忆块；返回 {verdict, mismatches, hint, checked_values}。"""
+    if verifier_version() == "v2":
+        return verify_v2(question, answer, blocks, mode)
     blocks = [b for b in (blocks or []) if isinstance(b, dict)]
     ans = str(answer or "")
     values = extract_values(ans)
@@ -559,6 +568,203 @@ def strip_continuation(text):
             if all(k == keys[0] for k in keys) and len(keys[0]) >= MIN_DUP_KEY:
                 s = segs[0]
     return s.strip()
+
+
+# ---------------------------------------------------------------------------
+# v2：只在「查询槽位明确 + kept 里该槽位值唯一」时校验（v1 路径逐字不动）
+# ---------------------------------------------------------------------------
+_V2_REFUSAL = re.compile(
+    r"不知道|不清楚|不确定|没有记录|没记录|记不清|记不得|想不起来|查不到|"
+    r"没有这方面的|没这方面的|无法|没法|不能确定|未提及|没提到|没有提到|没有这")
+_V2_TIME_Q = re.compile(r"几点|什么时候|什么时间|何时|哪天")
+_V2_PLACE_Q = re.compile(r"哪|地点|在哪|哪里")
+_V2_BANK_TAIL = re.compile(r"(?:尾号|卡号|银行卡)[^0-9]{0,6}(\d{4,6})")
+_V2_TIME = re.compile(r"((?:上午|下午|晚上|中午|早上)?"
+                      r"[一二三四五六七八九十\d]{1,2}点)")
+_V2_NAME = re.compile(r"(?:名叫|名字是|名是|叫)([\u4e00-\u9fff]{2,4})")
+_V2_PLATE = re.compile(r"[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼]"
+                       r"[A-HJ-NP-Z][A-HJ-NP-Z0-9]{5}", re.I)
+_V2_EMAIL = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
+_V2_PHONE = re.compile(r"1[3-9]\d{9}")
+_V2_PLACE = re.compile(
+    r"(?:[A-Za-z]\s*座\s*\d{1,4}(?:\s*号)?|"
+    r"[A-Za-z]区\s*\d{1,4}\s*号?|"
+    r"[一二三四五六七八九十\d]{1,3}\s*楼(?:会)?|"
+    r"[一二三四五六七八九十\d]{1,3}\s*层\s*\d{1,4}\s*号?)")
+_V2_CITY = re.compile(r"北京|上海|广州|深圳|杭州|南京|成都|西安|武汉|重庆|苏州|天津|"
+                      r"长沙|郑州|山东|河南|湖南|湖北")
+_V2_COLOR = re.compile(r"(?:白|黑|蓝|红|灰|银|香槟|绿|黄|紫)色?")
+_V2_MODEL = re.compile(r"(?:两厢|三厢|SUV|MPV|轿车|越野)", re.I)
+_V2_TIME_CN = {"一": 1, "二": 2, "两": 2, "三": 3, "四": 4, "五": 5, "六": 6,
+               "七": 7, "八": 8, "九": 9, "十": 10}
+
+
+def _v2_k2():
+    try:
+        import k2_family
+        return k2_family
+    except Exception:                                # noqa: BLE001
+        return None
+
+
+def _v2_compact(text):
+    s = unicodedata.normalize("NFKC", str(text or ""))
+    s = re.sub(r"(?<=\d)[-\s－—](?=\d)", "", s)
+    s = re.sub(r"\s+", "", s)
+    return s.lower()
+
+
+def _v2_time_canon(token):
+    m = re.search(r"([一二三四五六七八九十\d]{1,2})点", token)
+    if not m:
+        return token
+    n = m.group(1)
+    if n.isdigit():
+        hour = int(n)
+    else:
+        hour = _V2_TIME_CN.get(n, 0) or 0
+    return "%d点" % hour
+
+
+def _v2_company(text):
+    t = _v2_compact(text)
+    vals = set(re.findall(r"(?:在|去|到)([\u4e00-\u9fff]{2,6})(?:上班|公司|工作|了)", t))
+    vals |= set(re.findall(r"(?:公司|单位)(?:是|在|叫)([\u4e00-\u9fff]{2,6})", t))
+    return vals
+
+
+def _v2_values(family, text, intent="value"):
+    """该族在文本里的槽位值（族内专用抽取，避免把车牌数字当卡尾号）。"""
+    t = _v2_compact(text)
+    if family == "手机":
+        return set(_V2_PHONE.findall(t))
+    if family == "车牌":
+        return {v.upper() for v in _V2_PLATE.findall(t)}
+    if family == "邮箱":
+        return {v.lower() for v in _V2_EMAIL.findall(t)}
+    if family == "银行卡":
+        return set(_V2_BANK_TAIL.findall(t))
+    if family == "工位":
+        return set(_V2_PLACE.findall(t))
+    if family == "会议":
+        if intent == "time":
+            return {_v2_time_canon(v) for v in _V2_TIME.findall(t)}
+        if intent == "place":
+            return set(_V2_PLACE.findall(t)) | set(_V2_CITY.findall(t))
+        return set()
+    if family == "出差":
+        return set(_V2_CITY.findall(t)) | set(_V2_PLACE.findall(t))
+    if family == "健身":
+        return {_v2_time_canon(v) for v in _V2_TIME.findall(t)}
+    if family == "车色":
+        return set(_V2_COLOR.findall(t))
+    if family == "车型":
+        return {v.upper() for v in _V2_MODEL.findall(t)}
+    if family in ("猫", "狗"):
+        return set(_V2_NAME.findall(t))
+    if family == "过敏":
+        return {re.sub(r"^[我你他她的对]", "", v)
+                for v in re.findall(r"([\u4e00-\u9fff]{2,4})过敏", t)}
+    if family == "老家":
+        return set(re.findall(r"(?:老家|故乡)(?:其实)?(?:在|是)([\u4e00-\u9fff]{2,4})", t))
+    if family == "公司":
+        return _v2_company(t)
+    return set()
+
+
+def _v2_same(family, a, b):
+    if family in ("手机", "银行卡"):
+        return a == b
+    if family in ("车牌", "车型", "邮箱"):
+        return a.upper() == b.upper()
+    return _v2_compact(a) == _v2_compact(b)
+
+
+def _v2_contains(family, value, text):
+    blob = _v2_compact(text)
+    v = _v2_compact(value)
+    if not v:
+        return False
+    if family in ("手机", "银行卡"):
+        return v in blob
+    if family in ("车牌",):
+        return v.upper() in blob.upper()
+    return v in blob
+
+
+def _v2_intent(family, question):
+    q = str(question or "")
+    if family == "会议":
+        if _V2_TIME_Q.search(q):
+            return "time"
+        if _V2_PLACE_Q.search(q):
+            return "place"
+        return None
+    if family == "出差":
+        return "place"
+    if family == "健身":
+        return "time" if _V2_TIME_Q.search(q) else None
+    return "value"
+
+
+def verify_v2(question, answer, blocks, mode="general"):
+    """v2 判定：查询槽位明确 + kept 中该槽位值唯一 时才校验；否则 pass。"""
+    ok = {"verdict": "pass", "mismatches": [], "hint": "",
+          "checked_values": 0, "version": "v2"}
+    k2 = _v2_k2()
+    if k2 is None:
+        return ok
+    q = str(question or "")
+    qk = k2.classify_query(q)
+    family = qk.get("family")
+    if not family:
+        return ok
+    try:
+        if not k2._predicate_clear(family, q):
+            return ok                                  # 谓词不明确
+    except Exception:                                  # noqa: BLE001
+        return ok
+    if family in ("会议", "出差") and not (k2.extract_slot(q) or {}).get("day"):
+        return ok                                      # 槽位不明确（无日期）
+    intent = _v2_intent(family, q)
+    if intent is None:
+        return ok
+    kept = []
+    for b in blocks or []:
+        if not isinstance(b, dict):
+            continue
+        text = str(b.get("text") or "")
+        if k2.classify_row(text).get("family") == family:
+            kept.append(text)
+    if not kept:
+        return ok
+    values = set()
+    for text in kept:
+        values |= _v2_values(family, text, intent)
+    if len(values) != 1:
+        return ok                                      # 无值/多值：不校验
+    value = next(iter(values))
+    ans = str(answer or "")
+    if _v2_contains(family, value, ans):
+        return dict(ok, checked_values=1)
+    ans_vals = _v2_values(family, ans, intent)
+    if ans_vals:
+        if any(_v2_same(family, v, value) for v in ans_vals):
+            return dict(ok, checked_values=1)          # 同值（含格式归一）
+        if family == "健身":
+            return dict(ok, checked_values=1)          # 日期/时刻不作错值证据
+        return {"verdict": "unsupported",
+                "mismatches": [{"claim": sorted(ans_vals)[0],
+                                "type": "wrong_slot_value",
+                                "expected_from_block": value}],
+                "hint": "记忆里的对应值是「%s」，请只依据记忆原文重答。" % value,
+                "checked_values": 1, "version": "v2"}
+    if _V2_REFUSAL.search(ans):
+        return dict(ok, checked_values=1)              # 显式拒答不算遗漏
+    return {"verdict": "unsupported",
+            "mismatches": [{"claim": value, "type": "missing_slot_value"}],
+            "hint": "记忆里有「%s」，答案没有用上，请只依据记忆原文重答。" % value,
+            "checked_values": 1, "version": "v2"}
 
 
 def main():
