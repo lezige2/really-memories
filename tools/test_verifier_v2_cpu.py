@@ -39,6 +39,41 @@ class VersionTests(unittest.TestCase):
         self.assertNotEqual(v["mismatches"][0]["type"], "wrong_slot_value")
 
 
+class NoSlotGuardTests(unittest.TestCase):
+    """B 定护栏：family=None 或槽位不明确 -> pass，且不得触发 repair。"""
+
+    def test_v9mt17_old_value_no_slot_passes(self):
+        v = run("我最爱吃什么？", "你最爱吃湘菜，这个我记得很清楚",
+                blocks("我最爱吃湘菜", "我最爱吃粤菜"))
+        self.assertEqual(v["verdict"], "pass")
+        self.assertEqual(v["checked_values"], 0)      # 未进入校验
+        self.assertEqual(v["mismatches"], [])
+
+    def test_v9mt18_old_value_no_slot_passes(self):
+        v = run("我爱吃什么？", "你最爱吃湘菜，这个我记得很清楚",
+                blocks("我最爱吃湘菜", "我最爱吃粤菜"))
+        self.assertEqual(v["verdict"], "pass")
+        self.assertEqual(v["checked_values"], 0)
+
+    def test_meeting_without_slot_wrong_answer_passes(self):
+        # 会议但无日期槽：即使答案错值也不判 fail（不许 repair）
+        v = run("在吗，我几点开会？", "你下午三点开会",
+                blocks("我每周三晚上七点有组会，地点在B座302。"))
+        self.assertEqual(v["verdict"], "pass")
+        self.assertEqual(v["checked_values"], 0)
+
+    def test_slot_wrong_value_fails(self):
+        v = run("我的银行卡尾号是多少？", "你的银行卡尾号是88888",
+                blocks("我的银行卡尾号是7418"))
+        self.assertEqual(v["verdict"], "unsupported")
+        self.assertEqual(v["mismatches"][0]["type"], "wrong_slot_value")
+
+    def test_slot_correct_value_passes(self):
+        v = run("我的银行卡尾号是多少？", "你的银行卡尾号是7418",
+                blocks("我的银行卡尾号是7418"))
+        self.assertEqual(v["verdict"], "pass")
+
+
 class L07L09Tests(unittest.TestCase):
     def test_l07_refusal_passes(self):
         v = run("我的邮箱是什么？", "你的邮箱我这里没有记录，可能记不清了",

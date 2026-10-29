@@ -727,7 +727,11 @@ def verify_v2(question, answer, blocks, mode="general"):
     if family in ("会议", "出差") and not (k2.extract_slot(q) or {}).get("day"):
         return ok                                      # 槽位不明确（无日期）
     intent = _v2_intent(family, q)
-    if intent is None:
+    # 护栏（B 定）：只有 family + 槽位都明确才允许判 fail / 触发 repair；
+    # family=None 或 slot 不明确一律 pass，绝不进入 repair 路径。
+    slot_clear = bool(family) and qk.get("predicate") is not None \
+        and intent is not None
+    if not slot_clear:
         return ok
     kept = []
     for b in blocks or []:
