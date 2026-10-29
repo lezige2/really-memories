@@ -2649,33 +2649,31 @@ class DailyApp:
             sel = None                                       # 任何异常都回退原逻辑
         if not sel:
             return self._retrieval_select_normal(text)
-        prev_cand = int(getattr(self, "_last_candidate_count", 0) or 0)
-        prev_rel = int(getattr(self, "_last_related_count", 0) or 0)
-        try:
-            base = self._retrieval_select_normal(text)
-        except Exception:                                    # noqa: BLE001
-            base = []
-            self._last_candidate_count = prev_cand
-            self._last_related_count = prev_rel
+        # fill 策略（B 定）：同族可补、跨族不补。只挂 kept + 同族非冲突块，
+        # 不再调用普通 topk 补足（V9MT05 车牌串味即跨族补足引起）。
         hit = sel[0]
-        drop = set(hit["signals"].get("hidden_ids") or [])
-        out, have = [hit], {hit["source_id"]}
-        for s in base:
-            if len(out) >= self.topk:
-                break
-            sid = s.get("source_id")
-            if sid in have or sid in drop:
+        rows = self._rows()
+        by_id = {int(r[0]): r for r in rows}
+        out = []
+        for sid in (hit["signals"].get("keep_ids") or [hit["source_id"]]):
+            try:
+                sid = int(sid)
+            except (TypeError, ValueError):
                 continue
-            have.add(sid)
-            s2 = dict(s)
-            s2["signals"] = dict(s.get("signals") or {})
-            s2["signals"]["k2_fill"] = True
-            out.append(s2)
-        # 不覆盖候选/相关计数：原逻辑刚写入的是真实候选数（stats["candidates"]），
-        # 这里若压成"族内成员数"会与 /health、校验入口径不一致（K2c 回归根因之一）。
-        # 仅当原逻辑没留下计数时才用库大小兜底，绝不把候选数压小。
-        if not int(self._last_candidate_count or 0):
-            self._last_candidate_count = len(self._rows())
+            r = by_id.get(sid)
+            if r is None:
+                continue
+            if sid == int(hit["source_id"]):
+                out.append(hit)
+            else:
+                out.append({"name": r[1], "score": 6.0, "source_id": sid,
+                            "signals": {"hits": [], "tags": [], "related": False,
+                                        "k2_family": True, "library": len(rows)}})
+        if not out:
+            return self._retrieval_select_normal(text)      # 空结果 -> 整体回退
+        # 候选计数用库大小，绝不压成族内成员数（/health 与校验入口径一致）
+        self._last_candidate_count = len(rows)
+        self._last_related_count = 0
         return out[:self.topk]
 
     def _retrieval_select_normal(self, text):

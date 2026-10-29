@@ -281,6 +281,7 @@ def resolve_family(query, rows, times=None, modes=None, today=None):
     q_owner = qk["owner"]
 
     members = []
+    spill = []          # 同族同 owner、但不是同一场（日期/时刻不同）：非冲突，可留
     for r in rows:
         c = classify_row(_row_text(r))
         if c["family"] != family:
@@ -290,6 +291,7 @@ def resolve_family(query, rows, times=None, modes=None, today=None):
         if q_owner is not None and c["owner"] != q_owner:
             continue
         if family in SLOT_FAMILIES and not _slot_ok(q_slot, c["slot"]):
+            spill.append((_row_id(r), _row_name(r), r))
             continue
         members.append((_row_id(r), _row_name(r), r, c))
 
@@ -310,6 +312,15 @@ def resolve_family(query, rows, times=None, modes=None, today=None):
         return None                      # 全过期：无 kept 可挂，交回原逻辑
     kept = live[-1]
     hidden = [m[0] for m in live[:-1]] + expired
+    # 可挂集合 = kept + 同族但不同场的块（不冲突；过期的不留）
+    slot_excluded = []
+    for sid, _name, rr in sorted(spill, key=lambda x: x[0]):
+        if sid == kept[0]:
+            continue
+        if _is_expired(family, _row_text(rr), _created_at_of(times, sid, modes),
+                       _mode_of(times, sid, modes), ref_day):
+            continue
+        slot_excluded.append(sid)
     return {"family": family,
             "owner": q_owner,
             "predicate": qk["predicate"],
@@ -320,6 +331,8 @@ def resolve_family(query, rows, times=None, modes=None, today=None):
             "kept_name": kept[1],
             "kept_row": kept[2],
             "expired_ids": expired,
+            "slot_excluded_ids": slot_excluded,
+            "keep_ids": [kept[0]] + slot_excluded,
             "hidden_ids": hidden}
 
 
@@ -368,6 +381,8 @@ def select_k2(rows, query, topk=4, times=None, modes=None, today=None):
             "members": fam["members"][:limit * 4] if limit else fam["members"],
             "hidden_ids": fam["hidden_ids"],
             "expired_ids": fam.get("expired_ids") or [],
+            "slot_excluded_ids": fam.get("slot_excluded_ids") or [],
+            "keep_ids": fam.get("keep_ids") or [fam["kept_id"]],
             "kept_id": fam["kept_id"],
             "library": len(rows),
         },

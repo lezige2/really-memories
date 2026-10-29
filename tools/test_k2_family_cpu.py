@@ -232,15 +232,12 @@ class WireTests(unittest.TestCase):
     def test_on_keeps_newest_and_filters_hidden(self):
         app = self.make_app(True)
         app._rows = lambda: ROWS_PLATE
-        app._retrieval_select_normal = lambda text: [
-            {"name": "mem-3", "score": 1.0, "source_id": 3, "signals": {}},
-            {"name": "mem-1", "score": 0.9, "source_id": 1, "signals": {}},
-        ]
+        called = []
+        app._retrieval_select_normal = lambda text: called.append(1) or []
         out = app._retrieval_select("我的车牌号是多少？")
-        self.assertEqual(out[0]["source_id"], 22)
         ids = [s["source_id"] for s in out]
-        self.assertNotIn(3, ids)                      # 同族旧块不挂
-        self.assertIn(1, ids)                         # 其它族回退补足
+        self.assertEqual(ids, [22])                   # 只挂 kept，同族旧块/跨族都不补
+        self.assertEqual(called, [])                  # 命中后不再走普通 topk
 
     def test_on_miss_uses_original_logic(self):
         app = self.make_app(True)
@@ -252,6 +249,67 @@ class WireTests(unittest.TestCase):
                                side_effect=lambda *a, **k: called.append(1) or None):
             out = app._retrieval_select("我的车牌号是多少？")
         self.assertEqual(called, [1])
+        self.assertEqual(out, base)
+
+
+class FillTests(unittest.TestCase):
+    """B 定 fill 策略：同族可补、跨族不补；空结果回退。"""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.mkdtemp(prefix="k2_fill_")
+        cls.model = os.path.join(cls.tmp, "model.stub")
+        D.install_fake_model(cls.model)
+
+    def make_app(self):
+        return D.DailyApp(
+            D.StubEngine(), db_path=os.path.join(self.tmp, "daily.db"),
+            blocks_dir=os.path.join(self.tmp, "blocks"),
+            sessions_dir=os.path.join(self.tmp, "sessions"),
+            model_path=self.model, restore=False, retrieval_mode="topk",
+            topk=4, k2_family=True, logger=False)
+
+    def test_v9mt05_phone_query_does_not_mount_plates(self):
+        # V9MT05 式：手机题只挂手机 kept，车牌不得跨族补进来
+        rows = [row(21, "p21", "我的手机号是136-1111-3333"),
+                row(22, "p22", "我的手机号是158-0000-2468"),
+                row(3, "plate3", "我叫阿泽，我的车牌号是京A88888。"),
+                row(12, "plate12", "我的车牌号是京A88888。")]
+        app = self.make_app()
+        app._rows = lambda: rows
+        app._retrieval_select_normal = lambda text: [
+            {"name": "plate3", "score": 1.0, "source_id": 3, "signals": {}}]
+        out = app._retrieval_select("我的手机号是多少？")
+        self.assertEqual([s["source_id"] for s in out], [22])
+        self.assertNotIn(3, [s["source_id"] for s in out])
+        self.assertNotIn(12, [s["source_id"] for s in out])
+
+    def test_meeting_keeps_same_family_supplementary(self):
+        # 会议+待办：同族但不同场（#1/#2 19:00）可留；同场旧值 #21 隐
+        rows = [row(1, "m1", "我每周三晚上七点有组会，地点在B座302；本周待办是交周报。"),
+                row(2, "m2", "我每周三晚上七点有组会，地点B座302。"),
+                row(21, "old", "周三的会在三楼洽谈室"),
+                row(22, "new", "换到五楼大会议室")]
+        app = self.make_app()
+        app._rows = lambda: rows
+        app._retrieval_select_normal = lambda text: []
+        out = app._retrieval_select("周三的会在哪里开？")
+        self.assertEqual([s["source_id"] for s in out], [22, 1, 2])
+        self.assertNotIn(21, [s["source_id"] for s in out])
+
+    def test_two_cars_other_owner_not_hidden(self):
+        rows = [row(21, "t", "我的特斯拉是蓝色"),
+                row(22, "b", "我的比亚迪是黑色")]
+        fam = K.resolve_family("我的特斯拉是什么颜色？", rows)
+        self.assertEqual(fam["kept_id"], 21)
+        self.assertEqual(fam["hidden_ids"], [])       # 不同主体不互隐
+
+    def test_no_family_falls_back(self):
+        app = self.make_app()
+        base = [{"name": "x", "score": 1.0, "source_id": 1, "signals": {}}]
+        app._rows = lambda: [row(1, "x", "随便一条记忆")]
+        app._retrieval_select_normal = lambda text: base
+        out = app._retrieval_select("我叫什么名字？")
         self.assertEqual(out, base)
 
 
@@ -272,19 +330,15 @@ class CounterTests(unittest.TestCase):
             model_path=self.model, restore=False, retrieval_mode="topk",
             topk=4, k2_family=True, logger=False)
 
-    def test_hit_preserves_normal_path_counters(self):
+    def test_hit_counters_use_library_size(self):
         app = self.make_app()
         app._rows = lambda: ROWS_PLATE
-
-        def fake_normal(text):
-            app._last_candidate_count = 99        # 原逻辑的真实候选数
-            app._last_related_count = 2
-            return [{"name": "x", "score": 1.0, "source_id": 1, "signals": {}}]
-
-        app._retrieval_select_normal = fake_normal
+        called = []
+        app._retrieval_select_normal = lambda text: called.append(1) or []
         app._retrieval_select("我的车牌号是多少？")
-        self.assertEqual(app._last_candidate_count, 99)   # 不压成族内成员数
-        self.assertEqual(app._last_related_count, 2)
+        self.assertEqual(called, [])                       # K2 分支不调普通 topk
+        self.assertEqual(app._last_candidate_count, len(ROWS_PLATE))
+        self.assertEqual(app._last_related_count, 0)
 
     def test_hit_never_shrinks_to_member_count(self):
         app = self.make_app()
@@ -293,16 +347,8 @@ class CounterTests(unittest.TestCase):
                 row(14, "cat", "我养的猫叫豆豆"),
                 row(15, "dog", "我养的狗叫大黄")]
         app._rows = lambda: rows
-        base = [{"name": "p12", "score": 1.0, "source_id": 12, "signals": {}}]
-
-        def fake_normal(text):
-            app._last_candidate_count = 0          # 原逻辑没留计数
-            app._last_related_count = 0
-            return base
-
-        app._retrieval_select_normal = fake_normal
         app._retrieval_select("我的车牌号是多少？")
-        self.assertEqual(app._last_candidate_count, len(rows))   # 用库大小兜底
+        self.assertEqual(app._last_candidate_count, len(rows))   # 用库大小
         self.assertGreater(app._last_candidate_count, 2)         # 不是族内成员数
 
     def test_chat_daily_passes_times_map(self):
