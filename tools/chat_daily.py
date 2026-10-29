@@ -1307,13 +1307,14 @@ class DailyApp:
         except Exception:                            # noqa: BLE001
             return ""
 
-    def _chat_prompt(self, system, user, hint=""):
+    def _chat_prompt(self, system, user, hint="", now=True):
         """按模型类型拼 prompt：Qwen2.5 用 ChatML；其它保持原有“用户/回答”格式。
 
         关键：system/policy 只在会话开头写一次——每轮重复会把政策堆进 KV，
         模型几轮后开始复述政策（训练集里第 9–11 轮出现的“背政策”就是这原因）。
+        now=False 时不注入当前时间（repair 用，保证只含 query/answer）。
         """
-        tl = self._now_line()
+        tl = self._now_line() if now else ""
         if not getattr(self, "_policy_sent", False):
             if tl:
                 system = tl + "\n" + system
@@ -1329,13 +1330,26 @@ class DailyApp:
         return head + "\n用户：" + body + "\n回答："
 
     def _repair_prompt(self, text, answer, blocks):
-        return self._chat_prompt(
-            SYSTEM_POLICY,
-            "只能使用以下记忆原文，逐条核对；不确定就说不知道。\n记忆原文：\n"
-            + "\n".join(self._block_text(b) for b in blocks)
-            + "\n你上一版回答：\n" + str(answer)
-            + "\n问题：\n" + str(text)
-            + "\n请重答（只输出一行）：")
+        """中性 repair：只带原 query + 模型自己的答案（不含 KV 文本/期望值/hint）。
+
+        允许的输出只有三类：不确定/拒答、中性重问（如“能再说一次吗”）、
+        直接重述自己记得的内容；数据只能来自 KV，不从 prompt 里塞。
+        """
+        self._last_repair_prompt_meta = {
+            "version": "neutral-v1",
+            "sources": ["query", "answer"],
+            "contains_kv_text": False,
+            "contains_hint": False,
+            "contains_expected_value": False,
+            "blocks_included": 0,
+            "with_time": False,
+        }
+        user = ("上一次回答可能不够准确。请只依据你自己的记忆重新回答；"
+                "如果记不清就直接说不知道，或者请用户再说一次。\n"
+                "你上一版回答：\n" + str(answer)
+                + "\n问题：\n" + str(text)
+                + "\n请只输出一行：")
+        return self._chat_prompt(SYSTEM_POLICY, user, now=False)
 
     def _verify_event(self, code, **evidence):
         if not self.logger:
@@ -1399,11 +1413,14 @@ class DailyApp:
                                reason="budget_before_repair")
             return _verify_strip(VERIFY_FALLBACK_SENTENCE, av), info
         info["attempts"] = 1
+        prompt = self._repair_prompt(text, answer, blocks)
+        info["repair_prompt"] = dict(getattr(self, "_last_repair_prompt_meta", {}) or {})
+        info["repair_prompt"]["chars"] = len(prompt)
         self._verify_event("verify_repair", mode=mode, verdict="unsupported",
                            mismatches=len(v1.get("mismatches") or []),
-                           attempts=1)
+                           attempts=1, prompt=info["repair_prompt"])
         try:
-            repaired = repair_generate(self._repair_prompt(text, answer, blocks))
+            repaired = repair_generate(prompt)
         except Exception as exc:                     # noqa: BLE001
             repaired = None
             info["repair_error"] = "%s: %s" % (type(exc).__name__, exc)
