@@ -18,8 +18,24 @@
 
 - 每条 = 旧事实 + 新事实 + 问句；**期望只含新值**，`not_contains` 旧值；值池与训练集/现有 20 块库**不重叠**（构建时断言）。
 - 覆盖：猫名、狗名、车牌、手机号、工位、公司、老家、车（颜色/车型）、邮箱、过敏、健身时间、出差地、银行卡尾号、会议地点/时间，每族 ≥2 条；含"同族不同主体"（两辆车/两个手机号）**阴性对照** ≥6 条，期望两个都保留、不得误隐藏。
-- 夹具文件 `out/KV-CONFLICT-40.jsonl`（或实际名）**先 commit**，记 `sha256`、行数、值池断言结果；**base 在夹具上重测 5 次**，作为唯一对照基线（**不得引用旧 13/20**）。
+- 夹具文件 `out/KV-CONFLICT-40.jsonl`（**已建，2026-10-29 16:4x**）：**42 条**（30 正例 + 12 负例），sha256 `ff4e9afa84880b256a56963138762f3e4e2754b736f112c3936eb61226d53af1`；构建器 `out/kvconf_build.py`；事实句/唯一标识与 train_v8/v9/v10 及 20 块库 **0 重叠**（构建断言）。**先 commit**。
 - 现有 20 块库**不修改**；K2 一律检索期生效，**不迁移 chat.db、不写 superseded 字段**。
+
+---
+
+## 2.1 BASE 跑法（预登记命令，逐字执行）
+
+```
+python -X utf8 tools/chat_service.py --port 8765 --model D:\models\Qwen2.5-14B-Instruct-Q4_K_M.gguf --db kvmem\daily\chat.db --blocks kvmem\daily\blocks --sessions kvmem\daily\sessions --session kvc.json --n-ctx 32768 --chat-start 8192 --n-gpu-layers 28 --retrieval topk --topk 4
+# 或 start_service_kvc.cmd（同上，显式 --model）
+
+python -X utf8 training/run_training_eval.py --cases out/KV-CONFLICT-40.jsonl \
+  --out out/KVC-BASE-r<N>.json --next out/KVC-BASE-r<N>-NEXT.json \
+  --expect-memories 20 --reset-per-case --forget-created-per-case --hermetic --timeout 90
+```
+
+- 每次跑前 `/health` 断言：`model_path` 以 `Qwen2.5-14B-Instruct-Q4_K_M.gguf` 结尾、`model_size=8988110976`、`memories=20`；不通过即停。
+- 5 次独立运行（r1..r5），每次单独输出文件；不得复用 `--resume`。
 
 ---
 
