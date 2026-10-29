@@ -1,7 +1,7 @@
 {
  "schema": "training_eval_v1",
  "role": "T11 训练+测试闭环：真实对话用例集回归（2026-10-27）",
- "generated_at": "2026-10-29T14:29:22+0800",
+ "generated_at": "2026-10-29T14:31:07+0800",
  "mode": "live",
  "partial": true,
  "endpoint": "http://127.0.0.1:8765",
@@ -179,7 +179,7 @@
    "got_memories": 20,
    "ok": true
   },
-  "elapsed_s": 235.33
+  "elapsed_s": 340.663
  },
  "hermetic": {
   "enabled": true,
@@ -194,17 +194,17 @@
  },
  "summary": {
   "scope": "live",
-  "n": 7,
-  "n_valid": 7,
+  "n": 9,
+  "n_valid": 9,
   "n_infra": 0,
-  "pass": 7,
+  "pass": 9,
   "fail": 0,
   "pass_rate": 1.0,
   "pass_rate_including_infra": 1.0,
   "by_category": {
    "long_memory": {
-    "n": 7,
-    "pass": 7,
+    "n": 9,
+    "pass": 9,
     "pass_rate": 1.0
    }
   },
@@ -220,17 +220,17 @@
  },
  "live": {
   "scope": "live",
-  "n": 7,
-  "n_valid": 7,
+  "n": 9,
+  "n_valid": 9,
   "n_infra": 0,
-  "pass": 7,
+  "pass": 9,
   "fail": 0,
   "pass_rate": 1.0,
   "pass_rate_including_infra": 1.0,
   "by_category": {
    "long_memory": {
-    "n": 7,
-    "pass": 7,
+    "n": 9,
+    "pass": 9,
     "pass_rate": 1.0
    }
   },
@@ -1222,6 +1222,285 @@
     "cleanup_skipped": true,
     "created_ids": [
      27
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "L08",
+   "category": "long_memory",
+   "input": "我老家在哪里？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我老家在洛阳"
+    },
+    {
+     "action": "ask",
+     "text": "在吗"
+    },
+    {
+     "action": "ask",
+     "text": "谢谢"
+    },
+    {
+     "action": "ask",
+     "text": "今天过得怎么样"
+    },
+    {
+     "action": "ask",
+     "text": "随便聊聊吧"
+    },
+    {
+     "action": "ask",
+     "text": "讲个短句"
+    },
+    {
+     "action": "ask",
+     "text": "继续"
+    },
+    {
+     "action": "ask",
+     "text": "嗯嗯"
+    },
+    {
+     "action": "ask",
+     "text": "好的"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "洛阳"
+    ],
+    "refusal": false
+   },
+   "note": "[v2] 长对话/记忆召回 10 条之一：remember + 8 轮闲聊后召回｜去污染：remember 事实已替换为训练集零出现保留值（旧值→新值对照见 out/SFT-CONTAMINATION-EXCLUDE-v2.json 的 fact_level_replacement）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你老家在洛阳",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     28
+    ],
+    "latency_client_s": 10.389,
+    "latency_server_s": 10.3753,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 28,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 27,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     28
+    ],
+    "memory_delta": 1
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "L09",
+   "category": "long_memory",
+   "input": "我的银行卡尾号是多少？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的银行卡尾号是 7418"
+    },
+    {
+     "action": "ask",
+     "text": "在吗"
+    },
+    {
+     "action": "ask",
+     "text": "谢谢"
+    },
+    {
+     "action": "ask",
+     "text": "今天过得怎么样"
+    },
+    {
+     "action": "ask",
+     "text": "随便聊聊吧"
+    },
+    {
+     "action": "ask",
+     "text": "讲个短句"
+    },
+    {
+     "action": "ask",
+     "text": "继续"
+    },
+    {
+     "action": "ask",
+     "text": "嗯嗯"
+    },
+    {
+     "action": "ask",
+     "text": "好的"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "7418"
+    ],
+    "refusal": false
+   },
+   "note": "[v2] 长对话/记忆召回 10 条之一：remember + 8 轮闲聊后召回｜去污染：remember 事实已替换为训练集零出现保留值（旧值→新值对照见 out/SFT-CONTAMINATION-EXCLUDE-v2.json 的 fact_level_replacement）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的银行卡尾号是7418",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     29,
+     3,
+     12,
+     13
+    ],
+    "latency_client_s": 15.432,
+    "latency_server_s": 15.4178,
+    "state_class": "memory_hit",
+    "memory_delta": 1,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 29,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [],
+    "memory_before": 28,
+    "infra_error": false,
+    "cleanup_skipped": true,
+    "created_ids": [
+     29
     ],
     "memory_delta": 1
    },
