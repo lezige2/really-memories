@@ -1,0 +1,617 @@
+{
+ "schema": "sft_data_gate_v2",
+ "task": "TASK-092",
+ "input": "out/autonomy600_v3/dev.jsonl",
+ "summary": {
+  "rows": 72,
+  "multi_turn_rows": 0,
+  "known_fp_rules": [
+   "G2",
+   "G3",
+   "G5",
+   "G8"
+  ],
+  "known_fp_counts": {
+   "G1": 0,
+   "G2": 28,
+   "G3": 0,
+   "G4": 0,
+   "G5": 0,
+   "G6": 0,
+   "G7": 0,
+   "G8": 28,
+   "G9": 0,
+   "G10": 0,
+   "G11": 0,
+   "G12": 0,
+   "G13": 0
+  },
+  "real_fail_rows": 0,
+  "known_fp_rows": 28,
+  "pass_rows_real": 72,
+  "pass_rate_real": 1.0,
+  "fail_rows": 0,
+  "pass_rows": 72,
+  "pass_rate": 1.0,
+  "category_counts": {
+   "A": 12,
+   "unknown": 48,
+   "C": 12
+  },
+  "policy_sha16": "92e92217a74eb81e",
+  "min_len": 8,
+  "max_len": 60,
+  "safe_rules_zero": {
+   "G1": true,
+   "G4": true,
+   "G6": true,
+   "G7": true,
+   "G11": true,
+   "G12": true,
+   "G13": true
+  },
+  "rules": {
+   "G1": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G2": {
+    "n": 28,
+    "ok": false,
+    "sample": [
+     {
+      "line": 12,
+      "rule": "G2",
+      "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+      "known_fp": true,
+      "user": "（叹了口气）",
+      "assistant": "<SILENCE>"
+     },
+     {
+      "line": 13,
+      "rule": "G2",
+      "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+      "known_fp": true,
+      "user": "想起来就难受",
+      "assistant": "<SILENCE>"
+     },
+     {
+      "line": 14,
+      "rule": "G2",
+      "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+      "known_fp": true,
+      "user": "emmm",
+      "assistant": "<SILENCE>"
+     }
+    ]
+   },
+   "G3": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G4": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G5": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G6": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G7": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G8": {
+    "n": 29,
+    "ok": false,
+    "sample": [
+     {
+      "line": 12,
+      "rule": "G8",
+      "known_fp": true,
+      "evidence": "assistant 归一化后出现 28 次（>3）"
+     },
+     {
+      "line": 13,
+      "rule": "G8",
+      "known_fp": true,
+      "evidence": "assistant 归一化后出现 28 次（>3）"
+     },
+     {
+      "line": 14,
+      "rule": "G8",
+      "known_fp": true,
+      "evidence": "assistant 归一化后出现 28 次（>3）"
+     }
+    ]
+   },
+   "G9": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G10": {
+    "n": 4,
+    "ok": false,
+    "sample": [
+     {
+      "line": 0,
+      "rule": "G10",
+      "evidence": "A 类 12 条 < 配额 100"
+     },
+     {
+      "line": 0,
+      "rule": "G10",
+      "evidence": "B 类 0 条 < 配额 80"
+     },
+     {
+      "line": 0,
+      "rule": "G10",
+      "evidence": "C 类 12 条 < 配额 60"
+     }
+    ]
+   },
+   "G11": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G12": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G13": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   }
+  }
+ },
+ "input_sha256_16": "b34707b0e47afa64",
+ "violations": {
+  "G1": [],
+  "G2": [
+   {
+    "line": 12,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "（叹了口气）",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 13,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "想起来就难受",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 14,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "emmm",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 15,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "有点喘不上气",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 16,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "啥也不想干",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 17,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "楼下开了家修鞋的",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 18,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "（盯着屏幕发呆）",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 30,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "今天食堂的番茄炒蛋还行",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 31,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "刚把沙发挪了位置",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 32,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "刚把水杯洗了",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 33,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "地铁上人特别多",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 34,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "头发剪短了点",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 35,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "刚把窗帘洗了",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 36,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "电脑突然黑屏了",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 48,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "（叹了口气）",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 49,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "在等电梯",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 50,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "emmm",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 51,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "跟朋友闹掰了",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 52,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "我换了新的床单",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 53,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "啥也不想干",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 54,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "（盯着屏幕发呆）",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 66,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "先不聊了，我在忙",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 67,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "今天食堂的番茄炒蛋还行",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 68,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "刚躺下",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 69,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "地铁上人特别多",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 70,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "头发剪短了点",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 71,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "公交改线了",
+    "assistant": "<SILENCE>"
+   },
+   {
+    "line": 72,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'<SILENCE>'",
+    "known_fp": true,
+    "user": "电脑突然黑屏了",
+    "assistant": "<SILENCE>"
+   }
+  ],
+  "G3": [],
+  "G4": [],
+  "G5": [],
+  "G6": [],
+  "G7": [],
+  "G8": [
+   {
+    "line": 12,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 13,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 14,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 15,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 16,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 17,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 18,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 30,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 31,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 32,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 33,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 34,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 35,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 36,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 48,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 49,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 50,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 51,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 52,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 53,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 54,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 66,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 67,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 68,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 69,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 70,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 71,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 72,
+    "rule": "G8",
+    "known_fp": true,
+    "evidence": "assistant 归一化后出现 28 次（>3）"
+   },
+   {
+    "line": 0,
+    "rule": "G8",
+    "evidence": "同一 user 仅 1 种答案：48 个 user（提示加答案多样性）"
+   }
+  ],
+  "G9": [],
+  "G10": [
+   {
+    "line": 0,
+    "rule": "G10",
+    "evidence": "A 类 12 条 < 配额 100"
+   },
+   {
+    "line": 0,
+    "rule": "G10",
+    "evidence": "B 类 0 条 < 配额 80"
+   },
+   {
+    "line": 0,
+    "rule": "G10",
+    "evidence": "C 类 12 条 < 配额 60"
+   },
+   {
+    "line": 0,
+    "rule": "G10",
+    "evidence": "D 类 0 条 < 配额 60"
+   }
+  ],
+  "G11": [],
+  "G12": [],
+  "G13": []
+ }
+}

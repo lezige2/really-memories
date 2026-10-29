@@ -1,0 +1,721 @@
+{
+ "dev": [
+  {
+   "pred": "读到一半，节奏慢但好看",
+   "gold": "《雾中灯塔》这名字好，有味道",
+   "should_trigger": true
+  },
+  {
+   "pred": "这个书名听着挺文艺的",
+   "gold": "慢节奏的书，静下心读最好",
+   "should_trigger": true
+  },
+  {
+   "pred": "读到一半，节奏慢但好看，是吧？",
+   "gold": "读到一半最容易停，别断太久才好",
+   "should_trigger": true
+  },
+  {
+   "pred": "读不下去就先放一放，别逼自己。",
+   "gold": "是节奏太慢，还是这几天太累？",
+   "should_trigger": true
+  },
+  {
+   "pred": "走神是正常的，别太着急。",
+   "gold": "读到哪一章了，要不要先跳过去？",
+   "should_trigger": true
+  },
+  {
+   "pred": "读不下去就先放一放，别逼自己。",
+   "gold": "要不换本短的垫一垫？",
+   "should_trigger": true
+  },
+  {
+   "pred": "《雾中灯塔》，你说过好看。",
+   "gold": "《雾中灯塔》，读到一半。",
+   "should_trigger": true
+  },
+  {
+   "pred": "《雾中灯塔》，你说过好看。",
+   "gold": "雾中灯塔，你说节奏慢但好看。",
+   "should_trigger": true
+  },
+  {
+   "pred": "《雾中灯塔》，你说过好看。",
+   "gold": "《雾中灯塔》，你读到一半那本。",
+   "should_trigger": true
+  },
+  {
+   "pred": "八点半了，《雾中灯塔》还停在那一页？",
+   "gold": "八点半了，雾中灯塔那本今天翻了吗？",
+   "should_trigger": true
+  },
+  {
+   "pred": "这个点还早，要不要继续读《雾中灯塔》？",
+   "gold": "九点半了，雾中灯塔那本今天翻了吗？",
+   "should_trigger": true
+  },
+  {
+   "pred": "这个点还醒着，明天别起太早。",
+   "gold": "叹口气也好，缓缓。",
+   "should_trigger": false
+  },
+  {
+   "pred": "难受就别硬撑，歇一会儿。",
+   "gold": "难受就难受一会儿，不用硬压。",
+   "should_trigger": false
+  },
+  {
+   "pred": "嗯，我在呢，你说。",
+   "gold": "嗯，你慢慢想，不急。",
+   "should_trigger": false
+  },
+  {
+   "pred": "先别急，深呼吸几下。",
+   "gold": "那先坐下，把呼吸放慢点。",
+   "should_trigger": false
+  },
+  {
+   "pred": "不想干就别硬来，歇会儿。",
+   "gold": "那就什么都不干，躺一会儿。",
+   "should_trigger": false
+  },
+  {
+   "pred": "行，明天去试试，别拖太久。",
+   "gold": "修鞋的现在不好找，留个位置。",
+   "should_trigger": false
+  },
+  {
+   "pred": "九点半了，《雾中灯塔》那本看完没？",
+   "gold": "发会儿呆也行，别太久。",
+   "should_trigger": false
+  },
+  {
+   "pred": "好，练口琴挺好的",
+   "gold": "口琴入门快，吹好难",
+   "should_trigger": true
+  },
+  {
+   "pred": "行，口琴这活儿，得慢慢来",
+   "gold": "《送别》那曲子好，适合口琴",
+   "should_trigger": true
+  },
+  {
+   "pred": "《送别》好听，吹起来也舒缓",
+   "gold": "从冬天练到现在，坚持得挺好",
+   "should_trigger": true
+  },
+  {
+   "pred": "慢慢来，别急，多练练",
+   "gold": "是气息不稳，还是换孔跟不上？",
+   "should_trigger": true
+  },
+  {
+   "pred": "那就先放一放，别逼自己。",
+   "gold": "每天练多久，是不是断了几天？",
+   "should_trigger": true
+  },
+  {
+   "pred": "慢慢来，别急，多练练",
+   "gold": "《送别》现在能整首吹完吗？",
+   "should_trigger": true
+  },
+  {
+   "pred": "口琴，去年冬天开始的。",
+   "gold": "口琴，《送别》最顺。",
+   "should_trigger": true
+  },
+  {
+   "pred": "《送别》，你说过吹这个最顺。",
+   "gold": "练口琴，去年冬天开始的。",
+   "should_trigger": true
+  },
+  {
+   "pred": "口琴，去年冬天开始的。",
+   "gold": "口琴，你说《送别》吹得最顺。",
+   "should_trigger": true
+  },
+  {
+   "pred": "快九点了，《送别》那句换孔还卡不卡？",
+   "gold": "快九点了，练口琴的时间到了吧？",
+   "should_trigger": true
+  },
+  {
+   "pred": "这个点，口琴吹完再睡也行。",
+   "gold": "九点多了，练口琴的时间到了吧？",
+   "should_trigger": true
+  },
+  {
+   "pred": "还行就行，别挑食",
+   "gold": "番茄炒蛋听着就下饭。",
+   "should_trigger": false
+  },
+  {
+   "pred": "挪完舒服点，歇会儿再干别的。",
+   "gold": "挪完看着宽敞多了吧。",
+   "should_trigger": false
+  },
+  {
+   "pred": "洗完就放好，别随手一扔。",
+   "gold": "洗干净的杯子喝水都顺。",
+   "should_trigger": false
+  },
+  {
+   "pred": "挤着也挺好，能站稳就行。",
+   "gold": "早高峰都这样，站稳点。",
+   "should_trigger": false
+  },
+  {
+   "pred": "短了清爽，挺好",
+   "gold": "短点清爽，挺好。",
+   "should_trigger": false
+  },
+  {
+   "pred": "行，这个点洗完正好，晾着也快干。",
+   "gold": "洗完挂上，屋里都亮。",
+   "should_trigger": false
+  },
+  {
+   "pred": "先别急，按下电源键试试。",
+   "gold": "先看看电源，别急着拆。",
+   "should_trigger": false
+  },
+  {
+   "pred": "老聂比你早来两年，是吧？",
+   "gold": "测试这活儿不好干，最容易被催",
+   "should_trigger": true
+  },
+  {
+   "pred": "行，老聂是做测试的，我记着",
+   "gold": "早来两年，流程他熟，好办事",
+   "should_trigger": true
+  },
+  {
+   "pred": "老聂是你们部门的吧，他负责测试？",
+   "gold": "老聂这称呼好，听着就像老同事",
+   "should_trigger": true
+  },
+  {
+   "pred": "他那点事，你别往心里去",
+   "gold": "是排期的事，还是测试卡住了？",
+   "should_trigger": true
+  },
+  {
+   "pred": "分歧就分歧，别憋着，说出来。",
+   "gold": "他抱怨的是流程还是人手？",
+   "should_trigger": true
+  },
+  {
+   "pred": "他那点事，你别往心里去",
+   "gold": "分歧在哪儿，需求范围吗？",
+   "should_trigger": true
+  },
+  {
+   "pred": "老聂负责测试，比你早来两年。",
+   "gold": "老聂，做测试的同事。",
+   "should_trigger": true
+  },
+  {
+   "pred": "老聂是你们那的测试员，比你早来两年。",
+   "gold": "老聂，负责测试，比你早来两年。",
+   "should_trigger": true
+  },
+  {
+   "pred": "老聂负责测试，比你早来两年。",
+   "gold": "测试那位就是老聂。",
+   "should_trigger": true
+  },
+  {
+   "pred": "快九点了，老聂那轮测试还差人吗？",
+   "gold": "快九点了，老聂那边的测试结果出来没？",
+   "should_trigger": true
+  },
+  {
+   "pred": "翻来翻去也翻不出个结果，先歇会儿。",
+   "gold": "九点半了，老聂那边的测试结果出来没？",
+   "should_trigger": true
+  },
+  {
+   "pred": "这个点还早，别急着想事。",
+   "gold": "长长出口气，松一松。",
+   "should_trigger": false
+  },
+  {
+   "pred": "等电梯的时候，别急，慢慢来。",
+   "gold": "等着吧，别急那几十秒。",
+   "should_trigger": false
+  },
+  {
+   "pred": "嗯，你说吧。",
+   "gold": "不急，想清楚了再说。",
+   "should_trigger": false
+  },
+  {
+   "pred": "别往心里去，过两天就好了。",
+   "gold": "先冷一冷，谁对谁错不急着分。",
+   "should_trigger": false
+  },
+  {
+   "pred": "换完就好，睡着舒服点。",
+   "gold": "换了床单，睡着都舒服。",
+   "should_trigger": false
+  },
+  {
+   "pred": "不想干就别硬上，歇会儿再想。",
+   "gold": "不想干就歇着，别勉强。",
+   "should_trigger": false
+  },
+  {
+   "pred": "十点多了，该喝杯水了。",
+   "gold": "眼睛歇一下，别一直盯着。",
+   "should_trigger": false
+  },
+  {
+   "pred": "行，这个点我记得。",
+   "gold": "十一月十七，离年底不远，好记",
+   "should_trigger": true
+  },
+  {
+   "pred": "行，那天你记得吃点好的",
+   "gold": "不过生日也挺好，吃碗面实在",
+   "should_trigger": true
+  },
+  {
+   "pred": "不过也行，过生日不重要",
+   "gold": "生日吃面，这习惯挺好",
+   "should_trigger": true
+  },
+  {
+   "pred": "快到那几天了，别忘了",
+   "gold": "想安静吃碗面，还是叫几个人？",
+   "should_trigger": true
+  },
+  {
+   "pred": "那就别过，不想过就不过。",
+   "gold": "那天要不要调半天休？",
+   "should_trigger": true
+  },
+  {
+   "pred": "快到十一月十七，是吧？",
+   "gold": "要不要提前订个位置？",
+   "should_trigger": true
+  },
+  {
+   "pred": "十一月十七，你那年说的。",
+   "gold": "十一月十七，就那天。",
+   "should_trigger": true
+  },
+  {
+   "pred": "十一月十七，你那年说的。",
+   "gold": "十一月十七，你一般不过。",
+   "should_trigger": true
+  },
+  {
+   "pred": "十一月十七，你那年说的。",
+   "gold": "十一月十七，最多吃碗面。",
+   "should_trigger": true
+  },
+  {
+   "pred": "快九点了，今天是八号，离你生日还有九天。",
+   "gold": "快九点了，你生日十一月十七，别忘了。",
+   "should_trigger": true
+  },
+  {
+   "pred": "这个点该休息了，明天还有事。",
+   "gold": "快十点了，你生日十一月十七，别忘了。",
+   "should_trigger": true
+  },
+  {
+   "pred": "行，忙完再说，我在这儿。",
+   "gold": "行，你忙，忙完再说。",
+   "should_trigger": false
+  },
+  {
+   "pred": "还行就行，别挑食",
+   "gold": "那菜下饭，难怪你满意。",
+   "should_trigger": false
+  },
+  {
+   "pred": "躺下就好，别想太多。",
+   "gold": "躺下就别刷了，早点睡。",
+   "should_trigger": false
+  },
+  {
+   "pred": "挤着也挺好，热闹。",
+   "gold": "人多就扶好，别挤着。",
+   "should_trigger": false
+  },
+  {
+   "pred": "短了是清爽，还是有点不习惯？",
+   "gold": "短发好打理，省事。",
+   "should_trigger": false
+  },
+  {
+   "pred": "改线后是往哪边走？",
+   "gold": "那得早出门个十分钟。",
+   "should_trigger": false
+  },
+  {
+   "pred": "先别急，关机重启试试。",
+   "gold": "先按两下开机键，看能不能亮。",
+   "should_trigger": false
+  }
+ ],
+ "test": [
+  {
+   "pred": "手动挡，前年买的，离合有点高",
+   "gold": "灰绿色挺少见，好看又耐看",
+   "should_trigger": true
+  },
+  {
+   "pred": "手动挡，前年买的",
+   "gold": "两厢好停，城里方便",
+   "should_trigger": true
+  },
+  {
+   "pred": "手动挡好，练脚力，省油",
+   "gold": "手动挡开熟了，比自动的好玩",
+   "should_trigger": true
+  },
+  {
+   "pred": "灰绿色那辆，手动挡，前年买的？",
+   "gold": "异响是刹车还是过坎的时候？",
+   "should_trigger": true
+  },
+  {
+   "pred": "手动挡的车，离合器要多注意",
+   "gold": "多久没保养了，里程到没到？",
+   "should_trigger": true
+  },
+  {
+   "pred": "灰绿色那辆，手动挡，前年买的？",
+   "gold": "要不要先去店里听一下？",
+   "should_trigger": true
+  },
+  {
+   "pred": "灰绿色的两厢车，手动挡。",
+   "gold": "灰绿色的两厢车，手动挡。",
+   "should_trigger": true
+  },
+  {
+   "pred": "灰绿色，两厢车。",
+   "gold": "灰绿色，两厢，手动挡。",
+   "should_trigger": true
+  },
+  {
+   "pred": "灰绿色的两厢车，手动挡。",
+   "gold": "灰绿色两厢，前年买的。",
+   "should_trigger": true
+  },
+  {
+   "pred": "八点多了，这会儿该去接孩子了。",
+   "gold": "八点多了，灰绿色那台该保养了吧？",
+   "should_trigger": true
+  },
+  {
+   "pred": "这个点，车停外面也行，别怕。",
+   "gold": "九点半了，灰绿色那台该保养了吧？",
+   "should_trigger": true
+  },
+  {
+   "pred": "九点半了，今天早起？",
+   "gold": "我先不打扰你，有事喊我。",
+   "should_trigger": false
+  },
+  {
+   "pred": "这个点，外面天黑了，开车注意安全。",
+   "gold": "暗点好，眼睛也歇歇。",
+   "should_trigger": false
+  },
+  {
+   "pred": "哈哈，今天天气不错。",
+   "gold": "笑什么呢，说来听听。",
+   "should_trigger": false
+  },
+  {
+   "pred": "出门记得带钥匙，别锁了自己",
+   "gold": "那先收拾，别卡着点走。",
+   "should_trigger": false
+  },
+  {
+   "pred": "那就先别开车了，免得又熄火。",
+   "gold": "装修最磨人，忍两天。",
+   "should_trigger": false
+  },
+  {
+   "pred": "搬走也好，安静点。",
+   "gold": "搬走就清净了，也挺好。",
+   "should_trigger": false
+  },
+  {
+   "pred": "快充插上，别耗着。",
+   "gold": "先充上，别等关机。",
+   "should_trigger": false
+  },
+  {
+   "pred": "港片经典，值得反复回味",
+   "gold": "老港片那劲儿好，现在拍不出来",
+   "should_trigger": true
+  },
+  {
+   "pred": "老港片是经典，值得反复回味",
+   "gold": "翻来覆去看，那才是真好",
+   "should_trigger": true
+  },
+  {
+   "pred": "行，那咱们聊聊港片，别聊别的",
+   "gold": "台词都能背，那是真好这口",
+   "should_trigger": true
+  },
+  {
+   "pred": "是老港片还是新片？",
+   "gold": "看的是哪部，还是那几部老的？",
+   "should_trigger": true
+  },
+  {
+   "pred": "那就先别急着找，慢慢来。",
+   "gold": "是想找新的，还是干脆重看？",
+   "should_trigger": true
+  },
+  {
+   "pred": "是老港片还是新片？",
+   "gold": "老港片里你偏警匪还是文艺？",
+   "should_trigger": true
+  },
+  {
+   "pred": "老港片，你说过喜欢。",
+   "gold": "老港片，你就爱这一口。",
+   "should_trigger": true
+  },
+  {
+   "pred": "老港片，你说过喜欢。",
+   "gold": "老港片，你说能背台词。",
+   "should_trigger": true
+  },
+  {
+   "pred": "老港片，你说过喜欢。",
+   "gold": "老港片，翻来覆去看那种。",
+   "should_trigger": true
+  },
+  {
+   "pred": "这个点，你该翻那部老港片了。",
+   "gold": "八点半了，这个点正适合放部老港片。",
+   "should_trigger": true
+  },
+  {
+   "pred": "这个点，你该休息了。",
+   "gold": "九点半了，这个点正适合放部老港片。",
+   "should_trigger": true
+  },
+  {
+   "pred": "风大的时候，关好门窗，别让冷风吹进来。",
+   "gold": "那就别在外面站着，回去添件衣服。",
+   "should_trigger": false
+  },
+  {
+   "pred": "慌也没用，先稳住。",
+   "gold": "慌就先深呼吸，慢一点。",
+   "should_trigger": false
+  },
+  {
+   "pred": "快是好事，别吃太晚。",
+   "gold": "快就好，趁热吃。",
+   "should_trigger": false
+  },
+  {
+   "pred": "先别急，慢慢想，是出门前还是进门后。",
+   "gold": "回想一下最后放哪儿，别翻太急。",
+   "should_trigger": false
+  },
+  {
+   "pred": "走那么多，晚上早点睡。",
+   "gold": "走这么多，晚上泡泡脚。",
+   "should_trigger": false
+  },
+  {
+   "pred": "清空了就好，别再乱放东西。",
+   "gold": "桌面一空，找东西快。",
+   "should_trigger": false
+  },
+  {
+   "pred": "那就先擦窗户，别拖着。",
+   "gold": "擦一遍就清爽了。",
+   "should_trigger": false
+  },
+  {
+   "pred": "行，池姐，这个点该睡了",
+   "gold": "池姐这称呼好，听着就热络",
+   "should_trigger": true
+  },
+  {
+   "pred": "养鹦鹉，早上叫得早",
+   "gold": "鹦鹉早上叫，比闹钟好使",
+   "should_trigger": true
+  },
+  {
+   "pred": "吵是吵，但好在白天能安静点",
+   "gold": "邻居养鸟，隔音不好就受罪",
+   "should_trigger": true
+  },
+  {
+   "pred": "是鹦鹉那家，它叫得早",
+   "gold": "是鹦鹉叫，还是别的声音？",
+   "should_trigger": true
+  },
+  {
+   "pred": "提过就好，别忘了再提",
+   "gold": "提过之后好点没有？",
+   "should_trigger": true
+  },
+  {
+   "pred": "是鹦鹉那家，它叫得早",
+   "gold": "要不要再说一次，或者找物业？",
+   "should_trigger": true
+  },
+  {
+   "pred": "池姐，她家鹦鹉早上叫得早。",
+   "gold": "池姐，养了只鹦鹉。",
+   "should_trigger": true
+  },
+  {
+   "pred": "鹦鹉，早上叫得早。",
+   "gold": "池姐，早上鹦鹉叫得早。",
+   "should_trigger": true
+  },
+  {
+   "pred": "池姐，她家鹦鹉早上叫得早。",
+   "gold": "邻居姓池，池姐，家里有鹦鹉。",
+   "should_trigger": true
+  },
+  {
+   "pred": "这个点池姐家该睡了，鹦鹉也该安静了。",
+   "gold": "八点多了，池姐家今天倒是安静。",
+   "should_trigger": true
+  },
+  {
+   "pred": "这个点池姐家那鹦鹉该睡了，别吵。",
+   "gold": "九点半了，池姐家今天倒是安静。",
+   "should_trigger": true
+  },
+  {
+   "pred": "这会儿是下午，池姐家鹦鹉该叫了。",
+   "gold": "那就安静待会儿，我在。",
+   "should_trigger": false
+  },
+  {
+   "pred": "洗完碗，池姐家那鹦鹉该叫了。",
+   "gold": "洗完就齐活了，歇着吧。",
+   "should_trigger": false
+  },
+  {
+   "pred": "哈哈，这笑点低，挺好。",
+   "gold": "什么事这么好笑，讲讲。",
+   "should_trigger": false
+  },
+  {
+   "pred": "咸了就别喝，倒掉也行。",
+   "gold": "咸了就多喝点水。",
+   "should_trigger": false
+  },
+  {
+   "pred": "靠那儿站着，别着凉。",
+   "gold": "站会儿就进来，别吹风。",
+   "should_trigger": false
+  },
+  {
+   "pred": "那会儿别开窗，声音小点",
+   "gold": "那声音确实受不了，戴个耳塞。",
+   "should_trigger": false
+  },
+  {
+   "pred": "那就先别玩了，省着点。",
+   "gold": "赶紧插上，别到零再充。",
+   "should_trigger": false
+  },
+  {
+   "pred": "这个点看书正合适，别拖到太晚",
+   "gold": "中级会计，三科够熬，好在时间够",
+   "should_trigger": true
+  },
+  {
+   "pred": "行，这个点看两小时够了",
+   "gold": "每天两小时，节奏挺好",
+   "should_trigger": true
+  },
+  {
+   "pred": "这个点正好，白天还能干别的",
+   "gold": "明年考，时间还算好安排",
+   "should_trigger": true
+  },
+  {
+   "pred": "那就别硬撑，先歇会儿。",
+   "gold": "是哪一科卡住，实务还是经济法？",
+   "should_trigger": true
+  },
+  {
+   "pred": "难是正常的，别急，慢慢来。",
+   "gold": "两小时里真正看进去的有多少？",
+   "should_trigger": true
+  },
+  {
+   "pred": "那就别硬撑，先歇会儿。",
+   "gold": "要不要改成早晚各一小时？",
+   "should_trigger": true
+  },
+  {
+   "pred": "中级会计，明年考，你每天看两小时。",
+   "gold": "中级会计，每天两小时。",
+   "should_trigger": true
+  },
+  {
+   "pred": "两小时，别多，也别少。",
+   "gold": "会计考试，明年考。",
+   "should_trigger": true
+  },
+  {
+   "pred": "中级会计，你说过，明年考。",
+   "gold": "中级会计，你每天看两小时。",
+   "should_trigger": true
+  },
+  {
+   "pred": "快九点了，今天看两小时够了。",
+   "gold": "快九点了，会计那两小时看了没？",
+   "should_trigger": true
+  },
+  {
+   "pred": "揉完别停，再看会儿。",
+   "gold": "九点多了，会计那两小时看了没？",
+   "should_trigger": true
+  },
+  {
+   "pred": "这个点拉上窗帘，是打算早点睡？",
+   "gold": "拉上正好，屋里暗点容易困。",
+   "should_trigger": false
+  },
+  {
+   "pred": "风大的时候，别出门，多穿点。",
+   "gold": "风大就早点回，别吹着。",
+   "should_trigger": false
+  },
+  {
+   "pred": "响声大，先别急着修，看看是不是衣服放得不均匀。",
+   "gold": "先停下看看，别硬转。",
+   "should_trigger": false
+  },
+  {
+   "pred": "先别急，慢慢想，是出门前放哪了？",
+   "gold": "先摸摸常放的那几个口袋。",
+   "should_trigger": false
+  },
+  {
+   "pred": "走那么多，明天歇一歇。",
+   "gold": "两万步不少了，腿该酸了。",
+   "should_trigger": false
+  },
+  {
+   "pred": "快十点了，别磨蹭，早点睡。",
+   "gold": "抹布过一遍，快得很。",
+   "should_trigger": false
+  }
+ ]
+}

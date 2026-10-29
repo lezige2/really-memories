@@ -1,0 +1,94 @@
+{
+  "schema": "autonomy600_freeze_v3",
+  "version": "v3",
+  "created_at": "2026-10-30T00:14:00+08:00",
+  "created_by": "D（文档+监控；只读核对后登记，未改数据/代码/未 commit/未 push）",
+  "purpose": "修正 v2 的监督信号缺陷（should_trigger=false 的 assistant 不是 <SILENCE>），**只改标签，不改行数/切分/内容**",
+  "supersedes": {
+    "v1": "out/autonomy600/（600 行）——非权威、不用于训练",
+    "v2": "out/autonomy600/（715 行，FREEZE-v2）—— 训练可用性保留，但其 false 行标签缺陷使 run1 判 exploratory-data-bug；v3 起以其为训练数据"
+  },
+  "source": {
+    "dir": "out/autonomy600_v3/",
+    "generated_at": "2026-10-30 00:05",
+    "derived_from": "out/autonomy600/ v2（sha 见 FREEZE-v2）",
+    "change_scope": "仅 should_trigger=false 行的 assistant → “<SILENCE>”；system/user/其余 assistant/切分/配额 **零改动**"
+  },
+  "files": {
+    "train.jsonl": {
+      "sha256": "7594812bc93d62de314c5bce3309f69826b70f6d9df0bd46119e87b7852be46c",
+      "sha16": "7594812bc93d62de",
+      "bytes": 674422,
+      "rows": 572
+    },
+    "dev.jsonl": {
+      "sha256": "b34707b0e47afa645dcd60b4c49f91712c45f464072c6774e917b37697373e21",
+      "sha16": "b34707b0e47afa64",
+      "bytes": 83598,
+      "rows": 72
+    },
+    "test.jsonl": {
+      "sha256": "0131c2829cf5ccadbd0b841b169f4ab885f28ce698507cdcc6c115570b8d6c0b",
+      "sha16": "0131c2829cf5ccad",
+      "bytes": 82599,
+      "rows": 71
+    }
+  },
+  "counts": {
+    "total_rows": 715,
+    "splits": {"train": 572, "dev": 72, "test": 71},
+    "should_trigger": {"train": {"true": 412, "false": 160}, "dev": {"true": 44, "false": 28}, "test": {"true": 44, "false": 27}},
+    "silence_rows": {"train": 160, "dev": 28, "test": 27},
+    "negative_ratio_total": 0.3007
+  },
+  "d_preaudit": {
+    "rows_identical_to_v2": true,
+    "split_identical": true,
+    "system_user_zero_diff": true,
+    "silence_equals_false_rows": true,
+    "method": "逐行比对 v2 vs v3：messages[0:2] 全等（0 处差异）；<SILENCE> 计数恰等于 false 行数 160/28/27",
+    "verdict": "最小标签修复成立（无新增、无切分变更、无内容改写）"
+  },
+  "gate": {
+    "report": "out/autonomy600_v3/GATE-train.json",
+    "coverage": "仅 train（572 行）；dev/test 未见门禁报告",
+    "result": {
+      "rows": 572,
+      "real_fail_rows": 0,
+      "known_fp_rows": 160,
+      "pass_rate_real": 1.0,
+      "pass_rows": 572,
+      "known_fp_counts": {"G2": 160, "G8": 160},
+      "verdict": "PASS（real_fail=0）"
+    },
+    "known_fp_rationale": "G2/G8 命中全部是 <SILENCE> 短答案（无谓语/重复短句）——属“目标输出本身极短”导致的规则误报，**按 known_fp 处理，不记 fail**；该口径由 B 确认。",
+    "caveat": "无（三 split 门禁齐全，见 gate_by_split）。"
+  },
+  "gate_by_split": {
+    "train": {"report": "out/autonomy600_v3/GATE-train.json", "rows": 572, "real_fail_rows": 0, "pass_rate_real": 1.0, "known_fp": 160, "known_fp_rules": {"G2": 160, "G8": 160}},
+    "dev":   {"report": "out/autonomy600_v3/GATE-dev.json",   "rows": 72,  "real_fail_rows": 0, "pass_rate_real": 1.0, "known_fp": 28,  "known_fp_rules": {"G2": 28, "G8": 28}},
+    "test":  {"report": "out/autonomy600_v3/GATE-test.json",  "rows": 71,  "real_fail_rows": 0, "pass_rate_real": 1.0, "known_fp": 27,  "known_fp_rules": {"G2": 27, "G8": 27}},
+    "summary": "三 split 门禁齐全：715 行 real_fail=0、pass_rate_real=1.0；known_fp 合计 215 = 负例数（160+28+27），即每条 <SILENCE> 都被 G2/G8 计为 known_fp，与负例一一对应。",
+    "verified_by_d": "2026-10-30 00:13 本机读取三份 GATE-*.json 核对，非转述。"
+  },
+  "approval": {
+    "approved_by": "B",
+    "approved_at": "2026-10-30T00:12:00+08:00",
+    "approval_terms": [
+      "推理端必须识别并输出 <SILENCE>（评测侧按该 token 判定）；",
+      "判据须同时报 silence 命中 / tn / 召回 / **漏触发率**（true 行被答成 <SILENCE> 的比例）；",
+      "run1 标记 exploratory-data-bug，不交付、不作能力表述。"
+    ]
+  },
+  "evaluation_rules": {
+    "must_report": ["silence 正确率", "tn（负例正确沉默）", "fp（负例误触发）", "召回（正例应触发）", "**漏触发率 = 正例被答 <SILENCE> 的比例**"],
+    "why": "v3 负例全给 <SILENCE>、正例从不出现 <SILENCE>，存在“过度沉默”风险；只报 fp 下降会误判成功。",
+    "incomparable": "本条 acc 与记忆问答基线（79/81 等）不同任务，禁止横比；train_loss 亦不可与历史 SFT 臂比。"
+  },
+  "usage_rules": [
+    "训练只能使用 train.jsonl（sha 如上）；dev/test 仅评测，不得混入训练。",
+    "任何文件被改写 → sha 失配 → 本冻结作废，须重跑门禁并重新冻结。",
+    "run1（v2 训练）产物仅作证据，不得作为“自主性性能”引用。",
+    "run2 的 adapter / train.log / eval 须单独登记（H-09 起），不得回写本文件。"
+  ]
+}
