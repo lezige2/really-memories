@@ -96,3 +96,38 @@ veto#8：模型真答行 `len<6` / 以“对了，”开头且未回答当前问
 - 8766 非空库/模型 pin 不符/块重建 problems 非空 → 停手回报，不重启服务。
 - 服务中途连接重置 → 记录退出码与 ConnectionReset，等 Lead 确认再重跑。
 - 所有产物记录 sha16；命令、退出码、耗时、/ask 增量随报告。
+## Phase C — v9 专项（TASK-082，新增）
+### 数据/用例
+- v9 训练数据 training/sft/train_v9.jsonl（1777 行；其中 150 条真多轮：system（含冲突记忆）+ 4-5 轮 user/assistant + 最后问答）
+- 专项用例 out/SFT-EXTRA-CASES-v9-MT20.jsonl（20 条；10 维度×2 问法；3-8 轮 history（分布 3:4/4:4/5:3/6:3/7:3/8:3）；旧→新冲突，expect 最新值、not_contains 旧值；proxy 用固定 history，service 用 pre_state 真实多轮）
+- **MT20 使用独立值池 out/V9-EVAL-VALUES.json（train_blob ∩ eval_values = ∅，含 train_blob sha16/值→来源 case 映射，供 C 生成器机械断言）**
+
+### proxy（8767，按 v9 LoRA 实际路径/sha）
+```bash
+python -X utf8 out/SFT-PROXY-EVAL.py --arm sft --port 8767 --lora "<v9_lora>" --expect-lora-sha <v9_sha16> \
+  --now "2026-10-28 21:00" --out out/PROXY-v9.json
+python -X utf8 out/SFT-PROXY-EVAL.py --arm sft --port 8767 --lora "<v9_lora>" --expect-lora-sha <v9_sha16> \
+  --now "2026-10-28 21:00" --only-extra --extra-cases out/SFT-EXTRA-CASES-v3-dempty.jsonl --out out/PROXY-autonomy-v9.json
+python -X utf8 out/SFT-PROXY-EVAL.py --arm sft --port 8767 --lora "<v9_lora>" --expect-lora-sha <v9_sha16> \
+  --now "2026-10-28 21:00" --only-extra --extra-cases out/SFT-EXTRA-CASES-v9-MT20.jsonl --out out/PROXY-MT-v9.json   # system + 3-8 轮 history + 最后提问
+# S1（B 建议）：base 臂 MT20 作为 reference 配对（无 lora）
+python -X utf8 out/SFT-PROXY-EVAL.py --arm base --port 8767 \
+  --now "2026-10-28 21:00" --only-extra --extra-cases out/SFT-EXTRA-CASES-v9-MT20.jsonl --out out/PROXY-MT-base.json
+# 对照：扩展 NWAY2 加 v9 臂（base/v5/v7/v8/v8b/v9）
+```
+
+### service（8766）
+```bash
+# 复用 Phase B：control→81→92→extra v2→KV/实时/安全探针
+# v9 专项：多轮冲突（service 用 pre_state remember 旧/新 + 4 轮 ask + 最后提问；hermetic 清理）
+python -X utf8 training/run_training_eval.py --endpoint http://127.0.0.1:8766 --hermetic \
+  --cases out/SFT-EXTRA-CASES-v9-MT20.jsonl --out out/SFT-MT-EVAL.json \
+  --next out/SFT-MT-NEXT.json --retries 2 --flush-every 10
+python -X utf8 out/SFT-ACCEPTANCE.py     # 自动读入 SFT-MT-EVAL.json → suites.mt20 + memory_regression.mt20 → VETO2
+```
+
+### v9 专项检查清单
+- 81：s05/s06（记忆漏）、c03/c07（能力/meta 宽松单列）、h701（实时编造是否复现）
+- extra v2：long_memory L01/L03/L05/L09（同族召回）
+- MT20：旧→新最新值优先（任何旧值出现即 fail）；多轮 4 轮闲聊后仍能答记忆
+- code-answered/污染 16+3/安全/WARN 口径不变；MT20 无 base 基线，仅报通过率与 VETO2

@@ -293,5 +293,69 @@
  "unused_suggested_reserved_values": {
   "18 号": 0,
   "闽D74185": 0
+ },
+ "value_contamination": {
+  "removed_values": [
+   "我周五晚上十点去健身"
+  ],
+  "reason": "train_v4/v6/v8/v8b/v9/data_v4/data_v9 共 82 次；若探针/评测使用该值，命中可能来自权重而非检索",
+  "train_blob_hits": {
+   "我周五晚上十点去健身": 82
+  },
+  "replacements": {
+   "KV_PROBE_FACT6": {
+    "old": "我周五晚上十点去健身",
+    "new": "我周四晚上六点五十去游泳",
+    "expect": [
+     "六点五十",
+     "18点50",
+     "18:50"
+    ]
+   },
+   "extra_v3_L06": {
+    "old": "我每周四晚上十点健身",
+    "new": "我每周四晚上六点五十健身",
+    "expect": [
+     "六点五十",
+     "18点50",
+     "18:50"
+    ]
+   },
+   "extra_v3_C02": {
+    "old": "我周五晚上十点去健身",
+    "new": "我周五晚上六点四十去健身",
+    "expect": [
+     "六点四十",
+     "18点40",
+     "18:40"
+    ]
+   },
+   "extra_v3_D02": {
+    "old": "我周五晚上十点去健身",
+    "new": "我周四晚上六点五十去游泳",
+    "expect": [
+     "六点五十",
+     "18点50",
+     "18:50"
+    ]
+   }
+  },
+  "files_updated": [
+   "out/BASE-VERIFY-PROBES.py",
+   "out/SFT-EXTRA-CASES-v3.jsonl",
+   "out/SFT-EXTRA-CASES-v3-dempty.jsonl"
+  ],
+  "new_values_train_hits": {
+   "我周四晚上六点五十去游泳": 0,
+   "六点五十": 0,
+   "18点50": 0,
+   "18:50": 0,
+   "我每周四晚上六点五十健身": 0,
+   "我周五晚上六点四十去健身": 0,
+   "六点四十": 0,
+   "18点40": 0,
+   "18:40": 0
+  },
+  "note": "训练数据冻结不改；训练数据中该值 82 次仅作背景，不再作为探针/评测事实"
  }
 }
