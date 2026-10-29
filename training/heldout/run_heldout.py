@@ -194,10 +194,15 @@ def cleanup_since(max_id):
 
 
 def main():
+    global DB
     ap = argparse.ArgumentParser()
     ap.add_argument("--endpoint", default="http://127.0.0.1:8765")
+    ap.add_argument("--db", default=DB, help="记忆库 DB 路径（与服务实例一致，默认 kvmem/daily/chat.db）")
     a = ap.parse_args()
     ep = a.endpoint.rstrip("/")
+    if not os.path.isfile(a.db):
+        raise SystemExit("DB not found: %s" % a.db)
+    DB = a.db
     con = sqlite3.connect(DB)
     max_id = con.execute("SELECT COALESCE(MAX(id),0) FROM memory_source").fetchone()[0]
     con.close()

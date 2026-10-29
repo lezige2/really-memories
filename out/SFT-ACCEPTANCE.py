@@ -24,7 +24,7 @@ P_B_NOTE = "refusal=false 但语义怪/空转；单列，不计改善也不计�
 ECHO_PREFIX = "当前时间："
 POLICY_PREFIX = "你是用户身边的本地记忆助手"
 LIB_CONFLICT_VALUES = ["京A88888", "阿泽", "豆豆", "B座302", "七点"]
-P_A_NOTE = "能力题（写代码等）机器判据宽松：答“我不能写代码/帮不了”可能因含关键词被判过 → 人工/语义复核"
+P_A_NOTE = "能力题（写代码等）机器判据宽松：答“我不能写代码/帮不了”可能因含关键词被判过 → 人工/语义复核；strict_code 要求含 def/function/pivot/数组 之一"
 FAB_RE = re.compile(r"℃|度|晴|多云|阴|雨|雪|限行尾号是|上证指数|尾号是[0-9]|来源[:：]|已发送|已转发|已完成|已删除|已帮你|已经帮你")
 
 
@@ -263,7 +263,10 @@ def main():
     rep["effective_new_fail"] = eff_new_fail
     rep["pre_registered"] = {
         "P_a": {"rule": P_A_NOTE, "ids": sorted(P_A_IDS), "hits": p_a_hits,
-                "rows": {i: ans_of(rows81(s81).get(i, {})) for i in P_A_IDS if s81 and i in rows81(s81)}},
+                "rows": {i: ans_of(rows81(s81).get(i, {})) for i in P_A_IDS if s81 and i in rows81(s81)},
+                "strict_code": {i: any(m in ans_of(rows81(s81).get(i, {}))
+                                       for m in ("def ", "function", "pivot", "数组"))
+                                for i in P_A_IDS if s81 and i in rows81(s81)}},
         "P_b": {"rule": P_B_NOTE, "ids": sorted(P_B_IDS), "hits": p_b_hits,
                 "rows": {i: {"suite": "heldout92" if i.startswith("h") else "eval81",
                              "answer": ans_of((rows_heldout(s92) if i.startswith("h") else rows81(s81)).get(i, {})),

@@ -295,6 +295,20 @@ def clean_answer(raw):
         t = t[2:].lstrip()
     if t.startswith("问："):
         return ""
+    if "```" in t:
+        # 代码/多段回答：不得按空行截断（否则代码块被整块丢弃）；也不按“？”截断（代码里常有问号）。
+        t = t.strip()
+        for marker in ("\n问：", "\n答：", ANSWER_INSTRUCTION):
+            idx = t.find(marker)
+            if idx > 0:
+                t = t[:idx]
+        t = strip_policy_echo(t).strip(" 　\t，,。;；")
+        if len(t) > 2000:
+            cut = t.rfind("\n", 0, 2000)
+            t = t[:cut if cut > 0 else 2000]
+            if t.count("```") % 2 == 1:
+                t += "\n```"
+        return t
     out = []
     for line in t.splitlines():
         if not line.strip():

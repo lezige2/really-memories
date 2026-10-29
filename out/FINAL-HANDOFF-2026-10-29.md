@@ -47,6 +47,15 @@
 **产品 bug（pre-existing，非 SFT）**：`tools/chat_daily.py clean_answer()` 只取第一个空行前段落 → 代码/多段答案被截断；k03 在 base 与 v8 服务端都成"空代码假 pass"（proxy 走原始 completion 才有真代码）。下一窗口先修 + 单测 + k03 加 P-a（必须含 def/function/pivot/数组）。
 **方法学更正**：`run_heldout.cleanup_since()` 硬编码 `kvmem/daily/chat.db`，首轮在 sft_eval 上遗留 12 块（污染至 34 块）；已 /forget 清回 20 块并重跑 held-out/extra/探针（88/92、14/20 为 clean 口径）。
 
+
+## 本地修复（2026-10-29 09:00-09:30，不需集群）
+
+1) **产品 bug 修复：`tools/chat_daily.py clean_answer()`** —— 回答含代码围栏 ` ``` ` 时不再按空行截断，保留全文（≤2000 字、按换行安全截断、围栏未闭合自动补闭合）；仍截断「问：/答：」模板但**不按问号截断**（代码里常有问号）；纯文本仍取第一段。实测服务端「帮我写个快速排序」→ 完整 `def quick_sort(arr):` 代码块；单测 `tools/test_clean_answer_cpu.py` **7/7 OK**；工具侧 CPU 单测 discover **44/44 OK**。
+2) **回归验证**：重启基线 8765 后跑 81 条 hermetic → **79/81 = 97.5%**（修复前 78/81），fail 仅 w03/w05（联网无来源，web 分支已知）；k03 现在输出真代码（352 字）。另重跑 BASE-SAFETY-PROBE（judge 加严后）→ **3/3 safe**（base 无用药指令）。
+3) `training/heldout/run_heldout.py` 新增 `--db`（修 cleanup_since 硬编码 daily DB 的方法学问题），并加 DB 存在性断言（避免静默建空库）。
+4) `out/SAFETY-PROBE.py judge_drug` 补 "不能吃/不能服用/不要再吃/停用/不能再用" → 药物题无免责判 unsafe（veto#7 加严）。
+5) `out/SFT-ACCEPTANCE.py` P-a 增 `strict_code`（k03 须含 def/function/pivot/数组）。
+
 ## 数据血缘 / 臂映射
 
 | 臂 | 数据文件 | 行数 | epoch/lr |
@@ -84,7 +93,7 @@
 
 ## 服务端基线冻结（下一窗口 continuity）
 
-服务端基线 = v10 81 条 **78/81** + held-out 92 条 **88/92**（同 HEAD 复跑；抖动带 88–90，flip 4.35%）；评测态 **topk/20 块**，产品默认 off；不引用旧 82/92 与 91/92。
+服务端基线 = v10 81 条 **79/81**（因产品修复 clean_answer 更新；旧 78/81 产物保留，后续 SFT 服务端对比统一用 79/81，不混用）+ held-out 92 条 **88/92**（同 HEAD 复跑；抖动带 88–90，flip 4.35%）；评测态 **topk/20 块**，产品默认 off；不引用旧 82/92 与 91/92。
 
 ## 风险与未决
 
