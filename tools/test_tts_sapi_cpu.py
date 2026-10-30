@@ -48,6 +48,7 @@ def main():
     check("skip_password", T.skip_reason("密码是 123456") == "sensitive")
     check("skip_card", T.skip_reason("卡号 6217 0012 3456 7804") == "sensitive")
     check("skip_id", T.skip_reason("身份证 110101199001011234") == "sensitive")
+    check("skip_phone", T.skip_reason("我的手机号是 13910002010") == "sensitive")
     check("keep_normal", T.skip_reason("你的车牌号是京A88888") is None)
 
     # 4) enabled=False：零调用（不启动 PowerShell）

@@ -30,7 +30,8 @@ REFUSAL_MARKERS = ("不知道", "没有记录", "没记录", "不清楚", "没�
 SILENCE_MARKERS = ("silence", "<silence>", "[silence]", "静音", "sil")
 # 敏感：不播（密码/证件/银行卡长数字/密钥）
 SENSITIVE_RE = re.compile(
-    r"(密码|口令|验证码|身份证|银行卡号|卡号|secret|api[\s_-]?key|token\s*=|"
+    r"(密码|口令|验证码|身份证|银行卡号|卡号|手机号|手机号码|secret|api[\s_-]?key|token\s*=|"
+    r"(?<!\d)1[3-9]\d{9}(?!\d)|"
     r"(?<!\d)\d{16,19}(?!\d)|(?:\d{4}[ -]){3,4}\d{4})", re.I)
 _THINK_RE = re.compile(r"<think[^>]*>.*?</think\s*>|</?analysis[^>]*>", re.S | re.I)
 _CODE_RE = re.compile(r"```.*?```", re.S)
