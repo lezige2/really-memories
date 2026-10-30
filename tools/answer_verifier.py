@@ -417,6 +417,8 @@ def _is_honest_refusal(answer):
 def verify(question, answer, blocks, mode="general"):
     """核对答案与记忆块；返回 {verdict, mismatches, hint, checked_values}。"""
     ver = verifier_version()
+    if ver == "v2.2":
+        return verify_v2_2(question, answer, blocks, mode)
     if ver == "v2.1":
         return verify_v2(question, answer, blocks, mode, normalize=True)
     if ver == "v2":
@@ -806,6 +808,117 @@ def verify_v2(question, answer, blocks, mode="general", normalize=False):
             "mismatches": [{"claim": value, "type": "missing_slot_value"}],
             "hint": "记忆里有「%s」，答案没有用上，请只依据记忆原文重答。" % value,
             "checked_values": 1, "version": ver}
+
+
+_V22_CUES = re.compile(
+    r"是|为|叫|用|有|在|换|改|上班|工作|公司|单位|号码|尾号|手机|车牌|邮箱|"
+    r"住|老家|过敏|时间|日期")
+_V22_NEG = re.compile(r"不是|不在|不再是|已经不在|已不|没在|已经不是|没有在|离开了")
+_V22_FRAGMENT = {"一次", "什么名字", "名字", "号码", "多少", "哪个", "什么",
+                 "你的", "我的", "公司", "单位", "那个", "这个", "一家",
+                 "哪家", "这家", "那家"}
+
+
+def _v22_clauses(answer):
+    parts = re.split(r"[。！？!?；;\n，,]", str(answer or ""))
+    return [p.strip() for p in parts if p.strip()]
+
+
+def _v22_entity_ok(family, v):
+    n = _v2_norm_entity(v) if family == "公司" else _v2_compact(v)
+    if not n or v in _V22_FRAGMENT or n in _V22_FRAGMENT:
+        return False
+    if re.search(r"什么|名字|多少|哪个|哪家|一次|一家", n):
+        return False
+    if family == "公司" and _v2_generic_entity(v):
+        return False
+    return len(n) >= 2
+
+
+def _v22_negated(clause, value):
+    idx = clause.find(value)
+    if idx < 0:
+        return False
+    window = clause[max(0, idx - 8):idx]
+    return bool(_V22_NEG.search(window))
+
+
+def _v22_same(family, a, b):
+    if family == "公司":
+        return _v2_norm_entity(a) == _v2_norm_entity(b)
+    return _v2_same(family, a, b, normalize=True)
+
+
+def verify_v2_2(question, answer, blocks, mode="general"):
+    """v2.2：claim = subject + predicate + value；碎片不触发，但否定/冲突必须拦。
+
+    完整 claim（有 predicate 线索 + 实体值）才判 unsupported；
+    只有碎片时按原规则（无据/拒答）pass，不静默放行冲突。
+    """
+    res = verify_v2(question, answer, blocks, mode, normalize=True)
+    # 先用 v2.1 的闸拿到 kept 值；闸不成立（pass 且 checked_values=0）直接复用
+    if res.get("verdict") == "pass" and not res.get("checked_values"):
+        return dict(res, version="v2.2")
+    # 重新取 kept 唯一值
+    k2 = _v2_k2()
+    q = str(question or "")
+    qk = k2.classify_query(q) if k2 else {}
+    family = qk.get("family")
+    intent = _v2_intent(family, q) if family else None
+    value = None
+    values = set()
+    for b in blocks or []:
+        if not isinstance(b, dict):
+            continue
+        text = str(b.get("text") or "")
+        if k2 and k2.classify_row(text).get("family") == family:
+            values |= _v2_values(family, text, intent)
+    if len(values) == 1:
+        value = next(iter(values))
+    if value is None:
+        return dict(res, version="v2.2")
+    ans = str(answer or "")
+    ok = {"verdict": "pass", "mismatches": [], "hint": "",
+          "checked_values": 1, "version": "v2.2"}
+    claims, negated_kept, fragments = [], False, 0
+    for clause in _v22_clauses(ans):
+        ents = {v for v in _v2_values(family, clause, intent)
+                if _v22_entity_ok(family, v)}
+        cue = bool(_V22_CUES.search(clause))
+        if value and value in clause and _v22_negated(clause, value):
+            negated_kept = True
+        if cue and ents:
+            claims.append({"clause": clause, "ents": ents})
+        elif ents:
+            fragments += len(ents)
+        elif _v2_contains(family, value, clause, normalize=True):
+            fragments += 1
+    if negated_kept:
+        return {"verdict": "unsupported",
+                "mismatches": [{"claim": "negated_kept", "type": "wrong_slot_value",
+                                "expected_from_block": value}],
+                "hint": "记忆里的对应值是「%s」，答案与记忆相反。" % value,
+                "checked_values": 1, "version": "v2.2"}
+    conflicts = []
+    for c in claims:
+        for e in c["ents"]:
+            if _v22_same(family, e, value):
+                if not _v22_negated(c["clause"], e):
+                    return ok                       # 有完整且正确的 claim
+            elif not _v22_negated(c["clause"], e):
+                conflicts.append(e)
+    if conflicts:
+        return {"verdict": "unsupported",
+                "mismatches": [{"claim": sorted(conflicts)[0],
+                                "type": "wrong_slot_value",
+                                "expected_from_block": value}],
+                "hint": "记忆里的对应值是「%s」，请只依据记忆原文重答。" % value,
+                "checked_values": 1, "version": "v2.2"}
+    if fragments or _v2_contains(family, value, ans, normalize=True):
+        return ok                                   # 只有碎片但确实提到 kept 值
+    if _V2_REFUSAL.search(ans):
+        return ok
+    return ok                                       # 无完整 claim：按无据/拒答，不判 unsupported
 
 
 def main():

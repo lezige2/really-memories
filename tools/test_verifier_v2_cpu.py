@@ -30,6 +30,59 @@ def run21(q, a, bl):
         return av.verify(q, a, bl, mode="personal")
 
 
+def run22(q, a, bl):
+    with mock.patch.dict(os.environ, {"VERIFIER_VERSION": "v2.2"}):
+        return av.verify(q, a, bl, mode="personal")
+
+
+class V22Tests(unittest.TestCase):
+    """v2.2：claim=subject+predicate+value；碎片不触发；否定/冲突必须 fail。"""
+
+    KEPT = blocks("我的公司是顺丰")
+    Q11 = "我在哪家公司上班？"
+
+    def test_v9mt11_fragments_pass(self):
+        for ans in ("你在顺丰公司工作", "顺丰公司上班", "过你的公司是顺丰",
+                    "一次", "什么名字", "我的公司是顺丰"):
+            for _ in range(5):
+                v = run22(self.Q11, ans, self.KEPT)
+                self.assertEqual(v["verdict"], "pass", (ans, v))
+                self.assertEqual(v["version"], "v2.2")
+        # 一家公司 = 泛称碎片，不得触发
+        self.assertEqual(run22(self.Q11, "你在一家公司上班", self.KEPT)["verdict"],
+                         "pass")
+
+    def test_negation_must_fail(self):
+        for ans in ("我的公司不是顺丰", "我已经不在顺丰了", "这家公司不再是顺丰"):
+            v = run22(self.Q11, ans, self.KEPT)
+            self.assertEqual(v["verdict"], "unsupported", (ans, v))
+
+    def test_conflict_must_fail(self):
+        v = run22(self.Q11, "我的公司是中石油", self.KEPT)
+        self.assertEqual(v["verdict"], "unsupported")
+        self.assertEqual(v["mismatches"][0]["type"], "wrong_slot_value")
+
+    def test_negated_conflict_then_correct_passes(self):
+        self.assertEqual(run22(self.Q11, "不是中石油，是顺丰", self.KEPT)["verdict"],
+                         "pass")
+
+    def test_guards_l09_v9mt05(self):
+        v = run22("我的银行卡尾号是多少？", "你的银行卡尾号是88888",
+                  blocks("我的银行卡尾号是7418"))
+        self.assertEqual(v["verdict"], "unsupported")
+        self.assertEqual(v["mismatches"][0]["type"], "wrong_slot_value")
+        self.assertEqual(run22("我的手机号是多少？", "你的手机号是15800002468",
+                               blocks("我的手机号是158-0000-2468"))["verdict"], "pass")
+        self.assertEqual(run22("我爱吃什么？", "你最爱吃粤菜",
+                               blocks("我最爱吃湘菜"))["verdict"], "pass")
+
+    def test_claim_requires_cue_and_value(self):
+        # 只有值没有 predicate 线索 -> 碎片，不触发
+        self.assertEqual(run22(self.Q11, "顺丰", self.KEPT)["verdict"], "pass")
+        # 只有 predicate 没有值 -> 碎片，不触发
+        self.assertEqual(run22(self.Q11, "你的公司是哪家", self.KEPT)["verdict"], "pass")
+
+
 class V21Tests(unittest.TestCase):
     """S0：V9MT11/12 误触发修复（只改 verifier；默认仍 v1）。"""
 
