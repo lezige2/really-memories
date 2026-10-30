@@ -39,7 +39,7 @@
 
 ## 5 产物
 
-- 20 档：`out/KVC-V2E-81/EXTRA/MT20.json`、`KVC-V2E-PROBES.json`；
+- 20 档：`out/KVC-V2E-81.json`、`KVC-V2E-EXTRA.json`、`KVC-V2E-MT20.json`、`KVC-V2E-PROBES.json`；
 - 200 档：`kvmem/scale40k/n200/RESULT-k2auto.json`、`out/scale40k/RUN-n200-k2auto.log`；
 - 40k 斜率：`out/scale40k/SLOPE-20-50-200.json`、`RUN-REPORT-n200.md`；
 - K2 诊断：`out/scale40k/K2-OVERMERGE-DIAG.json`、`out/KVC-L05-ATTRIB.json`；
