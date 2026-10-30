@@ -48,6 +48,15 @@ import assistant_log as alog            # noqa: E402  (个体日志：只追加 
 import memory_service as memo           # noqa: E402  (记忆数据层：抽取/去重/检索/判据)
 import k2_family as _k2f               # noqa: E402  (K2 同族只留最新；默认 off)
 import event_time as etime             # noqa: E402  (P0 event_date；默认 off)
+# S2-A FAIL（out/S2-A-EVAL.md）：query expansion 可选依赖，仅包这一个符号；
+# 缺失即功能 off，记 debug 日志（不静默），不影响原检索路径。
+try:
+    from query_expand import expand_query as _expand_query
+except ImportError:                                  # 只捕 ImportError
+    _expand_query = None
+    import logging
+    logging.getLogger(__name__).debug(
+        "query_expand unavailable (ImportError); S2-A feature disabled")
 
 try:                                                     # Windows 控制台 UTF-8
     sys.stdout.reconfigure(encoding="utf-8")
@@ -570,7 +579,8 @@ class DailyApp:
                  k2_family=False,
                  rollover_at=ROLLOVER_AT_DEFAULT,
                  n_ctx=N_CTX_DEFAULT, chat_start=CHAT_START_DEFAULT,
-                 n_gpu_layers=N_GPU_LAYERS_DEFAULT, event_date=False):
+                 n_gpu_layers=N_GPU_LAYERS_DEFAULT, event_date=False,
+                 query_expand=False):
         self.eng = engine
         self.model_path = model_path
         _fmt = os.environ.get("LLAMA_MEM_CHAT_FORMAT", "").strip().lower()
@@ -599,7 +609,11 @@ class DailyApp:
         self._last_k2 = {"mode": self.k2_mode, "gate_reason": "off"}
         self.event_date = bool(event_date)   # P0 event_date；默认关
         self._event_query = None
-        self.topk = max(1, min(int(topk), MAX_MEMORIES))
+        self.query_expand = bool(query_expand)   # S2-A；默认关
+        self._last_query_expand = {"enabled": self.query_expand, "hits": [],
+                                   "before": None, "after": None}
+        _cap = 20 if memo.gate_off() else MAX_MEMORIES   # 诊断（S2_GATE_OFF=1）允许 top20
+        self.topk = max(1, min(int(topk), _cap))
         self._last_query = None
         self._last_selection = []      # [{name, score, source_id, signals}]
         self._last_candidate_count = 0
@@ -676,7 +690,8 @@ class DailyApp:
                                       "chat_start": self.chat_start,
                                       "chat_budget": self.chat_budget,
                                       "memory_budget": int(self.memory_budget),
-                                      "k2": {"mode": self.k2_mode,
+                                      "query_expand": dict(self._last_query_expand),
+                          "k2": {"mode": self.k2_mode,
                                              "owner_gate": True,
                                              "max_rows": int(_k2f.K2_MAX_ROWS)}})
             prev = self.logger.crash_check()
@@ -2529,6 +2544,13 @@ class DailyApp:
                     "dropped_ids": [int(r[0]) for r in dropped]}
         return kept, info
 
+    def _assert_mount_limit(self, n):
+        """原生挂载前断言：块数超过 MAX_MEMORIES(6) 立即 400，绝不下探到越界。"""
+        if int(n) > MAX_MEMORIES:
+            raise DailyError("too_many_blocks",
+                             "blocks=%d > limit=%d；拒绝进入原生挂载"
+                             % (int(n), MAX_MEMORIES))
+
     def _sync_mounts(self):
         if self.control:
             self._unmount_all()
@@ -2555,13 +2577,11 @@ class DailyApp:
         want = [r[1] for r in rows]
         if set(want) == set(self.mounted.keys()) and len(want) == len(self.mounted):
             return
+        # 挂载数硬上限：>MAX_MEMORIES 一律快速失败（不进入原生；诊断 env 也不绕过）
+        self._assert_mount_limit(len(rows))
         self._unmount_all()
         if not rows:
             return
-        cap = MAX_MEMORIES if self.retrieval_mode != "topk" else LIBRARY_MAX
-        if len(rows) > cap:
-            raise DailyError("memory_full",
-                             "挂载条数 %d 超过上限 %d" % (len(rows), cap))
         leases = self.leases
         cursor = self.chat_start
         blocks = []
@@ -2695,6 +2715,28 @@ class DailyApp:
 
     def _retrieval_select(self, text):
         """K2 auto 前置：owner 门控 + count 兜底；关/回退 = 原逻辑逐字不变。"""
+        if getattr(self, "query_expand", False) and _expand_query is not None:
+            before = str(text or "")
+            after, hits = _expand_query(before)
+            self._last_query_expand = {"enabled": True, "before": before,
+                                       "after": after, "hits": hits}
+            if hits and self.logger:
+                try:
+                    self.logger.log_warning("query_expand", "S2-A query expansion",
+                                            evidence={"hits": hits,
+                                                      "before": before,
+                                                      "after": after})
+                except Exception:                        # noqa: BLE001
+                    pass
+            if hits:
+                text = after
+        else:
+            self._last_query_expand = {"enabled": False,
+                                       "unavailable": bool(getattr(self, "query_expand", False))
+                                       and _expand_query is None,
+                                       "hits": [], "before": None, "after": None}
+            if self._last_query_expand["unavailable"]:
+                self.warnings.append("query_expand 不可用（模块缺失），S2-A 功能 off")
         if getattr(self, "event_date", False):
             self._event_query = text          # P0：仅“明确问时间”时过滤过期事件
         else:
@@ -3327,6 +3369,7 @@ class DailyApp:
                           "related": int(self._last_related_count),
                           "memory_budget": int(self.memory_budget),
                           "last_truncation": self._last_truncation,
+                          "query_expand": dict(self._last_query_expand),
                           "k2": {"mode": self.k2_mode,
                                  "gate_reason": (self._last_k2 or {}).get("gate_reason"),
                                  "owner_gate": True,
@@ -3597,6 +3640,8 @@ def main(argv=None):
                          "仅对识别出族键的问句生效）")
     ap.add_argument("--event-date", action="store_true", default=False,
                     help="P0 事件日期归一化（默认关；需先迁移 event_* 列）")
+    ap.add_argument("--query-expand", action="store_true", default=False,
+                    help="S2-A 确定性 query expansion（默认关；4 条通用同义对）")
     ap.add_argument("--n-ctx", type=int, default=N_CTX_DEFAULT,
                     help="上下文长度（默认 %d；GPU 选型后可调大）" % N_CTX_DEFAULT)
     ap.add_argument("--n-gpu-layers", type=int, default=N_GPU_LAYERS_DEFAULT,
@@ -3634,6 +3679,7 @@ def main(argv=None):
                        n_predict=args.n_predict, retrieval_mode=args.retrieval,
                        k2_family=args.k2_family,
                        event_date=getattr(args, "event_date", False),
+                       query_expand=getattr(args, "query_expand", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
                        n_gpu_layers=args.n_gpu_layers)

@@ -1,0 +1,767 @@
+{
+ "schema": "s2_repro_v1",
+ "source": "D:\\llama-mem\\kvmem\\scale40k\\n200\\chat.db",
+ "source_sha256": "2d84aefda3c76ecece0cf3f620c506e0748090a587528b8bed513491affd24fd",
+ "copy": "D:\\llama-mem\\tmp\\s2\\chat.db",
+ "runs_per_query": 3,
+ "k2": "off",
+ "time": "off",
+ "params": {
+  "retrieve_topk": 20,
+  "k2_family": false
+ },
+ "queries": [
+  {
+   "id": "q048",
+   "text": "杨帆那车牌子你还记得不？",
+   "target": 53,
+   "target_preview": "杨帆的车的车牌号是京N·7K3Q5，他说这串字符当初记了好久。外面好像要变天了，风一阵一阵的，我先去把窗户关上，顺便把外面晾着的东西收进来，你稍等一下就好。手边",
+   "target_exists": true,
+   "target_block": {
+    "path": "D:\\llama-mem\\kvmem\\scale40k\\n200\\blocks\\s40_b0053.kvmem",
+    "n_tokens": 166,
+    "n_bytes": 17342212,
+    "exists": true,
+    "size": 17342212
+   },
+   "runs": [
+    {
+     "ids": [],
+     "n": 0,
+     "gate": "below_threshold",
+     "candidates": 50,
+     "top1_score": null,
+     "top1_id": null
+    },
+    {
+     "ids": [],
+     "n": 0,
+     "gate": "below_threshold",
+     "candidates": 50,
+     "top1_score": null,
+     "top1_id": null
+    },
+    {
+     "ids": [],
+     "n": 0,
+     "gate": "below_threshold",
+     "candidates": 50,
+     "top1_score": null,
+     "top1_id": null
+    }
+   ],
+   "deterministic": true,
+   "rank": 3,
+   "rank_x3": [
+    3,
+    3,
+    3
+   ],
+   "target_score": 2.0,
+   "target_coverage": 0.2,
+   "target_hits": [
+    "杨帆",
+    "车牌"
+   ],
+   "best": {
+    "id": 8,
+    "score": 2.0,
+    "coverage": 0.2,
+    "hits": [
+     "得不",
+     "杨帆"
+    ]
+   },
+   "query_tokens": [
+    "你还",
+    "子你",
+    "帆那",
+    "得不",
+    "杨帆",
+    "牌子",
+    "记得",
+    "车牌",
+    "还记",
+    "那车"
+   ],
+   "query_tokens_missing_in_target": [
+    "你还",
+    "子你",
+    "帆那",
+    "得不",
+    "牌子",
+    "记得",
+    "还记",
+    "那车"
+   ],
+   "rsearch": {
+    "empty": true,
+    "ids": [],
+    "rank": null,
+    "error": null
+   },
+   "classification": {
+    "primary": "gate_below_threshold",
+    "causes": [
+     "top1_coverage 0.200 < 0.30",
+     null,
+     null,
+     "index_path: R.search empty",
+     "no_query_rewrite（_retrieval_text 仅剥寒暄前缀）"
+    ],
+    "synonym_hypotheses": [
+     "牌子~车牌号"
+    ],
+    "query_tokens_missing": [
+     "你还",
+     "子你",
+     "帆那",
+     "得不",
+     "牌子",
+     "记得",
+     "还记",
+     "那车"
+    ]
+   },
+   "evidence": {
+    "gate": "below_threshold",
+    "candidates_scored": 50,
+    "thresholds": {
+     "top_score_min": 2.0,
+     "coverage_min": 0.3,
+     "short_max_tokens": 2
+    },
+    "rewrite": "产品 _retrieval_text 仅剥离寒暄前缀；本 query 无前缀 -> 不改写"
+   }
+  },
+  {
+   "id": "q052",
+   "text": "周昊号码多少来着？",
+   "target": 70,
+   "target_preview": "周昊留的手机号是13910002009，平时不太接陌生来电。你上次提的那个法子我后来试了试，能用是能用，就是步骤有点绕，中间还得停下来想一会儿，效率不算高。这两",
+   "target_exists": true,
+   "target_block": {
+    "path": "D:\\llama-mem\\kvmem\\scale40k\\n200\\blocks\\s40_b0070.kvmem",
+    "n_tokens": 762,
+    "n_bytes": 79602756,
+    "exists": true,
+    "size": 79602756
+   },
+   "runs": [
+    {
+     "ids": [],
+     "n": 0,
+     "gate": "below_threshold",
+     "candidates": 10,
+     "top1_score": null,
+     "top1_id": null
+    },
+    {
+     "ids": [],
+     "n": 0,
+     "gate": "below_threshold",
+     "candidates": 10,
+     "top1_score": null,
+     "top1_id": null
+    },
+    {
+     "ids": [],
+     "n": 0,
+     "gate": "below_threshold",
+     "candidates": 10,
+     "top1_score": null,
+     "top1_id": null
+    }
+   ],
+   "deterministic": true,
+   "rank": 4,
+   "rank_x3": [
+    4,
+    4,
+    4
+   ],
+   "target_score": 1.0,
+   "target_coverage": 0.14285714285714285,
+   "target_hits": [
+    "周昊"
+   ],
+   "best": {
+    "id": 12,
+    "score": 1.0,
+    "coverage": 0.14285714285714285,
+    "hits": [
+     "周昊"
+    ]
+   },
+   "query_tokens": [
+    "号码",
+    "周昊",
+    "多少",
+    "少来",
+    "昊号",
+    "来着",
+    "码多"
+   ],
+   "query_tokens_missing_in_target": [
+    "号码",
+    "多少",
+    "少来",
+    "昊号",
+    "来着",
+    "码多"
+   ],
+   "rsearch": {
+    "empty": false,
+    "ids": [
+     187,
+     111,
+     161,
+     93,
+     55,
+     43,
+     149,
+     102,
+     12
+    ],
+    "rank": null,
+    "error": null
+   },
+   "classification": {
+    "primary": "gate_below_threshold",
+    "causes": [
+     "top1_coverage 0.143 < 0.30",
+     "top1_score 1.0 < 2.0",
+     null,
+     "index_path: R.search 未含目标",
+     "no_query_rewrite（_retrieval_text 仅剥寒暄前缀）"
+    ],
+    "synonym_hypotheses": [
+     "号码~手机号",
+     "来着=口语"
+    ],
+    "query_tokens_missing": [
+     "号码",
+     "多少",
+     "少来",
+     "昊号",
+     "来着",
+     "码多"
+    ]
+   },
+   "evidence": {
+    "gate": "below_threshold",
+    "candidates_scored": 10,
+    "thresholds": {
+     "top_score_min": 2.0,
+     "coverage_min": 0.3,
+     "short_max_tokens": 2
+    },
+    "rewrite": "产品 _retrieval_text 仅剥离寒暄前缀；本 query 无前缀 -> 不改写"
+   }
+  },
+  {
+   "id": "q060",
+   "text": "杨帆那个会定在几号几点了？",
+   "target": 25,
+   "target_preview": "杨帆下周那个重要会议定在2026-11-02 14:06，得提前把材料准备好。说实话这些天事情有点杂，脑子转得比平时慢，说话也可能有点跳跃，你别介意，我尽量说清",
+   "target_exists": true,
+   "target_block": {
+    "path": "D:\\llama-mem\\kvmem\\scale40k\\n200\\blocks\\s40_b0025.kvmem",
+    "n_tokens": 762,
+    "n_bytes": 79602756,
+    "exists": true,
+    "size": 79602756
+   },
+   "runs": [
+    {
+     "ids": [],
+     "n": 0,
+     "gate": "below_threshold",
+     "candidates": 70,
+     "top1_score": null,
+     "top1_id": null
+    },
+    {
+     "ids": [],
+     "n": 0,
+     "gate": "below_threshold",
+     "candidates": 70,
+     "top1_score": null,
+     "top1_id": null
+    },
+    {
+     "ids": [],
+     "n": 0,
+     "gate": "below_threshold",
+     "candidates": 70,
+     "top1_score": null,
+     "top1_id": null
+    }
+   ],
+   "deterministic": true,
+   "rank": 1,
+   "rank_x3": [
+    1,
+    1,
+    1
+   ],
+   "target_score": 3.0,
+   "target_coverage": 0.2727272727272727,
+   "target_hits": [
+    "定在",
+    "杨帆",
+    "那个"
+   ],
+   "best": {
+    "id": 25,
+    "score": 3.0,
+    "coverage": 0.2727272727272727,
+    "hits": [
+     "定在",
+     "杨帆",
+     "那个"
+    ]
+   },
+   "query_tokens": [
+    "个会",
+    "会定",
+    "几号",
+    "几点",
+    "号几",
+    "在几",
+    "定在",
+    "帆那",
+    "杨帆",
+    "点了",
+    "那个"
+   ],
+   "query_tokens_missing_in_target": [
+    "个会",
+    "会定",
+    "几号",
+    "几点",
+    "号几",
+    "在几",
+    "帆那",
+    "点了"
+   ],
+   "rsearch": {
+    "empty": false,
+    "ids": [
+     80,
+     122,
+     117,
+     118,
+     126,
+     124,
+     121,
+     125,
+     174,
+     102,
+     172,
+     119
+    ],
+    "rank": null,
+    "error": null
+   },
+   "classification": {
+    "primary": "gate_below_threshold",
+    "causes": [
+     "top1_coverage 0.273 < 0.30",
+     null,
+     null,
+     "index_path: R.search 未含目标",
+     "no_query_rewrite（_retrieval_text 仅剥寒暄前缀）"
+    ],
+    "synonym_hypotheses": [
+     "会~会议",
+     "几号几点~时间"
+    ],
+    "query_tokens_missing": [
+     "个会",
+     "会定",
+     "几号",
+     "几点",
+     "号几",
+     "在几",
+     "帆那",
+     "点了"
+    ]
+   },
+   "evidence": {
+    "gate": "below_threshold",
+    "candidates_scored": 70,
+    "thresholds": {
+     "top_score_min": 2.0,
+     "coverage_min": 0.3,
+     "short_max_tokens": 2
+    },
+    "rewrite": "产品 _retrieval_text 仅剥离寒暄前缀；本 query 无前缀 -> 不改写"
+   }
+  },
+  {
+   "id": "q062",
+   "text": "王强是哪儿人？",
+   "target": 130,
+   "target_preview": "王强的老家是临江，每年也就过节回去一趟。这会儿安静下来了，窗外也没什么声音，正好说说话，比刚才那种乱糟糟的时候强多了。我这个人记性一般，重要的事都得靠记下来，光",
+   "target_exists": true,
+   "target_block": {
+    "path": "D:\\llama-mem\\kvmem\\scale40k\\n200\\blocks\\s40_b0130.kvmem",
+    "n_tokens": 782,
+    "n_bytes": 81692036,
+    "exists": true,
+    "size": 81692036
+   },
+   "runs": [
+    {
+     "ids": [
+      4,
+      3,
+      5,
+      25,
+      35,
+      42,
+      50,
+      53,
+      55,
+      62,
+      70,
+      77,
+      80,
+      89,
+      93,
+      94,
+      96,
+      98,
+      103,
+      105
+     ],
+     "n": 20,
+     "gate": "pass",
+     "candidates": 38,
+     "top1_score": 2.0,
+     "top1_id": 4
+    },
+    {
+     "ids": [
+      4,
+      3,
+      5,
+      25,
+      35,
+      42,
+      50,
+      53,
+      55,
+      62,
+      70,
+      77,
+      80,
+      89,
+      93,
+      94,
+      96,
+      98,
+      103,
+      105
+     ],
+     "n": 20,
+     "gate": "pass",
+     "candidates": 38,
+     "top1_score": 2.0,
+     "top1_id": 4
+    },
+    {
+     "ids": [
+      4,
+      3,
+      5,
+      25,
+      35,
+      42,
+      50,
+      53,
+      55,
+      62,
+      70,
+      77,
+      80,
+      89,
+      93,
+      94,
+      96,
+      98,
+      103,
+      105
+     ],
+     "n": 20,
+     "gate": "pass",
+     "candidates": 38,
+     "top1_score": 2.0,
+     "top1_id": 4
+    }
+   ],
+   "deterministic": true,
+   "rank": 22,
+   "rank_x3": [
+    22,
+    22,
+    22
+   ],
+   "target_score": 1.0,
+   "target_coverage": 0.2,
+   "target_hits": [
+    "王强"
+   ],
+   "best": {
+    "id": 4,
+    "score": 2.0,
+    "coverage": 0.4,
+    "hits": [
+     "哪儿",
+     "王强"
+    ]
+   },
+   "query_tokens": [
+    "儿人",
+    "哪儿",
+    "强是",
+    "是哪",
+    "王强"
+   ],
+   "query_tokens_missing_in_target": [
+    "儿人",
+    "哪儿",
+    "强是",
+    "是哪"
+   ],
+   "rsearch": {
+    "empty": false,
+    "ids": [
+     155,
+     181,
+     4,
+     50,
+     35,
+     62,
+     103,
+     172
+    ],
+    "rank": null,
+    "error": null
+   },
+   "classification": {
+    "primary": "low_rank_beyond_20",
+    "causes": [
+     null,
+     null,
+     "target_rank 22 > 20（score 1.0 vs best 2.0）",
+     "index_path: R.search 未含目标",
+     "no_query_rewrite（_retrieval_text 仅剥寒暄前缀）"
+    ],
+    "synonym_hypotheses": [
+     "哪儿人~老家"
+    ],
+    "query_tokens_missing": [
+     "儿人",
+     "哪儿",
+     "强是",
+     "是哪"
+    ]
+   },
+   "evidence": {
+    "gate": "pass",
+    "candidates_scored": 38,
+    "thresholds": {
+     "top_score_min": 2.0,
+     "coverage_min": 0.3,
+     "short_max_tokens": 2
+    },
+    "rewrite": "产品 _retrieval_text 仅剥离寒暄前缀；本 query 无前缀 -> 不改写"
+   }
+  },
+  {
+   "id": "q063",
+   "text": "杨帆是哪儿人？",
+   "target": 144,
+   "target_preview": "杨帆的老家是临泉，每年也就过节回去一趟。我这个人记性一般，重要的事都得靠记下来，光靠脑子容易漏，所以到处都放着便签。这些天睡得晚，白天总有点提不起精神，做什么都",
+   "target_exists": true,
+   "target_block": {
+    "path": "D:\\llama-mem\\kvmem\\scale40k\\n200\\blocks\\s40_b0144.kvmem",
+    "n_tokens": 160,
+    "n_bytes": 16715428,
+    "exists": true,
+    "size": 16715428
+   },
+   "runs": [
+    {
+     "ids": [
+      25,
+      53,
+      80,
+      3,
+      4,
+      5,
+      8,
+      39,
+      42,
+      55,
+      66,
+      70,
+      89,
+      93,
+      94,
+      96,
+      98,
+      105,
+      107,
+      123
+     ],
+     "n": 20,
+     "gate": "pass",
+     "candidates": 36,
+     "top1_score": 2.0,
+     "top1_id": 25
+    },
+    {
+     "ids": [
+      25,
+      53,
+      80,
+      3,
+      4,
+      5,
+      8,
+      39,
+      42,
+      55,
+      66,
+      70,
+      89,
+      93,
+      94,
+      96,
+      98,
+      105,
+      107,
+      123
+     ],
+     "n": 20,
+     "gate": "pass",
+     "candidates": 36,
+     "top1_score": 2.0,
+     "top1_id": 25
+    },
+    {
+     "ids": [
+      25,
+      53,
+      80,
+      3,
+      4,
+      5,
+      8,
+      39,
+      42,
+      55,
+      66,
+      70,
+      89,
+      93,
+      94,
+      96,
+      98,
+      105,
+      107,
+      123
+     ],
+     "n": 20,
+     "gate": "pass",
+     "candidates": 36,
+     "top1_score": 2.0,
+     "top1_id": 25
+    }
+   ],
+   "deterministic": true,
+   "rank": 26,
+   "rank_x3": [
+    26,
+    26,
+    26
+   ],
+   "target_score": 1.0,
+   "target_coverage": 0.2,
+   "target_hits": [
+    "杨帆"
+   ],
+   "best": {
+    "id": 25,
+    "score": 2.0,
+    "coverage": 0.4,
+    "hits": [
+     "哪儿",
+     "杨帆"
+    ]
+   },
+   "query_tokens": [
+    "儿人",
+    "哪儿",
+    "帆是",
+    "是哪",
+    "杨帆"
+   ],
+   "query_tokens_missing_in_target": [
+    "儿人",
+    "哪儿",
+    "帆是",
+    "是哪"
+   ],
+   "rsearch": {
+    "empty": false,
+    "ids": [
+     158,
+     39,
+     8,
+     66,
+     80,
+     184,
+     107,
+     53,
+     144
+    ],
+    "rank": 9,
+    "error": null
+   },
+   "classification": {
+    "primary": "low_rank_beyond_20",
+    "causes": [
+     null,
+     null,
+     "target_rank 26 > 20（score 1.0 vs best 2.0）",
+     "index_path: R.search rank 9",
+     "no_query_rewrite（_retrieval_text 仅剥寒暄前缀）"
+    ],
+    "synonym_hypotheses": [
+     "哪儿人~老家"
+    ],
+    "query_tokens_missing": [
+     "儿人",
+     "哪儿",
+     "帆是",
+     "是哪"
+    ]
+   },
+   "evidence": {
+    "gate": "pass",
+    "candidates_scored": 36,
+    "thresholds": {
+     "top_score_min": 2.0,
+     "coverage_min": 0.3,
+     "short_max_tokens": 2
+    },
+    "rewrite": "产品 _retrieval_text 仅剥离寒暄前缀；本 query 无前缀 -> 不改写"
+   }
+  }
+ ],
+ "deterministic": true
+}

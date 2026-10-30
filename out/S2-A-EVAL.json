@@ -1,0 +1,284 @@
+{
+  "schema": "s2a_eval_v1",
+  "source": "D:\\llama-mem\\kvmem\\scale40k\\n200\\chat.db",
+  "source_sha256": "2d84aefda3c76ecece0cf3f620c506e0748090a587528b8bed513491affd24fd",
+  "heldout_sha256": "77131e059095b931b536e6e63479e0a5378d647703ad2df75877e81376da93fd",
+  "summary": {
+    "repro_before_pool20_rank": "3/5",
+    "repro_before_pool20_mounted": "0/5",
+    "repro_after_pool20_rank": "5/5",
+    "repro_after_pool20_mounted": "3/5",
+    "heldout_before_pool20_rank": "5/5",
+    "heldout_before_pool20_mounted": "3/5",
+    "heldout_after_pool20_rank": "5/5",
+    "heldout_after_pool20_mounted": "3/5",
+    "repro_empty_after": 2,
+    "heldout_empty_after": 2,
+    "heldout_sha256": "77131e059095b931b536e6e63479e0a5378d647703ad2df75877e81376da93fd",
+    "pass_offline": true
+  },
+  "cases": [
+    {
+      "id": "q048",
+      "set": "repro",
+      "text": "杨帆那车牌子你还记得不？",
+      "target": 53,
+      "expansions": [],
+      "expanded_query": "杨帆那车牌子你还记得不？",
+      "before": {
+        "rank": 3,
+        "empty": true,
+        "pool20_rank": true,
+        "pool20_mounted": false,
+        "n": 0
+      },
+      "after": {
+        "rank": 3,
+        "empty": true,
+        "pool20_rank": true,
+        "pool20_mounted": false,
+        "n": 0
+      }
+    },
+    {
+      "id": "q052",
+      "set": "repro",
+      "text": "周昊号码多少来着？",
+      "target": 70,
+      "expansions": [],
+      "expanded_query": "周昊号码多少来着？",
+      "before": {
+        "rank": 4,
+        "empty": true,
+        "pool20_rank": true,
+        "pool20_mounted": false,
+        "n": 0
+      },
+      "after": {
+        "rank": 4,
+        "empty": true,
+        "pool20_rank": true,
+        "pool20_mounted": false,
+        "n": 0
+      }
+    },
+    {
+      "id": "q060",
+      "set": "repro",
+      "text": "杨帆那个会定在几号几点了？",
+      "target": 25,
+      "expansions": [
+        {
+          "item": "会→会议",
+          "source": "口语省略；仅时间/日期语境，排除 会做/学会/开会",
+          "src": "会",
+          "target": "会议"
+        }
+      ],
+      "expanded_query": "杨帆那个会定在几号几点了？ 会议",
+      "before": {
+        "rank": 1,
+        "empty": true,
+        "pool20_rank": true,
+        "pool20_mounted": false,
+        "n": 0
+      },
+      "after": {
+        "rank": 1,
+        "empty": false,
+        "pool20_rank": true,
+        "pool20_mounted": true,
+        "n": 20
+      }
+    },
+    {
+      "id": "q062",
+      "set": "repro",
+      "text": "王强是哪儿人？",
+      "target": 130,
+      "expansions": [
+        {
+          "item": "哪儿人→老家",
+          "source": "通用口语同义；哪儿人/哪里人",
+          "src": "哪儿人",
+          "target": "老家"
+        }
+      ],
+      "expanded_query": "王强是哪儿人？ 老家",
+      "before": {
+        "rank": 22,
+        "empty": false,
+        "pool20_rank": false,
+        "pool20_mounted": false,
+        "n": 20
+      },
+      "after": {
+        "rank": 2,
+        "empty": false,
+        "pool20_rank": true,
+        "pool20_mounted": true,
+        "n": 20
+      }
+    },
+    {
+      "id": "q063",
+      "set": "repro",
+      "text": "杨帆是哪儿人？",
+      "target": 144,
+      "expansions": [
+        {
+          "item": "哪儿人→老家",
+          "source": "通用口语同义；哪儿人/哪里人",
+          "src": "哪儿人",
+          "target": "老家"
+        }
+      ],
+      "expanded_query": "杨帆是哪儿人？ 老家",
+      "before": {
+        "rank": 26,
+        "empty": false,
+        "pool20_rank": false,
+        "pool20_mounted": false,
+        "n": 20
+      },
+      "after": {
+        "rank": 6,
+        "empty": false,
+        "pool20_rank": true,
+        "pool20_mounted": true,
+        "n": 20
+      }
+    },
+    {
+      "id": "S2H01",
+      "set": "heldout",
+      "text": "孙悦那辆车挂的什么牌子？",
+      "target": 58,
+      "expansions": [
+        {
+          "item": "牌子→车牌",
+          "source": "通用口语同义（车牌也叫牌子）；限 车/上牌/摇号 语境",
+          "src": "牌子",
+          "target": "车牌"
+        }
+      ],
+      "expanded_query": "孙悦那辆车挂的什么牌子？ 车牌",
+      "before": {
+        "rank": 13,
+        "empty": false,
+        "pool20_rank": true,
+        "pool20_mounted": true,
+        "n": 20
+      },
+      "after": {
+        "rank": 2,
+        "empty": false,
+        "pool20_rank": true,
+        "pool20_mounted": true,
+        "n": 20
+      }
+    },
+    {
+      "id": "S2H02",
+      "set": "heldout",
+      "text": "吴静号码是多少来着？",
+      "target": 71,
+      "expansions": [],
+      "expanded_query": "吴静号码是多少来着？",
+      "before": {
+        "rank": 4,
+        "empty": true,
+        "pool20_rank": true,
+        "pool20_mounted": false,
+        "n": 0
+      },
+      "after": {
+        "rank": 4,
+        "empty": true,
+        "pool20_rank": true,
+        "pool20_mounted": false,
+        "n": 0
+      }
+    },
+    {
+      "id": "S2H03",
+      "set": "heldout",
+      "text": "黄婷那个会安排在几号几点？",
+      "target": 124,
+      "expansions": [
+        {
+          "item": "会→会议",
+          "source": "口语省略；仅时间/日期语境，排除 会做/学会/开会",
+          "src": "会",
+          "target": "会议"
+        }
+      ],
+      "expanded_query": "黄婷那个会安排在几号几点？ 会议",
+      "before": {
+        "rank": 3,
+        "empty": true,
+        "pool20_rank": true,
+        "pool20_mounted": false,
+        "n": 0
+      },
+      "after": {
+        "rank": 2,
+        "empty": true,
+        "pool20_rank": true,
+        "pool20_mounted": false,
+        "n": 0
+      }
+    },
+    {
+      "id": "S2H04",
+      "set": "heldout",
+      "text": "李娜老家是哪儿的？",
+      "target": 129,
+      "expansions": [],
+      "expanded_query": "李娜老家是哪儿的？",
+      "before": {
+        "rank": 1,
+        "empty": false,
+        "pool20_rank": true,
+        "pool20_mounted": true,
+        "n": 20
+      },
+      "after": {
+        "rank": 1,
+        "empty": false,
+        "pool20_rank": true,
+        "pool20_mounted": true,
+        "n": 20
+      }
+    },
+    {
+      "id": "S2H05",
+      "set": "heldout",
+      "text": "陈杰那个会定在几号了？",
+      "target": 121,
+      "expansions": [
+        {
+          "item": "会→会议",
+          "source": "口语省略；仅时间/日期语境，排除 会做/学会/开会",
+          "src": "会",
+          "target": "会议"
+        }
+      ],
+      "expanded_query": "陈杰那个会定在几号了？ 会议",
+      "before": {
+        "rank": 1,
+        "empty": false,
+        "pool20_rank": true,
+        "pool20_mounted": true,
+        "n": 20
+      },
+      "after": {
+        "rank": 1,
+        "empty": false,
+        "pool20_rank": true,
+        "pool20_mounted": true,
+        "n": 20
+      }
+    }
+  ]
+}

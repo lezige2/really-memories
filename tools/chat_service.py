@@ -69,6 +69,7 @@ CONTEXT_WINDOW = D.N_CTX
 
 _ERR_HTTP = {
     "bad_request": 400,
+    "too_many_blocks": 400,
     "not_found": 404,
     "memory_full": 409,
     "chat_full": 409,
@@ -86,6 +87,7 @@ _ERR_HTTP = {
 # OpenAI 兼容错误 type 映射（错误体 {"error":{"message","type","code"}}）
 _OPENAI_TYPE = {
     "bad_request": "invalid_request_error",
+    "too_many_blocks": "invalid_request_error",
     "not_found": "invalid_request_error",
     "method_not_allowed": "invalid_request_error",
     "conflict": "invalid_request_error",
@@ -569,6 +571,7 @@ def build_app(args, data):
                       retrieval_mode=getattr(args, "retrieval", "off"),
                       k2_family=bool(getattr(args, "k2_family", False)),
                       event_date=bool(getattr(args, "event_date", False)),
+                      query_expand=bool(getattr(args, "query_expand", False)),
                       topk=getattr(args, "topk", D.DEFAULT_TOPK),
                       rollover_at=getattr(args, "rollover_at", D.ROLLOVER_AT_DEFAULT),
                       n_ctx=getattr(args, "n_ctx", D.N_CTX_DEFAULT),
@@ -598,6 +601,8 @@ def main(argv=None):
                     help="K2 同族只留最新（默认关；与 chat_daily 同名同义）")
     ap.add_argument("--event-date", action="store_true", default=False,
                     help="P0 event_date（默认关；与 chat_daily 同名同义）")
+    ap.add_argument("--query-expand", action="store_true", default=False,
+                    help="S2-A query expansion（默认关；与 chat_daily 同名同义）")
     ap.add_argument("--topk", type=int, default=D.DEFAULT_TOPK,
                     help="topk 模式每问挂载条数（1..%d）" % D.MAX_MEMORIES)
     ap.add_argument("--rollover-at", type=float, default=D.ROLLOVER_AT_DEFAULT,

@@ -1,0 +1,408 @@
+{
+ "schema": "s2_gate_heldout_report_v1",
+ "library": "kvmem/scale40k/n200/chat.db (200 rows, read-only immutable)",
+ "rule": "reject if no_candidate or (cov<0.34 and gap==0 and content<2)",
+ "rule_sha256": "9ff03502383664479815a6c14d5a14b1f0df1c727faad0526209e080af31f36a",
+ "rule_source": {
+  "file": "out/S2-GATE-SEPARATION.md",
+  "sha256": "459b81dc263b27c16e705b8eacd4ae444e7bebbb50346204a8accf49bcb42157"
+ },
+ "signal_impl": {
+  "file": "out/s2_gate_2x2.py",
+  "sha256": "6e4e119a9c0b10a3d4f5f9c160331ddb0b61c727ed08ac460ae8b5858448b186",
+  "note": "cov=coverage_of(top1 hits, query tokens); gap=top1.score-top2.score; content=#top1 hits that are not all-stopword chars"
+ },
+ "probe_file": {
+  "file": "out/S2-GATE-HELDOUT-20.jsonl",
+  "sha256": "3d04414c8335a1a35ed670787887cf8d110b898dd9a4df864d1f4ae567d84486",
+  "n": 20
+ },
+ "result": {
+  "target_recall": 9,
+  "target_n": 10,
+  "target_rate": 0.9,
+  "neg_refused": 8,
+  "neg_n": 10,
+  "neg_rate": 0.8,
+  "gate_required": "target>=10/10 AND neg 10/10",
+  "passed": false
+ },
+ "lost_targets": [
+  {
+   "id": "H03",
+   "text": "王强家的猫名字是什么？",
+   "target": 4,
+   "signals": {
+    "score": 2,
+    "cov": 0.2222222222222222,
+    "gap": 0,
+    "content": 1,
+    "top1_id": 4
+   },
+   "rule_fired": true
+  }
+ ],
+ "leaked_negatives": [
+  {
+   "id": "H12",
+   "text": "我家的Wi-Fi密码是多少？",
+   "signals": {
+    "score": 2,
+    "cov": 0.25,
+    "gap": 0,
+    "content": 2,
+    "top1_id": 191
+   },
+   "rule_fired": false
+  },
+  {
+   "id": "H19",
+   "text": "我的快递单号是多少？",
+   "signals": {
+    "score": 2,
+    "cov": 0.25,
+    "gap": 0,
+    "content": 2,
+    "top1_id": 62
+   },
+   "rule_fired": false
+  }
+ ],
+ "all_cases": [
+  {
+   "id": "H01",
+   "kind": "target",
+   "text": "张伟家那只猫叫什么来着？",
+   "target": 1,
+   "note": "张伟的猫=小橘；Q40 未用 id1",
+   "signals": {
+    "score": 5,
+    "cov": 0.5,
+    "gap": 1,
+    "content": 4,
+    "top1_id": 1
+   },
+   "refused": false,
+   "pool_n": 20,
+   "target_in_pool": true
+  },
+  {
+   "id": "H02",
+   "kind": "target",
+   "text": "李娜养的那只猫叫啥？",
+   "target": 3,
+   "note": "李娜的猫=小柚；Q40 用李娜只问过银行卡(id 25)",
+   "signals": {
+    "score": 4,
+    "cov": 0.5,
+    "gap": 1,
+    "content": 4,
+    "top1_id": 3
+   },
+   "refused": false,
+   "pool_n": 20,
+   "target_in_pool": true
+  },
+  {
+   "id": "H03",
+   "kind": "target",
+   "text": "王强家的猫名字是什么？",
+   "target": 4,
+   "note": "王强的猫=小柠；Q40 未涉及王强",
+   "signals": {
+    "score": 2,
+    "cov": 0.2222222222222222,
+    "gap": 0,
+    "content": 1,
+    "top1_id": 4
+   },
+   "refused": true,
+   "pool_n": 0,
+   "target_in_pool": false
+  },
+  {
+   "id": "H04",
+   "kind": "target",
+   "text": "刘敏那只猫叫什么名字？",
+   "target": 5,
+   "note": "刘敏的猫=小栗；Q40 对刘敏只问车牌(id 59)",
+   "signals": {
+    "score": 5,
+    "cov": 0.5555555555555556,
+    "gap": 1,
+    "content": 4,
+    "top1_id": 5
+   },
+   "refused": false,
+   "pool_n": 20,
+   "target_in_pool": true
+  },
+  {
+   "id": "H05",
+   "kind": "target",
+   "text": "黄婷家里那只猫叫什么？",
+   "target": 11,
+   "note": "黄婷的猫=小竹；Q40 未用 id11",
+   "signals": {
+    "score": 6,
+    "cov": 0.6666666666666666,
+    "gap": 0,
+    "content": 5,
+    "top1_id": 1
+   },
+   "refused": false,
+   "pool_n": 20,
+   "target_in_pool": true
+  },
+  {
+   "id": "H06",
+   "kind": "target",
+   "text": "徐斌养的猫叫什么？",
+   "target": 15,
+   "note": "徐斌的猫=小枫；Q40 未涉及徐斌",
+   "signals": {
+    "score": 3,
+    "cov": 0.42857142857142855,
+    "gap": 0,
+    "content": 2,
+    "top1_id": 15
+   },
+   "refused": false,
+   "pool_n": 20,
+   "target_in_pool": true
+  },
+  {
+   "id": "H07",
+   "kind": "target",
+   "text": "郑凯那辆车的车牌你还记得吗？",
+   "target": 18,
+   "note": "郑凯车牌=沪B·5M8T1；Q40 车牌只问刘敏/吴静",
+   "signals": {
+    "score": 3,
+    "cov": 0.25,
+    "gap": 0,
+    "content": 3,
+    "top1_id": 18
+   },
+   "refused": false,
+   "pool_n": 20,
+   "target_in_pool": true
+  },
+  {
+   "id": "H08",
+   "kind": "target",
+   "text": "黄婷那张工资卡的卡号是多少？",
+   "target": 23,
+   "note": "工资卡 6222 0201 8830 4408；Q40 银行卡只问李娜(id 25)",
+   "signals": {
+    "score": 10,
+    "cov": 0.8333333333333334,
+    "gap": 2,
+    "content": 10,
+    "top1_id": 23
+   },
+   "refused": false,
+   "pool_n": 20,
+   "target_in_pool": true
+  },
+  {
+   "id": "H09",
+   "kind": "target",
+   "text": "邓辉的会议定在什么时候？",
+   "target": 26,
+   "note": "会议 2026-11-05 09:30；Q40 会议用 id 70/93 等",
+   "signals": {
+    "score": 6,
+    "cov": 0.6,
+    "gap": 0,
+    "content": 4,
+    "top1_id": 26
+   },
+   "refused": false,
+   "pool_n": 20,
+   "target_in_pool": true
+  },
+  {
+   "id": "H10",
+   "kind": "target",
+   "text": "沈越的座位号是几排几号？",
+   "target": 27,
+   "note": "座位 7排05号；Q40 未用 id27",
+   "signals": {
+    "score": 5,
+    "cov": 0.5,
+    "gap": 0,
+    "content": 5,
+    "top1_id": 27
+   },
+   "refused": false,
+   "pool_n": 20,
+   "target_in_pool": true
+  },
+  {
+   "id": "H11",
+   "kind": "negative",
+   "text": "我的护照号码是多少？",
+   "target": null,
+   "note": "库中无护照",
+   "signals": {
+    "score": 1,
+    "cov": 0.125,
+    "gap": 0,
+    "content": 1,
+    "top1_id": 191
+   },
+   "refused": true,
+   "pool_n": 0,
+   "target_in_pool": null
+  },
+  {
+   "id": "H12",
+   "kind": "negative",
+   "text": "我家的Wi-Fi密码是多少？",
+   "target": null,
+   "note": "库中无密码",
+   "signals": {
+    "score": 2,
+    "cov": 0.25,
+    "gap": 0,
+    "content": 2,
+    "top1_id": 191
+   },
+   "refused": false,
+   "pool_n": 2,
+   "target_in_pool": null
+  },
+  {
+   "id": "H13",
+   "kind": "negative",
+   "text": "我昨天晚饭吃了什么？",
+   "target": null,
+   "note": "库中无饮食记录",
+   "signals": {
+    "score": 1,
+    "cov": 0.125,
+    "gap": 0,
+    "content": 0,
+    "top1_id": 1
+   },
+   "refused": true,
+   "pool_n": 0,
+   "target_in_pool": null
+  },
+  {
+   "id": "H14",
+   "kind": "negative",
+   "text": "我下个月的航班号是多少？",
+   "target": null,
+   "note": "库中无航班",
+   "signals": {
+    "score": 1,
+    "cov": 0.1,
+    "gap": 0,
+    "content": 1,
+    "top1_id": 18
+   },
+   "refused": true,
+   "pool_n": 0,
+   "target_in_pool": null
+  },
+  {
+   "id": "H15",
+   "kind": "negative",
+   "text": "我妈妈的生日是哪天？",
+   "target": null,
+   "note": "库中无亲属生日",
+   "signals": null,
+   "refused": true,
+   "pool_n": 0,
+   "target_in_pool": null
+  },
+  {
+   "id": "H16",
+   "kind": "negative",
+   "text": "我的血型是什么？",
+   "target": null,
+   "note": "库中无血型",
+   "signals": {
+    "score": 1,
+    "cov": 0.16666666666666666,
+    "gap": 0,
+    "content": 0,
+    "top1_id": 1
+   },
+   "refused": true,
+   "pool_n": 0,
+   "target_in_pool": null
+  },
+  {
+   "id": "H17",
+   "kind": "negative",
+   "text": "我的工牌编号是多少？",
+   "target": null,
+   "note": "库中无工牌",
+   "signals": {
+    "score": 1,
+    "cov": 0.125,
+    "gap": 0,
+    "content": 1,
+    "top1_id": 18
+   },
+   "refused": true,
+   "pool_n": 0,
+   "target_in_pool": null
+  },
+  {
+   "id": "H18",
+   "kind": "negative",
+   "text": "我上次体检的血压是多少？",
+   "target": null,
+   "note": "库中无体检数据",
+   "signals": {
+    "score": 1,
+    "cov": 0.1,
+    "gap": 0,
+    "content": 1,
+    "top1_id": 2
+   },
+   "refused": true,
+   "pool_n": 0,
+   "target_in_pool": null
+  },
+  {
+   "id": "H19",
+   "kind": "negative",
+   "text": "我的快递单号是多少？",
+   "target": null,
+   "note": "库中无快递单号",
+   "signals": {
+    "score": 2,
+    "cov": 0.25,
+    "gap": 0,
+    "content": 2,
+    "top1_id": 62
+   },
+   "refused": false,
+   "pool_n": 20,
+   "target_in_pool": null
+  },
+  {
+   "id": "H20",
+   "kind": "negative",
+   "text": "我住的酒店房号是多少？",
+   "target": null,
+   "note": "库中无酒店",
+   "signals": {
+    "score": 1,
+    "cov": 0.1111111111111111,
+    "gap": 0,
+    "content": 1,
+    "top1_id": 18
+   },
+   "refused": true,
+   "pool_n": 0,
+   "target_in_pool": null
+  }
+ ],
+ "verdict": "FAIL — 现有信号（cov/gap/content）在真 held-out 上无法分离：目标 9/10、负例 8/10；按 B 规则判“现有信号无法分离”，才开 C/换信号"
+}

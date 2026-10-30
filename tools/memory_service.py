@@ -12,10 +12,18 @@ chat_daily 只保留薄适配（DB/KV 写入、挂载、日志），行为与拆
 文档：docs/MEMORY-LAYER.md。
 """
 
+import os
 import re
 import unicodedata
 
 VERSION = "memory-service-1.0"
+GATE_OFF_ENV = "S2_GATE_OFF"
+
+
+def gate_off():
+    """诊断用 bypass（默认 off）：S2_GATE_OFF=1 时不因 coverage 闸清空候选。"""
+    return str(os.environ.get(GATE_OFF_ENV, "")).strip().lower() in (
+        "1", "true", "yes", "on")
 
 CJK_RUN = re.compile(r"[\u4e00-\u9fff]+")
 LATIN_RUN = re.compile(r"[A-Za-z0-9_]+")
@@ -151,6 +159,11 @@ def retrieve(query, rows, topk=4, cfg=None, meta_fn=None, return_stats=False):
     tag_ok = bool(best.get("tag_hits")) and best["score"] >= cfg.tag_weight
     gate_ok = short_ok or tag_ok or (best["score"] >= cfg.top_score_min
                                      and best["coverage"] >= cfg.coverage_min)
+    if gate_off():
+        stats["gate"] = "bypassed"
+        stats["gate_bypass"] = GATE_OFF_ENV
+        out = scored[:max(1, int(topk))]
+        return (out, stats) if return_stats else out
     stats["gate"] = "pass" if gate_ok else "below_threshold"
     if not gate_ok:
         return ([], stats) if return_stats else []

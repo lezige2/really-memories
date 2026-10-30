@@ -1,0 +1,540 @@
+{
+ "schema": "s2_gate_2x2_v1",
+ "source": "D:\\llama-mem\\kvmem\\scale40k\\n200\\chat.db",
+ "source_sha256": "2d84aefda3c76ecece0cf3f620c506e0748090a587528b8bed513491affd24fd",
+ "copy": "D:\\llama-mem\\tmp\\s2_gate2\\chat.db",
+ "k": 20,
+ "matrix": {
+  "repro": {
+   "A_off__gate_on": {
+    "in": 0,
+    "empty": 3,
+    "n": 5,
+    "ranks": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "A_off__gate_off": {
+    "in": 3,
+    "empty": 0,
+    "n": 5,
+    "ranks": [
+     3,
+     4,
+     1,
+     null,
+     null
+    ]
+   },
+   "A_on__gate_on": {
+    "in": 1,
+    "empty": 2,
+    "n": 5,
+    "ranks": [
+     null,
+     null,
+     1,
+     null,
+     null
+    ]
+   },
+   "A_on__gate_off": {
+    "in": 3,
+    "empty": 0,
+    "n": 5,
+    "ranks": [
+     3,
+     4,
+     1,
+     null,
+     null
+    ]
+   }
+  },
+  "heldout": {
+   "A_off__gate_on": {
+    "in": 3,
+    "empty": 2,
+    "n": 5,
+    "ranks": [
+     13,
+     null,
+     null,
+     1,
+     1
+    ]
+   },
+   "A_off__gate_off": {
+    "in": 5,
+    "empty": 0,
+    "n": 5,
+    "ranks": [
+     13,
+     4,
+     3,
+     1,
+     1
+    ]
+   },
+   "A_on__gate_on": {
+    "in": 3,
+    "empty": 2,
+    "n": 5,
+    "ranks": [
+     2,
+     null,
+     null,
+     1,
+     1
+    ]
+   },
+   "A_on__gate_off": {
+    "in": 5,
+    "empty": 0,
+    "n": 5,
+    "ranks": [
+     2,
+     4,
+     2,
+     1,
+     1
+    ]
+   }
+  }
+ },
+ "cases": [
+  {
+   "suite": "repro",
+   "id": "q048",
+   "target": 53,
+   "text": "杨帆那车牌子你还记得不？",
+   "expansions": [
+    "车牌"
+   ],
+   "expanded": "杨帆那车牌子你还记得不？ 车牌",
+   "cells": {
+    "A_off__gate_on": {
+     "in": false,
+     "rank": null,
+     "empty": true,
+     "n": 0,
+     "top1": null,
+     "reason": "below_threshold"
+    },
+    "A_off__gate_off": {
+     "in": true,
+     "rank": 3,
+     "empty": false,
+     "n": 20,
+     "top1": null,
+     "reason": "bypass"
+    },
+    "A_on__gate_on": {
+     "in": false,
+     "rank": null,
+     "empty": true,
+     "n": 0,
+     "top1": null,
+     "reason": "below_threshold"
+    },
+    "A_on__gate_off": {
+     "in": true,
+     "rank": 3,
+     "empty": false,
+     "n": 20,
+     "top1": null,
+     "reason": "bypass"
+    }
+   }
+  },
+  {
+   "suite": "repro",
+   "id": "q052",
+   "target": 70,
+   "text": "周昊号码多少来着？",
+   "expansions": [],
+   "expanded": "周昊号码多少来着？",
+   "cells": {
+    "A_off__gate_on": {
+     "in": false,
+     "rank": null,
+     "empty": true,
+     "n": 0,
+     "top1": null,
+     "reason": "below_threshold"
+    },
+    "A_off__gate_off": {
+     "in": true,
+     "rank": 4,
+     "empty": false,
+     "n": 10,
+     "top1": null,
+     "reason": "bypass"
+    },
+    "A_on__gate_on": {
+     "in": false,
+     "rank": null,
+     "empty": true,
+     "n": 0,
+     "top1": null,
+     "reason": "below_threshold"
+    },
+    "A_on__gate_off": {
+     "in": true,
+     "rank": 4,
+     "empty": false,
+     "n": 10,
+     "top1": null,
+     "reason": "bypass"
+    }
+   }
+  },
+  {
+   "suite": "repro",
+   "id": "q060",
+   "target": 25,
+   "text": "杨帆那个会定在几号几点了？",
+   "expansions": [
+    "会议"
+   ],
+   "expanded": "杨帆那个会定在几号几点了？ 会议",
+   "cells": {
+    "A_off__gate_on": {
+     "in": false,
+     "rank": null,
+     "empty": true,
+     "n": 0,
+     "top1": null,
+     "reason": "below_threshold"
+    },
+    "A_off__gate_off": {
+     "in": true,
+     "rank": 1,
+     "empty": false,
+     "n": 20,
+     "top1": null,
+     "reason": "bypass"
+    },
+    "A_on__gate_on": {
+     "in": true,
+     "rank": 1,
+     "empty": false,
+     "n": 20,
+     "top1": 4.0,
+     "reason": "pass"
+    },
+    "A_on__gate_off": {
+     "in": true,
+     "rank": 1,
+     "empty": false,
+     "n": 20,
+     "top1": null,
+     "reason": "bypass"
+    }
+   }
+  },
+  {
+   "suite": "repro",
+   "id": "q062",
+   "target": 130,
+   "text": "王强是哪儿人？",
+   "expansions": [],
+   "expanded": "王强是哪儿人？",
+   "cells": {
+    "A_off__gate_on": {
+     "in": false,
+     "rank": null,
+     "empty": false,
+     "n": 20,
+     "top1": 2.0,
+     "reason": "pass"
+    },
+    "A_off__gate_off": {
+     "in": false,
+     "rank": null,
+     "empty": false,
+     "n": 20,
+     "top1": null,
+     "reason": "bypass"
+    },
+    "A_on__gate_on": {
+     "in": false,
+     "rank": null,
+     "empty": false,
+     "n": 20,
+     "top1": 2.0,
+     "reason": "pass"
+    },
+    "A_on__gate_off": {
+     "in": false,
+     "rank": null,
+     "empty": false,
+     "n": 20,
+     "top1": null,
+     "reason": "bypass"
+    }
+   }
+  },
+  {
+   "suite": "repro",
+   "id": "q063",
+   "target": 144,
+   "text": "杨帆是哪儿人？",
+   "expansions": [],
+   "expanded": "杨帆是哪儿人？",
+   "cells": {
+    "A_off__gate_on": {
+     "in": false,
+     "rank": null,
+     "empty": false,
+     "n": 20,
+     "top1": 2.0,
+     "reason": "pass"
+    },
+    "A_off__gate_off": {
+     "in": false,
+     "rank": null,
+     "empty": false,
+     "n": 20,
+     "top1": null,
+     "reason": "bypass"
+    },
+    "A_on__gate_on": {
+     "in": false,
+     "rank": null,
+     "empty": false,
+     "n": 20,
+     "top1": 2.0,
+     "reason": "pass"
+    },
+    "A_on__gate_off": {
+     "in": false,
+     "rank": null,
+     "empty": false,
+     "n": 20,
+     "top1": null,
+     "reason": "bypass"
+    }
+   }
+  },
+  {
+   "suite": "heldout",
+   "id": "S2H01",
+   "target": 58,
+   "text": "孙悦那辆车挂的什么牌子？",
+   "expansions": [
+    "车牌"
+   ],
+   "expanded": "孙悦那辆车挂的什么牌子？ 车牌",
+   "cells": {
+    "A_off__gate_on": {
+     "in": true,
+     "rank": 13,
+     "empty": false,
+     "n": 20,
+     "top1": 5.0,
+     "reason": "pass"
+    },
+    "A_off__gate_off": {
+     "in": true,
+     "rank": 13,
+     "empty": false,
+     "n": 20,
+     "top1": null,
+     "reason": "bypass"
+    },
+    "A_on__gate_on": {
+     "in": true,
+     "rank": 2,
+     "empty": false,
+     "n": 20,
+     "top1": 5.0,
+     "reason": "pass"
+    },
+    "A_on__gate_off": {
+     "in": true,
+     "rank": 2,
+     "empty": false,
+     "n": 20,
+     "top1": null,
+     "reason": "bypass"
+    }
+   }
+  },
+  {
+   "suite": "heldout",
+   "id": "S2H02",
+   "target": 71,
+   "text": "吴静号码是多少来着？",
+   "expansions": [],
+   "expanded": "吴静号码是多少来着？",
+   "cells": {
+    "A_off__gate_on": {
+     "in": false,
+     "rank": null,
+     "empty": true,
+     "n": 0,
+     "top1": null,
+     "reason": "below_threshold"
+    },
+    "A_off__gate_off": {
+     "in": true,
+     "rank": 4,
+     "empty": false,
+     "n": 12,
+     "top1": null,
+     "reason": "bypass"
+    },
+    "A_on__gate_on": {
+     "in": false,
+     "rank": null,
+     "empty": true,
+     "n": 0,
+     "top1": null,
+     "reason": "below_threshold"
+    },
+    "A_on__gate_off": {
+     "in": true,
+     "rank": 4,
+     "empty": false,
+     "n": 12,
+     "top1": null,
+     "reason": "bypass"
+    }
+   }
+  },
+  {
+   "suite": "heldout",
+   "id": "S2H03",
+   "target": 124,
+   "text": "黄婷那个会安排在几号几点？",
+   "expansions": [
+    "会议"
+   ],
+   "expanded": "黄婷那个会安排在几号几点？ 会议",
+   "cells": {
+    "A_off__gate_on": {
+     "in": false,
+     "rank": null,
+     "empty": true,
+     "n": 0,
+     "top1": null,
+     "reason": "below_threshold"
+    },
+    "A_off__gate_off": {
+     "in": true,
+     "rank": 3,
+     "empty": false,
+     "n": 20,
+     "top1": null,
+     "reason": "bypass"
+    },
+    "A_on__gate_on": {
+     "in": false,
+     "rank": null,
+     "empty": true,
+     "n": 0,
+     "top1": null,
+     "reason": "below_threshold"
+    },
+    "A_on__gate_off": {
+     "in": true,
+     "rank": 2,
+     "empty": false,
+     "n": 20,
+     "top1": null,
+     "reason": "bypass"
+    }
+   }
+  },
+  {
+   "suite": "heldout",
+   "id": "S2H04",
+   "target": 129,
+   "text": "李娜老家是哪儿的？",
+   "expansions": [],
+   "expanded": "李娜老家是哪儿的？",
+   "cells": {
+    "A_off__gate_on": {
+     "in": true,
+     "rank": 1,
+     "empty": false,
+     "n": 20,
+     "top1": 3.0,
+     "reason": "pass"
+    },
+    "A_off__gate_off": {
+     "in": true,
+     "rank": 1,
+     "empty": false,
+     "n": 20,
+     "top1": null,
+     "reason": "bypass"
+    },
+    "A_on__gate_on": {
+     "in": true,
+     "rank": 1,
+     "empty": false,
+     "n": 20,
+     "top1": 3.0,
+     "reason": "pass"
+    },
+    "A_on__gate_off": {
+     "in": true,
+     "rank": 1,
+     "empty": false,
+     "n": 20,
+     "top1": null,
+     "reason": "bypass"
+    }
+   }
+  },
+  {
+   "suite": "heldout",
+   "id": "S2H05",
+   "target": 121,
+   "text": "陈杰那个会定在几号了？",
+   "expansions": [],
+   "expanded": "陈杰那个会定在几号了？",
+   "cells": {
+    "A_off__gate_on": {
+     "in": true,
+     "rank": 1,
+     "empty": false,
+     "n": 20,
+     "top1": 3.0,
+     "reason": "pass"
+    },
+    "A_off__gate_off": {
+     "in": true,
+     "rank": 1,
+     "empty": false,
+     "n": 20,
+     "top1": null,
+     "reason": "bypass"
+    },
+    "A_on__gate_on": {
+     "in": true,
+     "rank": 1,
+     "empty": false,
+     "n": 20,
+     "top1": 3.0,
+     "reason": "pass"
+    },
+    "A_on__gate_off": {
+     "in": true,
+     "rank": 1,
+     "empty": false,
+     "n": 20,
+     "top1": null,
+     "reason": "bypass"
+    }
+   }
+  }
+ ],
+ "note": "只测量；A=确定性同义词扩写（预注册词表/语境），闸=coverage gate"
+}

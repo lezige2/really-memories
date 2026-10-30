@@ -1,0 +1,942 @@
+{
+ "schema": "s2_gate_separation_v1",
+ "source": "D:\\llama-mem\\kvmem\\scale40k\\n200\\chat.db",
+ "source_sha256": "2d84aefda3c76ecece0cf3f620c506e0748090a587528b8bed513491affd24fd",
+ "groups": {
+  "target": 38,
+  "no_answer": 10,
+  "probes_synthetic": 8,
+  "null_target_queries": 2
+ },
+ "distributions": {
+  "target": {
+   "cov": {
+    "n": 38,
+    "mean": 0.513,
+    "p5": 0.167,
+    "p25": 0.353,
+    "p50": 0.5,
+    "p75": 0.714,
+    "p95": 0.818,
+    "min": 0.143,
+    "max": 0.818
+   },
+   "score": {
+    "n": 38,
+    "mean": 5.605,
+    "p5": 1,
+    "p25": 4,
+    "p50": 6,
+    "p75": 7,
+    "p95": 9,
+    "min": 1,
+    "max": 10
+   },
+   "gap": {
+    "n": 38,
+    "mean": 0.921,
+    "p5": 0,
+    "p25": 0,
+    "p50": 1,
+    "p75": 2,
+    "p95": 2,
+    "min": 0,
+    "max": 3
+   },
+   "content": {
+    "n": 38,
+    "mean": 5.053,
+    "p5": 1,
+    "p25": 4,
+    "p50": 5,
+    "p75": 6,
+    "p95": 9,
+    "min": 1,
+    "max": 9
+   }
+  },
+  "no_answer": {
+   "cov": {
+    "n": 9,
+    "mean": 0.191,
+    "p5": 0.1,
+    "p25": 0.111,
+    "p50": 0.143,
+    "p75": 0.25,
+    "p95": 0.333,
+    "min": 0.1,
+    "max": 0.333
+   },
+   "score": {
+    "n": 9,
+    "mean": 1.667,
+    "p5": 1,
+    "p25": 1,
+    "p50": 1,
+    "p75": 2,
+    "p95": 3,
+    "min": 1,
+    "max": 3
+   },
+   "gap": {
+    "n": 9,
+    "mean": 0,
+    "p5": 0,
+    "p25": 0,
+    "p50": 0,
+    "p75": 0,
+    "p95": 0,
+    "min": 0,
+    "max": 0
+   },
+   "content": {
+    "n": 9,
+    "mean": 0.667,
+    "p5": 0,
+    "p25": 0,
+    "p50": 1,
+    "p75": 1,
+    "p95": 1,
+    "min": 0,
+    "max": 1
+   }
+  }
+ },
+ "overlap": {
+  "target_min": 0.14285714285714285,
+  "target_max": 0.8181818181818182,
+  "noanswer_min": 0.1,
+  "noanswer_max": 0.3333333333333333,
+  "lo": 0.14285714285714285,
+  "hi": 0.3333333333333333,
+  "targets_in_overlap": 8,
+  "noanswers_in_overlap": 5
+ },
+ "second_signals": {
+  "gap": "无答案全部 gap=0；target gap 0–3（mean 0.92）",
+  "content_hits": "无答案 0–1（mean 0.67）；target 1–9（mean 5.05）"
+ },
+ "diagnostic_rule": {
+  "rule": "reject if no_candidate or (cov<0.34 and gap==0 and content_hits<2)",
+  "no_answer_rejected": "10/10",
+  "target_accepted": "36/38",
+  "lost_targets": [
+   "q052",
+   "q070"
+  ],
+  "note": "仅诊断；未改产品阈值/默认"
+ },
+ "cases": [
+  {
+   "id": "q003",
+   "group": "target",
+   "stats": {
+    "score": 5,
+    "cov": 0.5,
+    "gap": 1,
+    "content": 5,
+    "content_hits": [
+     "什么",
+     "只猫",
+     "猫叫",
+     "赵磊",
+     "那只"
+    ],
+    "top1_id": 10
+   }
+  },
+  {
+   "id": "q008",
+   "group": "target",
+   "stats": {
+    "score": 7,
+    "cov": 0.7777777777777778,
+    "gap": 1,
+    "content": 6,
+    "content_hits": [
+     "什么",
+     "养的",
+     "吴静",
+     "条狗",
+     "狗叫",
+     "那条"
+    ],
+    "top1_id": 44
+   }
+  },
+  {
+   "id": "q010",
+   "group": "target",
+   "stats": {
+    "score": 6,
+    "cov": 0.75,
+    "gap": 2,
+    "content": 5,
+    "content_hits": [
+     "刘敏",
+     "敏的",
+     "牌号",
+     "的车",
+     "车牌"
+    ],
+    "top1_id": 99
+   }
+  },
+  {
+   "id": "q012",
+   "group": "target",
+   "stats": {
+    "score": 6,
+    "cov": 0.75,
+    "gap": 2,
+    "content": 5,
+    "content_hits": [
+     "吴静",
+     "牌号",
+     "的车",
+     "车牌",
+     "静的"
+    ],
+    "top1_id": 21
+   }
+  },
+  {
+   "id": "q013",
+   "group": "target",
+   "stats": {
+    "score": 4,
+    "cov": 0.4444444444444444,
+    "gap": 1,
+    "content": 4,
+    "content_hits": [
+     "张伟",
+     "手机",
+     "机号",
+     "的手"
+    ],
+    "top1_id": 59
+   }
+  },
+  {
+   "id": "q017",
+   "group": "target",
+   "stats": {
+    "score": 5,
+    "cov": 0.5,
+    "gap": 0,
+    "content": 4,
+    "content_hits": [
+     "卡号",
+     "的银",
+     "行卡",
+     "银行"
+    ],
+    "top1_id": 24
+   }
+  },
+  {
+   "id": "q026",
+   "group": "target",
+   "stats": {
+    "score": 10,
+    "cov": 0.625,
+    "gap": 0,
+    "content": 9,
+    "content_hits": [
+     "下周",
+     "个重",
+     "什么",
+     "会议",
+     "周那",
+     "帆下",
+     "杨帆",
+     "要会",
+     "重要"
+    ],
+    "top1_id": 25
+   }
+  },
+  {
+   "id": "q029",
+   "group": "target",
+   "stats": {
+    "score": 5,
+    "cov": 0.7142857142857143,
+    "gap": 2,
+    "content": 5,
+    "content_hits": [
+     "伟的",
+     "家是",
+     "张伟",
+     "的老",
+     "老家"
+    ],
+    "top1_id": 128
+   }
+  },
+  {
+   "id": "q037",
+   "group": "target",
+   "stats": {
+    "score": 8,
+    "cov": 0.6666666666666666,
+    "gap": 2,
+    "content": 8,
+    "content_hits": [
+     "伟这",
+     "动的",
+     "座位",
+     "张伟",
+     "次活",
+     "活动",
+     "的座",
+     "这次"
+    ],
+    "top1_id": 165
+   }
+  },
+  {
+   "id": "q038",
+   "group": "target",
+   "stats": {
+    "score": 8,
+    "cov": 0.6666666666666666,
+    "gap": 2,
+    "content": 8,
+    "content_hits": [
+     "刘敏",
+     "动的",
+     "座位",
+     "敏这",
+     "次活",
+     "活动",
+     "的座",
+     "这次"
+    ],
+    "top1_id": 182
+   }
+  },
+  {
+   "id": "q043",
+   "group": "target",
+   "stats": {
+    "score": 3,
+    "cov": 0.3333333333333333,
+    "gap": 1,
+    "content": 3,
+    "content_hits": [
+     "只猫",
+     "周昊",
+     "那只"
+    ],
+    "top1_id": 12
+   }
+  },
+  {
+   "id": "q044",
+   "group": "target",
+   "stats": {
+    "score": 4,
+    "cov": 0.5714285714285714,
+    "gap": 1,
+    "content": 4,
+    "content_hits": [
+     "条狗",
+     "狗叫",
+     "王强",
+     "那条"
+    ],
+    "top1_id": 35
+   }
+  },
+  {
+   "id": "q048",
+   "group": "target",
+   "stats": {
+    "score": 2,
+    "cov": 0.2,
+    "gap": 0,
+    "content": 2,
+    "content_hits": [
+     "得不",
+     "杨帆"
+    ],
+    "top1_id": 8
+   }
+  },
+  {
+   "id": "q052",
+   "group": "target",
+   "stats": {
+    "score": 1,
+    "cov": 0.14285714285714285,
+    "gap": 0,
+    "content": 1,
+    "content_hits": [
+     "周昊"
+    ],
+    "top1_id": 12
+   }
+  },
+  {
+   "id": "q053",
+   "group": "target",
+   "stats": {
+    "score": 8,
+    "cov": 0.7272727272727273,
+    "gap": 2,
+    "content": 7,
+    "content_hits": [
+     "卡号",
+     "工资",
+     "张工",
+     "强那",
+     "王强",
+     "资卡",
+     "那张"
+    ],
+    "top1_id": 77
+   }
+  },
+  {
+   "id": "q055",
+   "group": "target",
+   "stats": {
+    "score": 8,
+    "cov": 0.7272727272727273,
+    "gap": 2,
+    "content": 7,
+    "content_hits": [
+     "卡号",
+     "周昊",
+     "工资",
+     "张工",
+     "昊那",
+     "资卡",
+     "那张"
+    ],
+    "top1_id": 93
+   }
+  },
+  {
+   "id": "q060",
+   "group": "target",
+   "stats": {
+    "score": 3,
+    "cov": 0.2727272727272727,
+    "gap": 1,
+    "content": 2,
+    "content_hits": [
+     "定在",
+     "杨帆"
+    ],
+    "top1_id": 25
+   }
+  },
+  {
+   "id": "q062",
+   "group": "target",
+   "stats": {
+    "score": 2,
+    "cov": 0.4,
+    "gap": 1,
+    "content": 1,
+    "content_hits": [
+     "王强"
+    ],
+    "top1_id": 4
+   }
+  },
+  {
+   "id": "q063",
+   "group": "target",
+   "stats": {
+    "score": 2,
+    "cov": 0.4,
+    "gap": 0,
+    "content": 1,
+    "content_hits": [
+     "杨帆"
+    ],
+    "top1_id": 25
+   }
+  },
+  {
+   "id": "q070",
+   "group": "target",
+   "stats": {
+    "score": 1,
+    "cov": 0.16666666666666666,
+    "gap": 0,
+    "content": 1,
+    "content_hits": [
+     "周昊"
+    ],
+    "top1_id": 12
+   }
+  },
+  {
+   "id": "q071",
+   "group": "target",
+   "stats": {
+    "score": 8,
+    "cov": 0.8,
+    "gap": 1,
+    "content": 7,
+    "content_hits": [
+     "什么",
+     "凯现",
+     "牌号",
+     "现在",
+     "的车",
+     "车牌",
+     "郑凯"
+    ],
+    "top1_id": 167
+   }
+  },
+  {
+   "id": "q078",
+   "group": "target",
+   "stats": {
+    "score": 6,
+    "cov": 0.3333333333333333,
+    "gap": 0,
+    "content": 5,
+    "content_hits": [
+     "卡号",
+     "曹岚",
+     "的银",
+     "行卡",
+     "银行"
+    ],
+    "top1_id": 24
+   }
+  },
+  {
+   "id": "q079",
+   "group": "target",
+   "stats": {
+    "score": 9,
+    "cov": 0.8181818181818182,
+    "gap": 1,
+    "content": 9,
+    "content_hits": [
+     "什么",
+     "会议",
+     "时间",
+     "现在",
+     "的会",
+     "议时",
+     "辉现",
+     "邓辉",
+     "间是"
+    ],
+    "top1_id": 175
+   }
+  },
+  {
+   "id": "q081",
+   "group": "target",
+   "stats": {
+    "score": 8,
+    "cov": 0.8,
+    "gap": 3,
+    "content": 7,
+    "content_hits": [
+     "什么",
+     "位号",
+     "座位",
+     "沈越",
+     "现在",
+     "的座",
+     "越现"
+    ],
+    "top1_id": 176
+   }
+  },
+  {
+   "id": "q082",
+   "group": "target",
+   "stats": {
+    "score": 6,
+    "cov": 0.35294117647058826,
+    "gap": 1,
+    "content": 5,
+    "content_hits": [
+     "位号",
+     "座位",
+     "沈越",
+     "的座",
+     "都不"
+    ],
+    "top1_id": 27
+   }
+  },
+  {
+   "id": "q083",
+   "group": "target",
+   "stats": {
+    "score": 9,
+    "cov": 0.8181818181818182,
+    "gap": 2,
+    "content": 9,
+    "content_hits": [
+     "什么",
+     "卢婷",
+     "婷现",
+     "现在",
+     "的车",
+     "色是",
+     "身颜",
+     "车身",
+     "颜色"
+    ],
+    "top1_id": 177
+   }
+  },
+  {
+   "id": "q084",
+   "group": "target",
+   "stats": {
+    "score": 6,
+    "cov": 0.3333333333333333,
+    "gap": 0,
+    "content": 6,
+    "content_hits": [
+     "卢婷",
+     "的车",
+     "色是",
+     "身颜",
+     "车身",
+     "颜色"
+    ],
+    "top1_id": 28
+   }
+  },
+  {
+   "id": "q086",
+   "group": "target",
+   "stats": {
+    "score": 6,
+    "cov": 0.35294117647058826,
+    "gap": 1,
+    "content": 5,
+    "content_hits": [
+     "牌号",
+     "的车",
+     "蒋川",
+     "车牌",
+     "都不"
+    ],
+    "top1_id": 29
+   }
+  },
+  {
+   "id": "q088",
+   "group": "target",
+   "stats": {
+    "score": 5,
+    "cov": 0.3125,
+    "gap": 0,
+    "content": 5,
+    "content_hits": [
+     "公司",
+     "司是",
+     "的公",
+     "蔡敏",
+     "都不"
+    ],
+    "top1_id": 30
+   }
+  },
+  {
+   "id": "q090",
+   "group": "target",
+   "stats": {
+    "score": 6,
+    "cov": 0.35294117647058826,
+    "gap": 0,
+    "content": 5,
+    "content_hits": [
+     "不算",
+     "手机",
+     "机号",
+     "的手",
+     "都不"
+    ],
+    "top1_id": 63
+   }
+  },
+  {
+   "id": "q091",
+   "group": "target",
+   "stats": {
+    "score": 5,
+    "cov": 0.4166666666666667,
+    "gap": 1,
+    "content": 5,
+    "content_hits": [
+     "是最",
+     "牌号",
+     "的车",
+     "车牌",
+     "郑凯"
+    ],
+    "top1_id": 167
+   }
+  },
+  {
+   "id": "q092",
+   "group": "target",
+   "stats": {
+    "score": 4,
+    "cov": 0.36363636363636365,
+    "gap": 1,
+    "content": 4,
+    "content_hits": [
+     "公司",
+     "冯樱",
+     "是最",
+     "的公"
+    ],
+    "top1_id": 169
+   }
+  },
+  {
+   "id": "q093",
+   "group": "target",
+   "stats": {
+    "score": 6,
+    "cov": 0.5,
+    "gap": 1,
+    "content": 5,
+    "content_hits": [
+     "手机",
+     "是最",
+     "机号",
+     "的手",
+     "韩峥"
+    ],
+    "top1_id": 171
+   }
+  },
+  {
+   "id": "q094",
+   "group": "target",
+   "stats": {
+    "score": 7,
+    "cov": 0.5384615384615384,
+    "gap": 2,
+    "content": 6,
+    "content_hits": [
+     "卡号",
+     "是最",
+     "曹岚",
+     "的银",
+     "行卡",
+     "银行"
+    ],
+    "top1_id": 173
+   }
+  },
+  {
+   "id": "q095",
+   "group": "target",
+   "stats": {
+    "score": 6,
+    "cov": 0.46153846153846156,
+    "gap": 0,
+    "content": 5,
+    "content_hits": [
+     "会议",
+     "时间",
+     "的会",
+     "议时",
+     "邓辉"
+    ],
+    "top1_id": 26
+   }
+  },
+  {
+   "id": "q096",
+   "group": "target",
+   "stats": {
+    "score": 6,
+    "cov": 0.5,
+    "gap": 0,
+    "content": 5,
+    "content_hits": [
+     "位号",
+     "座位",
+     "沈越",
+     "的座",
+     "越的"
+    ],
+    "top1_id": 138
+   }
+  },
+  {
+   "id": "q097",
+   "group": "target",
+   "stats": {
+    "score": 6,
+    "cov": 0.5,
+    "gap": 0,
+    "content": 6,
+    "content_hits": [
+     "卢婷",
+     "的车",
+     "色是",
+     "身颜",
+     "车身",
+     "颜色"
+    ],
+    "top1_id": 28
+   }
+  },
+  {
+   "id": "q098",
+   "group": "target",
+   "stats": {
+    "score": 6,
+    "cov": 0.6,
+    "gap": 0,
+    "content": 5,
+    "content_hits": [
+     "是苏",
+     "牌号",
+     "的车",
+     "蒋川",
+     "车牌"
+    ],
+    "top1_id": 29
+   }
+  },
+  {
+   "id": "q099",
+   "group": "no_answer",
+   "stats": {
+    "score": 1,
+    "cov": 0.1111111111111111,
+    "gap": 0,
+    "content": 1,
+    "content_hits": [
+     "郑凯"
+    ],
+    "top1_id": 18
+   }
+  },
+  {
+   "id": "q100",
+   "group": "no_answer",
+   "stats": {
+    "score": 3,
+    "cov": 0.3,
+    "gap": 0,
+    "content": 1,
+    "content_hits": [
+     "什么"
+    ],
+    "top1_id": 13
+   }
+  },
+  {
+   "id": "probe1",
+   "group": "no_answer",
+   "stats": {
+    "score": 1,
+    "cov": 0.125,
+    "gap": 0,
+    "content": 1,
+    "content_hits": [
+     "码是"
+    ],
+    "top1_id": 191
+   }
+  },
+  {
+   "id": "probe2",
+   "group": "no_answer",
+   "stats": {
+    "score": 3,
+    "cov": 0.3333333333333333,
+    "gap": 0,
+    "content": 1,
+    "content_hits": [
+     "什么"
+    ],
+    "top1_id": 13
+   }
+  },
+  {
+   "id": "probe3",
+   "group": "no_answer",
+   "stats": {
+    "score": 1,
+    "cov": 0.14285714285714285,
+    "gap": 0,
+    "content": 0,
+    "content_hits": [],
+    "top1_id": 18
+   }
+  },
+  {
+   "id": "probe4",
+   "group": "no_answer",
+   "stats": {
+    "score": 1,
+    "cov": 0.1111111111111111,
+    "gap": 0,
+    "content": 0,
+    "content_hits": [],
+    "top1_id": 18
+   }
+  },
+  {
+   "id": "probe5",
+   "group": "no_answer",
+   "stats": {
+    "score": 1,
+    "cov": 0.1,
+    "gap": 0,
+    "content": 0,
+    "content_hits": [],
+    "top1_id": 18
+   }
+  },
+  {
+   "id": "probe6",
+   "group": "no_answer",
+   "stats": {
+    "score": 2,
+    "cov": 0.25,
+    "gap": 0,
+    "content": 1,
+    "content_hits": [
+     "快递"
+    ],
+    "top1_id": 62
+   }
+  },
+  {
+   "id": "probe7",
+   "group": "no_answer",
+   "stats": {
+    "score": 2,
+    "cov": 0.25,
+    "gap": 0,
+    "content": 1,
+    "content_hits": [
+     "卡号"
+    ],
+    "top1_id": 23
+   }
+  },
+  {
+   "id": "probe8",
+   "group": "no_answer",
+   "stats": null
+  }
+ ]
+}
