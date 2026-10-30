@@ -1,0 +1,2098 @@
+{
+  "schema": "k2_overmerge_diag_v1",
+  "generated_at": "2026-10-30T14:16:21",
+  "db": "kvmem/scale40k/n200/chat.db",
+  "queries": "kvmem/scale40k/n200/queries.jsonl",
+  "select_k2_pure": true,
+  "summary": {
+    "n_queries": 40,
+    "n_direct": 10,
+    "k2_hit_queries": 32,
+    "direct_target_hidden": 9,
+    "direct_target_kept": 0,
+    "direct_no_hit": 1,
+    "target_hidden_all_kinds": 19,
+    "cause_counts_direct": {
+      "owner_missing": 7,
+      "family_word_collision": 2
+    },
+    "cause_counts_all": {
+      "owner_missing": 16,
+      "family_word_collision": 3
+    },
+    "direct_all_owner_none": true,
+    "band_sizes": {
+      "n20": {
+        "n_blocks": 30,
+        "max_family": 5,
+        "families": {
+          "猫": 1,
+          "会议": 1,
+          "工位": 4,
+          "车色": 4,
+          "狗": 1,
+          "手机": 5,
+          "银行卡": 3,
+          "车牌": 1,
+          "公司": 1,
+          "老家": 1
+        }
+      },
+      "n50": {
+        "n_blocks": 60,
+        "max_family": 13,
+        "families": {
+          "猫": 2,
+          "车牌": 5,
+          "手机": 13,
+          "会议": 2,
+          "工位": 6,
+          "车色": 4,
+          "狗": 2,
+          "银行卡": 5,
+          "公司": 3,
+          "老家": 2
+        }
+      },
+      "n200": {
+        "n_blocks": 200,
+        "max_family": 28,
+        "families": {
+          "猫": 12,
+          "车牌": 18,
+          "公司": 20,
+          "手机": 28,
+          "银行卡": 17,
+          "会议": 15,
+          "工位": 16,
+          "车色": 4,
+          "狗": 12,
+          "老家": 12
+        }
+      }
+    }
+  },
+  "typical_examples": [
+    {
+      "id": "q003",
+      "kind": "direct",
+      "query": "赵磊家那只猫叫什么名字？",
+      "target_block_id": 10,
+      "family": "猫",
+      "owner": null,
+      "predicate": "名字",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 17,
+      "hidden_ids": [
+        1,
+        3,
+        4,
+        5,
+        7,
+        8,
+        10,
+        11,
+        12,
+        14,
+        15
+      ],
+      "hidden_count": 11,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "猫"
+      ],
+      "hidden_sample": [
+        {
+          "id": 1,
+          "text": "张伟说起过，家里那只猫叫小橘，平时就爱趴在窗台上晒太阳。我这儿正收拾桌面呢，一边收拾一边跟你说话，手上有点事反而不容易走神，你接着说就行。天"
+        },
+        {
+          "id": 3,
+          "text": "李娜说起过，家里那只猫叫小柚，平时就爱趴在窗台上晒太阳。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心比什么都重要。说起来这几"
+        },
+        {
+          "id": 4,
+          "text": "王强说起过，家里那只猫叫小柠，平时就爱趴在窗台上晒太阳。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心比什么都重要。我这会儿在"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q008",
+      "kind": "direct",
+      "query": "吴静养的那条狗叫什么？",
+      "target_block_id": 44,
+      "family": "狗",
+      "owner": null,
+      "predicate": "名字",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 47,
+      "hidden_ids": [
+        32,
+        34,
+        35,
+        36,
+        38,
+        39,
+        40,
+        42,
+        43,
+        44,
+        46
+      ],
+      "hidden_count": 11,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "狗"
+      ],
+      "hidden_sample": [
+        {
+          "id": 32,
+          "text": "张伟提到过，自己养的那条狗叫阿福，见谁都摇尾巴。今天坐得有点久，腰有点发僵，我起来走了两圈，又伸了伸胳膊，现在感觉松快一些了，也能坐得住。我"
+        },
+        {
+          "id": 34,
+          "text": "李娜提到过，自己养的那条狗叫阿旺，见谁都摇尾巴。窗外有只鸟一直在叫，叫得还挺有节奏，听久了倒也不觉得吵，反而觉得挺安静，心也跟着静下来。刚喝"
+        },
+        {
+          "id": 35,
+          "text": "王强提到过，自己养的那条狗叫阿财，见谁都摇尾巴。这些天睡得晚，白天总有点提不起精神，做什么都慢半拍，看来得早点睡了，不然一直这样下去。我这会"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q010",
+      "kind": "direct",
+      "query": "刘敏的车牌号是多少？",
+      "target_block_id": 99,
+      "family": "车牌",
+      "owner": null,
+      "predicate": "号码",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 178,
+      "hidden_ids": [
+        19,
+        21,
+        49,
+        50,
+        51,
+        53,
+        54,
+        55,
+        57,
+        58,
+        18,
+        99,
+        81,
+        167,
+        168,
+        29,
+        88
+      ],
+      "hidden_count": 17,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "车牌"
+      ],
+      "hidden_sample": [
+        {
+          "id": 19,
+          "text": "张伟的车的车牌号是京N·7K3Q0，他说这串字符当初记了好久。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不"
+        },
+        {
+          "id": 21,
+          "text": "吴静的车的车牌号是京N·7K3Q9，他说这串字符当初记了好久。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。桌"
+        },
+        {
+          "id": 49,
+          "text": "李娜的车的车牌号是京N·7K3Q1，他说这串字符当初记了好久。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    }
+  ],
+  "cases": [
+    {
+      "id": "q003",
+      "kind": "direct",
+      "query": "赵磊家那只猫叫什么名字？",
+      "target_block_id": 10,
+      "family": "猫",
+      "owner": null,
+      "predicate": "名字",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 17,
+      "hidden_ids": [
+        1,
+        3,
+        4,
+        5,
+        7,
+        8,
+        10,
+        11,
+        12,
+        14,
+        15
+      ],
+      "hidden_count": 11,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "猫"
+      ],
+      "hidden_sample": [
+        {
+          "id": 1,
+          "text": "张伟说起过，家里那只猫叫小橘，平时就爱趴在窗台上晒太阳。我这儿正收拾桌面呢，一边收拾一边跟你说话，手上有点事反而不容易走神，你接着说就行。天"
+        },
+        {
+          "id": 3,
+          "text": "李娜说起过，家里那只猫叫小柚，平时就爱趴在窗台上晒太阳。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心比什么都重要。说起来这几"
+        },
+        {
+          "id": 4,
+          "text": "王强说起过，家里那只猫叫小柠，平时就爱趴在窗台上晒太阳。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心比什么都重要。我这会儿在"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q008",
+      "kind": "direct",
+      "query": "吴静养的那条狗叫什么？",
+      "target_block_id": 44,
+      "family": "狗",
+      "owner": null,
+      "predicate": "名字",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 47,
+      "hidden_ids": [
+        32,
+        34,
+        35,
+        36,
+        38,
+        39,
+        40,
+        42,
+        43,
+        44,
+        46
+      ],
+      "hidden_count": 11,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "狗"
+      ],
+      "hidden_sample": [
+        {
+          "id": 32,
+          "text": "张伟提到过，自己养的那条狗叫阿福，见谁都摇尾巴。今天坐得有点久，腰有点发僵，我起来走了两圈，又伸了伸胳膊，现在感觉松快一些了，也能坐得住。我"
+        },
+        {
+          "id": 34,
+          "text": "李娜提到过，自己养的那条狗叫阿旺，见谁都摇尾巴。窗外有只鸟一直在叫，叫得还挺有节奏，听久了倒也不觉得吵，反而觉得挺安静，心也跟着静下来。刚喝"
+        },
+        {
+          "id": 35,
+          "text": "王强提到过，自己养的那条狗叫阿财，见谁都摇尾巴。这些天睡得晚，白天总有点提不起精神，做什么都慢半拍，看来得早点睡了，不然一直这样下去。我这会"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q010",
+      "kind": "direct",
+      "query": "刘敏的车牌号是多少？",
+      "target_block_id": 99,
+      "family": "车牌",
+      "owner": null,
+      "predicate": "号码",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 178,
+      "hidden_ids": [
+        19,
+        21,
+        49,
+        50,
+        51,
+        53,
+        54,
+        55,
+        57,
+        58,
+        18,
+        99,
+        81,
+        167,
+        168,
+        29,
+        88
+      ],
+      "hidden_count": 17,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "车牌"
+      ],
+      "hidden_sample": [
+        {
+          "id": 19,
+          "text": "张伟的车的车牌号是京N·7K3Q0，他说这串字符当初记了好久。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不"
+        },
+        {
+          "id": 21,
+          "text": "吴静的车的车牌号是京N·7K3Q9，他说这串字符当初记了好久。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。桌"
+        },
+        {
+          "id": 49,
+          "text": "李娜的车的车牌号是京N·7K3Q1，他说这串字符当初记了好久。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q012",
+      "kind": "direct",
+      "query": "吴静的车牌号是多少？",
+      "target_block_id": 21,
+      "family": "车牌",
+      "owner": null,
+      "predicate": "号码",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 178,
+      "hidden_ids": [
+        19,
+        21,
+        49,
+        50,
+        51,
+        53,
+        54,
+        55,
+        57,
+        58,
+        18,
+        99,
+        81,
+        167,
+        168,
+        29,
+        88
+      ],
+      "hidden_count": 17,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "车牌"
+      ],
+      "hidden_sample": [
+        {
+          "id": 19,
+          "text": "张伟的车的车牌号是京N·7K3Q0，他说这串字符当初记了好久。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不"
+        },
+        {
+          "id": 21,
+          "text": "吴静的车的车牌号是京N·7K3Q9，他说这串字符当初记了好久。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。桌"
+        },
+        {
+          "id": 49,
+          "text": "李娜的车的车牌号是京N·7K3Q1，他说这串字符当初记了好久。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q013",
+      "kind": "direct",
+      "query": "张伟的手机号码是多少？",
+      "target_block_id": 59,
+      "family": "手机",
+      "owner": null,
+      "predicate": "号码",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 180,
+      "hidden_ids": [
+        37,
+        59,
+        61,
+        62,
+        63,
+        65,
+        66,
+        68,
+        69,
+        70,
+        71,
+        73,
+        74,
+        75,
+        154,
+        160,
+        161,
+        195,
+        196,
+        197,
+        198,
+        22,
+        83,
+        171,
+        137,
+        31,
+        90
+      ],
+      "hidden_count": 27,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "手机"
+      ],
+      "hidden_sample": [
+        {
+          "id": 37,
+          "text": "刚才手机响了一下，我还以为是谁找我，拿起来一看是推送广告，懒得点开，就又放回桌上去了。窗外有只鸟一直在叫，叫得还挺有节奏，听久了倒也不觉得吵"
+        },
+        {
+          "id": 59,
+          "text": "张伟留的手机号是13910002001，平时不太接陌生来电。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照顾"
+        },
+        {
+          "id": 61,
+          "text": "李娜留的手机号是13910002002，平时不太接陌生来电。我把椅子调低了一格，这样靠着说话舒服点，坐久了也不至于太累，你也找个舒服的姿势靠"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q017",
+      "kind": "direct",
+      "query": "李娜的银行卡卡号是多少？",
+      "target_block_id": 100,
+      "family": "银行卡",
+      "owner": null,
+      "predicate": "尾号",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 173,
+      "hidden_ids": [
+        23,
+        76,
+        77,
+        78,
+        80,
+        91,
+        93,
+        94,
+        95,
+        100,
+        101,
+        170,
+        193,
+        194,
+        24,
+        84
+      ],
+      "hidden_count": 16,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "银行卡"
+      ],
+      "hidden_sample": [
+        {
+          "id": 23,
+          "text": "黄婷那张工资卡的卡号是6222 0201 8830 4408，一直没换过银行。手边这盆绿植该浇水了，叶子有点蔫，我一会儿得处理一下，不然再放"
+        },
+        {
+          "id": 76,
+          "text": "张伟那张工资卡的卡号是6222 0201 8830 4401，一直没换过银行。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行"
+        },
+        {
+          "id": 77,
+          "text": "王强那张工资卡的卡号是6222 0201 8830 4403，一直没换过银行。我这个人记性一般，重要的事都得靠记下来，光靠脑子容易漏，所以到"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q026",
+      "kind": "direct",
+      "query": "杨帆下周那个重要会议安排在什么时间？",
+      "target_block_id": 25,
+      "family": "会议",
+      "owner": null,
+      "predicate": "地点",
+      "slot": null,
+      "k2_hit": false,
+      "kept_id": null,
+      "hidden_ids": [],
+      "hidden_count": 0,
+      "target_kept": false,
+      "target_hidden": false,
+      "hidden_all_same_family": false,
+      "hidden_families": [],
+      "hidden_sample": [],
+      "query_has_person_name": false,
+      "cause": null
+    },
+    {
+      "id": "q029",
+      "kind": "direct",
+      "query": "张伟的老家是哪里？",
+      "target_block_id": 128,
+      "family": "老家",
+      "owner": null,
+      "predicate": "地点",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 152,
+      "hidden_ids": [
+        128,
+        129,
+        130,
+        132,
+        143,
+        144,
+        146,
+        147,
+        149,
+        150,
+        151
+      ],
+      "hidden_count": 11,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "老家"
+      ],
+      "hidden_sample": [
+        {
+          "id": 128,
+          "text": "张伟的老家是临安，每年也就过节回去一趟。今天坐得有点久，腰有点发僵，我起来走了两圈，又伸了伸胳膊，现在感觉松快一些了，也能坐得住。天气一凉，"
+        },
+        {
+          "id": 129,
+          "text": "李娜的老家是临海，每年也就过节回去一趟。说实话这些天事情有点杂，脑子转得比平时慢，说话也可能有点跳跃，你别介意，我尽量说清楚。手边这盆绿植该"
+        },
+        {
+          "id": 130,
+          "text": "王强的老家是临江，每年也就过节回去一趟。这会儿安静下来了，窗外也没什么声音，正好说说话，比刚才那种乱糟糟的时候强多了。我这个人记性一般，重要"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q037",
+      "kind": "direct",
+      "query": "张伟这次活动的座位号是多少？",
+      "target_block_id": 165,
+      "family": "工位",
+      "owner": null,
+      "predicate": "地点",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 138,
+      "hidden_ids": [
+        165,
+        166,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        27,
+        86,
+        176
+      ],
+      "hidden_count": 15,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "工位"
+      ],
+      "hidden_sample": [
+        {
+          "id": 165,
+          "text": "张伟这次活动的座位排在了5排01号，说是视野还行。刚才走神了，没太听清，你再说一遍我听听，这回我认真听着，不会再漏掉什么了。你先别急着下结论"
+        },
+        {
+          "id": 166,
+          "text": "李娜这次活动的座位排在了5排02号，说是视野还行。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。咱们不着急，想"
+        },
+        {
+          "id": 181,
+          "text": "王强这次活动的座位排在了5排03号，说是视野还行。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行，说错了也没关系。你先歇会儿"
+        }
+      ],
+      "query_has_person_name": false,
+      "cause": "family_word_collision"
+    },
+    {
+      "id": "q038",
+      "kind": "direct",
+      "query": "刘敏这次活动的座位号是多少？",
+      "target_block_id": 182,
+      "family": "工位",
+      "owner": null,
+      "predicate": "地点",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 138,
+      "hidden_ids": [
+        165,
+        166,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        27,
+        86,
+        176
+      ],
+      "hidden_count": 15,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "工位"
+      ],
+      "hidden_sample": [
+        {
+          "id": 165,
+          "text": "张伟这次活动的座位排在了5排01号，说是视野还行。刚才走神了，没太听清，你再说一遍我听听，这回我认真听着，不会再漏掉什么了。你先别急着下结论"
+        },
+        {
+          "id": 166,
+          "text": "李娜这次活动的座位排在了5排02号，说是视野还行。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。咱们不着急，想"
+        },
+        {
+          "id": 181,
+          "text": "王强这次活动的座位排在了5排03号，说是视野还行。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行，说错了也没关系。你先歇会儿"
+        }
+      ],
+      "query_has_person_name": false,
+      "cause": "family_word_collision"
+    },
+    {
+      "id": "q043",
+      "kind": "paraphrase",
+      "query": "周昊那只猫，名字是啥来着？",
+      "target_block_id": 12,
+      "family": "猫",
+      "owner": null,
+      "predicate": "名字",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 17,
+      "hidden_ids": [
+        1,
+        3,
+        4,
+        5,
+        7,
+        8,
+        10,
+        11,
+        12,
+        14,
+        15
+      ],
+      "hidden_count": 11,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "猫"
+      ],
+      "hidden_sample": [
+        {
+          "id": 1,
+          "text": "张伟说起过，家里那只猫叫小橘，平时就爱趴在窗台上晒太阳。我这儿正收拾桌面呢，一边收拾一边跟你说话，手上有点事反而不容易走神，你接着说就行。天"
+        },
+        {
+          "id": 3,
+          "text": "李娜说起过，家里那只猫叫小柚，平时就爱趴在窗台上晒太阳。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心比什么都重要。说起来这几"
+        },
+        {
+          "id": 4,
+          "text": "王强说起过，家里那只猫叫小柠，平时就爱趴在窗台上晒太阳。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心比什么都重要。我这会儿在"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q044",
+      "kind": "paraphrase",
+      "query": "王强家那条狗叫啥？",
+      "target_block_id": 35,
+      "family": "狗",
+      "owner": null,
+      "predicate": "名字",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 47,
+      "hidden_ids": [
+        32,
+        34,
+        35,
+        36,
+        38,
+        39,
+        40,
+        42,
+        43,
+        44,
+        46
+      ],
+      "hidden_count": 11,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "狗"
+      ],
+      "hidden_sample": [
+        {
+          "id": 32,
+          "text": "张伟提到过，自己养的那条狗叫阿福，见谁都摇尾巴。今天坐得有点久，腰有点发僵，我起来走了两圈，又伸了伸胳膊，现在感觉松快一些了，也能坐得住。我"
+        },
+        {
+          "id": 34,
+          "text": "李娜提到过，自己养的那条狗叫阿旺，见谁都摇尾巴。窗外有只鸟一直在叫，叫得还挺有节奏，听久了倒也不觉得吵，反而觉得挺安静，心也跟着静下来。刚喝"
+        },
+        {
+          "id": 35,
+          "text": "王强提到过，自己养的那条狗叫阿财，见谁都摇尾巴。这些天睡得晚，白天总有点提不起精神，做什么都慢半拍，看来得早点睡了，不然一直这样下去。我这会"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q048",
+      "kind": "paraphrase",
+      "query": "杨帆那车牌子你还记得不？",
+      "target_block_id": 53,
+      "family": "车牌",
+      "owner": null,
+      "predicate": "号码",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 178,
+      "hidden_ids": [
+        19,
+        21,
+        49,
+        50,
+        51,
+        53,
+        54,
+        55,
+        57,
+        58,
+        18,
+        99,
+        81,
+        167,
+        168,
+        29,
+        88
+      ],
+      "hidden_count": 17,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "车牌"
+      ],
+      "hidden_sample": [
+        {
+          "id": 19,
+          "text": "张伟的车的车牌号是京N·7K3Q0，他说这串字符当初记了好久。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不"
+        },
+        {
+          "id": 21,
+          "text": "吴静的车的车牌号是京N·7K3Q9，他说这串字符当初记了好久。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。桌"
+        },
+        {
+          "id": 49,
+          "text": "李娜的车的车牌号是京N·7K3Q1，他说这串字符当初记了好久。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q052",
+      "kind": "paraphrase",
+      "query": "周昊号码多少来着？",
+      "target_block_id": 70,
+      "family": "手机",
+      "owner": null,
+      "predicate": "号码",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 180,
+      "hidden_ids": [
+        37,
+        59,
+        61,
+        62,
+        63,
+        65,
+        66,
+        68,
+        69,
+        70,
+        71,
+        73,
+        74,
+        75,
+        154,
+        160,
+        161,
+        195,
+        196,
+        197,
+        198,
+        22,
+        83,
+        171,
+        137,
+        31,
+        90
+      ],
+      "hidden_count": 27,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "手机"
+      ],
+      "hidden_sample": [
+        {
+          "id": 37,
+          "text": "刚才手机响了一下，我还以为是谁找我，拿起来一看是推送广告，懒得点开，就又放回桌上去了。窗外有只鸟一直在叫，叫得还挺有节奏，听久了倒也不觉得吵"
+        },
+        {
+          "id": 59,
+          "text": "张伟留的手机号是13910002001，平时不太接陌生来电。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照顾"
+        },
+        {
+          "id": 61,
+          "text": "李娜留的手机号是13910002002，平时不太接陌生来电。我把椅子调低了一格，这样靠着说话舒服点，坐久了也不至于太累，你也找个舒服的姿势靠"
+        }
+      ],
+      "query_has_person_name": false,
+      "cause": "family_word_collision"
+    },
+    {
+      "id": "q053",
+      "kind": "paraphrase",
+      "query": "王强那张工资卡号是多少呀？",
+      "target_block_id": 77,
+      "family": "银行卡",
+      "owner": null,
+      "predicate": "尾号",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 173,
+      "hidden_ids": [
+        23,
+        76,
+        77,
+        78,
+        80,
+        91,
+        93,
+        94,
+        95,
+        100,
+        101,
+        170,
+        193,
+        194,
+        24,
+        84
+      ],
+      "hidden_count": 16,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "银行卡"
+      ],
+      "hidden_sample": [
+        {
+          "id": 23,
+          "text": "黄婷那张工资卡的卡号是6222 0201 8830 4408，一直没换过银行。手边这盆绿植该浇水了，叶子有点蔫，我一会儿得处理一下，不然再放"
+        },
+        {
+          "id": 76,
+          "text": "张伟那张工资卡的卡号是6222 0201 8830 4401，一直没换过银行。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行"
+        },
+        {
+          "id": 77,
+          "text": "王强那张工资卡的卡号是6222 0201 8830 4403，一直没换过银行。我这个人记性一般，重要的事都得靠记下来，光靠脑子容易漏，所以到"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q055",
+      "kind": "paraphrase",
+      "query": "周昊那张工资卡号是多少呀？",
+      "target_block_id": 93,
+      "family": "银行卡",
+      "owner": null,
+      "predicate": "尾号",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 173,
+      "hidden_ids": [
+        23,
+        76,
+        77,
+        78,
+        80,
+        91,
+        93,
+        94,
+        95,
+        100,
+        101,
+        170,
+        193,
+        194,
+        24,
+        84
+      ],
+      "hidden_count": 16,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "银行卡"
+      ],
+      "hidden_sample": [
+        {
+          "id": 23,
+          "text": "黄婷那张工资卡的卡号是6222 0201 8830 4408，一直没换过银行。手边这盆绿植该浇水了，叶子有点蔫，我一会儿得处理一下，不然再放"
+        },
+        {
+          "id": 76,
+          "text": "张伟那张工资卡的卡号是6222 0201 8830 4401，一直没换过银行。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行"
+        },
+        {
+          "id": 77,
+          "text": "王强那张工资卡的卡号是6222 0201 8830 4403，一直没换过银行。我这个人记性一般，重要的事都得靠记下来，光靠脑子容易漏，所以到"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q060",
+      "kind": "paraphrase",
+      "query": "杨帆那个会定在几号几点了？",
+      "target_block_id": 25,
+      "family": "会议",
+      "owner": null,
+      "predicate": "地点",
+      "slot": null,
+      "k2_hit": false,
+      "kept_id": null,
+      "hidden_ids": [],
+      "hidden_count": 0,
+      "target_kept": false,
+      "target_hidden": false,
+      "hidden_all_same_family": false,
+      "hidden_families": [],
+      "hidden_sample": [],
+      "query_has_person_name": true,
+      "cause": null
+    },
+    {
+      "id": "q062",
+      "kind": "paraphrase",
+      "query": "王强是哪儿人？",
+      "target_block_id": 130,
+      "family": null,
+      "owner": null,
+      "predicate": null,
+      "slot": null,
+      "k2_hit": false,
+      "kept_id": null,
+      "hidden_ids": [],
+      "hidden_count": 0,
+      "target_kept": false,
+      "target_hidden": false,
+      "hidden_all_same_family": false,
+      "hidden_families": [],
+      "hidden_sample": [],
+      "query_has_person_name": false,
+      "cause": null
+    },
+    {
+      "id": "q063",
+      "kind": "paraphrase",
+      "query": "杨帆是哪儿人？",
+      "target_block_id": 144,
+      "family": null,
+      "owner": null,
+      "predicate": null,
+      "slot": null,
+      "k2_hit": false,
+      "kept_id": null,
+      "hidden_ids": [],
+      "hidden_count": 0,
+      "target_kept": false,
+      "target_hidden": false,
+      "hidden_all_same_family": false,
+      "hidden_families": [],
+      "hidden_sample": [],
+      "query_has_person_name": false,
+      "cause": null
+    },
+    {
+      "id": "q070",
+      "kind": "paraphrase",
+      "query": "周昊坐哪个位置？",
+      "target_block_id": 187,
+      "family": null,
+      "owner": null,
+      "predicate": null,
+      "slot": null,
+      "k2_hit": false,
+      "kept_id": null,
+      "hidden_ids": [],
+      "hidden_count": 0,
+      "target_kept": false,
+      "target_hidden": false,
+      "hidden_all_same_family": false,
+      "hidden_families": [],
+      "hidden_sample": [],
+      "query_has_person_name": false,
+      "cause": null
+    },
+    {
+      "id": "q071",
+      "kind": "chain_last",
+      "query": "郑凯现在的车牌号是什么？",
+      "target_block_id": 167,
+      "family": "车牌",
+      "owner": null,
+      "predicate": "号码",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 178,
+      "hidden_ids": [
+        19,
+        21,
+        49,
+        50,
+        51,
+        53,
+        54,
+        55,
+        57,
+        58,
+        18,
+        99,
+        81,
+        167,
+        168,
+        29,
+        88
+      ],
+      "hidden_count": 17,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "车牌"
+      ],
+      "hidden_sample": [
+        {
+          "id": 19,
+          "text": "张伟的车的车牌号是京N·7K3Q0，他说这串字符当初记了好久。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不"
+        },
+        {
+          "id": 21,
+          "text": "吴静的车的车牌号是京N·7K3Q9，他说这串字符当初记了好久。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。桌"
+        },
+        {
+          "id": 49,
+          "text": "李娜的车的车牌号是京N·7K3Q1，他说这串字符当初记了好久。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q078",
+      "kind": "chain_last",
+      "query": "曹岚最新的银行卡号是哪个？之前那些都不算了。",
+      "target_block_id": 173,
+      "family": "银行卡",
+      "owner": null,
+      "predicate": "尾号",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 173,
+      "hidden_ids": [
+        23,
+        76,
+        77,
+        78,
+        80,
+        91,
+        93,
+        94,
+        95,
+        100,
+        101,
+        170,
+        193,
+        194,
+        24,
+        84
+      ],
+      "hidden_count": 16,
+      "target_kept": true,
+      "target_hidden": false,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "银行卡"
+      ],
+      "hidden_sample": [
+        {
+          "id": 23,
+          "text": "黄婷那张工资卡的卡号是6222 0201 8830 4408，一直没换过银行。手边这盆绿植该浇水了，叶子有点蔫，我一会儿得处理一下，不然再放"
+        },
+        {
+          "id": 76,
+          "text": "张伟那张工资卡的卡号是6222 0201 8830 4401，一直没换过银行。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行"
+        },
+        {
+          "id": 77,
+          "text": "王强那张工资卡的卡号是6222 0201 8830 4403，一直没换过银行。我这个人记性一般，重要的事都得靠记下来，光靠脑子容易漏，所以到"
+        }
+      ],
+      "query_has_person_name": false,
+      "cause": null
+    },
+    {
+      "id": "q079",
+      "kind": "chain_last",
+      "query": "邓辉现在的会议时间是什么？",
+      "target_block_id": 175,
+      "family": "会议",
+      "owner": null,
+      "predicate": "地点",
+      "slot": null,
+      "k2_hit": false,
+      "kept_id": null,
+      "hidden_ids": [],
+      "hidden_count": 0,
+      "target_kept": false,
+      "target_hidden": false,
+      "hidden_all_same_family": false,
+      "hidden_families": [],
+      "hidden_sample": [],
+      "query_has_person_name": true,
+      "cause": null
+    },
+    {
+      "id": "q081",
+      "kind": "chain_last",
+      "query": "沈越现在的座位号是什么？",
+      "target_block_id": 138,
+      "family": "工位",
+      "owner": null,
+      "predicate": "地点",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 138,
+      "hidden_ids": [
+        165,
+        166,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        27,
+        86,
+        176
+      ],
+      "hidden_count": 15,
+      "target_kept": true,
+      "target_hidden": false,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "工位"
+      ],
+      "hidden_sample": [
+        {
+          "id": 165,
+          "text": "张伟这次活动的座位排在了5排01号，说是视野还行。刚才走神了，没太听清，你再说一遍我听听，这回我认真听着，不会再漏掉什么了。你先别急着下结论"
+        },
+        {
+          "id": 166,
+          "text": "李娜这次活动的座位排在了5排02号，说是视野还行。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。咱们不着急，想"
+        },
+        {
+          "id": 181,
+          "text": "王强这次活动的座位排在了5排03号，说是视野还行。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行，说错了也没关系。你先歇会儿"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": null
+    },
+    {
+      "id": "q082",
+      "kind": "chain_last",
+      "query": "沈越最新的座位号是哪个？之前那些都不算了。",
+      "target_block_id": 138,
+      "family": "工位",
+      "owner": null,
+      "predicate": "地点",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 138,
+      "hidden_ids": [
+        165,
+        166,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        27,
+        86,
+        176
+      ],
+      "hidden_count": 15,
+      "target_kept": true,
+      "target_hidden": false,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "工位"
+      ],
+      "hidden_sample": [
+        {
+          "id": 165,
+          "text": "张伟这次活动的座位排在了5排01号，说是视野还行。刚才走神了，没太听清，你再说一遍我听听，这回我认真听着，不会再漏掉什么了。你先别急着下结论"
+        },
+        {
+          "id": 166,
+          "text": "李娜这次活动的座位排在了5排02号，说是视野还行。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。咱们不着急，想"
+        },
+        {
+          "id": 181,
+          "text": "王强这次活动的座位排在了5排03号，说是视野还行。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行，说错了也没关系。你先歇会儿"
+        }
+      ],
+      "query_has_person_name": false,
+      "cause": null
+    },
+    {
+      "id": "q083",
+      "kind": "chain_last",
+      "query": "卢婷现在的车身颜色是什么？",
+      "target_block_id": 139,
+      "family": "车色",
+      "owner": null,
+      "predicate": "颜色",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 139,
+      "hidden_ids": [
+        28,
+        87,
+        177
+      ],
+      "hidden_count": 3,
+      "target_kept": true,
+      "target_hidden": false,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "车色"
+      ],
+      "hidden_sample": [
+        {
+          "id": 28,
+          "text": "卢婷一开始的车身颜色是珍珠白，那阵子一直没动过。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不用抬声音。屋里"
+        },
+        {
+          "id": 87,
+          "text": "卢婷后来把车身颜色改成了星空灰，中间隔了一段时间。说实话这些天事情有点杂，脑子转得比平时慢，说话也可能有点跳跃，你别介意，我尽量说清楚。你先"
+        },
+        {
+          "id": 177,
+          "text": "卢婷现在用的车身颜色是冰川蓝，这个是最近才定下来的。我这会儿心情还行，就是有点累，说话可能没什么力气，你别嫌我敷衍，我确实是在听你说。外面好"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": null
+    },
+    {
+      "id": "q084",
+      "kind": "chain_last",
+      "query": "卢婷最新的车身颜色是哪个？之前那些都不算了。",
+      "target_block_id": 139,
+      "family": "车色",
+      "owner": null,
+      "predicate": "颜色",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 139,
+      "hidden_ids": [
+        28,
+        87,
+        177
+      ],
+      "hidden_count": 3,
+      "target_kept": true,
+      "target_hidden": false,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "车色"
+      ],
+      "hidden_sample": [
+        {
+          "id": 28,
+          "text": "卢婷一开始的车身颜色是珍珠白，那阵子一直没动过。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不用抬声音。屋里"
+        },
+        {
+          "id": 87,
+          "text": "卢婷后来把车身颜色改成了星空灰，中间隔了一段时间。说实话这些天事情有点杂，脑子转得比平时慢，说话也可能有点跳跃，你别介意，我尽量说清楚。你先"
+        },
+        {
+          "id": 177,
+          "text": "卢婷现在用的车身颜色是冰川蓝，这个是最近才定下来的。我这会儿心情还行，就是有点累，说话可能没什么力气，你别嫌我敷衍，我确实是在听你说。外面好"
+        }
+      ],
+      "query_has_person_name": false,
+      "cause": null
+    },
+    {
+      "id": "q086",
+      "kind": "chain_last",
+      "query": "蒋川最新的车牌号是哪个？之前那些都不算了。",
+      "target_block_id": 178,
+      "family": "车牌",
+      "owner": null,
+      "predicate": "号码",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 178,
+      "hidden_ids": [
+        19,
+        21,
+        49,
+        50,
+        51,
+        53,
+        54,
+        55,
+        57,
+        58,
+        18,
+        99,
+        81,
+        167,
+        168,
+        29,
+        88
+      ],
+      "hidden_count": 17,
+      "target_kept": true,
+      "target_hidden": false,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "车牌"
+      ],
+      "hidden_sample": [
+        {
+          "id": 19,
+          "text": "张伟的车的车牌号是京N·7K3Q0，他说这串字符当初记了好久。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不"
+        },
+        {
+          "id": 21,
+          "text": "吴静的车的车牌号是京N·7K3Q9，他说这串字符当初记了好久。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。桌"
+        },
+        {
+          "id": 49,
+          "text": "李娜的车的车牌号是京N·7K3Q1，他说这串字符当初记了好久。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照"
+        }
+      ],
+      "query_has_person_name": false,
+      "cause": null
+    },
+    {
+      "id": "q088",
+      "kind": "chain_last",
+      "query": "蔡敏最新的公司是哪个？之前那些都不算了。",
+      "target_block_id": 179,
+      "family": "公司",
+      "owner": null,
+      "predicate": "名称",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 179,
+      "hidden_ids": [
+        96,
+        98,
+        103,
+        105,
+        106,
+        107,
+        109,
+        110,
+        111,
+        113,
+        114,
+        115,
+        20,
+        82,
+        134,
+        169,
+        30,
+        89,
+        141
+      ],
+      "hidden_count": 19,
+      "target_kept": true,
+      "target_hidden": false,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "公司"
+      ],
+      "hidden_sample": [
+        {
+          "id": 96,
+          "text": "张伟现在在杭州云枢网络科技有限公司一部上班，主要做后台相关的事情。刚才手机响了一下，我还以为是谁找我，拿起来一看是推送广告，懒得点开，就又放"
+        },
+        {
+          "id": 98,
+          "text": "李娜现在在杭州云枢网络科技有限公司二部上班，主要做后台相关的事情。这会儿有点犯困，我泡了杯茶提提神，茶还有点烫，得放一会儿才能喝，咱们慢慢说"
+        },
+        {
+          "id": 103,
+          "text": "王强现在在杭州云枢网络科技有限公司三部上班，主要做后台相关的事情。我这人说话比较直，有时候不太会绕弯子，有说得不对的地方你多担待点，我不是那"
+        }
+      ],
+      "query_has_person_name": false,
+      "cause": null
+    },
+    {
+      "id": "q090",
+      "kind": "chain_last",
+      "query": "潘石最新的手机号是哪个？之前那些都不算了。",
+      "target_block_id": 180,
+      "family": "手机",
+      "owner": null,
+      "predicate": "号码",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 180,
+      "hidden_ids": [
+        37,
+        59,
+        61,
+        62,
+        63,
+        65,
+        66,
+        68,
+        69,
+        70,
+        71,
+        73,
+        74,
+        75,
+        154,
+        160,
+        161,
+        195,
+        196,
+        197,
+        198,
+        22,
+        83,
+        171,
+        137,
+        31,
+        90
+      ],
+      "hidden_count": 27,
+      "target_kept": true,
+      "target_hidden": false,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "手机"
+      ],
+      "hidden_sample": [
+        {
+          "id": 37,
+          "text": "刚才手机响了一下，我还以为是谁找我，拿起来一看是推送广告，懒得点开，就又放回桌上去了。窗外有只鸟一直在叫，叫得还挺有节奏，听久了倒也不觉得吵"
+        },
+        {
+          "id": 59,
+          "text": "张伟留的手机号是13910002001，平时不太接陌生来电。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照顾"
+        },
+        {
+          "id": 61,
+          "text": "李娜留的手机号是13910002002，平时不太接陌生来电。我把椅子调低了一格，这样靠着说话舒服点，坐久了也不至于太累，你也找个舒服的姿势靠"
+        }
+      ],
+      "query_has_person_name": false,
+      "cause": null
+    },
+    {
+      "id": "q091",
+      "kind": "negative",
+      "query": "郑凯的车牌号还是最早那个吗？",
+      "target_block_id": 167,
+      "family": "车牌",
+      "owner": null,
+      "predicate": "号码",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 178,
+      "hidden_ids": [
+        19,
+        21,
+        49,
+        50,
+        51,
+        53,
+        54,
+        55,
+        57,
+        58,
+        18,
+        99,
+        81,
+        167,
+        168,
+        29,
+        88
+      ],
+      "hidden_count": 17,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "车牌"
+      ],
+      "hidden_sample": [
+        {
+          "id": 19,
+          "text": "张伟的车的车牌号是京N·7K3Q0，他说这串字符当初记了好久。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不"
+        },
+        {
+          "id": 21,
+          "text": "吴静的车的车牌号是京N·7K3Q9，他说这串字符当初记了好久。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。桌"
+        },
+        {
+          "id": 49,
+          "text": "李娜的车的车牌号是京N·7K3Q1，他说这串字符当初记了好久。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q092",
+      "kind": "negative",
+      "query": "冯樱的公司还是最早那个吗？",
+      "target_block_id": 169,
+      "family": "公司",
+      "owner": null,
+      "predicate": "名称",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 179,
+      "hidden_ids": [
+        96,
+        98,
+        103,
+        105,
+        106,
+        107,
+        109,
+        110,
+        111,
+        113,
+        114,
+        115,
+        20,
+        82,
+        134,
+        169,
+        30,
+        89,
+        141
+      ],
+      "hidden_count": 19,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "公司"
+      ],
+      "hidden_sample": [
+        {
+          "id": 96,
+          "text": "张伟现在在杭州云枢网络科技有限公司一部上班，主要做后台相关的事情。刚才手机响了一下，我还以为是谁找我，拿起来一看是推送广告，懒得点开，就又放"
+        },
+        {
+          "id": 98,
+          "text": "李娜现在在杭州云枢网络科技有限公司二部上班，主要做后台相关的事情。这会儿有点犯困，我泡了杯茶提提神，茶还有点烫，得放一会儿才能喝，咱们慢慢说"
+        },
+        {
+          "id": 103,
+          "text": "王强现在在杭州云枢网络科技有限公司三部上班，主要做后台相关的事情。我这人说话比较直，有时候不太会绕弯子，有说得不对的地方你多担待点，我不是那"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q093",
+      "kind": "negative",
+      "query": "韩峥的手机号还是最早那个吗？",
+      "target_block_id": 171,
+      "family": "手机",
+      "owner": null,
+      "predicate": "号码",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 180,
+      "hidden_ids": [
+        37,
+        59,
+        61,
+        62,
+        63,
+        65,
+        66,
+        68,
+        69,
+        70,
+        71,
+        73,
+        74,
+        75,
+        154,
+        160,
+        161,
+        195,
+        196,
+        197,
+        198,
+        22,
+        83,
+        171,
+        137,
+        31,
+        90
+      ],
+      "hidden_count": 27,
+      "target_kept": false,
+      "target_hidden": true,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "手机"
+      ],
+      "hidden_sample": [
+        {
+          "id": 37,
+          "text": "刚才手机响了一下，我还以为是谁找我，拿起来一看是推送广告，懒得点开，就又放回桌上去了。窗外有只鸟一直在叫，叫得还挺有节奏，听久了倒也不觉得吵"
+        },
+        {
+          "id": 59,
+          "text": "张伟留的手机号是13910002001，平时不太接陌生来电。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照顾"
+        },
+        {
+          "id": 61,
+          "text": "李娜留的手机号是13910002002，平时不太接陌生来电。我把椅子调低了一格，这样靠着说话舒服点，坐久了也不至于太累，你也找个舒服的姿势靠"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": "owner_missing"
+    },
+    {
+      "id": "q094",
+      "kind": "negative",
+      "query": "曹岚的银行卡号还是最早那个吗？",
+      "target_block_id": 173,
+      "family": "银行卡",
+      "owner": null,
+      "predicate": "尾号",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 173,
+      "hidden_ids": [
+        23,
+        76,
+        77,
+        78,
+        80,
+        91,
+        93,
+        94,
+        95,
+        100,
+        101,
+        170,
+        193,
+        194,
+        24,
+        84
+      ],
+      "hidden_count": 16,
+      "target_kept": true,
+      "target_hidden": false,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "银行卡"
+      ],
+      "hidden_sample": [
+        {
+          "id": 23,
+          "text": "黄婷那张工资卡的卡号是6222 0201 8830 4408，一直没换过银行。手边这盆绿植该浇水了，叶子有点蔫，我一会儿得处理一下，不然再放"
+        },
+        {
+          "id": 76,
+          "text": "张伟那张工资卡的卡号是6222 0201 8830 4401，一直没换过银行。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行"
+        },
+        {
+          "id": 77,
+          "text": "王强那张工资卡的卡号是6222 0201 8830 4403，一直没换过银行。我这个人记性一般，重要的事都得靠记下来，光靠脑子容易漏，所以到"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": null
+    },
+    {
+      "id": "q095",
+      "kind": "negative",
+      "query": "邓辉的会议时间还是最早那个吗？",
+      "target_block_id": 175,
+      "family": "会议",
+      "owner": null,
+      "predicate": "地点",
+      "slot": null,
+      "k2_hit": false,
+      "kept_id": null,
+      "hidden_ids": [],
+      "hidden_count": 0,
+      "target_kept": false,
+      "target_hidden": false,
+      "hidden_all_same_family": false,
+      "hidden_families": [],
+      "hidden_sample": [],
+      "query_has_person_name": true,
+      "cause": null
+    },
+    {
+      "id": "q096",
+      "kind": "negative",
+      "query": "沈越的座位号还是最早那个吗？",
+      "target_block_id": 138,
+      "family": "工位",
+      "owner": null,
+      "predicate": "地点",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 138,
+      "hidden_ids": [
+        165,
+        166,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        27,
+        86,
+        176
+      ],
+      "hidden_count": 15,
+      "target_kept": true,
+      "target_hidden": false,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "工位"
+      ],
+      "hidden_sample": [
+        {
+          "id": 165,
+          "text": "张伟这次活动的座位排在了5排01号，说是视野还行。刚才走神了，没太听清，你再说一遍我听听，这回我认真听着，不会再漏掉什么了。你先别急着下结论"
+        },
+        {
+          "id": 166,
+          "text": "李娜这次活动的座位排在了5排02号，说是视野还行。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。咱们不着急，想"
+        },
+        {
+          "id": 181,
+          "text": "王强这次活动的座位排在了5排03号，说是视野还行。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行，说错了也没关系。你先歇会儿"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": null
+    },
+    {
+      "id": "q097",
+      "kind": "negative",
+      "query": "卢婷的车身颜色是不是琉璃金？",
+      "target_block_id": 139,
+      "family": "车色",
+      "owner": null,
+      "predicate": "颜色",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 139,
+      "hidden_ids": [
+        28,
+        87,
+        177
+      ],
+      "hidden_count": 3,
+      "target_kept": true,
+      "target_hidden": false,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "车色"
+      ],
+      "hidden_sample": [
+        {
+          "id": 28,
+          "text": "卢婷一开始的车身颜色是珍珠白，那阵子一直没动过。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不用抬声音。屋里"
+        },
+        {
+          "id": 87,
+          "text": "卢婷后来把车身颜色改成了星空灰，中间隔了一段时间。说实话这些天事情有点杂，脑子转得比平时慢，说话也可能有点跳跃，你别介意，我尽量说清楚。你先"
+        },
+        {
+          "id": 177,
+          "text": "卢婷现在用的车身颜色是冰川蓝，这个是最近才定下来的。我这会儿心情还行，就是有点累，说话可能没什么力气，你别嫌我敷衍，我确实是在听你说。外面好"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": null
+    },
+    {
+      "id": "q098",
+      "kind": "negative",
+      "query": "蒋川的车牌号是不是苏E·7Q1W2？",
+      "target_block_id": 178,
+      "family": "车牌",
+      "owner": null,
+      "predicate": "号码",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 178,
+      "hidden_ids": [
+        19,
+        21,
+        49,
+        50,
+        51,
+        53,
+        54,
+        55,
+        57,
+        58,
+        18,
+        99,
+        81,
+        167,
+        168,
+        29,
+        88
+      ],
+      "hidden_count": 17,
+      "target_kept": true,
+      "target_hidden": false,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "车牌"
+      ],
+      "hidden_sample": [
+        {
+          "id": 19,
+          "text": "张伟的车的车牌号是京N·7K3Q0，他说这串字符当初记了好久。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不"
+        },
+        {
+          "id": 21,
+          "text": "吴静的车的车牌号是京N·7K3Q9，他说这串字符当初记了好久。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。桌"
+        },
+        {
+          "id": 49,
+          "text": "李娜的车的车牌号是京N·7K3Q1，他说这串字符当初记了好久。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": null
+    },
+    {
+      "id": "q099",
+      "kind": "negative",
+      "query": "郑凯的护照号码是多少？",
+      "target_block_id": null,
+      "family": "手机",
+      "owner": null,
+      "predicate": "号码",
+      "slot": null,
+      "k2_hit": true,
+      "kept_id": 180,
+      "hidden_ids": [
+        37,
+        59,
+        61,
+        62,
+        63,
+        65,
+        66,
+        68,
+        69,
+        70,
+        71,
+        73,
+        74,
+        75,
+        154,
+        160,
+        161,
+        195,
+        196,
+        197,
+        198,
+        22,
+        83,
+        171,
+        137,
+        31,
+        90
+      ],
+      "hidden_count": 27,
+      "target_kept": null,
+      "target_hidden": false,
+      "hidden_all_same_family": true,
+      "hidden_families": [
+        "手机"
+      ],
+      "hidden_sample": [
+        {
+          "id": 37,
+          "text": "刚才手机响了一下，我还以为是谁找我，拿起来一看是推送广告，懒得点开，就又放回桌上去了。窗外有只鸟一直在叫，叫得还挺有节奏，听久了倒也不觉得吵"
+        },
+        {
+          "id": 59,
+          "text": "张伟留的手机号是13910002001，平时不太接陌生来电。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照顾"
+        },
+        {
+          "id": 61,
+          "text": "李娜留的手机号是13910002002，平时不太接陌生来电。我把椅子调低了一格，这样靠着说话舒服点，坐久了也不至于太累，你也找个舒服的姿势靠"
+        }
+      ],
+      "query_has_person_name": true,
+      "cause": null
+    },
+    {
+      "id": "q100",
+      "kind": "negative",
+      "query": "冯樱的驾照什么时候到期？",
+      "target_block_id": null,
+      "family": null,
+      "owner": null,
+      "predicate": null,
+      "slot": null,
+      "k2_hit": false,
+      "kept_id": null,
+      "hidden_ids": [],
+      "hidden_count": 0,
+      "target_kept": null,
+      "target_hidden": false,
+      "hidden_all_same_family": false,
+      "hidden_families": [],
+      "hidden_sample": [],
+      "query_has_person_name": true,
+      "cause": null
+    }
+  ],
+  "conclusions": [
+    "K2-on recall 0.711→0.368 复现：40 题中 19 题 target 被 hidden，direct 10 题里 9 题 target 被隐、0 题被 kept。",
+    "主因 owner 缺失（direct 全部 owner=None）：查询主体是“张伟/刘敏/吴静…”等人名，owner 词表（特斯拉/工作号/父亲…）不覆盖；同族 12–28 条并成一族只留 created_at 最新，target 必被隐。",
+    "次因族词撞名：手机 28、公司 20、车牌 18、银行卡 17、工位 16、会议 15 条同族不同主体互隐；族规模随库线性增长而 topk 固定 4（n20 max_family=5、n50=13、n200=28）。",
+    "结论：成立——“K2 适用范围 ≤50 块”在现族键表下成立；超 50 块后同族块数已 >topk 且人名主体无法识别，over-merge 必然。需先补 owner/主体抽取再扩库。"
+  ]
+}
