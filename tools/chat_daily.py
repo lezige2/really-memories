@@ -48,6 +48,7 @@ import assistant_log as alog            # noqa: E402  (个体日志：只追加 
 import memory_service as memo           # noqa: E402  (记忆数据层：抽取/去重/检索/判据)
 import k2_family as _k2f               # noqa: E402  (K2 同族只留最新；默认 off)
 import event_time as etime             # noqa: E402  (P0 event_date；默认 off)
+import p1b_subject as p1b               # noqa: E402  (P1b 主体键；默认 off)
 # S2-A FAIL（out/S2-A-EVAL.md）：query expansion 可选依赖，仅包这一个符号；
 # 缺失即功能 off，记 debug 日志（不静默），不影响原检索路径。
 try:
@@ -580,7 +581,7 @@ class DailyApp:
                  rollover_at=ROLLOVER_AT_DEFAULT,
                  n_ctx=N_CTX_DEFAULT, chat_start=CHAT_START_DEFAULT,
                  n_gpu_layers=N_GPU_LAYERS_DEFAULT, event_date=False,
-                 query_expand=False, confirm_writes=False):
+                 query_expand=False, confirm_writes=False, p1b_subject=False):
         self.eng = engine
         self.model_path = model_path
         _fmt = os.environ.get("LLAMA_MEM_CHAT_FORMAT", "").strip().lower()
@@ -614,6 +615,8 @@ class DailyApp:
         self._pending_confirms = {}                  # 只存内存，重启即丢（fail-closed）
         self._confirm_ttl = 300                      # ≤5min
         self._confirm_stats = {"asked": 0, "total": 0}
+        self.p1b_subject = bool(p1b_subject)     # P1b 软覆盖；默认关
+        self._p1b_side_cache = None
         self._last_query_expand = {"enabled": self.query_expand, "hits": [],
                                    "before": None, "after": None}
         _cap = 20 if memo.gate_off() else MAX_MEMORIES   # 诊断（S2_GATE_OFF=1）允许 top20
@@ -2717,7 +2720,33 @@ class DailyApp:
             return "好，回头见。"
         return "你好，我在。想让我记点什么，或问点什么？"
 
+    def _p1b_side(self, rebuild=False):
+        path = p1b.sidecar_path(self.db_path)
+        side = p1b.Sidecar(path).load()
+        if rebuild or not side.entries():
+            try:
+                side.rebuild(self._rows())
+            except Exception:                        # noqa: BLE001
+                pass
+        self._p1b_side_cache = side
+        return side
+
+    def _p1b_filter(self, selection):
+        """flag on：按 sidecar supersedes 只留同主体最新（不改块/不删）。"""
+        if not getattr(self, "p1b_subject", False) or not selection:
+            return selection
+        try:
+            side = self._p1b_side()
+            drop = p1b.superseded_ids(side)
+            kept = [s for s in selection if int(s.get("source_id") or -1) not in drop]
+            return kept or selection
+        except Exception:                            # noqa: BLE001
+            return selection
+
     def _retrieval_select(self, text):
+        return self._p1b_filter(self._retrieval_select_k2(text))
+
+    def _retrieval_select_k2(self, text):
         """K2 auto 前置：owner 门控 + count 兜底；关/回退 = 原逻辑逐字不变。"""
         if getattr(self, "query_expand", False) and _expand_query is not None:
             before = str(text or "")
@@ -2754,8 +2783,17 @@ class DailyApp:
                         "SELECT id,created_at,mode FROM memory_source")}
         except Exception:                                    # noqa: BLE001
             meta = None
+        # K2 跳 dup：tags 含 dup_of 的块不参与 kept/hidden 计算，但仍可被挂载
         try:
-            ex = _k2f.select_k2_ex(self._rows(), text, self.topk, times=meta)
+            dup_ids = {int(sid) for sid, tags in self.con.execute(
+                "SELECT source_id,tags FROM daily_memory_meta")
+                if any("dup_of" in str(t) for t in (json.loads(tags or "[]") or []))}
+        except Exception:                                    # noqa: BLE001
+            dup_ids = set()
+        rows_all = self._rows()
+        rows_k2 = [r for r in rows_all if int(r[0]) not in dup_ids]
+        try:
+            ex = _k2f.select_k2_ex(rows_k2, text, self.topk, times=meta)
             sel = ex.get("hit")
             self._last_k2 = {"mode": self.k2_mode,
                              "gate_reason": ex.get("reason") or "no_family"}
@@ -2767,10 +2805,17 @@ class DailyApp:
         # fill 策略（B 定）：同族可补、跨族不补。只挂 kept + 同族非冲突块，
         # 不再调用普通 topk 补足（V9MT05 车牌串味即跨族补足引起）。
         hit = sel[0]
-        rows = self._rows()
+        rows = rows_all
         by_id = {int(r[0]): r for r in rows}
+        keep_ids = list(hit["signals"].get("keep_ids") or [hit["source_id"]])
+        hit_fam = hit["signals"].get("family")
+        for r in rows:                                   # dup 块：可挂载、但不参选
+            rid = int(r[0])
+            if rid in dup_ids and rid not in keep_ids \
+                    and _k2f.classify_row(str(r[3])).get("family") == hit_fam:
+                keep_ids.append(rid)
         out = []
-        for sid in (hit["signals"].get("keep_ids") or [hit["source_id"]]):
+        for sid in keep_ids:
             try:
                 sid = int(sid)
             except (TypeError, ValueError):
@@ -3206,6 +3251,45 @@ class DailyApp:
     def _explicit_search(self, text):
         return bool(self._EXPLICIT_SEARCH.search(str(text or "")))
 
+    def _p1b_gate(self, text, token):
+        """P1b 写前判定：ask 复用同一套 confirm token；write/supersede 放行。"""
+        key = self._confirm_session_key()
+        if token:
+            rec = self._pending_confirms.get(str(token))
+            if not rec:
+                raise DailyError("confirm_invalid", "确认令牌不存在/已使用/已过期")
+            if rec["expires"] < time.time():
+                self._pending_confirms.pop(str(token), None)
+                raise DailyError("confirm_expired", "确认令牌已过期")
+            if rec["text_sha"] != ms.sha256_text(text) or rec["session"] != key:
+                raise DailyError("confirm_invalid", "确认令牌与本次写入不匹配")
+            self._pending_confirms.pop(str(token), None)
+            return {"decision": rec.get("p1b")}
+        side = self._p1b_side(rebuild=True)
+        created = datetime.now().isoformat(timespec="seconds")
+        dec = p1b.decide(text, created, side, tenant="default")
+        self._confirm_stats["total"] += 1
+        if dec.get("action") in ("write", "same_value", "supersede"):
+            return {"decision": dec}
+        self._confirm_stats["asked"] += 1
+        tok = uuid.uuid4().hex
+        self._pending_confirms[tok] = {
+            "text_sha": ms.sha256_text(text), "session": key, "tenant": "default",
+            "expires": time.time() + self._confirm_ttl,
+            "reason": dec.get("reason"), "candidates": int(dec.get("candidates") or 1),
+            "p1b": dec}
+        if getattr(self, "logger", None):
+            try:
+                self.logger.log_warning("confirm_trigger", "p1b needs confirmation",
+                                        evidence={"reason": dec.get("reason"),
+                                                  "candidates": dec.get("candidates")})
+            except Exception:                        # noqa: BLE001
+                pass
+        return {"needs_confirmation": True, "confirm_token": tok,
+                "reason": dec.get("reason"),
+                "candidates": int(dec.get("candidates") or 1),
+                "expires_in": self._confirm_ttl}
+
     def _confirm_session_key(self):
         return str(getattr(self, "session_path", "") or "")
 
@@ -3302,7 +3386,13 @@ class DailyApp:
         cap = MAX_MEMORIES if self.retrieval_mode != "topk" else LIBRARY_MAX
         if len(self._rows()) >= cap:
             raise DailyError("memory_full", "记忆已达上限 %d 条，先 /forget 再记" % cap)
-        if getattr(self, "confirm_writes", False):
+        p1b_decision = None
+        if getattr(self, "p1b_subject", False):
+            g = self._p1b_gate(text, confirm_token)
+            if g.get("needs_confirmation"):
+                return g                             # 确认前零写入
+            p1b_decision = g.get("decision")
+        elif getattr(self, "confirm_writes", False):
             gate = self._confirm_gate(text, confirm_token)
             if gate is not None:
                 return gate                          # 确认前零写入
@@ -3345,6 +3435,17 @@ class DailyApp:
             R.build_index(self.con, verbose=False)
         except Exception as exc:
             self.warnings.append("检索索引重建失败：%s" % exc)
+        if getattr(self, "p1b_subject", False) and p1b_decision:
+            try:
+                side = self._p1b_side()
+                if p1b_decision.get("action") == "supersede":
+                    side.mark(sid, text, put.get("created_at"),
+                              supersedes=p1b_decision.get("target"))
+                else:
+                    side.mark(sid, text, put.get("created_at"))
+                side.save()
+            except Exception as exc:                 # noqa: BLE001
+                self.warnings.append("p1b sidecar 写入失败：%s" % exc)
         self._sync_mounts()
         try:
             try:
@@ -3727,6 +3828,8 @@ def main(argv=None):
                     help="S2-A 确定性 query expansion（默认关；4 条通用同义对）")
     ap.add_argument("--confirm-writes", action="store_true", default=False,
                     help="显式冲突写入需 confirm token（默认关；仅 /remember）")
+    ap.add_argument("--p1b-subject", action="store_true", default=False,
+                    help="P1b 主体键软覆盖（默认关；sidecar，不改 daily）")
     ap.add_argument("--n-ctx", type=int, default=N_CTX_DEFAULT,
                     help="上下文长度（默认 %d；GPU 选型后可调大）" % N_CTX_DEFAULT)
     ap.add_argument("--n-gpu-layers", type=int, default=N_GPU_LAYERS_DEFAULT,
@@ -3766,6 +3869,7 @@ def main(argv=None):
                        event_date=getattr(args, "event_date", False),
                        query_expand=getattr(args, "query_expand", False),
                        confirm_writes=getattr(args, "confirm_writes", False),
+                       p1b_subject=getattr(args, "p1b_subject", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
                        n_gpu_layers=args.n_gpu_layers)
