@@ -38,6 +38,7 @@ Usage:
 """
 import argparse
 import hashlib
+import json
 import os
 import re
 import sqlite3
@@ -215,45 +216,84 @@ def event_column_names(con):
     return {r[1] for r in con.execute("PRAGMA table_info(memory_source)")}
 
 
+EVENT_MIGRATION_KEY = "event_migration"
+
+
+def _table_exists(con, name):
+    return con.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?",
+                       (name,)).fetchone() is not None
+
+
+def _read_meta(con, key):
+    if not _table_exists(con, "memory_meta"):
+        return None
+    row = con.execute("SELECT value FROM memory_meta WHERE key=?", (key,)).fetchone()
+    return row[0] if row else None
+
+
 def ensure_event_columns(con, db_path=None, backup=True):
-    """幂等：给旧库补 event_* 列；迁移前备份并返回 sha。"""
+    """幂等迁移：读**原 user_version**（不写死），记录迁移单；迁移前备份并返回 sha。"""
     have = event_column_names(con)
     missing = [(n, t) for n, t in EVENT_COLUMNS if n not in have]
-    backup_path = backup_sha = None
-    con.execute("CREATE TABLE IF NOT EXISTS memory_meta ("
-                "key TEXT PRIMARY KEY, value TEXT NOT NULL)")
-    con.execute("INSERT OR REPLACE INTO memory_meta(key,value) "
-                "VALUES('created_at_semantics',?)", (CREATED_AT_SEMANTICS,))
+    original_version = int(con.execute("PRAGMA user_version").fetchone()[0])
     if not missing:
-        con.commit()
-        return {"added": [], "backup": None, "sha256": None,
+        return {"added": [], "backup": None, "sha256": None, "migrated": False,
+                "original_user_version": original_version,
                 "created_at_semantics": CREATED_AT_SEMANTICS}
+    backup_path = backup_sha = None
     if backup and db_path and os.path.exists(db_path):
         import shutil
         ts = datetime.now().strftime("%Y%m%d%H%M%S")
         backup_path = "%s.bak-eventdate-%s" % (db_path, ts)
         shutil.copy2(db_path, backup_path)
         backup_sha = _sha256_file(backup_path)
+    meta_existed = _table_exists(con, "memory_meta")
+    con.execute("CREATE TABLE IF NOT EXISTS memory_meta ("
+                "key TEXT PRIMARY KEY, value TEXT NOT NULL)")
+    record = {"original_user_version": original_version,
+              "added_columns": [n for n, _ in missing],
+              "created_memory_meta": not meta_existed,
+              "at": datetime.now().isoformat(timespec="seconds")}
+    con.execute("INSERT OR REPLACE INTO memory_meta(key,value) VALUES(?,?)",
+                (EVENT_MIGRATION_KEY, json.dumps(record, ensure_ascii=False)))
+    con.execute("INSERT OR REPLACE INTO memory_meta(key,value) "
+                "VALUES('created_at_semantics',?)", (CREATED_AT_SEMANTICS,))
     for name, typ in missing:
         con.execute("ALTER TABLE memory_source ADD COLUMN %s %s" % (name, typ))
-    con.execute("PRAGMA user_version = %d" % EVENT_USER_VERSION)
+    con.execute("PRAGMA user_version = %d" % max(original_version, EVENT_USER_VERSION))
     con.commit()
     return {"added": [n for n, _ in missing],
-            "backup": backup_path, "sha256": backup_sha,
+            "backup": backup_path, "sha256": backup_sha, "migrated": True,
+            "original_user_version": original_version,
+            "created_memory_meta": not meta_existed,
             "created_at_semantics": CREATED_AT_SEMANTICS}
 
 
 def drop_event_columns(con):
-    """回滚：drop event_* 列（不动原文/created_at/块）；失败时抛错不静默。"""
+    """回滚：只删本次迁移建的列/表，恢复原 user_version；不静默。"""
+    record = None
+    raw = _read_meta(con, EVENT_MIGRATION_KEY)
+    if raw:
+        try:
+            record = json.loads(raw)
+        except ValueError:
+            record = None
     have = event_column_names(con)
-    dropped = []
-    for name, _typ in EVENT_COLUMNS:
-        if name in have:
-            con.execute("ALTER TABLE memory_source DROP COLUMN %s" % name)
-            dropped.append(name)
-    con.execute("PRAGMA user_version = 1")
+    targets = record["added_columns"] if record else [n for n, _ in EVENT_COLUMNS]
+    dropped = [n for n in targets if n in have]
+    for name in dropped:
+        con.execute("ALTER TABLE memory_source DROP COLUMN %s" % name)
+    restored = None
+    if record:
+        restored = int(record["original_user_version"])
+        con.execute("PRAGMA user_version = %d" % restored)
+    meta_dump = None
+    if record and record.get("created_memory_meta") and _table_exists(con, "memory_meta"):
+        meta_dump = [{"key": k, "value": v}
+                     for k, v in con.execute("SELECT key,value FROM memory_meta")]
+        con.execute("DROP TABLE memory_meta")
     con.commit()
-    return dropped
+    return {"dropped": dropped, "user_version": restored, "meta_dump": meta_dump}
 
 
 def put_source(con, name, label, text, tenant="default", scope="private",

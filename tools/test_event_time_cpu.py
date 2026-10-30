@@ -147,7 +147,9 @@ class RetrievalSideTests(unittest.TestCase):
 
 
 class MigrationTests(unittest.TestCase):
-    def _old_db(self, path):
+    """迁移→回滚两轮：user_version 不递增、列集合复原、无残留表、内容 sha 不变。"""
+
+    def _old_db(self, path, user_version=0):
         con = sqlite3.connect(path)
         con.executescript(ms.SCHEMA)
         for name, _t in ms.EVENT_COLUMNS:                        # 模拟旧库
@@ -155,32 +157,97 @@ class MigrationTests(unittest.TestCase):
                 con.execute("ALTER TABLE memory_source DROP COLUMN %s" % name)
             except sqlite3.OperationalError:
                 pass
+        con.execute("DROP TABLE IF EXISTS memory_meta")          # 旧库没有 meta 表
+        con.execute("PRAGMA user_version = %d" % user_version)
         con.commit()
         return con
 
-    def test_ensure_backup_add_and_drop(self):
+    def _cols(self, con):
+        return {r[1] for r in con.execute("PRAGMA table_info(memory_source)")}
+
+    def _tables(self, con):
+        return {r[0] for r in con.execute(
+            "SELECT name FROM sqlite_master WHERE type='table'")}
+
+    def _uv(self, con):
+        return int(con.execute("PRAGMA user_version").fetchone()[0])
+
+    def _content_sha(self, con):
+        import hashlib
+        rows = con.execute("SELECT id,name,text,source_hash,created_at "
+                           "FROM memory_source ORDER BY id").fetchall()
+        return hashlib.sha256(repr(rows).encode("utf-8")).hexdigest()
+
+    def _rounds(self, user_version, rounds=2, pre_meta=False):
         tmp = tempfile.mkdtemp(prefix="event_mig_")
         path = os.path.join(tmp, "old.db")
-        con = self._old_db(path)
+        con = self._old_db(path, user_version)
         try:
-            self.assertNotIn("event_date", ms.event_column_names(con))
-            info = ms.ensure_event_columns(con, db_path=path)
-            self.assertIn("event_date", info["added"])
-            self.assertTrue(os.path.exists(info["backup"]))
-            self.assertEqual(len(info["sha256"]), 64)
-            sid, created = ms.put_source(
-                con, "m1", "l", "明天开会", tenant="default", scope="private",
+            ms.put_source(con, "m1", "l", "明天开会")
+            if pre_meta:
+                con.execute("CREATE TABLE memory_meta (key TEXT PRIMARY KEY, "
+                            "value TEXT NOT NULL)")
+                con.execute("INSERT INTO memory_meta VALUES('keep_me','v')")
+                con.commit()
+            cols0, tables0, sha0 = self._cols(con), self._tables(con), self._content_sha(con)
+            self.assertNotIn("event_date", cols0)
+            for round_no in range(1, rounds + 1):
+                info = ms.ensure_event_columns(con, db_path=path)
+                self.assertIn("event_date", info["added"])
+                self.assertEqual(info["original_user_version"], user_version)
+                self.assertTrue(os.path.exists(info["backup"]))
+                self.assertEqual(len(info["sha256"]), 64)
+                self.assertEqual(self._uv(con), max(user_version, 2))
+                drop = ms.drop_event_columns(con)
+                self.assertIn("event_date", drop["dropped"])
+                self.assertEqual(drop["user_version"], user_version)
+                self.assertEqual(self._uv(con), user_version)     # 回原值，非写死 0
+                self.assertEqual(self._cols(con), cols0)          # 列集合复原
+                self.assertEqual(self._tables(con), tables0)      # 无残留表
+                self.assertEqual(self._content_sha(con), sha0)    # 内容不变
+                if pre_meta:
+                    self.assertIsNone(drop["meta_dump"])          # 不删既有 meta
+                    self.assertEqual(
+                        con.execute("SELECT value FROM memory_meta WHERE key='keep_me'")
+                        .fetchone()[0], "v")
+                else:
+                    self.assertTrue(drop["meta_dump"])            # 本次建的 meta 已 dump
+        finally:
+            con.close()
+
+    def _two_rounds(self, user_version):
+        self._rounds(user_version, rounds=2)
+
+    def test_roundtrip_from_version_0(self):
+        self._two_rounds(0)
+
+    def test_roundtrip_from_version_5(self):
+        self._two_rounds(5)
+
+    def test_roundtrip_from_version_1(self):
+        self._rounds(1, rounds=1)
+
+    def test_preexisting_meta_survives(self):
+        self._rounds(0, rounds=1, pre_meta=True)
+
+    def test_three_rounds_idempotent(self):
+        self._rounds(0, rounds=3)
+
+    def test_ensure_keeps_event_columns_for_writes(self):
+        tmp = tempfile.mkdtemp(prefix="event_mig_")
+        path = os.path.join(tmp, "old.db")
+        con = self._old_db(path, 0)
+        try:
+            ms.ensure_event_columns(con, db_path=path)
+            sid, _ = ms.put_source(
+                con, "m2", "l", "明天开会",
                 event_meta={"event_date": "2026-10-31", "event_time": None,
                             "event_source": "明天", "event_tz": "Asia/Shanghai",
                             "event_confidence": "high",
                             "event_parser_version": E.EVENT_PARSER_VERSION})
-            self.assertTrue(created)
             row = con.execute("SELECT event_date,event_confidence FROM memory_source "
                               "WHERE id=?", (sid,)).fetchone()
             self.assertEqual(row, ("2026-10-31", "high"))
-            dropped = ms.drop_event_columns(con)
-            self.assertIn("event_date", dropped)
-            self.assertNotIn("event_date", ms.event_column_names(con))
         finally:
             con.close()
 

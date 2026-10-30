@@ -1,0 +1,765 @@
+{
+ "schema": "p0_migration_dryrun_v2",
+ "local_only": true,
+ "note": "现网只读；写只落 tmp/p0_dryrun；不切 flag、不 commit",
+ "verdict": "pass",
+ "previous_verdict": "partial",
+ "verdict_note": "上一版 partial：drop 后 user_version 0→1、memory_meta 残留；C4 修复后两轮 ensure→drop 均恢复原值",
+ "source": {
+  "db": "D:\\llama-mem\\kvmem\\daily\\chat.db",
+  "sha256": "0a7eae495c4be89cbd385382d180cdcfdea102a9d955369a411b5798d4c95d49"
+ },
+ "backup": {
+  "path": "D:\\llama-mem\\tmp\\p0_dryrun\\chat.db.orig",
+  "sha256": "0a7eae495c4be89cbd385382d180cdcfdea102a9d955369a411b5798d4c95d49"
+ },
+ "migration_script": {
+  "path": "D:\\llama-mem\\tools\\memory_source.py",
+  "sha256": "2f6aece4b87546adea2f3def5ba3af6411e76e6c77deabd4dd22655d6bad8f07",
+  "functions": [
+   "ensure_event_columns",
+   "drop_event_columns"
+  ]
+ },
+ "original": {
+  "user_version": 0,
+  "columns": [
+   [
+    "id",
+    "INTEGER",
+    0
+   ],
+   [
+    "tenant",
+    "TEXT",
+    1
+   ],
+   [
+    "scope",
+    "TEXT",
+    1
+   ],
+   [
+    "mode",
+    "TEXT",
+    1
+   ],
+   [
+    "name",
+    "TEXT",
+    1
+   ],
+   [
+    "label",
+    "TEXT",
+    1
+   ],
+   [
+    "text",
+    "TEXT",
+    1
+   ],
+   [
+    "source_hash",
+    "TEXT",
+    1
+   ],
+   [
+    "created_at",
+    "TEXT",
+    1
+   ],
+   [
+    "text_kind",
+    "TEXT",
+    1
+   ],
+   [
+    "contains_model_turns",
+    "INTEGER",
+    1
+   ],
+   [
+    "is_excerpt",
+    "INTEGER",
+    1
+   ],
+   [
+    "derived_from",
+    "TEXT",
+    0
+   ]
+  ],
+  "memory_meta": {
+   "present": false,
+   "rows": []
+  },
+  "content_sha256": "838d97516be1f66da55354569b7f5b09ec37c8fdc8110f7722922bffc2a1e19e",
+  "rows": 20,
+  "block_sha_map_sha256": "02b1fcf528333a8498f5692e823b1c6911576879109b9c863505e2395a24b22e"
+ },
+ "schema_diff": {
+  "added": [
+   "event_date",
+   "event_time",
+   "event_source",
+   "event_tz",
+   "event_confidence",
+   "event_parser_version",
+   "event_basis_ts"
+  ],
+  "removed": [],
+  "type_changed": []
+ },
+ "rounds": [
+  {
+   "round": 1,
+   "added": [
+    "event_date",
+    "event_time",
+    "event_source",
+    "event_tz",
+    "event_confidence",
+    "event_parser_version",
+    "event_basis_ts"
+   ],
+   "backup": "D:\\llama-mem\\tmp\\p0_dryrun\\chat.db.bak-eventdate-20261030195906",
+   "backup_sha256": "acd50dcdbecc4fd674a128a891a8518c056de8078b50a7f41dfa74ff57beb3be",
+   "mid": {
+    "user_version": 2,
+    "columns": [
+     [
+      "id",
+      "INTEGER",
+      0
+     ],
+     [
+      "tenant",
+      "TEXT",
+      1
+     ],
+     [
+      "scope",
+      "TEXT",
+      1
+     ],
+     [
+      "mode",
+      "TEXT",
+      1
+     ],
+     [
+      "name",
+      "TEXT",
+      1
+     ],
+     [
+      "label",
+      "TEXT",
+      1
+     ],
+     [
+      "text",
+      "TEXT",
+      1
+     ],
+     [
+      "source_hash",
+      "TEXT",
+      1
+     ],
+     [
+      "created_at",
+      "TEXT",
+      1
+     ],
+     [
+      "text_kind",
+      "TEXT",
+      1
+     ],
+     [
+      "contains_model_turns",
+      "INTEGER",
+      1
+     ],
+     [
+      "is_excerpt",
+      "INTEGER",
+      1
+     ],
+     [
+      "derived_from",
+      "TEXT",
+      0
+     ],
+     [
+      "event_date",
+      "TEXT",
+      0
+     ],
+     [
+      "event_time",
+      "TEXT",
+      0
+     ],
+     [
+      "event_source",
+      "TEXT",
+      0
+     ],
+     [
+      "event_tz",
+      "TEXT",
+      0
+     ],
+     [
+      "event_confidence",
+      "TEXT",
+      0
+     ],
+     [
+      "event_parser_version",
+      "TEXT",
+      0
+     ],
+     [
+      "event_basis_ts",
+      "TEXT",
+      0
+     ]
+    ],
+    "added_columns": [
+     "event_date",
+     "event_time",
+     "event_source",
+     "event_tz",
+     "event_confidence",
+     "event_parser_version",
+     "event_basis_ts"
+    ],
+    "meta": {
+     "present": true,
+     "rows": [
+      [
+       "created_at_semantics",
+       "v1_local_naive"
+      ],
+      [
+       "event_migration",
+       "{\"original_user_version\": 0, \"added_columns\": [\"event_date\", \"event_time\", \"event_source\", \"event_tz\", \"event_confidence\", \"event_parser_version\", \"event_basis_ts\"], \"created_memory_meta\": true, \"at\": \"2026-10-30T19:59:06\"}"
+      ]
+     ]
+    },
+    "content_sha256": "838d97516be1f66da55354569b7f5b09ec37c8fdc8110f7722922bffc2a1e19e"
+   },
+   "dropped": {
+    "dropped": [
+     "event_date",
+     "event_time",
+     "event_source",
+     "event_tz",
+     "event_confidence",
+     "event_parser_version",
+     "event_basis_ts"
+    ],
+    "user_version": 0,
+    "meta_dump": [
+     {
+      "key": "event_migration",
+      "value": "{\"original_user_version\": 0, \"added_columns\": [\"event_date\", \"event_time\", \"event_source\", \"event_tz\", \"event_confidence\", \"event_parser_version\", \"event_basis_ts\"], \"created_memory_meta\": true, \"at\": \"2026-10-30T19:59:06\"}"
+     },
+     {
+      "key": "created_at_semantics",
+      "value": "v1_local_naive"
+     }
+    ]
+   },
+   "post": {
+    "user_version": 0,
+    "meta": {
+     "present": false,
+     "rows": []
+    },
+    "content_sha256": "838d97516be1f66da55354569b7f5b09ec37c8fdc8110f7722922bffc2a1e19e"
+   },
+   "checks": {
+    "user_version_restored": true,
+    "columns_restored": true,
+    "memory_meta_restored": true,
+    "content_sha_same": true,
+    "rows_same": true,
+    "block_sha_same": true,
+    "all_ok": true
+   }
+  },
+  {
+   "round": 2,
+   "added": [
+    "event_date",
+    "event_time",
+    "event_source",
+    "event_tz",
+    "event_confidence",
+    "event_parser_version",
+    "event_basis_ts"
+   ],
+   "backup": null,
+   "backup_sha256": null,
+   "mid": {
+    "user_version": 2,
+    "columns": [
+     [
+      "id",
+      "INTEGER",
+      0
+     ],
+     [
+      "tenant",
+      "TEXT",
+      1
+     ],
+     [
+      "scope",
+      "TEXT",
+      1
+     ],
+     [
+      "mode",
+      "TEXT",
+      1
+     ],
+     [
+      "name",
+      "TEXT",
+      1
+     ],
+     [
+      "label",
+      "TEXT",
+      1
+     ],
+     [
+      "text",
+      "TEXT",
+      1
+     ],
+     [
+      "source_hash",
+      "TEXT",
+      1
+     ],
+     [
+      "created_at",
+      "TEXT",
+      1
+     ],
+     [
+      "text_kind",
+      "TEXT",
+      1
+     ],
+     [
+      "contains_model_turns",
+      "INTEGER",
+      1
+     ],
+     [
+      "is_excerpt",
+      "INTEGER",
+      1
+     ],
+     [
+      "derived_from",
+      "TEXT",
+      0
+     ],
+     [
+      "event_date",
+      "TEXT",
+      0
+     ],
+     [
+      "event_time",
+      "TEXT",
+      0
+     ],
+     [
+      "event_source",
+      "TEXT",
+      0
+     ],
+     [
+      "event_tz",
+      "TEXT",
+      0
+     ],
+     [
+      "event_confidence",
+      "TEXT",
+      0
+     ],
+     [
+      "event_parser_version",
+      "TEXT",
+      0
+     ],
+     [
+      "event_basis_ts",
+      "TEXT",
+      0
+     ]
+    ],
+    "added_columns": [
+     "event_date",
+     "event_time",
+     "event_source",
+     "event_tz",
+     "event_confidence",
+     "event_parser_version",
+     "event_basis_ts"
+    ],
+    "meta": {
+     "present": true,
+     "rows": [
+      [
+       "created_at_semantics",
+       "v1_local_naive"
+      ],
+      [
+       "event_migration",
+       "{\"original_user_version\": 0, \"added_columns\": [\"event_date\", \"event_time\", \"event_source\", \"event_tz\", \"event_confidence\", \"event_parser_version\", \"event_basis_ts\"], \"created_memory_meta\": true, \"at\": \"2026-10-30T19:59:06\"}"
+      ]
+     ]
+    },
+    "content_sha256": "838d97516be1f66da55354569b7f5b09ec37c8fdc8110f7722922bffc2a1e19e"
+   },
+   "dropped": {
+    "dropped": [
+     "event_date",
+     "event_time",
+     "event_source",
+     "event_tz",
+     "event_confidence",
+     "event_parser_version",
+     "event_basis_ts"
+    ],
+    "user_version": 0,
+    "meta_dump": [
+     {
+      "key": "event_migration",
+      "value": "{\"original_user_version\": 0, \"added_columns\": [\"event_date\", \"event_time\", \"event_source\", \"event_tz\", \"event_confidence\", \"event_parser_version\", \"event_basis_ts\"], \"created_memory_meta\": true, \"at\": \"2026-10-30T19:59:06\"}"
+     },
+     {
+      "key": "created_at_semantics",
+      "value": "v1_local_naive"
+     }
+    ]
+   },
+   "post": {
+    "user_version": 0,
+    "meta": {
+     "present": false,
+     "rows": []
+    },
+    "content_sha256": "838d97516be1f66da55354569b7f5b09ec37c8fdc8110f7722922bffc2a1e19e"
+   },
+   "checks": {
+    "user_version_restored": true,
+    "columns_restored": true,
+    "memory_meta_restored": true,
+    "content_sha_same": true,
+    "rows_same": true,
+    "block_sha_same": true,
+    "all_ok": true
+   }
+  }
+ ],
+ "query_checks": [
+  {
+   "suite": "daily",
+   "case_id": "daily-plate",
+   "input": "我的车牌号是什么？",
+   "pre": {
+    "tag": "dpre0",
+    "case_id": "daily-plate",
+    "input": "我的车牌号是什么？",
+    "top_ids": [
+     3,
+     12,
+     13
+    ],
+    "top_text_sha": [
+     "87c86a52a6b7cf978da06cace21646188f943a8937216567b54ee84c7800c72f",
+     "4e03739cc73f5ee4f93195efc4168ef10d1a6b12cb835ab291d6d684bd984a9d",
+     "cbe65520168371ff5fa48aaac7e2186ed3399e695d15bff3dc279fa70d0f6387"
+    ],
+    "top1_text": "我叫阿泽，今天（2026-10-27）我们做完了 b7 实验，结论是擦边；我的车牌号是京A88888。",
+    "contains_any_hit": [
+     "京A88888"
+    ],
+    "contains_all_hit": [],
+    "not_contains_hit": [],
+    "static_ok": true
+   },
+   "post": {
+    "tag": "dpost0",
+    "case_id": "daily-plate",
+    "input": "我的车牌号是什么？",
+    "top_ids": [
+     3,
+     12,
+     13
+    ],
+    "top_text_sha": [
+     "87c86a52a6b7cf978da06cace21646188f943a8937216567b54ee84c7800c72f",
+     "4e03739cc73f5ee4f93195efc4168ef10d1a6b12cb835ab291d6d684bd984a9d",
+     "cbe65520168371ff5fa48aaac7e2186ed3399e695d15bff3dc279fa70d0f6387"
+    ],
+    "top1_text": "我叫阿泽，今天（2026-10-27）我们做完了 b7 实验，结论是擦边；我的车牌号是京A88888。",
+    "contains_any_hit": [
+     "京A88888"
+    ],
+    "contains_all_hit": [],
+    "not_contains_hit": [],
+    "static_ok": true
+   },
+   "same": true
+  },
+  {
+   "suite": "daily",
+   "case_id": "daily-cat",
+   "input": "我养的猫叫什么？",
+   "pre": {
+    "tag": "dpre1",
+    "case_id": "daily-cat",
+    "input": "我养的猫叫什么？",
+    "top_ids": [
+     14
+    ],
+    "top_text_sha": [
+     "327723633d2db9616a2b470c0d9561059097cf78423507ba94518f16e0231cb3"
+    ],
+    "top1_text": "补充一个事实：我养的猫叫豆豆。",
+    "contains_any_hit": [
+     "豆豆"
+    ],
+    "contains_all_hit": [],
+    "not_contains_hit": [],
+    "static_ok": true
+   },
+   "post": {
+    "tag": "dpost1",
+    "case_id": "daily-cat",
+    "input": "我养的猫叫什么？",
+    "top_ids": [
+     14
+    ],
+    "top_text_sha": [
+     "327723633d2db9616a2b470c0d9561059097cf78423507ba94518f16e0231cb3"
+    ],
+    "top1_text": "补充一个事实：我养的猫叫豆豆。",
+    "contains_any_hit": [
+     "豆豆"
+    ],
+    "contains_all_hit": [],
+    "not_contains_hit": [],
+    "static_ok": true
+   },
+   "same": true
+  },
+  {
+   "suite": "81",
+   "case_id": "s01",
+   "input": "我明年一月要去哪出差？",
+   "pre": {
+    "tag": "pre0",
+    "case_id": "s01",
+    "input": "我明年一月要去哪出差？",
+    "top_ids": [
+     1
+    ],
+    "top_text_sha": [
+     "09aa6c2cd1656684e5b5922ad2e589e710e66b94cba499fff7d035404a8968af"
+    ],
+    "top1_text": "我明年一月要去拉萨出差",
+    "contains_any_hit": [
+     "拉萨"
+    ],
+    "contains_all_hit": [],
+    "not_contains_hit": [],
+    "static_ok": true
+   },
+   "post": {
+    "tag": "post0",
+    "case_id": "s01",
+    "input": "我明年一月要去哪出差？",
+    "top_ids": [
+     1
+    ],
+    "top_text_sha": [
+     "09aa6c2cd1656684e5b5922ad2e589e710e66b94cba499fff7d035404a8968af"
+    ],
+    "top1_text": "我明年一月要去拉萨出差",
+    "contains_any_hit": [
+     "拉萨"
+    ],
+    "contains_all_hit": [],
+    "not_contains_hit": [],
+    "static_ok": true
+   },
+   "same": true
+  },
+  {
+   "suite": "81",
+   "case_id": "s02",
+   "input": "我的测试工号是多少？",
+   "pre": {
+    "tag": "pre1",
+    "case_id": "s02",
+    "input": "我的测试工号是多少？",
+    "top_ids": [
+     1
+    ],
+    "top_text_sha": [
+     "cf77941ae8c54e4852d18d1f52be9f1ae64d068e24c75962f1bcd6c7356cc86e"
+    ],
+    "top1_text": "我的测试工号是T-88231",
+    "contains_any_hit": [
+     "T-88231",
+     "88231"
+    ],
+    "contains_all_hit": [],
+    "not_contains_hit": [],
+    "static_ok": true
+   },
+   "post": {
+    "tag": "post1",
+    "case_id": "s02",
+    "input": "我的测试工号是多少？",
+    "top_ids": [
+     1
+    ],
+    "top_text_sha": [
+     "cf77941ae8c54e4852d18d1f52be9f1ae64d068e24c75962f1bcd6c7356cc86e"
+    ],
+    "top1_text": "我的测试工号是T-88231",
+    "contains_any_hit": [
+     "T-88231",
+     "88231"
+    ],
+    "contains_all_hit": [],
+    "not_contains_hit": [],
+    "static_ok": true
+   },
+   "same": true
+  },
+  {
+   "suite": "MT20",
+   "case_id": "V9MT05",
+   "input": "我的手机号是多少？",
+   "pre": {
+    "tag": "pre2",
+    "case_id": "V9MT05",
+    "input": "我的手机号是多少？",
+    "top_ids": [
+     1,
+     2
+    ],
+    "top_text_sha": [
+     "611126f9b1062e697ba6b2733c5e54f5bf411a698fa37d07a127c21f141538c4",
+     "0172060b067435a15597ca5afe59820b8e3bfa1d99361212fb3439fccf0f674a"
+    ],
+    "top1_text": "我的手机号是136-1111-3333",
+    "contains_any_hit": [
+     "158-0000-2468"
+    ],
+    "contains_all_hit": [
+     "158-0000-2468"
+    ],
+    "not_contains_hit": [],
+    "static_ok": true
+   },
+   "post": {
+    "tag": "post2",
+    "case_id": "V9MT05",
+    "input": "我的手机号是多少？",
+    "top_ids": [
+     1,
+     2
+    ],
+    "top_text_sha": [
+     "611126f9b1062e697ba6b2733c5e54f5bf411a698fa37d07a127c21f141538c4",
+     "0172060b067435a15597ca5afe59820b8e3bfa1d99361212fb3439fccf0f674a"
+    ],
+    "top1_text": "我的手机号是136-1111-3333",
+    "contains_any_hit": [
+     "158-0000-2468"
+    ],
+    "contains_all_hit": [
+     "158-0000-2468"
+    ],
+    "not_contains_hit": [],
+    "static_ok": true
+   },
+   "same": true
+  },
+  {
+   "suite": "MT20",
+   "case_id": "V9MT06",
+   "input": "我的手机号是什么？",
+   "pre": {
+    "tag": "pre3",
+    "case_id": "V9MT06",
+    "input": "我的手机号是什么？",
+    "top_ids": [
+     1,
+     2
+    ],
+    "top_text_sha": [
+     "611126f9b1062e697ba6b2733c5e54f5bf411a698fa37d07a127c21f141538c4",
+     "0172060b067435a15597ca5afe59820b8e3bfa1d99361212fb3439fccf0f674a"
+    ],
+    "top1_text": "我的手机号是136-1111-3333",
+    "contains_any_hit": [
+     "158-0000-2468"
+    ],
+    "contains_all_hit": [
+     "158-0000-2468"
+    ],
+    "not_contains_hit": [],
+    "static_ok": true
+   },
+   "post": {
+    "tag": "post3",
+    "case_id": "V9MT06",
+    "input": "我的手机号是什么？",
+    "top_ids": [
+     1,
+     2
+    ],
+    "top_text_sha": [
+     "611126f9b1062e697ba6b2733c5e54f5bf411a698fa37d07a127c21f141538c4",
+     "0172060b067435a15597ca5afe59820b8e3bfa1d99361212fb3439fccf0f674a"
+    ],
+    "top1_text": "我的手机号是136-1111-3333",
+    "contains_any_hit": [
+     "158-0000-2468"
+    ],
+    "contains_all_hit": [
+     "158-0000-2468"
+    ],
+    "not_contains_hit": [],
+    "static_ok": true
+   },
+   "same": true
+  }
+ ],
+ "checks": {
+  "schema_ok": true,
+  "rounds_all_restored": true,
+  "query_static_same": true,
+  "user_version_orig": 0
+ },
+ "ok": true
+}
