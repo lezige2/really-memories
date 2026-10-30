@@ -1,0 +1,335 @@
+{
+ "schema": "hygiene_evidence_v1",
+ "daily_backup": {
+  "file": "kvmem/daily/chat.db.bak-hygiene-20261031T002748",
+  "sha256": "0a7eae495c4be89cbd385382d180cdcfdea102a9d955369a411b5798d4c95d49",
+  "bytes": 192512
+ },
+ "copies": {
+  "pre_sha256": "d7753b74daec7247d9e0f72c2ca7bdb123a5427311b21bf39e5fbcdb0aa6c9b2",
+  "post_sha256": "af6e2b466029f74553622e42e1c4ec496cd7857a3ce7eace3817d78c3921352e"
+ },
+ "tags_edit": {
+  "id3": [
+   "plate:京A88888",
+   "context:primary"
+  ],
+  "id12": [
+   "plate:京A88888",
+   "dup_of:3",
+   "context:restatement"
+  ],
+  "id13": [
+   "plate:京A88888",
+   "dup_of:3",
+   "context:restatement"
+  ],
+  "changed_rows": 3,
+  "total_meta_rows": 30,
+  "dump_pre_sha256": "3b171f919b66cbeb2dc46307d2499ccbfcb573f41f9c743944443b1b92d3ac31"
+ },
+ "run_42": {
+  "pre_pass": 36,
+  "post_pass": 33,
+  "diff_cases": 8,
+  "diff": [
+   {
+    "id": "KVC05",
+    "pre_pass": true,
+    "post_pass": false,
+    "pre_blocks": [
+     22
+    ],
+    "post_blocks": [
+     22,
+     12,
+     13
+    ],
+    "pre_state": "natural",
+    "post_state": "natural",
+    "pre_answer": "你的车牌号是津E54321",
+    "post_answer": "你的车牌号是京A88888"
+   },
+   {
+    "id": "KVC06",
+    "pre_pass": true,
+    "post_pass": false,
+    "pre_blocks": [
+     22
+    ],
+    "post_blocks": [
+     22,
+     12,
+     13
+    ],
+    "pre_state": "natural",
+    "post_state": "natural",
+    "pre_answer": "你的车牌是粤G09876",
+    "post_answer": "你的车牌号是京A88888"
+   },
+   {
+    "id": "KVC16",
+    "pre_pass": true,
+    "post_pass": true,
+    "pre_blocks": [
+     22
+    ],
+    "post_blocks": [
+     22
+    ],
+    "pre_state": "natural",
+    "post_state": "natural",
+    "pre_answer": "你的车漆改成黑色了",
+    "post_answer": "你的车改成黑色了"
+   },
+   {
+    "id": "KVC18",
+    "pre_pass": false,
+    "post_pass": false,
+    "pre_blocks": [
+     22
+    ],
+    "post_blocks": [
+     22
+    ],
+    "pre_state": "natural",
+    "post_state": "natural",
+    "pre_answer": "你是说想确认一下你的车是哪种车型吧",
+    "post_answer": "你是说要确认你开的是什么车型吗"
+   },
+   {
+    "id": "KVC20",
+    "pre_pass": true,
+    "post_pass": false,
+    "pre_blocks": [
+     21,
+     22,
+     3,
+     12
+    ],
+    "post_blocks": [
+     21,
+     22,
+     3,
+     12,
+     13
+    ],
+    "pre_state": "natural",
+    "post_state": "natural",
+    "pre_answer": "你的邮箱是lin.work@example.com",
+    "post_answer": "你的邮箱是lin@example.com"
+   },
+   {
+    "id": "KVC21",
+    "pre_pass": true,
+    "post_pass": true,
+    "pre_blocks": [
+     22
+    ],
+    "post_blocks": [
+     22
+    ],
+    "pre_state": "natural",
+    "post_state": "natural",
+    "pre_answer": "你对青霉素过敏",
+    "post_answer": "你对青霉素过敏。记得以后看医生的时候要告诉他们这一点"
+   },
+   {
+    "id": "KVC23",
+    "pre_pass": true,
+    "post_pass": true,
+    "pre_blocks": [
+     22
+    ],
+    "post_blocks": [
+     22
+    ],
+    "pre_state": "natural",
+    "post_state": "natural",
+    "pre_answer": "你改到周二晚上七点健身",
+    "post_answer": "你是在周二晚上七点健身"
+   },
+   {
+    "id": "KVC30",
+    "pre_pass": false,
+    "post_pass": false,
+    "pre_blocks": [
+     22,
+     1,
+     2,
+     5
+    ],
+    "post_blocks": [
+     22,
+     1,
+     2,
+     5
+    ],
+    "pre_state": "natural",
+    "post_state": "natural",
+    "pre_answer": "周三的会是在B座302开",
+    "post_answer": "周三的会在B座302开，记得是晚上七点"
+   }
+  ]
+ },
+ "k2off_retrieval": {
+  "query": "我的车牌号是多少？",
+  "rank_off_top20": [
+   3,
+   12,
+   13
+  ],
+  "rank_off_has_all3": true,
+  "gate_on_n": 3,
+  "gate_on_has_all3": true
+ },
+ "unit_test": {
+  "file": "tools/test_k2_dup_cpu.py",
+  "command": "python -X utf8 -m unittest discover -s tools -p \"test_k2_dup_cpu.py\"",
+  "result": "Ran 2 tests ... OK"
+ },
+ "rollback": {
+  "pre_dump_sha256": "3b171f919b66cbeb2dc46307d2499ccbfcb573f41f9c743944443b1b92d3ac31",
+  "rollback_dump_sha256": "3b171f919b66cbeb2dc46307d2499ccbfcb573f41f9c743944443b1b92d3ac31",
+  "dump_identical": true,
+  "sql": [
+   "UPDATE daily_memory_meta SET tags='[]' WHERE source_id=3;",
+   "UPDATE daily_memory_meta SET tags='[]' WHERE source_id=12;",
+   "UPDATE daily_memory_meta SET tags='[]' WHERE source_id=13;"
+  ]
+ },
+ "note": "daily 未修改；pre/post/post_rb 均为副本",
+ "post2": {
+  "tags": {
+   "id3": [
+    "context:primary"
+   ],
+   "id12": [
+    "dup_of:3",
+    "context:restatement"
+   ],
+   "id13": [
+    "dup_of:3",
+    "context:restatement"
+   ]
+  },
+  "pre_pass": 36,
+  "post2_pass": 33,
+  "identical": false,
+  "preregistered_requirement": "post2 必须逐字等于 pre 的 36/42（answer/state/block_ids/pass 全同）",
+  "verdict": "FAIL —— 未逐字相同，按 B 裁定直接停，不做 5×",
+  "diff": [
+   {
+    "id": "KVC05",
+    "pre_pass": true,
+    "post_pass": false,
+    "pre_blocks": [
+     22
+    ],
+    "post_blocks": [
+     22,
+     12,
+     13
+    ],
+    "pre_state": "natural",
+    "post_state": "natural",
+    "pre_answer": "你的车牌号是津E54321",
+    "post_answer": "你的车牌号是京A88888"
+   },
+   {
+    "id": "KVC06",
+    "pre_pass": true,
+    "post_pass": false,
+    "pre_blocks": [
+     22
+    ],
+    "post_blocks": [
+     22,
+     12,
+     13
+    ],
+    "pre_state": "natural",
+    "post_state": "natural",
+    "pre_answer": "你的车牌是粤G09876",
+    "post_answer": "你的车牌号是京A88888"
+   },
+   {
+    "id": "KVC16",
+    "pre_pass": true,
+    "post_pass": true,
+    "pre_blocks": [
+     22
+    ],
+    "post_blocks": [
+     22
+    ],
+    "pre_state": "natural",
+    "post_state": "natural",
+    "pre_answer": "你的车改成黑色了",
+    "post_answer": "你的车漆改成黑色了"
+   },
+   {
+    "id": "KVC20",
+    "pre_pass": true,
+    "post_pass": false,
+    "pre_blocks": [
+     21,
+     22,
+     3,
+     12
+    ],
+    "post_blocks": [
+     21,
+     22,
+     3,
+     12,
+     13
+    ],
+    "pre_state": "natural",
+    "post_state": "natural",
+    "pre_answer": "你的邮箱是lin.work@example.com",
+    "post_answer": "你的邮箱是lin@example.com"
+   },
+   {
+    "id": "KVC24",
+    "pre_pass": true,
+    "post_pass": true,
+    "pre_blocks": [
+     22
+    ],
+    "post_blocks": [
+     22
+    ],
+    "pre_state": "natural",
+    "post_state": "natural",
+    "pre_answer": "你周一晚上六点健身",
+    "post_answer": "你提到过周一晚上六点健身。还有几天呢，记得要保持锻炼哦"
+   },
+   {
+    "id": "KVC29",
+    "pre_pass": false,
+    "post_pass": false,
+    "pre_blocks": [
+     22,
+     1,
+     2,
+     5
+    ],
+    "post_blocks": [
+     22,
+     1,
+     2,
+     5
+    ],
+    "pre_state": "natural",
+    "post_state": "natural",
+    "pre_answer": "周一上午十点的会具体在哪里开我记不清了，你可以查一下日程或者问问组织会议的人确认一下",
+    "post_answer": "周一没有安排会议，你提到的是下周三晚上七点的组会在B座302"
+   }
+  ],
+  "db_sha": {
+   "pre2": "1101f65fc687c411feb3f8a3302bd1f0ddb08d4eb12658844844f4f0df97aa8d",
+   "post2": "a1f4244bd4466a413a80af1d3996dadf2d2882823472db420ecb2bc86a0a9305"
+  }
+ }
+}
