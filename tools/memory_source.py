@@ -78,6 +78,14 @@ CREATE TABLE IF NOT EXISTS memory_source (
     is_excerpt           INTEGER NOT NULL DEFAULT 0
                          CHECK (is_excerpt IN (0, 1)),
     derived_from         TEXT,
+    -- P0 event_date：写入时确定性归一化的绝对日期（可空；flag off 时恒 NULL）
+    event_date            TEXT,
+    event_time            TEXT,
+    event_source          TEXT,
+    event_tz              TEXT,
+    event_confidence      TEXT,
+    event_parser_version  TEXT,
+    event_basis_ts        TEXT,
     -- a human memory may not carry model turns; a conversation may (an all-user transcript
     -- is a conversation with 0 turns, which is safe and must stay expressible)
     CHECK (NOT (text_kind = 'human_memory' AND contains_model_turns = 1)),
@@ -86,6 +94,11 @@ CREATE TABLE IF NOT EXISTS memory_source (
 
 CREATE INDEX IF NOT EXISTS memory_source_lookup
     ON memory_source (tenant, scope, name);
+
+CREATE TABLE IF NOT EXISTS memory_meta (
+    key   TEXT PRIMARY KEY,
+    value TEXT NOT NULL
+);
 
 CREATE TRIGGER IF NOT EXISTS memory_source_text_is_immutable
 BEFORE UPDATE OF text, source_hash ON memory_source
@@ -173,8 +186,78 @@ def connect(path=None):
 # ---------------------------------------------------------------------------
 # write path: source first (authoritative), then the block (derived)
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# P0 event_date 迁移（只加/删列；不改原文/created_at/块）
+# ---------------------------------------------------------------------------
+EVENT_COLUMNS = (
+    ("event_date", "TEXT"),
+    ("event_time", "TEXT"),
+    ("event_source", "TEXT"),
+    ("event_tz", "TEXT"),
+    ("event_confidence", "TEXT"),
+    ("event_parser_version", "TEXT"),
+    ("event_basis_ts", "TEXT"),      # 完整本地时间戳（如 2026-10-27T20:00:10）
+)
+EVENT_USER_VERSION = 2
+# created_at 语义版本（一处定义；未来切 UTC 必须按版本分读，禁止混算）
+CREATED_AT_SEMANTICS = "v1_local_naive"
+
+
+def _sha256_file(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def event_column_names(con):
+    return {r[1] for r in con.execute("PRAGMA table_info(memory_source)")}
+
+
+def ensure_event_columns(con, db_path=None, backup=True):
+    """幂等：给旧库补 event_* 列；迁移前备份并返回 sha。"""
+    have = event_column_names(con)
+    missing = [(n, t) for n, t in EVENT_COLUMNS if n not in have]
+    backup_path = backup_sha = None
+    con.execute("CREATE TABLE IF NOT EXISTS memory_meta ("
+                "key TEXT PRIMARY KEY, value TEXT NOT NULL)")
+    con.execute("INSERT OR REPLACE INTO memory_meta(key,value) "
+                "VALUES('created_at_semantics',?)", (CREATED_AT_SEMANTICS,))
+    if not missing:
+        con.commit()
+        return {"added": [], "backup": None, "sha256": None,
+                "created_at_semantics": CREATED_AT_SEMANTICS}
+    if backup and db_path and os.path.exists(db_path):
+        import shutil
+        ts = datetime.now().strftime("%Y%m%d%H%M%S")
+        backup_path = "%s.bak-eventdate-%s" % (db_path, ts)
+        shutil.copy2(db_path, backup_path)
+        backup_sha = _sha256_file(backup_path)
+    for name, typ in missing:
+        con.execute("ALTER TABLE memory_source ADD COLUMN %s %s" % (name, typ))
+    con.execute("PRAGMA user_version = %d" % EVENT_USER_VERSION)
+    con.commit()
+    return {"added": [n for n, _ in missing],
+            "backup": backup_path, "sha256": backup_sha,
+            "created_at_semantics": CREATED_AT_SEMANTICS}
+
+
+def drop_event_columns(con):
+    """回滚：drop event_* 列（不动原文/created_at/块）；失败时抛错不静默。"""
+    have = event_column_names(con)
+    dropped = []
+    for name, _typ in EVENT_COLUMNS:
+        if name in have:
+            con.execute("ALTER TABLE memory_source DROP COLUMN %s" % name)
+            dropped.append(name)
+    con.execute("PRAGMA user_version = 1")
+    con.commit()
+    return dropped
+
+
 def put_source(con, name, label, text, tenant="default", scope="private",
-               mode="chat", revise=False):
+               mode="chat", revise=False, event_meta=None):
     """Insert the authoritative row. Idempotent on (tenant, scope, name, hash).
 
     Idempotent means same name + same text returns the existing id and writes nothing.
@@ -201,7 +284,22 @@ def put_source(con, name, label, text, tenant="default", scope="private",
         (tenant, scope, mode, name, label, text, h,
          datetime.now().isoformat(timespec="seconds")))
     con.commit()
-    return cur.lastrowid, True
+    sid = cur.lastrowid
+    if event_meta and sid:
+        try:
+            con.execute(
+                "UPDATE memory_source SET event_date=?,event_time=?,event_source=?,"
+                "event_tz=?,event_confidence=?,event_parser_version=?,"
+                "event_basis_ts=? WHERE id=?",
+                (event_meta.get("event_date"), event_meta.get("event_time"),
+                 event_meta.get("event_source"), event_meta.get("event_tz"),
+                 event_meta.get("event_confidence"),
+                 event_meta.get("event_parser_version"),
+                 event_meta.get("event_basis_ts"), sid))
+            con.commit()
+        except Exception:                            # noqa: BLE001
+            pass                                    # 旧库未迁移：不写 event_*
+    return sid, True
 
 
 def get_source(con, name, tenant="default", scope="private", verify_hash=True):

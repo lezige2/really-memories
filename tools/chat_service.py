@@ -568,6 +568,7 @@ def build_app(args, data):
                       control=args.control, n_predict=args.n_predict,
                       retrieval_mode=getattr(args, "retrieval", "off"),
                       k2_family=bool(getattr(args, "k2_family", False)),
+                      event_date=bool(getattr(args, "event_date", False)),
                       topk=getattr(args, "topk", D.DEFAULT_TOPK),
                       rollover_at=getattr(args, "rollover_at", D.ROLLOVER_AT_DEFAULT),
                       n_ctx=getattr(args, "n_ctx", D.N_CTX_DEFAULT),
@@ -595,6 +596,8 @@ def main(argv=None):
                     help="挂载模式：off=全部挂载；topk=每问只挂最相关 topk 条")
     ap.add_argument("--k2-family", action="store_true", default=False,
                     help="K2 同族只留最新（默认关；与 chat_daily 同名同义）")
+    ap.add_argument("--event-date", action="store_true", default=False,
+                    help="P0 event_date（默认关；与 chat_daily 同名同义）")
     ap.add_argument("--topk", type=int, default=D.DEFAULT_TOPK,
                     help="topk 模式每问挂载条数（1..%d）" % D.MAX_MEMORIES)
     ap.add_argument("--rollover-at", type=float, default=D.ROLLOVER_AT_DEFAULT,

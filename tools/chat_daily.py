@@ -47,6 +47,7 @@ from chat_lease import GuardedLeases  # noqa: E402  (imports m3_lease; no engine
 import assistant_log as alog            # noqa: E402  (个体日志：只追加 JSONL)
 import memory_service as memo           # noqa: E402  (记忆数据层：抽取/去重/检索/判据)
 import k2_family as _k2f               # noqa: E402  (K2 同族只留最新；默认 off)
+import event_time as etime             # noqa: E402  (P0 event_date；默认 off)
 
 try:                                                     # Windows 控制台 UTF-8
     sys.stdout.reconfigure(encoding="utf-8")
@@ -569,7 +570,7 @@ class DailyApp:
                  k2_family=False,
                  rollover_at=ROLLOVER_AT_DEFAULT,
                  n_ctx=N_CTX_DEFAULT, chat_start=CHAT_START_DEFAULT,
-                 n_gpu_layers=N_GPU_LAYERS_DEFAULT):
+                 n_gpu_layers=N_GPU_LAYERS_DEFAULT, event_date=False):
         self.eng = engine
         self.model_path = model_path
         _fmt = os.environ.get("LLAMA_MEM_CHAT_FORMAT", "").strip().lower()
@@ -596,6 +597,8 @@ class DailyApp:
         self.k2_family = bool(k2_family)   # K2 auto；默认关
         self.k2_mode = "auto_on" if self.k2_family else "auto_off"
         self._last_k2 = {"mode": self.k2_mode, "gate_reason": "off"}
+        self.event_date = bool(event_date)   # P0 event_date；默认关
+        self._event_query = None
         self.topk = max(1, min(int(topk), MAX_MEMORIES))
         self._last_query = None
         self._last_selection = []      # [{name, score, source_id, signals}]
@@ -2469,7 +2472,35 @@ class DailyApp:
         return out
 
     def _rows(self):
-        return [r for r in ms.block_rows(self.con) if r[5] is not None]
+        rows = [r for r in ms.block_rows(self.con) if r[5] is not None]
+        if getattr(self, "event_date", False):
+            rows = self._event_filter_rows(rows)
+        return rows
+
+    def _event_filter_rows(self, rows):
+        """P0：仅在“明确问时间”的查询里不挂已过期的一次性事件（当天不过期）。"""
+        q = getattr(self, "_event_query", None)
+        if not q or not etime.is_time_query(q):
+            return rows
+        try:
+            meta = {int(r[0]): {"event_date": r[1], "event_confidence": r[2],
+                                "mode": r[3]}
+                    for r in self.con.execute(
+                        "SELECT id,event_date,event_confidence,mode FROM memory_source")}
+        except Exception:                            # noqa: BLE001
+            return rows                              # 旧库未迁移：不改变行为
+        today = datetime.now().date()
+        cand = []
+        for r in rows:
+            m = meta.get(int(r[0])) or {}
+            cand.append({"id": int(r[0]), "row": r, "text": str(r[3]),
+                         "event_date": m.get("event_date"),
+                         "event_confidence": m.get("event_confidence"),
+                         "mode": m.get("mode"),
+                         "periodic": etime.is_periodic(str(r[3]))})
+        kept = etime.filter_expired(cand, q, today)
+        keep_ids = {c["id"] for c in kept}
+        return [r for r in rows if int(r[0]) in keep_ids]
 
     def _row_by_id(self, sid):
         for r in self._rows():
@@ -2664,6 +2695,10 @@ class DailyApp:
 
     def _retrieval_select(self, text):
         """K2 auto 前置：owner 门控 + count 兜底；关/回退 = 原逻辑逐字不变。"""
+        if getattr(self, "event_date", False):
+            self._event_query = text          # P0：仅“明确问时间”时过滤过期事件
+        else:
+            self._event_query = None
         if not getattr(self, "k2_family", False):
             self._last_k2 = {"mode": self.k2_mode, "gate_reason": "off"}
             return self._retrieval_select_normal(text)
@@ -2959,16 +2994,52 @@ class DailyApp:
                         "created_at": None}
             raise DailyError("conflict", "记忆 %s 已存在且内容不同（历史不可变）" % name)
         created = datetime.now().isoformat(timespec="seconds")
-        cur = self.con.execute(
-            "INSERT INTO memory_source (tenant,scope,mode,name,label,text,source_hash,"
-            "created_at,text_kind,contains_model_turns,is_excerpt,derived_from) "
-            "VALUES ('default','private',?,?,?,?,?,?,'human_memory',0,0,NULL)",
-            (mode, name, str(label), text, h, created))
+        event_meta = None
+        if getattr(self, "event_date", False):
+            missing = [n for n, _t in ms.EVENT_COLUMNS
+                       if n not in ms.event_column_names(self.con)]
+            if missing:
+                try:
+                    ms.ensure_event_columns(self.con,
+                                            db_path=getattr(self, "db_path", None))
+                except Exception as exc:                 # noqa: BLE001
+                    raise DailyError("event_schema",
+                                     "event_* 列缺失且迁移失败：%s" % exc)
+            archive = str(mode or "") in ("auto_archive", "auto_summary", "auto_turn")
+            event_meta = etime.parse_event_time(text, created,
+                                                allow_parse=not archive)
+        if event_meta:
+            ev_date = event_meta.get("event_date")
+            if hasattr(ev_date, "isoformat"):
+                ev_date = ev_date.isoformat()          # 存字符串，避免 sqlite3 date adapter
+            cur = self.con.execute(
+                "INSERT INTO memory_source (tenant,scope,mode,name,label,text,source_hash,"
+                "created_at,text_kind,contains_model_turns,is_excerpt,derived_from,"
+                "event_date,event_time,event_source,event_tz,event_confidence,"
+                "event_parser_version,event_basis_ts) "
+                "VALUES ('default','private',?,?,?,?,?,?,'human_memory',0,0,NULL,"
+                "?,?,?,?,?,?,?)",
+                (mode, name, str(label), text, h, created,
+                 ev_date, event_meta.get("event_time"),
+                 event_meta.get("event_source"), event_meta.get("event_tz"),
+                 event_meta.get("event_confidence"),
+                 event_meta.get("event_parser_version"),
+                 event_meta.get("event_basis_ts")))
+        else:
+            cur = self.con.execute(
+                "INSERT INTO memory_source (tenant,scope,mode,name,label,text,source_hash,"
+                "created_at,text_kind,contains_model_turns,is_excerpt,derived_from) "
+                "VALUES ('default','private',?,?,?,?,?,?,'human_memory',0,0,NULL)",
+                (mode, name, str(label), text, h, created))
         if not getattr(self, "_batch_db", False):
             self.con.commit()
             self._db_commit_count += 1
         return {"id": int(cur.lastrowid), "name": name, "duplicate": False,
-                "created_at": created}
+                "created_at": created,
+                "event_meta": ({k: event_meta.get(k) for k in
+                                ("event_date", "event_time", "event_confidence",
+                                 "event_source", "event_tz", "event_parser_version",
+                                 "event_basis_ts")} if event_meta else None)}
 
     def _rollback_source(self, sid):
         path = None
@@ -3524,6 +3595,8 @@ def main(argv=None):
     ap.add_argument("--k2-family", action="store_true", default=False,
                     help="K2 同族只留最新（默认关；会议/出差需带日期，"
                          "仅对识别出族键的问句生效）")
+    ap.add_argument("--event-date", action="store_true", default=False,
+                    help="P0 事件日期归一化（默认关；需先迁移 event_* 列）")
     ap.add_argument("--n-ctx", type=int, default=N_CTX_DEFAULT,
                     help="上下文长度（默认 %d；GPU 选型后可调大）" % N_CTX_DEFAULT)
     ap.add_argument("--n-gpu-layers", type=int, default=N_GPU_LAYERS_DEFAULT,
@@ -3560,6 +3633,7 @@ def main(argv=None):
                        model_path=paths["model"], control=args.control,
                        n_predict=args.n_predict, retrieval_mode=args.retrieval,
                        k2_family=args.k2_family,
+                       event_date=getattr(args, "event_date", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
                        n_gpu_layers=args.n_gpu_layers)
