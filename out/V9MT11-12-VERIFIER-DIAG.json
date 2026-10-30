@@ -1,0 +1,1552 @@
+{
+ "schema": "v9mt11_12_verifier_diag_v1",
+ "endpoint": "http://127.0.0.1:8765",
+ "arms": {
+  "event_on": {
+   "times": 5,
+   "cases": {
+    "V9MT11": {
+     "input": "我在哪家公司上班？",
+     "expect": {
+      "contains_any": [
+       "顺丰"
+      ],
+      "not_contains": [
+       "中石油"
+      ],
+      "contains_all": [
+       "顺丰"
+      ],
+      "conflict_if_all": [],
+      "refusal": false
+     },
+     "pre_remember": [
+      "我的公司是中石油",
+      "我的公司是顺丰"
+     ],
+     "runs": [
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "你在一家公司上班",
+         "type": "value_not_in_memory"
+        }
+       ],
+       "hint": "下面这些内容在记忆中找不到依据：你在一家公司上班；请只使用记忆原文重答，或直接说不知道。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "你在顺丰公司工作",
+         "type": "value_not_in_memory"
+        }
+       ],
+       "hint": "下面这些内容在记忆中找不到依据：你在顺丰公司工作；请只使用记忆原文重答，或直接说不知道。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "顺丰公司上班",
+         "type": "value_not_in_memory"
+        }
+       ],
+       "hint": "下面这些内容在记忆中找不到依据：顺丰公司上班；请只使用记忆原文重答，或直接说不知道。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "你在顺丰公司工作",
+         "type": "value_not_in_memory"
+        }
+       ],
+       "hint": "下面这些内容在记忆中找不到依据：你在顺丰公司工作；请只使用记忆原文重答，或直接说不知道。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "一次",
+         "type": "value_not_in_memory"
+        },
+        {
+         "claim": "过你在顺丰公司工作",
+         "type": "value_not_in_memory"
+        }
+       ],
+       "hint": "下面这些内容在记忆中找不到依据：一次；过你在顺丰公司工作；请只使用记忆原文重答，或直接说不知道。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      }
+     ],
+     "dist_state": {
+      "verify_fallback": 5
+     },
+     "dist_verdict": {
+      "unsupported": 5
+     },
+     "n_fallback": 5,
+     "n_attempts_gt0": 5
+    },
+    "V9MT12": {
+     "input": "我的公司叫什么？",
+     "expect": {
+      "contains_any": [
+       "顺丰"
+      ],
+      "not_contains": [
+       "中石油"
+      ],
+      "contains_all": [
+       "顺丰"
+      ],
+      "conflict_if_all": [],
+      "refusal": false
+     },
+     "pre_remember": [
+      "我的公司是中石油",
+      "我的公司是顺丰"
+     ],
+     "runs": [
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "过你的公司是顺丰",
+         "type": "value_not_in_memory"
+        },
+        {
+         "claim": "什么名字",
+         "type": "value_not_in_memory"
+        }
+       ],
+       "hint": "下面这些内容在记忆中找不到依据：过你的公司是顺丰；什么名字；请只使用记忆原文重答，或直接说不知道。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "我的公司是顺丰",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "我的公司是顺丰",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "过你的公司是顺丰",
+         "type": "value_not_in_memory"
+        }
+       ],
+       "hint": "下面这些内容在记忆中找不到依据：过你的公司是顺丰；请只使用记忆原文重答，或直接说不知道。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "过你的公司是顺丰",
+         "type": "value_not_in_memory"
+        }
+       ],
+       "hint": "下面这些内容在记忆中找不到依据：过你的公司是顺丰；请只使用记忆原文重答，或直接说不知道。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      }
+     ],
+     "dist_state": {
+      "natural": 2,
+      "verify_fallback": 3
+     },
+     "dist_verdict": {
+      "pass": 2,
+      "unsupported": 3
+     },
+     "n_fallback": 3,
+     "n_attempts_gt0": 5
+    }
+   },
+   "memories_after": 20
+  },
+  "event_off": {
+   "times": 5,
+   "cases": {
+    "V9MT11": {
+     "input": "我在哪家公司上班？",
+     "expect": {
+      "contains_any": [
+       "顺丰"
+      ],
+      "not_contains": [
+       "中石油"
+      ],
+      "contains_all": [
+       "顺丰"
+      ],
+      "conflict_if_all": [],
+      "refusal": false
+     },
+     "pre_remember": [
+      "我的公司是中石油",
+      "我的公司是顺丰"
+     ],
+     "runs": [
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "顺丰公司工作",
+         "type": "value_not_in_memory"
+        }
+       ],
+       "hint": "下面这些内容在记忆中找不到依据：顺丰公司工作；请只使用记忆原文重答，或直接说不知道。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "过你在顺丰公司工作",
+         "type": "value_not_in_memory"
+        },
+        {
+         "claim": "确认一下",
+         "type": "value_not_in_memory"
+        }
+       ],
+       "hint": "下面这些内容在记忆中找不到依据：过你在顺丰公司工作；确认一下；请只使用记忆原文重答，或直接说不知道。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "过你在顺丰公司工作",
+         "type": "value_not_in_memory"
+        }
+       ],
+       "hint": "下面这些内容在记忆中找不到依据：过你在顺丰公司工作；请只使用记忆原文重答，或直接说不知道。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "你在顺丰公司工作",
+         "type": "value_not_in_memory"
+        }
+       ],
+       "hint": "下面这些内容在记忆中找不到依据：你在顺丰公司工作；请只使用记忆原文重答，或直接说不知道。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "一家公司上班",
+         "type": "value_not_in_memory"
+        }
+       ],
+       "hint": "下面这些内容在记忆中找不到依据：一家公司上班；请只使用记忆原文重答，或直接说不知道。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      }
+     ],
+     "dist_state": {
+      "verify_fallback": 5
+     },
+     "dist_verdict": {
+      "unsupported": 5
+     },
+     "n_fallback": 5,
+     "n_attempts_gt0": 5
+    },
+    "V9MT12": {
+     "input": "我的公司叫什么？",
+     "expect": {
+      "contains_any": [
+       "顺丰"
+      ],
+      "not_contains": [
+       "中石油"
+      ],
+      "contains_all": [
+       "顺丰"
+      ],
+      "conflict_if_all": [],
+      "refusal": false
+     },
+     "pre_remember": [
+      "我的公司是中石油",
+      "我的公司是顺丰"
+     ],
+     "runs": [
+      {
+       "answer": "你的公司叫顺丰，不过具体是顺丰的哪个部门或分公司我就不太清楚了",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "我的公司是顺丰",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "过你的公司是顺丰",
+         "type": "value_not_in_memory"
+        }
+       ],
+       "hint": "下面这些内容在记忆中找不到依据：过你的公司是顺丰；请只使用记忆原文重答，或直接说不知道。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "一次",
+         "type": "value_not_in_memory"
+        }
+       ],
+       "hint": "下面这些内容在记忆中找不到依据：一次；请只使用记忆原文重答，或直接说不知道。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "过你的公司是顺丰",
+         "type": "value_not_in_memory"
+        }
+       ],
+       "hint": "下面这些内容在记忆中找不到依据：过你的公司是顺丰；请只使用记忆原文重答，或直接说不知道。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      }
+     ],
+     "dist_state": {
+      "natural": 2,
+      "verify_fallback": 3
+     },
+     "dist_verdict": {
+      "pass": 2,
+      "unsupported": 3
+     },
+     "n_fallback": 3,
+     "n_attempts_gt0": 4
+    }
+   },
+   "memories_after": 20
+  },
+  "s0_smoke": {
+   "times": 1,
+   "cases": {
+    "V9MT11": {
+     "input": "我在哪家公司上班？",
+     "expect": {
+      "contains_any": [
+       "顺丰"
+      ],
+      "not_contains": [
+       "中石油"
+      ],
+      "contains_all": [
+       "顺丰"
+      ],
+      "conflict_if_all": [],
+      "refusal": false
+     },
+     "pre_remember": [
+      "我的公司是中石油",
+      "我的公司是顺丰"
+     ],
+     "runs": [
+      {
+       "answer": "你是在顺丰上班，具体是负责哪方面的我不太清楚，不过我知道你最近在处理一些工作上的事情",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      }
+     ],
+     "dist_state": {
+      "natural": 1
+     },
+     "dist_verdict": {
+      "pass": 1
+     },
+     "n_fallback": 0,
+     "n_attempts_gt0": 0
+    },
+    "V9MT12": {
+     "input": "我的公司叫什么？",
+     "expect": {
+      "contains_any": [
+       "顺丰"
+      ],
+      "not_contains": [
+       "中石油"
+      ],
+      "contains_all": [
+       "顺丰"
+      ],
+      "conflict_if_all": [],
+      "refusal": false
+     },
+     "pre_remember": [
+      "我的公司是中石油",
+      "我的公司是顺丰"
+     ],
+     "runs": [
+      {
+       "answer": "你的公司叫顺丰，不过你说的是顺丰的员工，不是公司名称。如果你指的是你所在的公司，记得告诉我具体名字哦",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      }
+     ],
+     "dist_state": {
+      "natural": 1
+     },
+     "dist_verdict": {
+      "pass": 1
+     },
+     "n_fallback": 0,
+     "n_attempts_gt0": 0
+    }
+   },
+   "memories_after": 20
+  },
+  "s0_v21": {
+   "times": 5,
+   "cases": {
+    "V9MT11": {
+     "input": "我在哪家公司上班？",
+     "expect": {
+      "contains_any": [
+       "顺丰"
+      ],
+      "not_contains": [
+       "中石油"
+      ],
+      "contains_all": [
+       "顺丰"
+      ],
+      "conflict_if_all": [],
+      "refusal": false
+     },
+     "pre_remember": [
+      "我的公司是中石油",
+      "我的公司是顺丰"
+     ],
+     "runs": [
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "哪家公司上班",
+         "type": "wrong_slot_value",
+         "expected_from_block": "顺丰"
+        }
+       ],
+       "hint": "记忆里的对应值是「顺丰」，请只依据记忆原文重答。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你是在顺丰公司上班",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你之前提到你在顺丰公司工作",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "这条我没法从记忆里核对，先不猜。",
+       "state": "verify_fallback",
+       "verified": false,
+       "verify_verdict": "unsupported",
+       "mismatches": [
+        {
+         "claim": "哪家公司上班",
+         "type": "wrong_slot_value",
+         "expected_from_block": "顺丰"
+        }
+       ],
+       "hint": "记忆里的对应值是「顺丰」，请只依据记忆原文重答。",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你之前提到过你在顺丰公司工作，是吗",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      }
+     ],
+     "dist_state": {
+      "natural": 3,
+      "verify_fallback": 2
+     },
+     "dist_verdict": {
+      "unsupported": 2,
+      "pass": 3
+     },
+     "n_fallback": 2,
+     "n_attempts_gt0": 2
+    },
+    "V9MT12": {
+     "input": "我的公司叫什么？",
+     "expect": {
+      "contains_any": [
+       "顺丰"
+      ],
+      "not_contains": [
+       "中石油"
+      ],
+      "contains_all": [
+       "顺丰"
+      ],
+      "conflict_if_all": [],
+      "refusal": false
+     },
+     "pre_remember": [
+      "我的公司是中石油",
+      "我的公司是顺丰"
+     ],
+     "runs": [
+      {
+       "answer": "你的公司叫顺丰，不过具体是顺丰的哪个部门或者分公司我就不太清楚了",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你的公司叫顺丰，你是说这个吗",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你的公司叫顺丰，你是说这个吗",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你的公司叫顺丰，你是说这个吗",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你的公司叫顺丰，你是说这个吗",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      }
+     ],
+     "dist_state": {
+      "natural": 5
+     },
+     "dist_verdict": {
+      "pass": 5
+     },
+     "n_fallback": 0,
+     "n_attempts_gt0": 0
+    }
+   },
+   "memories_after": 20
+  },
+  "s0b_v22": {
+   "times": 5,
+   "cases": {
+    "V9MT11": {
+     "input": "我在哪家公司上班？",
+     "expect": {
+      "contains_any": [
+       "顺丰"
+      ],
+      "not_contains": [
+       "中石油"
+      ],
+      "contains_all": [
+       "顺丰"
+      ],
+      "conflict_if_all": [],
+      "refusal": false
+     },
+     "pre_remember": [
+      "我的公司是中石油",
+      "我的公司是顺丰"
+     ],
+     "runs": [
+      {
+       "answer": "你在顺丰公司上班",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你是在顺丰公司上班",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "我的公司是顺丰",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "我的公司是顺丰",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "我的公司是顺丰",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      }
+     ],
+     "dist_state": {
+      "natural": 5
+     },
+     "dist_verdict": {
+      "pass": 5
+     },
+     "n_fallback": 0,
+     "n_attempts_gt0": 3
+    },
+    "V9MT12": {
+     "input": "我的公司叫什么？",
+     "expect": {
+      "contains_any": [
+       "顺丰"
+      ],
+      "not_contains": [
+       "中石油"
+      ],
+      "contains_all": [
+       "顺丰"
+      ],
+      "conflict_if_all": [],
+      "refusal": false
+     },
+     "pre_remember": [
+      "我的公司是中石油",
+      "我的公司是顺丰"
+     ],
+     "runs": [
+      {
+       "answer": "你的公司叫顺丰，你是说这个吗",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你的公司叫顺丰，你是说这个吗",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你的公司叫顺丰，你是说这个吗",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你的公司叫顺丰，是做快递物流的",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你的公司叫顺丰，你是说这个吗",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      }
+     ],
+     "dist_state": {
+      "natural": 5
+     },
+     "dist_verdict": {
+      "pass": 5
+     },
+     "n_fallback": 0,
+     "n_attempts_gt0": 0
+    }
+   },
+   "memories_after": 20
+  },
+  "D_final": {
+   "times": 5,
+   "cases": {
+    "V9MT11": {
+     "input": "我在哪家公司上班？",
+     "expect": {
+      "contains_any": [
+       "顺丰"
+      ],
+      "not_contains": [
+       "中石油"
+      ],
+      "contains_all": [
+       "顺丰"
+      ],
+      "conflict_if_all": [],
+      "refusal": false
+     },
+     "pre_remember": [
+      "我的公司是中石油",
+      "我的公司是顺丰"
+     ],
+     "runs": [
+      {
+       "answer": "我的公司是顺丰",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "我的公司是顺丰",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "我的公司是顺丰",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 1,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你在顺丰公司上班",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你在顺丰公司上班",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      }
+     ],
+     "dist_state": {
+      "natural": 5
+     },
+     "dist_verdict": {
+      "pass": 5
+     },
+     "n_fallback": 0,
+     "n_attempts_gt0": 3
+    },
+    "V9MT12": {
+     "input": "我的公司叫什么？",
+     "expect": {
+      "contains_any": [
+       "顺丰"
+      ],
+      "not_contains": [
+       "中石油"
+      ],
+      "contains_all": [
+       "顺丰"
+      ],
+      "conflict_if_all": [],
+      "refusal": false
+     },
+     "pre_remember": [
+      "我的公司是中石油",
+      "我的公司是顺丰"
+     ],
+     "runs": [
+      {
+       "answer": "你的公司叫顺丰，你是说这个吗",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你的公司叫顺丰，你是说这个吗",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你的公司叫顺丰，你是说这个吗",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你的公司叫顺丰，你是说这个吗",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      },
+      {
+       "answer": "你的公司叫顺丰，你是说这个吗",
+       "state": "natural",
+       "verified": true,
+       "verify_verdict": "pass",
+       "mismatches": [],
+       "hint": "",
+       "attempts": 0,
+       "block_ids": [
+        22
+       ],
+       "k2": {
+        "mode": "auto_on",
+        "gate_reason": "ok"
+       },
+       "created_ids": [
+        21,
+        22
+       ]
+      }
+     ],
+     "dist_state": {
+      "natural": 5
+     },
+     "dist_verdict": {
+      "pass": 5
+     },
+     "n_fallback": 0,
+     "n_attempts_gt0": 0
+    }
+   },
+   "memories_after": 20
+  }
+ }
+}

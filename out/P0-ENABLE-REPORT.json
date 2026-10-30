@@ -1,0 +1,124 @@
+{
+ "schema": "p0_enable_report_v1",
+ "migration": {
+  "target": "kvmem/daily/chat.db",
+  "backup": "kvmem/daily/chat.db.bak-eventdate-20261031T025945",
+  "backup_sha256": "0a7eae495c4be89cbd385382d180cdcfdea102a9d955369a411b5798d4c95d49",
+  "columns_added": 7,
+  "uv_after_migrate": 2,
+  "semantics": "v1_local_naive"
+ },
+ "service": {
+  "k2": "off",
+  "verifier": "v1",
+  "event_date": "on",
+  "tts": "off",
+  "memories": 20
+ },
+ "A_default": {
+  "81": {
+   "pass": 81,
+   "n": 81,
+   "fails": []
+  },
+  "EXTRA": {
+   "pass": 18,
+   "n": 20,
+   "fails": [
+    "L07",
+    "L09"
+   ]
+  },
+  "MT20": {
+   "pass": 11,
+   "n": 20,
+   "fails": [
+    "V9MT01",
+    "V9MT02",
+    "V9MT07",
+    "V9MT09",
+    "V9MT10",
+    "V9MT11",
+    "V9MT12",
+    "V9MT17",
+    "V9MT18"
+   ]
+  }
+ },
+ "P0": {
+  "81": {
+   "pass": 81,
+   "n": 81,
+   "fails": []
+  },
+  "EXTRA": {
+   "pass": 17,
+   "n": 20,
+   "fails": [
+    "L05",
+    "L07",
+    "L09"
+   ]
+  },
+  "MT20": {
+   "status": "NOT RUN",
+   "reason": "extra 已回归，按规则立即回滚，未继续"
+  }
+ },
+ "event_query_counts": {
+  "81": {
+   "n": 81,
+   "time_queries": 21,
+   "ids": [
+    "c07",
+    "m04",
+    "m05",
+    "m06",
+    "m08",
+    "s04",
+    "a01",
+    "a02",
+    "a05",
+    "u02",
+    "u04",
+    "u05",
+    "x03",
+    "w01",
+    "w02",
+    "w03",
+    "w04",
+    "w05",
+    "k04",
+    "h02",
+    "h03"
+   ]
+  },
+  "EXTRA": {
+   "n": 20,
+   "time_queries": 2,
+   "ids": [
+    "L02",
+    "L06"
+   ]
+  },
+  "MT20": {
+   "n": 20,
+   "time_queries": 4,
+   "ids": [
+    "V9MT03",
+    "V9MT04",
+    "V9MT13",
+    "V9MT14"
+   ]
+  }
+ },
+ "verdict": "REGRESSION —— extra 18→17（新增 L05 fail），按规则回滚；未做同日二次迁移",
+ "rollback": {
+  "method": "用备份文件整库恢复（等价 drop 列+恢复）",
+  "restored_sha256": "0a7eae495c4be89cbd385382d180cdcfdea102a9d955369a411b5798d4c95d49",
+  "uv_after": 0,
+  "event_columns": false,
+  "rows": 20,
+  "verified": "sha 与备份逐字节相同"
+ }
+}

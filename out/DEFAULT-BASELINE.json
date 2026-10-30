@@ -1,0 +1,54 @@
+{
+ "schema": "default_baseline_v1",
+ "fingerprint": {
+  "pid": 3180,
+  "memories": 20,
+  "model_size": 8988110976,
+  "k2": "off (no --k2-family)",
+  "verifier": "v1 (VERIFIER_VERSION unset)",
+  "event_date": "off",
+  "tts": "off",
+  "ngl": 28,
+  "n_ctx": 32768,
+  "topk": 4,
+  "db": "kvmem/default/chat.db (daily 副本)",
+  "daily_sha256": "0a7eae495c4be89cbd385382d180cdcfdea102a9d955369a411b5798d4c95d49",
+  "copy_sha_before": "be86499b451e8a12a9df0e6d5c49a66a82712e955de608d75a82e15d62850f9e",
+  "copy_sha_after": "de28202abe1b78263418233d7741be70e171b7e2feabde743079607cdd9c6579",
+  "sha_note": "副本 sha 与 daily 不同（同 192512 B，逻辑同为 20 行）；疑为 cp 时 WAL 状态差异，服务启动即读到 20 条"
+ },
+ "results": {
+  "81": {
+   "pass": 81,
+   "n": 81,
+   "fails": [],
+   "hermetic_mem_after": 20
+  },
+  "EXTRA": {
+   "pass": 18,
+   "n": 20,
+   "fails": [
+    "L07",
+    "L09"
+   ],
+   "hermetic_mem_after": 20
+  },
+  "MT20": {
+   "pass": 11,
+   "n": 20,
+   "fails": [
+    "V9MT01",
+    "V9MT02",
+    "V9MT07",
+    "V9MT09",
+    "V9MT10",
+    "V9MT11",
+    "V9MT12",
+    "V9MT17",
+    "V9MT18"
+   ],
+   "hermetic_mem_after": 20
+  }
+ },
+ "verdict": "A 默认基线：81 100%、extra 18/20、MT20 11/20（K2 off + v1）"
+}
