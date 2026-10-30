@@ -44,3 +44,8 @@
 
 - 等用户决定是否迁移/启用 event_date；
 - 若启用，按上面流程；不启用则保持 off，P0 结论只作 research。
+## 6 收口补句（B 2026-10-30）
+
+- **现网未迁移、`--event-date` 默认 off；启用需用户点头**。
+- `memory_meta` 只有 `created_memory_meta=true` 时才删；迁移前已存在且有其他数据时不得删。
+- 本报告只是 research pass + dry-run pass，不等于启用；无消费方前不迁移。
