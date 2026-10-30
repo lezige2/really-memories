@@ -119,6 +119,16 @@ class ResolveTests(unittest.TestCase):
         self.assertEqual(fam["kept_id"], 21)
         self.assertEqual(fam["hidden_ids"], [])
 
+    def test_no_conflict_unique_subject_mounts_kept(self):
+        # L05 式单车族：无冲突但族内单实体 -> 挂 kept
+        rows = [row(21, "car", "我的车是白色SUV")]
+        ex = K.select_k2_ex(rows, "我的车是什么车型？", 4)
+        self.assertEqual(ex["reason"], "ok")
+        self.assertEqual(ex["hit"][0]["source_id"], 21)
+
+    def test_no_members_falls_back(self):
+        self.assertIsNone(K.select_k2(ROWS_PLATE, "我的猫叫什么？", 4))
+
     def test_miss_no_row_of_family(self):
         self.assertIsNone(K.resolve_family("我的猫叫什么？", ROWS_PLATE))
 
@@ -154,13 +164,18 @@ class FallbackTests(unittest.TestCase):
         self.assertIsNone(K.select_k2(rows, "在吗，我几点开会？", 4))
         self.assertIsNone(K.resolve_family("在吗，我几点开会？", rows))
 
-    def test_l07_single_email_no_hiding(self):
+    def test_l07_single_email_mounts_kept(self):
+        # 族内单实体、无冲突：挂 kept（只同族，不跨族 fill）
         rows = [row(21, "mem-21", "我的邮箱是 lin@example.org")]
-        self.assertIsNone(K.select_k2(rows, "我的邮箱是什么？", 4))
+        ex = K.select_k2_ex(rows, "我的邮箱是什么？", 4)
+        self.assertEqual(ex["reason"], "ok")
+        self.assertEqual(ex["hit"][0]["source_id"], 21)
 
-    def test_l09_single_card_no_hiding(self):
+    def test_l09_single_card_mounts_kept(self):
         rows = [row(21, "mem-21", "我的银行卡尾号是 7418")]
-        self.assertIsNone(K.select_k2(rows, "我的银行卡尾号是多少？", 4))
+        ex = K.select_k2_ex(rows, "我的银行卡尾号是多少？", 4)
+        self.assertEqual(ex["reason"], "ok")
+        self.assertEqual(ex["hit"][0]["source_id"], 21)
 
     def test_bank_ambiguous_predicate_falls_back(self):
         rows = [row(21, "mem-21", "我的银行卡尾号是7418"),
@@ -366,14 +381,13 @@ class CounterTests(unittest.TestCase):
         self.assertIsInstance(seen["times"], dict)
 
     def test_fallback_queries_equal_base_selection(self):
-        # x03 / L07 / L09 式查询：select_k2 回 None -> 选择与计数都与 BASE 等价
+        # 无槽（x03）与无族键查询：select_k2 回 None -> 选择/计数与 BASE 等价
         app = self.make_app()
         cases = [
             ("在吗，我几点开会？",
              [row(1, "m1", "我每周三晚上七点有组会，地点在B座302。"),
               row(2, "m2", "我每周三晚上七点有组会，地点B座302。")]),
-            ("我的邮箱是什么？", [row(21, "e21", "我的邮箱是 lin@example.org")]),
-            ("我的银行卡尾号是多少？", [row(21, "c21", "我的银行卡尾号是 7418")]),
+            ("我爱吃什么？", [row(21, "f1", "我最爱吃湘菜")]),
         ]
         for q, rows in cases:
             app._rows = (lambda rows=rows: rows)

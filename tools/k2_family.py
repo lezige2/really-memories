@@ -391,10 +391,10 @@ def select_k2_ex(rows, query, topk=4, times=None, modes=None, today=None):
         subs = {s for s in (fam.get("distinct_subjects") or []) if s}
         if len(subs) > 1:
             return {"hit": None, "reason": "owner_missing"}
-    if not fam["hidden_ids"]:
-        return {"hit": None, "reason": "no_conflict"}
     if not _predicate_clear(fam["family"], query):
         return {"hit": None, "reason": "no_family"}
+    # 无冲突（hidden 空）但族内有成员且主体唯一：挂 kept（只挂同族，不跨族 fill）；
+    # 族内无成员时 resolve_family 已返回 None，走原回退，不扩大成“有族就只挂族”。
     try:
         limit = max(1, int(topk))
     except (TypeError, ValueError):
