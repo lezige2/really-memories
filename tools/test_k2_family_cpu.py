@@ -245,8 +245,9 @@ class WireTests(unittest.TestCase):
         base = [{"name": "n1", "score": 1.0, "source_id": 7, "signals": {}}]
         app._rows = lambda: []
         app._retrieval_select_normal = lambda text: base
-        with mock.patch.object(D._k2f, "select_k2",
-                               side_effect=lambda *a, **k: called.append(1) or None):
+        with mock.patch.object(D._k2f, "select_k2_ex",
+                               side_effect=lambda *a, **k:
+                               called.append(1) or {"hit": None, "reason": "no_family"}):
             out = app._retrieval_select("我的车牌号是多少？")
         self.assertEqual(called, [1])
         self.assertEqual(out, base)
@@ -357,8 +358,9 @@ class CounterTests(unittest.TestCase):
         app._rows = lambda: []
         app._retrieval_select_normal = lambda text: []
         seen = {}
-        with mock.patch.object(D._k2f, "select_k2",
-                               side_effect=lambda *a, **k: seen.update(k) or None):
+        with mock.patch.object(D._k2f, "select_k2_ex",
+                               side_effect=lambda *a, **k:
+                               seen.update(k) or {"hit": None, "reason": "no_family"}):
             app._retrieval_select("我的车牌号是多少？")
         self.assertIn("times", seen)
         self.assertIsInstance(seen["times"], dict)
@@ -446,6 +448,74 @@ class TimeTests(unittest.TestCase):
         sel = K.select_k2(rows, "下周三的会在哪里开？", 4, today=self.TODAY)
         self.assertEqual(sel[0]["source_id"], 20)         # 无 times -> id DESC
         self.assertEqual(sel[0]["signals"]["hidden_ids"], [10])
+
+
+class AutoGateTests(unittest.TestCase):
+    """K2 auto：owner 门控 + count 兜底 + k2_mode/gate_reason 记录。"""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.mkdtemp(prefix="k2_auto_")
+        cls.model = os.path.join(cls.tmp, "model.stub")
+        D.install_fake_model(cls.model)
+
+    def make_app(self, k2=True):
+        return D.DailyApp(
+            D.StubEngine(), db_path=os.path.join(self.tmp, "daily.db"),
+            blocks_dir=os.path.join(self.tmp, "blocks"),
+            sessions_dir=os.path.join(self.tmp, "sessions"),
+            model_path=self.model, restore=False, retrieval_mode="topk",
+            topk=4, k2_family=k2, logger=False)
+
+    def test_owner_known_runs_k2(self):
+        rows = [row(21, "p21", "张伟的手机号是136-1111-3333"),
+                row(22, "p22", "张伟的手机号是158-0000-2468")]
+        ex = K.select_k2_ex(rows, "张伟的手机号是多少？", 4)
+        self.assertEqual(ex["reason"], "ok")
+        self.assertEqual(ex["hit"][0]["source_id"], 22)
+
+    def test_owner_missing_multi_subject_falls_back(self):
+        rows = [row(21, "p21", "张伟的手机号是136-1111-3333"),
+                row(22, "p22", "刘敏的手机号是158-0000-2468")]
+        ex = K.select_k2_ex(rows, "我的手机号是多少？", 4)
+        self.assertIsNone(ex["hit"])
+        self.assertEqual(ex["reason"], "owner_missing")
+
+    def test_count_guard_over_50_falls_back(self):
+        rows = [row(i, "p%d" % i, "我的手机号是136-1111-3333") for i in range(1, 52)]
+        ex = K.select_k2_ex(rows, "我的手机号是多少？", 4)
+        self.assertIsNone(ex["hit"])
+        self.assertEqual(ex["reason"], "count")
+
+    def test_under_50_with_owner_runs_k2(self):
+        rows = [row(21, "p21", "张伟的手机号是136-1111-3333"),
+                row(22, "p22", "张伟的手机号是158-0000-2468")]
+        ex = K.select_k2_ex(rows, "张伟的手机号是多少？", 4)
+        self.assertEqual(ex["reason"], "ok")
+        self.assertLessEqual(len(rows), K.K2_MAX_ROWS)
+
+    def test_app_records_k2_mode_and_gate_reason(self):
+        app = self.make_app(True)
+        rows = [row(21, "p21", "张伟的手机号是136-1111-3333"),
+                row(22, "p22", "张伟的手机号是158-0000-2468")]
+        app._rows = lambda: rows
+        app._retrieval_select("张伟的手机号是多少？")
+        self.assertEqual(app._last_k2["mode"], "auto_on")
+        self.assertEqual(app._last_k2["gate_reason"], "ok")
+        # health 暴露当前档位
+        h = app.health()
+        self.assertEqual(h["retrieval"]["k2"]["mode"], "auto_on")
+        self.assertEqual(h["retrieval"]["k2"]["gate_reason"], "ok")
+
+    def test_flag_off_unchanged(self):
+        app = self.make_app(False)
+        app._rows = lambda: [row(21, "p21", "张伟的手机号是136-1111-3333")]
+        base = [{"name": "x", "score": 1.0, "source_id": 1, "signals": {}}]
+        app._retrieval_select_normal = lambda text: base
+        self.assertEqual(app._retrieval_select("张伟的手机号是多少？"), base)
+        self.assertEqual(app._last_k2["mode"], "auto_off")
+        self.assertEqual(app._last_k2["gate_reason"], "off")
+        self.assertEqual(app.health()["retrieval"]["k2"]["mode"], "auto_off")
 
 
 class TriggerTests(unittest.TestCase):

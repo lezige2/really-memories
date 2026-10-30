@@ -39,6 +39,28 @@ FAMILY_RULES = (
 )
 
 SLOT_FAMILIES = ("会议", "出差")     # 必须带日期；日期不同不并族
+K2_MAX_ROWS = 50                    # 临时保险：库 > 50 块直接回退（auto 兜底）
+_SUBJECT_NAME_RE = re.compile(r"^([\u4e00-\u9fff]{2,3})(?:家|养的|养|的|说|那)")
+_SUBJECT_BLOCK = {"我家", "家里", "我的", "我们", "你们", "他们", "自己", "朋友",
+                  "同事", "这只", "那只", "上面", "下面", "顺便", "另外", "还有",
+                  "其实", "后来", "现在", "今天", "昨天", "明天", "补充", "备注",
+                  "首先", "然后", "因为", "所以", "但是", "不过", "而且", "如果",
+                  "虽然", "可以", "可能", "应该", "记得", "听说", "据说", "时间",
+                  "地点", "事情", "东西", "工作", "生活", "周末", "上午", "下午",
+                  "晚上", "早上", "中午", "前面", "后面", "里面", "外面"}
+
+
+def subject_of(text):
+    """主体键：先 owner 词表，再“张伟家/刘敏的/吴静养…”式人名；判不出返回 None。"""
+    c = classify_row(text)
+    if c["owner"]:
+        return c["owner"]
+    m = _SUBJECT_NAME_RE.match(str(text or "").strip())
+    if m:
+        name = m.group(1)
+        if name not in _SUBJECT_BLOCK and not re.search(r"[周星期月日号点]", name):
+            return "name:" + name
+    return None
 
 # 谓词必须"明确"：查询里要出现本族的实体/属性词（裸"号"/"色"不算）。
 # 邮箱/银行卡尤其如此：谓词不明确时宁可回退，也不筛选。
@@ -278,7 +300,7 @@ def resolve_family(query, rows, times=None, modes=None, today=None):
     q_slot = qk["slot"]
     if family in SLOT_FAMILIES and not (q_slot or {}).get("day"):
         return None                      # 会议/出差必须带日期
-    q_owner = qk["owner"]
+    q_owner = subject_of(q)
 
     members = []
     spill = []          # 同族同 owner、但不是同一场（日期/时刻不同）：非冲突，可留
@@ -286,14 +308,14 @@ def resolve_family(query, rows, times=None, modes=None, today=None):
         c = classify_row(_row_text(r))
         if c["family"] != family:
             continue
-        # 反向保护：query 带 owner 时只并同 owner；query 无 owner 时同族各行都算
-        #（"我的邮箱是什么" 可命中"工作邮箱"这条最新事实）
-        if q_owner is not None and c["owner"] != q_owner:
+        subj = subject_of(_row_text(r))
+        # 反向保护：query 带主体时只并同主体；query 无主体时同族各行都算
+        if q_owner is not None and subj != q_owner:
             continue
         if family in SLOT_FAMILIES and not _slot_ok(q_slot, c["slot"]):
             spill.append((_row_id(r), _row_name(r), r))
             continue
-        members.append((_row_id(r), _row_name(r), r, c))
+        members.append((_row_id(r), _row_name(r), r, c, subj))
 
     if not members:
         return None
@@ -326,7 +348,9 @@ def resolve_family(query, rows, times=None, modes=None, today=None):
             "predicate": qk["predicate"],
             "slot": q_slot,
             "members": [m[0] for m in members],
-            "member_owners": [m[3]["owner"] for m in members],
+            "member_owners": [m[4] for m in members],
+            "member_subjects": [m[4] for m in members],
+            "kept_subject": kept[4],
             "kept_id": kept[0],
             "kept_name": kept[1],
             "kept_row": kept[2],
@@ -343,33 +367,34 @@ def _predicate_clear(family, query):
     return any(re.search(p, low) for p in pats)
 
 
-def select_k2(rows, query, topk=4, times=None, modes=None, today=None):
-    """命中族 -> [kept 的候选 dict]；任一条件不明确 -> None（回退原逻辑）。
+def select_k2_ex(rows, query, topk=4, times=None, modes=None, today=None):
+    """K2 auto 判定（带 gate）：-> {"hit": [..]|None, "reason": ok/owner_missing/count/...}。
 
-    返回筛选结果必须同时满足：
-      * family 明确（且会议/出差带日期槽）；
-      * owner/predicate 明确（谓词词表命中；owner 歧义则不筛）；
-      * kept 非空，且确有同族旧块可隐（hidden 非空，避免只做重排）。
-    times/modes/today 见 resolve_family：有 times 时按 created_at DESC, id DESC 排序，
-    一次性 meeting/travel 早于 today 的块进 hidden（不挂）。
+    真变量是 owner/主体键；count 只是临时保险（>50 块直接回退）。
     """
+    if len(rows or []) > K2_MAX_ROWS:
+        return {"hit": None, "reason": "count"}
     fam = resolve_family(query, rows, times=times, modes=modes, today=today)
     if not fam:
-        return None
+        return {"hit": None, "reason": "no_family"}
+    # owner 门控：query 判不出主体、且族内主体 >1 -> 不合并，回退原逻辑
+    if fam["owner"] is None:
+        subjects = {s for s in (fam.get("member_subjects") or []) if s}
+        if len(subjects) > 1:
+            return {"hit": None, "reason": "owner_missing"}
     if not fam["hidden_ids"]:
-        return None                      # 没有同族旧块可隐 -> 交给原逻辑
+        return {"hit": None, "reason": "no_conflict"}
     if not _predicate_clear(fam["family"], query):
-        return None                      # 谓词不明确（如只说"尾号"）
+        return {"hit": None, "reason": "no_family"}
     q_owner = fam["owner"]
-    owners = {o for o in (fam.get("member_owners") or []) if o}
+    owners = {o for o in (fam.get("member_subjects") or []) if o}
     if q_owner is None and len(owners) > 1:
-        return None                      # 同族出现多个主体：歧义，不筛
+        return {"hit": None, "reason": "owner_missing"}
     try:
         limit = max(1, int(topk))
     except (TypeError, ValueError):
         limit = 1
-    row = fam["kept_row"]
-    return [{
+    return {"hit": [{
         "name": fam["kept_name"],
         "score": 9.0,
         "source_id": fam["kept_id"],
@@ -384,6 +409,13 @@ def select_k2(rows, query, topk=4, times=None, modes=None, today=None):
             "slot_excluded_ids": fam.get("slot_excluded_ids") or [],
             "keep_ids": fam.get("keep_ids") or [fam["kept_id"]],
             "kept_id": fam["kept_id"],
+            "kept_subject": fam.get("kept_subject"),
             "library": len(rows),
         },
-    }]
+    }], "reason": "ok"}
+
+
+def select_k2(rows, query, topk=4, times=None, modes=None, today=None):
+    """兼容入口：返回 select_k2_ex 的 hit（None=回退原逻辑）。"""
+    return select_k2_ex(rows, query, topk=topk, times=times,
+                        modes=modes, today=today)["hit"]

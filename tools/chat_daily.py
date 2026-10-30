@@ -593,7 +593,9 @@ class DailyApp:
             raise DailyError("bad_request",
                              "--retrieval 只能取 %s" % "/".join(RETRIEVAL_MODES))
         self.retrieval_mode = mode
-        self.k2_family = bool(k2_family)   # K2 同族只留最新；默认关
+        self.k2_family = bool(k2_family)   # K2 auto；默认关
+        self.k2_mode = "auto_on" if self.k2_family else "auto_off"
+        self._last_k2 = {"mode": self.k2_mode, "gate_reason": "off"}
         self.topk = max(1, min(int(topk), MAX_MEMORIES))
         self._last_query = None
         self._last_selection = []      # [{name, score, source_id, signals}]
@@ -670,7 +672,10 @@ class DailyApp:
                                       "n_gpu_layers": self.n_gpu_layers,
                                       "chat_start": self.chat_start,
                                       "chat_budget": self.chat_budget,
-                                      "memory_budget": int(self.memory_budget)})
+                                      "memory_budget": int(self.memory_budget),
+                                      "k2": {"mode": self.k2_mode,
+                                             "owner_gate": True,
+                                             "max_rows": int(_k2f.K2_MAX_ROWS)}})
             prev = self.logger.crash_check()
             if prev:
                 self.logger.event("crash_recovered",
@@ -1780,8 +1785,15 @@ class DailyApp:
             raise DailyError("bad_request", "问题为空")
         t0 = time.perf_counter()
         if NATURAL_MODE:
-            return self._ask_natural(text, t0)
-        return self._ask_strict(text, t0)
+            res = self._ask_natural(text, t0)
+        else:
+            res = self._ask_strict(text, t0)
+        try:
+            res["k2"] = dict(getattr(self, "_last_k2", None) or
+                             {"mode": self.k2_mode, "gate_reason": "off"})
+        except Exception:                                # noqa: BLE001
+            pass
+        return res
 
     def _ask_natural(self, text, t0):
         """自然对话模式：代码只负责记忆读写/检索/联网，不替模型决定措辞。"""
@@ -2651,8 +2663,9 @@ class DailyApp:
         return "你好，我在。想让我记点什么，或问点什么？"
 
     def _retrieval_select(self, text):
-        """K2 开关前置：开 = 同族只留最新并过滤同族旧块；关 = 原逻辑逐字不变。"""
+        """K2 auto 前置：owner 门控 + count 兜底；关/回退 = 原逻辑逐字不变。"""
         if not getattr(self, "k2_family", False):
+            self._last_k2 = {"mode": self.k2_mode, "gate_reason": "off"}
             return self._retrieval_select_normal(text)
         try:
             meta = {int(r[0]): {"created_at": r[1], "mode": r[2]}
@@ -2661,9 +2674,13 @@ class DailyApp:
         except Exception:                                    # noqa: BLE001
             meta = None
         try:
-            sel = _k2f.select_k2(self._rows(), text, self.topk, times=meta)
+            ex = _k2f.select_k2_ex(self._rows(), text, self.topk, times=meta)
+            sel = ex.get("hit")
+            self._last_k2 = {"mode": self.k2_mode,
+                             "gate_reason": ex.get("reason") or "no_family"}
         except Exception:                                    # noqa: BLE001
             sel = None                                       # 任何异常都回退原逻辑
+            self._last_k2 = {"mode": self.k2_mode, "gate_reason": "error"}
         if not sel:
             return self._retrieval_select_normal(text)
         # fill 策略（B 定）：同族可补、跨族不补。只挂 kept + 同族非冲突块，
@@ -3238,7 +3255,11 @@ class DailyApp:
                           "candidates": int(self._last_candidate_count or len(rows)),
                           "related": int(self._last_related_count),
                           "memory_budget": int(self.memory_budget),
-                          "last_truncation": self._last_truncation},
+                          "last_truncation": self._last_truncation,
+                          "k2": {"mode": self.k2_mode,
+                                 "gate_reason": (self._last_k2 or {}).get("gate_reason"),
+                                 "owner_gate": True,
+                                 "max_rows": int(_k2f.K2_MAX_ROWS)}},
             "session": {"path": self.session_path,
                         "exists": os.path.exists(self.session_path),
                         "chat_tokens": int(self.eng.n_tokens(0)),
