@@ -416,7 +416,10 @@ def _is_honest_refusal(answer):
 
 def verify(question, answer, blocks, mode="general"):
     """核对答案与记忆块；返回 {verdict, mismatches, hint, checked_values}。"""
-    if verifier_version() == "v2":
+    ver = verifier_version()
+    if ver == "v2.1":
+        return verify_v2(question, answer, blocks, mode, normalize=True)
+    if ver == "v2":
         return verify_v2(question, answer, blocks, mode)
     blocks = [b for b in (blocks or []) if isinstance(b, dict)]
     ans = str(answer or "")
@@ -672,15 +675,37 @@ def _v2_values(family, text, intent="value"):
     return set()
 
 
-def _v2_same(family, a, b):
+_ENTITY_SUFFIX = re.compile(r"(?:有限责任公司|股份有限公司|有限公司|公司|单位)$")
+
+
+def _v2_norm_entity(v):
+    """实体值归一（v2.1）：全角/空格/标点 + 去掉“公司/单位”后缀。
+
+    “顺丰公司”“顺丰” ≡ “公司是顺丰”；只用于公司族，避免放宽其它族。
+    """
+    s = unicodedata.normalize("NFKC", str(v or ""))
+    s = re.sub(r"[\s,，。．.、:：;；!！?？\-—_·'\"“”()（）]+", "", s)
+    s = s.lower()
+    return _ENTITY_SUFFIX.sub("", s)
+
+
+def _v2_generic_entity(v):
+    """泛称不是实体值（v2.1）：一家/这家/公司/单位… 不能当 claim 证据。"""
+    n = _v2_norm_entity(v)
+    return len(n) < 2 or n in ("一家", "这家", "那家", "公司", "单位", "企业", "某个")
+
+
+def _v2_same(family, a, b, normalize=False):
     if family in ("手机", "银行卡"):
         return a == b
     if family in ("车牌", "车型", "邮箱"):
         return a.upper() == b.upper()
+    if normalize and family == "公司":
+        return _v2_norm_entity(a) == _v2_norm_entity(b)
     return _v2_compact(a) == _v2_compact(b)
 
 
-def _v2_contains(family, value, text):
+def _v2_contains(family, value, text, normalize=False):
     blob = _v2_compact(text)
     v = _v2_compact(value)
     if not v:
@@ -689,6 +714,9 @@ def _v2_contains(family, value, text):
         return v in blob
     if family in ("车牌",):
         return v.upper() in blob.upper()
+    if normalize and family == "公司":
+        # “在顺丰公司工作/顺丰公司上班” 与 kept“公司是顺丰”按实体值等价
+        return _v2_norm_entity(value) in _v2_norm_entity(text)
     return v in blob
 
 
@@ -707,10 +735,14 @@ def _v2_intent(family, question):
     return "value"
 
 
-def verify_v2(question, answer, blocks, mode="general"):
-    """v2 判定：查询槽位明确 + kept 中该槽位值唯一 时才校验；否则 pass。"""
+def verify_v2(question, answer, blocks, mode="general", normalize=False):
+    """v2/v2.1 判定：查询槽位明确 + kept 中该槽位值唯一 时才校验；否则 pass。
+
+    normalize=True（v2.1）：公司族按实体值归一（“顺丰公司”≡“顺丰”）。
+    """
+    ver = "v2.1" if normalize else "v2"
     ok = {"verdict": "pass", "mismatches": [], "hint": "",
-          "checked_values": 0, "version": "v2"}
+          "checked_values": 0, "version": ver}
     k2 = _v2_k2()
     if k2 is None:
         return ok
@@ -749,11 +781,16 @@ def verify_v2(question, answer, blocks, mode="general"):
         return ok                                      # 无值/多值：不校验
     value = next(iter(values))
     ans = str(answer or "")
-    if _v2_contains(family, value, ans):
+    if _v2_contains(family, value, ans, normalize=normalize):
         return dict(ok, checked_values=1)
     ans_vals = _v2_values(family, ans, intent)
+    if normalize and family == "公司":
+        ents = {v for v in ans_vals if not _v2_generic_entity(v)}
+        if ans_vals and not ents:
+            return dict(ok, checked_values=1)          # 泛称（“一家公司”）不作证据
+        ans_vals = ents
     if ans_vals:
-        if any(_v2_same(family, v, value) for v in ans_vals):
+        if any(_v2_same(family, v, value, normalize=normalize) for v in ans_vals):
             return dict(ok, checked_values=1)          # 同值（含格式归一）
         if family == "健身":
             return dict(ok, checked_values=1)          # 日期/时刻不作错值证据
@@ -762,13 +799,13 @@ def verify_v2(question, answer, blocks, mode="general"):
                                 "type": "wrong_slot_value",
                                 "expected_from_block": value}],
                 "hint": "记忆里的对应值是「%s」，请只依据记忆原文重答。" % value,
-                "checked_values": 1, "version": "v2"}
+                "checked_values": 1, "version": ver}
     if _V2_REFUSAL.search(ans):
         return dict(ok, checked_values=1)              # 显式拒答不算遗漏
     return {"verdict": "unsupported",
             "mismatches": [{"claim": value, "type": "missing_slot_value"}],
             "hint": "记忆里有「%s」，答案没有用上，请只依据记忆原文重答。" % value,
-            "checked_values": 1, "version": "v2"}
+            "checked_values": 1, "version": ver}
 
 
 def main():

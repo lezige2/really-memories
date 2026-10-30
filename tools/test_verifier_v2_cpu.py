@@ -25,6 +25,55 @@ def run(q, a, bl):
         return av.verify(q, a, bl, mode="personal")
 
 
+def run21(q, a, bl):
+    with mock.patch.dict(os.environ, {"VERIFIER_VERSION": "v2.1"}):
+        return av.verify(q, a, bl, mode="personal")
+
+
+class V21Tests(unittest.TestCase):
+    """S0：V9MT11/12 误触发修复（只改 verifier；默认仍 v1）。"""
+
+    KEPT = blocks("我的公司是顺丰")
+    Q11 = "我在哪家公司上班？"
+    Q12 = "我的公司叫什么？"
+    CLAIMS = ["你在顺丰公司工作", "顺丰公司上班", "你在一家公司上班",
+              "你的公司是顺丰", "过你的公司是顺丰"]
+
+    def test_v9mt11_12_claims_pass_5x(self):
+        for q in (self.Q11, self.Q12):
+            for claim in self.CLAIMS:
+                for _ in range(5):
+                    v = run21(q, claim, self.KEPT)
+                    self.assertEqual(v["verdict"], "pass", (q, claim, v))
+                    self.assertEqual(v["version"], "v2.1")
+
+    def test_company_entity_normalization(self):
+        self.assertEqual(av._v2_norm_entity("顺丰公司"), "顺丰")
+        self.assertEqual(av._v2_norm_entity("顺丰（公司）"), "顺丰")
+        self.assertTrue(av._v2_generic_entity("一家"))
+
+    def test_v2_old_still_fails_on_generic_claim(self):
+        # 改前（v2）对“一家公司”会误判 -> 说明 v2.1 是定点放宽
+        v = run(self.Q11, "你在一家公司上班", self.KEPT)
+        self.assertEqual(v["verdict"], "unsupported")
+
+    def test_guards_unchanged(self):
+        # L09 错值仍 fail
+        v = run21("我的银行卡尾号是多少？", "你的银行卡尾号是88888",
+                  blocks("我的银行卡尾号是7418"))
+        self.assertEqual(v["verdict"], "unsupported")
+        self.assertEqual(v["mismatches"][0]["type"], "wrong_slot_value")
+        # L07 显式拒答仍 pass
+        self.assertEqual(run21("我的邮箱是什么？", "你的邮箱我这里没有记录",
+                               blocks("我的邮箱是 lin@example.org"))["verdict"], "pass")
+        # V9MT05 单块手机 pass
+        self.assertEqual(run21("我的手机号是多少？", "你的手机号是15800002468",
+                               blocks("我的手机号是158-0000-2468"))["verdict"], "pass")
+        # 无槽/无族仍 pass
+        self.assertEqual(run21("我爱吃什么？", "你最爱吃粤菜",
+                               blocks("我最爱吃湘菜"))["verdict"], "pass")
+
+
 class VersionTests(unittest.TestCase):
     def test_default_is_v1(self):
         with mock.patch.dict(os.environ, {}, clear=True):
