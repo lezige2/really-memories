@@ -207,9 +207,14 @@ class Service:
             return r
         if method == "POST" and path == "/remember":
             text = _req_text(payload, "text")
-            r = app.remember(text)
-            return {"id": r["id"], "len_tokens": r.get("n_tokens"),
-                    "created_at": r.get("created_at"), "duplicate": r.get("duplicate")}
+            r = app.remember(text, confirm_token=payload.get("confirm_token"))
+            out = {"id": r.get("id"), "len_tokens": r.get("n_tokens"),
+                   "created_at": r.get("created_at"), "duplicate": r.get("duplicate")}
+            for k in ("needs_confirmation", "confirm_token", "reason",
+                      "candidates", "expires_in"):
+                if k in r:
+                    out[k] = r[k]                    # 只加字段，不改旧字段/状态码
+            return out
         if method == "POST" and path == "/reset":
             r = app.reset_session()
             return {"reset": True, "chat_tokens": int(r.get("chat_tokens") or 0)}
@@ -572,6 +577,7 @@ def build_app(args, data):
                       k2_family=bool(getattr(args, "k2_family", False)),
                       event_date=bool(getattr(args, "event_date", False)),
                       query_expand=bool(getattr(args, "query_expand", False)),
+                      confirm_writes=bool(getattr(args, "confirm_writes", False)),
                       topk=getattr(args, "topk", D.DEFAULT_TOPK),
                       rollover_at=getattr(args, "rollover_at", D.ROLLOVER_AT_DEFAULT),
                       n_ctx=getattr(args, "n_ctx", D.N_CTX_DEFAULT),
@@ -603,6 +609,8 @@ def main(argv=None):
                     help="P0 event_date（默认关；与 chat_daily 同名同义）")
     ap.add_argument("--query-expand", action="store_true", default=False,
                     help="S2-A query expansion（默认关；与 chat_daily 同名同义）")
+    ap.add_argument("--confirm-writes", action="store_true", default=False,
+                    help="显式冲突写入需 confirm token（默认关；与 chat_daily 同名同义）")
     ap.add_argument("--topk", type=int, default=D.DEFAULT_TOPK,
                     help="topk 模式每问挂载条数（1..%d）" % D.MAX_MEMORIES)
     ap.add_argument("--rollover-at", type=float, default=D.ROLLOVER_AT_DEFAULT,

@@ -580,7 +580,7 @@ class DailyApp:
                  rollover_at=ROLLOVER_AT_DEFAULT,
                  n_ctx=N_CTX_DEFAULT, chat_start=CHAT_START_DEFAULT,
                  n_gpu_layers=N_GPU_LAYERS_DEFAULT, event_date=False,
-                 query_expand=False):
+                 query_expand=False, confirm_writes=False):
         self.eng = engine
         self.model_path = model_path
         _fmt = os.environ.get("LLAMA_MEM_CHAT_FORMAT", "").strip().lower()
@@ -610,6 +610,10 @@ class DailyApp:
         self.event_date = bool(event_date)   # P0 event_date；默认关
         self._event_query = None
         self.query_expand = bool(query_expand)   # S2-A；默认关
+        self.confirm_writes = bool(confirm_writes)   # 三层 CLI 确认；默认关
+        self._pending_confirms = {}                  # 只存内存，重启即丢（fail-closed）
+        self._confirm_ttl = 300                      # ≤5min
+        self._confirm_stats = {"asked": 0, "total": 0}
         self._last_query_expand = {"enabled": self.query_expand, "hits": [],
                                    "before": None, "after": None}
         _cap = 20 if memo.gate_off() else MAX_MEMORIES   # 诊断（S2_GATE_OFF=1）允许 top20
@@ -3202,7 +3206,82 @@ class DailyApp:
     def _explicit_search(self, text):
         return bool(self._EXPLICIT_SEARCH.search(str(text or "")))
 
-    def remember(self, text, tags=None, supersedes=None, related_ids=None):
+    def _confirm_session_key(self):
+        return str(getattr(self, "session_path", "") or "")
+
+    def _confirm_find(self, text):
+        """检测“显式冲突”：候选≥2 + 同主体/谓词 + 旧值在原文里出现。"""
+        try:
+            facts = memo.extract_facts(text) or []
+        except Exception:                            # noqa: BLE001
+            facts = []
+        if not facts:
+            return None
+        rows = self._rows()
+        for f in facts:
+            subj = str(f.get("subject") or "")
+            pred = str(f.get("predicate") or "")
+            val = str(f.get("value") or "")
+            if not val or not (subj or pred):
+                continue
+            same = []
+            for r in rows:
+                rt = str(r[3])
+                if (subj and subj in rt) or (pred and pred in rt):
+                    same.append(r)
+            if len(same) < 2:
+                continue
+            conflict = False
+            for r in same:
+                try:
+                    rf = memo.extract_facts(str(r[3])) or []
+                except Exception:                    # noqa: BLE001
+                    rf = []
+                for x in rf:
+                    ov = str(x.get("value") or "")
+                    if ov and ov != val and ov in str(text):
+                        conflict = True
+            if conflict:
+                return {"reason": "explicit_conflict", "candidates": len(same)}
+        return None
+
+    def _confirm_gate(self, text, token):
+        """返回待确认响应（不写入）；返回 None 表示放行写入。"""
+        self._confirm_stats["total"] += 1
+        key = self._confirm_session_key()
+        if token:
+            rec = self._pending_confirms.get(str(token))
+            if not rec:
+                raise DailyError("confirm_invalid", "确认令牌不存在/已使用/已过期")
+            if rec["expires"] < time.time():
+                self._pending_confirms.pop(str(token), None)
+                raise DailyError("confirm_expired", "确认令牌已过期")
+            if rec["text_sha"] != ms.sha256_text(text) or rec["session"] != key                     or rec["tenant"] != "default":
+                raise DailyError("confirm_invalid", "确认令牌与本次写入不匹配")
+            self._pending_confirms.pop(str(token), None)   # 单次使用
+            return None
+        found = self._confirm_find(text)
+        if not found:
+            return None
+        self._confirm_stats["asked"] += 1
+        tok = uuid.uuid4().hex
+        self._pending_confirms[tok] = {
+            "text_sha": ms.sha256_text(text), "session": key, "tenant": "default",
+            "expires": time.time() + self._confirm_ttl,
+            "reason": found["reason"], "candidates": found["candidates"]}
+        if getattr(self, "logger", None):
+            try:
+                self.logger.log_warning("confirm_trigger", "write needs confirmation",
+                                        evidence={"reason": found["reason"],
+                                                  "candidates": found["candidates"]})
+            except Exception:                        # noqa: BLE001
+                pass
+        return {"needs_confirmation": True, "confirm_token": tok,
+                "reason": found["reason"], "candidates": found["candidates"],
+                "expires_in": self._confirm_ttl}
+
+    def remember(self, text, tags=None, supersedes=None, related_ids=None,
+                 confirm_token=None):
         raw_text = str(text or "").strip()
         if not raw_text:
             raise DailyError("bad_request", "用法：/remember <要记住的事实>")
@@ -3223,6 +3302,10 @@ class DailyApp:
         cap = MAX_MEMORIES if self.retrieval_mode != "topk" else LIBRARY_MAX
         if len(self._rows()) >= cap:
             raise DailyError("memory_full", "记忆已达上限 %d 条，先 /forget 再记" % cap)
+        if getattr(self, "confirm_writes", False):
+            gate = self._confirm_gate(text, confirm_token)
+            if gate is not None:
+                return gate                          # 确认前零写入
         put = self._put_memory_source(text)
         if put["duplicate"]:
             self._sync_mounts()
@@ -3642,6 +3725,8 @@ def main(argv=None):
                     help="P0 事件日期归一化（默认关；需先迁移 event_* 列）")
     ap.add_argument("--query-expand", action="store_true", default=False,
                     help="S2-A 确定性 query expansion（默认关；4 条通用同义对）")
+    ap.add_argument("--confirm-writes", action="store_true", default=False,
+                    help="显式冲突写入需 confirm token（默认关；仅 /remember）")
     ap.add_argument("--n-ctx", type=int, default=N_CTX_DEFAULT,
                     help="上下文长度（默认 %d；GPU 选型后可调大）" % N_CTX_DEFAULT)
     ap.add_argument("--n-gpu-layers", type=int, default=N_GPU_LAYERS_DEFAULT,
@@ -3680,6 +3765,7 @@ def main(argv=None):
                        k2_family=args.k2_family,
                        event_date=getattr(args, "event_date", False),
                        query_expand=getattr(args, "query_expand", False),
+                       confirm_writes=getattr(args, "confirm_writes", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
                        n_gpu_layers=args.n_gpu_layers)
