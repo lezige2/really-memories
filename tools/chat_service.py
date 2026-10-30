@@ -578,6 +578,10 @@ def build_app(args, data):
                       event_date=bool(getattr(args, "event_date", False)),
                       query_expand=bool(getattr(args, "query_expand", False)),
                       confirm_writes=bool(getattr(args, "confirm_writes", False)),
+                      p1b_subject=bool(getattr(args, "p1b_subject", False)),
+                      tts=bool(getattr(args, "tts", False)),
+                      tts_speak=bool(getattr(args, "tts_speak", False)),
+                      tts_timeout=int(getattr(args, "tts_timeout", 20)),
                       topk=getattr(args, "topk", D.DEFAULT_TOPK),
                       rollover_at=getattr(args, "rollover_at", D.ROLLOVER_AT_DEFAULT),
                       n_ctx=getattr(args, "n_ctx", D.N_CTX_DEFAULT),
@@ -611,6 +615,13 @@ def main(argv=None):
                     help="S2-A query expansion（默认关；与 chat_daily 同名同义）")
     ap.add_argument("--confirm-writes", action="store_true", default=False,
                     help="显式冲突写入需 confirm token（默认关；与 chat_daily 同名同义）")
+    ap.add_argument("--p1b-subject", action="store_true", default=False,
+                    help="P1b 主体键软覆盖（默认关；与 chat_daily 同名同义）")
+    ap.add_argument("--tts", action="store_true", default=False,
+                    help="最终答案异步 TTS（默认关；与 chat_daily 同名同义）")
+    ap.add_argument("--tts-speak", action="store_true", default=False,
+                    help="TTS 本机播放（默认关）")
+    ap.add_argument("--tts-timeout", type=int, default=20)
     ap.add_argument("--topk", type=int, default=D.DEFAULT_TOPK,
                     help="topk 模式每问挂载条数（1..%d）" % D.MAX_MEMORIES)
     ap.add_argument("--rollover-at", type=float, default=D.ROLLOVER_AT_DEFAULT,

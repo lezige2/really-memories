@@ -26,6 +26,7 @@ import json
 import os
 import re
 import sys
+import threading
 import time
 import uuid
 from datetime import datetime, timedelta
@@ -48,7 +49,32 @@ import assistant_log as alog            # noqa: E402  (个体日志：只追加 
 import memory_service as memo           # noqa: E402  (记忆数据层：抽取/去重/检索/判据)
 import k2_family as _k2f               # noqa: E402  (K2 同族只留最新；默认 off)
 import event_time as etime             # noqa: E402  (P0 event_date；默认 off)
-import p1b_subject as p1b               # noqa: E402  (P1b 主体键；默认 off)
+# P1b 代码不入库：可选依赖，只包这一个符号；缺失则功能 off + debug（不静默）
+try:
+    import p1b_subject as _p1b
+except ImportError:
+    _p1b = None
+    import logging
+    logging.getLogger(__name__).debug("p1b_subject unavailable (ImportError); P1b off")
+
+_TTS_CACHE = {"loaded": False, "mod": None}
+# 号码/地址/余额等默认不播（服务侧兜底；不依赖 tts_sapi）
+_TTS_SKIP_RE = re.compile(r"手机号|电话号码|号码|地址|住址|余额|账户|身份证|密码|验证码|银行卡")
+
+
+def _tts_module():
+    """懒加载 tts_sapi（默认 off 不加载）；ImportError -> None + debug（不静默）。"""
+    if _TTS_CACHE["loaded"]:
+        return _TTS_CACHE["mod"]
+    _TTS_CACHE["loaded"] = True
+    try:
+        import tts_sapi as mod
+        _TTS_CACHE["mod"] = mod
+    except ImportError:
+        _TTS_CACHE["mod"] = None
+        import logging
+        logging.getLogger(__name__).debug("tts_sapi unavailable (ImportError); TTS off")
+    return _TTS_CACHE["mod"]
 # S2-A FAIL（out/S2-A-EVAL.md）：query expansion 可选依赖，仅包这一个符号；
 # 缺失即功能 off，记 debug 日志（不静默），不影响原检索路径。
 try:
@@ -581,7 +607,8 @@ class DailyApp:
                  rollover_at=ROLLOVER_AT_DEFAULT,
                  n_ctx=N_CTX_DEFAULT, chat_start=CHAT_START_DEFAULT,
                  n_gpu_layers=N_GPU_LAYERS_DEFAULT, event_date=False,
-                 query_expand=False, confirm_writes=False, p1b_subject=False):
+                 query_expand=False, confirm_writes=False, p1b_subject=False,
+                 tts=False, tts_speak=False, tts_timeout=20, tts_dir=None):
         self.eng = engine
         self.model_path = model_path
         _fmt = os.environ.get("LLAMA_MEM_CHAT_FORMAT", "").strip().lower()
@@ -616,6 +643,14 @@ class DailyApp:
         self._confirm_ttl = 300                      # ≤5min
         self._confirm_stats = {"asked": 0, "total": 0}
         self.p1b_subject = bool(p1b_subject)     # P1b 软覆盖；默认关
+        if self.p1b_subject and _p1b is None:
+            self.warnings.append("p1b_subject 不可用（模块缺失），功能 off")
+        self.tts = bool(tts)                     # TTS；默认关
+        self.tts_speak = bool(tts_speak)
+        self.tts_timeout = int(tts_timeout)
+        self.tts_dir = tts_dir or os.path.join(ROOT, "out", "tts")
+        self._last_tts = {"enabled": self.tts, "status": "idle", "wav": None,
+                          "sha256": None}
         self._p1b_side_cache = None
         self._last_query_expand = {"enabled": self.query_expand, "hits": [],
                                    "before": None, "after": None}
@@ -1818,7 +1853,64 @@ class DailyApp:
                              {"mode": self.k2_mode, "gate_reason": "off"})
         except Exception:                                # noqa: BLE001
             pass
+        try:
+            self._tts_emit(res.get("answer"))
+        except Exception:                                # noqa: BLE001
+            pass
         return res
+
+    def _tts_emit(self, answer):
+        """异步 TTS：回答先返回；失败/超时丢弃，只记日志，不影响回答。"""
+        if not getattr(self, "tts", False):
+            self._last_tts = {"enabled": False, "status": "disabled",
+                              "wav": None, "sha256": None}
+            return
+        meta = {"enabled": True, "status": "queued", "wav": None,
+                "sha256": None, "skipped": None, "error": None}
+        self._last_tts = meta
+        mod = _tts_module()
+        if mod is None:
+            meta["status"] = "unavailable"
+            self.warnings.append("TTS 不可用（tts_sapi 缺失），功能 off")
+            return
+        text = str(answer or "")
+        if not text:
+            meta["status"] = "empty"
+            return
+        if _TTS_SKIP_RE.search(text):
+            meta["status"] = "skipped"
+            meta["skipped"] = "sensitive_local"
+            return
+        os.makedirs(self.tts_dir, exist_ok=True)
+        out = os.path.join(self.tts_dir, "tts-%s.wav" % uuid.uuid4().hex[:12])
+
+        def work():
+            try:
+                res = mod.synthesize(text, out=out, speak=self.tts_speak,
+                                     enabled=True, timeout=self.tts_timeout)
+                meta.update({k: res.get(k) for k in
+                             ("ok", "invoked", "skipped", "wav", "bytes",
+                              "latency_ms", "speak", "truncated")})
+                meta["status"] = "skipped" if res.get("skipped") else (
+                    "ok" if res.get("ok") else "error")
+                wav = res.get("wav")
+                if wav and os.path.exists(wav):
+                    try:
+                        meta["sha256"] = sha16_file(wav)
+                    except Exception:                # noqa: BLE001
+                        pass
+            except Exception as exc:                 # noqa: BLE001
+                meta["status"] = "error"
+                meta["error"] = "%s: %s" % (type(exc).__name__, exc)
+                if getattr(self, "logger", None):
+                    try:
+                        self.logger.log_warning("tts_error", "TTS failed",
+                                                evidence={"error": meta["error"]})
+                    except Exception:                # noqa: BLE001
+                        pass
+
+        threading.Thread(target=work, daemon=True,
+                         name="tts-emit").start()
 
     def _ask_natural(self, text, t0):
         """自然对话模式：代码只负责记忆读写/检索/联网，不替模型决定措辞。"""
@@ -2721,8 +2813,10 @@ class DailyApp:
         return "你好，我在。想让我记点什么，或问点什么？"
 
     def _p1b_side(self, rebuild=False):
-        path = p1b.sidecar_path(self.db_path)
-        side = p1b.Sidecar(path).load()
+        if _p1b is None:
+            return None
+        path = _p1b.sidecar_path(self.db_path)
+        side = _p1b.Sidecar(path).load()
         if rebuild or not side.entries():
             try:
                 side.rebuild(self._rows())
@@ -2733,11 +2827,11 @@ class DailyApp:
 
     def _p1b_filter(self, selection):
         """flag on：按 sidecar supersedes 只留同主体最新（不改块/不删）。"""
-        if not getattr(self, "p1b_subject", False) or not selection:
+        if _p1b is None or not getattr(self, "p1b_subject", False) or not selection:
             return selection
         try:
             side = self._p1b_side()
-            drop = p1b.superseded_ids(side)
+            drop = _p1b.superseded_ids(side)
             kept = [s for s in selection if int(s.get("source_id") or -1) not in drop]
             return kept or selection
         except Exception:                            # noqa: BLE001
@@ -3266,8 +3360,10 @@ class DailyApp:
             self._pending_confirms.pop(str(token), None)
             return {"decision": rec.get("p1b")}
         side = self._p1b_side(rebuild=True)
+        if side is None:
+            return {"decision": None}                # 模块缺失 -> 走原写路径
         created = datetime.now().isoformat(timespec="seconds")
-        dec = p1b.decide(text, created, side, tenant="default")
+        dec = _p1b.decide(text, created, side, tenant="default")
         self._confirm_stats["total"] += 1
         if dec.get("action") in ("write", "same_value", "supersede"):
             return {"decision": dec}
@@ -3435,7 +3531,7 @@ class DailyApp:
             R.build_index(self.con, verbose=False)
         except Exception as exc:
             self.warnings.append("检索索引重建失败：%s" % exc)
-        if getattr(self, "p1b_subject", False) and p1b_decision:
+        if getattr(self, "p1b_subject", False) and p1b_decision and _p1b is not None:
             try:
                 side = self._p1b_side()
                 if p1b_decision.get("action") == "supersede":
@@ -3830,6 +3926,11 @@ def main(argv=None):
                     help="显式冲突写入需 confirm token（默认关；仅 /remember）")
     ap.add_argument("--p1b-subject", action="store_true", default=False,
                     help="P1b 主体键软覆盖（默认关；sidecar，不改 daily）")
+    ap.add_argument("--tts", action="store_true", default=False,
+                    help="最终答案异步 TTS（默认关；只播最终答案）")
+    ap.add_argument("--tts-speak", action="store_true", default=False,
+                    help="TTS 本机播放（默认关，只写 wav）")
+    ap.add_argument("--tts-timeout", type=int, default=20)
     ap.add_argument("--n-ctx", type=int, default=N_CTX_DEFAULT,
                     help="上下文长度（默认 %d；GPU 选型后可调大）" % N_CTX_DEFAULT)
     ap.add_argument("--n-gpu-layers", type=int, default=N_GPU_LAYERS_DEFAULT,
@@ -3870,6 +3971,9 @@ def main(argv=None):
                        query_expand=getattr(args, "query_expand", False),
                        confirm_writes=getattr(args, "confirm_writes", False),
                        p1b_subject=getattr(args, "p1b_subject", False),
+                       tts=getattr(args, "tts", False),
+                       tts_speak=getattr(args, "tts_speak", False),
+                       tts_timeout=getattr(args, "tts_timeout", 20),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
                        n_gpu_layers=args.n_gpu_layers)
