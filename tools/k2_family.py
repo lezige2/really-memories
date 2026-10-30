@@ -51,11 +51,14 @@ _SUBJECT_BLOCK = {"我家", "家里", "我的", "我们", "你们", "他们", "�
 
 
 def subject_of(text):
-    """主体键：先 owner 词表，再“张伟家/刘敏的/吴静养…”式人名；判不出返回 None。"""
-    c = classify_row(text)
+    """主体键：owner 词表 > 第一人称（self）> “张伟家/刘敏的…”人名。"""
+    t = str(text or "").strip()
+    c = classify_row(t)
     if c["owner"]:
         return c["owner"]
-    m = _SUBJECT_NAME_RE.match(str(text or "").strip())
+    if re.match(r"^(我|俺|本人)", t):
+        return "self"                    # 第一人称；是否算单实体由族内 distinct 决定
+    m = _SUBJECT_NAME_RE.match(t)
     if m:
         name = m.group(1)
         if name not in _SUBJECT_BLOCK and not re.search(r"[周星期月日号点]", name):
@@ -304,13 +307,16 @@ def resolve_family(query, rows, times=None, modes=None, today=None):
 
     members = []
     spill = []          # 同族同 owner、但不是同一场（日期/时刻不同）：非冲突，可留
+    family_subjects = []
     for r in rows:
         c = classify_row(_row_text(r))
         if c["family"] != family:
             continue
         subj = subject_of(_row_text(r))
-        # 反向保护：query 带主体时只并同主体；query 无主体时同族各行都算
-        if q_owner is not None and subj != q_owner:
+        family_subjects.append(subj)
+        # 单实体（self）语义：query 是“我的…”且族内主体只有 self/None -> 全族都算；
+        # 出现第二个显式主体时，query 又判不出主体 -> owner 门控回退（见 select_k2_ex）。
+        if q_owner not in (None, "self") and subj != q_owner:
             continue
         if family in SLOT_FAMILIES and not _slot_ok(q_slot, c["slot"]):
             spill.append((_row_id(r), _row_name(r), r))
@@ -350,6 +356,8 @@ def resolve_family(query, rows, times=None, modes=None, today=None):
             "members": [m[0] for m in members],
             "member_owners": [m[4] for m in members],
             "member_subjects": [m[4] for m in members],
+            "family_subjects": family_subjects,
+            "distinct_subjects": sorted({s for s in family_subjects if s}),
             "kept_subject": kept[4],
             "kept_id": kept[0],
             "kept_name": kept[1],
@@ -377,19 +385,16 @@ def select_k2_ex(rows, query, topk=4, times=None, modes=None, today=None):
     fam = resolve_family(query, rows, times=times, modes=modes, today=today)
     if not fam:
         return {"hit": None, "reason": "no_family"}
-    # owner 门控：query 判不出主体、且族内主体 >1 -> 不合并，回退原逻辑
-    if fam["owner"] is None:
-        subjects = {s for s in (fam.get("member_subjects") or []) if s}
-        if len(subjects) > 1:
+    # owner 门控：self 只允许“族内单实体”；族里出现第二个显式主体且 query 判不出
+    # 主体 -> owner_missing，回退原逻辑（不合并）
+    if fam["owner"] in (None, "self"):
+        subs = {s for s in (fam.get("distinct_subjects") or []) if s}
+        if len(subs) > 1:
             return {"hit": None, "reason": "owner_missing"}
     if not fam["hidden_ids"]:
         return {"hit": None, "reason": "no_conflict"}
     if not _predicate_clear(fam["family"], query):
         return {"hit": None, "reason": "no_family"}
-    q_owner = fam["owner"]
-    owners = {o for o in (fam.get("member_subjects") or []) if o}
-    if q_owner is None and len(owners) > 1:
-        return {"hit": None, "reason": "owner_missing"}
     try:
         limit = max(1, int(topk))
     except (TypeError, ValueError):

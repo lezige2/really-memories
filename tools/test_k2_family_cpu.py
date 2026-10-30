@@ -474,6 +474,35 @@ class AutoGateTests(unittest.TestCase):
         self.assertEqual(ex["reason"], "ok")
         self.assertEqual(ex["hit"][0]["source_id"], 22)
 
+    def test_self_single_entity_runs_k2(self):
+        # 族内单实体（全是 self）：我的猫 -> ok，不因“无显式 owner”回退
+        rows = [row(21, "c21", "我养的猫叫豆豆"),
+                row(22, "c22", "我的猫叫球球")]
+        ex = K.select_k2_ex(rows, "我的猫叫什么名字？", 4)
+        self.assertEqual(ex["reason"], "ok")
+        self.assertEqual(ex["hit"][0]["source_id"], 22)
+
+    def test_self_two_cars_owner_missing(self):
+        rows = [row(21, "t", "我的特斯拉是蓝色"),
+                row(22, "b", "我的比亚迪是黑色")]
+        ex = K.select_k2_ex(rows, "我的车是什么颜色？", 4)
+        self.assertIsNone(ex["hit"])
+        self.assertEqual(ex["reason"], "owner_missing")
+
+    def test_self_two_numbers_owner_missing(self):
+        rows = [row(21, "w", "我的工作号是130-2468-1111"),
+                row(22, "p", "我的私人号是131-0000-2222")]
+        ex = K.select_k2_ex(rows, "我的手机号是多少？", 4)
+        self.assertIsNone(ex["hit"])
+        self.assertEqual(ex["reason"], "owner_missing")
+
+    def test_no_family_stays_no_family(self):
+        rows = [row(21, "f1", "我最爱吃湘菜"),
+                row(22, "f2", "我最爱吃粤菜")]
+        ex = K.select_k2_ex(rows, "我爱吃什么？", 4)
+        self.assertIsNone(ex["hit"])
+        self.assertEqual(ex["reason"], "no_family")
+
     def test_owner_missing_multi_subject_falls_back(self):
         rows = [row(21, "p21", "张伟的手机号是136-1111-3333"),
                 row(22, "p22", "刘敏的手机号是158-0000-2468")]
