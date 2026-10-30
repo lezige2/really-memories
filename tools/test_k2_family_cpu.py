@@ -268,6 +268,62 @@ class WireTests(unittest.TestCase):
         self.assertEqual(out, base)
 
 
+class SubjectTests(unittest.TestCase):
+    """P0 主体抽取（确定性规则）+ 族键按 (subject, predicate)。"""
+
+    def test_subject_sources(self):
+        self.assertEqual(K.subject_info("张伟的手机号是136-1111-3333"),
+                         ("name:张伟", "possessive"))
+        self.assertEqual(K.subject_info("赵磊说起过，他的车牌是沪A12345"),
+                         ("name:赵磊", "cooccur"))
+        self.assertEqual(K.subject_info("我养的猫叫豆豆"), ("self", "self"))
+        self.assertEqual(K.subject_info("我的特斯拉是蓝色"), ("特斯拉", "lexicon"))
+        self.assertEqual(K.subject_info("周三的会在三楼"), (None, "none"))
+
+    def test_name_plus_time_adverb(self):
+        # 姓名 + 通用时间副词（现在/最新/一开始）：副词不得吞进名字
+        for t, exp in (("李雷现在的车牌号是沪A12345", "name:李雷"),
+                       ("韩梅梅最新的手机号是13800000000", "name:韩梅梅"),
+                       ("王芳一开始的座位号是7排05号", "name:王芳")):
+            self.assertEqual(K.subject_of(t), exp)
+            self.assertIn(K.subject_info(t)[1], ("possessive", "cooccur"))
+
+    def test_two_cars_by_subject(self):
+        rows = [row(21, "a", "我的车是蓝色"),
+                row(22, "b", "赵磊的车是黑色")]
+        ex = K.select_k2_ex(rows, "赵磊的车是什么颜色？", 4)
+        self.assertEqual(ex["reason"], "ok")
+        self.assertEqual(ex["hit"][0]["source_id"], 22)
+        self.assertEqual(K.select_k2_ex(rows, "我的车是什么颜色？", 4)["reason"],
+                         "owner_missing")
+
+    def test_two_phones_by_subject(self):
+        rows = [row(21, "a", "我的手机号是136-1111-3333"),
+                row(22, "b", "刘敏的手机号是158-0000-2468")]
+        ex = K.select_k2_ex(rows, "刘敏的手机号是多少？", 4)
+        self.assertEqual(ex["reason"], "ok")
+        self.assertEqual(ex["hit"][0]["source_id"], 22)
+        self.assertEqual(K.select_k2_ex(rows, "我的手机号是多少？", 4)["reason"],
+                         "owner_missing")
+
+    def test_two_cats_by_subject(self):
+        rows = [row(21, "a", "吴静家的猫叫咪咪"),
+                row(22, "b", "孙悦家的猫叫甜甜")]
+        ex = K.select_k2_ex(rows, "孙悦家的猫叫什么？", 4)
+        self.assertEqual(ex["reason"], "ok")
+        self.assertEqual(ex["hit"][0]["source_id"], 22)
+        self.assertEqual(K.select_k2_ex(rows, "我的猫叫什么？", 4)["reason"],
+                         "owner_missing")
+
+    def test_same_subject_update_still_hides_old(self):
+        rows = [row(21, "a", "张伟的手机号是136-1111-3333"),
+                row(22, "b", "张伟的手机号是158-0000-2468")]
+        ex = K.select_k2_ex(rows, "张伟的手机号是多少？", 4)
+        self.assertEqual(ex["reason"], "ok")
+        self.assertEqual(ex["hit"][0]["source_id"], 22)
+        self.assertIn(21, ex["hit"][0]["signals"]["hidden_ids"])
+
+
 class FillTests(unittest.TestCase):
     """B 定 fill 策略：同族可补、跨族不补；空结果回退。"""
 

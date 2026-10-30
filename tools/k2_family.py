@@ -40,7 +40,16 @@ FAMILY_RULES = (
 
 SLOT_FAMILIES = ("会议", "出差")     # 必须带日期；日期不同不并族
 K2_MAX_ROWS = 50                    # 临时保险：库 > 50 块直接回退（auto 兜底）
-_SUBJECT_NAME_RE = re.compile(r"^([\u4e00-\u9fff]{2,3})(?:家|养的|养|的|说|那)")
+# --- 主体抽取（P0，纯确定性规则；不用模型）--------------------------------
+_SURNAMES = set(
+    "王李张刘陈杨黄赵吴周徐孙马朱胡郭何高林罗郑梁谢宋唐许韩冯邓曹彭曾肖田董袁潘于蒋蔡余"
+    "杜叶程苏魏吕丁任沈姚卢姜崔钟谭陆汪范金石廖贾夏韦付方白邹孟熊秦邱江尹薛闫段雷侯龙"
+    "史陶黎贺顾毛郝龚邵万钱严覃武戴莫孔向汤")
+_POSSESSIVE_RE = re.compile(
+    r"([\u4e00-\u9fff]{2,3}?)(?:用的|开的|的|家|养的|养|开着|开)")
+_COOCCUR_RE = re.compile(r"(?:^|[，。；;:,、\s])([\u4e00-\u9fff]{2,3})(?=说|那|在|把|给|和|跟|的)")
+# 通用时间副词（只此 6 个；不得写入具体人名/错例）：抽名前先剥离，避免“现在/最新”被吞进名字
+_TIME_ADV_RE = re.compile(r"(?:一开始|现在|最新|后来|目前|最近)")
 _SUBJECT_BLOCK = {"我家", "家里", "我的", "我们", "你们", "他们", "自己", "朋友",
                   "同事", "这只", "那只", "上面", "下面", "顺便", "另外", "还有",
                   "其实", "后来", "现在", "今天", "昨天", "明天", "补充", "备注",
@@ -50,20 +59,38 @@ _SUBJECT_BLOCK = {"我家", "家里", "我的", "我们", "你们", "他们", "�
                   "晚上", "早上", "中午", "前面", "后面", "里面", "外面"}
 
 
-def subject_of(text):
-    """主体键：owner 词表 > 第一人称（self）> “张伟家/刘敏的…”人名。"""
+def _is_person_name(name):
+    if not name or len(name) < 2 or name[0] not in _SURNAMES:
+        return False
+    if name in _SUBJECT_BLOCK:
+        return False
+    if re.match(r"^(?:周|星期)[一二三四五六日天]$", name):
+        return False                    # “周三”不是人名
+    if re.search(r"[月日号点]", name):
+        return False
+    return True
+
+
+def subject_info(text):
+    """-> (subject, source)；source ∈ lexicon/possessive/cooccur/self/none。"""
     t = str(text or "").strip()
     c = classify_row(t)
     if c["owner"]:
-        return c["owner"]
+        return c["owner"], "lexicon"
     if re.match(r"^(我|俺|本人)", t):
-        return "self"                    # 第一人称；是否算单实体由族内 distinct 决定
-    m = _SUBJECT_NAME_RE.match(t)
-    if m:
-        name = m.group(1)
-        if name not in _SUBJECT_BLOCK and not re.search(r"[周星期月日号点]", name):
-            return "name:" + name
-    return None
+        return "self", "self"
+    t2 = _TIME_ADV_RE.sub("", t)        # 只剥离通用时间副词，名字保持 surname 锚定
+    for m in _POSSESSIVE_RE.finditer(t2):
+        if _is_person_name(m.group(1)):
+            return "name:" + m.group(1), "possessive"
+    for m in _COOCCUR_RE.finditer(t2):
+        if _is_person_name(m.group(1)):
+            return "name:" + m.group(1), "cooccur"
+    return None, "none"
+
+
+def subject_of(text):
+    return subject_info(text)[0]
 
 # 谓词必须"明确"：查询里要出现本族的实体/属性词（裸"号"/"色"不算）。
 # 邮箱/银行卡尤其如此：谓词不明确时宁可回退，也不筛选。
@@ -308,12 +335,15 @@ def resolve_family(query, rows, times=None, modes=None, today=None):
     members = []
     spill = []          # 同族同 owner、但不是同一场（日期/时刻不同）：非冲突，可留
     family_subjects = []
+    subject_sources = {}
     for r in rows:
-        c = classify_row(_row_text(r))
+        text = _row_text(r)
+        c = classify_row(text)
         if c["family"] != family:
             continue
-        subj = subject_of(_row_text(r))
+        subj, ssrc = subject_info(text)
         family_subjects.append(subj)
+        subject_sources[_row_id(r)] = ssrc
         # 单实体（self）语义：query 是“我的…”且族内主体只有 self/None -> 全族都算；
         # 出现第二个显式主体时，query 又判不出主体 -> owner 门控回退（见 select_k2_ex）。
         if q_owner not in (None, "self") and subj != q_owner:
@@ -321,7 +351,7 @@ def resolve_family(query, rows, times=None, modes=None, today=None):
         if family in SLOT_FAMILIES and not _slot_ok(q_slot, c["slot"]):
             spill.append((_row_id(r), _row_name(r), r))
             continue
-        members.append((_row_id(r), _row_name(r), r, c, subj))
+        members.append((_row_id(r), _row_name(r), r, c, subj, ssrc))
 
     if not members:
         return None
@@ -358,7 +388,10 @@ def resolve_family(query, rows, times=None, modes=None, today=None):
             "member_subjects": [m[4] for m in members],
             "family_subjects": family_subjects,
             "distinct_subjects": sorted({s for s in family_subjects if s}),
+            "subject_sources": subject_sources,
+            "member_subject_sources": [m[5] for m in members],
             "kept_subject": kept[4],
+            "kept_subject_source": kept[5],
             "kept_id": kept[0],
             "kept_name": kept[1],
             "kept_row": kept[2],
@@ -375,12 +408,15 @@ def _predicate_clear(family, query):
     return any(re.search(p, low) for p in pats)
 
 
-def select_k2_ex(rows, query, topk=4, times=None, modes=None, today=None):
+def select_k2_ex(rows, query, topk=4, times=None, modes=None, today=None,
+                 max_rows=None):
     """K2 auto 判定（带 gate）：-> {"hit": [..]|None, "reason": ok/owner_missing/count/...}。
 
     真变量是 owner/主体键；count 只是临时保险（>50 块直接回退）。
+    max_rows 仅研究脚本可传更大值（产品默认 K2_MAX_ROWS）。
     """
-    if len(rows or []) > K2_MAX_ROWS:
+    limit_rows = K2_MAX_ROWS if max_rows is None else int(max_rows)
+    if len(rows or []) > limit_rows:
         return {"hit": None, "reason": "count"}
     fam = resolve_family(query, rows, times=times, modes=modes, today=today)
     if not fam:
@@ -415,12 +451,15 @@ def select_k2_ex(rows, query, topk=4, times=None, modes=None, today=None):
             "keep_ids": fam.get("keep_ids") or [fam["kept_id"]],
             "kept_id": fam["kept_id"],
             "kept_subject": fam.get("kept_subject"),
+            "kept_subject_source": fam.get("kept_subject_source"),
+            "subject_sources": fam.get("subject_sources") or {},
             "library": len(rows),
         },
     }], "reason": "ok"}
 
 
-def select_k2(rows, query, topk=4, times=None, modes=None, today=None):
+def select_k2(rows, query, topk=4, times=None, modes=None, today=None,
+              max_rows=None):
     """兼容入口：返回 select_k2_ex 的 hit（None=回退原逻辑）。"""
     return select_k2_ex(rows, query, topk=topk, times=times,
-                        modes=modes, today=today)["hit"]
+                        modes=modes, today=today, max_rows=max_rows)["hit"]

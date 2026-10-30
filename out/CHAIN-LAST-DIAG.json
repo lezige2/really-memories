@@ -1,0 +1,432 @@
+{
+  "schema": "chain_last_diag_v1",
+  "generated_at": "2026-10-30T16:02:21",
+  "db": "kvmem/scale40k/n50/chat.db (read-only)",
+  "queries": "kvmem/scale40k/n50/queries.jsonl (chain_last 6 with target)",
+  "source_run": "out/OWNER-P0-RESULT.json (K2-on 模拟，旁路 count)",
+  "definitions": {
+    "subject": "subject_info(): lexicon/possessive/cooccur/self/none",
+    "filtered_by_subject": "target 不在 resolve_family members（被 subject 过滤，既不 keep 也不 hidden）",
+    "mis_hide": "按 B 定义：被隐块 subject+predicate 与解析主体一致"
+  },
+  "cases": [
+    {
+      "id": "q071",
+      "query": "郑凯现在的车牌号是什么？",
+      "expect_any": [
+        "沪B·5M8T7",
+        "沪B5M8T7"
+      ],
+      "not_contains": [
+        "沪B·5M8T1",
+        "沪B5M8T1",
+        "沪B·5M8T3",
+        "沪B5M8T3",
+        "沪B·5M8T5",
+        "沪B5M8T5"
+      ],
+      "reverse_chain": false,
+      "query_subject": "name:郑凯现",
+      "query_subject_source": "cooccur",
+      "query_subject_fixed": "name:郑凯现",
+      "family": "车牌",
+      "predicate": "号码",
+      "target_id": 42,
+      "target_text": "郑凯现在用的车牌号是沪B·5M8T7，这个是最近才定下来的。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心比什么都重要。你说得也有道理，我再琢磨琢磨，有些地方确实是我",
+      "target_subject": "name:郑凯现",
+      "target_subject_source": "cooccur",
+      "target_subject_fixed": "name:郑凯现",
+      "target_member": true,
+      "target_filtered_by_subject": false,
+      "target_in_keep": true,
+      "target_in_hidden": false,
+      "k2_reason": "ok",
+      "kept": 42,
+      "mounts": [
+        42
+      ],
+      "hidden": [],
+      "chain_by_created_at": [
+        {
+          "id": 14,
+          "created_at": "2026-10-02T13:30:00",
+          "subject": "name:孙悦",
+          "fixed_subject": "name:孙悦",
+          "text": "孙悦的车的车牌号是京N·7K3QB，他说这串字符当初记了好久。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么"
+        },
+        {
+          "id": 5,
+          "created_at": "2026-10-03T09:00:00",
+          "subject": "name:郑凯一",
+          "fixed_subject": "name:郑凯一",
+          "text": "郑凯一开始的车牌号是沪B·5M8T1，那阵子一直没动过。今天坐得有点久，腰有点发僵，我起来走了两圈，又伸了伸胳膊，现在感"
+        },
+        {
+          "id": 26,
+          "created_at": "2026-10-03T10:00:00",
+          "subject": "name:刘敏",
+          "fixed_subject": "name:刘敏",
+          "text": "刘敏的车的车牌号是京N·7K3Q3，他说这串字符当初记了好久。刚才走神了，没太听清，你再说一遍我听听，这回我认真听着，不"
+        },
+        {
+          "id": 19,
+          "created_at": "2026-10-03T12:00:00",
+          "subject": null,
+          "fixed_subject": null,
+          "text": "郑凯后来把车牌号改成了沪B·5M8T3，中间隔了一段时间。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度"
+        },
+        {
+          "id": 42,
+          "created_at": "2026-10-03T18:00:00",
+          "subject": "name:郑凯现",
+          "fixed_subject": "name:郑凯现",
+          "text": "郑凯现在用的车牌号是沪B·5M8T7，这个是最近才定下来的。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心"
+        }
+      ],
+      "chain_issue": "none"
+    },
+    {
+      "id": "q081",
+      "query": "沈越现在的座位号是什么？",
+      "expect_any": [
+        "6排12号"
+      ],
+      "not_contains": [
+        "7排05号",
+        "7排09号",
+        "4排03号"
+      ],
+      "reverse_chain": true,
+      "query_subject": "name:沈越现",
+      "query_subject_source": "cooccur",
+      "query_subject_fixed": "name:沈越现",
+      "family": "工位",
+      "predicate": "地点",
+      "target_id": 36,
+      "target_text": "顺便说一下，沈越的座位号后来又有变化：沈越再后来又换成6排12号，说是当时有点别的原因。这会儿有点犯困，我泡了杯茶提提神，茶还有点烫，得放一会儿才能喝，咱们慢慢说，不用赶时间。手边",
+      "target_subject": "name:沈越",
+      "target_subject_source": "possessive",
+      "target_subject_fixed": "name:沈越",
+      "target_member": false,
+      "target_filtered_by_subject": true,
+      "target_in_keep": false,
+      "target_in_hidden": false,
+      "k2_reason": "ok",
+      "kept": 45,
+      "mounts": [
+        45
+      ],
+      "hidden": [],
+      "chain_by_created_at": [
+        {
+          "id": 49,
+          "created_at": "2026-10-05T07:30:00",
+          "subject": null,
+          "fixed_subject": null,
+          "text": "陈杰这次活动的座位排在了5排05号，说是视野还行。刚才那段话我看了两遍才看明白，可能是我反应慢，也可能是话说得太绕，下回"
+        },
+        {
+          "id": 50,
+          "created_at": "2026-10-05T12:00:00",
+          "subject": null,
+          "fixed_subject": null,
+          "text": "徐斌这次活动的座位排在了5排11号，说是视野还行。刚才那段话我看了两遍才看明白，可能是我反应慢，也可能是话说得太绕，下回"
+        },
+        {
+          "id": 8,
+          "created_at": "2026-10-13T09:00:00",
+          "subject": "name:沈越一",
+          "fixed_subject": "name:沈越一",
+          "text": "沈越一开始的座位号是7排05号，那阵子一直没动过。你这么说我倒是想起来点别的，不过先不岔开，等说完了再说，免得一会儿又忘"
+        },
+        {
+          "id": 21,
+          "created_at": "2026-10-13T12:00:00",
+          "subject": null,
+          "fixed_subject": null,
+          "text": "沈越后来把座位号改成了7排09号，中间隔了一段时间。刚才那段话我看了两遍才看明白，可能是我反应慢，也可能是话说得太绕，下"
+        },
+        {
+          "id": 45,
+          "created_at": "2026-10-13T13:30:00",
+          "subject": "name:沈越现",
+          "fixed_subject": "name:沈越现",
+          "text": "沈越现在用的座位号是4排03号，这个是最近才定下来的。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心比什么"
+        },
+        {
+          "id": 36,
+          "created_at": "2026-10-13T15:00:00",
+          "subject": "name:沈越",
+          "fixed_subject": "name:沈越",
+          "text": "顺便说一下，沈越的座位号后来又有变化：沈越再后来又换成6排12号，说是当时有点别的原因。这会儿有点犯困，我泡了杯茶提提神"
+        }
+      ],
+      "chain_issue": "subject_split"
+    },
+    {
+      "id": "q082",
+      "query": "沈越最新的座位号是哪个？之前那些都不算了。",
+      "expect_any": [
+        "6排12号"
+      ],
+      "not_contains": [
+        "7排05号",
+        "7排09号",
+        "4排03号"
+      ],
+      "reverse_chain": true,
+      "query_subject": null,
+      "query_subject_source": "none",
+      "query_subject_fixed": null,
+      "family": "工位",
+      "predicate": "地点",
+      "target_id": 36,
+      "target_text": "顺便说一下，沈越的座位号后来又有变化：沈越再后来又换成6排12号，说是当时有点别的原因。这会儿有点犯困，我泡了杯茶提提神，茶还有点烫，得放一会儿才能喝，咱们慢慢说，不用赶时间。手边",
+      "target_subject": "name:沈越",
+      "target_subject_source": "possessive",
+      "target_subject_fixed": "name:沈越",
+      "target_member": true,
+      "target_filtered_by_subject": false,
+      "target_in_keep": true,
+      "target_in_hidden": false,
+      "k2_reason": "owner_missing",
+      "kept": null,
+      "mounts": [
+        8,
+        45,
+        36,
+        16
+      ],
+      "hidden": [],
+      "chain_by_created_at": [
+        {
+          "id": 49,
+          "created_at": "2026-10-05T07:30:00",
+          "subject": null,
+          "fixed_subject": null,
+          "text": "陈杰这次活动的座位排在了5排05号，说是视野还行。刚才那段话我看了两遍才看明白，可能是我反应慢，也可能是话说得太绕，下回"
+        },
+        {
+          "id": 50,
+          "created_at": "2026-10-05T12:00:00",
+          "subject": null,
+          "fixed_subject": null,
+          "text": "徐斌这次活动的座位排在了5排11号，说是视野还行。刚才那段话我看了两遍才看明白，可能是我反应慢，也可能是话说得太绕，下回"
+        },
+        {
+          "id": 8,
+          "created_at": "2026-10-13T09:00:00",
+          "subject": "name:沈越一",
+          "fixed_subject": "name:沈越一",
+          "text": "沈越一开始的座位号是7排05号，那阵子一直没动过。你这么说我倒是想起来点别的，不过先不岔开，等说完了再说，免得一会儿又忘"
+        },
+        {
+          "id": 21,
+          "created_at": "2026-10-13T12:00:00",
+          "subject": null,
+          "fixed_subject": null,
+          "text": "沈越后来把座位号改成了7排09号，中间隔了一段时间。刚才那段话我看了两遍才看明白，可能是我反应慢，也可能是话说得太绕，下"
+        },
+        {
+          "id": 45,
+          "created_at": "2026-10-13T13:30:00",
+          "subject": "name:沈越现",
+          "fixed_subject": "name:沈越现",
+          "text": "沈越现在用的座位号是4排03号，这个是最近才定下来的。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心比什么"
+        },
+        {
+          "id": 36,
+          "created_at": "2026-10-13T15:00:00",
+          "subject": "name:沈越",
+          "fixed_subject": "name:沈越",
+          "text": "顺便说一下，沈越的座位号后来又有变化：沈越再后来又换成6排12号，说是当时有点别的原因。这会儿有点犯困，我泡了杯茶提提神"
+        }
+      ],
+      "chain_issue": "subject_split"
+    },
+    {
+      "id": "q083",
+      "query": "卢婷现在的车身颜色是什么？",
+      "expect_any": [
+        "曜石黑"
+      ],
+      "not_contains": [
+        "珍珠白",
+        "星空灰",
+        "冰川蓝"
+      ],
+      "reverse_chain": true,
+      "query_subject": "name:卢婷现",
+      "query_subject_source": "cooccur",
+      "query_subject_fixed": "name:卢婷现",
+      "family": "车色",
+      "predicate": "颜色",
+      "target_id": 37,
+      "target_text": "顺便说一下，卢婷的车身颜色后来又有变化：卢婷再后来又换成曜石黑，说是当时有点别的原因。天气一凉，人就容易懒，什么都不想干，只想窝着不动，连出门买点东西都想拖到明天再说。我这会儿在等",
+      "target_subject": "name:卢婷",
+      "target_subject_source": "possessive",
+      "target_subject_fixed": "name:卢婷",
+      "target_member": false,
+      "target_filtered_by_subject": true,
+      "target_in_keep": false,
+      "target_in_hidden": false,
+      "k2_reason": "ok",
+      "kept": 46,
+      "mounts": [
+        46
+      ],
+      "hidden": [],
+      "chain_by_created_at": [
+        {
+          "id": 9,
+          "created_at": "2026-10-15T09:00:00",
+          "subject": "name:卢婷一",
+          "fixed_subject": "name:卢婷一",
+          "text": "卢婷一开始的车身颜色是珍珠白，那阵子一直没动过。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说"
+        },
+        {
+          "id": 22,
+          "created_at": "2026-10-15T12:00:00",
+          "subject": null,
+          "fixed_subject": null,
+          "text": "卢婷后来把车身颜色改成了星空灰，中间隔了一段时间。说实话这些天事情有点杂，脑子转得比平时慢，说话也可能有点跳跃，你别介意"
+        },
+        {
+          "id": 46,
+          "created_at": "2026-10-15T13:30:00",
+          "subject": "name:卢婷现",
+          "fixed_subject": "name:卢婷现",
+          "text": "卢婷现在用的车身颜色是冰川蓝，这个是最近才定下来的。我这会儿心情还行，就是有点累，说话可能没什么力气，你别嫌我敷衍，我确"
+        },
+        {
+          "id": 37,
+          "created_at": "2026-10-15T15:00:00",
+          "subject": "name:卢婷",
+          "fixed_subject": "name:卢婷",
+          "text": "顺便说一下，卢婷的车身颜色后来又有变化：卢婷再后来又换成曜石黑，说是当时有点别的原因。天气一凉，人就容易懒，什么都不想干"
+        }
+      ],
+      "chain_issue": "subject_split"
+    },
+    {
+      "id": "q084",
+      "query": "卢婷最新的车身颜色是哪个？之前那些都不算了。",
+      "expect_any": [
+        "曜石黑"
+      ],
+      "not_contains": [
+        "珍珠白",
+        "星空灰",
+        "冰川蓝"
+      ],
+      "reverse_chain": true,
+      "query_subject": null,
+      "query_subject_source": "none",
+      "query_subject_fixed": null,
+      "family": "车色",
+      "predicate": "颜色",
+      "target_id": 37,
+      "target_text": "顺便说一下，卢婷的车身颜色后来又有变化：卢婷再后来又换成曜石黑，说是当时有点别的原因。天气一凉，人就容易懒，什么都不想干，只想窝着不动，连出门买点东西都想拖到明天再说。我这会儿在等",
+      "target_subject": "name:卢婷",
+      "target_subject_source": "possessive",
+      "target_subject_fixed": "name:卢婷",
+      "target_member": true,
+      "target_filtered_by_subject": false,
+      "target_in_keep": true,
+      "target_in_hidden": false,
+      "k2_reason": "owner_missing",
+      "kept": null,
+      "mounts": [
+        46,
+        9,
+        37,
+        22
+      ],
+      "hidden": [],
+      "chain_by_created_at": [
+        {
+          "id": 9,
+          "created_at": "2026-10-15T09:00:00",
+          "subject": "name:卢婷一",
+          "fixed_subject": "name:卢婷一",
+          "text": "卢婷一开始的车身颜色是珍珠白，那阵子一直没动过。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说"
+        },
+        {
+          "id": 22,
+          "created_at": "2026-10-15T12:00:00",
+          "subject": null,
+          "fixed_subject": null,
+          "text": "卢婷后来把车身颜色改成了星空灰，中间隔了一段时间。说实话这些天事情有点杂，脑子转得比平时慢，说话也可能有点跳跃，你别介意"
+        },
+        {
+          "id": 46,
+          "created_at": "2026-10-15T13:30:00",
+          "subject": "name:卢婷现",
+          "fixed_subject": "name:卢婷现",
+          "text": "卢婷现在用的车身颜色是冰川蓝，这个是最近才定下来的。我这会儿心情还行，就是有点累，说话可能没什么力气，你别嫌我敷衍，我确"
+        },
+        {
+          "id": 37,
+          "created_at": "2026-10-15T15:00:00",
+          "subject": "name:卢婷",
+          "fixed_subject": "name:卢婷",
+          "text": "顺便说一下，卢婷的车身颜色后来又有变化：卢婷再后来又换成曜石黑，说是当时有点别的原因。天气一凉，人就容易懒，什么都不想干"
+        }
+      ],
+      "chain_issue": "subject_split"
+    },
+    {
+      "id": "q090",
+      "query": "潘石最新的手机号是哪个？之前那些都不算了。",
+      "expect_any": [
+        "15860027004"
+      ],
+      "not_contains": [
+        "15860027001",
+        "15860027002",
+        "15860027003"
+      ],
+      "reverse_chain": false,
+      "query_subject": "name:石最新",
+      "query_subject_source": "possessive",
+      "query_subject_fixed": "name:石",
+      "family": null,
+      "predicate": null,
+      "target_id": 47,
+      "target_text": "潘石现在用的手机号是15860027004，这个是最近才定下来的。屋里有点闷，我去把门开条缝透透气，一会儿凉下来再关上，这样坐着能舒服些，也不至于太燥。说起来这几天胃口一般，晚上打",
+      "target_subject": "name:潘石现",
+      "target_subject_source": "cooccur",
+      "target_subject_fixed": "name:潘石现",
+      "target_member": false,
+      "target_filtered_by_subject": false,
+      "target_in_keep": true,
+      "target_in_hidden": false,
+      "k2_reason": "no_family",
+      "kept": null,
+      "mounts": [
+        16,
+        6,
+        10,
+        47
+      ],
+      "hidden": [],
+      "chain_by_created_at": [],
+      "chain_issue": "subject_split"
+    }
+  ],
+  "summary": {
+    "n_chain_last_with_target": 6,
+    "target_kept": 4,
+    "target_hidden": 0,
+    "target_filtered_by_subject": 2,
+    "subject_split": 5,
+    "mis_hide_same_subject": 0
+  },
+  "conclusions": [
+    "链题 target 均是最新块（created_at 15:00/18:00 等），K2 按 created_at 只留最新本身没错。",
+    "6 条链题里 5 条出现 subject 裂开：query 的“现在/最新/一开始/后来”被并进人名（沈越现/卢婷现/郑凯现/石最新），块侧同一人是 沈越/沈越一/None，被当成不同主体。",
+    "2 条（q081/q083）因此 target 被 subject 过滤（既不进 keep 也不进 hidden），K2 反而挂上更早的“现在用”陷阱块（45/46，4排03/冰川蓝），答错旧值。",
+    "结论选 b)：主体抽取在链题有缺口，不是“读时去重对链本身错”；按 created_at 36/37/47 才是最终值，去重逻辑无需中间块。",
+    "修复方向（未上码）：name 正则加后缀词表（一开始/现在/最新/后来/目前/最近）并把姓氏锚定在最左；修好后 沈越/卢婷/郑凯/潘石 各自成一组，kept 回到 36/37/42/47。"
+  ]
+}
