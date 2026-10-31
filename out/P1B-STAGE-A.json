@@ -1,0 +1,2150 @@
+{
+ "schema": "p1b_stage_a_v1",
+ "read_only": true,
+ "daily_db": "D:\\llama-mem\\kvmem\\daily\\chat.db",
+ "daily_sha256": "0a7eae495c4be89cbd385382d180cdcfdea102a9d955369a411b5798d4c95d49",
+ "n200_db": "D:\\llama-mem\\kvmem\\scale40k\\n200\\chat.db",
+ "n200_sha256": "2d84aefda3c76ecece0cf3f620c506e0748090a587528b8bed513491affd24fd",
+ "definition": "judgeable = deterministic explicit subject + one predicate; '我/我的' is default_self, never a fallback subject",
+ "gate": {
+  "threshold_explicit_rate": 0.7,
+  "daily_explicit_rate": 0.1,
+  "pass": false
+ },
+ "daily": {
+  "label": "daily",
+  "n": 20,
+  "explicit": 2,
+  "default_self": 12,
+  "unextractable": 6,
+  "explicit_rate": 0.1,
+  "default_self_rate": 0.6,
+  "predicate_dist": {
+   "plate": 2
+  },
+  "unextractable_reasons": {
+   "no_predicate": 4,
+   "no_subject": 2
+  },
+  "extractable_items": [
+   {
+    "kind": "explicit",
+    "subject": "阿泽",
+    "predicate": "plate",
+    "subjects": [
+     "阿泽"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 3,
+    "text": "我叫阿泽，今天（2026-10-27）我们做完了 b7 实验，结论是擦边；我的车牌号是京A88888。"
+   },
+   {
+    "kind": "explicit",
+    "subject": "阿泽",
+    "predicate": "plate",
+    "subjects": [
+     "阿泽"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 12,
+    "text": "我叫阿泽，我的车牌号是京A88888。"
+   }
+  ],
+  "unextractable_items": [
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 15,
+    "text": "对话归档（原文）：\n用户：第128段：今天天气一般，不太想出门，就继续把手上事情做完。今天天气一般，不太想出门，就继续把手上事情做完。\n助手：今天天气一般，不太"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_subject",
+    "subjects": [],
+    "predicates": [],
+    "id": 16,
+    "text": "自动摘要：天气一般，继续处理手头工作；有些事情推进慢但总体可控，别着急；周末计划去附近走走或在家休息；整理资料时发现的点要逐条确认；先理顺下一步要做的，避免返工"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_subject",
+    "subjects": [],
+    "predicates": [],
+    "id": 17,
+    "text": "用户：第128段：今天天气一般，不太想出门，就继续把手上事情做完。今天天气一般，不太想出门，就继续把手上事情做完。\n助手：今天天气一般，不太想出门，就继续把手上"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 18,
+    "text": "用户：第132段：有些事情推进得比预期慢一点，不过总体还在可控范围。我在想下一步先把哪块理顺，避免来回返工。\n助手：有些事情推进得比预期慢一点，不过总体还在可控"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 19,
+    "text": "用户：第136段：我在想下一步先把哪块理顺，避免来回返工。今天的工作安排有点满，上午处理邮件，下午继续整理资料。\n助手：先理顺下一步要做的，避免来回返工。今天上"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 20,
+    "text": "用户：第140段：我在想下一步先把哪块理顺，避免来回返工。我在想下一步先把哪块理顺，避免来回返工。\n助手：先理顺下一步要做的，避免来回返工\n用户：第141段：今"
+   }
+  ]
+ },
+ "n200": {
+  "label": "n200",
+  "n": 200,
+  "explicit": 118,
+  "default_self": 24,
+  "unextractable": 58,
+  "explicit_rate": 0.59,
+  "default_self_rate": 0.12,
+  "predicate_dist": {
+   "bank": 3,
+   "cat": 12,
+   "color": 4,
+   "company": 20,
+   "hometown": 12,
+   "meeting": 15,
+   "phone": 18,
+   "plate": 18,
+   "seat": 16
+  },
+  "unextractable_reasons": {
+   "no_predicate": 48,
+   "no_subject": 10
+  },
+  "extractable_items": [
+   {
+    "kind": "explicit",
+    "subject": "张伟",
+    "predicate": "cat",
+    "subjects": [
+     "张伟"
+    ],
+    "predicates": [
+     "cat"
+    ],
+    "id": 1,
+    "text": "张伟说起过，家里那只猫叫小橘，平时就爱趴在窗台上晒太阳。我这儿正收拾桌面呢，一边收拾一边跟你说话，手上有点事反而不容易走神，你接着说就行。天气一凉，人就容易懒，"
+   },
+   {
+    "kind": "explicit",
+    "subject": "李娜",
+    "predicate": "cat",
+    "subjects": [
+     "李娜"
+    ],
+    "predicates": [
+     "cat"
+    ],
+    "id": 3,
+    "text": "李娜说起过，家里那只猫叫小柚，平时就爱趴在窗台上晒太阳。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心比什么都重要。说起来这几天胃口一般，晚上打算"
+   },
+   {
+    "kind": "explicit",
+    "subject": "王强",
+    "predicate": "cat",
+    "subjects": [
+     "王强"
+    ],
+    "predicates": [
+     "cat"
+    ],
+    "id": 4,
+    "text": "王强说起过，家里那只猫叫小柠，平时就爱趴在窗台上晒太阳。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心比什么都重要。我这会儿在等一个快递，显示还在"
+   },
+   {
+    "kind": "explicit",
+    "subject": "刘敏",
+    "predicate": "cat",
+    "subjects": [
+     "刘敏"
+    ],
+    "predicates": [
+     "cat"
+    ],
+    "id": 5,
+    "text": "刘敏说起过，家里那只猫叫小栗，平时就爱趴在窗台上晒太阳。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心比什么都重要。刚喝了口热水，嗓子舒服多了，刚"
+   },
+   {
+    "kind": "explicit",
+    "subject": "陈杰",
+    "predicate": "cat",
+    "subjects": [
+     "陈杰"
+    ],
+    "predicates": [
+     "cat"
+    ],
+    "id": 7,
+    "text": "陈杰说起过，家里那只猫叫小桃，平时就爱趴在窗台上晒太阳。桌上东西堆得有点多，我顺手理了理，把不用的挪到一边，现在看着清爽多了，找东西也方便。刚才走神了，没太听清"
+   },
+   {
+    "kind": "explicit",
+    "subject": "杨帆",
+    "predicate": "cat",
+    "subjects": [
+     "杨帆"
+    ],
+    "predicates": [
+     "cat"
+    ],
+    "id": 8,
+    "text": "杨帆说起过，家里那只猫叫小杏，平时就爱趴在窗台上晒太阳。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行，说错了也没关系。桌上东西堆得有点多，我顺"
+   },
+   {
+    "kind": "explicit",
+    "subject": "赵磊",
+    "predicate": "cat",
+    "subjects": [
+     "赵磊"
+    ],
+    "predicates": [
+     "cat"
+    ],
+    "id": 10,
+    "text": "赵磊说起过，家里那只猫叫小梅，平时就爱趴在窗台上晒太阳。我一会儿还得出去一趟，不过现在还有空，能聊多久聊多久，等我走了就回头再说。说实话这些天事情有点杂，脑子转"
+   },
+   {
+    "kind": "explicit",
+    "subject": "黄婷",
+    "predicate": "cat",
+    "subjects": [
+     "黄婷"
+    ],
+    "predicates": [
+     "cat"
+    ],
+    "id": 11,
+    "text": "黄婷说起过，家里那只猫叫小竹，平时就爱趴在窗台上晒太阳。你先别急着下结论，慢慢想，想清楚再说也不迟，反正也不差这一会儿，急急忙忙反而容易出错。你这么说我倒是想起"
+   },
+   {
+    "kind": "explicit",
+    "subject": "周昊",
+    "predicate": "cat",
+    "subjects": [
+     "周昊"
+    ],
+    "predicates": [
+     "cat"
+    ],
+    "id": 12,
+    "text": "周昊说起过，家里那只猫叫小松，平时就爱趴在窗台上晒太阳。我这个人记性一般，重要的事都得靠记下来，光靠脑子容易漏，所以到处都放着便签。刚喝了口热水，嗓子舒服多了，"
+   },
+   {
+    "kind": "explicit",
+    "subject": "吴静",
+    "predicate": "cat",
+    "subjects": [
+     "吴静"
+    ],
+    "predicates": [
+     "cat"
+    ],
+    "id": 14,
+    "text": "吴静说起过，家里那只猫叫小柏，平时就爱趴在窗台上晒太阳。我这边网速偶尔会卡一下，卡完自己又好了，所以刚才没及时回你，不是故意的，你别多想。我把椅子调低了一格，这"
+   },
+   {
+    "kind": "explicit",
+    "subject": "徐斌",
+    "predicate": "cat",
+    "subjects": [
+     "徐斌"
+    ],
+    "predicates": [
+     "cat"
+    ],
+    "id": 15,
+    "text": "徐斌说起过，家里那只猫叫小枫，平时就爱趴在窗台上晒太阳。这两天总想吃点热的，凉的东西吃多了胃里不舒服，所以喝水都得温的，冰的碰都不碰。这些天睡得晚，白天总有点提"
+   },
+   {
+    "kind": "explicit",
+    "subject": "孙悦",
+    "predicate": "cat",
+    "subjects": [
+     "孙悦"
+    ],
+    "predicates": [
+     "cat"
+    ],
+    "id": 17,
+    "text": "孙悦说起过，家里那只猫叫小桐，平时就爱趴在窗台上晒太阳。我这会儿在等一个快递，显示还在路上，估计还得一会儿才到，所以我暂时也出不了门，只能在家待着。我这儿正收拾"
+   },
+   {
+    "kind": "explicit",
+    "subject": "郑凯",
+    "predicate": "plate",
+    "subjects": [
+     "郑凯"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 18,
+    "text": "郑凯一开始的车牌号是沪B·5M8T1，那阵子一直没动过。今天坐得有点久，腰有点发僵，我起来走了两圈，又伸了伸胳膊，现在感觉松快一些了，也能坐得住。手边这盆绿植该"
+   },
+   {
+    "kind": "explicit",
+    "subject": "张伟",
+    "predicate": "plate",
+    "subjects": [
+     "张伟"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 19,
+    "text": "张伟的车的车牌号是京N·7K3Q0，他说这串字符当初记了好久。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不用抬声音。我一会儿还"
+   },
+   {
+    "kind": "explicit",
+    "subject": "冯樱",
+    "predicate": "company",
+    "subjects": [
+     "冯樱"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 20,
+    "text": "冯樱一开始的公司是宁波启元数据服务有限公司一部，那阵子一直没动过。我一会儿还得出去一趟，不过现在还有空，能聊多久聊多久，等我走了就回头再说。说到这个我就想起上次"
+   },
+   {
+    "kind": "explicit",
+    "subject": "吴静",
+    "predicate": "plate",
+    "subjects": [
+     "吴静"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 21,
+    "text": "吴静的车的车牌号是京N·7K3Q9，他说这串字符当初记了好久。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。桌上东西堆得有点多，我"
+   },
+   {
+    "kind": "explicit",
+    "subject": "韩峥",
+    "predicate": "phone",
+    "subjects": [
+     "韩峥"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 22,
+    "text": "韩峥一开始的手机号是13720013001，那阵子一直没动过。窗外有只鸟一直在叫，叫得还挺有节奏，听久了倒也不觉得吵，反而觉得挺安静，心也跟着静下来。刚才手机响"
+   },
+   {
+    "kind": "explicit",
+    "subject": "曹岚",
+    "predicate": "bank",
+    "subjects": [
+     "曹岚"
+    ],
+    "predicates": [
+     "bank"
+    ],
+    "id": 24,
+    "text": "曹岚一开始的银行卡号是6217 0012 3456 7801，那阵子一直没动过。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行，说错了也没关系。"
+   },
+   {
+    "kind": "explicit",
+    "subject": "杨帆",
+    "predicate": "meeting",
+    "subjects": [
+     "杨帆"
+    ],
+    "predicates": [
+     "meeting"
+    ],
+    "id": 25,
+    "text": "杨帆下周那个重要会议定在2026-11-02 14:06，得提前把材料准备好。说实话这些天事情有点杂，脑子转得比平时慢，说话也可能有点跳跃，你别介意，我尽量说清"
+   },
+   {
+    "kind": "explicit",
+    "subject": "邓辉",
+    "predicate": "meeting",
+    "subjects": [
+     "邓辉"
+    ],
+    "predicates": [
+     "meeting"
+    ],
+    "id": 26,
+    "text": "邓辉一开始的会议时间是2026-11-05 09:30，那阵子一直没动过。你要是着急就先忙你的，我这边一点都不急，什么时候有空什么时候聊都行，不用特意腾出时间。"
+   },
+   {
+    "kind": "explicit",
+    "subject": "沈越",
+    "predicate": "seat",
+    "subjects": [
+     "沈越"
+    ],
+    "predicates": [
+     "seat"
+    ],
+    "id": 27,
+    "text": "沈越一开始的座位号是7排05号，那阵子一直没动过。你这么说我倒是想起来点别的，不过先不岔开，等说完了再说，免得一会儿又忘了。外面好像要变天了，风一阵一阵的，我先"
+   },
+   {
+    "kind": "explicit",
+    "subject": "卢婷",
+    "predicate": "color",
+    "subjects": [
+     "卢婷"
+    ],
+    "predicates": [
+     "color"
+    ],
+    "id": 28,
+    "text": "卢婷一开始的车身颜色是珍珠白，那阵子一直没动过。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不用抬声音。屋里有点闷，我去把门开条"
+   },
+   {
+    "kind": "explicit",
+    "subject": "蒋川",
+    "predicate": "plate",
+    "subjects": [
+     "蒋川"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 29,
+    "text": "蒋川一开始的车牌号是苏E·2P9R4，那阵子一直没动过。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不用抬声音。天气一凉，人就容"
+   },
+   {
+    "kind": "explicit",
+    "subject": "蔡敏",
+    "predicate": "company",
+    "subjects": [
+     "蔡敏"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 30,
+    "text": "蔡敏一开始的公司是苏州明远智能装备有限公司一部，那阵子一直没动过。说起来这几天胃口一般，晚上打算吃点清淡的，油腻的实在吃不太动，喝点粥就差不多了。刚喝了口热水，"
+   },
+   {
+    "kind": "explicit",
+    "subject": "潘石",
+    "predicate": "phone",
+    "subjects": [
+     "潘石"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 31,
+    "text": "潘石一开始的手机号是15860027001，那阵子一直没动过。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不用抬声音。刚才手机响"
+   },
+   {
+    "kind": "explicit",
+    "subject": "李娜",
+    "predicate": "plate",
+    "subjects": [
+     "李娜"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 49,
+    "text": "李娜的车的车牌号是京N·7K3Q1，他说这串字符当初记了好久。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照顾我。刚才那段话我看"
+   },
+   {
+    "kind": "explicit",
+    "subject": "王强",
+    "predicate": "plate",
+    "subjects": [
+     "王强"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 50,
+    "text": "王强的车的车牌号是京N·7K3Q2，他说这串字符当初记了好久。刚才手机响了一下，我还以为是谁找我，拿起来一看是推送广告，懒得点开，就又放回桌上去了。说实话这些天"
+   },
+   {
+    "kind": "explicit",
+    "subject": "陈杰",
+    "predicate": "plate",
+    "subjects": [
+     "陈杰"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 51,
+    "text": "陈杰的车的车牌号是京N·7K3Q4，他说这串字符当初记了好久。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行，说错了也没关系。我把外套搭在椅背上"
+   },
+   {
+    "kind": "explicit",
+    "subject": "杨帆",
+    "predicate": "plate",
+    "subjects": [
+     "杨帆"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 53,
+    "text": "杨帆的车的车牌号是京N·7K3Q5，他说这串字符当初记了好久。外面好像要变天了，风一阵一阵的，我先去把窗户关上，顺便把外面晾着的东西收进来，你稍等一下就好。手边"
+   },
+   {
+    "kind": "explicit",
+    "subject": "黄婷",
+    "predicate": "plate",
+    "subjects": [
+     "黄婷"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 54,
+    "text": "黄婷的车的车牌号是京N·7K3Q7，他说这串字符当初记了好久。你这么说我倒是想起来点别的，不过先不岔开，等说完了再说，免得一会儿又忘了。说到这儿我忽然想起来，楼"
+   },
+   {
+    "kind": "explicit",
+    "subject": "周昊",
+    "predicate": "plate",
+    "subjects": [
+     "周昊"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 55,
+    "text": "周昊的车的车牌号是京N·7K3Q8，他说这串字符当初记了好久。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照顾我。手边这盆绿植该"
+   },
+   {
+    "kind": "explicit",
+    "subject": "徐斌",
+    "predicate": "plate",
+    "subjects": [
+     "徐斌"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 57,
+    "text": "徐斌的车的车牌号是京N·7K3QA，他说这串字符当初记了好久。你说得也有道理，我再琢磨琢磨，有些地方确实是我没想周全，等我理清楚了再跟你细说。你先歇会儿，喝口水"
+   },
+   {
+    "kind": "explicit",
+    "subject": "孙悦",
+    "predicate": "plate",
+    "subjects": [
+     "孙悦"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 58,
+    "text": "孙悦的车的车牌号是京N·7K3QB，他说这串字符当初记了好久。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行，说错了也没关系。说到这个我就想起上"
+   },
+   {
+    "kind": "explicit",
+    "subject": "张伟留",
+    "predicate": "phone",
+    "subjects": [
+     "张伟留"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 59,
+    "text": "张伟留的手机号是13910002001，平时不太接陌生来电。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照顾我。外面好像要变天了"
+   },
+   {
+    "kind": "explicit",
+    "subject": "李娜留",
+    "predicate": "phone",
+    "subjects": [
+     "李娜留"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 61,
+    "text": "李娜留的手机号是13910002002，平时不太接陌生来电。我把椅子调低了一格，这样靠着说话舒服点，坐久了也不至于太累，你也找个舒服的姿势靠着。我这儿正收拾桌面"
+   },
+   {
+    "kind": "explicit",
+    "subject": "王强留",
+    "predicate": "phone",
+    "subjects": [
+     "王强留"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 62,
+    "text": "王强留的手机号是13910002003，平时不太接陌生来电。这两天总想吃点热的，凉的东西吃多了胃里不舒服，所以喝水都得温的，冰的碰都不碰。说到这个我就想起上次那"
+   },
+   {
+    "kind": "explicit",
+    "subject": "刘敏留",
+    "predicate": "phone",
+    "subjects": [
+     "刘敏留"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 63,
+    "text": "刘敏留的手机号是13910002004，平时不太接陌生来电。我这会儿心情还行，就是有点累，说话可能没什么力气，你别嫌我敷衍，我确实是在听你说。天气一凉，人就容易"
+   },
+   {
+    "kind": "explicit",
+    "subject": "陈杰留",
+    "predicate": "phone",
+    "subjects": [
+     "陈杰留"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 65,
+    "text": "陈杰留的手机号是13910002005，平时不太接陌生来电。窗外有只鸟一直在叫，叫得还挺有节奏，听久了倒也不觉得吵，反而觉得挺安静，心也跟着静下来。我这人说话比"
+   },
+   {
+    "kind": "explicit",
+    "subject": "杨帆留",
+    "predicate": "phone",
+    "subjects": [
+     "杨帆留"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 66,
+    "text": "杨帆留的手机号是13910002006，平时不太接陌生来电。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照顾我。你这么说我倒是想"
+   },
+   {
+    "kind": "explicit",
+    "subject": "赵磊留",
+    "predicate": "phone",
+    "subjects": [
+     "赵磊留"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 68,
+    "text": "赵磊留的手机号是13910002007，平时不太接陌生来电。我这人说话比较直，有时候不太会绕弯子，有说得不对的地方你多担待点，我不是那个意思。你要是着急就先忙你"
+   },
+   {
+    "kind": "explicit",
+    "subject": "黄婷留",
+    "predicate": "phone",
+    "subjects": [
+     "黄婷留"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 69,
+    "text": "黄婷留的手机号是13910002008，平时不太接陌生来电。我这会儿心情还行，就是有点累，说话可能没什么力气，你别嫌我敷衍，我确实是在听你说。屋里有点闷，我去把"
+   },
+   {
+    "kind": "explicit",
+    "subject": "周昊留",
+    "predicate": "phone",
+    "subjects": [
+     "周昊留"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 70,
+    "text": "周昊留的手机号是13910002009，平时不太接陌生来电。你上次提的那个法子我后来试了试，能用是能用，就是步骤有点绕，中间还得停下来想一会儿，效率不算高。这两"
+   },
+   {
+    "kind": "explicit",
+    "subject": "吴静留",
+    "predicate": "phone",
+    "subjects": [
+     "吴静留"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 71,
+    "text": "吴静留的手机号是13910002010，平时不太接陌生来电。你这么说我倒是想起来点别的，不过先不岔开，等说完了再说，免得一会儿又忘了。今天坐得有点久，腰有点发僵"
+   },
+   {
+    "kind": "explicit",
+    "subject": "徐斌留",
+    "predicate": "phone",
+    "subjects": [
+     "徐斌留"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 73,
+    "text": "徐斌留的手机号是13910002011，平时不太接陌生来电。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不用抬声音。我把椅子调低"
+   },
+   {
+    "kind": "explicit",
+    "subject": "孙悦留",
+    "predicate": "phone",
+    "subjects": [
+     "孙悦留"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 74,
+    "text": "孙悦留的手机号是13910002012，平时不太接陌生来电。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不用抬声音。这会儿有点犯"
+   },
+   {
+    "kind": "explicit",
+    "subject": "郑凯",
+    "predicate": "plate",
+    "subjects": [
+     "郑凯"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 81,
+    "text": "郑凯后来把车牌号改成了沪B·5M8T3，中间隔了一段时间。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。手边这盆绿植该浇水了，叶子"
+   },
+   {
+    "kind": "explicit",
+    "subject": "冯樱",
+    "predicate": "company",
+    "subjects": [
+     "冯樱"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 82,
+    "text": "冯樱后来把公司改成了宁波启元数据服务有限公司二部，中间隔了一段时间。天气一凉，人就容易懒，什么都不想干，只想窝着不动，连出门买点东西都想拖到明天再说。这会儿安静"
+   },
+   {
+    "kind": "explicit",
+    "subject": "韩峥",
+    "predicate": "phone",
+    "subjects": [
+     "韩峥"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 83,
+    "text": "韩峥后来把手机号改成了13720013002，中间隔了一段时间。外面好像要变天了，风一阵一阵的，我先去把窗户关上，顺便把外面晾着的东西收进来，你稍等一下就好。你"
+   },
+   {
+    "kind": "explicit",
+    "subject": "曹岚",
+    "predicate": "bank",
+    "subjects": [
+     "曹岚"
+    ],
+    "predicates": [
+     "bank"
+    ],
+    "id": 84,
+    "text": "曹岚后来把银行卡号改成了6217 0012 3456 7802，中间隔了一段时间。刚才那段话我看了两遍才看明白，可能是我反应慢，也可能是话说得太绕，下回你说得直"
+   },
+   {
+    "kind": "explicit",
+    "subject": "邓辉",
+    "predicate": "meeting",
+    "subjects": [
+     "邓辉"
+    ],
+    "predicates": [
+     "meeting"
+    ],
+    "id": 85,
+    "text": "邓辉后来把会议时间改成了2026-11-06 09:30，中间隔了一段时间。你先歇会儿，喝口水，不用一直绷着，放松点反而说得清楚，我这边又不催你，慢慢来。刚才楼"
+   },
+   {
+    "kind": "explicit",
+    "subject": "沈越",
+    "predicate": "seat",
+    "subjects": [
+     "沈越"
+    ],
+    "predicates": [
+     "seat"
+    ],
+    "id": 86,
+    "text": "沈越后来把座位号改成了7排09号，中间隔了一段时间。刚才那段话我看了两遍才看明白，可能是我反应慢，也可能是话说得太绕，下回你说得直白点。我把椅子调低了一格，这样"
+   },
+   {
+    "kind": "explicit",
+    "subject": "卢婷",
+    "predicate": "color",
+    "subjects": [
+     "卢婷"
+    ],
+    "predicates": [
+     "color"
+    ],
+    "id": 87,
+    "text": "卢婷后来把车身颜色改成了星空灰，中间隔了一段时间。说实话这些天事情有点杂，脑子转得比平时慢，说话也可能有点跳跃，你别介意，我尽量说清楚。你先歇会儿，喝口水，不用"
+   },
+   {
+    "kind": "explicit",
+    "subject": "蒋川",
+    "predicate": "plate",
+    "subjects": [
+     "蒋川"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 88,
+    "text": "蒋川后来把车牌号改成了苏E·2P9R6，中间隔了一段时间。你说得也有道理，我再琢磨琢磨，有些地方确实是我没想周全，等我理清楚了再跟你细说。我这人说话比较直，有时"
+   },
+   {
+    "kind": "explicit",
+    "subject": "蔡敏",
+    "predicate": "company",
+    "subjects": [
+     "蔡敏"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 89,
+    "text": "蔡敏后来把公司改成了苏州明远智能装备有限公司二部，中间隔了一段时间。我这个人记性一般，重要的事都得靠记下来，光靠脑子容易漏，所以到处都放着便签。你这么说我倒是想"
+   },
+   {
+    "kind": "explicit",
+    "subject": "潘石",
+    "predicate": "phone",
+    "subjects": [
+     "潘石"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 90,
+    "text": "潘石后来把手机号改成了15860027002，中间隔了一段时间。你先别急着下结论，慢慢想，想清楚再说也不迟，反正也不差这一会儿，急急忙忙反而容易出错。我这会儿心"
+   },
+   {
+    "kind": "explicit",
+    "subject": "张伟",
+    "predicate": "company",
+    "subjects": [
+     "张伟"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 96,
+    "text": "张伟现在在杭州云枢网络科技有限公司一部上班，主要做后台相关的事情。刚才手机响了一下，我还以为是谁找我，拿起来一看是推送广告，懒得点开，就又放回桌上去了。你先歇会"
+   },
+   {
+    "kind": "explicit",
+    "subject": "李娜",
+    "predicate": "company",
+    "subjects": [
+     "李娜"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 98,
+    "text": "李娜现在在杭州云枢网络科技有限公司二部上班，主要做后台相关的事情。这会儿有点犯困，我泡了杯茶提提神，茶还有点烫，得放一会儿才能喝，咱们慢慢说，不用赶时间。咱们不"
+   },
+   {
+    "kind": "explicit",
+    "subject": "刘敏",
+    "predicate": "plate",
+    "subjects": [
+     "刘敏"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 99,
+    "text": "刘敏的车的车牌号是京N·7K3Q3，他说这串字符当初记了好久。刚才走神了，没太听清，你再说一遍我听听，这回我认真听着，不会再漏掉什么了。屋里灯有点暗，我把台灯挪"
+   },
+   {
+    "kind": "explicit",
+    "subject": "周昊",
+    "predicate": "meeting",
+    "subjects": [
+     "周昊"
+    ],
+    "predicates": [
+     "meeting"
+    ],
+    "id": 102,
+    "text": "周昊下周那个重要会议定在2026-11-02 14:09，得提前把材料准备好。这会儿有点犯困，我泡了杯茶提提神，茶还有点烫，得放一会儿才能喝，咱们慢慢说，不用赶"
+   },
+   {
+    "kind": "explicit",
+    "subject": "王强",
+    "predicate": "company",
+    "subjects": [
+     "王强"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 103,
+    "text": "王强现在在杭州云枢网络科技有限公司三部上班，主要做后台相关的事情。我这人说话比较直，有时候不太会绕弯子，有说得不对的地方你多担待点，我不是那个意思。刚才那段话我"
+   },
+   {
+    "kind": "explicit",
+    "subject": "刘敏",
+    "predicate": "company",
+    "subjects": [
+     "刘敏"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 105,
+    "text": "刘敏现在在杭州云枢网络科技有限公司四部上班，主要做后台相关的事情。我这边网速偶尔会卡一下，卡完自己又好了，所以刚才没及时回你，不是故意的，你别多想。刚喝了口热水"
+   },
+   {
+    "kind": "explicit",
+    "subject": "陈杰",
+    "predicate": "company",
+    "subjects": [
+     "陈杰"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 106,
+    "text": "陈杰现在在杭州云枢网络科技有限公司五部上班，主要做后台相关的事情。刚才走神了，没太听清，你再说一遍我听听，这回我认真听着，不会再漏掉什么了。这两天总想吃点热的，"
+   },
+   {
+    "kind": "explicit",
+    "subject": "杨帆",
+    "predicate": "company",
+    "subjects": [
+     "杨帆"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 107,
+    "text": "杨帆现在在杭州云枢网络科技有限公司六部上班，主要做后台相关的事情。天气一凉，人就容易懒，什么都不想干，只想窝着不动，连出门买点东西都想拖到明天再说。你先歇会儿，"
+   },
+   {
+    "kind": "explicit",
+    "subject": "赵磊",
+    "predicate": "company",
+    "subjects": [
+     "赵磊"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 109,
+    "text": "赵磊现在在杭州云枢网络科技有限公司七部上班，主要做后台相关的事情。刚才走神了，没太听清，你再说一遍我听听，这回我认真听着，不会再漏掉什么了。刚才手机响了一下，我"
+   },
+   {
+    "kind": "explicit",
+    "subject": "黄婷",
+    "predicate": "company",
+    "subjects": [
+     "黄婷"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 110,
+    "text": "黄婷现在在杭州云枢网络科技有限公司八部上班，主要做后台相关的事情。你先歇会儿，喝口水，不用一直绷着，放松点反而说得清楚，我这边又不催你，慢慢来。我一会儿还得出去"
+   },
+   {
+    "kind": "explicit",
+    "subject": "周昊",
+    "predicate": "company",
+    "subjects": [
+     "周昊"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 111,
+    "text": "周昊现在在杭州云枢网络科技有限公司九部上班，主要做后台相关的事情。我这边网速偶尔会卡一下，卡完自己又好了，所以刚才没及时回你，不是故意的，你别多想。我也没什么特"
+   },
+   {
+    "kind": "explicit",
+    "subject": "吴静",
+    "predicate": "company",
+    "subjects": [
+     "吴静"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 113,
+    "text": "吴静现在在杭州云枢网络科技有限公司十部上班，主要做后台相关的事情。刚才走神了，没太听清，你再说一遍我听听，这回我认真听着，不会再漏掉什么了。我一会儿还得出去一趟"
+   },
+   {
+    "kind": "explicit",
+    "subject": "徐斌",
+    "predicate": "company",
+    "subjects": [
+     "徐斌"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 114,
+    "text": "徐斌现在在杭州云枢网络科技有限公司十一部上班，主要做后台相关的事情。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。这会儿安静下来了"
+   },
+   {
+    "kind": "explicit",
+    "subject": "孙悦",
+    "predicate": "company",
+    "subjects": [
+     "孙悦"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 115,
+    "text": "孙悦现在在杭州云枢网络科技有限公司十二部上班，主要做后台相关的事情。我这个人记性一般，重要的事都得靠记下来，光靠脑子容易漏，所以到处都放着便签。天气一凉，人就容"
+   },
+   {
+    "kind": "explicit",
+    "subject": "张伟",
+    "predicate": "meeting",
+    "subjects": [
+     "张伟"
+    ],
+    "predicates": [
+     "meeting"
+    ],
+    "id": 117,
+    "text": "张伟下周那个重要会议定在2026-11-02 14:01，得提前把材料准备好。刚才那段话我看了两遍才看明白，可能是我反应慢，也可能是话说得太绕，下回你说得直白点"
+   },
+   {
+    "kind": "explicit",
+    "subject": "李娜",
+    "predicate": "meeting",
+    "subjects": [
+     "李娜"
+    ],
+    "predicates": [
+     "meeting"
+    ],
+    "id": 118,
+    "text": "李娜下周那个重要会议定在2026-11-02 14:02，得提前把材料准备好。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不用抬"
+   },
+   {
+    "kind": "explicit",
+    "subject": "刘敏",
+    "predicate": "meeting",
+    "subjects": [
+     "刘敏"
+    ],
+    "predicates": [
+     "meeting"
+    ],
+    "id": 119,
+    "text": "刘敏下周那个重要会议定在2026-11-02 14:04，得提前把材料准备好。你先歇会儿，喝口水，不用一直绷着，放松点反而说得清楚，我这边又不催你，慢慢来。刚才"
+   },
+   {
+    "kind": "explicit",
+    "subject": "陈杰",
+    "predicate": "meeting",
+    "subjects": [
+     "陈杰"
+    ],
+    "predicates": [
+     "meeting"
+    ],
+    "id": 121,
+    "text": "陈杰下周那个重要会议定在2026-11-02 14:05，得提前把材料准备好。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不用抬"
+   },
+   {
+    "kind": "explicit",
+    "subject": "赵磊",
+    "predicate": "meeting",
+    "subjects": [
+     "赵磊"
+    ],
+    "predicates": [
+     "meeting"
+    ],
+    "id": 122,
+    "text": "赵磊下周那个重要会议定在2026-11-02 14:07，得提前把材料准备好。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。我这会"
+   },
+   {
+    "kind": "explicit",
+    "subject": "黄婷",
+    "predicate": "meeting",
+    "subjects": [
+     "黄婷"
+    ],
+    "predicates": [
+     "meeting"
+    ],
+    "id": 124,
+    "text": "黄婷下周那个重要会议定在2026-11-02 14:08，得提前把材料准备好。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照顾我"
+   },
+   {
+    "kind": "explicit",
+    "subject": "吴静",
+    "predicate": "meeting",
+    "subjects": [
+     "吴静"
+    ],
+    "predicates": [
+     "meeting"
+    ],
+    "id": 125,
+    "text": "吴静下周那个重要会议定在2026-11-02 14:10，得提前把材料准备好。这会儿安静下来了，窗外也没什么声音，正好说说话，比刚才那种乱糟糟的时候强多了。我这"
+   },
+   {
+    "kind": "explicit",
+    "subject": "徐斌",
+    "predicate": "meeting",
+    "subjects": [
+     "徐斌"
+    ],
+    "predicates": [
+     "meeting"
+    ],
+    "id": 126,
+    "text": "徐斌下周那个重要会议定在2026-11-02 14:11，得提前把材料准备好。你说得也有道理，我再琢磨琢磨，有些地方确实是我没想周全，等我理清楚了再跟你细说。我"
+   },
+   {
+    "kind": "explicit",
+    "subject": "张伟",
+    "predicate": "hometown",
+    "subjects": [
+     "张伟"
+    ],
+    "predicates": [
+     "hometown"
+    ],
+    "id": 128,
+    "text": "张伟的老家是临安，每年也就过节回去一趟。今天坐得有点久，腰有点发僵，我起来走了两圈，又伸了伸胳膊，现在感觉松快一些了，也能坐得住。天气一凉，人就容易懒，什么都不"
+   },
+   {
+    "kind": "explicit",
+    "subject": "李娜",
+    "predicate": "hometown",
+    "subjects": [
+     "李娜"
+    ],
+    "predicates": [
+     "hometown"
+    ],
+    "id": 129,
+    "text": "李娜的老家是临海，每年也就过节回去一趟。说实话这些天事情有点杂，脑子转得比平时慢，说话也可能有点跳跃，你别介意，我尽量说清楚。手边这盆绿植该浇水了，叶子有点蔫，"
+   },
+   {
+    "kind": "explicit",
+    "subject": "王强",
+    "predicate": "hometown",
+    "subjects": [
+     "王强"
+    ],
+    "predicates": [
+     "hometown"
+    ],
+    "id": 130,
+    "text": "王强的老家是临江，每年也就过节回去一趟。这会儿安静下来了，窗外也没什么声音，正好说说话，比刚才那种乱糟糟的时候强多了。我这个人记性一般，重要的事都得靠记下来，光"
+   },
+   {
+    "kind": "explicit",
+    "subject": "刘敏",
+    "predicate": "hometown",
+    "subjects": [
+     "刘敏"
+    ],
+    "predicates": [
+     "hometown"
+    ],
+    "id": 132,
+    "text": "刘敏的老家是临川，每年也就过节回去一趟。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心比什么都重要。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现"
+   },
+   {
+    "kind": "explicit",
+    "subject": "冯樱再",
+    "predicate": "company",
+    "subjects": [
+     "冯樱再"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 134,
+    "text": "冯樱再后来又换成宁波启元数据服务有限公司三部，说是当时有点别的原因。刚才手机响了一下，我还以为是谁找我，拿起来一看是推送广告，懒得点开，就又放回桌上去了。咱们不"
+   },
+   {
+    "kind": "explicit",
+    "subject": "沈越",
+    "predicate": "seat",
+    "subjects": [
+     "沈越"
+    ],
+    "predicates": [
+     "seat"
+    ],
+    "id": 138,
+    "text": "顺便说一下，沈越的座位号后来又有变化：沈越再后来又换成6排12号，说是当时有点别的原因。这会儿有点犯困，我泡了杯茶提提神，茶还有点烫，得放一会儿才能喝，咱们慢慢"
+   },
+   {
+    "kind": "explicit",
+    "subject": "卢婷",
+    "predicate": "color",
+    "subjects": [
+     "卢婷"
+    ],
+    "predicates": [
+     "color"
+    ],
+    "id": 139,
+    "text": "顺便说一下，卢婷的车身颜色后来又有变化：卢婷再后来又换成曜石黑，说是当时有点别的原因。天气一凉，人就容易懒，什么都不想干，只想窝着不动，连出门买点东西都想拖到明"
+   },
+   {
+    "kind": "explicit",
+    "subject": "蔡敏再",
+    "predicate": "company",
+    "subjects": [
+     "蔡敏再"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 141,
+    "text": "蔡敏再后来又换成苏州明远智能装备有限公司三部，说是当时有点别的原因。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心比什么都重要。你先歇会儿，喝口水"
+   },
+   {
+    "kind": "explicit",
+    "subject": "陈杰",
+    "predicate": "hometown",
+    "subjects": [
+     "陈杰"
+    ],
+    "predicates": [
+     "hometown"
+    ],
+    "id": 143,
+    "text": "陈杰的老家是临汾，每年也就过节回去一趟。我这会儿心情还行，就是有点累，说话可能没什么力气，你别嫌我敷衍，我确实是在听你说。咱们不着急，想到哪儿说到哪儿就行，不用"
+   },
+   {
+    "kind": "explicit",
+    "subject": "杨帆",
+    "predicate": "hometown",
+    "subjects": [
+     "杨帆"
+    ],
+    "predicates": [
+     "hometown"
+    ],
+    "id": 144,
+    "text": "杨帆的老家是临泉，每年也就过节回去一趟。我这个人记性一般，重要的事都得靠记下来，光靠脑子容易漏，所以到处都放着便签。这些天睡得晚，白天总有点提不起精神，做什么都"
+   },
+   {
+    "kind": "explicit",
+    "subject": "赵磊",
+    "predicate": "hometown",
+    "subjects": [
+     "赵磊"
+    ],
+    "predicates": [
+     "hometown"
+    ],
+    "id": 146,
+    "text": "赵磊的老家是临夏，每年也就过节回去一趟。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照顾我。说到这儿我忽然想起来，楼下那家小店门"
+   },
+   {
+    "kind": "explicit",
+    "subject": "黄婷",
+    "predicate": "hometown",
+    "subjects": [
+     "黄婷"
+    ],
+    "predicates": [
+     "hometown"
+    ],
+    "id": 147,
+    "text": "黄婷的老家是临清，每年也就过节回去一趟。我这会儿在等一个快递，显示还在路上，估计还得一会儿才到，所以我暂时也出不了门，只能在家待着。刚才楼下有人在搬东西，动静挺"
+   },
+   {
+    "kind": "explicit",
+    "subject": "周昊",
+    "predicate": "hometown",
+    "subjects": [
+     "周昊"
+    ],
+    "predicates": [
+     "hometown"
+    ],
+    "id": 149,
+    "text": "周昊的老家是临湘，每年也就过节回去一趟。我这会儿在等一个快递，显示还在路上，估计还得一会儿才到，所以我暂时也出不了门，只能在家待着。屋里有点闷，我去把门开条缝透"
+   },
+   {
+    "kind": "explicit",
+    "subject": "吴静",
+    "predicate": "hometown",
+    "subjects": [
+     "吴静"
+    ],
+    "predicates": [
+     "hometown"
+    ],
+    "id": 150,
+    "text": "吴静的老家是临沧，每年也就过节回去一趟。天气一凉，人就容易懒，什么都不想干，只想窝着不动，连出门买点东西都想拖到明天再说。我这人说话比较直，有时候不太会绕弯子，"
+   },
+   {
+    "kind": "explicit",
+    "subject": "徐斌",
+    "predicate": "hometown",
+    "subjects": [
+     "徐斌"
+    ],
+    "predicates": [
+     "hometown"
+    ],
+    "id": 151,
+    "text": "徐斌的老家是临沂，每年也就过节回去一趟。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照顾我。今天坐得有点久，腰有点发僵，我起来走"
+   },
+   {
+    "kind": "explicit",
+    "subject": "孙悦",
+    "predicate": "hometown",
+    "subjects": [
+     "孙悦"
+    ],
+    "predicates": [
+     "hometown"
+    ],
+    "id": 152,
+    "text": "孙悦的老家是临颍，每年也就过节回去一趟。手边这盆绿植该浇水了，叶子有点蔫，我一会儿得处理一下，不然再放两天就救不回来了。你要是着急就先忙你的，我这边一点都不急，"
+   },
+   {
+    "kind": "explicit",
+    "subject": "次活动",
+    "predicate": "seat",
+    "subjects": [
+     "次活动"
+    ],
+    "predicates": [
+     "seat"
+    ],
+    "id": 165,
+    "text": "张伟这次活动的座位排在了5排01号，说是视野还行。刚才走神了，没太听清，你再说一遍我听听，这回我认真听着，不会再漏掉什么了。你先别急着下结论，慢慢想，想清楚再说"
+   },
+   {
+    "kind": "explicit",
+    "subject": "次活动",
+    "predicate": "seat",
+    "subjects": [
+     "次活动"
+    ],
+    "predicates": [
+     "seat"
+    ],
+    "id": 166,
+    "text": "李娜这次活动的座位排在了5排02号，说是视野还行。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。咱们不着急，想到哪儿说到哪儿就行，"
+   },
+   {
+    "kind": "explicit",
+    "subject": "郑凯",
+    "predicate": "plate",
+    "subjects": [
+     "郑凯"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 167,
+    "text": "郑凯现在用的车牌号是沪B·5M8T7，这个是最近才定下来的。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心比什么都重要。你说得也有道理，我再琢磨琢"
+   },
+   {
+    "kind": "explicit",
+    "subject": "赵磊",
+    "predicate": "plate",
+    "subjects": [
+     "赵磊"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 168,
+    "text": "赵磊的车的车牌号是京N·7K3Q6，他说这串字符当初记了好久。说实话这些天事情有点杂，脑子转得比平时慢，说话也可能有点跳跃，你别介意，我尽量说清楚。我这个人记性"
+   },
+   {
+    "kind": "explicit",
+    "subject": "冯樱",
+    "predicate": "company",
+    "subjects": [
+     "冯樱"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 169,
+    "text": "冯樱现在用的公司是宁波启元数据服务有限公司四部，这个是最近才定下来的。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。这两天总想吃点"
+   },
+   {
+    "kind": "explicit",
+    "subject": "韩峥",
+    "predicate": "phone",
+    "subjects": [
+     "韩峥"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 171,
+    "text": "韩峥现在用的手机号是13720013004，这个是最近才定下来的。你说得也有道理，我再琢磨琢磨，有些地方确实是我没想周全，等我理清楚了再跟你细说。我这人说话比较"
+   },
+   {
+    "kind": "explicit",
+    "subject": "王强",
+    "predicate": "meeting",
+    "subjects": [
+     "王强"
+    ],
+    "predicates": [
+     "meeting"
+    ],
+    "id": 172,
+    "text": "王强下周那个重要会议定在2026-11-02 14:03，得提前把材料准备好。这会儿安静下来了，窗外也没什么声音，正好说说话，比刚才那种乱糟糟的时候强多了。手边"
+   },
+   {
+    "kind": "explicit",
+    "subject": "曹岚",
+    "predicate": "bank",
+    "subjects": [
+     "曹岚"
+    ],
+    "predicates": [
+     "bank"
+    ],
+    "id": 173,
+    "text": "曹岚现在用的银行卡号是6217 0012 3456 7804，这个是最近才定下来的。刚才那段话我看了两遍才看明白，可能是我反应慢，也可能是话说得太绕，下回你说得"
+   },
+   {
+    "kind": "explicit",
+    "subject": "孙悦",
+    "predicate": "meeting",
+    "subjects": [
+     "孙悦"
+    ],
+    "predicates": [
+     "meeting"
+    ],
+    "id": 174,
+    "text": "孙悦下周那个重要会议定在2026-11-02 14:12，得提前把材料准备好。今天坐得有点久，腰有点发僵，我起来走了两圈，又伸了伸胳膊，现在感觉松快一些了，也能"
+   },
+   {
+    "kind": "explicit",
+    "subject": "邓辉",
+    "predicate": "meeting",
+    "subjects": [
+     "邓辉"
+    ],
+    "predicates": [
+     "meeting"
+    ],
+    "id": 175,
+    "text": "邓辉现在用的会议时间是2026-11-12 10:00，这个是最近才定下来的。屋里有点闷，我去把门开条缝透透气，一会儿凉下来再关上，这样坐着能舒服些，也不至于太"
+   },
+   {
+    "kind": "explicit",
+    "subject": "沈越",
+    "predicate": "seat",
+    "subjects": [
+     "沈越"
+    ],
+    "predicates": [
+     "seat"
+    ],
+    "id": 176,
+    "text": "沈越现在用的座位号是4排03号，这个是最近才定下来的。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心比什么都重要。我也没什么特别的，就是随便聊聊，"
+   },
+   {
+    "kind": "explicit",
+    "subject": "卢婷",
+    "predicate": "color",
+    "subjects": [
+     "卢婷"
+    ],
+    "predicates": [
+     "color"
+    ],
+    "id": 177,
+    "text": "卢婷现在用的车身颜色是冰川蓝，这个是最近才定下来的。我这会儿心情还行，就是有点累，说话可能没什么力气，你别嫌我敷衍，我确实是在听你说。外面好像要变天了，风一阵一"
+   },
+   {
+    "kind": "explicit",
+    "subject": "蒋川",
+    "predicate": "plate",
+    "subjects": [
+     "蒋川"
+    ],
+    "predicates": [
+     "plate"
+    ],
+    "id": 178,
+    "text": "蒋川现在用的车牌号是苏E·2P9R0，这个是最近才定下来的。咱们不着急，想到哪儿说到哪儿就行，不用非得有个结论，聊得开心比什么都重要。刚才楼下有人在搬东西，动静"
+   },
+   {
+    "kind": "explicit",
+    "subject": "蔡敏",
+    "predicate": "company",
+    "subjects": [
+     "蔡敏"
+    ],
+    "predicates": [
+     "company"
+    ],
+    "id": 179,
+    "text": "蔡敏现在用的公司是苏州明远智能装备有限公司四部，这个是最近才定下来的。我这边网速偶尔会卡一下，卡完自己又好了，所以刚才没及时回你，不是故意的，你别多想。刚才走神"
+   },
+   {
+    "kind": "explicit",
+    "subject": "潘石",
+    "predicate": "phone",
+    "subjects": [
+     "潘石"
+    ],
+    "predicates": [
+     "phone"
+    ],
+    "id": 180,
+    "text": "潘石现在用的手机号是15860027004，这个是最近才定下来的。屋里有点闷，我去把门开条缝透透气，一会儿凉下来再关上，这样坐着能舒服些，也不至于太燥。说起来这"
+   },
+   {
+    "kind": "explicit",
+    "subject": "次活动",
+    "predicate": "seat",
+    "subjects": [
+     "次活动"
+    ],
+    "predicates": [
+     "seat"
+    ],
+    "id": 181,
+    "text": "王强这次活动的座位排在了5排03号，说是视野还行。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行，说错了也没关系。你先歇会儿，喝口水，不用一直绷"
+   },
+   {
+    "kind": "explicit",
+    "subject": "次活动",
+    "predicate": "seat",
+    "subjects": [
+     "次活动"
+    ],
+    "predicates": [
+     "seat"
+    ],
+    "id": 182,
+    "text": "刘敏这次活动的座位排在了5排04号，说是视野还行。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不用抬声音。我这儿正收拾桌面呢，一"
+   },
+   {
+    "kind": "explicit",
+    "subject": "次活动",
+    "predicate": "seat",
+    "subjects": [
+     "次活动"
+    ],
+    "predicates": [
+     "seat"
+    ],
+    "id": 183,
+    "text": "陈杰这次活动的座位排在了5排05号，说是视野还行。刚才那段话我看了两遍才看明白，可能是我反应慢，也可能是话说得太绕，下回你说得直白点。刚才楼下有人在搬东西，动静"
+   },
+   {
+    "kind": "explicit",
+    "subject": "次活动",
+    "predicate": "seat",
+    "subjects": [
+     "次活动"
+    ],
+    "predicates": [
+     "seat"
+    ],
+    "id": 184,
+    "text": "杨帆这次活动的座位排在了5排06号，说是视野还行。我把外套搭在椅背上了，一会儿出门再穿，现在穿着有点热，屋里温度比外面高不少。刚才那段话我看了两遍才看明白，可能"
+   },
+   {
+    "kind": "explicit",
+    "subject": "次活动",
+    "predicate": "seat",
+    "subjects": [
+     "次活动"
+    ],
+    "predicates": [
+     "seat"
+    ],
+    "id": 185,
+    "text": "赵磊这次活动的座位排在了5排07号，说是视野还行。我这边网速偶尔会卡一下，卡完自己又好了，所以刚才没及时回你，不是故意的，你别多想。我这个人记性一般，重要的事都"
+   },
+   {
+    "kind": "explicit",
+    "subject": "次活动",
+    "predicate": "seat",
+    "subjects": [
+     "次活动"
+    ],
+    "predicates": [
+     "seat"
+    ],
+    "id": 186,
+    "text": "黄婷这次活动的座位排在了5排08号，说是视野还行。这些天睡得晚，白天总有点提不起精神，做什么都慢半拍，看来得早点睡了，不然一直这样下去。刚才楼下有人在搬东西，动"
+   },
+   {
+    "kind": "explicit",
+    "subject": "次活动",
+    "predicate": "seat",
+    "subjects": [
+     "次活动"
+    ],
+    "predicates": [
+     "seat"
+    ],
+    "id": 187,
+    "text": "周昊这次活动的座位排在了5排09号，说是视野还行。我一会儿还得出去一趟，不过现在还有空，能聊多久聊多久，等我走了就回头再说。说到这儿我忽然想起来，楼下那家小店门"
+   },
+   {
+    "kind": "explicit",
+    "subject": "次活动",
+    "predicate": "seat",
+    "subjects": [
+     "次活动"
+    ],
+    "predicates": [
+     "seat"
+    ],
+    "id": 188,
+    "text": "吴静这次活动的座位排在了5排10号，说是视野还行。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行，说错了也没关系。桌上东西堆得有点多，我顺手理了"
+   },
+   {
+    "kind": "explicit",
+    "subject": "次活动",
+    "predicate": "seat",
+    "subjects": [
+     "次活动"
+    ],
+    "predicates": [
+     "seat"
+    ],
+    "id": 189,
+    "text": "徐斌这次活动的座位排在了5排11号，说是视野还行。刚才那段话我看了两遍才看明白，可能是我反应慢，也可能是话说得太绕，下回你说得直白点。你先别急着下结论，慢慢想，"
+   },
+   {
+    "kind": "explicit",
+    "subject": "次活动",
+    "predicate": "seat",
+    "subjects": [
+     "次活动"
+    ],
+    "predicates": [
+     "seat"
+    ],
+    "id": 190,
+    "text": "孙悦这次活动的座位排在了5排12号，说是视野还行。说实话这些天事情有点杂，脑子转得比平时慢，说话也可能有点跳跃，你别介意，我尽量说清楚。我这个人记性一般，重要的"
+   }
+  ],
+  "unextractable_items": [
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 2,
+    "text": "我这人说话比较直，有时候不太会绕弯子，有说得不对的地方你多担待点，我不是那个意思。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行，说错了也没关系"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 6,
+    "text": "你先别急着下结论，慢慢想，想清楚再说也不迟，反正也不差这一会儿，急急忙忙反而容易出错。我这儿正收拾桌面呢，一边收拾一边跟你说话，手上有点事反而不容易走神，你接着"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 9,
+    "text": "窗外有只鸟一直在叫，叫得还挺有节奏，听久了倒也不觉得吵，反而觉得挺安静，心也跟着静下来。你上次提的那个法子我后来试了试，能用是能用，就是步骤有点绕，中间还得停下"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 13,
+    "text": "你要是着急就先忙你的，我这边一点都不急，什么时候有空什么时候聊都行，不用特意腾出时间。窗外有只鸟一直在叫，叫得还挺有节奏，听久了倒也不觉得吵，反而觉得挺安静，心"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 16,
+    "text": "刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不用抬声音。这会儿有点犯困，我泡了杯茶提提神，茶还有点烫，得放一会儿才能喝，咱们慢慢"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 33,
+    "text": "你上次提的那个法子我后来试了试，能用是能用，就是步骤有点绕，中间还得停下来想一会儿，效率不算高。上次那事儿过去就过去了，你也别老放在心上，想开点比什么都强，日子"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 37,
+    "text": "刚才手机响了一下，我还以为是谁找我，拿起来一看是推送广告，懒得点开，就又放回桌上去了。窗外有只鸟一直在叫，叫得还挺有节奏，听久了倒也不觉得吵，反而觉得挺安静，心"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 41,
+    "text": "上次那事儿过去就过去了，你也别老放在心上，想开点比什么都强，日子还得照常过，别为这点事耽误心情。这会儿有点犯困，我泡了杯茶提提神，茶还有点烫，得放一会儿才能喝，"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 45,
+    "text": "刚才那段话我看了两遍才看明白，可能是我反应慢，也可能是话说得太绕，下回你说得直白点。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 48,
+    "text": "我这会儿在等一个快递，显示还在路上，估计还得一会儿才到，所以我暂时也出不了门，只能在家待着。上次那事儿过去就过去了，你也别老放在心上，想开点比什么都强，日子还得"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 52,
+    "text": "说到这儿我忽然想起来，楼下那家小店门口排了老长的队，我看了两眼就懒得进去了，想着改天有空再说吧。我这会儿在等一个快递，显示还在路上，估计还得一会儿才到，所以我暂"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 56,
+    "text": "你上次提的那个法子我后来试了试，能用是能用，就是步骤有点绕，中间还得停下来想一会儿，效率不算高。屋里有点闷，我去把门开条缝透透气，一会儿凉下来再关上，这样坐着能"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 60,
+    "text": "你上次提的那个法子我后来试了试，能用是能用，就是步骤有点绕，中间还得停下来想一会儿，效率不算高。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 64,
+    "text": "说起来这几天胃口一般，晚上打算吃点清淡的，油腻的实在吃不太动，喝点粥就差不多了。上次那事儿过去就过去了，你也别老放在心上，想开点比什么都强，日子还得照常过，别为"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 67,
+    "text": "屋里灯有点暗，我把台灯挪近了点，光线照着舒服些，看东西也不那么费劲，眼睛没那么酸了。说到这儿我忽然想起来，楼下那家小店门口排了老长的队，我看了两眼就懒得进去了，"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 72,
+    "text": "屋里有点闷，我去把门开条缝透透气，一会儿凉下来再关上，这样坐着能舒服些，也不至于太燥。这些天睡得晚，白天总有点提不起精神，做什么都慢半拍，看来得早点睡了，不然一"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 75,
+    "text": "你上次提的那个法子我后来试了试，能用是能用，就是步骤有点绕，中间还得停下来想一会儿，效率不算高。刚才手机响了一下，我还以为是谁找我，拿起来一看是推送广告，懒得点"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 79,
+    "text": "说到这个我就想起上次那顿饭，吃得挺开心，就是聊得太久，回去有点晚，第二天起不来。你要是着急就先忙你的，我这边一点都不急，什么时候有空什么时候聊都行，不用特意腾出"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 92,
+    "text": "我这会儿在等一个快递，显示还在路上，估计还得一会儿才到，所以我暂时也出不了门，只能在家待着。桌上东西堆得有点多，我顺手理了理，把不用的挪到一边，现在看着清爽多了"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 97,
+    "text": "这会儿有点犯困，我泡了杯茶提提神，茶还有点烫，得放一会儿才能喝，咱们慢慢说，不用赶时间。说到这儿我忽然想起来，楼下那家小店门口排了老长的队，我看了两眼就懒得进去"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 104,
+    "text": "上次那事儿过去就过去了，你也别老放在心上，想开点比什么都强，日子还得照常过，别为这点事耽误心情。外面好像要变天了，风一阵一阵的，我先去把窗户关上，顺便把外面晾着"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 108,
+    "text": "你上次提的那个法子我后来试了试，能用是能用，就是步骤有点绕，中间还得停下来想一会儿，效率不算高。我这儿正收拾桌面呢，一边收拾一边跟你说话，手上有点事反而不容易走"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 112,
+    "text": "上次那事儿过去就过去了，你也别老放在心上，想开点比什么都强，日子还得照常过，别为这点事耽误心情。我这会儿心情还行，就是有点累，说话可能没什么力气，你别嫌我敷衍，"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 116,
+    "text": "我这会儿在等一个快递，显示还在路上，估计还得一会儿才到，所以我暂时也出不了门，只能在家待着。桌上东西堆得有点多，我顺手理了理，把不用的挪到一边，现在看着清爽多了"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 120,
+    "text": "上次那事儿过去就过去了，你也别老放在心上，想开点比什么都强，日子还得照常过，别为这点事耽误心情。说实话这些天事情有点杂，脑子转得比平时慢，说话也可能有点跳跃，你"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 123,
+    "text": "外面好像要变天了，风一阵一阵的，我先去把窗户关上，顺便把外面晾着的东西收进来，你稍等一下就好。上次那事儿过去就过去了，你也别老放在心上，想开点比什么都强，日子还"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 127,
+    "text": "窗外有只鸟一直在叫，叫得还挺有节奏，听久了倒也不觉得吵，反而觉得挺安静，心也跟着静下来。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行，说错了也"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 131,
+    "text": "这些天睡得晚，白天总有点提不起精神，做什么都慢半拍，看来得早点睡了，不然一直这样下去。上次那事儿过去就过去了，你也别老放在心上，想开点比什么都强，日子还得照常过"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [
+     "郑凯再"
+    ],
+    "predicates": [],
+    "id": 133,
+    "text": "郑凯再后来又换成沪B·5M8T5，说是当时有点别的原因。屋里有点闷，我去把门开条缝透透气，一会儿凉下来再关上，这样坐着能舒服些，也不至于太燥。说到这个我就想起上"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [
+     "韩峥再"
+    ],
+    "predicates": [],
+    "id": 135,
+    "text": "韩峥再后来又换成13720013003，说是当时有点别的原因。说到这个我就想起上次那顿饭，吃得挺开心，就是聊得太久，回去有点晚，第二天起不来。我把椅子调低了一格"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [
+     "曹岚再"
+    ],
+    "predicates": [],
+    "id": 136,
+    "text": "曹岚再后来又换成6217 0012 3456 7803，说是当时有点别的原因。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不用抬"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [
+     "邓辉再"
+    ],
+    "predicates": [],
+    "id": 137,
+    "text": "邓辉再后来又换成2026-11-09 14:00，说是当时有点别的原因。桌上东西堆得有点多，我顺手理了理，把不用的挪到一边，现在看着清爽多了，找东西也方便。说实"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [
+     "蒋川再"
+    ],
+    "predicates": [],
+    "id": 140,
+    "text": "蒋川再后来又换成苏E·2P9R8，说是当时有点别的原因。你先别急着下结论，慢慢想，想清楚再说也不迟，反正也不差这一会儿，急急忙忙反而容易出错。你先歇会儿，喝口水"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [
+     "潘石再"
+    ],
+    "predicates": [],
+    "id": 142,
+    "text": "潘石再后来又换成15860027003，说是当时有点别的原因。你先歇会儿，喝口水，不用一直绷着，放松点反而说得清楚，我这边又不催你，慢慢来。我也没什么特别的，就"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 145,
+    "text": "你上次提的那个法子我后来试了试，能用是能用，就是步骤有点绕，中间还得停下来想一会儿，效率不算高。屋里有点闷，我去把门开条缝透透气，一会儿凉下来再关上，这样坐着能"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 148,
+    "text": "外面好像要变天了，风一阵一阵的，我先去把窗户关上，顺便把外面晾着的东西收进来，你稍等一下就好。上次那事儿过去就过去了，你也别老放在心上，想开点比什么都强，日子还"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 153,
+    "text": "张伟那辆车是珍珠白的，洗完车之后特别显新。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行，说错了也没关系。天气一凉，人就容易懒，什么都不想干，只"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 154,
+    "text": "李娜那辆车是珍珠黑的，洗完车之后特别显新。我也没什么特别的，就是随便聊聊，你别有压力，想到什么说什么就行，说错了也没关系。外面好像要变天了，风一阵一阵的，我先去"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 155,
+    "text": "王强那辆车是珍珠灰的，洗完车之后特别显新。我把椅子调低了一格，这样靠着说话舒服点，坐久了也不至于太累，你也找个舒服的姿势靠着。这会儿安静下来了，窗外也没什么声音"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 156,
+    "text": "刘敏那辆车是珍珠蓝的，洗完车之后特别显新。手边这杯水放凉了，我去续点热的，你要是等得无聊就先自己待一会儿，我很快就回来接着聊。你这么说我倒是想起来点别的，不过先"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 157,
+    "text": "陈杰那辆车是珍珠银的，洗完车之后特别显新。说实话这些天事情有点杂，脑子转得比平时慢，说话也可能有点跳跃，你别介意，我尽量说清楚。刚才楼下有人在搬东西，动静挺大，"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 158,
+    "text": "杨帆那辆车是珍珠金的，洗完车之后特别显新。外面好像要变天了，风一阵一阵的，我先去把窗户关上，顺便把外面晾着的东西收进来，你稍等一下就好。我也没什么特别的，就是随"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 159,
+    "text": "赵磊那辆车是珍珠红的，洗完车之后特别显新。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不用抬声音。你这么说我倒是想起来点别的，不"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 160,
+    "text": "黄婷那辆车是珍珠绿的，洗完车之后特别显新。这些天睡得晚，白天总有点提不起精神，做什么都慢半拍，看来得早点睡了，不然一直这样下去。我这儿正收拾桌面呢，一边收拾一边"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 161,
+    "text": "周昊那辆车是珍珠紫的，洗完车之后特别显新。我这会儿心情还行，就是有点累，说话可能没什么力气，你别嫌我敷衍，我确实是在听你说。刚才手机响了一下，我还以为是谁找我，"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 162,
+    "text": "吴静那辆车是珍珠棕的，洗完车之后特别显新。刚喝了口热水，嗓子舒服多了，刚才说话有点干，现在好多了，接着聊，你也不用特意照顾我。我把外套搭在椅背上了，一会儿出门再"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 163,
+    "text": "徐斌那辆车是珍珠青的，洗完车之后特别显新。我这儿正收拾桌面呢，一边收拾一边跟你说话，手上有点事反而不容易走神，你接着说就行。手边这杯水放凉了，我去续点热的，你要"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_predicate",
+    "subjects": [],
+    "predicates": [],
+    "id": 164,
+    "text": "孙悦那辆车是珍珠粉的，洗完车之后特别显新。外面好像要变天了，风一阵一阵的，我先去把窗户关上，顺便把外面晾着的东西收进来，你稍等一下就好。我这边网速偶尔会卡一下，"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_subject",
+    "subjects": [],
+    "predicates": [],
+    "id": 191,
+    "text": "储物柜密码是 4821，别跟别人说。"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_subject",
+    "subjects": [],
+    "predicates": [],
+    "id": 192,
+    "text": "储物柜密码是　４８２１，别跟别人说。"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_subject",
+    "subjects": [],
+    "predicates": [
+     "bank"
+    ],
+    "id": 193,
+    "text": "门禁卡号 A7-2231，前台登记过。"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_subject",
+    "subjects": [],
+    "predicates": [
+     "bank"
+    ],
+    "id": 194,
+    "text": "门禁卡号 Ａ７－２２３１，前台登记过。"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_subject",
+    "subjects": [],
+    "predicates": [],
+    "id": 195,
+    "text": "快递放 3 号楼 2 层货架。"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_subject",
+    "subjects": [],
+    "predicates": [],
+    "id": 196,
+    "text": "快递放 ３号楼２层货架。"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_subject",
+    "subjects": [],
+    "predicates": [],
+    "id": 197,
+    "text": "会员号 KX7781，积分别过期。"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_subject",
+    "subjects": [],
+    "predicates": [],
+    "id": 198,
+    "text": "会员号 KX 7781，积分别过期。"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_subject",
+    "subjects": [],
+    "predicates": [],
+    "id": 199,
+    "text": "备用钥匙在 501 抽屉里。"
+   },
+   {
+    "kind": "unextractable",
+    "reason": "no_subject",
+    "subjects": [],
+    "predicates": [],
+    "id": 200,
+    "text": "备用钥匙在 ５０１ 抽屉里。"
+   }
+  ]
+ }
+}
