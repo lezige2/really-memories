@@ -88,6 +88,7 @@ def archive_rows(rows, zip_path, sidecar_path):
                 "id": rid, "name": str(r.get("name", "")),
                 "subject": r.get("subject", ""), "predicate": r.get("predicate", ""),
                 "created_at": str(r.get("created_at", "")),
+                "event_date": str(r.get("event_date") or ""),
                 "text_sha256": _sha_bytes(str(r.get("text", "")).encode("utf-8")),
                 "block_sha256": str(r.get("block_sha", "")),
                 "block_bytes": int(r.get("block_bytes", 0)),
@@ -188,3 +189,189 @@ def content_hash(rows):
         h.update(("%d|%s|%s\n" % (int(r["id"]), r.get("name", ""), r.get("text", "")))
                  .encode("utf-8"))
     return h.hexdigest()
+
+# ---------------------------------------------------------------------------
+# P1 候选扫描 / 月份索引 / 低置信 fallback / 回热（纯函数；默认 off）
+# ---------------------------------------------------------------------------
+import re
+from datetime import datetime
+
+SCAN_DEFAULT_DAYS = 21
+MONTH_INDEX_SCHEMA = "p1_month_index_v1"
+
+
+def _parse_dt(s):
+    try:
+        return datetime.fromisoformat(str(s))
+    except Exception:                                    # noqa: BLE001
+        return None
+
+
+def row_month(row):
+    """月份：event_date 优先，其次 created_at（v1_local_naive）；无法解析返回 None。"""
+    ed = str(row.get("event_date") or "")
+    if len(ed) >= 7 and ed[4] == "-" and ed[:4].isdigit():
+        return ed[:7]
+    cd = str(row.get("created_at") or "")
+    if len(cd) >= 7 and cd[4] == "-" and cd[:4].isdigit():
+        return cd[:7]
+    return None
+
+
+def scan_candidates(rows, now_iso, days=SCAN_DEFAULT_DAYS, refs=None,
+                    superseded=None, marks=None):
+    """候选 = explicit_mark 或 superseded 或 (created_at 超期 且 无引用)。
+
+    refs（sidecar 引用计数）只加 score/access_bonus，**不能单独触发**；
+    不读 DB、不加列、不自动搬。
+    """
+    now = _parse_dt(now_iso) or datetime.now()
+    refs = refs or {}
+    superseded = superseded or {}
+    marks = set(marks or [])
+    out = []
+    for r in rows:
+        rid = int(r["id"])
+        dt = _parse_dt(r.get("created_at"))
+        age = (now - dt).days if dt else None
+        expired = age is not None and age > int(days)
+        ref = int(refs.get(rid, refs.get(str(rid), 0)) or 0)
+        sup = superseded.get(rid, superseded.get(str(rid)))
+        mark = rid in marks
+        reasons = []
+        if dt is None:
+            reasons.append("created_at_unparsed")
+        if expired:
+            reasons.append("created_at_expired:%dd>%dd" % (age, int(days)))
+        if sup is not None:
+            reasons.append("superseded_by:%s" % sup)
+        if mark:
+            reasons.append("explicit_mark")
+        if expired and ref == 0:
+            reasons.append("no_refs")
+        trigger = bool(mark or sup is not None or (expired and ref == 0))
+        if not trigger:
+            continue
+        bonus = float(min(ref, 5))                 # access 只加分，不触发
+        out.append({"id": rid, "reasons": reasons, "expired": expired,
+                    "age_days": age, "refs": ref, "access_bonus": bonus,
+                    "score": bonus, "month": row_month(r)})
+    out.sort(key=lambda x: (-x["score"], x["id"]))
+    return out
+
+
+def month_index_from_archives(archives):
+    """archives: [{zip, zip_sha256, entries:[{id,event_date,created_at}]}] -> index。"""
+    months = {}
+    for a in archives:
+        zpath = a.get("zip")
+        zsha = a.get("zip_sha256") or (sha_file(zpath) if zpath else None)
+        for e in a.get("entries") or []:
+            m = row_month({"event_date": e.get("event_date"),
+                           "created_at": e.get("created_at")})
+            if not m:
+                continue
+            slot = months.setdefault(m, {"zip": zpath, "zip_sha256": zsha,
+                                         "ids": [], "has_event_date": False})
+            slot["ids"].append(int(e["id"]))
+            slot["has_event_date"] = bool(slot["has_event_date"] or e.get("event_date"))
+    for v in months.values():
+        v["ids"] = sorted(set(v["ids"]))
+    return {"schema": MONTH_INDEX_SCHEMA, "months": dict(sorted(months.items()))}
+
+
+def load_index(path):
+    if not os.path.exists(path):
+        return {"schema": MONTH_INDEX_SCHEMA, "months": {}}
+    return json.load(open(path, encoding="utf-8"))
+
+
+def save_index(index, path):
+    assert_local_only([path])
+    os.makedirs(os.path.dirname(os.path.abspath(path)) or ".", exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(index, f, ensure_ascii=False, indent=2, sort_keys=True)
+    return path
+
+
+def merge_index(index, archives):
+    add = month_index_from_archives(archives)
+    base = dict(index or {"schema": MONTH_INDEX_SCHEMA, "months": {}})
+    months = dict(base.get("months") or {})
+    for m, slot in add["months"].items():
+        cur = months.get(m)
+        if cur and cur.get("zip_sha256") != slot.get("zip_sha256"):
+            # 同月多包：保留列表，仍以 sha 为准
+            cur.setdefault("variants", []).append(
+                {"zip": cur.get("zip"), "zip_sha256": cur.get("zip_sha256"),
+                 "ids": cur.get("ids")})
+            cur.update({"zip": slot["zip"], "zip_sha256": slot["zip_sha256"],
+                        "ids": slot["ids"], "has_event_date": slot.get("has_event_date")})
+        elif cur:
+            cur["ids"] = sorted(set(cur.get("ids") or []) | set(slot["ids"]))
+            cur["has_event_date"] = bool(cur.get("has_event_date")
+                                         or slot.get("has_event_date"))
+        else:
+            months[m] = slot
+    base["schema"] = MONTH_INDEX_SCHEMA
+    base["months"] = dict(sorted(months.items()))
+    return base
+
+
+def verify_index(index):
+    """恢复只认 sha：逐月校验 zip 存在且 sha 与记录一致。"""
+    problems = []
+    for m, slot in sorted((index.get("months") or {}).items()):
+        z = slot.get("zip")
+        if not z or not os.path.exists(z):
+            problems.append("%s: zip 不存在 %r" % (m, z))
+        elif sha_file(z) != slot.get("zip_sha256"):
+            problems.append("%s: zip sha 不匹配" % m)
+    return {"ok": not problems, "problems": problems}
+
+
+EXPLICIT_MONTH_RE = re.compile(r"(20\d{2})[-/年](\d{1,2})")
+RELATIVE_RE = re.compile(r"(去年|前年|上个月|上月)")
+
+
+def fallback_months(query, index, max_months=2):
+    """按时间词选月；相对时间且无 event_date -> unlocated + 只倒序盲搜。"""
+    q = str(query or "")
+    months = sorted((index.get("months") or {}).keys())
+    sel, located, unlocated, strategy = [], False, False, "none"
+    m = EXPLICIT_MONTH_RE.search(q)
+    key = None
+    if m:
+        key = "%s-%02d" % (m.group(1), int(m.group(2)))
+        if key in (index.get("months") or {}):
+            sel, located, strategy = [key], True, "located_month"
+        else:
+            unlocated, strategy = True, "month_not_in_index"
+    elif RELATIVE_RE.search(q):
+        unlocated, strategy = True, "reverse_blind"
+    else:
+        unlocated, strategy = True, "blind_no_time"
+    if not sel:
+        sel = months[-max_months:][::-1]        # 倒序盲搜，最多 max_months
+    out = []
+    for mo in sel:
+        slot = (index.get("months") or {}).get(mo) or {}
+        z = slot.get("zip")
+        sha_ok = bool(z and os.path.exists(z) and sha_file(z) == slot.get("zip_sha256"))
+        out.append({"month": mo, "zip": z, "zip_sha256": slot.get("zip_sha256"),
+                    "ids": slot.get("ids") or [], "sha_ok": sha_ok})
+        if not sha_ok:
+            located = False
+    return {"query": q, "located": bool(located), "unlocated": bool(unlocated or not located),
+            "strategy": strategy, "max_months": max_months, "months": out}
+
+
+def reheat_plan(live_rows, zip_path, sidecar_path):
+    """回热计划：同 subject+predicate 有更新 -> superseded_by；整链、只出 plan。"""
+    plan = restore_plan(live_rows, zip_path, sidecar_path)
+    summary = {"restore": sum(1 for x in plan["plan"] if x["action"] == "restore"),
+               "superseded": sum(1 for x in plan["plan"]
+                                 if x["action"] == "skip_superseded")}
+    return {"schema": "p1_reheat_v1", "whole_chain": True,
+            "zip_sha256": plan["zip_sha256"], "summary": summary,
+            "plan": plan["plan"]}

@@ -15,6 +15,7 @@ import json
 import os
 import sqlite3
 import sys
+from datetime import datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -69,8 +70,14 @@ def cmd_archive(args):
         plan["dry_run"] = True
         return plan
     manifest = A.archive_rows(rows, args.zip, args.sidecar)
+    idx_path = args.index or os.path.join(
+        os.path.dirname(os.path.abspath(args.zip)), "index.json")
+    idx = A.merge_index(A.load_index(idx_path), [dict(manifest, zip=args.zip)])
+    A.save_index(idx, idx_path)
     plan.update({"dry_run": False, "zip_sha256": manifest["zip_sha256"],
-                 "manifest": args.zip + ".manifest.json"})
+                 "manifest": args.zip + ".manifest.json",
+                 "index": idx_path,
+                 "index_months": sorted(idx["months"])})
     return plan
 
 
@@ -85,6 +92,57 @@ def cmd_restore(args):
     out = {"action": "restore", "apply": bool(args.apply), "summary": summary,
            "plan": plan, "out": args.out, "dry_run": not args.apply}
     if args.apply and args.out:
+        with open(args.out, "w", encoding="utf-8") as f:
+            json.dump(plan, f, ensure_ascii=False, indent=2)
+        out["written"] = args.out
+    return out
+
+
+def cmd_scan(args):
+    rows = load_rows(args.rows)
+    refs = json.load(open(args.refs, encoding="utf-8")) if args.refs else {}
+    sup = json.load(open(args.superseded, encoding="utf-8")) if args.superseded else {}
+    marks = [int(x) for x in (args.marks or [])]
+    now = args.now or datetime.now().isoformat(timespec="seconds")
+    cand = A.scan_candidates(rows, now, days=args.days, refs=refs,
+                             superseded=sup, marks=marks)
+    out = {"action": "scan", "now": now, "days": args.days,
+           "n_rows": len(rows), "n_candidates": len(cand),
+           "candidates": cand, "apply": bool(args.apply)}
+    if args.apply:
+        path = args.out or os.path.join(ROOT, "out", "p1b", "scan.json")
+        os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(out, f, ensure_ascii=False, indent=2)
+        out["written"] = path
+    return out
+
+
+def cmd_fallback(args):
+    idx_path = args.index or os.path.join(
+        os.path.dirname(os.path.abspath(args.zip)), "index.json")
+    index = A.load_index(idx_path)
+    res = A.fallback_months(args.query, index, max_months=args.max_months)
+    res.update({"action": "fallback", "index": idx_path,
+                "verify": A.verify_index(index), "apply": bool(args.apply)})
+    if args.apply:
+        path = args.out or os.path.join(ROOT, "out", "p1b", "fallback.json")
+        os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(res, f, ensure_ascii=False, indent=2)
+        res["written"] = path
+    return res
+
+
+def cmd_reheat(args):
+    A.assert_local_only([args.zip, args.sidecar, args.out])
+    live = load_rows(args.live) if args.live else []
+    plan = A.reheat_plan(live, args.zip, args.sidecar)
+    out = {"action": "reheat", "apply": bool(args.apply), "summary": plan["summary"],
+           "whole_chain": True, "plan": plan, "dry_run": not args.apply,
+           "out": args.out}
+    if args.apply and args.out:
+        os.makedirs(os.path.dirname(os.path.abspath(args.out)) or ".", exist_ok=True)
         with open(args.out, "w", encoding="utf-8") as f:
             json.dump(plan, f, ensure_ascii=False, indent=2)
         out["written"] = args.out
@@ -117,7 +175,33 @@ def build_parser():
     common(p)
     p.add_argument("--rows", default=None, help="显式 rows JSON")
     p.add_argument("--db", default=None, help="只读副本 db（不写）")
+    p.add_argument("--index", default=None, help="月份索引（默认 out/p1b/index.json）")
     p.set_defaults(func=cmd_archive)
+
+    p = sub.add_parser("scan")
+    common(p)
+    p.add_argument("--rows", required=True)
+    p.add_argument("--days", type=int, default=21)
+    p.add_argument("--refs", default=None, help="sidecar 引用计数 JSON {id:count}")
+    p.add_argument("--superseded", default=None, help="superseded JSON {id:new_id}")
+    p.add_argument("--marks", nargs="*", default=None, help="用户显式标记 id")
+    p.add_argument("--now", default=None)
+    p.add_argument("--out", default=None)
+    p.set_defaults(func=cmd_scan)
+
+    p = sub.add_parser("fallback")
+    common(p)
+    p.add_argument("--query", required=True)
+    p.add_argument("--index", default=None, help="月份索引（默认 out/p1b/index.json）")
+    p.add_argument("--max-months", type=int, default=2)
+    p.add_argument("--out", default=None)
+    p.set_defaults(func=cmd_fallback)
+
+    p = sub.add_parser("reheat")
+    common(p)
+    p.add_argument("--live", default=None)
+    p.add_argument("--out", default=None)
+    p.set_defaults(func=cmd_reheat)
 
     p = sub.add_parser("restore")
     common(p)
