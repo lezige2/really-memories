@@ -1,0 +1,98 @@
+{
+ "schema": "p2_stage0_v1",
+ "source": "kvmem/scale40k/n200/chat.db",
+ "source_sha256": "2d84aefda3c76ecece0cf3f620c506e0748090a587528b8bed513491affd24fd",
+ "params": {
+  "k2": "off",
+  "time": "off",
+  "top20": true,
+  "retriever": "memory_service.retrieve(topk=20)"
+ },
+ "targets": 38,
+ "pool_hits": 32,
+ "pool_recall_at_20": 0.8421,
+ "misses": [
+  {
+   "id": "q048",
+   "target": 53,
+   "text": "杨帆那车牌子你还记得不？",
+   "full_rank": 3,
+   "pool_rank": null,
+   "pool_n": 0,
+   "gate": "below_threshold"
+  },
+  {
+   "id": "q052",
+   "target": 70,
+   "text": "周昊号码多少来着？",
+   "full_rank": 4,
+   "pool_rank": null,
+   "pool_n": 0,
+   "gate": "below_threshold"
+  },
+  {
+   "id": "q060",
+   "target": 25,
+   "text": "杨帆那个会定在几号几点了？",
+   "full_rank": 1,
+   "pool_rank": null,
+   "pool_n": 0,
+   "gate": "below_threshold"
+  },
+  {
+   "id": "q062",
+   "target": 130,
+   "text": "王强是哪儿人？",
+   "full_rank": 22,
+   "pool_rank": null,
+   "pool_n": 20,
+   "gate": "pass"
+  },
+  {
+   "id": "q063",
+   "target": 144,
+   "text": "杨帆是哪儿人？",
+   "full_rank": 26,
+   "pool_rank": null,
+   "pool_n": 20,
+   "gate": "pass"
+  },
+  {
+   "id": "q070",
+   "target": 187,
+   "text": "周昊坐哪个位置？",
+   "full_rank": 10,
+   "pool_rank": null,
+   "pool_n": 0,
+   "gate": "below_threshold"
+  }
+ ],
+ "s2_known": {
+  "q048": 3,
+  "q052": 4,
+  "q060": 1,
+  "q062": 22,
+  "q063": 26
+ },
+ "same_as_s2": false,
+ "verdict": "STOP：pool@20=32/38=0.842 <0.95 → 池没捞到，精排无意义；不写 rerank、不进 Stage 1。另：未进池集合非 S2 原 5 条，新增 q070（empty，全排序 rank10），pool 33→32；memory_service.py 于 2026-10-30 20:17 变更，晚于 P2/S2 报告，需先重定基线。",
+ "read_only": true,
+ "commit": false,
+ "delta_vs_p2": {
+  "pool_before": "33/38 (0.8684)",
+  "pool_now": "32/38 (0.8421)",
+  "new_misses": [
+   "q070"
+  ],
+  "same_miss_set_as_s2": false,
+  "code_drift": {
+   "file": "tools/memory_service.py",
+   "mtime": "2026-10-30T20:17:51",
+   "later_than": [
+    "out/P2-POOL-REPORT.json 2026-10-30T16:28:38",
+    "out/S2-GATE-DIAG.json 2026-10-30T20:10:10"
+   ],
+   "note": "阈值常量未变(2.0/0.30)，但实现已变；q070 现 gate=below_threshold(cov=0.167)。P2/S2 旧数字不可直接与新跑对比，需重定基线。"
+  }
+ }
+}
