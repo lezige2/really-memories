@@ -49,6 +49,7 @@ import assistant_log as alog            # noqa: E402  (个体日志：只追加 
 import memory_service as memo           # noqa: E402  (记忆数据层：抽取/去重/检索/判据)
 import k2_family as _k2f               # noqa: E402  (K2 同族只留最新；默认 off)
 import event_time as etime             # noqa: E402  (P0 event_date；默认 off)
+import assistant_commit as acommit      # noqa: E402  (P3；默认 off)
 # P1b 代码不入库：可选依赖，只包这一个符号；缺失则功能 off + debug（不静默）
 try:
     import p1b_subject as _p1b
@@ -608,7 +609,8 @@ class DailyApp:
                  n_ctx=N_CTX_DEFAULT, chat_start=CHAT_START_DEFAULT,
                  n_gpu_layers=N_GPU_LAYERS_DEFAULT, event_date=False,
                  query_expand=False, confirm_writes=False, p1b_subject=False,
-                 tts=False, tts_speak=False, tts_timeout=20, tts_dir=None):
+                 tts=False, tts_speak=False, tts_timeout=20, tts_dir=None,
+                 assistant_memory=False):
         self.eng = engine
         self.model_path = model_path
         _fmt = os.environ.get("LLAMA_MEM_CHAT_FORMAT", "").strip().lower()
@@ -643,6 +645,9 @@ class DailyApp:
         self._confirm_ttl = 300                      # ≤5min
         self._confirm_stats = {"asked": 0, "total": 0}
         self.p1b_subject = bool(p1b_subject)     # P1b 软覆盖；默认关
+        self.assistant_memory = bool(assistant_memory)  # P3；默认关
+        self._last_assistant_commit = {"enabled": self.assistant_memory,
+                                       "written": [], "skipped": []}
         if self.p1b_subject and _p1b is None:
             self.warnings.append("p1b_subject 不可用（模块缺失），功能 off")
         self.tts = bool(tts)                     # TTS；默认关
@@ -1857,7 +1862,60 @@ class DailyApp:
             self._tts_emit(res.get("answer"))
         except Exception:                                # noqa: BLE001
             pass
+        try:
+            self._assistant_commit(res.get("answer"))
+        except Exception:                                # noqa: BLE001
+            pass
         return res
+
+    def _assistant_commit(self, answer):
+        """P3：只从最终答案抽显式承诺；失败不影响回答；重复/否定/敏感不写。"""
+        if not getattr(self, "assistant_memory", False):
+            self._last_assistant_commit = {"enabled": False, "written": [],
+                                           "skipped": []}
+            return
+        meta = {"enabled": True, "written": [], "skipped": []}
+        self._last_assistant_commit = meta
+        items = acommit.extract_commitments(answer)
+        if not items:
+            return
+        existing = set()
+        try:
+            for (txt,) in self.con.execute(
+                    "SELECT text FROM memory_source WHERE mode='assistant_commit'"):
+                existing.add(re.sub(r"[\s，,。．.、:：;；!！?？]+", "",
+                                    str(txt or "")))
+        except Exception:                                # noqa: BLE001
+            pass
+        for item in items:
+            text = item["text"]
+            key = re.sub(r"[\s，,。．.、:：;；!！?？]+", "", text)
+            if acommit.is_sensitive(text) or key in existing:
+                meta["skipped"].append({"text": text, "reason": "sensitive/dup"})
+                continue
+            try:
+                put = self._put_memory_source(text, label="助手承诺",
+                                              mode="assistant_commit")
+                if put.get("duplicate"):
+                    meta["skipped"].append({"text": text, "reason": "duplicate"})
+                    continue
+                try:
+                    self._meta_set(put["id"], tags=["assistant_commit"],
+                                   source="assistant")
+                except Exception:                    # noqa: BLE001
+                    pass
+                meta["written"].append(put["id"])
+                existing.add(key)
+            except Exception as exc:                     # noqa: BLE001
+                meta["skipped"].append({"text": text,
+                                        "reason": "%s: %s" % (type(exc).__name__, exc)})
+                if getattr(self, "logger", None):
+                    try:
+                        self.logger.log_warning("assistant_commit_error",
+                                                "commit write failed",
+                                                evidence={"error": str(exc)[:200]})
+                    except Exception:                # noqa: BLE001
+                        pass
 
     def _tts_emit(self, answer):
         """异步 TTS：回答先返回；失败/超时丢弃，只记日志，不影响回答。"""
@@ -3926,6 +3984,8 @@ def main(argv=None):
                     help="显式冲突写入需 confirm token（默认关；仅 /remember）")
     ap.add_argument("--p1b-subject", action="store_true", default=False,
                     help="P1b 主体键软覆盖（默认关；sidecar，不改 daily）")
+    ap.add_argument("--assistant-memory", action="store_true", default=False,
+                    help="P3 助手显式承诺写入记忆（默认关；仅从最终答案抽）")
     ap.add_argument("--tts", action="store_true", default=False,
                     help="最终答案异步 TTS（默认关；只播最终答案）")
     ap.add_argument("--tts-speak", action="store_true", default=False,
@@ -3974,6 +4034,7 @@ def main(argv=None):
                        tts=getattr(args, "tts", False),
                        tts_speak=getattr(args, "tts_speak", False),
                        tts_timeout=getattr(args, "tts_timeout", 20),
+                       assistant_memory=getattr(args, "assistant_memory", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
                        n_gpu_layers=args.n_gpu_layers)
