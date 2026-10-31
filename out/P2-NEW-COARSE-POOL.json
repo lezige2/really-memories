@@ -1,0 +1,693 @@
+{
+ "schema": "p2_new_coarse_v1",
+ "source": "D:\\llama-mem\\kvmem\\scale40k\\n200\\chat.db",
+ "source_sha256": "2d84aefda3c76ecece0cf3f620c506e0748090a587528b8bed513491affd24fd",
+ "queries": "D:\\llama-mem\\kvmem\\scale40k\\n200\\queries.jsonl",
+ "queries_sha256": "653f877b466657374205a7abd22a6c0bbee59138c2dd718f3a598c17d8312c83",
+ "script": "D:\\llama-mem\\out\\p2_new_coarse.py",
+ "script_sha256": "7e20c2fdd49a682a128ba13ef28f32b35e59d0f0d6c46fcef865b331623805c5",
+ "params": {
+  "seed_k": 50,
+  "pool_k": 20,
+  "bm25": {
+   "k1": 1.2,
+   "b": 0.75
+  },
+  "tokenizer": "CJK unigram+bigram + latin words",
+  "bonus": {
+   "entity_exact": 3.0,
+   "predicate_exact": 2.0,
+   "value_shape": 0.5
+  },
+  "gate": "none (no coverage gate)",
+  "query_expand": false
+ },
+ "n_targets": 38,
+ "pool_hits": 38,
+ "pool_recall_at_20": 1.0,
+ "misses": [],
+ "ablation": {
+  "bm25": 38,
+  "predicate": 38,
+  "full": 38
+ },
+ "heldout_sanity": {
+  "file": "D:\\llama-mem\\out\\S2-HELDOUT-5.jsonl",
+  "sha256": "77131e059095b931b536e6e63479e0a5378d647703ad2df75877e81376da93fd",
+  "n": 5,
+  "pool_hits": 5,
+  "arms": {
+   "bm25": 5,
+   "predicate": 5,
+   "full": 5
+  }
+ },
+ "per_query": [
+  {
+   "id": "q003",
+   "kind": "direct",
+   "target": 10,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 24.8162,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 29.8162
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q008",
+   "kind": "direct",
+   "target": 44,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 24.2741,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 29.2741
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q010",
+   "kind": "direct",
+   "target": 99,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 23.2985,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.5,
+    "total": 28.7985
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q012",
+   "kind": "direct",
+   "target": 21,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 26.6132,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.5,
+    "total": 32.1132
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q013",
+   "kind": "direct",
+   "target": 59,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 20.1861,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.5,
+    "total": 25.6861
+   },
+   "seed_n": 46
+  },
+  {
+   "id": "q017",
+   "kind": "direct",
+   "target": 100,
+   "seed_rank": 3,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 22.1152,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 27.1152
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q026",
+   "kind": "direct",
+   "target": 25,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 31.3892,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.5,
+    "total": 36.8892
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q029",
+   "kind": "direct",
+   "target": 128,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 23.9206,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 28.9206
+   },
+   "seed_n": 21
+  },
+  {
+   "id": "q037",
+   "kind": "direct",
+   "target": 165,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 40.285,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 45.285
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q038",
+   "kind": "direct",
+   "target": 182,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 41.4909,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 46.4909
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q043",
+   "kind": "paraphrase",
+   "target": 12,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 17.1511,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 22.1511
+   },
+   "seed_n": 21
+  },
+  {
+   "id": "q044",
+   "kind": "paraphrase",
+   "target": 35,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 22.8446,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 27.8446
+   },
+   "seed_n": 21
+  },
+  {
+   "id": "q048",
+   "kind": "paraphrase",
+   "target": 53,
+   "seed_rank": 3,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 17.415,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.5,
+    "total": 22.915
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q052",
+   "kind": "paraphrase",
+   "target": 70,
+   "seed_rank": 4,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 10,
+   "score": {
+    "bm25": 8.669,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.5,
+    "total": 14.169
+   },
+   "seed_n": 10
+  },
+  {
+   "id": "q053",
+   "kind": "paraphrase",
+   "target": 77,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 31.6319,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 36.6319
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q055",
+   "kind": "paraphrase",
+   "target": 93,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 37.8513,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 42.8513
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q060",
+   "kind": "paraphrase",
+   "target": 25,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 14.4274,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.5,
+    "total": 19.9274
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q062",
+   "kind": "paraphrase",
+   "target": 130,
+   "seed_rank": 22,
+   "in_pool": true,
+   "rank": 2,
+   "pool_n": 20,
+   "score": {
+    "bm25": 6.7042,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 11.7042
+   },
+   "seed_n": 38
+  },
+  {
+   "id": "q063",
+   "kind": "paraphrase",
+   "target": 144,
+   "seed_rank": 26,
+   "in_pool": true,
+   "rank": 3,
+   "pool_n": 20,
+   "score": {
+    "bm25": 9.5442,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 14.5442
+   },
+   "seed_n": 36
+  },
+  {
+   "id": "q070",
+   "kind": "paraphrase",
+   "target": 187,
+   "seed_rank": 10,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 10,
+   "score": {
+    "bm25": 9.9561,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 14.9561
+   },
+   "seed_n": 10
+  },
+  {
+   "id": "q071",
+   "kind": "chain_last",
+   "target": 167,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 32.5729,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.5,
+    "total": 38.0729
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q078",
+   "kind": "chain_last",
+   "target": 173,
+   "seed_rank": 2,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 35.7635,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 40.7635
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q079",
+   "kind": "chain_last",
+   "target": 175,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 39.2902,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.5,
+    "total": 44.7902
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q081",
+   "kind": "chain_last",
+   "target": 138,
+   "seed_rank": 4,
+   "in_pool": true,
+   "rank": 3,
+   "pool_n": 20,
+   "score": {
+    "bm25": 21.6531,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 26.6531
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q082",
+   "kind": "chain_last",
+   "target": 138,
+   "seed_rank": 3,
+   "in_pool": true,
+   "rank": 3,
+   "pool_n": 20,
+   "score": {
+    "bm25": 26.2713,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 31.2713
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q083",
+   "kind": "chain_last",
+   "target": 139,
+   "seed_rank": 3,
+   "in_pool": true,
+   "rank": 3,
+   "pool_n": 20,
+   "score": {
+    "bm25": 31.9322,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 36.9322
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q084",
+   "kind": "chain_last",
+   "target": 139,
+   "seed_rank": 2,
+   "in_pool": true,
+   "rank": 3,
+   "pool_n": 20,
+   "score": {
+    "bm25": 35.7557,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 40.7557
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q086",
+   "kind": "chain_last",
+   "target": 178,
+   "seed_rank": 6,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 31.1211,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.5,
+    "total": 36.6211
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q088",
+   "kind": "chain_last",
+   "target": 179,
+   "seed_rank": 2,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 29.0783,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 34.0783
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q090",
+   "kind": "chain_last",
+   "target": 180,
+   "seed_rank": 9,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 26.6475,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.5,
+    "total": 32.1475
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q091",
+   "kind": "negative",
+   "target": 167,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 29.8941,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.5,
+    "total": 35.3941
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q092",
+   "kind": "negative",
+   "target": 169,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 27.5637,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 32.5637
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q093",
+   "kind": "negative",
+   "target": 171,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 28.795,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.5,
+    "total": 34.295
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q094",
+   "kind": "negative",
+   "target": 173,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 37.4828,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 42.4828
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q095",
+   "kind": "negative",
+   "target": 175,
+   "seed_rank": 2,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 33.401,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.5,
+    "total": 38.901
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q096",
+   "kind": "negative",
+   "target": 138,
+   "seed_rank": 1,
+   "in_pool": true,
+   "rank": 1,
+   "pool_n": 20,
+   "score": {
+    "bm25": 31.2352,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 36.2352
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q097",
+   "kind": "negative",
+   "target": 139,
+   "seed_rank": 2,
+   "in_pool": true,
+   "rank": 3,
+   "pool_n": 20,
+   "score": {
+    "bm25": 33.5482,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.0,
+    "total": 38.5482
+   },
+   "seed_n": 50
+  },
+  {
+   "id": "q098",
+   "kind": "negative",
+   "target": 178,
+   "seed_rank": 2,
+   "in_pool": true,
+   "rank": 2,
+   "pool_n": 20,
+   "score": {
+    "bm25": 35.441,
+    "entity": 3.0,
+    "predicate": 2.0,
+    "shape": 0.5,
+    "total": 40.941
+   },
+   "seed_n": 50
+  }
+ ]
+}

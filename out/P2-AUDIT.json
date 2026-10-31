@@ -1,0 +1,538 @@
+{
+ "schema": "p2_audit_v1",
+ "head": "53726606bdb93aa128bd668873e06549bba09b45",
+ "db": "kvmem/scale40k/n200/chat.db",
+ "db_sha256": "2d84aefda3c76ecece0cf3f620c506e0748090a587528b8bed513491affd24fd",
+ "script": "out/p2_new_coarse.py",
+ "script_sha256": "7e20c2fdd49a682a128ba13ef28f32b35e59d0f0d6c46fcef865b331623805c5",
+ "leakage": {
+  "seed_uses_target_id": false,
+  "seed_uses_answer_value": false,
+  "seed_uses_tags": false,
+  "seed_uses_heldout": false,
+  "code_evidence": {
+   "seed50": "out/p2_new_coarse.py:104-112（仅 query tokens + 块文本 hit-count）",
+   "score": "out/p2_new_coarse.py:114-136（仅 q 与 text_by_id；无 target/tags/heldout）",
+   "target_only_reporting": "out/p2_new_coarse.py:157+（只用于结果记录）",
+   "heldout_only_posthoc": "out/p2_new_coarse.py:193-204（排名完成后才读，不进打分）",
+   "entity_source": "块文本前缀 2/3 字（全库公共，不按 target 构造）"
+  },
+  "target_in_raw_top50": 38,
+  "target_in_raw_top20": 36,
+  "n_targets": 38,
+  "query_contains_answer_value": 0,
+  "note": "target 全在 raw50 是词面重叠的结果，不是注入；查询文本 0/38 含期望值（数据集本身已校验）"
+ },
+ "arms": {
+  "gate_top20": {
+   "hits": 32,
+   "recall": 0.8421,
+   "desc": "现有 retrieve(top20)，coverage 闸"
+  },
+  "raw_top20": {
+   "hits": 36,
+   "recall": 0.9474,
+   "desc": "raw top50 直接取前 20，不做 BM25、不套闸"
+  },
+  "bm25_top20": {
+   "hits": 38,
+   "recall": 1.0,
+   "desc": "raw top50 → BM25+实体/谓词重排 → top20"
+  },
+  "raw_top50_seed": {
+   "hits": 38,
+   "recall": 1.0,
+   "desc": "seed 覆盖（非池）"
+  }
+ },
+ "decomposition": {
+  "gate_to_raw20": [
+   "q048",
+   "q052",
+   "q060",
+   "q070"
+  ],
+  "raw20_to_bm25": [
+   "q062",
+   "q063"
+  ],
+  "interpretation": "32→36 来自撤闸/取20；36→38 仅 BM25 补 2 条；BM25 是达标必需但非主因（raw20 单独 0.947<0.95）"
+ },
+ "per_query": [
+  {
+   "id": "q003",
+   "target": 10,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q008",
+   "target": 44,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q010",
+   "target": 99,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q012",
+   "target": 21,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q013",
+   "target": 59,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q017",
+   "target": 100,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 3,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q026",
+   "target": 25,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q029",
+   "target": 128,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q037",
+   "target": 165,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q038",
+   "target": 182,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q043",
+   "target": 12,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q044",
+   "target": 35,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q048",
+   "target": 53,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 3,
+   "bm25_in_pool": true,
+   "gate_in_pool": false,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q052",
+   "target": 70,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 4,
+   "bm25_in_pool": true,
+   "gate_in_pool": false,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q053",
+   "target": 77,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q055",
+   "target": 93,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q060",
+   "target": 25,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": false,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q062",
+   "target": 130,
+   "raw50": true,
+   "raw20": false,
+   "raw_rank": 22,
+   "bm25_in_pool": true,
+   "gate_in_pool": false,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q063",
+   "target": 144,
+   "raw50": true,
+   "raw20": false,
+   "raw_rank": 26,
+   "bm25_in_pool": true,
+   "gate_in_pool": false,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q070",
+   "target": 187,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 10,
+   "bm25_in_pool": true,
+   "gate_in_pool": false,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q071",
+   "target": 167,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q078",
+   "target": 173,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 2,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q079",
+   "target": 175,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q081",
+   "target": 138,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 4,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q082",
+   "target": 138,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 3,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q083",
+   "target": 139,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 3,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q084",
+   "target": 139,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 2,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q086",
+   "target": 178,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 6,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q088",
+   "target": 179,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 2,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q090",
+   "target": 180,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 9,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q091",
+   "target": 167,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q092",
+   "target": 169,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q093",
+   "target": 171,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q094",
+   "target": 173,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q095",
+   "target": 175,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 2,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q096",
+   "target": 138,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 1,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q097",
+   "target": 139,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 2,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  },
+  {
+   "id": "q098",
+   "target": 178,
+   "raw50": true,
+   "raw20": true,
+   "raw_rank": 2,
+   "bm25_in_pool": true,
+   "gate_in_pool": true,
+   "query_contains_answer": false
+  }
+ ],
+ "conclusion": "提升主要来自撤闸/取20（+4 条），BM25 只补 q062/q063（+2）；raw top20 单独 36/38=0.947 未过 0.95，故 BM25 是过门槛的必要条件但不是主因。",
+ "heldout20": {
+  "file": "out/P2-HELDOUT-20.jsonl",
+  "sha256": "f0cf9eaf20b6b348a6adbdf34d1f1d8a3b514679a9765a356b52897dc53493b5",
+  "n_target": 10,
+  "n_negative": 10,
+  "raw50_recall": "10/10",
+  "raw20_pool": "10/10",
+  "bm25_pool": "10/10",
+  "raw50_misses": [],
+  "per_target": [
+   {
+    "id": "P2-H01",
+    "target": 7,
+    "raw50": true,
+    "raw20": true,
+    "bm25": true,
+    "raw_rank": 1
+   },
+   {
+    "id": "P2-H02",
+    "target": 8,
+    "raw50": true,
+    "raw20": true,
+    "bm25": true,
+    "raw_rank": 1
+   },
+   {
+    "id": "P2-H03",
+    "target": 17,
+    "raw50": true,
+    "raw20": true,
+    "bm25": true,
+    "raw_rank": 1
+   },
+   {
+    "id": "P2-H04",
+    "target": 19,
+    "raw50": true,
+    "raw20": true,
+    "bm25": true,
+    "raw_rank": 1
+   },
+   {
+    "id": "P2-H05",
+    "target": 20,
+    "raw50": true,
+    "raw20": true,
+    "bm25": true,
+    "raw_rank": 1
+   },
+   {
+    "id": "P2-H06",
+    "target": 22,
+    "raw50": true,
+    "raw20": true,
+    "bm25": true,
+    "raw_rank": 1
+   },
+   {
+    "id": "P2-H07",
+    "target": 24,
+    "raw50": true,
+    "raw20": true,
+    "bm25": true,
+    "raw_rank": 1
+   },
+   {
+    "id": "P2-H08",
+    "target": 28,
+    "raw50": true,
+    "raw20": true,
+    "bm25": true,
+    "raw_rank": 3
+   },
+   {
+    "id": "P2-H09",
+    "target": 43,
+    "raw50": true,
+    "raw20": true,
+    "bm25": true,
+    "raw_rank": 1
+   },
+   {
+    "id": "P2-H10",
+    "target": 30,
+    "raw50": true,
+    "raw20": true,
+    "bm25": true,
+    "raw_rank": 1
+   }
+  ],
+  "negative": "待测（需服务/模型，未测）",
+  "note": "raw50 上限=10/10；BM25 无增量，不记功臣"
+ }
+}
