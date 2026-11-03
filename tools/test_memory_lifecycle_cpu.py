@@ -50,7 +50,7 @@ class LifecycleTests(unittest.TestCase):
         L.archive_mark(self.con, [2], "/tmp/x.zip", "sha")
         self.assertEqual([r[0] for r in L.active_rows(self.con, rows)], [1])
 
-    def _app(self, cap, access):
+    def _app(self, cap, access, archive=False):
         tmp = tempfile.mkdtemp(prefix="life_app_")
         model = os.path.join(tmp, "model.stub")
         D.install_fake_model(model)
@@ -59,7 +59,8 @@ class LifecycleTests(unittest.TestCase):
                           sessions_dir=os.path.join(tmp, "s"),
                           model_path=model, restore=False,
                           retrieval_mode="topk", topk=4, logger=False,
-                          lifecycle_cap=cap, memory_access=access)
+                          lifecycle_cap=cap, memory_access=access,
+                          lifecycle_archive=archive)
 
     def test_off_keeps_old_200_reject(self):
         app = self._app(False, False)
@@ -87,6 +88,56 @@ class LifecycleTests(unittest.TestCase):
             app.ask("q")
         n = app.con.execute("SELECT COUNT(*) FROM memory_access").fetchone()[0]
         self.assertEqual(n, 2)
+
+    def test_auto_archive_grouping_and_sha(self):
+        import json as _json
+        from datetime import datetime
+        rows = [
+            (1, "m1", "l", "t1", "h", 1, "p", 8, "2026-01-05T10:00:00"),
+            (2, "m2", "l", "t2", "h", 1, "p", 8, "2026-01-20T10:00:00"),
+            (3, "m3", "l", "t3", "h", 1, "p", 8, "2026-02-02T10:00:00"),
+        ]
+        now = datetime(2026, 3, 1)
+        d = os.path.join(self.tmp, "archive")
+        res = L.auto_archive(self.con, rows, now, d)
+        self.assertEqual(sorted(res["months"]), ["2026-01", "2026-02"])
+        self.assertEqual(sorted(res["months"]["2026-01"]), [1, 2])
+        self.assertEqual(sorted(res["months"]["2026-02"]), [3])
+        for z in res["zips"]:
+            import hashlib
+            self.assertTrue(os.path.exists(z["zip"]))
+            self.assertEqual(hashlib.sha256(open(z["zip"], "rb").read()).hexdigest(),
+                             z["zip_sha256"])
+        self.assertEqual(L.active_rows(self.con, rows), [])   # 全部归档
+
+    def test_auto_archive_idempotent(self):
+        from datetime import datetime
+        rows = [(1, "m1", "l", "t1", "h", 1, "p", 8, "2026-01-05T10:00:00")]
+        d = os.path.join(self.tmp, "archive")
+        L.auto_archive(self.con, rows, datetime(2026, 3, 1), d)
+        r2 = L.auto_archive(self.con, rows, datetime(2026, 3, 1), d)
+        self.assertEqual(r2["candidates"], [])         # 已归档跳过
+        r3 = L.auto_archive(self.con, rows, datetime(2026, 3, 1), d)
+        self.assertEqual(r3["zips"], [])
+
+    def test_off_archive_writes_nothing(self):
+        app = self._app(True, False, archive=False)
+        app.archive_dir = os.path.join(self.tmp, "arch_off")
+        app._rows = lambda: [(1, "m1", "l", "t1", "h", 1, "p", 8,
+                              "2026-01-05T10:00:00")]
+        app._mem_check_capacity(200)                   # on cap, archive off
+        self.assertFalse(os.path.exists(app.archive_dir))
+        self.assertEqual(L.archived_ids(app.con), set())
+
+    def test_on_archive_writes(self):
+        app = self._app(True, False, archive=True)
+        app.archive_dir = os.path.join(self.tmp, "arch_on")
+        app._rows = lambda: [(1, "m1", "l", "t1", "h", 1, "p", 8,
+                              "2026-01-05T10:00:00")]
+        app._mem_check_capacity(200)
+        zips = [f for f in os.listdir(app.archive_dir) if f.endswith(".zip")]
+        self.assertTrue(zips)
+        self.assertEqual(L.archived_ids(app.con), {1})
 
     def test_capacity_soft_hard(self):
         app = self._app(True, False)

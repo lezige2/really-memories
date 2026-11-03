@@ -632,7 +632,8 @@ class DailyApp:
                  tts=False, tts_speak=False, tts_timeout=20, tts_dir=None,
                  assistant_memory=False, norm_dedup=False, json_output=False,
                  dedup_shadow=False, meta_answer=True,
-                 lifecycle_cap=False, memory_access=False):
+                 lifecycle_cap=False, memory_access=False,
+                 lifecycle_archive=False, archive_dir=None):
         self.eng = engine
         self.model_path = model_path
         _fmt = os.environ.get("LLAMA_MEM_CHAT_FORMAT", "").strip().lower()
@@ -675,6 +676,8 @@ class DailyApp:
         self.meta_answer = bool(meta_answer)     # meta-v1 计数回答；默认开
         self.lifecycle_cap = bool(lifecycle_cap)  # 软/硬上限；默认关
         self.memory_access = bool(memory_access)  # access 记录；默认关
+        self.lifecycle_archive = bool(lifecycle_archive)  # 自动归档；默认关
+        self.archive_dir = archive_dir
         self._last_shadow = {"enabled": self.dedup_shadow, "checked": 0, "hits": []}
         self._last_json = {"enabled": self.json_output, "parsed": False,
                            "reported_block_id": None, "fallback": False,
@@ -2900,6 +2903,18 @@ class DailyApp:
         if n >= MEM_SOFT_MAX:
             self.warnings.append("记忆已达软上限 %d 条，建议归档（未拒绝写入）"
                                  % MEM_SOFT_MAX)
+            if getattr(self, "lifecycle_archive", False):
+                try:
+                    r = ml.auto_archive(
+                        self.con, self._rows(), datetime.now(),
+                        getattr(self, "archive_dir", None)
+                        or os.path.join(ROOT, "out", "archive"))
+                    self._last_archive = r
+                    if r.get("candidates"):
+                        self.warnings.append("生命周期归档：%d 条候选，%d 个月"
+                                             % (len(r["candidates"]), len(r["months"])))
+                except Exception as exc:             # noqa: BLE001
+                    self.warnings.append("生命周期归档失败：%s" % exc)
         return True
 
     def _rows(self):
@@ -4312,6 +4327,8 @@ def main(argv=None):
     # do-not-enable-for-merge: diagnostic only
     ap.add_argument("--lifecycle-cap", action="store_true", default=False,
                     help="P1 软/硬上限（默认关；off 仍按现网 200 拒绝）")
+    ap.add_argument("--lifecycle-archive", action="store_true", default=False,
+                    help="P1 自动归档（默认关；仅 lifecycle-cap on 且达软上限时触发）")
     ap.add_argument("--memory-access", action="store_true", default=False,
                     help="P1 access 记录（默认关；off 不写 access 表）")
     ap.add_argument("--meta-answer", action=argparse.BooleanOptionalAction,
@@ -4380,6 +4397,7 @@ def main(argv=None):
                        meta_answer=getattr(args, "meta_answer", True),
                        lifecycle_cap=getattr(args, "lifecycle_cap", False),
                        memory_access=getattr(args, "memory_access", False),
+                       lifecycle_archive=getattr(args, "lifecycle_archive", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
                        n_gpu_layers=args.n_gpu_layers)

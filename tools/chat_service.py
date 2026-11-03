@@ -590,6 +590,7 @@ def build_app(args, data):
                       meta_answer=bool(getattr(args, "meta_answer", True)),
                       lifecycle_cap=bool(getattr(args, "lifecycle_cap", False)),
                       memory_access=bool(getattr(args, "memory_access", False)),
+                      lifecycle_archive=bool(getattr(args, "lifecycle_archive", False)),
                       topk=getattr(args, "topk", D.DEFAULT_TOPK),
                       rollover_at=getattr(args, "rollover_at", D.ROLLOVER_AT_DEFAULT),
                       n_ctx=getattr(args, "n_ctx", D.N_CTX_DEFAULT),
@@ -628,6 +629,8 @@ def main(argv=None):
     # do-not-enable-for-merge: diagnostic only
     ap.add_argument("--lifecycle-cap", action="store_true", default=False,
                     help="P1 软/硬上限（默认关；与 chat_daily 同名同义）")
+    ap.add_argument("--lifecycle-archive", action="store_true", default=False,
+                    help="P1 自动归档（默认关；与 chat_daily 同名同义）")
     ap.add_argument("--memory-access", action="store_true", default=False,
                     help="P1 access 记录（默认关；与 chat_daily 同名同义）")
     ap.add_argument("--meta-answer", action=argparse.BooleanOptionalAction,
