@@ -13,11 +13,11 @@ import threading
 import uuid
 from datetime import datetime
 
-STAGES = ("write", "retrieve", "answer", "align")
+STAGES = ("write", "retrieve", "answer", "align", "archive")
 _LOCK = threading.Lock()
 _FIELDS = ("trace_id", "ts", "stage", "decision", "reason", "block_ids",
            "asked_slot", "tenant", "scope", "latency_ms",
-           "query_sha16", "answer_sha16", "fail_open")
+           "query_sha16", "answer_sha16", "fail_open", "count")
 
 
 def audit_dir():
@@ -41,6 +41,11 @@ def _clean(event):
                 v = [int(x) for x in (v or [])][:64]
             except (TypeError, ValueError):
                 v = []
+        elif k == "count":
+            try:
+                v = int(v)
+            except (TypeError, ValueError):
+                v = None
         elif k == "latency_ms":
             try:
                 v = round(float(v), 2)
@@ -54,7 +59,7 @@ def _clean(event):
 
 def event(stage, decision=None, reason=None, block_ids=None, asked_slot=None,
           tenant="default", scope="private", latency_ms=None, trace_id=None,
-          query=None, answer=None, fail_open=None):
+          query=None, answer=None, fail_open=None, count=None):
     """追加一条审计事件；失败返回 {"ok": False}，绝不抛异常。"""
     try:
         rec = _clean({
@@ -65,6 +70,7 @@ def event(stage, decision=None, reason=None, block_ids=None, asked_slot=None,
             "tenant": tenant, "scope": scope, "latency_ms": latency_ms,
             "query_sha16": _sha16(query), "answer_sha16": _sha16(answer),
             "fail_open": bool(fail_open) if fail_open is not None else None,
+            "count": count,
         })
         if rec.get("stage") not in STAGES:
             return {"ok": False, "error": "bad_stage:%s" % stage}

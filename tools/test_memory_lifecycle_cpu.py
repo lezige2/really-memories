@@ -246,6 +246,43 @@ class LifecycleTests(unittest.TestCase):
         self.assertEqual(self.con.execute("SELECT COUNT(*) FROM memory_source")
                          .fetchone()[0], before)
 
+    def test_audit_trace_propagation(self):
+        import json as _json
+        from datetime import datetime
+        import audit_log
+        from unittest import mock as _m
+        d = os.path.join(self.tmp, "audit")
+        with _m.patch.dict(os.environ, {"LLAMA_AUDIT_DIR": d}):
+            rows = [(1, "m1", "l", "我的车牌号是皖K3D7F9", "h", 1, "p", 8,
+                     "2026-01-05T10:00:00")]
+            L.auto_archive(self.con, rows, datetime(2026, 3, 1),
+                           os.path.join(self.tmp, "arch_a"), trace_id="t-arch")
+            L.fallback_archive(self.con, "车牌号", os.path.join(self.tmp, "arch_a"),
+                               trace_id="t-fb")
+            L.reheat_plan(self.con, 1, [], trace_id="t-rh")
+            p = [f for f in os.listdir(d) if f.endswith(".jsonl")][0]
+            evs = [_json.loads(l) for l in open(os.path.join(d, p), encoding="utf-8")]
+        self.assertEqual({e["trace_id"] for e in evs},
+                         {"t-arch", "t-fb", "t-rh"})
+        for e in evs:
+            self.assertEqual(e["stage"], "archive")
+            self.assertIn("decision", e)
+            self.assertIn("count", e)
+
+    def test_audit_failure_does_not_break(self):
+        from datetime import datetime
+        from unittest import mock as _m
+        rows = [(1, "m1", "l", "我的车牌号是皖K3D7F9", "h", 1, "p", 8,
+                 "2026-01-05T10:00:00")]
+        d = os.path.join(self.tmp, "arch_af")
+        with _m.patch("audit_log.event", side_effect=RuntimeError("audit down")):
+            r = L.auto_archive(self.con, rows, datetime(2026, 3, 1), d,
+                               trace_id="t")
+            h = L.fallback_archive(self.con, "车牌号", d, trace_id="t")
+            p = L.reheat_plan(self.con, 1, [], trace_id="t")
+        self.assertTrue(any(x.endswith(".zip") for x in os.listdir(d)))
+        self.assertIn(p["action"], ("restore", "skip", "skip_superseded"))
+
     def test_capacity_soft_hard(self):
         app = self._app(True, False)
         for n in (199, 200, 201):

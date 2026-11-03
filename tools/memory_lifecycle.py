@@ -131,7 +131,19 @@ def _as_archive_row(r):
             "block_sha": None, "block_bytes": 0}
 
 
-def auto_archive(con, rows, now, archive_dir, days=21):
+def _audit(trace_id, decision, reason, block_ids=None, count=None):
+    if not trace_id:
+        return
+    try:
+        import audit_log
+        audit_log.event("archive", decision=decision, reason=reason,
+                        block_ids=block_ids or [], count=count,
+                        trace_id=trace_id)
+    except Exception:                                # noqa: BLE001
+        pass
+
+
+def auto_archive(con, rows, now, archive_dir, days=21, trace_id=None):
     """候选按 row_month 分组 -> out/archive/YYYY-MM.zip + 标记；幂等。"""
     import archive_store as A
     ensure_schema(con)
@@ -151,6 +163,8 @@ def auto_archive(con, rows, now, archive_dir, days=21):
         res["months"][month] = ids
         res["zips"].append({"zip": zip_path, "zip_sha256": manifest["zip_sha256"],
                             "n": len(ids)})
+    _audit(trace_id, "archived" if res["candidates"] else "no_candidates",
+           "auto_archive", res["candidates"], len(res["candidates"]))
     return res
 
 
@@ -159,18 +173,20 @@ def _bigrams(text):
     return {t[i:i + 2] for i in range(max(0, len(t) - 1))}
 
 
-def fallback_archive(con, query, archive_dir, max_hits=5):
+def fallback_archive(con, query, archive_dir, max_hits=5, trace_id=None):
     """只读：查未 superseded 的归档条目，按 query bigram 覆盖率打分；坏 zip/sha 跳过。"""
     import json as _json
     import zipfile
     qg = _bigrams(query)
     if not qg:
+        _audit(trace_id, "miss", "empty_query", [], 0)
         return []
     try:
         rows = con.execute(
             "SELECT source_id, zip, zip_sha, superseded_by FROM memory_archive"
             " WHERE superseded_by IS NULL").fetchall()
     except sqlite3.Error:
+        _audit(trace_id, "miss", "no_archive_table", [], 0)
         return []
     hits = []
     for sid, zip_path, zip_sha, _sup in rows:
@@ -205,7 +221,10 @@ def fallback_archive(con, query, archive_dir, max_hits=5):
         except Exception:                            # noqa: BLE001
             continue
     hits.sort(key=lambda x: (-x["score"], x["id"]))
-    return hits[:max(1, int(max_hits))]
+    hits = hits[:max(1, int(max_hits))]
+    _audit(trace_id, "hit" if hits else "miss", "fallback_archive",
+           [h["id"] for h in hits], len(hits))
+    return hits
 
 def _slots(text):
     try:
@@ -261,19 +280,21 @@ def _read_archived_text(con, source_id):
     return body.decode("utf-8", "replace"), None
 
 
-def reheat_plan(con, source_id, live_rows):
+def reheat_plan(con, source_id, live_rows, trace_id=None):
     """纯函数：校验归档 -> 抽槽 -> 与 live 比较；只返回 plan，不写 DB。"""
     text, err = _read_archived_text(con, source_id)
     plan = {"source_id": int(source_id), "action": "skip", "reason": err,
             "subject": None, "predicate": None, "superseded_by": None,
             "unresolved": False}
     if text is None:
+        _audit(trace_id, plan["action"], plan["reason"], [int(source_id)], 1)
         return plan
     subject, predicate, unresolved = _key_of(text)
     plan.update(subject=subject, predicate=predicate, unresolved=unresolved)
     if subject is None or predicate is None:
         plan.update(action="skip", reason="no_subject" if subject is None
                     else "no_predicate")
+        _audit(trace_id, "skip", plan["reason"], [int(source_id)], 1)
         return plan
     try:
         arch_created = con.execute(
@@ -295,4 +316,7 @@ def reheat_plan(con, source_id, live_rows):
                         superseded_by=int(r[0]))
             return plan
     plan.update(action="restore", reason="no_newer")
+    _audit(trace_id, plan["action"], plan["reason"],
+           [plan["source_id"]] + ([plan["superseded_by"]]
+                                  if plan.get("superseded_by") else []), 1)
     return plan
