@@ -64,6 +64,20 @@ _TTS_CACHE = {"loaded": False, "mod": None}
 _TTS_SKIP_RE = re.compile(r"手机号|电话号码|号码|地址|住址|余额|账户|身份证|密码|验证码|银行卡")
 
 
+def _dup_kind(put):
+    """归一化 duplicate 语义：enum(off 兼容 bool) -> none|exact|norm。"""
+    d = (put or {}).get("duplicate")
+    if d is True:
+        return "exact"
+    if d in ("exact", "norm"):
+        return d
+    return "none"
+
+
+def _is_dup(put):
+    return _dup_kind(put) != "none"
+
+
 def _tts_module():
     """懒加载 tts_sapi（默认 off 不加载）；ImportError -> None + debug（不静默）。"""
     if _TTS_CACHE["loaded"]:
@@ -993,14 +1007,16 @@ class DailyApp:
             raise DailyError("memory_full", "记忆已达上限 %d 条" % cap)
         slots = memo.extract_slots(text)
         put = self._put_memory_source(text, label=label, mode=mode)
-        if put["duplicate"]:
+        if _is_dup(put):
             if tags is not None:
                 self._meta_set(put["id"], tags=tags,
                                source=("auto_summary" if mode == "auto_summary"
                                        else "auto_archive" if mode == "auto_archive"
                                        else "manual"),
                                related_ids=related_ids, slots=slots)
-            return {"id": put["id"], "name": put["name"], "duplicate": True,
+            return {"id": put["id"], "name": put["name"],
+                    "duplicate": ("norm" if _dup_kind(put) == "norm" else "exact")
+                    if getattr(self, "norm_dedup", False) else True,
                     "n_tokens": self._n_tokens_of(put["id"]),
                     "created_at": self._created_at(put["id"]), "path": None,
                     "block_sha16": None}
@@ -1032,7 +1048,8 @@ class DailyApp:
                     else "auto_archive" if mode == "auto_archive" else "manual")
         meta = self._meta_set(sid, tags=(tags or []), source=src_kind,
                               related_ids=(related_ids or []), slots=slots)
-        return {"id": sid, "name": put["name"], "duplicate": False,
+        _dupe = "none" if getattr(self, "norm_dedup", False) else False
+        return {"id": sid, "name": put["name"], "duplicate": _dupe,
                 "n_tokens": int(bs["n_tokens"]), "created_at": put["created_at"],
                 "path": bs.get("path"), "block_sha16": None,
                 "tags": meta["tags"], "source": meta["source"],
@@ -1898,7 +1915,7 @@ class DailyApp:
             try:
                 put = self._put_memory_source(text, label="助手承诺",
                                               mode="assistant_commit")
-                if put.get("duplicate"):
+                if _is_dup(put):
                     meta["skipped"].append({"text": text, "reason": "duplicate"})
                     continue
                 try:
@@ -3231,6 +3248,21 @@ class DailyApp:
         """
         name = "mem-" + ms.sha256_text(text)[:12]
         h = ms.sha256_text(text)
+        # exact 优先：source_hash 命中（同 tenant+scope+name）
+        prev = self.con.execute(
+            "SELECT id, source_hash FROM memory_source WHERE tenant=? AND "
+            "scope=? AND name=? ORDER BY id DESC LIMIT 1",
+            (tenant, scope, name)).fetchone()
+        if prev:
+            if prev[1] != h:
+                raise DailyError("conflict",
+                                 "记忆 %s 已存在且内容不同（历史不可变）" % name)
+            res = {"id": int(prev[0]), "name": name,
+                   "duplicate": "exact" if getattr(self, "norm_dedup", False) else True,
+                   "created_at": None}
+            if getattr(self, "norm_dedup", False):
+                res["duplicate_norm"] = False
+            return res
         if getattr(self, "norm_dedup", False):
             dup = ndedup.find_duplicate(self.con, text, tenant, scope)
             if dup:
@@ -3238,7 +3270,8 @@ class DailyApp:
                     if getattr(self, "logger", None):
                         self.logger.log_warning(
                             "norm_dup", "normalized duplicate skipped",
-                            evidence={"id": dup["id"], "norm_hash": dup["norm_hash"][:16]})
+                            evidence={"id": dup["id"],
+                                      "norm_hash": dup["norm_hash"][:16]})
                 except Exception:                    # noqa: BLE001
                     pass
                 try:
@@ -3253,18 +3286,9 @@ class DailyApp:
                                            ensure_ascii=False) + "\n")
                 except Exception:                    # noqa: BLE001
                     pass
-                return {"id": dup["id"], "name": dup["name"], "duplicate": True,
+                return {"id": dup["id"], "name": dup["name"], "duplicate": "norm",
                         "duplicate_norm": True, "created_at": None,
                         "norm_hash": dup["norm_hash"]}
-        prev = self.con.execute(
-            "SELECT id, source_hash FROM memory_source WHERE tenant=? AND "
-            "scope=? AND name=? ORDER BY id DESC LIMIT 1",
-            (tenant, scope, name)).fetchone()
-        if prev:
-            if prev[1] == h:
-                return {"id": int(prev[0]), "name": name, "duplicate": True,
-                        "created_at": None}
-            raise DailyError("conflict", "记忆 %s 已存在且内容不同（历史不可变）" % name)
         created = datetime.now().isoformat(timespec="seconds")
         event_meta = None
         if getattr(self, "event_date", False):
@@ -3306,12 +3330,16 @@ class DailyApp:
         if not getattr(self, "_batch_db", False):
             self.con.commit()
             self._db_commit_count += 1
-        return {"id": int(cur.lastrowid), "name": name, "duplicate": False,
-                "created_at": created,
+        res = {"id": int(cur.lastrowid), "name": name,
+               "duplicate": "none" if getattr(self, "norm_dedup", False) else False,
+               "created_at": created,
                 "event_meta": ({k: event_meta.get(k) for k in
                                 ("event_date", "event_time", "event_confidence",
                                  "event_source", "event_tz", "event_parser_version",
                                  "event_basis_ts")} if event_meta else None)}
+        if getattr(self, "norm_dedup", False):
+            res["duplicate_norm"] = False
+        return res
 
     def _rollback_source(self, sid):
         path = None
@@ -3580,18 +3608,22 @@ class DailyApp:
             if gate is not None:
                 return gate                          # 确认前零写入
         put = self._put_memory_source(text)
-        if put["duplicate"]:
+        if _is_dup(put):
             self._sync_mounts()
             meta = self._meta_get(put["id"])
-            return {"id": put["id"], "n_tokens": self._n_tokens_of(put["id"]),
-                    "created_at": self._created_at(put["id"]), "duplicate": True,
-                    "duplicate_norm": bool(put.get("duplicate_norm")),
-                    "name": put["name"], "tags": meta.get("tags") or [],
+            out = {"id": put["id"], "n_tokens": self._n_tokens_of(put["id"]),
+                   "created_at": self._created_at(put["id"]),
+                   "duplicate": ("norm" if _dup_kind(put) == "norm" else "exact")
+                   if getattr(self, "norm_dedup", False) else True,
+                   "name": put["name"], "tags": meta.get("tags") or [],
                     "source": meta.get("source") or "manual",
                     "related_ids": meta.get("related_ids") or [],
                     "slots": meta.get("slots") or {},
-                    "slots_unverified": (memo.unverified_slots(meta.get("slots") or {})
-                                         if hasattr(memo, "unverified_slots") else [])}
+                   "slots_unverified": (memo.unverified_slots(meta.get("slots") or {})
+                                        if hasattr(memo, "unverified_slots") else [])}
+            if getattr(self, "norm_dedup", False):
+                out["duplicate_norm"] = bool(put.get("duplicate_norm"))
+            return out
         sid = put["id"]
         try:
             src_row = (sid, "default", "private", "chat", put["name"], "日常记忆",
@@ -3644,7 +3676,8 @@ class DailyApp:
         except Exception:
             pass
         return {"id": sid, "n_tokens": int(bs["n_tokens"]),
-                "created_at": put["created_at"], "duplicate": False,
+                "created_at": put["created_at"],
+                "duplicate": ("none" if getattr(self, "norm_dedup", False) else False),
                 "name": put["name"], "tags": meta.get("tags") or merged_tags,
                 "source": meta.get("source") or "manual",
                 "related_ids": meta.get("related_ids") or [],

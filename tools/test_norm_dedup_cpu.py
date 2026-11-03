@@ -57,6 +57,7 @@ class WireTests(unittest.TestCase):
         a = app.remember("我叫阿泽，车是京A12345")
         b = app.remember("我叫阿泽,车是京A12345。")
         self.assertEqual(a["id"], b["id"])
+        self.assertEqual(b.get("duplicate"), "norm")
         self.assertTrue(b.get("duplicate_norm"))
         self.assertEqual(app.con.execute(
             "SELECT COUNT(*) FROM memory_source").fetchone()[0], 1)
@@ -69,6 +70,28 @@ class WireTests(unittest.TestCase):
         b = app._put_memory_source("我叫阿泽", tenant="other", scope="private")
         self.assertFalse(b.get("duplicate_norm"))
         self.assertNotEqual(a["id"], b["id"])
+
+    def test_enum_none_exact_norm(self):
+        app = self.make_app(True)
+        a = app.remember("我叫阿泽")                     # 新建 none
+        self.assertEqual(a.get("duplicate"), "none")
+        self.assertFalse(a.get("duplicate_norm"))
+        b = app.remember("我叫阿泽")                     # 完全相同 exact
+        self.assertEqual(b.get("duplicate"), "exact")
+        self.assertFalse(b.get("duplicate_norm"))
+        c = app.remember("我叫阿泽。")                   # 归一相同 norm
+        self.assertEqual(c.get("duplicate"), "norm")
+        self.assertTrue(c.get("duplicate_norm"))
+        self.assertEqual(a["id"], b["id"])
+        self.assertEqual(a["id"], c["id"])
+
+    def test_off_duplicate_bool_legacy(self):
+        app = self.make_app(False)
+        a = app.remember("我叫阿泽")
+        self.assertIs(a.get("duplicate"), False)         # 旧 bool
+        b = app.remember("我叫阿泽")                     # 完全相同 -> True
+        self.assertIs(b.get("duplicate"), True)
+        self.assertNotIn("duplicate_norm", b)
 
     def test_near_similar_not_deduped(self):
         app = self.make_app(True)
