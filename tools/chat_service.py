@@ -587,7 +587,7 @@ def build_app(args, data):
                       norm_dedup=bool(getattr(args, "norm_dedup", False)),
                       json_output=bool(getattr(args, "json_output", False)),
                       dedup_shadow=bool(getattr(args, "dedup_shadow", False)),
-                      meta_answer=bool(getattr(args, "meta_answer", False)),
+                      meta_answer=bool(getattr(args, "meta_answer", True)),
                       topk=getattr(args, "topk", D.DEFAULT_TOPK),
                       rollover_at=getattr(args, "rollover_at", D.ROLLOVER_AT_DEFAULT),
                       n_ctx=getattr(args, "n_ctx", D.N_CTX_DEFAULT),

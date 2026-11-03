@@ -95,6 +95,15 @@ class MetaTests(unittest.TestCase):
         for k in ("query", "tenant", "scope", "count", "latency_ms"):
             self.assertIn(k, ev, k)
 
+    def test_exclusion_words_not_meta(self):
+        for q in ("我的内存占多少空间？", "显存多大？", "硬盘占多少 GB？",
+                  "CPU 占用多大？"):
+            app = self.make_app(True)
+            app._ask_natural = lambda t, t0: {"answer": "模型回答", "block_ids": []}
+            with mock.patch.object(D, "NATURAL_MODE", True):
+                res = app.ask(q)
+            self.assertEqual(res["answer"], "模型回答", q)
+
     def test_count_scope_and_supersede_archive(self):
         side_dir = tempfile.mkdtemp(prefix="side_")
         app = self.make_app(True, side_dir=side_dir)

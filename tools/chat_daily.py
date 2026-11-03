@@ -1883,39 +1883,84 @@ class DailyApp:
 
     # meta-v1 触发枚举（写死；命中才走，清单变更需评审）
     _META_ANSWER_PATTERNS = ("几条记忆", "多少条", "记了多少", "记忆条数", "有几条")
+    _META_SPACE_PATTERNS = ("占多少空间", "占用空间", "占空间", "多大",
+                            "多少mb", "多少MB", "多少gb", "多少GB", "多少 mb",
+                            "多少 gb")
+    _META_EXCLUDE = ("内存", "显存", "硬盘", "显卡", "cpu", "CPU")
     _META_RE = re.compile("|".join(_META_ANSWER_PATTERNS))
+    _META_SPACE_RE = re.compile("|".join(_META_SPACE_PATTERNS), re.I)
 
     def _meta_answer_text(self, text):
-        """meta-v1：仅命中计数问句时直接查库返回，不调模型/不检索。"""
+        """meta-v1：命中枚举才直答（模板路径，不调模型）。"""
         if not getattr(self, "meta_answer", False):
             return None
         q = str(text or "")
-        if not self._META_RE.search(q) or ("记忆" not in q and "条数" not in q):
+        if any(x in q for x in self._META_EXCLUDE):
+            return None
+        is_space = bool(self._META_SPACE_RE.search(q))
+        has_count = bool(self._META_RE.search(q)) and (
+            "记忆" in q or "条数" in q)
+        if not is_space and not has_count:
             return None
         t0 = time.perf_counter()
         try:
             n = self._count_valid_memories()
         except Exception:                                # noqa: BLE001
             return None                                  # DB 异常 -> 回退模型路径
-        if n <= 0:
-            answer = "你还没有保存任何记忆。"
-        else:
-            answer = "你目前有 %d 条有效记忆。" % n
+        facts = self._meta_facts(n)
+        answer = (self._meta_space_template(facts) if is_space
+                  else self._meta_count_template(facts))
+        meta = {"count": n, "rule": "meta-v1",
+                "facts": facts if is_space else {"count": n}}
         latency_ms = round((time.perf_counter() - t0) * 1000.0, 2)
+        meta["latency_ms"] = latency_ms
         try:
             if getattr(self, "logger", None):
                 self.logger.log_warning(
-                    "meta_answer", "meta-v1 counted answer",
+                    "meta_answer", "meta-v1 answer",
                     evidence={"query": q[:60], "tenant": "default",
                               "scope": "private", "count": n,
                               "latency_ms": latency_ms})
         except Exception:                                # noqa: BLE001
             pass
         return {"answer": answer, "block_ids": [], "state": "meta_answer",
-                "meta": {"count": n, "rule": "meta-v1",
-                         "latency_ms": latency_ms},
-                "latency_s": round(latency_ms / 1000.0, 4),
+                "meta": meta, "latency_s": round(latency_ms / 1000.0, 4),
                 "refused": False, "chars": len(answer)}
+
+    def _meta_facts(self, count):
+        kv = 0
+        try:
+            for r in self._rows():
+                p = r[6]
+                if p and os.path.exists(p):
+                    kv += os.path.getsize(p)
+        except Exception:                                # noqa: BLE001
+            pass
+        db = 0
+        try:
+            db = os.path.getsize(self.db_path)
+        except Exception:                                # noqa: BLE001
+            pass
+        total = kv + db
+        def mb(x): return round(x / (1024.0 * 1024.0), 1)
+        def gb(x): return round(x / (1024.0 ** 3), 2)
+        return {"count": int(count), "kv_bytes": int(kv), "db_bytes": int(db),
+                "total_bytes": int(total),
+                "kv_mb": mb(kv), "db_mb": mb(db), "total_mb": mb(total),
+                "kv_gb": gb(kv), "db_gb": gb(db), "total_gb": gb(total)}
+
+    def _meta_count_template(self, f):
+        n = f["count"]
+        return ("你还没有保存任何记忆。" if n <= 0
+                else "你目前有 %d 条有效记忆。" % n)
+
+    def _meta_space_template(self, f):
+        if f["count"] <= 0:
+            return "你还没有保存任何记忆。"
+        return ("你目前有 %d 条有效记忆；记忆块 %s MB，数据库 %s MB，"
+                "合计 %s MB（约 %s GB）。" % (
+                    f["count"], f["kv_mb"], f["db_mb"],
+                    f["total_mb"], f["total_gb"]))
 
     def _count_valid_memories(self, tenant="default", scope="private"):
         ids = {int(r[0]) for r in self.con.execute(
@@ -4298,7 +4343,7 @@ def main(argv=None):
                        norm_dedup=getattr(args, "norm_dedup", False),
                        json_output=getattr(args, "json_output", False),
                        dedup_shadow=getattr(args, "dedup_shadow", False),
-                       meta_answer=getattr(args, "meta_answer", False),
+                       meta_answer=getattr(args, "meta_answer", True),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
                        n_gpu_layers=args.n_gpu_layers)
