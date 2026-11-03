@@ -1,0 +1,87 @@
+{
+ "scope": "DB-level only (no service E2E)",
+ "now": "2026-11-04T12:00:00",
+ "days": 21,
+ "auto_archive": {
+  "rows_total": 250,
+  "candidates": 200,
+  "months": {
+   "2026-09": 67,
+   "2026-10": 67,
+   "2026-11": 66
+  },
+  "zips": [
+   "2026-09.zip",
+   "2026-10.zip",
+   "2026-11.zip"
+  ],
+  "archive_marks": 200,
+  "active_rows": 50,
+  "idempotent_second_run_candidates": 0,
+  "idempotent_marks_unchanged": true,
+  "active_plus_archived_equals_total": true
+ },
+ "fallback_archive": {
+  "hits_before_corrupt": [
+   {
+    "id": 70,
+    "score": 0.8333
+   },
+   {
+    "id": 71,
+    "score": 0.8333
+   },
+   {
+    "id": 72,
+    "score": 0.8333
+   }
+  ],
+  "hit_n_before": 5,
+  "hits_after_corrupt": 0,
+  "bad_zip_skipped_without_error": true
+ },
+ "reheat_plan": {
+  "with_newer": {
+   "id": 2,
+   "action": "skip_superseded",
+   "reason": "newer_exists",
+   "superseded_by": 99
+  },
+  "without_newer": {
+   "id": 1,
+   "action": "restore",
+   "reason": "no_newer"
+  }
+ },
+ "capacity_state": {
+  "199": {
+   "rows": 199,
+   "candidates": 160,
+   "archived": 160,
+   "active": 39,
+   "consistent": true
+  },
+  "200": {
+   "rows": 200,
+   "candidates": 160,
+   "archived": 160,
+   "active": 40,
+   "consistent": true
+  },
+  "201": {
+   "rows": 201,
+   "candidates": 161,
+   "archived": 161,
+   "active": 40,
+   "consistent": true
+  },
+  "250": {
+   "rows": 250,
+   "candidates": 200,
+   "archived": 200,
+   "active": 50,
+   "consistent": true
+  }
+ },
+ "verdict": "DB 级验证；非服务级 E2E"
+}
