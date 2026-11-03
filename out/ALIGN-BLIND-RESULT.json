@@ -1,0 +1,890 @@
+{
+  "schema": "align_blind_result_v1",
+  "frozen_sha256": "008297f4ef3cd9e89f6bd3b175ecb05ba64f0587fd307287fce957f0db672589",
+  "frozen_match": true,
+  "labels_sha": "bfe8e02d…858a",
+  "positives": {
+    "n": 20,
+    "pass": 14,
+    "misreject": 6,
+    "misreject_ids": [
+      "A03",
+      "A05",
+      "A08",
+      "A12",
+      "A18",
+      "A20"
+    ]
+  },
+  "negatives": {
+    "n": 19,
+    "reject": 14,
+    "false_allow": 5,
+    "false_allow_ids": [
+      "N01",
+      "N04",
+      "N07",
+      "N15",
+      "N16"
+    ],
+    "false_allow_detail": [
+      [
+        "N01",
+        "no_asked_predicate"
+      ],
+      [
+        "N04",
+        "no_asked_predicate"
+      ],
+      [
+        "N07",
+        "no_asked_predicate"
+      ],
+      [
+        "N15",
+        "aligned_block"
+      ],
+      [
+        "N16",
+        "aligned_block"
+      ]
+    ],
+    "no_asked_predicate": [
+      "N01",
+      "N04",
+      "N07"
+    ]
+  },
+  "by_kind": {
+    "cross_slot": {
+      "total": 8,
+      "false_allow": 3
+    },
+    "approx_only": {
+      "total": 5,
+      "false_allow": 0
+    },
+    "subject_mismatch": {
+      "total": 6,
+      "false_allow": 2
+    }
+  },
+  "uncertain_single": [
+    {
+      "id": "N14",
+      "decision": "reject",
+      "reason": "no_aligned_block"
+    }
+  ],
+  "n02": {
+    "decision": "reject",
+    "reason": "no_value_for_asked_slot"
+  },
+  "gate": {
+    "misreject_le_1": false,
+    "false_allow_zero": false,
+    "pass": false
+  },
+  "rows": [
+    {
+      "id": "A01",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我的车牌号是多少？",
+      "answer": "你的车牌是皖K·3D7F9。",
+      "expected": "pass",
+      "decision": "pass",
+      "reason": "aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "车牌",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "车牌",
+      "reason_label": "aligned_value:车牌"
+    },
+    {
+      "id": "A02",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我手机号是哪个？",
+      "answer": "你的手机号是 195-7700-3312。",
+      "expected": "pass",
+      "decision": "pass",
+      "reason": "aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "手机",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "手机",
+      "reason_label": "aligned_value:手机"
+    },
+    {
+      "id": "A03",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我目前的就职单位是哪家？",
+      "answer": "你在宁德时代新能源科技上班。",
+      "expected": "pass",
+      "decision": "reject",
+      "reason": "no_value_for_asked_slot",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "公司",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "公司",
+      "reason_label": "aligned_value:公司"
+    },
+    {
+      "id": "A04",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我家猫叫什么？",
+      "answer": "你的猫叫布蕾。",
+      "expected": "pass",
+      "decision": "pass",
+      "reason": "aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "猫",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "猫",
+      "reason_label": "aligned_value:猫"
+    },
+    {
+      "id": "A05",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我的工位在哪？",
+      "answer": "你的工位在 7 楼 B 区 12 号。",
+      "expected": "pass",
+      "decision": "reject",
+      "reason": "no_value_for_asked_slot",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "地点",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "地点",
+      "reason_label": "aligned_value:工位"
+    },
+    {
+      "id": "A06",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我的会议几点开？",
+      "answer": "你的会议是 2027-01-12 09:45。",
+      "expected": "pass",
+      "decision": "pass",
+      "reason": "aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "会议",
+        "facet": "time",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "会议",
+      "reason_label": "aligned_value:会议时间"
+    },
+    {
+      "id": "A07",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我的组会定在什么时候？",
+      "answer": "组会定在周四下午三点半。",
+      "expected": "pass",
+      "decision": "pass",
+      "reason": "aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "会议",
+        "facet": "time",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "会议",
+      "reason_label": "aligned_value:时间"
+    },
+    {
+      "id": "A08",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我的评审会在哪开？",
+      "answer": "评审会在 3 号会议室开。",
+      "expected": "pass",
+      "decision": "reject",
+      "reason": "no_value_for_asked_slot",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "地点",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "地点",
+      "reason_label": "aligned_value:地点"
+    },
+    {
+      "id": "A09",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我的工资卡号是多少？",
+      "answer": "你的工资卡号是 6225 7712 3344 8890。",
+      "expected": "pass",
+      "decision": "pass",
+      "reason": "aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "银行卡",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "银行卡",
+      "reason_label": "aligned_value:银行卡"
+    },
+    {
+      "id": "A10",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我的工作邮箱是什么？",
+      "answer": "你的工作邮箱是 han.xs@corp.example。",
+      "expected": "pass",
+      "decision": "pass",
+      "reason": "aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "邮箱",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "邮箱",
+      "reason_label": "aligned_value:邮箱"
+    },
+    {
+      "id": "A11",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我养的狗叫什么？",
+      "answer": "你的狗叫铁蛋。",
+      "expected": "pass",
+      "decision": "pass",
+      "reason": "aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "狗",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "狗",
+      "reason_label": "aligned_value:狗"
+    },
+    {
+      "id": "A12",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我的座位号是多少？",
+      "answer": "你的座位是 12 排 07 号。",
+      "expected": "pass",
+      "decision": "reject",
+      "reason": "no_value_for_asked_slot",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "工位",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "工位",
+      "reason_label": "aligned_value:座位"
+    },
+    {
+      "id": "A13",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我老家在哪？",
+      "answer": "你老家在江西赣州。",
+      "expected": "pass",
+      "decision": "pass",
+      "reason": "aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "老家",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "老家",
+      "reason_label": "aligned_value:老家"
+    },
+    {
+      "id": "A14",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我的车是什么车型？",
+      "answer": "你的车是紧凑型 MPV。",
+      "expected": "pass",
+      "decision": "pass",
+      "reason": "aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "车型",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "车型",
+      "reason_label": "aligned_value:车型"
+    },
+    {
+      "id": "A15",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我的车是什么颜色？",
+      "answer": "你的车是墨绿色。",
+      "expected": "pass",
+      "decision": "pass",
+      "reason": "aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "车色",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "车色",
+      "reason_label": "aligned_value:车色"
+    },
+    {
+      "id": "A16",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我的备用号码是哪个？",
+      "answer": "你的备用号是 133-4400-7788。",
+      "expected": "pass",
+      "decision": "pass",
+      "reason": "aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "手机",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "手机",
+      "reason_label": "aligned_value:备用号"
+    },
+    {
+      "id": "A17",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我的私人号是多少？",
+      "answer": "你的私人号是 188-9900-1122。",
+      "expected": "pass",
+      "decision": "pass",
+      "reason": "no_asked_predicate",
+      "fail_open": true,
+      "asked": {
+        "subject": "self",
+        "predicate": null,
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": null,
+      "reason_label": "aligned_value:私人号"
+    },
+    {
+      "id": "A18",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我周几有组会？",
+      "answer": "你每周二有组会。",
+      "expected": "pass",
+      "decision": "reject",
+      "reason": "no_value_for_asked_slot",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "会议",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "会议",
+      "reason_label": "aligned_value:组会时间"
+    },
+    {
+      "id": "A19",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我下个月去哪出差？",
+      "answer": "你下个月去西宁出差。",
+      "expected": "pass",
+      "decision": "pass",
+      "reason": "aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "出差",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "出差",
+      "reason_label": "aligned_value:出差地点"
+    },
+    {
+      "id": "A20",
+      "kind": "positive",
+      "uncertain": false,
+      "query": "我对什么过敏？",
+      "answer": "你对芒果过敏。",
+      "expected": "pass",
+      "decision": "reject",
+      "reason": "no_value_for_asked_slot",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "过敏",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "过敏",
+      "reason_label": "aligned_value:过敏"
+    },
+    {
+      "id": "N01",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "我的保险到期日是哪天？",
+      "answer": "你的车牌是皖K·3D7F9。",
+      "expected": "reject",
+      "decision": "pass",
+      "reason": "no_asked_predicate",
+      "fail_open": true,
+      "asked": {
+        "subject": "self",
+        "predicate": null,
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": null,
+      "reason_label": "cross_slot:车牌"
+    },
+    {
+      "id": "N02",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "我银行卡的密码是什么？",
+      "answer": "你在宁德时代新能源科技上班。",
+      "expected": "reject",
+      "decision": "reject",
+      "reason": "no_value_for_asked_slot",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "密码",
+        "facet": "secret",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "密码",
+      "reason_label": "cross_slot:公司"
+    },
+    {
+      "id": "N03",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "我护照号是多少来着？",
+      "answer": "你的手机号是 195-7700-3312。",
+      "expected": "reject",
+      "decision": "reject",
+      "reason": "other_slot_value:会议号",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "护照",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "护照",
+      "reason_label": "cross_slot:手机"
+    },
+    {
+      "id": "N04",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "我的工牌号是多少？",
+      "answer": "你的工位在 7 楼 B 区 12 号。",
+      "expected": "reject",
+      "decision": "pass",
+      "reason": "no_asked_predicate",
+      "fail_open": true,
+      "asked": {
+        "subject": "self",
+        "predicate": null,
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": null,
+      "reason_label": "cross_slot:工位"
+    },
+    {
+      "id": "N05",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "我的包裹运单号是多少？",
+      "answer": "你的工资卡号是 6225 7712 3344 8890。",
+      "expected": "reject",
+      "decision": "reject",
+      "reason": "other_slot_value:工号",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "运单号",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "运单号",
+      "reason_label": "cross_slot:银行卡"
+    },
+    {
+      "id": "N06",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "我学号是哪个？",
+      "answer": "你的工作邮箱是 han.xs@corp.example。",
+      "expected": "reject",
+      "decision": "reject",
+      "reason": "other_slot_value:疫苗编号",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "学号",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "学号",
+      "reason_label": "cross_slot:邮箱"
+    },
+    {
+      "id": "N07",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "我是什么血型？",
+      "answer": "你的猫叫布蕾。",
+      "expected": "reject",
+      "decision": "pass",
+      "reason": "no_asked_predicate",
+      "fail_open": true,
+      "asked": {
+        "subject": "self",
+        "predicate": null,
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": null,
+      "reason_label": "cross_slot:猫"
+    },
+    {
+      "id": "N08",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "我车牌是哪一年上的？",
+      "answer": "你的车是墨绿色。",
+      "expected": "reject",
+      "decision": "reject",
+      "reason": "other_slot_value:车色",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "车牌",
+        "facet": "time",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "车牌",
+      "reason_label": "cross_slot:车色"
+    },
+    {
+      "id": "N09",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "我的车牌号是多少？",
+      "answer": "你的车牌是皖K·3D7F8。",
+      "expected": "reject",
+      "decision": "reject",
+      "reason": "no_aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "车牌",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "车牌",
+      "reason_label": "approx_only:车牌差一位"
+    },
+    {
+      "id": "N10",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "我手机号码多少？",
+      "answer": "你的手机号是 195-7700-3313。",
+      "expected": "reject",
+      "decision": "reject",
+      "reason": "no_aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "手机",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "手机",
+      "reason_label": "approx_only:手机尾号差一"
+    },
+    {
+      "id": "N11",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "我的工资卡号是多少？",
+      "answer": "你的工资卡号是 6225 7712 3344 8890 1。",
+      "expected": "reject",
+      "decision": "reject",
+      "reason": "no_aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "银行卡",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "银行卡",
+      "reason_label": "approx_only:卡号多一位"
+    },
+    {
+      "id": "N12",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "我的座位号是多少？",
+      "answer": "你的座位是 12 排 70 号。",
+      "expected": "reject",
+      "decision": "reject",
+      "reason": "no_value_for_asked_slot",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "工位",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "工位",
+      "reason_label": "approx_only:数字换位"
+    },
+    {
+      "id": "N13",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "我的会议几点开？",
+      "answer": "你的会议是 2027-01-12 19:45。",
+      "expected": "reject",
+      "decision": "reject",
+      "reason": "no_aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "会议",
+        "facet": "time",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "会议",
+      "reason_label": "approx_only:同日期异时刻"
+    },
+    {
+      "id": "N14",
+      "kind": "negative",
+      "uncertain": true,
+      "query": "我现在的公司是哪家？",
+      "answer": "你在宁德时代新能源科技有限公司。",
+      "expected": "reject",
+      "decision": "reject",
+      "reason": "no_aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "self",
+        "predicate": "公司",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "公司",
+      "reason_label": "approx_only:公司名近似但不同"
+    },
+    {
+      "id": "N15",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "张伟的车牌号是多少？",
+      "answer": "阿泽的车牌是京A·88888。",
+      "expected": "reject",
+      "decision": "pass",
+      "reason": "aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "name:张伟",
+        "predicate": "车牌",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "车牌",
+      "reason_label": "subject_mismatch:问张伟答阿泽"
+    },
+    {
+      "id": "N16",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "张伟的手机号是多少？",
+      "answer": "阿泽的手机号是 136-0000-2468。",
+      "expected": "reject",
+      "decision": "pass",
+      "reason": "aligned_block",
+      "fail_open": false,
+      "asked": {
+        "subject": "name:张伟",
+        "predicate": "手机",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "手机",
+      "reason_label": "subject_mismatch:问张伟答阿泽"
+    },
+    {
+      "id": "N17",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "柳如烟在哪家公司上班？",
+      "answer": "韩雪松在宁德时代新能源科技上班。",
+      "expected": "reject",
+      "decision": "reject",
+      "reason": "no_asked_subject",
+      "fail_open": false,
+      "asked": {
+        "subject": null,
+        "predicate": "公司",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": null,
+      "reason_label": "subject_mismatch:问柳如烟答韩雪松"
+    },
+    {
+      "id": "N18",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "傅思远的猫叫什么？",
+      "answer": "柳如烟的猫叫布蕾。",
+      "expected": "reject",
+      "decision": "reject",
+      "reason": "unresolved_subject",
+      "fail_open": false,
+      "asked": {
+        "subject": null,
+        "predicate": "猫",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": null,
+      "reason_label": "subject_mismatch:问傅思远答柳如烟"
+    },
+    {
+      "id": "N19",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "阿泽的工位在哪？",
+      "answer": "张伟的工位在 7 楼 B 区 12 号。",
+      "expected": "reject",
+      "decision": "reject",
+      "reason": "no_asked_subject",
+      "fail_open": false,
+      "asked": {
+        "subject": null,
+        "predicate": "地点",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": null,
+      "reason_label": "subject_mismatch:问阿泽答张伟"
+    },
+    {
+      "id": "N20",
+      "kind": "negative",
+      "uncertain": false,
+      "query": "邵嘉的座位号是多少？",
+      "answer": "白露的座位是 12 排 07 号。",
+      "expected": "reject",
+      "decision": "reject",
+      "reason": "other_slot_value:车色",
+      "fail_open": false,
+      "asked": {
+        "subject": "name:邵嘉",
+        "predicate": "工位",
+        "facet": "value",
+        "explicit_values": [],
+        "pronoun": false
+      },
+      "answer_slot": "工位",
+      "reason_label": "subject_mismatch:问邵嘉答白露"
+    }
+  ]
+}
