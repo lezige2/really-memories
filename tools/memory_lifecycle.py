@@ -206,3 +206,93 @@ def fallback_archive(con, query, archive_dir, max_hits=5):
             continue
     hits.sort(key=lambda x: (-x["score"], x["id"]))
     return hits[:max(1, int(max_hits))]
+
+def _slots(text):
+    try:
+        import memory_service as memo
+        return memo.extract_slots(str(text or "")) or {}
+    except Exception:                                # noqa: BLE001
+        return {}
+
+
+def _key_of(text):
+    # 优先用确定性事实抽取（p1b）拿 subject/predicate；槽位只做补充
+    try:
+        import p1b_subject as P
+        info = P.extract(str(text or "")) or {}
+        if info.get("predicate"):
+            return (info.get("subject") or "self"), info["predicate"], False
+    except Exception:                                # noqa: BLE001
+        pass
+    sl = _slots(text)
+    if not sl:
+        return None, None, True
+    subject = sl.get("person") or "self"
+    predicate = sl.get("action") or None
+    return subject, predicate, predicate is None
+
+
+def _read_archived_text(con, source_id):
+    import hashlib
+    import json as _json
+    import zipfile
+    row = con.execute(
+        "SELECT zip, zip_sha, superseded_by FROM memory_archive WHERE source_id=?",
+        (int(source_id),)).fetchone()
+    if not row:
+        return None, "not_archived"
+    zip_path, zip_sha, _sup = row
+    if not zip_path or not os.path.exists(zip_path):
+        return None, "bad_zip_or_sha"
+    if hashlib.sha256(open(zip_path, "rb").read()).hexdigest() != (zip_sha or ""):
+        return None, "bad_zip_or_sha"
+    side = zip_path + ".sidecar.json"
+    if not os.path.exists(side):
+        return None, "bad_zip_or_sha"
+    manifest = _json.load(open(side, encoding="utf-8"))
+    ent = next((e for e in manifest.get("entries") or []
+                if int(e.get("id", -1)) == int(source_id)), None)
+    if not ent:
+        return None, "bad_zip_or_sha"
+    with zipfile.ZipFile(zip_path) as zf:
+        body = zf.read(ent["member"]).split(b"text:\n", 1)[-1]
+    if hashlib.sha256(body).hexdigest() != ent.get("text_sha256"):
+        return None, "bad_zip_or_sha"
+    return body.decode("utf-8", "replace"), None
+
+
+def reheat_plan(con, source_id, live_rows):
+    """纯函数：校验归档 -> 抽槽 -> 与 live 比较；只返回 plan，不写 DB。"""
+    text, err = _read_archived_text(con, source_id)
+    plan = {"source_id": int(source_id), "action": "skip", "reason": err,
+            "subject": None, "predicate": None, "superseded_by": None,
+            "unresolved": False}
+    if text is None:
+        return plan
+    subject, predicate, unresolved = _key_of(text)
+    plan.update(subject=subject, predicate=predicate, unresolved=unresolved)
+    if subject is None or predicate is None:
+        plan.update(action="skip", reason="no_subject" if subject is None
+                    else "no_predicate")
+        return plan
+    try:
+        arch_created = con.execute(
+            "SELECT COALESCE((SELECT created_at FROM memory_source WHERE id=?), '')",
+            (int(source_id),)).fetchone()[0] or ""
+    except sqlite3.Error:
+        arch_created = ""
+    for r in live_rows or []:
+        if int(r[0]) == int(source_id):
+            continue
+        s2, p2, _u2 = _key_of(r[3] if len(r) > 3 else "")
+        if s2 != subject or p2 != predicate:
+            continue
+        created = str(r[8]) if len(r) > 8 and r[8] else ""
+        newer = (int(r[0]) > int(source_id)) and (not arch_created
+                                                 or created > arch_created)
+        if newer or (int(r[0]) > int(source_id) and created > arch_created):
+            plan.update(action="skip_superseded", reason="newer_exists",
+                        superseded_by=int(r[0]))
+            return plan
+    plan.update(action="restore", reason="no_newer")
+    return plan

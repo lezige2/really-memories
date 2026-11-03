@@ -188,6 +188,64 @@ class LifecycleTests(unittest.TestCase):
         n = app.con.execute("SELECT COUNT(*) FROM memory_archive").fetchone()[0]
         self.assertEqual(n, 1)
 
+    def test_reheat_restore_and_skip(self):
+        from datetime import datetime
+        rows = [(1, "m1", "l", "我的车牌号是皖K3D7F9", "h", 1, "p", 8,
+                 "2026-01-05T10:00:00")]
+        d = os.path.join(self.tmp, "arch_rh")
+        L.auto_archive(self.con, rows, datetime(2026, 3, 1), d)
+        self.con.execute("INSERT INTO memory_source (id,tenant,scope,mode,name,"
+                         "label,text,source_hash,created_at) VALUES "
+                         "(1,'default','private','chat','m1','l',"
+                         "'我的车牌号是皖K3D7F9','h','2026-01-05T10:00:00')")
+        self.con.commit()
+        p = L.reheat_plan(self.con, 1, [])
+        self.assertEqual(p["action"], "restore")
+        # 有更新行 -> skip_superseded
+        live = [(5, "m5", "l", "我的车牌号是皖K9Z9Z9", "h", 1, "p", 8,
+                 "2026-02-01T10:00:00")]
+        p2 = L.reheat_plan(self.con, 1, live)
+        self.assertEqual(p2["action"], "skip_superseded")
+        self.assertEqual(p2["superseded_by"], 5)
+
+    def test_reheat_bad_sha(self):
+        from datetime import datetime
+        rows = [(1, "m1", "l", "我的车牌号是皖K3D7F9", "h", 1, "p", 8,
+                 "2026-01-05T10:00:00")]
+        d = os.path.join(self.tmp, "arch_bad")
+        L.auto_archive(self.con, rows, datetime(2026, 3, 1), d)
+        z = [os.path.join(d, f) for f in os.listdir(d) if f.endswith(".zip")][0]
+        data = bytearray(open(z, "rb").read())
+        data[-6] ^= 0xFF
+        open(z, "wb").write(bytes(data))
+        p = L.reheat_plan(self.con, 1, [])
+        self.assertEqual(p["action"], "skip")
+        self.assertEqual(p["reason"], "bad_zip_or_sha")
+
+    def test_reheat_no_subject_conservative(self):
+        from datetime import datetime
+        import archive_store as A
+        d = os.path.join(self.tmp, "arch_ns")
+        z = os.path.join(d, "2026-01.zip")
+        side = z + ".sidecar.json"
+        A.archive_rows([{"id": 7, "name": "m7", "text": "哈哈哈哈", "created_at":
+                         "2026-01-05T10:00:00"}], z, side)
+        L.archive_mark(self.con, [7], z, A.sha_file(z))
+        p = L.reheat_plan(self.con, 7, [])
+        self.assertEqual(p["action"], "skip")
+        self.assertIn(p["reason"], ("no_subject", "no_predicate"))
+
+    def test_reheat_no_db_write(self):
+        from datetime import datetime
+        rows = [(1, "m1", "l", "我的车牌号是皖K3D7F9", "h", 1, "p", 8,
+                 "2026-01-05T10:00:00")]
+        d = os.path.join(self.tmp, "arch_nw")
+        L.auto_archive(self.con, rows, datetime(2026, 3, 1), d)
+        before = self.con.execute("SELECT COUNT(*) FROM memory_source").fetchone()[0]
+        L.reheat_plan(self.con, 1, [])
+        self.assertEqual(self.con.execute("SELECT COUNT(*) FROM memory_source")
+                         .fetchone()[0], before)
+
     def test_capacity_soft_hard(self):
         app = self._app(True, False)
         for n in (199, 200, 201):
