@@ -47,6 +47,7 @@ import evidence as E                # noqa: E402  (CPU: rule-based decision)
 from chat_lease import GuardedLeases  # noqa: E402  (imports m3_lease; no engine yet)
 import assistant_log as alog            # noqa: E402  (个体日志：只追加 JSONL)
 import memory_service as memo           # noqa: E402  (记忆数据层：抽取/去重/检索/判据)
+import memory_lifecycle as ml          # noqa: E402  (P1 access/archive；独立表)
 import k2_family as _k2f               # noqa: E402  (K2 同族只留最新；默认 off)
 import event_time as etime             # noqa: E402  (P0 event_date；默认 off)
 import assistant_commit as acommit      # noqa: E402  (P3；默认 off)
@@ -127,6 +128,8 @@ MAX_MEMORIES = 6                 # 同时挂载上限（seq 1..6）
 MAX_TOTAL_MEMORY_TOKENS = 3840   # 默认记忆区预算：CHAT_START - 256 安全余量
 MEMORY_SAFETY_MARGIN = 512
 LIBRARY_MAX = 200                # 检索模式下库容量上限（块仍按需挂载）
+MEM_SOFT_MAX = 200               # 软上限：只告警/建议归档
+MEM_HARD_MAX = 2000              # 硬上限：才拒绝写入
 N_GPU_LAYERS_DEFAULT = 34        # GPU 实测选型：34 层留 0.6 GiB 余量（36 层仅 0.22）
 RETRIEVAL_MODES = ("off", "topk")
 DEFAULT_TOPK = 4
@@ -628,7 +631,8 @@ class DailyApp:
                  query_expand=False, confirm_writes=False, p1b_subject=False,
                  tts=False, tts_speak=False, tts_timeout=20, tts_dir=None,
                  assistant_memory=False, norm_dedup=False, json_output=False,
-                 dedup_shadow=False, meta_answer=True):
+                 dedup_shadow=False, meta_answer=True,
+                 lifecycle_cap=False, memory_access=False):
         self.eng = engine
         self.model_path = model_path
         _fmt = os.environ.get("LLAMA_MEM_CHAT_FORMAT", "").strip().lower()
@@ -669,6 +673,8 @@ class DailyApp:
         # do-not-enable-for-merge: diagnostic only
         self.dedup_shadow = bool(dedup_shadow)   # 影子去重；仅诊断，默认关
         self.meta_answer = bool(meta_answer)     # meta-v1 计数回答；默认开
+        self.lifecycle_cap = bool(lifecycle_cap)  # 软/硬上限；默认关
+        self.memory_access = bool(memory_access)  # access 记录；默认关
         self._last_shadow = {"enabled": self.dedup_shadow, "checked": 0, "hits": []}
         self._last_json = {"enabled": self.json_output, "parsed": False,
                            "reported_block_id": None, "fallback": False,
@@ -1013,9 +1019,7 @@ class DailyApp:
         if len(text) > text_cap:
             raise DailyError("bad_request",
                              "记忆过长（%d 字 > 上限 %d 字）" % (len(text), text_cap))
-        cap = MAX_MEMORIES if self.retrieval_mode != "topk" else LIBRARY_MAX
-        if len(self._rows()) >= cap:
-            raise DailyError("memory_full", "记忆已达上限 %d 条" % cap)
+        self._mem_check_capacity(len(self._rows()), extra="，先 /forget 再记")
         slots = memo.extract_slots(text)
         put = self._put_memory_source(text, label=label, mode=mode)
         if _is_dup(put):
@@ -2026,6 +2030,11 @@ class DailyApp:
             self._assistant_commit(res.get("answer"))
         except Exception:                                # noqa: BLE001
             pass
+        try:
+            if getattr(self, "memory_access", False):
+                ml.record_access(self.con, res.get("block_ids") or [])
+        except Exception:                                # noqa: BLE001
+            pass
         return res
 
     def _json_finalize(self, text, res, t0):
@@ -2875,8 +2884,31 @@ class DailyApp:
             out["freeze"] = None
         return out
 
+    def _mem_check_capacity(self, n, extra=""):
+        """默认（off）：按现网 200 拒绝，逐字不变；on：soft/hard。"""
+        n = int(n)
+        if not getattr(self, "lifecycle_cap", False):
+            cap = MAX_MEMORIES if self.retrieval_mode != "topk" else LIBRARY_MAX
+            if n >= cap:
+                raise DailyError("memory_full",
+                                 "记忆已达上限 %d 条%s" % (cap, extra))
+            return True
+        if n >= MEM_HARD_MAX:
+            raise DailyError("memory_full",
+                             "记忆已达硬上限 %d 条（软上限 %d），先 /forget 再记"
+                             % (MEM_HARD_MAX, MEM_SOFT_MAX))
+        if n >= MEM_SOFT_MAX:
+            self.warnings.append("记忆已达软上限 %d 条，建议归档（未拒绝写入）"
+                                 % MEM_SOFT_MAX)
+        return True
+
     def _rows(self):
         rows = [r for r in ms.block_rows(self.con) if r[5] is not None]
+        if getattr(self, "lifecycle_cap", False):
+            try:
+                rows = ml.active_rows(self.con, rows)
+            except Exception:                        # noqa: BLE001
+                pass
         if getattr(self, "event_date", False):
             rows = self._event_filter_rows(rows)
         return rows
@@ -3821,9 +3853,7 @@ class DailyApp:
             raise DailyError("bad_request",
                              "记忆过长（%d 字 > 上限 %d 字），请拆成多条短记忆"
                              % (len(text), MAX_TEXT_CHARS))
-        cap = MAX_MEMORIES if self.retrieval_mode != "topk" else LIBRARY_MAX
-        if len(self._rows()) >= cap:
-            raise DailyError("memory_full", "记忆已达上限 %d 条，先 /forget 再记" % cap)
+        self._mem_check_capacity(len(self._rows()))
         p1b_decision = None
         if getattr(self, "p1b_subject", False):
             g = self._p1b_gate(text, confirm_token)
@@ -4280,6 +4310,10 @@ def main(argv=None):
                     help="P1b 主体键软覆盖（默认关；sidecar，不改 daily）")
     # do-not-enable: parse_fail 100%, w03 regression; see out/JSON-E2E-DEFAULT.md
     # do-not-enable-for-merge: diagnostic only
+    ap.add_argument("--lifecycle-cap", action="store_true", default=False,
+                    help="P1 软/硬上限（默认关；off 仍按现网 200 拒绝）")
+    ap.add_argument("--memory-access", action="store_true", default=False,
+                    help="P1 access 记录（默认关；off 不写 access 表）")
     ap.add_argument("--meta-answer", action=argparse.BooleanOptionalAction,
                     default=True,
                     help="meta-v1 计数回答（默认开；--no-meta-answer 回滚）")
@@ -4344,6 +4378,8 @@ def main(argv=None):
                        json_output=getattr(args, "json_output", False),
                        dedup_shadow=getattr(args, "dedup_shadow", False),
                        meta_answer=getattr(args, "meta_answer", True),
+                       lifecycle_cap=getattr(args, "lifecycle_cap", False),
+                       memory_access=getattr(args, "memory_access", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
                        n_gpu_layers=args.n_gpu_layers)

@@ -588,6 +588,8 @@ def build_app(args, data):
                       json_output=bool(getattr(args, "json_output", False)),
                       dedup_shadow=bool(getattr(args, "dedup_shadow", False)),
                       meta_answer=bool(getattr(args, "meta_answer", True)),
+                      lifecycle_cap=bool(getattr(args, "lifecycle_cap", False)),
+                      memory_access=bool(getattr(args, "memory_access", False)),
                       topk=getattr(args, "topk", D.DEFAULT_TOPK),
                       rollover_at=getattr(args, "rollover_at", D.ROLLOVER_AT_DEFAULT),
                       n_ctx=getattr(args, "n_ctx", D.N_CTX_DEFAULT),
@@ -624,6 +626,10 @@ def main(argv=None):
     ap.add_argument("--p1b-subject", action="store_true", default=False,
                     help="P1b 主体键软覆盖（默认关；与 chat_daily 同名同义）")
     # do-not-enable-for-merge: diagnostic only
+    ap.add_argument("--lifecycle-cap", action="store_true", default=False,
+                    help="P1 软/硬上限（默认关；与 chat_daily 同名同义）")
+    ap.add_argument("--memory-access", action="store_true", default=False,
+                    help="P1 access 记录（默认关；与 chat_daily 同名同义）")
     ap.add_argument("--meta-answer", action=argparse.BooleanOptionalAction,
                     default=True,
                     help="meta-v1 计数回答（默认开；--no-meta-answer 回滚）")
