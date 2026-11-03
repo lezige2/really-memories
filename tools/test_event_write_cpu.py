@@ -42,7 +42,7 @@ class EventWriteTests(unittest.TestCase):
     def test_remember_tomorrow_writes_event(self):
         self.app = self.make_app(True)
         put = self.app._put_memory_source("明天下午三点开会")
-        self.assertFalse(put["duplicate"])
+        self.assertEqual(D._dup_kind(put), "none")
         row = self.row(put["id"])
         tomorrow = (date.today() + timedelta(days=1)).isoformat()
         self.assertEqual(row[0], tomorrow)

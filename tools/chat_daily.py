@@ -52,6 +52,7 @@ import event_time as etime             # noqa: E402  (P0 event_date；默认 off
 import assistant_commit as acommit      # noqa: E402  (P3；默认 off)
 import norm_dedup as ndedup             # noqa: E402  (norm_hash 去重；默认 off)
 import json_answer as jans               # noqa: E402  (强制 JSON 输出；默认 off)
+import shadow_dedup as sdedup            # noqa: E402  (影子去重；仅诊断)
 # P1b 代码不入库：可选依赖，只包这一个符号；缺失则功能 off + debug（不静默）
 try:
     import p1b_subject as _p1b
@@ -626,7 +627,8 @@ class DailyApp:
                  n_gpu_layers=N_GPU_LAYERS_DEFAULT, event_date=False,
                  query_expand=False, confirm_writes=False, p1b_subject=False,
                  tts=False, tts_speak=False, tts_timeout=20, tts_dir=None,
-                 assistant_memory=False, norm_dedup=False, json_output=False):
+                 assistant_memory=False, norm_dedup=False, json_output=False,
+                 dedup_shadow=False):
         self.eng = engine
         self.model_path = model_path
         _fmt = os.environ.get("LLAMA_MEM_CHAT_FORMAT", "").strip().lower()
@@ -664,6 +666,9 @@ class DailyApp:
         self.assistant_memory = bool(assistant_memory)  # P3；默认关
         self.norm_dedup = bool(norm_dedup)       # norm_hash 去重；默认关
         self.json_output = bool(json_output)     # 强制 JSON 输出；默认关
+        # do-not-enable-for-merge: diagnostic only
+        self.dedup_shadow = bool(dedup_shadow)   # 影子去重；仅诊断，默认关
+        self._last_shadow = {"enabled": self.dedup_shadow, "checked": 0, "hits": []}
         self._last_json = {"enabled": self.json_output, "parsed": False,
                            "reported_block_id": None, "fallback": False,
                            "attempts": 0}
@@ -1949,6 +1954,31 @@ class DailyApp:
             except Exception:                        # noqa: BLE001
                 pass
         return res
+
+    def _shadow_check(self, new_id, text, tenant="default", scope="private"):
+        # do-not-enable-for-merge: diagnostic only
+        meta = {"enabled": True, "checked": 0, "hits": []}
+        self._last_shadow = meta
+        rows = [r for r in self._rows() if int(r[0]) != int(new_id)]
+        best = None
+        for r in rows:
+            d = sdedup.decide(str(r[3]), text, tenant=tenant, scope=scope)
+            meta["checked"] += 1
+            if d.get("would_merge"):
+                item = {"id": int(r[0]), "pair": [int(r[0]), int(new_id)],
+                        "risk": d.get("risk"), "score": d.get("score"),
+                        "merge_allowed": bool(d.get("merge_allowed"))}
+                meta["hits"].append(item)
+                if best is None or (d.get("score") or 0) > (best["score"] or 0):
+                    best = item
+        if best and getattr(self, "logger", None):
+            try:
+                self.logger.log_warning("shadow_would_merge",
+                                        "shadow dedup candidate (no merge)",
+                                        evidence=best)
+            except Exception:                        # noqa: BLE001
+                pass
+        return meta
 
     def _assistant_commit(self, answer):
         """P3：只从最终答案抽显式承诺；失败不影响回答；重复/否定/敏感不写。"""
@@ -3410,6 +3440,12 @@ class DailyApp:
                                  "event_basis_ts")} if event_meta else None)}
         if getattr(self, "norm_dedup", False):
             res["duplicate_norm"] = False
+        # do-not-enable-for-merge: diagnostic only（只记日志，不合并/不改行）
+        if getattr(self, "dedup_shadow", False):
+            try:
+                self._shadow_check(res["id"], text, tenant, scope)
+            except Exception:                        # noqa: BLE001
+                pass
         return res
 
     def _rollback_source(self, sid):
@@ -4123,6 +4159,9 @@ def main(argv=None):
     ap.add_argument("--p1b-subject", action="store_true", default=False,
                     help="P1b 主体键软覆盖（默认关；sidecar，不改 daily）")
     # do-not-enable: parse_fail 100%, w03 regression; see out/JSON-E2E-DEFAULT.md
+    # do-not-enable-for-merge: diagnostic only
+    ap.add_argument("--dedup-shadow", action="store_true", default=False,
+                    help="影子去重（默认关；只记 shadow_would_merge，不合并）")
     ap.add_argument("--json-output", action="store_true", default=False,
                     help="强制记忆类回答 JSON（默认关；失败仅重试一次）")
     ap.add_argument("--norm-dedup", action="store_true", default=False,
@@ -4180,6 +4219,7 @@ def main(argv=None):
                        assistant_memory=getattr(args, "assistant_memory", False),
                        norm_dedup=getattr(args, "norm_dedup", False),
                        json_output=getattr(args, "json_output", False),
+                       dedup_shadow=getattr(args, "dedup_shadow", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
                        n_gpu_layers=args.n_gpu_layers)
