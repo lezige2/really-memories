@@ -633,7 +633,8 @@ class DailyApp:
                  assistant_memory=False, norm_dedup=False, json_output=False,
                  dedup_shadow=False, meta_answer=True,
                  lifecycle_cap=False, memory_access=False,
-                 lifecycle_archive=False, archive_dir=None):
+                 lifecycle_archive=False, archive_dir=None,
+                 lifecycle_fallback=False):
         self.eng = engine
         self.model_path = model_path
         _fmt = os.environ.get("LLAMA_MEM_CHAT_FORMAT", "").strip().lower()
@@ -677,6 +678,7 @@ class DailyApp:
         self.lifecycle_cap = bool(lifecycle_cap)  # 软/硬上限；默认关
         self.memory_access = bool(memory_access)  # access 记录；默认关
         self.lifecycle_archive = bool(lifecycle_archive)  # 自动归档；默认关
+        self.lifecycle_fallback = bool(lifecycle_fallback)  # 归档只读兜底；默认关
         self.archive_dir = archive_dir
         self._last_shadow = {"enabled": self.dedup_shadow, "checked": 0, "hits": []}
         self._last_json = {"enabled": self.json_output, "parsed": False,
@@ -2032,6 +2034,24 @@ class DailyApp:
         try:
             self._assistant_commit(res.get("answer"))
         except Exception:                                # noqa: BLE001
+            pass
+        try:
+            if getattr(self, "lifecycle_fallback", False) and not res.get("block_ids"):
+                hits = ml.fallback_archive(
+                    self.con, text,
+                    getattr(self, "archive_dir", None)
+                    or os.path.join(ROOT, "out", "archive"))
+                if hits:
+                    res["archive_hits"] = hits
+                    if getattr(self, "logger", None):
+                        try:
+                            self.logger.log_warning(
+                                "archive_fallback_hit", "archive read-only hit",
+                                evidence={"n": len(hits),
+                                          "ids": [h["id"] for h in hits]})
+                        except Exception:            # noqa: BLE001
+                            pass
+        except Exception:                            # noqa: BLE001
             pass
         try:
             if getattr(self, "memory_access", False):
@@ -4327,6 +4347,8 @@ def main(argv=None):
     # do-not-enable-for-merge: diagnostic only
     ap.add_argument("--lifecycle-cap", action="store_true", default=False,
                     help="P1 软/硬上限（默认关；off 仍按现网 200 拒绝）")
+    ap.add_argument("--lifecycle-fallback", action="store_true", default=False,
+                    help="P1 归档只读兜底（默认关；主池空时才查，不回写）")
     ap.add_argument("--lifecycle-archive", action="store_true", default=False,
                     help="P1 自动归档（默认关；仅 lifecycle-cap on 且达软上限时触发）")
     ap.add_argument("--memory-access", action="store_true", default=False,
@@ -4398,6 +4420,7 @@ def main(argv=None):
                        lifecycle_cap=getattr(args, "lifecycle_cap", False),
                        memory_access=getattr(args, "memory_access", False),
                        lifecycle_archive=getattr(args, "lifecycle_archive", False),
+                       lifecycle_fallback=getattr(args, "lifecycle_fallback", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
                        n_gpu_layers=args.n_gpu_layers)

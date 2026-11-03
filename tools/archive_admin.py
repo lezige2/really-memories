@@ -119,6 +119,17 @@ def cmd_scan(args):
 
 
 def cmd_fallback(args):
+    if getattr(args, "db", None):
+        import memory_lifecycle as L
+        con = sqlite3.connect("file:%s?mode=ro" % args.db.replace("\\", "/"),
+                              uri=True)
+        try:
+            hits = L.fallback_archive(con, args.query, args.archive_dir,
+                                      max_hits=args.max_hits)
+        finally:
+            con.close()
+        return {"action": "fallback", "query": args.query, "db": args.db,
+                "archive_dir": args.archive_dir, "dry_run": True, "hits": hits}
     idx_path = args.index or os.path.join(
         os.path.dirname(os.path.abspath(args.zip)), "index.json")
     index = A.load_index(idx_path)
@@ -192,6 +203,9 @@ def build_parser():
     p = sub.add_parser("fallback")
     common(p)
     p.add_argument("--query", required=True)
+    p.add_argument("--db", default=None, help="只读副本：走 memory_archive 兜底")
+    p.add_argument("--archive-dir", default=os.path.join(ROOT, "out", "archive"))
+    p.add_argument("--max-hits", type=int, default=5)
     p.add_argument("--index", default=None, help="月份索引（默认 out/p1b/index.json）")
     p.add_argument("--max-months", type=int, default=2)
     p.add_argument("--out", default=None)

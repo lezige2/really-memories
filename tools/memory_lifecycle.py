@@ -152,3 +152,57 @@ def auto_archive(con, rows, now, archive_dir, days=21):
         res["zips"].append({"zip": zip_path, "zip_sha256": manifest["zip_sha256"],
                             "n": len(ids)})
     return res
+
+
+def _bigrams(text):
+    t = "".join(ch.lower() for ch in str(text or "") if ch.isalnum())
+    return {t[i:i + 2] for i in range(max(0, len(t) - 1))}
+
+
+def fallback_archive(con, query, archive_dir, max_hits=5):
+    """只读：查未 superseded 的归档条目，按 query bigram 覆盖率打分；坏 zip/sha 跳过。"""
+    import json as _json
+    import zipfile
+    qg = _bigrams(query)
+    if not qg:
+        return []
+    try:
+        rows = con.execute(
+            "SELECT source_id, zip, zip_sha, superseded_by FROM memory_archive"
+            " WHERE superseded_by IS NULL").fetchall()
+    except sqlite3.Error:
+        return []
+    hits = []
+    for sid, zip_path, zip_sha, _sup in rows:
+        z = str(zip_path or "")
+        if not z or not os.path.exists(z):
+            continue
+        try:
+            import hashlib
+            if hashlib.sha256(open(z, "rb").read()).hexdigest() != (zip_sha or ""):
+                continue
+            side = z + ".sidecar.json"
+            if not os.path.exists(side):
+                continue
+            manifest = _json.load(open(side, encoding="utf-8"))
+            with zipfile.ZipFile(z) as zf:
+                for e in manifest.get("entries") or []:
+                    if int(e.get("id", -1)) != int(sid):
+                        continue
+                    body = zf.read(e["member"]).split(b"text:\n", 1)[-1]
+                    if hashlib.sha256(body).hexdigest() != e.get("text_sha256"):
+                        continue
+                    text = body.decode("utf-8", "replace")
+                    tg = _bigrams(text)
+                    if not tg:
+                        continue
+                    score = len(qg & tg) / float(len(qg))
+                    if score > 0:
+                        hits.append({"id": int(sid), "score": round(score, 4),
+                                     "zip": z,
+                                     "month": os.path.basename(z)[:7],
+                                     "text_sha": e.get("text_sha256")})
+        except Exception:                            # noqa: BLE001
+            continue
+    hits.sort(key=lambda x: (-x["score"], x["id"]))
+    return hits[:max(1, int(max_hits))]

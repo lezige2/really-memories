@@ -139,6 +139,55 @@ class LifecycleTests(unittest.TestCase):
         self.assertTrue(zips)
         self.assertEqual(L.archived_ids(app.con), {1})
 
+    def _archived_app(self, flag):
+        app = self._app(True, False)
+        app.archive_dir = os.path.join(self.tmp, "arch_fb")
+        rows = [(1, "m1", "l", "我的车牌号是皖K3D7F9", "h", 1, "p", 8,
+                 "2026-01-05T10:00:00")]
+        L.auto_archive(app.con, rows, __import__("datetime").datetime(2026, 3, 1),
+                       app.archive_dir)
+        app.lifecycle_fallback = flag
+        return app
+
+    def test_fallback_hit_and_miss(self):
+        app = self._archived_app(True)
+        hits = L.fallback_archive(app.con, "车牌号是多少", app.archive_dir)
+        self.assertTrue(hits)
+        self.assertGreater(hits[0]["score"], 0)
+        self.assertEqual(hits[0]["month"], "2026-01")
+        self.assertTrue(hits[0]["text_sha"])
+        self.assertEqual(L.fallback_archive(app.con, "完全不相关的问题", app.archive_dir), [])
+
+    def test_fallback_bad_zip_skipped(self):
+        app = self._archived_app(True)
+        z = [os.path.join(app.archive_dir, f) for f in os.listdir(app.archive_dir)
+             if f.endswith(".zip")][0]
+        data = bytearray(open(z, "rb").read())
+        data[-6] ^= 0xFF
+        open(z, "wb").write(bytes(data))
+        self.assertEqual(L.fallback_archive(app.con, "车牌号是多少", app.archive_dir), [])
+
+    def test_fallback_off_by_default(self):
+        app = self._app(True, False)
+        self.assertFalse(app.lifecycle_fallback)
+        with mock.patch.object(D, "NATURAL_MODE", True):
+            app._ask_natural = lambda t, t0: {"answer": "x", "block_ids": []}
+            res = app.ask("车牌号是多少")
+        self.assertNotIn("archive_hits", res)
+
+    def test_fallback_no_daily_write(self):
+        app = self._archived_app(True)
+        before = app.con.execute("SELECT COUNT(*) FROM memory_source").fetchone()[0]
+        with mock.patch.object(D, "NATURAL_MODE", True):
+            app._ask_natural = lambda t, t0: {"answer": "x", "block_ids": []}
+            res = app.ask("车牌号是多少")
+        self.assertIn("archive_hits", res)
+        self.assertEqual(app.con.execute("SELECT COUNT(*) FROM memory_source")
+                         .fetchone()[0], before)
+        # 归档表未被改写
+        n = app.con.execute("SELECT COUNT(*) FROM memory_archive").fetchone()[0]
+        self.assertEqual(n, 1)
+
     def test_capacity_soft_hard(self):
         app = self._app(True, False)
         for n in (199, 200, 201):
