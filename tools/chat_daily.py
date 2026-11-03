@@ -1019,12 +1019,17 @@ class DailyApp:
                                        else "auto_archive" if mode == "auto_archive"
                                        else "manual"),
                                related_ids=related_ids, slots=slots)
-            return {"id": put["id"], "name": put["name"],
-                    "duplicate": ("norm" if _dup_kind(put) == "norm" else "exact")
-                    if getattr(self, "norm_dedup", False) else True,
-                    "n_tokens": self._n_tokens_of(put["id"]),
-                    "created_at": self._created_at(put["id"]), "path": None,
-                    "block_sha16": None}
+            out = {"id": put["id"], "name": put["name"],
+                   "duplicate": ("norm" if _dup_kind(put) == "norm" else "exact")
+                   if getattr(self, "norm_dedup", False) else True,
+                   "n_tokens": self._n_tokens_of(put["id"]),
+                   "created_at": self._created_at(put["id"]), "path": None,
+                   "block_sha16": None}
+            if getattr(self, "norm_dedup", False) and put.get("restated"):
+                out.update({"restated": True,
+                            "restated_count": put.get("restated_count"),
+                            "last_restated_at": put.get("last_restated_at")})
+            return out
         sid = put["id"]
         try:
             src_row = (sid, "default", "private", str(mode), put["name"], str(label),
@@ -3306,6 +3311,11 @@ class DailyApp:
         """
         name = "mem-" + ms.sha256_text(text)[:12]
         h = ms.sha256_text(text)
+        if getattr(self, "norm_dedup", False):
+            try:
+                ndedup.ensure_restate_columns(self.con)
+            except Exception:                        # noqa: BLE001
+                pass
         # exact 优先：source_hash 命中（同 tenant+scope+name）
         prev = self.con.execute(
             "SELECT id, source_hash FROM memory_source WHERE tenant=? AND "
@@ -3320,6 +3330,7 @@ class DailyApp:
                    "created_at": None}
             if getattr(self, "norm_dedup", False):
                 res["duplicate_norm"] = False
+                res.update(ndedup.mark_restated(self.con, int(prev[0])))
             return res
         if getattr(self, "norm_dedup", False):
             dup = ndedup.find_duplicate(self.con, text, tenant, scope)
@@ -3344,9 +3355,11 @@ class DailyApp:
                                            ensure_ascii=False) + "\n")
                 except Exception:                    # noqa: BLE001
                     pass
-                return {"id": dup["id"], "name": dup["name"], "duplicate": "norm",
-                        "duplicate_norm": True, "created_at": None,
-                        "norm_hash": dup["norm_hash"]}
+                res = {"id": dup["id"], "name": dup["name"], "duplicate": "norm",
+                       "duplicate_norm": True, "created_at": None,
+                       "norm_hash": dup["norm_hash"]}
+                res.update(ndedup.mark_restated(self.con, int(dup["id"])))
+                return res
         created = datetime.now().isoformat(timespec="seconds")
         event_meta = None
         if getattr(self, "event_date", False):
@@ -3681,6 +3694,10 @@ class DailyApp:
                                         if hasattr(memo, "unverified_slots") else [])}
             if getattr(self, "norm_dedup", False):
                 out["duplicate_norm"] = bool(put.get("duplicate_norm"))
+                if put.get("restated"):
+                    out["restated"] = True
+                    out["restated_count"] = put.get("restated_count")
+                    out["last_restated_at"] = put.get("last_restated_at")
             return out
         sid = put["id"]
         try:
@@ -4109,7 +4126,7 @@ def main(argv=None):
     ap.add_argument("--json-output", action="store_true", default=False,
                     help="强制记忆类回答 JSON（默认关；失败仅重试一次）")
     ap.add_argument("--norm-dedup", action="store_true", default=False,
-                    help="norm_hash 去重（默认关；同 tenant+scope 归一后重复不建新块）")
+                    help="norm_hash 去重（默认关；--norm-dedup 开启）")
     ap.add_argument("--assistant-memory", action="store_true", default=False,
                     help="P3 助手显式承诺写入记忆（默认关；仅从最终答案抽）")
     ap.add_argument("--tts", action="store_true", default=False,

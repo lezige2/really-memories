@@ -7,6 +7,7 @@ key = (tenant, scope, norm_hash)；跨 scope 不吞；语义相近但不完全�
 
 import hashlib
 import unicodedata
+from datetime import datetime
 
 # 标点/空白/符号类别：P* Z* S*
 _SKIP_CATS = ("P", "Z", "S")
@@ -29,6 +30,51 @@ def norm_hash(text):
         return None
     h = hashlib.sha256(norm.encode("utf-8")).hexdigest()
     return {"norm": norm, "norm_hash": h, "key": (h,)}
+
+
+RESTATE_COLUMNS = (("restated_count", "INTEGER NOT NULL DEFAULT 0"),
+                   ("last_restated_at", "TEXT"))
+
+
+def has_restate_columns(con):
+    cols = {r[1] for r in con.execute("PRAGMA table_info(memory_source)")}
+    return all(name in cols for name, _t in RESTATE_COLUMNS)
+
+
+def ensure_restate_columns(con):
+    """幂等补列（默认值 0/NULL，旧行不受影响）；失败抛错不静默。"""
+    have = {r[1] for r in con.execute("PRAGMA table_info(memory_source)")}
+    added = []
+    for name, typ in RESTATE_COLUMNS:
+        if name not in have:
+            con.execute("ALTER TABLE memory_source ADD COLUMN %s %s" % (name, typ))
+            added.append(name)
+    con.commit()
+    return added
+
+
+def drop_restate_columns(con):
+    have = {r[1] for r in con.execute("PRAGMA table_info(memory_source)")}
+    dropped = []
+    for name, _t in RESTATE_COLUMNS:
+        if name in have:
+            con.execute("ALTER TABLE memory_source DROP COLUMN %s" % name)
+            dropped.append(name)
+    con.commit()
+    return dropped
+
+
+def mark_restated(con, source_id, now=None):
+    """重复写入：count+1、last_restated_at=now；created_at 原样不动。"""
+    ensure_restate_columns(con)
+    now = now or datetime.now().isoformat(timespec="seconds")
+    con.execute("UPDATE memory_source SET restated_count=COALESCE(restated_count,0)+1,"
+                " last_restated_at=? WHERE id=?", (now, int(source_id)))
+    con.commit()
+    row = con.execute("SELECT restated_count,last_restated_at FROM memory_source "
+                      "WHERE id=?", (int(source_id),)).fetchone()
+    return {"restated": True, "restated_count": int(row[0]) if row else 0,
+            "last_restated_at": row[1] if row else now}
 
 
 def find_duplicate(con, text, tenant="default", scope="private"):

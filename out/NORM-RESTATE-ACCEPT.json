@@ -1,0 +1,134 @@
+{
+ "schema": "norm_restate_accept_v1",
+ "migration": {
+  "copies": "kvmem/restate/{on,off,run}",
+  "sha_before": "0a7eae495c4be89cbd385382d180cdcfdea102a9d955369a411b5798d4c95d49",
+  "sha_after": "739c746fcd7ab3520fa64c73af97995dc192f7f13f3aa607537855c142897a37",
+  "rows_before": 20,
+  "rows_after": 20,
+  "old_rows_count0_null": 20,
+  "created_at_identical_to_daily": true
+ },
+ "on_arm": {
+  "same_text_3x": {
+   "rows": 1,
+   "id": 21,
+   "restated_count": 2,
+   "created_at": "2026-11-03T22:04:42",
+   "last_restated_at": "2026-11-03T22:04:43",
+   "responses": [
+    "none",
+    "exact",
+    "exact"
+   ]
+  },
+  "norm_variants": {
+   "responses": [
+    "norm",
+    "norm"
+   ],
+   "rows": 1,
+   "restated_count_final": 4
+  }
+ },
+ "off_arm": {
+  "same_text_3x": {
+   "rows": 1,
+   "note": "完全相同文本仍被既有 exact-dup 判重（与 norm 开关无关）"
+  },
+  "variants_3": {
+   "rows": 4,
+   "ids": [
+    21,
+    22,
+    23,
+    24
+   ],
+   "note": "变体各建一行，符合 flag off"
+  }
+ },
+ "response_gap": {
+  "duplicate_field": "identical 重复返回 \"exact\"；归一化变体返回 \"norm\"（符合预期）",
+  "restated_fields_missing": "chat_daily 内部产出 restated/restated_count/last_restated_at，但 /remember 响应白名单未转发（chat_service.py 仅 id/len_tokens/created_at/duplicate + 5 个确认字段）"
+ },
+ "runs": {
+  "81": {
+   "pass": 80,
+   "n": 81,
+   "fails": [
+    "c09"
+   ],
+   "A_pass": 81,
+   "A_fails": []
+  },
+  "EXTRA": {
+   "pass": 17,
+   "n": 20,
+   "fails": [
+    "L05",
+    "L07",
+    "L09"
+   ],
+   "A_pass": 18,
+   "A_fails": [
+    "L07",
+    "L09"
+   ]
+  },
+  "MT20": {
+   "pass": 11,
+   "n": 20,
+   "fails": [
+    "V9MT01",
+    "V9MT02",
+    "V9MT07",
+    "V9MT09",
+    "V9MT10",
+    "V9MT11",
+    "V9MT12",
+    "V9MT17",
+    "V9MT18"
+   ],
+   "A_pass": 11,
+   "A_fails": [
+    "V9MT01",
+    "V9MT02",
+    "V9MT07",
+    "V9MT09",
+    "V9MT10",
+    "V9MT11",
+    "V9MT12",
+    "V9MT17",
+    "V9MT18"
+   ]
+  }
+ },
+ "regressions": {
+  "81": {
+   "before": "81/81",
+   "after": "80/81",
+   "new_fail": [
+    "c09"
+   ]
+  },
+  "EXTRA": {
+   "before": "18/20 (L07,L09)",
+   "after": "17/20 (L05,L07,L09)",
+   "new_fail": [
+    "L05"
+   ]
+  },
+  "MT20": {
+   "before": "11/20",
+   "after": "11/20",
+   "new_fail": []
+  }
+ },
+ "rollback": {
+  "columns_after": [],
+  "rows": 20,
+  "content_identical_to_daily": true,
+  "byte_sha": "ce5de6f0…≠0a7eae49…（DROP COLUMN 重写页面，内容无差异）"
+ },
+ "verdict": "功能通过（单行/计数/时间/created_at/归一化判重），但 **默认 on 出现 2 项回归**（81 c09、extra L05），且响应未转发 restated 字段；建议 flag 暂缓默认开启，先查 c09/L05"
+}

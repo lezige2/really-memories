@@ -211,7 +211,8 @@ class Service:
             out = {"id": r.get("id"), "len_tokens": r.get("n_tokens"),
                    "created_at": r.get("created_at"), "duplicate": r.get("duplicate")}
             for k in ("needs_confirmation", "confirm_token", "reason",
-                      "candidates", "expires_in"):
+                      "candidates", "expires_in", "restated",
+                      "restated_count", "last_restated_at"):
                 if k in r:
                     out[k] = r[k]                    # 只加字段，不改旧字段/状态码
             return out

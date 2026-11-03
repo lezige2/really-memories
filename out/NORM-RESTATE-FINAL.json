@@ -1,0 +1,54 @@
+{
+ "schema": "norm_restate_final_v1",
+ "default_off_81": {
+  "pass": 81,
+  "n": 81,
+  "A_baseline": "81/81",
+  "verdict": "不回归"
+ },
+ "on_responses": {
+  "r1": {
+   "id": 21,
+   "len_tokens": 4,
+   "created_at": "2026-11-03T22:33:49",
+   "duplicate": "none"
+  },
+  "r2": {
+   "id": 21,
+   "len_tokens": 4,
+   "created_at": "2026-11-03T22:33:49",
+   "duplicate": "exact",
+   "restated": true,
+   "restated_count": 1,
+   "last_restated_at": "2026-11-03T22:33:49"
+  },
+  "r3": {
+   "id": 21,
+   "len_tokens": 4,
+   "created_at": "2026-11-03T22:33:49",
+   "duplicate": "norm",
+   "restated": true,
+   "restated_count": 2,
+   "last_restated_at": "2026-11-03T22:33:49"
+  }
+ },
+ "off_responses": {
+  "r2": {
+   "id": 21,
+   "len_tokens": 4,
+   "created_at": "2026-11-03T22:32:23",
+   "duplicate": true
+  }
+ },
+ "checks": {
+  "on_has_restated": true,
+  "off_lacks_restated": true,
+  "exact_dup_keeps_created_at": true,
+  "norm_variant_duplicate": "norm"
+ },
+ "rollback_equivalence": {
+  "content": "与 daily 逐行相同（20 行）",
+  "byte": "非字节等价（DROP COLUMN 重写页面）"
+ },
+ "verdict": "默认 off（需显式 --norm-dedup 才启用）；flag on 时响应含 restated/restated_count/last_restated_at，off 不含；默认 off 下 81=81/81 不回归。内容等价、非字节等价。"
+}
