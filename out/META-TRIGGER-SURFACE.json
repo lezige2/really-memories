@@ -1,0 +1,26 @@
+{
+ "schema": "meta_trigger_surface_v1",
+ "patterns": [
+  "几条记忆",
+  "多少条",
+  "记了多少",
+  "记忆条数",
+  "有几条"
+ ],
+ "rule": "RE.search(q) over the 5 literals AND (\"记忆\" in q or \"条数\" in q)",
+ "n_queries": {
+  "81": 81,
+  "extra": 20,
+  "MT20": 20
+ },
+ "hits": [
+  {
+   "suite": "81",
+   "id": "c09",
+   "query": "你记得我有几条记忆？",
+   "matched": "有几条"
+  }
+ ],
+ "only_c09": true,
+ "verdict": "仅 c09 命中，其余 0 命中"
+}

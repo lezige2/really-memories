@@ -628,7 +628,7 @@ class DailyApp:
                  query_expand=False, confirm_writes=False, p1b_subject=False,
                  tts=False, tts_speak=False, tts_timeout=20, tts_dir=None,
                  assistant_memory=False, norm_dedup=False, json_output=False,
-                 dedup_shadow=False):
+                 dedup_shadow=False, meta_answer=True):
         self.eng = engine
         self.model_path = model_path
         _fmt = os.environ.get("LLAMA_MEM_CHAT_FORMAT", "").strip().lower()
@@ -668,6 +668,7 @@ class DailyApp:
         self.json_output = bool(json_output)     # 强制 JSON 输出；默认关
         # do-not-enable-for-merge: diagnostic only
         self.dedup_shadow = bool(dedup_shadow)   # 影子去重；仅诊断，默认关
+        self.meta_answer = bool(meta_answer)     # meta-v1 计数回答；默认开
         self._last_shadow = {"enabled": self.dedup_shadow, "checked": 0, "hits": []}
         self._last_json = {"enabled": self.json_output, "parsed": False,
                            "reported_block_id": None, "fallback": False,
@@ -1880,11 +1881,85 @@ class DailyApp:
             return "这个我帮不了哦"
         return None
 
+    # meta-v1 触发枚举（写死；命中才走，清单变更需评审）
+    _META_ANSWER_PATTERNS = ("几条记忆", "多少条", "记了多少", "记忆条数", "有几条")
+    _META_RE = re.compile("|".join(_META_ANSWER_PATTERNS))
+
+    def _meta_answer_text(self, text):
+        """meta-v1：仅命中计数问句时直接查库返回，不调模型/不检索。"""
+        if not getattr(self, "meta_answer", False):
+            return None
+        q = str(text or "")
+        if not self._META_RE.search(q) or ("记忆" not in q and "条数" not in q):
+            return None
+        t0 = time.perf_counter()
+        try:
+            n = self._count_valid_memories()
+        except Exception:                                # noqa: BLE001
+            return None                                  # DB 异常 -> 回退模型路径
+        if n <= 0:
+            answer = "你还没有保存任何记忆。"
+        else:
+            answer = "你目前有 %d 条有效记忆。" % n
+        latency_ms = round((time.perf_counter() - t0) * 1000.0, 2)
+        try:
+            if getattr(self, "logger", None):
+                self.logger.log_warning(
+                    "meta_answer", "meta-v1 counted answer",
+                    evidence={"query": q[:60], "tenant": "default",
+                              "scope": "private", "count": n,
+                              "latency_ms": latency_ms})
+        except Exception:                                # noqa: BLE001
+            pass
+        return {"answer": answer, "block_ids": [], "state": "meta_answer",
+                "meta": {"count": n, "rule": "meta-v1",
+                         "latency_ms": latency_ms},
+                "latency_s": round(latency_ms / 1000.0, 4),
+                "refused": False, "chars": len(answer)}
+
+    def _count_valid_memories(self, tenant="default", scope="private"):
+        ids = {int(r[0]) for r in self.con.execute(
+            "SELECT m.id FROM memory_source m WHERE m.tenant=? AND m.scope=? "
+            "AND EXISTS(SELECT 1 FROM memory_block b WHERE b.source_id=m.id)",
+            (tenant, scope))}
+        # 未归档：archive sidecar（若存在）
+        try:
+            base = (_p1b.sidecar_path(self.db_path) if _p1b is not None
+                    else os.path.join(ROOT, "out", "p1b", "sidecar",
+                                      "%s.subjects.json" % (
+                                          hashlib.sha256(
+                                              open(self.db_path, "rb").read())
+                                          .hexdigest()[:16])))
+            arch = os.path.join(os.path.dirname(base),
+                                "%s.archive.json" % os.path.basename(base).split(".")[0])
+            if os.path.exists(arch):
+                for e in (json.load(open(arch, encoding="utf-8")).get("entries") or []):
+                    if e.get("is_archived"):
+                        ids.discard(int(e.get("id")))
+        except Exception:                                # noqa: BLE001
+            pass
+        # 未被 supersede：P1b sidecar（若存在）
+        try:
+            if _p1b is not None:
+                side = _p1b.Sidecar(_p1b.sidecar_path(self.db_path)).load()
+                ids -= _p1b.superseded_ids(side)
+        except Exception:                                # noqa: BLE001
+            pass
+        return len(ids)
+
     def ask(self, text):
         text = str(text or "").strip()
         if not text:
             raise DailyError("bad_request", "问题为空")
         t0 = time.perf_counter()
+        _meta = self._meta_answer_text(text)
+        if _meta is not None:
+            try:
+                _meta["k2"] = dict(getattr(self, "_last_k2", None) or
+                                   {"mode": self.k2_mode, "gate_reason": "off"})
+            except Exception:                            # noqa: BLE001
+                pass
+            return _meta
         if NATURAL_MODE:
             res = self._ask_natural(text, t0)
         else:
@@ -4160,6 +4235,9 @@ def main(argv=None):
                     help="P1b 主体键软覆盖（默认关；sidecar，不改 daily）")
     # do-not-enable: parse_fail 100%, w03 regression; see out/JSON-E2E-DEFAULT.md
     # do-not-enable-for-merge: diagnostic only
+    ap.add_argument("--meta-answer", action=argparse.BooleanOptionalAction,
+                    default=True,
+                    help="meta-v1 计数回答（默认开；--no-meta-answer 回滚）")
     ap.add_argument("--dedup-shadow", action="store_true", default=False,
                     help="影子去重（默认关；只记 shadow_would_merge，不合并）")
     ap.add_argument("--json-output", action="store_true", default=False,
@@ -4220,6 +4298,7 @@ def main(argv=None):
                        norm_dedup=getattr(args, "norm_dedup", False),
                        json_output=getattr(args, "json_output", False),
                        dedup_shadow=getattr(args, "dedup_shadow", False),
+                       meta_answer=getattr(args, "meta_answer", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
                        n_gpu_layers=args.n_gpu_layers)
