@@ -51,6 +51,7 @@ import k2_family as _k2f               # noqa: E402  (K2 同族只留最新；�
 import event_time as etime             # noqa: E402  (P0 event_date；默认 off)
 import assistant_commit as acommit      # noqa: E402  (P3；默认 off)
 import norm_dedup as ndedup             # noqa: E402  (norm_hash 去重；默认 off)
+import json_answer as jans               # noqa: E402  (强制 JSON 输出；默认 off)
 # P1b 代码不入库：可选依赖，只包这一个符号；缺失则功能 off + debug（不静默）
 try:
     import p1b_subject as _p1b
@@ -625,7 +626,7 @@ class DailyApp:
                  n_gpu_layers=N_GPU_LAYERS_DEFAULT, event_date=False,
                  query_expand=False, confirm_writes=False, p1b_subject=False,
                  tts=False, tts_speak=False, tts_timeout=20, tts_dir=None,
-                 assistant_memory=False, norm_dedup=False):
+                 assistant_memory=False, norm_dedup=False, json_output=False):
         self.eng = engine
         self.model_path = model_path
         _fmt = os.environ.get("LLAMA_MEM_CHAT_FORMAT", "").strip().lower()
@@ -662,6 +663,10 @@ class DailyApp:
         self.p1b_subject = bool(p1b_subject)     # P1b 软覆盖；默认关
         self.assistant_memory = bool(assistant_memory)  # P3；默认关
         self.norm_dedup = bool(norm_dedup)       # norm_hash 去重；默认关
+        self.json_output = bool(json_output)     # 强制 JSON 输出；默认关
+        self._last_json = {"enabled": self.json_output, "parsed": False,
+                           "reported_block_id": None, "fallback": False,
+                           "attempts": 0}
         self._last_assistant_commit = {"enabled": self.assistant_memory,
                                        "written": [], "skipped": []}
         if self.p1b_subject and _p1b is None:
@@ -1397,6 +1402,8 @@ class DailyApp:
             return ""
 
     def _chat_prompt(self, system, user, hint="", now=True):
+        if getattr(self, "json_output", False):
+            system = str(system) + "\n" + jans.INSTRUCTION
         """按模型类型拼 prompt：Qwen2.5 用 ChatML；其它保持原有“用户/回答”格式。
 
         关键：system/policy 只在会话开头写一次——每轮重复会把政策堆进 KV，
@@ -1878,6 +1885,10 @@ class DailyApp:
         except Exception:                                # noqa: BLE001
             pass
         try:
+            res = self._json_finalize(text, res, t0)
+        except Exception:                                # noqa: BLE001
+            pass
+        try:
             self._tts_emit(res.get("answer"))
         except Exception:                                # noqa: BLE001
             pass
@@ -1885,6 +1896,53 @@ class DailyApp:
             self._assistant_commit(res.get("answer"))
         except Exception:                                # noqa: BLE001
             pass
+        return res
+
+    def _json_finalize(self, text, res, t0):
+        """强制 JSON：解析 -> 仅重试一次 -> 失败回退纯文本；展示唯一走 render_answer。"""
+        # do-not-enable: parse_fail 100%, w03 regression; see out/JSON-E2E-DEFAULT.md
+        if not getattr(self, "json_output", False):
+            self._last_json = {"enabled": False, "parsed": False,
+                               "reported_block_id": None, "fallback": False,
+                               "attempts": 0}
+            return res
+        meta = {"enabled": True, "parsed": False, "reported_block_id": None,
+                "fallback": False, "attempts": 1}
+        ans = res.get("answer")
+        parsed = jans.parse(ans)
+        if parsed is None and res.get("block_ids"):
+            try:
+                if NATURAL_MODE:
+                    res2 = self._ask_natural(text, t0)
+                else:
+                    res2 = self._ask_strict(text, t0)
+                parsed = jans.parse(res2.get("answer"))
+                meta["attempts"] = 2
+                if parsed is not None:
+                    res = res2
+            except Exception:                            # noqa: BLE001
+                pass
+        if parsed is not None:
+            meta["parsed"] = True
+            meta["status"] = parsed["status"]
+            meta["reported_block_id"] = parsed["source_block_id"]
+            meta["ignored_reported_id"] = True           # 只进日志，不作证据
+            res["json"] = {"status": parsed["status"],
+                           "reported_block_id": parsed["source_block_id"],
+                           "reported_id_used_as_evidence": False}
+        else:
+            meta["fallback"] = True
+            res["json_fallback"] = True
+        res["answer"] = jans.render_answer(res.get("answer"), parsed)
+        self._last_json = meta
+        if parsed is not None and getattr(self, "logger", None):
+            try:
+                self.logger.log_warning(
+                    "json_answer", "model reported source_block_id (log only)",
+                    evidence={"reported_block_id": parsed["source_block_id"],
+                              "mounted_block_ids": list(res.get("block_ids") or [])})
+            except Exception:                        # noqa: BLE001
+                pass
         return res
 
     def _assistant_commit(self, answer):
@@ -4047,6 +4105,9 @@ def main(argv=None):
                     help="显式冲突写入需 confirm token（默认关；仅 /remember）")
     ap.add_argument("--p1b-subject", action="store_true", default=False,
                     help="P1b 主体键软覆盖（默认关；sidecar，不改 daily）")
+    # do-not-enable: parse_fail 100%, w03 regression; see out/JSON-E2E-DEFAULT.md
+    ap.add_argument("--json-output", action="store_true", default=False,
+                    help="强制记忆类回答 JSON（默认关；失败仅重试一次）")
     ap.add_argument("--norm-dedup", action="store_true", default=False,
                     help="norm_hash 去重（默认关；同 tenant+scope 归一后重复不建新块）")
     ap.add_argument("--assistant-memory", action="store_true", default=False,
@@ -4101,6 +4162,7 @@ def main(argv=None):
                        tts_timeout=getattr(args, "tts_timeout", 20),
                        assistant_memory=getattr(args, "assistant_memory", False),
                        norm_dedup=getattr(args, "norm_dedup", False),
+                       json_output=getattr(args, "json_output", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
                        n_gpu_layers=args.n_gpu_layers)

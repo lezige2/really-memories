@@ -1,0 +1,73 @@
+{
+ "schema": "json_e2e_default_v1",
+ "config": {
+  "group": "default",
+  "db": "kvmem/json/def/chat.db (daily 副本)",
+  "k2": "off",
+  "verifier": "v1",
+  "json_output": "on",
+  "tts": "off",
+  "memories": 20
+ },
+ "results": {
+  "81": {
+   "pass": 80,
+   "n": 81,
+   "fails": [
+    "w03"
+   ],
+   "p50_s": 4.86,
+   "brace_answers": [],
+   "A_pass": 81
+  },
+  "EXTRA": {
+   "pass": 19,
+   "n": 20,
+   "fails": [
+    "L07"
+   ],
+   "p50_s": 6.2,
+   "brace_answers": [],
+   "A_pass": 18
+  },
+  "MT20": {
+   "pass": 12,
+   "n": 20,
+   "fails": [
+    "V9MT01",
+    "V9MT02",
+    "V9MT07",
+    "V9MT09",
+    "V9MT10",
+    "V9MT11",
+    "V9MT12",
+    "V9MT18"
+   ],
+   "p50_s": 9.24,
+   "brace_answers": [],
+   "A_pass": 11
+  }
+ },
+ "verdict": "FAIL —— 81 从 A 的 81/81 掉到 80/81（w03 新增 fail）；且 json 解析 0 成功率：10 条探针 json_ok=0、fallback=10 ⇒ parse_fail 实质 100%，按规则 JSON FAIL，flag 保持 off",
+ "parse_fail": {
+  "probe_n": 10,
+  "json_ok": 0,
+  "fallback": 10,
+  "parse_fail_rate": 1.0,
+  "note": "eval 产物不采集 json/json_fallback 字段，故用 10 条独立探针实测；展示层无花括号（fallback 走纯文本渲染）"
+ },
+ "braces_in_display": {
+  "81": [],
+  "EXTRA": [],
+  "MT20": []
+ },
+ "latency_p50_s": {
+  "81": 4.86,
+  "EXTRA": 6.2,
+  "MT20": 9.24
+ },
+ "explore_group": {
+  "status": "NOT RUN",
+  "reason": "默认组已 FAIL（81 回归 + parse_fail 100%），按规则判定 JSON FAIL，探索组不得翻案，故未跑"
+ }
+}

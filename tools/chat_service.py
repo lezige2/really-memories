@@ -584,6 +584,7 @@ def build_app(args, data):
                       tts_timeout=int(getattr(args, "tts_timeout", 20)),
                       assistant_memory=bool(getattr(args, "assistant_memory", False)),
                       norm_dedup=bool(getattr(args, "norm_dedup", False)),
+                      json_output=bool(getattr(args, "json_output", False)),
                       topk=getattr(args, "topk", D.DEFAULT_TOPK),
                       rollover_at=getattr(args, "rollover_at", D.ROLLOVER_AT_DEFAULT),
                       n_ctx=getattr(args, "n_ctx", D.N_CTX_DEFAULT),
@@ -619,6 +620,8 @@ def main(argv=None):
                     help="显式冲突写入需 confirm token（默认关；与 chat_daily 同名同义）")
     ap.add_argument("--p1b-subject", action="store_true", default=False,
                     help="P1b 主体键软覆盖（默认关；与 chat_daily 同名同义）")
+    ap.add_argument("--json-output", action="store_true", default=False,
+                    help="强制记忆类回答 JSON（默认关；与 chat_daily 同名同义）")
     ap.add_argument("--norm-dedup", action="store_true", default=False,
                     help="norm_hash 去重（默认关；与 chat_daily 同名同义）")
     ap.add_argument("--assistant-memory", action="store_true", default=False,
