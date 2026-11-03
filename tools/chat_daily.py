@@ -50,6 +50,7 @@ import memory_service as memo           # noqa: E402  (记忆数据层：抽取/
 import k2_family as _k2f               # noqa: E402  (K2 同族只留最新；默认 off)
 import event_time as etime             # noqa: E402  (P0 event_date；默认 off)
 import assistant_commit as acommit      # noqa: E402  (P3；默认 off)
+import norm_dedup as ndedup             # noqa: E402  (norm_hash 去重；默认 off)
 # P1b 代码不入库：可选依赖，只包这一个符号；缺失则功能 off + debug（不静默）
 try:
     import p1b_subject as _p1b
@@ -610,7 +611,7 @@ class DailyApp:
                  n_gpu_layers=N_GPU_LAYERS_DEFAULT, event_date=False,
                  query_expand=False, confirm_writes=False, p1b_subject=False,
                  tts=False, tts_speak=False, tts_timeout=20, tts_dir=None,
-                 assistant_memory=False):
+                 assistant_memory=False, norm_dedup=False):
         self.eng = engine
         self.model_path = model_path
         _fmt = os.environ.get("LLAMA_MEM_CHAT_FORMAT", "").strip().lower()
@@ -646,6 +647,7 @@ class DailyApp:
         self._confirm_stats = {"asked": 0, "total": 0}
         self.p1b_subject = bool(p1b_subject)     # P1b 软覆盖；默认关
         self.assistant_memory = bool(assistant_memory)  # P3；默认关
+        self.norm_dedup = bool(norm_dedup)       # norm_hash 去重；默认关
         self._last_assistant_commit = {"enabled": self.assistant_memory,
                                        "written": [], "skipped": []}
         if self.p1b_subject and _p1b is None:
@@ -1949,14 +1951,14 @@ class DailyApp:
                 meta.update({k: res.get(k) for k in
                              ("ok", "invoked", "skipped", "wav", "bytes",
                               "latency_ms", "speak", "truncated")})
-                meta["status"] = "skipped" if res.get("skipped") else (
-                    "ok" if res.get("ok") else "error")
                 wav = res.get("wav")
                 if wav and os.path.exists(wav):
                     try:
                         meta["sha256"] = sha16_file(wav)
                     except Exception:                # noqa: BLE001
                         pass
+                meta["status"] = "skipped" if res.get("skipped") else (
+                    "ok" if res.get("ok") else "error")
             except Exception as exc:                 # noqa: BLE001
                 meta["status"] = "error"
                 meta["error"] = "%s: %s" % (type(exc).__name__, exc)
@@ -3219,7 +3221,8 @@ class DailyApp:
     def _total_tokens(self):
         return sum(int(r[7]) for r in self._rows())
 
-    def _put_memory_source(self, text, label="日常记忆", mode="chat"):
+    def _put_memory_source(self, text, label="日常记忆", mode="chat",
+                           tenant="default", scope="private"):
         """写权威源行（text_kind=human_memory / contains_model_turns=0）。
 
         memory_source.put_source() 的默认值是 conversation/1（M5 门会拒绝），产品记忆
@@ -3228,9 +3231,35 @@ class DailyApp:
         """
         name = "mem-" + ms.sha256_text(text)[:12]
         h = ms.sha256_text(text)
+        if getattr(self, "norm_dedup", False):
+            dup = ndedup.find_duplicate(self.con, text, tenant, scope)
+            if dup:
+                try:
+                    if getattr(self, "logger", None):
+                        self.logger.log_warning(
+                            "norm_dup", "normalized duplicate skipped",
+                            evidence={"id": dup["id"], "norm_hash": dup["norm_hash"][:16]})
+                except Exception:                    # noqa: BLE001
+                    pass
+                try:
+                    path = os.path.join(ROOT, "out", "p1b", "norm_dedup.jsonl")
+                    os.makedirs(os.path.dirname(path), exist_ok=True)
+                    with open(path, "a", encoding="utf-8") as f:
+                        f.write(json.dumps({"id": dup["id"], "name": dup["name"],
+                                            "norm_hash": dup["norm_hash"],
+                                            "tenant": dup["tenant"],
+                                            "scope": dup["scope"],
+                                            "at": datetime.now().isoformat(timespec="seconds")},
+                                           ensure_ascii=False) + "\n")
+                except Exception:                    # noqa: BLE001
+                    pass
+                return {"id": dup["id"], "name": dup["name"], "duplicate": True,
+                        "duplicate_norm": True, "created_at": None,
+                        "norm_hash": dup["norm_hash"]}
         prev = self.con.execute(
-            "SELECT id, source_hash FROM memory_source WHERE tenant='default' AND "
-            "scope='private' AND name=? ORDER BY id DESC LIMIT 1", (name,)).fetchone()
+            "SELECT id, source_hash FROM memory_source WHERE tenant=? AND "
+            "scope=? AND name=? ORDER BY id DESC LIMIT 1",
+            (tenant, scope, name)).fetchone()
         if prev:
             if prev[1] == h:
                 return {"id": int(prev[0]), "name": name, "duplicate": True,
@@ -3260,9 +3289,9 @@ class DailyApp:
                 "created_at,text_kind,contains_model_turns,is_excerpt,derived_from,"
                 "event_date,event_time,event_source,event_tz,event_confidence,"
                 "event_parser_version,event_basis_ts) "
-                "VALUES ('default','private',?,?,?,?,?,?,'human_memory',0,0,NULL,"
+                "VALUES (?,?,?,?,?,?,?,?,'human_memory',0,0,NULL,"
                 "?,?,?,?,?,?,?)",
-                (mode, name, str(label), text, h, created,
+                (tenant, scope, mode, name, str(label), text, h, created,
                  ev_date, event_meta.get("event_time"),
                  event_meta.get("event_source"), event_meta.get("event_tz"),
                  event_meta.get("event_confidence"),
@@ -3272,8 +3301,8 @@ class DailyApp:
             cur = self.con.execute(
                 "INSERT INTO memory_source (tenant,scope,mode,name,label,text,source_hash,"
                 "created_at,text_kind,contains_model_turns,is_excerpt,derived_from) "
-                "VALUES ('default','private',?,?,?,?,?,?,'human_memory',0,0,NULL)",
-                (mode, name, str(label), text, h, created))
+                "VALUES (?,?,?,?,?,?,?,?,'human_memory',0,0,NULL)",
+                (tenant, scope, mode, name, str(label), text, h, created))
         if not getattr(self, "_batch_db", False):
             self.con.commit()
             self._db_commit_count += 1
@@ -3556,6 +3585,7 @@ class DailyApp:
             meta = self._meta_get(put["id"])
             return {"id": put["id"], "n_tokens": self._n_tokens_of(put["id"]),
                     "created_at": self._created_at(put["id"]), "duplicate": True,
+                    "duplicate_norm": bool(put.get("duplicate_norm")),
                     "name": put["name"], "tags": meta.get("tags") or [],
                     "source": meta.get("source") or "manual",
                     "related_ids": meta.get("related_ids") or [],
@@ -3984,6 +4014,8 @@ def main(argv=None):
                     help="显式冲突写入需 confirm token（默认关；仅 /remember）")
     ap.add_argument("--p1b-subject", action="store_true", default=False,
                     help="P1b 主体键软覆盖（默认关；sidecar，不改 daily）")
+    ap.add_argument("--norm-dedup", action="store_true", default=False,
+                    help="norm_hash 去重（默认关；同 tenant+scope 归一后重复不建新块）")
     ap.add_argument("--assistant-memory", action="store_true", default=False,
                     help="P3 助手显式承诺写入记忆（默认关；仅从最终答案抽）")
     ap.add_argument("--tts", action="store_true", default=False,
@@ -4035,6 +4067,7 @@ def main(argv=None):
                        tts_speak=getattr(args, "tts_speak", False),
                        tts_timeout=getattr(args, "tts_timeout", 20),
                        assistant_memory=getattr(args, "assistant_memory", False),
+                       norm_dedup=getattr(args, "norm_dedup", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
                        n_gpu_layers=args.n_gpu_layers)
