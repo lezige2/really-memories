@@ -1,15 +1,15 @@
 # 任务检查点（2026-11-05 02:12）
 
 ## 关机
-- 命令：`out/ops/shutdown-0350.cmd`
-- 计划任务：`DSH-P1-Shutdown-0350`
-- 下次运行：**2026-11-05 03:50:50**
-- 取消：`Unregister-ScheduledTask -TaskName "DSH-P1-Shutdown-0350" -Confirm:$false`
+- 方式：`shutdown /s /f /t <remaining>`，目标 **2026-11-05 03:50:00**
+- 2026-11-05 02:14:37 重新下发，剩余 5722 秒；系统提示“已计划系统关机(1190)”
+- 取消：`shutdown /a`
+- 注意：此前 Task Scheduler 任务已删除；当前是 shutdown 定时器，不是计划任务。
 
 ## 版本
-- HEAD：`92d94f6 docs(release): v1.0.0-rc1 最终验收`
+- HEAD：`4160153 docs(release): VERSION bump`
 - 全量默认代码：`116f0f3`
-- ahead：**95**，0 push
+- ahead：**97**，0 push
 - 版本：`v1.0.0-rc1`
 
 ## 服务/数据
