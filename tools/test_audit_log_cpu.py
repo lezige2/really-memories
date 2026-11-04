@@ -66,6 +66,65 @@ class AuditTests(unittest.TestCase):
         self.assertFalse(r["ok"])
         self.assertIn("disk full", r["error"])
 
+    def test_retrieve_only_debug(self):
+        from unittest import mock as _m
+        import chat_daily as D
+        import tempfile as _tf
+        tmp = _tf.mkdtemp(prefix="audit_chat_")
+        model = os.path.join(tmp, "model.stub")
+        D.install_fake_model(model)
+
+        def mk(debug):
+            app = D.DailyApp(D.StubEngine(), db_path=os.path.join(tmp, "d.db"),
+                             blocks_dir=os.path.join(tmp, "b"),
+                             sessions_dir=os.path.join(tmp, "s"),
+                             model_path=model, restore=False,
+                             retrieval_mode="topk", topk=4, logger=False,
+                             audit_enabled=True, audit_debug=debug)
+
+            def fake(t, t0):
+                app._retrieval_select(t)
+                return {"answer": "x", "block_ids": []}
+
+            with _m.patch.object(D, "NATURAL_MODE", True):
+                app._ask_natural = fake
+                app.ask("问题")
+            f = [x for x in os.listdir(self.tmp) if x.endswith(".jsonl")][0]
+            return [json.loads(l) for l in open(os.path.join(self.tmp, f),
+                                                encoding="utf-8")]
+
+        self.assertFalse([e for e in mk(False) if e["stage"] == "retrieve"])
+        self.assertTrue([e for e in mk(True) if e["stage"] == "retrieve"])
+
+    def test_rotation_and_gzip_and_cleanup(self):
+        import gzip
+        from datetime import datetime, timedelta
+        with mock.patch.dict(os.environ, {"LLAMA_AUDIT_MAX_BYTES": "200"}):
+            import importlib
+            importlib.reload(A)
+            for i in range(30):
+                A.event("answer", decision="ok", reason="r%d" % i,
+                        block_ids=list(range(5)))
+            files = [x for x in os.listdir(self.tmp) if x.endswith(".jsonl")]
+            self.assertGreater(len(files), 1)          # 大小轮转
+        # 旧日文件 gzip + 超期清理
+        today = datetime.now()
+        old = (today - timedelta(days=3)).strftime("%Y%m%d")
+        older = (today - timedelta(days=30)).strftime("%Y%m%d")
+        open(os.path.join(self.tmp, old + ".jsonl"), "w").write("x\n")
+        open(os.path.join(self.tmp, older + ".jsonl.gz"), "wb").write(b"x")
+        A.event("answer", decision="ok", reason="gc")
+        self.assertTrue(os.path.exists(os.path.join(self.tmp, old + ".jsonl.gz")))
+        self.assertFalse(os.path.exists(os.path.join(self.tmp, old + ".jsonl")))
+        self.assertFalse(os.path.exists(os.path.join(self.tmp, older + ".jsonl.gz")))
+        importlib.reload(A)
+        with open(self._lines_path(), encoding="utf-8") as f:
+            pass
+
+    def _lines_path(self):
+        import glob
+        return glob.glob(os.path.join(self.tmp, "*.jsonl"))[0]
+
     def test_bad_stage(self):
         r = A.event("nope", decision="pass")
         self.assertFalse(r["ok"])

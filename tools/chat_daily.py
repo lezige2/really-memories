@@ -634,7 +634,7 @@ class DailyApp:
                  dedup_shadow=False, meta_answer=True,
                  lifecycle_cap=False, memory_access=False,
                  lifecycle_archive=False, archive_dir=None,
-                 lifecycle_fallback=False):
+                 lifecycle_fallback=False, audit_enabled=False, audit_debug=False):
         self.eng = engine
         self.model_path = model_path
         _fmt = os.environ.get("LLAMA_MEM_CHAT_FORMAT", "").strip().lower()
@@ -679,6 +679,9 @@ class DailyApp:
         self.memory_access = bool(memory_access)  # access 记录；默认关
         self.lifecycle_archive = bool(lifecycle_archive)  # 自动归档；默认关
         self.lifecycle_fallback = bool(lifecycle_fallback)  # 归档只读兜底；默认关
+        self.audit_enabled = bool(audit_enabled)  # 服务级审计；默认关
+        self.audit_debug = bool(audit_debug)      # 检索明细；默认关
+        self._audit_trace = None
         self.archive_dir = archive_dir
         self._last_shadow = {"enabled": self.dedup_shadow, "checked": 0, "hits": []}
         self._last_json = {"enabled": self.json_output, "parsed": False,
@@ -2006,6 +2009,7 @@ class DailyApp:
         if not text:
             raise DailyError("bad_request", "问题为空")
         t0 = time.perf_counter()
+        self._audit_trace = uuid.uuid4().hex if self.audit_enabled else None
         _meta = self._meta_answer_text(text)
         if _meta is not None:
             try:
@@ -2056,6 +2060,18 @@ class DailyApp:
         try:
             if getattr(self, "memory_access", False):
                 ml.record_access(self.con, res.get("block_ids") or [])
+        except Exception:                                # noqa: BLE001
+            pass
+        try:
+            if self.audit_enabled:
+                import audit_log
+                audit_log.event(
+                    "answer", decision=str(res.get("state") or "ok"),
+                    reason=str(res.get("state") or "answered"),
+                    block_ids=res.get("block_ids") or [],
+                    latency_ms=round((time.perf_counter() - t0) * 1000.0, 2),
+                    trace_id=self._audit_trace, query=text,
+                    answer=res.get("answer"))
         except Exception:                                # noqa: BLE001
             pass
         return res
@@ -2124,7 +2140,11 @@ class DailyApp:
             return {"block_id": payload["id"], "name": payload["name"],
                     "path": bs.get("path"), "n_tokens": int(bs.get("n_tokens") or 0)}
 
-        res = ml.reheat_execute(self.con, sid, self._rows(), builder)
+        trace = getattr(self, "_audit_trace", None)
+        if getattr(self, "audit_enabled", False) and not trace:
+            trace = uuid.uuid4().hex
+        res = ml.reheat_execute(self.con, sid, self._rows(), builder,
+                                trace_id=trace)
         res["duplicate_blocks"] = 0
         try:
             self._sync_mounts()
@@ -3220,7 +3240,23 @@ class DailyApp:
             return selection
 
     def _retrieval_select(self, text):
-        return self._p1b_filter(self._retrieval_select_k2(text))
+        t0 = time.perf_counter()
+        sel = self._p1b_filter(self._retrieval_select_k2(text))
+        try:
+            if getattr(self, "audit_enabled", False) and getattr(
+                    self, "audit_debug", False):
+                import audit_log
+                audit_log.event(
+                    "retrieve", decision="selected" if sel else "empty",
+                    reason=str((getattr(self, "_last_k2", {}) or {}).get(
+                        "gate_reason") or "normal"),
+                    block_ids=[int(x.get("source_id")) for x in (sel or [])
+                               if x.get("source_id") is not None],
+                    latency_ms=round((time.perf_counter() - t0) * 1000.0, 2),
+                    trace_id=self._audit_trace, query=text)
+        except Exception:                            # noqa: BLE001
+            pass
+        return sel
 
     def _retrieval_select_k2(self, text):
         """K2 auto 前置：owner 门控 + count 兜底；关/回退 = 原逻辑逐字不变。"""
@@ -4372,6 +4408,11 @@ def main(argv=None):
     # do-not-enable-for-merge: diagnostic only
     ap.add_argument("--lifecycle-cap", action="store_true", default=False,
                     help="P1 软/硬上限（默认关；off 仍按现网 200 拒绝）")
+    ap.add_argument("--audit-debug", action="store_true", default=False,
+                    help="审计检索明细 retrieve（默认关；仅 --audit 时生效）")
+    ap.add_argument("--audit", dest="audit_enabled", action="store_true",
+                    default=False,
+                    help="服务级审计日志（默认关；只记 id/sha/原因/延迟）")
     ap.add_argument("--lifecycle-fallback", action="store_true", default=False,
                     help="P1 归档只读兜底（默认关；主池空时才查，不回写）")
     ap.add_argument("--lifecycle-archive", action="store_true", default=False,
@@ -4446,6 +4487,8 @@ def main(argv=None):
                        memory_access=getattr(args, "memory_access", False),
                        lifecycle_archive=getattr(args, "lifecycle_archive", False),
                        lifecycle_fallback=getattr(args, "lifecycle_fallback", False),
+                       audit_enabled=getattr(args, "audit_enabled", False),
+                       audit_debug=getattr(args, "audit_debug", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
                        n_gpu_layers=args.n_gpu_layers)

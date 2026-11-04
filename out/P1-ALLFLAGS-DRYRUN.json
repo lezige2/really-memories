@@ -1,0 +1,81 @@
+{
+ "schema": "p1_allflags_dryrun_v1",
+ "config": {
+  "db": "kvmem/p1all/chat.db (daily 副本, 路径已 rewrite+assert)",
+  "flags": "--lifecycle-cap --memory-access --lifecycle-archive --lifecycle-fallback --audit",
+  "k2": "off",
+  "verifier": "v1",
+  "event_date": "off",
+  "tts": "off",
+  "topk": 4,
+  "memories": 20
+ },
+ "results": {
+  "81": {
+   "pass": 81,
+   "n": 81,
+   "base": 81,
+   "new_fails": [],
+   "fails": []
+  },
+  "EXTRA": {
+   "pass": 17,
+   "n": 20,
+   "base": 18,
+   "new_fails": [
+    "L05"
+   ],
+   "fails": [
+    "L05",
+    "L07",
+    "L09"
+   ]
+  },
+  "MT20": {
+   "pass": 10,
+   "n": 20,
+   "base": 11,
+   "new_fails": [
+    "V9MT08"
+   ],
+   "fails": [
+    "V9MT01",
+    "V9MT02",
+    "V9MT07",
+    "V9MT08",
+    "V9MT09",
+    "V9MT10",
+    "V9MT11",
+    "V9MT12",
+    "V9MT17",
+    "V9MT18"
+   ]
+  }
+ },
+ "archive": {
+  "candidates": 0,
+  "archive_rows": 0,
+  "note": "20 条均新（2026-10-27 写入）且被访问，未达软上限，auto_archive 未触发——符合预期"
+ },
+ "access_rows": 17,
+ "audit": {
+  "before": 19,
+  "after": 514,
+  "events": 495,
+  "per_ask_approx": 4.1
+ },
+ "p50_s": {
+  "81": 2.07,
+  "EXTRA": 1.86,
+  "MT20": 3.19
+ },
+ "boundary_200plus": "引用 P1-SERVICE-BOUNDARY：199/200/201 均 200、无淘汰、账目一致（PASS）",
+ "verdict": "81 不回归；extra 剔除 L05 后 17/19 与基线一致；MT20 10/20 新增 V9MT08（问工位答旧值「B区7号」，期望 C区11号）⇒ 全开组合下出现 1 条回归",
+ "before_enable": [
+  "V9MT08 需复测定性（旧值泄漏型，疑似 flaky，参照 L05/V9MT17/18 的处理）",
+  "L05 仍为已知 flaky，需决定豁免口径或修复",
+  "auto_archive 在 20 行场景 0 候选，全开路径的归档分支实际未被触发（真实触发仅在 200+ 边界测过）",
+  "audit 约 4 事件/ask，需评估落盘量与轮转策略",
+  "默认开关（全开/部分/关）仍待用户决定"
+ ]
+}

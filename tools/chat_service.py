@@ -592,6 +592,8 @@ def build_app(args, data):
                       memory_access=bool(getattr(args, "memory_access", False)),
                       lifecycle_archive=bool(getattr(args, "lifecycle_archive", False)),
                       lifecycle_fallback=bool(getattr(args, "lifecycle_fallback", False)),
+                      audit_enabled=bool(getattr(args, "audit_enabled", False)),
+                      audit_debug=bool(getattr(args, "audit_debug", False)),
                       topk=getattr(args, "topk", D.DEFAULT_TOPK),
                       rollover_at=getattr(args, "rollover_at", D.ROLLOVER_AT_DEFAULT),
                       n_ctx=getattr(args, "n_ctx", D.N_CTX_DEFAULT),
@@ -630,6 +632,11 @@ def main(argv=None):
     # do-not-enable-for-merge: diagnostic only
     ap.add_argument("--lifecycle-cap", action="store_true", default=False,
                     help="P1 软/硬上限（默认关；与 chat_daily 同名同义）")
+    ap.add_argument("--audit-debug", action="store_true", default=False,
+                    help="审计检索明细 retrieve（默认关；与 chat_daily 同名同义）")
+    ap.add_argument("--audit", dest="audit_enabled", action="store_true",
+                    default=False,
+                    help="服务级审计日志（默认关；与 chat_daily 同名同义）")
     ap.add_argument("--lifecycle-fallback", action="store_true", default=False,
                     help="P1 归档只读兜底（默认关；与 chat_daily 同名同义）")
     ap.add_argument("--lifecycle-archive", action="store_true", default=False,

@@ -124,10 +124,33 @@ def scan_candidates(con, rows, now=None, days=21,):
     return out
 
 
-def row_month(row, now=None):
-    created = _row_created(row)
-    m = created[:7]
-    if len(m) == 7 and m[4] == "-":
+def row_month(row, now=None, con=None):
+    """月份：优先 event_date，其次 memory_source.created_at（不依赖列序）。"""
+    date = ""
+    sid = None
+    try:
+        sid = int(row[0])
+    except Exception:                                # noqa: BLE001
+        sid = None
+    if con is not None and sid is not None:
+        try:
+            cols = {r[1] for r in con.execute("PRAGMA table_info(memory_source)")}
+            if "event_date" in cols:
+                r = con.execute("SELECT created_at,event_date FROM memory_source"
+                                " WHERE id=?", (sid,)).fetchone()
+                if r:
+                    date = str(r[1] or "") or str(r[0] or "")
+            else:
+                r = con.execute("SELECT created_at FROM memory_source WHERE id=?",
+                                (sid,)).fetchone()
+                if r:
+                    date = str(r[0] or "")
+        except sqlite3.Error:
+            date = ""
+    if not date:
+        date = _row_created(row)
+    m = date[:7]
+    if len(m) == 7 and m[4] == "-" and m[:4].isdigit():
         return m
     return (now or datetime.now()).strftime("%Y-%m")
 
@@ -160,7 +183,7 @@ def auto_archive(con, rows, now, archive_dir, days=21, trace_id=None):
     cands = scan_candidates(con, rows, now_dt, days)
     groups = {}
     for r in cands:
-        groups.setdefault(row_month(r, now_dt), []).append(r)
+        groups.setdefault(row_month(r, now_dt, con=con), []).append(r)
     os.makedirs(archive_dir, exist_ok=True)
     res = {"candidates": [int(r[0]) for r in cands], "months": {}, "zips": []}
     for month, grp in sorted(groups.items()):

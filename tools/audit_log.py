@@ -14,6 +14,9 @@ import uuid
 from datetime import datetime
 
 STAGES = ("write", "retrieve", "answer", "align", "archive")
+MAX_BYTES = int(os.environ.get("LLAMA_AUDIT_MAX_BYTES", 8 * 1024 * 1024))
+KEEP_DAYS = int(os.environ.get("LLAMA_AUDIT_KEEP_DAYS", 14))
+_NAME_RE = __import__("re").compile(r"^(\d{8})(-\d+)?\.jsonl(\.gz)?$")
 _LOCK = threading.Lock()
 _FIELDS = ("trace_id", "ts", "stage", "decision", "reason", "block_ids",
            "asked_slot", "tenant", "scope", "latency_ms",
@@ -57,6 +60,46 @@ def _clean(event):
     return out
 
 
+def _pick_path(d, today):
+    p = os.path.join(d, today + ".jsonl")
+    if not os.path.exists(p) or os.path.getsize(p) < MAX_BYTES:
+        return p
+    k = 2
+    while True:
+        q = os.path.join(d, "%s-%d.jsonl" % (today, k))
+        if not os.path.exists(q) or os.path.getsize(q) < MAX_BYTES:
+            return q
+        k += 1
+
+
+def _rotate_gc(d, today):
+    """旧日文件 gzip；超保留天数删除。"""
+    import gzip
+    for name in list(os.listdir(d)):
+        m = _NAME_RE.match(name)
+        if not m:
+            continue
+        day = m.group(1)
+        if m.group(3) == ".gz":
+            try:
+                age = (datetime.strptime(today, "%Y%m%d")
+                       - datetime.strptime(day, "%Y%m%d")).days
+                if age > KEEP_DAYS:
+                    os.remove(os.path.join(d, name))
+            except Exception:                        # noqa: BLE001
+                pass
+            continue
+        if day == today:
+            continue
+        src = os.path.join(d, name)
+        try:
+            with open(src, "rb") as f, gzip.open(src + ".gz", "wb") as g:
+                g.write(f.read())
+            os.remove(src)
+        except Exception:                            # noqa: BLE001
+            pass
+
+
 def event(stage, decision=None, reason=None, block_ids=None, asked_slot=None,
           tenant="default", scope="private", latency_ms=None, trace_id=None,
           query=None, answer=None, fail_open=None, count=None):
@@ -76,9 +119,11 @@ def event(stage, decision=None, reason=None, block_ids=None, asked_slot=None,
             return {"ok": False, "error": "bad_stage:%s" % stage}
         d = audit_dir()
         os.makedirs(d, exist_ok=True)
-        path = os.path.join(d, datetime.now().strftime("%Y%m%d") + ".jsonl")
+        today = datetime.now().strftime("%Y%m%d")
         line = json.dumps(rec, ensure_ascii=False, sort_keys=True)
         with _LOCK:
+            _rotate_gc(d, today)
+            path = _pick_path(d, today)
             with open(path, "a", encoding="utf-8") as f:
                 f.write(line + "\n")
         return {"ok": True, "path": path, "record": rec}

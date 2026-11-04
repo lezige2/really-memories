@@ -97,6 +97,10 @@ class LifecycleTests(unittest.TestCase):
             (2, "m2", "l", "t2", "h", 1, "p", 8, "2026-01-20T10:00:00"),
             (3, "m3", "l", "t3", "h", 1, "p", 8, "2026-02-02T10:00:00"),
         ]
+        for sid, txt, created in ((1, "t1", "2026-01-05T10:00:00"),
+                                  (2, "t2", "2026-01-20T10:00:00"),
+                                  (3, "t3", "2026-02-02T10:00:00")):
+            self._insert_source(sid, txt, created)
         now = datetime(2026, 3, 1)
         d = os.path.join(self.tmp, "archive")
         res = L.auto_archive(self.con, rows, now, d)
@@ -335,7 +339,7 @@ class LifecycleTests(unittest.TestCase):
                            os.path.join(self.tmp, "arch_a"), trace_id="t-arch")
             L.fallback_archive(self.con, "车牌号", os.path.join(self.tmp, "arch_a"),
                                trace_id="t-fb")
-            L.reheat_plan(self.con, 1, [], trace_id="t-rh")
+            L.reheat_plan(self.con, 1, [], trace_id="t-rh", audit=True)
             p = [f for f in os.listdir(d) if f.endswith(".jsonl")][0]
             evs = [_json.loads(l) for l in open(os.path.join(d, p), encoding="utf-8")]
         self.assertEqual({e["trace_id"] for e in evs},
@@ -428,6 +432,138 @@ class LifecycleTests(unittest.TestCase):
                          .fetchone()[0], n0)
         res2 = app.reheat(r["id"])
         self.assertFalse(res2["executed"])
+
+    def test_chat_ask_audit_retrieve_answer_same_trace(self):
+        import json as _json
+        from unittest import mock as _m
+        adir = os.path.join(self.tmp, "audit_ask")
+        app = self._app(False, False)
+        app.audit_enabled = True
+        app.audit_debug = True
+        os.environ["LLAMA_AUDIT_DIR"] = adir
+
+        def fake(t, t0):
+            app._retrieval_select(t)
+            return {"answer": "秘密答案文本", "block_ids": [3]}
+
+        with _m.patch.object(D, "NATURAL_MODE", True):
+            app._ask_natural = fake
+            app.ask("我的车牌号是多少？")
+        f = [x for x in os.listdir(adir) if x.endswith(".jsonl")][0]
+        evs = [_json.loads(l) for l in open(os.path.join(adir, f), encoding="utf-8")]
+        stages = [e["stage"] for e in evs]
+        self.assertIn("retrieve", stages)
+        self.assertIn("answer", stages)
+        self.assertEqual({e["trace_id"] for e in evs}, {app._audit_trace})
+        raw = _json.dumps(evs, ensure_ascii=False)
+        self.assertNotIn("秘密答案文本", raw)
+
+    def test_reheat_execute_single_audit_event(self):
+        import json as _json
+        from datetime import datetime
+        adir = os.path.join(self.tmp, "audit_rh1")
+        os.environ["LLAMA_AUDIT_DIR"] = adir
+        rows = [(1, "m1", "l", "我的车牌号是皖K3D7F9", "h", 1, "p", 8,
+                 "2026-01-05T10:00:00")]
+        d = os.path.join(self.tmp, "arch_aud")
+        L.auto_archive(self.con, rows, datetime(2026, 3, 1), d, trace_id=None)
+        self.con.execute("INSERT INTO memory_source (id,tenant,scope,mode,name,label,"
+                         "text,source_hash,created_at) VALUES "
+                         "(1,'default','private','chat','m1','l',"
+                         "'我的车牌号是皖K3D7F9','h','2026-01-05T10:00:00')")
+        self.con.commit()
+        L.reheat_execute(self.con, 1, [], lambda p: {"block_id": p["id"]},
+                         trace_id="t-rh1")
+        f = [x for x in os.listdir(adir) if x.endswith(".jsonl")][0]
+        evs = [_json.loads(l) for l in open(os.path.join(adir, f), encoding="utf-8")]
+        rh = [e for e in evs if e.get("trace_id") == "t-rh1"]
+        self.assertEqual(len(rh), 1)                    # plan+execute 不重复计数
+        self.assertEqual(rh[0]["decision"], "restore")
+
+    def test_chat_reheat_single_event_and_retrieve_hash(self):
+        import json as _json
+        from datetime import datetime
+        from unittest import mock as _m
+        adir = os.path.join(self.tmp, "audit_r2")
+        os.environ["LLAMA_AUDIT_DIR"] = adir
+        tmp = tempfile.mkdtemp(prefix="rh2_")
+        model = os.path.join(tmp, "model.stub")
+        D.install_fake_model(model)
+        app = D.DailyApp(D.StubEngine(), db_path=os.path.join(tmp, "d.db"),
+                         blocks_dir=os.path.join(tmp, "b"),
+                         sessions_dir=os.path.join(tmp, "s"),
+                         model_path=model, restore=False,
+                         retrieval_mode="topk", topk=4, logger=False,
+                         audit_enabled=True, audit_debug=True)
+        r = app.remember("我的车牌号是皖K3D7F9")
+        L.auto_archive(app.con, app._rows(), datetime(2026, 3, 1),
+                       os.path.join(tmp, "arch"), trace_id=None)
+        app._audit_trace = "t-chat-rh"
+        app.reheat(r["id"])
+        f = [x for x in os.listdir(adir) if x.endswith(".jsonl")][0]
+        evs = [_json.loads(l) for l in open(os.path.join(adir, f), encoding="utf-8")]
+        rh = [e for e in evs if e.get("trace_id") == "t-chat-rh"]
+        self.assertEqual(len(rh), 1)                   # chat.reheat 恰 1 条
+        # retrieve 事件带 query_sha16
+        def fake(t, t0):
+            app._retrieval_select(t)
+            return {"answer": "x", "block_ids": []}
+        with _m.patch.object(D, "NATURAL_MODE", True):
+            app._ask_natural = fake
+            app.ask("我的车牌号是多少？")
+        evs2 = [_json.loads(l) for l in open(os.path.join(adir, f), encoding="utf-8")]
+        ret = [e for e in evs2 if e["stage"] == "retrieve"][-1]
+        self.assertTrue(ret.get("query_sha16"))
+
+    def test_app_reheat_service_path_exactly_one_event(self):
+        import json as _json
+        from datetime import datetime
+        adir = os.path.join(self.tmp, "audit_svc")
+        os.environ["LLAMA_AUDIT_DIR"] = adir
+        tmp = tempfile.mkdtemp(prefix="svc_")
+        model = os.path.join(tmp, "model.stub")
+        D.install_fake_model(model)
+        app = D.DailyApp(D.StubEngine(), db_path=os.path.join(tmp, "d.db"),
+                         blocks_dir=os.path.join(tmp, "b"),
+                         sessions_dir=os.path.join(tmp, "s"),
+                         model_path=model, restore=False,
+                         retrieval_mode="topk", topk=4, logger=False,
+                         audit_enabled=True, audit_debug=True)
+        r = app.remember("我的车牌号是皖K3D7F9")
+        L.auto_archive(app.con, app._rows(), datetime(2026, 3, 1),
+                       os.path.join(tmp, "arch"), trace_id=None)
+        # 外部若先调 plan（默认 audit=False）也不得留事件
+        L.reheat_plan(app.con, r["id"], app._rows())
+        app.reheat(r["id"])                            # 真实服务路径
+        f = [x for x in os.listdir(adir) if x.endswith(".jsonl")][0]
+        evs = [_json.loads(l) for l in open(os.path.join(adir, f), encoding="utf-8")]
+        self.assertEqual(len([e for e in evs if e["stage"] == "archive"]), 1)
+
+    def test_row_month_three_months_and_column_safety(self):
+        from datetime import datetime
+        for sid, created in ((1, "2026-07-05T10:00:00"),
+                             (2, "2026-08-06T10:00:00"),
+                             (3, "2026-09-07T10:00:00")):
+            self._insert_source(sid, "t%d" % sid, created)
+        rows = [(sid, "m%d" % sid, "l", "t%d" % sid, "h", 1, "p",
+                 999999999, "2026-11-01T00:00:00")    # 第8列=巨大 n_bytes
+                for sid in (1, 2, 3)]
+        d = os.path.join(self.tmp, "arch_m3")
+        res = L.auto_archive(self.con, rows, datetime(2026, 11, 15), d)
+        self.assertEqual(sorted(res["months"]), ["2026-07", "2026-08", "2026-09"])
+        zips = sorted(f for f in os.listdir(d) if f.endswith(".zip"))
+        self.assertEqual(zips, ["2026-07.zip", "2026-08.zip", "2026-09.zip"])
+
+    def test_row_month_prefers_event_date_and_fallback(self):
+        from datetime import datetime
+        self._insert_source(1, "t1", "2026-11-01T00:00:00")
+        self.con.execute("UPDATE memory_source SET event_date='2026-09-15' WHERE id=1")
+        self.con.commit()
+        self.assertEqual(L.row_month((1,), datetime(2026, 11, 15), con=self.con),
+                         "2026-09")
+        # created_at 缺失 -> 当前月回退
+        self.assertEqual(L.row_month((999,), datetime(2026, 11, 15), con=self.con),
+                         "2026-11")
 
     def test_capacity_soft_hard(self):
         app = self._app(True, False)
