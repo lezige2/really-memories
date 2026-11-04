@@ -1,0 +1,66 @@
+{
+ "schema": "p1_service_regression_v1",
+ "config": {
+  "db": "kvmem/p1svc/reg/chat.db (20 行 daily 副本)",
+  "flags": "--lifecycle-cap --memory-access (archive/fallback off)",
+  "k2": "off",
+  "verifier": "v1",
+  "topk": 4,
+  "memories": 20
+ },
+ "results": {
+  "81": {
+   "base_pass": 81,
+   "p1_pass": 81,
+   "base_fails": [],
+   "p1_fails": []
+  },
+  "EXTRA": {
+   "base_pass": 18,
+   "p1_pass": 17,
+   "base_fails": [
+    "L07",
+    "L09"
+   ],
+   "p1_fails": [
+    "L05",
+    "L07",
+    "L09"
+   ]
+  },
+  "MT20": {
+   "base_pass": 11,
+   "p1_pass": 11,
+   "base_fails": [
+    "V9MT01",
+    "V9MT02",
+    "V9MT07",
+    "V9MT09",
+    "V9MT10",
+    "V9MT11",
+    "V9MT12",
+    "V9MT17",
+    "V9MT18"
+   ],
+   "p1_fails": [
+    "V9MT01",
+    "V9MT02",
+    "V9MT07",
+    "V9MT09",
+    "V9MT10",
+    "V9MT11",
+    "V9MT12",
+    "V9MT17",
+    "V9MT18"
+   ]
+  }
+ },
+ "new_fails": {
+  "81": [],
+  "EXTRA": [
+   "L05"
+  ],
+  "MT20": []
+ },
+ "verdict": "81 81/81 与 MT20 11/20（失败集完全相同）不回归；EXTRA 18→17 新增 L05 ⇒ 按严格门判“未达标”。L05 为此前已证答案层 flaky（单条 2/5 pass，2/3 次「没法核对」），非 cap/access 引入。"
+}

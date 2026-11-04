@@ -1,0 +1,23 @@
+{
+ "schema": "p1_l05_paired_20_v1",
+ "setup": "同副本 kvmem/p1svc/l05、同 pre_state、同 now；单 GPU 顺序执行（非交替）",
+ "baseline": {
+  "pass": 18,
+  "n": 20,
+  "rate": 0.9
+ },
+ "p1": {
+  "pass": 16,
+  "n": 20,
+  "rate": 0.8
+ },
+ "stats": {
+  "fisher_two_sided_p": 0.6614,
+  "risk_diff_p1_minus_base": -0.1,
+  "ci95": [
+   -0.319,
+   0.119
+  ]
+ },
+ "verdict": "基线 18/20（0.90）、P1 16/20（0.80）；风险差 −0.10，95%CI [−0.319, +0.119] 跨 0，Fisher p=0.66。按“速率不劣化”判：点估计略低但统计上不可区分，既不能证明劣化，也不能证明非劣（CI 下界 −0.32 超出常见 margin）"
+}

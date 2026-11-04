@@ -1,0 +1,42 @@
+{
+ "schema": "p1_rollback_audit_v1",
+ "rollback": {
+  "archived_rows": 201,
+  "zips": 1,
+  "rows_before": 201,
+  "rows_after_drop": 201,
+  "memory_source_content_identical": true,
+  "restored_byte_identical": true,
+  "method": "archive 201 行 → DROP memory_archive/memory_access + 删 zip → 校验 memory_source 内容 → 用备份整库恢复并比字节"
+ },
+ "audit": {
+  "events": 5,
+  "fields": [
+   "answer_sha16",
+   "asked_slot",
+   "block_ids",
+   "count",
+   "decision",
+   "fail_open",
+   "latency_ms",
+   "query_sha16",
+   "reason",
+   "scope",
+   "stage",
+   "tenant",
+   "trace_id",
+   "ts"
+  ],
+  "raw_text_leaked": false,
+  "stages_seen": [
+   "archive"
+  ],
+  "ask_emits_events": false,
+  "findings": [
+   "stage 恒为 archive（只有 lifecycle 接线）",
+   "/ask 前后 JSONL 行数 5→5，ask/retrieve/answer 阶段未接线",
+   "reheat 每次产生 2 条事件（plan + execute），存在重复"
+  ]
+ },
+ "verdict": "回滚演练 PASS；audit 字段齐、无原文，但覆盖面只有 archive，ask 阶段缺失"
+}

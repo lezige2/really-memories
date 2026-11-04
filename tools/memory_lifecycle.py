@@ -325,7 +325,7 @@ def _newer(con, newer_id, older_id, older_created):
         return int(newer_id) > int(older_id)
 
 
-def reheat_plan(con, source_id, live_rows, trace_id=None):
+def reheat_plan(con, source_id, live_rows, trace_id=None, audit=False):
     """纯函数：校验归档 -> 抽槽 -> 与 live 比较；只返回 plan，不写 DB。"""
     try:
         r0 = con.execute("SELECT reheated_at FROM memory_archive WHERE source_id=?",
@@ -335,7 +335,8 @@ def reheat_plan(con, source_id, live_rows, trace_id=None):
                      "reason": "already_reheated", "subject": None,
                      "predicate": None, "superseded_by": None,
                      "unresolved": False}
-            _audit(trace_id, "skip", "already_reheated", [int(source_id)], 1)
+            if audit:
+                _audit(trace_id, "skip", "already_reheated", [int(source_id)], 1)
             return plan0
     except sqlite3.Error:
         pass
@@ -344,7 +345,8 @@ def reheat_plan(con, source_id, live_rows, trace_id=None):
             "subject": None, "predicate": None, "superseded_by": None,
             "unresolved": False}
     if text is None:
-        _audit(trace_id, plan["action"], plan["reason"], [int(source_id)], 1)
+        if audit:
+            _audit(trace_id, plan["action"], plan["reason"], [int(source_id)], 1)
         return plan
     key, complete = _fact_key(text)
     subject, predicate = key[0], key[1]
@@ -352,11 +354,13 @@ def reheat_plan(con, source_id, live_rows, trace_id=None):
     plan.update(subject=subject, predicate=predicate, unresolved=unresolved)
     if subject is None:
         plan.update(action="skip", reason="no_subject")
-        _audit(trace_id, "skip", "no_subject", [int(source_id)], 1)
+        if audit:
+            _audit(trace_id, "skip", "no_subject", [int(source_id)], 1)
         return plan
     if not complete:
         plan.update(action="restore", reason="key_incomplete")
-        _audit(trace_id, "restore", "key_incomplete", [int(source_id)], 1)
+        if audit:
+            _audit(trace_id, "restore", "key_incomplete", [int(source_id)], 1)
         return plan
     arch_created = _created_of(con, source_id)
     for r in live_rows or []:
@@ -371,14 +375,15 @@ def reheat_plan(con, source_id, live_rows, trace_id=None):
                         superseded_by=int(r[0]))
             return plan
     plan.update(action="restore", reason="no_newer")
-    _audit(trace_id, plan["action"], plan["reason"],
-           [plan["source_id"]] + ([plan["superseded_by"]]
-                                  if plan.get("superseded_by") else []), 1)
+    if audit:
+        _audit(trace_id, plan["action"], plan["reason"],
+               [plan["source_id"]] + ([plan["superseded_by"]]
+                                      if plan.get("superseded_by") else []), 1)
     return plan
 
 def reheat_execute(con, source_id, rows, block_builder, trace_id=None):
     """执行回热：仅 restore；原行保持（不新建），重设 archive.reheated_at，重建块。"""
-    plan = reheat_plan(con, source_id, rows, trace_id=trace_id)
+    plan = reheat_plan(con, source_id, rows, trace_id=trace_id, audit=False)
     out = {"executed": False, "plan": plan, "block": None,
            "source_id": int(source_id)}
     if plan.get("action") != "restore":
@@ -399,5 +404,7 @@ def reheat_execute(con, source_id, rows, block_builder, trace_id=None):
                 (_now(), int(source_id)))
     con.commit()
     out.update(executed=True, block=block)
-    _audit(trace_id, "restore", "reheat_execute", [int(source_id)], 1)
+    _audit(trace_id, "restore", "reheat_execute",
+           [int(source_id)] + ([plan["superseded_by"]]
+                               if plan.get("superseded_by") else []), 1)
     return out

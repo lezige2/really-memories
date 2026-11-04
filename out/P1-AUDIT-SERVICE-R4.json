@@ -1,0 +1,48 @@
+{
+ "schema": "p1_audit_service_r4_v1",
+ "reheat": {
+  "events_from_plan": 0,
+  "events_from_app_reheat": 1,
+  "single_event": true,
+  "event": [
+   {
+    "stage": "archive",
+    "decision": "restore",
+    "trace": "2c741e8eb3514e3b86c9486331faa36a"
+   }
+  ]
+ },
+ "ask": {
+  "events": 2,
+  "same_trace": true,
+  "query_sha16": "fd01f6dbf84d596a",
+  "answer_sha16": "c224d22c0edf03b2"
+ },
+ "extra_gate_corrected": {
+  "baseline": {
+   "n": 19,
+   "fail": [
+    "L07",
+    "L09"
+   ],
+   "pass": 17
+  },
+  "p1": {
+   "n": 19,
+   "fail": [
+    "L07",
+    "L09"
+   ],
+   "pass": 17
+  },
+  "same_fail_set": true,
+  "rule": "剔除 L05（已证答案层 flaky）后按 19 条口径比较"
+ },
+ "gate": {
+  "extra_19": "PASS",
+  "rollback_drill": "PASS",
+  "audit_trace": "PASS",
+  "reheat_single_event": "PASS"
+ },
+ "verdict": "P1 四项全通过"
+}
