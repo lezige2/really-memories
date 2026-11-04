@@ -636,6 +636,7 @@ class DailyApp:
                  lifecycle_archive=False, archive_dir=None,
                  lifecycle_fallback=False, audit_enabled=False, audit_debug=False,
                  soft_limit=200, hard_limit=2000, confirm_first_archive=False,
+                 archive_days=21,
                  archive_state_file=None, backup_dir=None):
         self.eng = engine
         self.model_path = model_path
@@ -693,6 +694,7 @@ class DailyApp:
         self.archive_state_file = archive_state_file or os.path.join(
             ROOT, "out", "p1", "archive_first_confirmed")
         self.backup_dir = backup_dir or os.path.join(ROOT, "out", "p1", "backup")
+        self.archive_days = int(archive_days)
         self._audit_trace = None
         self.archive_dir = archive_dir
         self._last_shadow = {"enabled": self.dedup_shadow, "checked": 0, "hits": []}
@@ -2079,7 +2081,9 @@ class DailyApp:
         except Exception:                            # noqa: BLE001
             pass
         try:
-            if getattr(self, "lifecycle_fallback", False) and not res.get("block_ids"):
+            _low = res.get("state") in ("verify_fallback", "no_evidence")
+            if getattr(self, "lifecycle_fallback", False) and (
+                    not res.get("block_ids") or _low):
                 hits = ml.fallback_archive(
                     self.con, text,
                     getattr(self, "archive_dir", None)
@@ -2089,7 +2093,8 @@ class DailyApp:
                     if getattr(self, "logger", None):
                         try:
                             self.logger.log_warning(
-                                "archive_fallback_hit", "archive read-only hit",
+                                "archive_fallback_hit",
+                                "low_confidence" if _low else "archive read-only hit",
                                 evidence={"n": len(hits),
                                           "ids": [h["id"] for h in hits]})
                         except Exception:            # noqa: BLE001
@@ -2285,6 +2290,7 @@ class DailyApp:
                 self.con, self._rows(), datetime.now(),
                 getattr(self, "archive_dir", None)
                 or os.path.join(ROOT, "out", "archive"),
+                days=int(getattr(self, "archive_days", 21)),
                 trace_id=getattr(self, "_audit_trace", None))
             self._last_archive = r
             if r.get("candidates"):
@@ -4568,6 +4574,8 @@ def build_arg_parser():
                     help="P1b 主体键软覆盖（默认关；sidecar，不改 daily）")
     # do-not-enable: parse_fail 100%, w03 regression; see out/JSON-E2E-DEFAULT.md
     # do-not-enable-for-merge: diagnostic only
+    ap.add_argument("--lifecycle-archive-days", type=int, default=21,
+                    help="归档候选窗口天数（默认 21；可 90）")
     ap.add_argument("--lifecycle-soft-limit", type=int, default=200,
                     help="软上限（默认 200，允许 300）；达到后仅告警")
     ap.add_argument("--lifecycle-hard-limit", type=int, default=2000)
@@ -4667,6 +4675,7 @@ def main(argv=None):
                        soft_limit=getattr(args, "lifecycle_soft_limit", 200),
                        hard_limit=getattr(args, "lifecycle_hard_limit", 2000),
                        confirm_first_archive=getattr(args, "confirm_first_archive", False),
+                       archive_days=getattr(args, "lifecycle_archive_days", 21),
                        audit_debug=getattr(args, "audit_debug", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,

@@ -751,6 +751,71 @@ class LifecycleTests(unittest.TestCase):
         self.assertEqual(AD.main(["restore", "--zip", z,
                                   "--sidecar", z + ".sidecar.json"]), 0)
 
+    def test_superseded_candidate_marked(self):
+        from datetime import datetime
+        text = "我的组会定在B座302，周三晚上七点"
+        self._insert_source(1, text, "2026-01-05T10:00:00")
+        self._insert_source(5, text, "2026-02-01T10:00:00")
+        rows = [(1, "m1", "l", text, "h", 1, "p", 8, "ignored"),
+                (5, "m5", "l", text, "h", 1, "p", 8, "ignored")]
+        d = os.path.join(self.tmp, "arch_sup")
+        res = L.auto_archive(self.con, rows, datetime(2026, 3, 1), d)
+        self.assertIn(1, res["candidates"])
+        self.assertEqual(res["superseded"].get(1), 5)
+        sup = self.con.execute("SELECT superseded_by FROM memory_archive "
+                               "WHERE source_id=1").fetchone()[0]
+        self.assertEqual(sup, 5)
+
+    def test_archive_days_90_effective(self):
+        from datetime import datetime, timedelta
+        import time as _t
+        text = "我的车牌号是皖K3D7F9"
+        self._insert_source(1, text, "2026-01-05T10:00:00")
+        L.record_access(self.con, [1])
+        old = (datetime(2026, 3, 1) - timedelta(days=30)).isoformat(
+            timespec="seconds")
+        self.con.execute("UPDATE memory_access SET last_accessed_at=? "
+                         "WHERE source_id=1", (old,))
+        self.con.commit()
+        rows = [(1, "m1", "l", text, "h", 1, "p", 8, "ignored")]
+        now = datetime(2026, 3, 1)
+        self.assertEqual(len(L.scan_candidates(self.con, rows, now, 21)), 1)
+        self.assertEqual(L.scan_candidates(self.con, rows, now, 90), [])
+        # 120 天未访问：days=90 才会成候选
+        old120 = (now - timedelta(days=120)).isoformat(timespec="seconds")
+        self.con.execute("UPDATE memory_access SET last_accessed_at=? "
+                         "WHERE source_id=1", (old120,))
+        self.con.commit()
+        self.assertEqual(len(L.scan_candidates(self.con, rows, now, 90)), 1)
+        d = os.path.join(self.tmp, "arch_d90")
+        r = L.auto_archive(self.con, rows, now, d, days=90)
+        self.assertTrue(r["zips"])
+
+    def test_low_confidence_triggers_fallback(self):
+        import json as _json
+        from datetime import datetime
+        from unittest import mock as _m
+        tmp = tempfile.mkdtemp(prefix="lowc_")
+        model = os.path.join(tmp, "model.stub")
+        D.install_fake_model(model)
+        app = D.DailyApp(D.StubEngine(), db_path=os.path.join(tmp, "d.db"),
+                         blocks_dir=os.path.join(tmp, "b"),
+                         sessions_dir=os.path.join(tmp, "s"),
+                         model_path=model, restore=False,
+                         retrieval_mode="topk", topk=4, logger=False)
+        r = app.remember("我的车牌号是皖K3D7F9")
+        L.auto_archive(app.con, app._rows(), datetime(2026, 3, 1),
+                       os.path.join(tmp, "arch"))
+        app.lifecycle_fallback = True
+        app.archive_dir = os.path.join(tmp, "arch")
+        with _m.patch.object(D, "NATURAL_MODE", True):
+            app._ask_natural = lambda t, t0: {"answer": "低置信答案",
+                                              "block_ids": [],
+                                              "state": "verify_fallback"}
+            res = app.ask("我的车牌号是多少")
+        self.assertEqual(res["answer"], "低置信答案")     # 答案不变
+        self.assertTrue(res.get("archive_hits"))
+
     def test_capacity_soft_hard(self):
         app = self._app(True, False)
         for n in (199, 200, 201):

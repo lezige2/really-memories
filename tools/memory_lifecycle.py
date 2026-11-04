@@ -47,14 +47,17 @@ def record_access(con, ids):
     ids = sorted({int(i) for i in (ids or [])})
     if not ids:
         return 0
-    ensure_schema(con)
     now = _now()
-    for sid in ids:
-        con.execute(
-            "INSERT INTO memory_access(source_id,access_count,last_accessed_at)"
-            " VALUES(?,1,?) ON CONFLICT(source_id) DO UPDATE SET"
-            " access_count=access_count+1,last_accessed_at=excluded.last_accessed_at",
-            (sid, now))
+    sql = ("INSERT INTO memory_access(source_id,access_count,last_accessed_at)"
+           " VALUES(?,1,?) ON CONFLICT(source_id) DO UPDATE SET"
+           " access_count=access_count+1,last_accessed_at=excluded.last_accessed_at")
+    try:
+        for sid in ids:
+            con.execute(sql, (sid, now))
+    except sqlite3.OperationalError:                 # 表未建：只在这时 DDL
+        ensure_schema(con)
+        for sid in ids:
+            con.execute(sql, (sid, now))
     con.commit()
     return len(ids)
 
@@ -106,22 +109,44 @@ def _row_created(row):
         return ""
 
 
-def scan_candidates(con, rows, now=None, days=21,):
+def scan_candidates(con, rows, now=None, days=21, with_meta=False):
     """超期低访问（无 access 或 last_accessed 早于 now-days）；已归档跳过。"""
     now = now or datetime.now()
     cutoff = (now - timedelta(days=int(days))).isoformat(timespec="seconds")
     acc = access_stats(con)
     done = archived_ids(con)
-    out = []
-    for r in rows or []:
+    rows = list(rows or [])
+    cands = {}
+    for r in rows:
         sid = int(r[0])
         if sid in done:
             continue
         a = acc.get(sid) or {}
         last = a.get("last_accessed_at") or ""
         if not last or last < cutoff:
-            out.append(r)
-    return out
+            cands[sid] = {"row": r, "superseded_by": None}
+    # 被覆盖归档：同 _fact_key 且有更新行
+    keys = {}
+    for r in rows:
+        sid = int(r[0])
+        if sid in done:
+            continue
+        k, complete = _fact_key(r[3] if len(r) > 3 else "")
+        if complete:
+            keys.setdefault(k, []).append(r)
+    for k, grp in keys.items():
+        if len(grp) < 2:
+            continue
+        newest = max(grp, key=lambda r: (int(r[0]), _created_of(con, int(r[0]))))
+        for r in grp:
+            sid = int(r[0])
+            if sid == int(newest[0]) or sid in done:
+                continue
+            if int(newest[0]) > sid and _newer(con, int(newest[0]), sid,
+                                              _created_of(con, sid)):
+                cands[sid] = {"row": r, "superseded_by": int(newest[0])}
+    out = [cands[sid] for sid in sorted(cands)]
+    return out if with_meta else [c["row"] for c in out]
 
 
 def row_month(row, now=None, con=None):
@@ -180,18 +205,27 @@ def auto_archive(con, rows, now, archive_dir, days=21, trace_id=None):
     import archive_store as A
     ensure_schema(con)
     now_dt = now if isinstance(now, datetime) else datetime.fromisoformat(str(now))
-    cands = scan_candidates(con, rows, now_dt, days)
+    cands = scan_candidates(con, rows, now_dt, days, with_meta=True)
     groups = {}
-    for r in cands:
-        groups.setdefault(row_month(r, now_dt, con=con), []).append(r)
+    for c in cands:
+        r = c["row"]
+        groups.setdefault(row_month(r, now_dt, con=con), []).append(c)
     os.makedirs(archive_dir, exist_ok=True)
-    res = {"candidates": [int(r[0]) for r in cands], "months": {}, "zips": []}
+    res = {"candidates": [int(c["row"][0]) for c in cands], "months": {},
+           "zips": [], "superseded": {int(c["row"][0]): c["superseded_by"]
+                                      for c in cands if c["superseded_by"]}}
     for month, grp in sorted(groups.items()):
         zip_path = os.path.join(archive_dir, "%s.zip" % month)
         side = zip_path + ".sidecar.json"
-        manifest = A.archive_rows([_as_archive_row(r) for r in grp], zip_path, side)
-        ids = [int(r[0]) for r in grp]
+        manifest = A.archive_rows([_as_archive_row(c["row"]) for c in grp],
+                                  zip_path, side)
+        ids = [int(c["row"][0]) for c in grp]
         archive_mark(con, ids, zip_path, manifest["zip_sha256"])
+        for c in grp:
+            if c["superseded_by"] is not None:
+                con.execute("UPDATE memory_archive SET superseded_by=? WHERE source_id=?",
+                            (int(c["superseded_by"]), int(c["row"][0])))
+        con.commit()
         res["months"][month] = ids
         res["zips"].append({"zip": zip_path, "zip_sha256": manifest["zip_sha256"],
                             "n": len(ids)})
