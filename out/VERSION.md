@@ -1,10 +1,10 @@
 # 版本 / Changelog
 
-## v1.0.0-rc1（2026-11-04，待最终 commit）
-- HEAD（写本文时）：`7fbf3e6`
-- ahead：93
+## v1.0.0-rc1（2026-11-05）
+- HEAD：`116f0f3`
+- ahead：94
 - 未 push（本地 git）
-- 状态：全量默认代码在工作区，**待最终验收/commit**；daily 未切默认。
+- 状态：全量默认已 commit；daily 服务按 START.md 启动并 healthcheck PASS（PID 16864）。
 
 ### 功能
 - 本地 KV 记忆 + SQLite；single-user；
@@ -14,7 +14,7 @@
 - norm_hash/restate、shadow（诊断）、alignment（离线）均默认 off。
 
 ### 数据/证据
-- 81 81/81；extra 17/19（剔 L05）；MT20 11/20（已知边界）；
+- 81 81/81；extra 17/19（剔 L05）；MT20 5×2：全关 55/100、全开 51/100（−4pp，无 case 崩落）；单次 11/20 仅记录；
 - 199/200/201 边界、100 行 archive 联动、6 链 reheat、rollback drill、audit trace 均已验；
 - daily 20 行；id14 reconstructed。
 
