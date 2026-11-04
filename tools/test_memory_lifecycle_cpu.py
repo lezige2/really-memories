@@ -204,9 +204,39 @@ class LifecycleTests(unittest.TestCase):
         # 有更新行 -> skip_superseded
         live = [(5, "m5", "l", "我的车牌号是皖K9Z9Z9", "h", 1, "p", 8,
                  "2026-02-01T10:00:00")]
-        p2 = L.reheat_plan(self.con, 1, live)
-        self.assertEqual(p2["action"], "skip_superseded")
-        self.assertEqual(p2["superseded_by"], 5)
+        p2 = L.reheat_plan(self.con, 1, live)          # 键不完整 -> 不合并
+        self.assertEqual(p2["action"], "restore")
+
+    def test_reheat_same_family_skip_different_event_restore(self):
+        from datetime import datetime
+        import archive_store as A
+        d = os.path.join(self.tmp, "arch_ev")
+        z = os.path.join(d, "2026-01.zip")
+        side = z + ".sidecar.json"
+        text = "我的组会定在B座302，周三晚上七点"
+        A.archive_rows([{"id": 1, "name": "m1", "text": text,
+                         "created_at": "2026-01-05T10:00:00"}], z, side)
+        L.archive_mark(self.con, [1], z, A.sha_file(z))
+        self.con.execute("INSERT INTO memory_source (id,tenant,scope,mode,name,"
+                         "label,text,source_hash,created_at) VALUES "
+                         "(1,'default','private','chat','m1','l',?,'h',"
+                         "'2026-01-05T10:00:00')", (text,))
+        self.con.commit()
+        same = [(5, "m5", "l", text, "h", 1, "p", 8, "2026-02-01T10:00:00")]
+        p = L.reheat_plan(self.con, 1, same)
+        self.assertEqual(p["action"], "skip_superseded")
+        self.assertEqual(p["superseded_by"], 5)
+        diff = [(6, "m6", "l", "我下周三去广州出差", "h", 1, "p", 8,
+                 "2026-02-01T10:00:00")]
+        p2 = L.reheat_plan(self.con, 1, diff)
+        self.assertEqual(p2["action"], "restore")      # 组会 vs 出差 -> 不同族
+
+    def test_fact_key_action_fallback(self):
+        key, complete = L._fact_key("我把车换成了皖K3D7F9")
+        self.assertIsNotNone(key)
+        key2, complete2 = L._fact_key("我下周三去广州出差")
+        self.assertTrue(complete2)
+        self.assertEqual(key2[1], "出差")
 
     def test_reheat_bad_sha(self):
         from datetime import datetime
@@ -282,6 +312,76 @@ class LifecycleTests(unittest.TestCase):
             p = L.reheat_plan(self.con, 1, [], trace_id="t")
         self.assertTrue(any(x.endswith(".zip") for x in os.listdir(d)))
         self.assertIn(p["action"], ("restore", "skip", "skip_superseded"))
+
+    def test_reheat_execute_restore_and_idempotent(self):
+        from datetime import datetime
+        rows = [(1, "m1", "l", "我的车牌号是皖K3D7F9", "h", 1, "p", 8,
+                 "2026-01-05T10:00:00")]
+        d = os.path.join(self.tmp, "arch_ex")
+        L.auto_archive(self.con, rows, datetime(2026, 3, 1), d)
+        self.con.execute("INSERT INTO memory_source (id,tenant,scope,mode,name,"
+                         "label,text,source_hash,created_at) VALUES "
+                         "(1,'default','private','chat','m1','l',"
+                         "'我的车牌号是皖K3D7F9','h','2026-01-05T10:00:00')")
+        self.con.commit()
+        calls = []
+        before = self.con.execute("SELECT COUNT(*) FROM memory_source").fetchone()[0]
+        r = L.reheat_execute(self.con, 1, [], lambda p: calls.append(p["id"]) or
+                             {"block_id": p["id"]})
+        self.assertTrue(r["executed"])
+        self.assertEqual(calls, [1])
+        self.assertEqual(self.con.execute("SELECT COUNT(*) FROM memory_source")
+                         .fetchone()[0], before)
+        row = self.con.execute("SELECT archived_at,reheated_at,zip FROM "
+                               "memory_archive WHERE source_id=1").fetchone()
+        self.assertTrue(row[0] and row[1] and row[2])   # archive 记录保留
+        r2 = L.reheat_execute(self.con, 1, [], lambda p: calls.append(p["id"]))
+        self.assertFalse(r2["executed"])
+        self.assertEqual(r2["plan"]["reason"], "already_reheated")
+        self.assertEqual(calls, [1])                   # 幂等，未重建
+
+    def test_reheat_execute_skip_superseded(self):
+        from datetime import datetime
+        rows = [(1, "m1", "l", "我的组会定在B座302，周三晚上七点", "h", 1, "p", 8,
+                 "2026-01-05T10:00:00")]
+        d = os.path.join(self.tmp, "arch_ex2")
+        L.auto_archive(self.con, rows, datetime(2026, 3, 1), d)
+        self.con.execute("INSERT INTO memory_source (id,tenant,scope,mode,name,"
+                         "label,text,source_hash,created_at) VALUES "
+                         "(1,'default','private','chat','m1','l',"
+                         "'我的组会定在B座302，周三晚上七点','h',"
+                         "'2026-01-05T10:00:00')")
+        self.con.commit()
+        live = [(5, "m5", "l", "我的组会定在B座302，周三晚上七点", "h", 1, "p", 8,
+                 "2026-02-01T10:00:00")]
+        calls = []
+        r = L.reheat_execute(self.con, 1, live, lambda p: calls.append(1))
+        self.assertFalse(r["executed"])
+        self.assertEqual(r["plan"]["action"], "skip_superseded")
+        self.assertEqual(calls, [])
+
+    def test_chat_reheat_rebuilds_same_block(self):
+        from datetime import datetime
+        tmp = tempfile.mkdtemp(prefix="rh_app_")
+        model = os.path.join(tmp, "model.stub")
+        D.install_fake_model(model)
+        app = D.DailyApp(D.StubEngine(), db_path=os.path.join(tmp, "d.db"),
+                         blocks_dir=os.path.join(tmp, "b"),
+                         sessions_dir=os.path.join(tmp, "s"),
+                         model_path=model, restore=False,
+                         retrieval_mode="topk", topk=4, logger=False)
+        r = app.remember("我的车牌号是皖K3D7F9")
+        L.auto_archive(app.con, app._rows(), datetime(2026, 3, 1),
+                       os.path.join(tmp, "arch"))
+        n0 = app.con.execute("SELECT COUNT(*) FROM memory_source").fetchone()[0]
+        res = app.reheat(r["id"])
+        self.assertTrue(res["executed"])
+        self.assertEqual(res["duplicate_blocks"], 0)
+        self.assertTrue(res["block"]["path"] and os.path.exists(res["block"]["path"]))
+        self.assertEqual(app.con.execute("SELECT COUNT(*) FROM memory_source")
+                         .fetchone()[0], n0)
+        res2 = app.reheat(r["id"])
+        self.assertFalse(res2["executed"])
 
     def test_capacity_soft_hard(self):
         app = self._app(True, False)

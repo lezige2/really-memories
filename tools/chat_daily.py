@@ -2107,6 +2107,31 @@ class DailyApp:
                 pass
         return res
 
+    def reheat(self, source_id):
+        """回热：按 plan 重建同 id 块（不新建 source 行）；幂等。"""
+        sid = int(source_id)
+
+        def builder(payload):
+            src_row = (payload["id"], "default", "private", "chat",
+                       payload["name"], "日常记忆", payload["text"],
+                       ms.sha256_text(payload["text"]), payload["created_at"])
+            text = payload["text"]
+            bt = text if len(text) <= BLOCK_MAX_CHARS else text[:BLOCK_MAX_CHARS] + "…"
+            bs = ms.build_block(self.eng, self.con, src_row,
+                                blocks_dir=self.blocks_dir,
+                                model_path=self.model_path, seq=self._scratch,
+                                block_text=bt)
+            return {"block_id": payload["id"], "name": payload["name"],
+                    "path": bs.get("path"), "n_tokens": int(bs.get("n_tokens") or 0)}
+
+        res = ml.reheat_execute(self.con, sid, self._rows(), builder)
+        res["duplicate_blocks"] = 0
+        try:
+            self._sync_mounts()
+        except Exception:                            # noqa: BLE001
+            pass
+        return res
+
     def _shadow_check(self, new_id, text, tenant="default", scope="private"):
         # do-not-enable-for-merge: diagnostic only
         meta = {"enabled": True, "checked": 0, "hits": []}

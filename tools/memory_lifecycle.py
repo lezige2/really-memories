@@ -19,13 +19,21 @@ SCHEMA_SQL = (
     " archived_at TEXT,"
     " zip TEXT,"
     " zip_sha TEXT,"
-    " superseded_by INTEGER)",
+    " superseded_by INTEGER,"
+    " reheated_at TEXT)",
 )
 
 
 def ensure_schema(con):
     for sql in SCHEMA_SQL:
         con.execute(sql)
+    # 兼容旧表：补 reheated_at
+    try:
+        cols = {r[1] for r in con.execute("PRAGMA table_info(memory_archive)")}
+        if "reheated_at" not in cols:
+            con.execute("ALTER TABLE memory_archive ADD COLUMN reheated_at TEXT")
+    except sqlite3.Error:
+        pass
     con.commit()
     return {"ok": True, "tables": ["memory_access", "memory_archive"]}
 
@@ -54,7 +62,8 @@ def record_access(con, ids):
 def archived_ids(con):
     try:
         return {int(r[0]) for r in con.execute(
-            "SELECT source_id FROM memory_archive WHERE archived_at IS NOT NULL")}
+            "SELECT source_id FROM memory_archive WHERE archived_at IS NOT NULL"
+            " AND (reheated_at IS NULL OR reheated_at = '')")}
     except sqlite3.Error:
         return set()
 
@@ -234,21 +243,33 @@ def _slots(text):
         return {}
 
 
-def _key_of(text):
-    # 优先用确定性事实抽取（p1b）拿 subject/predicate；槽位只做补充
-    try:
-        import p1b_subject as P
-        info = P.extract(str(text or "")) or {}
-        if info.get("predicate"):
-            return (info.get("subject") or "self"), info["predicate"], False
-    except Exception:                                # noqa: BLE001
-        pass
+def _fact_key(text):
+    """同族键：(subject, event_or_action, place, time, object)。
+
+    任一项不同 -> 不同族；event/action 都抽不出 -> 键不完整（不合并）。
+    """
     sl = _slots(text)
-    if not sl:
-        return None, None, True
-    subject = sl.get("person") or "self"
-    predicate = sl.get("action") or None
-    return subject, predicate, predicate is None
+    subject = sl.get("person")
+    if not subject:
+        try:
+            import p1b_subject as P
+            subject = (P.extract(str(text or "")) or {}).get("subject")
+        except Exception:                            # noqa: BLE001
+            subject = None
+    if not subject and "我" in str(text or ""):
+        subject = "self"
+    event = sl.get("event") or None
+    action = sl.get("action") or None
+    event_or_action = event or action
+    key = (subject, event_or_action, sl.get("place") or None,
+           sl.get("time") or None, sl.get("object") or None)
+    complete = bool(event_or_action) and bool(subject)
+    return key, complete
+
+
+def _key_of(text):
+    key, complete = _fact_key(text)
+    return key[0], key[1], not complete
 
 
 def _read_archived_text(con, source_id):
@@ -256,11 +277,11 @@ def _read_archived_text(con, source_id):
     import json as _json
     import zipfile
     row = con.execute(
-        "SELECT zip, zip_sha, superseded_by FROM memory_archive WHERE source_id=?",
-        (int(source_id),)).fetchone()
+        "SELECT zip, zip_sha, superseded_by, reheated_at FROM memory_archive"
+        " WHERE source_id=?", (int(source_id),)).fetchone()
     if not row:
         return None, "not_archived"
-    zip_path, zip_sha, _sup = row
+    zip_path, zip_sha, _sup, reheated = row
     if not zip_path or not os.path.exists(zip_path):
         return None, "bad_zip_or_sha"
     if hashlib.sha256(open(zip_path, "rb").read()).hexdigest() != (zip_sha or ""):
@@ -282,6 +303,18 @@ def _read_archived_text(con, source_id):
 
 def reheat_plan(con, source_id, live_rows, trace_id=None):
     """纯函数：校验归档 -> 抽槽 -> 与 live 比较；只返回 plan，不写 DB。"""
+    try:
+        r0 = con.execute("SELECT reheated_at FROM memory_archive WHERE source_id=?",
+                         (int(source_id),)).fetchone()
+        if r0 and r0[0]:
+            plan0 = {"source_id": int(source_id), "action": "skip",
+                     "reason": "already_reheated", "subject": None,
+                     "predicate": None, "superseded_by": None,
+                     "unresolved": False}
+            _audit(trace_id, "skip", "already_reheated", [int(source_id)], 1)
+            return plan0
+    except sqlite3.Error:
+        pass
     text, err = _read_archived_text(con, source_id)
     plan = {"source_id": int(source_id), "action": "skip", "reason": err,
             "subject": None, "predicate": None, "superseded_by": None,
@@ -289,12 +322,17 @@ def reheat_plan(con, source_id, live_rows, trace_id=None):
     if text is None:
         _audit(trace_id, plan["action"], plan["reason"], [int(source_id)], 1)
         return plan
-    subject, predicate, unresolved = _key_of(text)
+    key, complete = _fact_key(text)
+    subject, predicate = key[0], key[1]
+    unresolved = not complete
     plan.update(subject=subject, predicate=predicate, unresolved=unresolved)
-    if subject is None or predicate is None:
-        plan.update(action="skip", reason="no_subject" if subject is None
-                    else "no_predicate")
-        _audit(trace_id, "skip", plan["reason"], [int(source_id)], 1)
+    if subject is None:
+        plan.update(action="skip", reason="no_subject")
+        _audit(trace_id, "skip", "no_subject", [int(source_id)], 1)
+        return plan
+    if not complete:
+        plan.update(action="restore", reason="key_incomplete")
+        _audit(trace_id, "restore", "key_incomplete", [int(source_id)], 1)
         return plan
     try:
         arch_created = con.execute(
@@ -305,14 +343,12 @@ def reheat_plan(con, source_id, live_rows, trace_id=None):
     for r in live_rows or []:
         if int(r[0]) == int(source_id):
             continue
-        s2, p2, _u2 = _key_of(r[3] if len(r) > 3 else "")
-        if s2 != subject or p2 != predicate:
+        k2, c2 = _fact_key(r[3] if len(r) > 3 else "")
+        if not c2 or k2 != key:
             continue
         created = str(r[8]) if len(r) > 8 and r[8] else ""
-        newer = (int(r[0]) > int(source_id)) and (not arch_created
-                                                 or created > arch_created)
-        if newer or (int(r[0]) > int(source_id) and created > arch_created):
-            plan.update(action="skip_superseded", reason="newer_exists",
+        if int(r[0]) > int(source_id) and created > arch_created:
+            plan.update(action="skip_superseded", reason="newer_same_family",
                         superseded_by=int(r[0]))
             return plan
     plan.update(action="restore", reason="no_newer")
@@ -320,3 +356,29 @@ def reheat_plan(con, source_id, live_rows, trace_id=None):
            [plan["source_id"]] + ([plan["superseded_by"]]
                                   if plan.get("superseded_by") else []), 1)
     return plan
+
+def reheat_execute(con, source_id, rows, block_builder, trace_id=None):
+    """执行回热：仅 restore；原行保持（不新建），重设 archive.reheated_at，重建块。"""
+    plan = reheat_plan(con, source_id, rows, trace_id=trace_id)
+    out = {"executed": False, "plan": plan, "block": None,
+           "source_id": int(source_id)}
+    if plan.get("action") != "restore":
+        _audit(trace_id, "skip", plan.get("reason") or "not_restore",
+               [int(source_id)], 1)
+        return out
+    ensure_schema(con)
+    row = con.execute("SELECT id,name,text,created_at FROM memory_source WHERE id=?",
+                      (int(source_id),)).fetchone()
+    if not row:
+        out["plan"] = dict(plan, action="skip", reason="source_row_missing")
+        _audit(trace_id, "skip", "source_row_missing", [int(source_id)], 1)
+        return out
+    payload = {"id": int(row[0]), "name": str(row[1]), "text": str(row[2]),
+               "created_at": str(row[3] or "")}
+    block = block_builder(payload)
+    con.execute("UPDATE memory_archive SET reheated_at=? WHERE source_id=?",
+                (_now(), int(source_id)))
+    con.commit()
+    out.update(executed=True, block=block)
+    _audit(trace_id, "restore", "reheat_execute", [int(source_id)], 1)
+    return out
