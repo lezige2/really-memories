@@ -634,7 +634,9 @@ class DailyApp:
                  dedup_shadow=False, meta_answer=True,
                  lifecycle_cap=False, memory_access=False,
                  lifecycle_archive=False, archive_dir=None,
-                 lifecycle_fallback=False, audit_enabled=False, audit_debug=False):
+                 lifecycle_fallback=False, audit_enabled=False, audit_debug=False,
+                 soft_limit=200, hard_limit=2000, confirm_first_archive=False,
+                 archive_state_file=None, backup_dir=None):
         self.eng = engine
         self.model_path = model_path
         _fmt = os.environ.get("LLAMA_MEM_CHAT_FORMAT", "").strip().lower()
@@ -680,7 +682,17 @@ class DailyApp:
         self.lifecycle_archive = bool(lifecycle_archive)  # 自动归档；默认关
         self.lifecycle_fallback = bool(lifecycle_fallback)  # 归档只读兜底；默认关
         self.audit_enabled = bool(audit_enabled)  # 服务级审计；默认关
+        self._access_q = None
+        self._access_thread = None
+        self._access_drop = 0
+        self._access_db = None
         self.audit_debug = bool(audit_debug)      # 检索明细；默认关
+        self.soft_limit = int(soft_limit)
+        self.hard_limit = int(hard_limit)
+        self.confirm_first_archive = bool(confirm_first_archive)
+        self.archive_state_file = archive_state_file or os.path.join(
+            ROOT, "out", "p1", "archive_first_confirmed")
+        self.backup_dir = backup_dir or os.path.join(ROOT, "out", "p1", "backup")
         self._audit_trace = None
         self.archive_dir = archive_dir
         self._last_shadow = {"enabled": self.dedup_shadow, "checked": 0, "hits": []}
@@ -731,6 +743,14 @@ class DailyApp:
         os.makedirs(self.sessions_dir, exist_ok=True)
         self.con = ms.connect(self.db_path)
         self._ensure_meta()
+        if (self.lifecycle_cap or self.memory_access) and not getattr(
+                self, "control", False):
+            try:                                     # 只建独立表，不动 memory_source
+                ml.ensure_schema(self.con)
+            except Exception:                        # noqa: BLE001
+                pass
+        if self.memory_access:
+            self._start_access_worker()
         self.leases = GuardedLeases(self.eng, site_prefix="daily")
         self._scratch = N_SEQ - 1      # seq 7；挂载只占 1..MAX_MEMORIES
         self._first_ask = True
@@ -2040,6 +2060,25 @@ class DailyApp:
         except Exception:                                # noqa: BLE001
             pass
         try:
+            if getattr(self, "lifecycle_cap", False):
+                n = len(self._rows())
+                if n >= MEM_SOFT_MAX:
+                    res["capacity_warning"] = {
+                        "soft_limit": MEM_SOFT_MAX, "hard_limit": MEM_HARD_MAX,
+                        "count": n}
+                    self.warnings.append(
+                        "容量告警：%d 条 ≥ 软上限 %d（201 仍允许，硬上限 %d）"
+                        % (n, MEM_SOFT_MAX, MEM_HARD_MAX))
+                    if getattr(self, "logger", None):
+                        try:
+                            self.logger.log_warning(
+                                "capacity_warning", "soft limit reached",
+                                evidence={"count": n, "soft": MEM_SOFT_MAX})
+                        except Exception:            # noqa: BLE001
+                            pass
+        except Exception:                            # noqa: BLE001
+            pass
+        try:
             if getattr(self, "lifecycle_fallback", False) and not res.get("block_ids"):
                 hits = ml.fallback_archive(
                     self.con, text,
@@ -2059,7 +2098,7 @@ class DailyApp:
             pass
         try:
             if getattr(self, "memory_access", False):
-                ml.record_access(self.con, res.get("block_ids") or [])
+                self._access_enqueue(res.get("block_ids") or [])
         except Exception:                                # noqa: BLE001
             pass
         try:
@@ -2122,6 +2161,139 @@ class DailyApp:
             except Exception:                        # noqa: BLE001
                 pass
         return res
+
+    def _start_access_worker(self):
+        import queue
+        import sqlite3
+        import threading
+        self._access_q = queue.Queue(
+            maxsize=int(os.environ.get("MEM_ACCESS_QUEUE", "256")))
+
+        def run():
+            con = None
+            while True:
+                item = self._access_q.get()
+                if item is None:
+                    self._access_q.task_done()
+                    break
+                try:
+                    if con is None:
+                        con = sqlite3.connect(self.db_path, timeout=5)
+                        try:
+                            con.execute("PRAGMA busy_timeout=2000")
+                        except Exception:            # noqa: BLE001
+                            pass
+                    ml.record_access(con, item)
+                except Exception:                    # noqa: BLE001
+                    pass
+                finally:
+                    self._access_q.task_done()
+            if con is not None:
+                try:
+                    con.close()
+                except Exception:                    # noqa: BLE001
+                    pass
+
+        t = threading.Thread(target=run, daemon=True, name="mem-access")
+        t.start()
+        self._access_thread = t
+
+    def _access_enqueue(self, ids):
+        """非阻塞入队；满则丢弃并计数（不阻塞请求）。"""
+        if not getattr(self, "memory_access", False) or self._access_q is None:
+            return False
+        try:
+            self._access_q.put_nowait(sorted({int(i) for i in (ids or [])}))
+            return True
+        except Exception:                            # queue.Full
+            self._access_drop += 1
+            return False
+
+    def flush_access(self, timeout=1.0):
+        """尽力 flush（可丢）：投递哨兵并短暂等待。"""
+        if self._access_q is None:
+            return None
+        try:
+            self._access_q.put(None, timeout=timeout)
+            self._access_thread.join(timeout=timeout) if self._access_thread else None
+        except Exception:                            # noqa: BLE001
+            pass
+        return {"pending": getattr(self._access_q, "qsize", lambda: 0)(),
+                "dropped": self._access_drop}
+
+    def _audit_event(self, stage, decision, reason, ids=None, count=None):
+        if not getattr(self, "audit_enabled", False):
+            return
+        try:
+            import audit_log
+            audit_log.event(stage, decision=decision, reason=reason,
+                            block_ids=ids or [], count=count,
+                            trace_id=getattr(self, "_audit_trace", None))
+        except Exception:                            # noqa: BLE001
+            pass
+
+    def _archive_backup(self):
+        import hashlib
+        ts = datetime.now().strftime("%Y%m%d-%H%M%S")
+        d = os.path.join(self.backup_dir, ts)
+        os.makedirs(d, exist_ok=True)
+        db_dst = os.path.join(d, "chat.db")
+        try:
+            import shutil
+            shutil.copy2(self.db_path, db_dst)
+        except Exception:                            # noqa: BLE001
+            db_dst = None
+        db_sha = (hashlib.sha256(open(db_dst, "rb").read()).hexdigest()
+                  if db_dst and os.path.exists(db_dst) else None)
+        h = hashlib.sha256()
+        n = 0
+        try:
+            for name in sorted(os.listdir(self.blocks_dir)):
+                p = os.path.join(self.blocks_dir, name)
+                if os.path.isfile(p):
+                    h.update(open(p, "rb").read())
+                    n += 1
+        except Exception:                            # noqa: BLE001
+            pass
+        info = {"dir": d, "db": db_dst, "db_sha256": db_sha,
+                "blocks": n, "blocks_sha256": h.hexdigest()}
+        self._last_archive_backup = info
+        self._audit_event("archive", "backup",
+                          "db_sha=%s blocks=%d blocks_sha=%s"
+                          % ((db_sha or "")[:16], n, h.hexdigest()[:16]),
+                          count=n)
+        return info
+
+    def _maybe_archive(self):
+        state = self.archive_state_file
+        confirmed = bool(self.confirm_first_archive) or os.path.exists(state)
+        if not confirmed:
+            self.warnings.append("自动归档未确认：首次需 --confirm-first-archive")
+            self._audit_event("archive", "blocked",
+                              "archive_blocked_unconfirmed")
+            return None
+        if self.confirm_first_archive and not os.path.exists(state):
+            try:
+                os.makedirs(os.path.dirname(state) or ".", exist_ok=True)
+                with open(state, "w", encoding="utf-8") as f:
+                    f.write(datetime.now().isoformat(timespec="seconds"))
+            except Exception:                        # noqa: BLE001
+                pass
+        self._archive_backup()
+        try:
+            r = ml.auto_archive(
+                self.con, self._rows(), datetime.now(),
+                getattr(self, "archive_dir", None)
+                or os.path.join(ROOT, "out", "archive"),
+                trace_id=getattr(self, "_audit_trace", None))
+            self._last_archive = r
+            if r.get("candidates"):
+                self.warnings.append("生命周期归档：%d 条候选，%d 个月"
+                                     % (len(r["candidates"]), len(r["months"])))
+            return r
+        except Exception as exc:                     # noqa: BLE001
+            self.warnings.append("生命周期归档失败：%s" % exc)
+            return None
 
     def reheat(self, source_id):
         """回热：按 plan 重建同 id 块（不新建 source 行）；幂等。"""
@@ -2961,25 +3133,15 @@ class DailyApp:
                 raise DailyError("memory_full",
                                  "记忆已达上限 %d 条%s" % (cap, extra))
             return True
-        if n >= MEM_HARD_MAX:
+        if n >= self.hard_limit:
             raise DailyError("memory_full",
                              "记忆已达硬上限 %d 条（软上限 %d），先 /forget 再记"
-                             % (MEM_HARD_MAX, MEM_SOFT_MAX))
-        if n >= MEM_SOFT_MAX:
+                             % (self.hard_limit, self.soft_limit))
+        if n >= self.soft_limit:
             self.warnings.append("记忆已达软上限 %d 条，建议归档（未拒绝写入）"
-                                 % MEM_SOFT_MAX)
+                                 % self.soft_limit)
             if getattr(self, "lifecycle_archive", False):
-                try:
-                    r = ml.auto_archive(
-                        self.con, self._rows(), datetime.now(),
-                        getattr(self, "archive_dir", None)
-                        or os.path.join(ROOT, "out", "archive"))
-                    self._last_archive = r
-                    if r.get("candidates"):
-                        self.warnings.append("生命周期归档：%d 条候选，%d 个月"
-                                             % (len(r["candidates"]), len(r["months"])))
-                except Exception as exc:             # noqa: BLE001
-                    self.warnings.append("生命周期归档失败：%s" % exc)
+                self._maybe_archive()
         return True
 
     def _rows(self):
@@ -4379,7 +4541,7 @@ def dryrun_paths():
             "model": model}
 
 
-def main(argv=None):
+def build_arg_parser():
     ap = argparse.ArgumentParser(description="C 版本地记忆助手（交互）")
     ap.add_argument("--db", default=None, help="记忆库 sqlite 路径")
     ap.add_argument("--blocks", default=None, help="KV 块目录")
@@ -4406,19 +4568,28 @@ def main(argv=None):
                     help="P1b 主体键软覆盖（默认关；sidecar，不改 daily）")
     # do-not-enable: parse_fail 100%, w03 regression; see out/JSON-E2E-DEFAULT.md
     # do-not-enable-for-merge: diagnostic only
-    ap.add_argument("--lifecycle-cap", action="store_true", default=False,
-                    help="P1 软/硬上限（默认关；off 仍按现网 200 拒绝）")
+    ap.add_argument("--lifecycle-soft-limit", type=int, default=200,
+                    help="软上限（默认 200，允许 300）；达到后仅告警")
+    ap.add_argument("--lifecycle-hard-limit", type=int, default=2000)
+    ap.add_argument("--confirm-first-archive", action="store_true", default=False,
+                    help="确认首次真实归档（写状态文件，之后自动）")
+    ap.add_argument("--lifecycle-cap", action=argparse.BooleanOptionalAction,
+                    default=True,
+                    help="P1 软/硬上限（默认开；--no-lifecycle-cap 回滚）")
     ap.add_argument("--audit-debug", action="store_true", default=False,
                     help="审计检索明细 retrieve（默认关；仅 --audit 时生效）")
-    ap.add_argument("--audit", dest="audit_enabled", action="store_true",
-                    default=False,
-                    help="服务级审计日志（默认关；只记 id/sha/原因/延迟）")
-    ap.add_argument("--lifecycle-fallback", action="store_true", default=False,
-                    help="P1 归档只读兜底（默认关；主池空时才查，不回写）")
-    ap.add_argument("--lifecycle-archive", action="store_true", default=False,
-                    help="P1 自动归档（默认关；仅 lifecycle-cap on 且达软上限时触发）")
-    ap.add_argument("--memory-access", action="store_true", default=False,
-                    help="P1 access 记录（默认关；off 不写 access 表）")
+    ap.add_argument("--audit", dest="audit_enabled",
+                    action=argparse.BooleanOptionalAction, default=True,
+                    help="服务级审计日志（默认开；只记 id/sha/原因/延迟）")
+    ap.add_argument("--lifecycle-fallback", action=argparse.BooleanOptionalAction,
+                    default=True,
+                    help="P1 归档只读兜底（默认开；主池空时才查，不回写）")
+    ap.add_argument("--lifecycle-archive", action=argparse.BooleanOptionalAction,
+                    default=True,
+                    help="P1 自动归档（默认开；仅 lifecycle-cap on 且达软上限时触发）")
+    ap.add_argument("--memory-access", action=argparse.BooleanOptionalAction,
+                    default=True,
+                    help="P1 access 记录（默认开；--no-memory-access 回滚）")
     ap.add_argument("--meta-answer", action=argparse.BooleanOptionalAction,
                     default=True,
                     help="meta-v1 计数回答（默认开；--no-meta-answer 回滚）")
@@ -4448,6 +4619,11 @@ def main(argv=None):
                          % (MAX_MEMORIES, DEFAULT_TOPK))
     ap.add_argument("--dry-run", action="store_true",
                     help="零 GPU 干跑（StubEngine + kvmem/_dryrun_daily 独立目录）")
+    return ap
+
+
+def main(argv=None):
+    ap = build_arg_parser()
     args = ap.parse_args(argv)
 
     if args.dry_run:
@@ -4488,6 +4664,9 @@ def main(argv=None):
                        lifecycle_archive=getattr(args, "lifecycle_archive", False),
                        lifecycle_fallback=getattr(args, "lifecycle_fallback", False),
                        audit_enabled=getattr(args, "audit_enabled", False),
+                       soft_limit=getattr(args, "lifecycle_soft_limit", 200),
+                       hard_limit=getattr(args, "lifecycle_hard_limit", 2000),
+                       confirm_first_archive=getattr(args, "confirm_first_archive", False),
                        audit_debug=getattr(args, "audit_debug", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,

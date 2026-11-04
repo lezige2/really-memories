@@ -5,6 +5,7 @@ import sqlite3
 import sys
 import tempfile
 import unittest
+import time
 from unittest import mock
 
 sys.dont_write_bytecode = True
@@ -60,7 +61,11 @@ class LifecycleTests(unittest.TestCase):
                           model_path=model, restore=False,
                           retrieval_mode="topk", topk=4, logger=False,
                           lifecycle_cap=cap, memory_access=access,
-                          lifecycle_archive=archive)
+                          lifecycle_archive=archive,
+                          confirm_first_archive=True,
+                          archive_state_file=os.path.join(tmp, "state"),
+                          backup_dir=os.path.join(tmp, "bak"),
+                          archive_dir=os.path.join(tmp, "arch"))
 
     def test_off_keeps_old_200_reject(self):
         app = self._app(False, False)
@@ -86,7 +91,18 @@ class LifecycleTests(unittest.TestCase):
         with mock.patch.object(D, "NATURAL_MODE", True):
             app._ask_natural = lambda t, t0: {"answer": "x", "block_ids": [1, 2]}
             app.ask("q")
-        n = app.con.execute("SELECT COUNT(*) FROM memory_access").fetchone()[0]
+        app.flush_access(1.0)
+        end = time.time() + 2
+        n = 0
+        while time.time() < end:
+            try:
+                n = app.con.execute(
+                    "SELECT COUNT(*) FROM memory_access").fetchone()[0]
+                if n:
+                    break
+            except Exception:                        # noqa: BLE001
+                pass
+            time.sleep(0.02)
         self.assertEqual(n, 2)
 
     def test_auto_archive_grouping_and_sha(self):
@@ -127,6 +143,8 @@ class LifecycleTests(unittest.TestCase):
     def test_off_archive_writes_nothing(self):
         app = self._app(True, False, archive=False)
         app.archive_dir = os.path.join(self.tmp, "arch_off")
+        app.archive_state_file = os.path.join(self.tmp, "state_off")
+        app.backup_dir = os.path.join(self.tmp, "bak_off")
         app._rows = lambda: [(1, "m1", "l", "t1", "h", 1, "p", 8,
                               "2026-01-05T10:00:00")]
         app._mem_check_capacity(200)                   # on cap, archive off
@@ -136,6 +154,8 @@ class LifecycleTests(unittest.TestCase):
     def test_on_archive_writes(self):
         app = self._app(True, False, archive=True)
         app.archive_dir = os.path.join(self.tmp, "arch_on")
+        app.archive_state_file = os.path.join(self.tmp, "state_on")
+        app.backup_dir = os.path.join(self.tmp, "bak_on")
         app._rows = lambda: [(1, "m1", "l", "t1", "h", 1, "p", 8,
                               "2026-01-05T10:00:00")]
         app._mem_check_capacity(200)
@@ -564,6 +584,172 @@ class LifecycleTests(unittest.TestCase):
         # created_at 缺失 -> 当前月回退
         self.assertEqual(L.row_month((999,), datetime(2026, 11, 15), con=self.con),
                          "2026-11")
+
+    def test_access_async_no_block_and_drop(self):
+        app = self._app(True, True)
+        t0 = time.perf_counter()
+        self.assertTrue(app._access_enqueue([1, 2]))
+        self.assertLess(time.perf_counter() - t0, 0.2)   # 入队不阻塞
+        app._access_thread.join(1.0)
+        # 队列满：直接丢弃并计数（worker 停掉后灌满）
+        app._access_q = __import__("queue").Queue(maxsize=1)
+        app._access_q.put_nowait([9])
+        self.assertFalse(app._access_enqueue([3]))
+        self.assertEqual(app._access_drop, 1)
+
+    def test_access_off_no_thread(self):
+        app = self._app(False, False)
+        self.assertIsNone(app._access_q)
+        self.assertIsNone(app._access_thread)
+
+    def test_capacity_warning_200_and_201_ok(self):
+        from unittest import mock as _m
+        app = self._app(True, False)
+        app._rows = lambda: [(i, "m", "l", "t", "h", 1, "p", 8)
+                             for i in range(200)]
+        app._mem_check_capacity(201)                   # 201 仍允许
+        with _m.patch.object(D, "NATURAL_MODE", True):
+            app._ask_natural = lambda t, t0: {"answer": "x", "block_ids": []}
+            res = app.ask("q")
+        self.assertEqual(res["capacity_warning"]["soft_limit"], 200)
+        self.assertEqual(res["capacity_warning"]["count"], 200)
+        self.assertGreaterEqual(res["capacity_warning"]["hard_limit"], 2000)
+
+    def test_cli_defaults_on_and_no_flags(self):
+        ap = D.build_arg_parser()
+        a = ap.parse_args([])
+        self.assertTrue(a.lifecycle_cap)
+        self.assertTrue(a.memory_access)
+        self.assertTrue(a.lifecycle_archive)
+        self.assertTrue(a.lifecycle_fallback)
+        self.assertTrue(a.audit_enabled)
+        self.assertFalse(a.audit_debug)
+        self.assertEqual(a.lifecycle_soft_limit, 200)
+        b = ap.parse_args(["--no-lifecycle-cap", "--no-memory-access",
+                           "--no-lifecycle-archive", "--no-lifecycle-fallback",
+                           "--no-audit", "--lifecycle-soft-limit", "300"])
+        self.assertFalse(b.lifecycle_cap)
+        self.assertFalse(b.memory_access)
+        self.assertFalse(b.lifecycle_archive)
+        self.assertFalse(b.lifecycle_fallback)
+        self.assertFalse(b.audit_enabled)
+        self.assertEqual(b.lifecycle_soft_limit, 300)
+
+    def test_startup_schema_only_independent_tables(self):
+        tmp = tempfile.mkdtemp(prefix="sx_")
+        model = os.path.join(tmp, "model.stub")
+        D.install_fake_model(model)
+        con = sqlite3.connect(os.path.join(tmp, "d.db"))
+        con.executescript(ms.SCHEMA)
+        con.commit()
+        con.close()
+        app = D.DailyApp(D.StubEngine(), db_path=os.path.join(tmp, "d.db"),
+                         blocks_dir=os.path.join(tmp, "b"),
+                         sessions_dir=os.path.join(tmp, "s"),
+                         model_path=model, restore=False,
+                         retrieval_mode="topk", topk=4, logger=False,
+                         lifecycle_cap=True, memory_access=True)
+        tabs = {r[0] for r in app.con.execute(
+            "SELECT name FROM sqlite_master WHERE type='table'")}
+        self.assertIn("memory_access", tabs)
+        self.assertIn("memory_archive", tabs)
+        cols = [r[1] for r in app.con.execute("PRAGMA table_info(memory_source)")]
+        self.assertNotIn("access_count", cols)
+        self.assertNotIn("archived_at", cols)
+
+    def test_cap_lazy_no_diff_under_200(self):
+        import json as _json
+        import shutil
+        from unittest import mock as _m
+        tmp = tempfile.mkdtemp(prefix="lazy_")
+        model = os.path.join(tmp, "model.stub")
+        D.install_fake_model(model)
+        db = os.path.join(tmp, "seed.db")
+        seed = D.DailyApp(D.StubEngine(), db_path=db,
+                          blocks_dir=os.path.join(tmp, "b"),
+                          sessions_dir=os.path.join(tmp, "s"),
+                          model_path=model, restore=False, retrieval_mode="topk",
+                          topk=4, logger=False)
+        for i in range(20):
+            seed.remember("事实%d：我的猫叫猫%d" % (i, i))
+        seed.con.close()
+
+        def mk(flag, name):
+            shutil.copy2(db, os.path.join(tmp, name))
+            return D.DailyApp(D.StubEngine(), db_path=os.path.join(tmp, name),
+                              blocks_dir=os.path.join(tmp, "b" + name),
+                              sessions_dir=os.path.join(tmp, "s" + name),
+                              model_path=model, restore=False,
+                              retrieval_mode="topk", topk=4, logger=False,
+                              lifecycle_cap=flag, memory_access=False)
+
+        off, on = mk(False, "off.db"), mk(True, "on.db")
+        self.assertEqual(off._rows(), on._rows())       # 行/顺序/字段一致
+        self.assertEqual(off._mem_check_capacity(199),
+                         on._mem_check_capacity(199))
+        self.assertEqual(off.warnings, on.warnings)
+
+        for app in (off, on):
+            app._ask_natural = lambda t, t0: {"answer": "x", "block_ids": [1]}
+        with _m.patch.object(D, "NATURAL_MODE", True):
+            r_off, r_on = off.ask("q"), on.ask("q")
+        for r in (r_off, r_on):
+            r.pop("latency_s", None)
+        self.assertEqual(_json.dumps(r_off, sort_keys=True, ensure_ascii=False),
+                         _json.dumps(r_on, sort_keys=True, ensure_ascii=False))
+        # 200 才允许差异：off 拒、on 只警告
+        with self.assertRaises(D.DailyError):
+            off._mem_check_capacity(200)
+        self.assertTrue(on._mem_check_capacity(200))
+        on._rows = lambda: [(i,) * 8 for i in range(200)]
+        with _m.patch.object(D, "NATURAL_MODE", True):
+            r200 = on.ask("q")
+        self.assertIn("capacity_warning", r200)
+
+    def test_soft_limit_300_and_backup_and_first_confirm(self):
+        import hashlib
+        from datetime import datetime
+        tmp = tempfile.mkdtemp(prefix="p1cap_")
+        model = os.path.join(tmp, "model.stub")
+        D.install_fake_model(model)
+        app = D.DailyApp(D.StubEngine(), db_path=os.path.join(tmp, "d.db"),
+                         blocks_dir=os.path.join(tmp, "b"),
+                         sessions_dir=os.path.join(tmp, "s"),
+                         model_path=model, restore=False,
+                         retrieval_mode="topk", topk=4, logger=False,
+                         lifecycle_cap=True, lifecycle_archive=True,
+                         soft_limit=300, confirm_first_archive=False,
+                         archive_state_file=os.path.join(tmp, "state"),
+                         backup_dir=os.path.join(tmp, "bak"),
+                         archive_dir=os.path.join(tmp, "arch"))
+        app.warnings = []
+        app._mem_check_capacity(200)
+        self.assertEqual(app.warnings, [])             # 300 以下无警告
+        app._mem_check_capacity(300)
+        self.assertTrue(app.warnings)
+        # 未确认：不搬 + audit blocked
+        adir = os.path.join(tmp, "audit")
+        os.environ["LLAMA_AUDIT_DIR"] = adir
+        app.audit_enabled = True
+        app._rows = lambda: [(1, "m1", "l", "t", "h", 1, "p", 8,
+                              "2026-01-05T10:00:00")]
+        self.assertIsNone(app._maybe_archive())
+        self.assertFalse(os.path.exists(os.path.join(tmp, "arch")))
+        # 备份 sha
+        info = app._archive_backup()
+        self.assertTrue(info["db_sha256"])
+        self.assertEqual(hashlib.sha256(open(info["db"], "rb").read()).hexdigest(),
+                         info["db_sha256"])
+        # 确认后：写状态 + 搬
+        app.confirm_first_archive = True
+        r = app._maybe_archive()
+        self.assertTrue(r and r["zips"])
+        self.assertTrue(os.path.exists(os.path.join(tmp, "state")))
+        # 回滚命令（复用 archive_admin restore，dry-run）
+        import archive_admin as AD
+        z = r["zips"][0]["zip"]
+        self.assertEqual(AD.main(["restore", "--zip", z,
+                                  "--sidecar", z + ".sidecar.json"]), 0)
 
     def test_capacity_soft_hard(self):
         app = self._app(True, False)

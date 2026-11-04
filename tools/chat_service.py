@@ -593,6 +593,9 @@ def build_app(args, data):
                       lifecycle_archive=bool(getattr(args, "lifecycle_archive", False)),
                       lifecycle_fallback=bool(getattr(args, "lifecycle_fallback", False)),
                       audit_enabled=bool(getattr(args, "audit_enabled", False)),
+                      soft_limit=int(getattr(args, "lifecycle_soft_limit", 200)),
+                      hard_limit=int(getattr(args, "lifecycle_hard_limit", 2000)),
+                      confirm_first_archive=bool(getattr(args, "confirm_first_archive", False)),
                       audit_debug=bool(getattr(args, "audit_debug", False)),
                       topk=getattr(args, "topk", D.DEFAULT_TOPK),
                       rollover_at=getattr(args, "rollover_at", D.ROLLOVER_AT_DEFAULT),
@@ -630,19 +633,27 @@ def main(argv=None):
     ap.add_argument("--p1b-subject", action="store_true", default=False,
                     help="P1b 主体键软覆盖（默认关；与 chat_daily 同名同义）")
     # do-not-enable-for-merge: diagnostic only
-    ap.add_argument("--lifecycle-cap", action="store_true", default=False,
-                    help="P1 软/硬上限（默认关；与 chat_daily 同名同义）")
+    ap.add_argument("--lifecycle-soft-limit", type=int, default=200,
+                    help="软上限（默认 200，允许 300）")
+    ap.add_argument("--lifecycle-hard-limit", type=int, default=2000)
+    ap.add_argument("--confirm-first-archive", action="store_true", default=False)
+    ap.add_argument("--lifecycle-cap", action=argparse.BooleanOptionalAction,
+                    default=True,
+                    help="P1 软/硬上限（默认开；--no-lifecycle-cap 回滚）")
     ap.add_argument("--audit-debug", action="store_true", default=False,
                     help="审计检索明细 retrieve（默认关；与 chat_daily 同名同义）")
-    ap.add_argument("--audit", dest="audit_enabled", action="store_true",
-                    default=False,
-                    help="服务级审计日志（默认关；与 chat_daily 同名同义）")
-    ap.add_argument("--lifecycle-fallback", action="store_true", default=False,
-                    help="P1 归档只读兜底（默认关；与 chat_daily 同名同义）")
-    ap.add_argument("--lifecycle-archive", action="store_true", default=False,
-                    help="P1 自动归档（默认关；与 chat_daily 同名同义）")
-    ap.add_argument("--memory-access", action="store_true", default=False,
-                    help="P1 access 记录（默认关；与 chat_daily 同名同义）")
+    ap.add_argument("--audit", dest="audit_enabled",
+                    action=argparse.BooleanOptionalAction, default=True,
+                    help="服务级审计日志（默认开；与 chat_daily 同名同义）")
+    ap.add_argument("--lifecycle-fallback", action=argparse.BooleanOptionalAction,
+                    default=True,
+                    help="P1 归档只读兜底（默认开；与 chat_daily 同名同义）")
+    ap.add_argument("--lifecycle-archive", action=argparse.BooleanOptionalAction,
+                    default=True,
+                    help="P1 自动归档（默认开；与 chat_daily 同名同义）")
+    ap.add_argument("--memory-access", action=argparse.BooleanOptionalAction,
+                    default=True,
+                    help="P1 access 记录（默认开；--no-memory-access 回滚）")
     ap.add_argument("--meta-answer", action=argparse.BooleanOptionalAction,
                     default=True,
                     help="meta-v1 计数回答（默认开；--no-meta-answer 回滚）")
