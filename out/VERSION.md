@@ -1,8 +1,8 @@
 # 版本 / Changelog
 
 ## v1.0.0-rc1（2026-11-05）
-- HEAD：`92d94f6`
-- ahead：95
+- HEAD：`071d2e3`
+- ahead：99
 - 未 push（本地 git）
 - 状态：全量默认已 commit；daily 服务按 START.md 启动并 healthcheck PASS（PID 16864）。
 

@@ -7,9 +7,9 @@
 - 注意：此前 Task Scheduler 任务已删除；当前是 shutdown 定时器，不是计划任务。
 
 ## 版本
-- HEAD：`4160153 docs(release): VERSION bump`
+- HEAD：`071d2e3 fix(p1): superseded 归档 + archive-days + 低置信 fallback`
 - 全量默认代码：`116f0f3`
-- ahead：**97**，0 push
+- ahead：**99**，0 push
 - 版本：`v1.0.0-rc1`
 
 ## 服务/数据
