@@ -231,6 +231,52 @@ class LifecycleTests(unittest.TestCase):
         p2 = L.reheat_plan(self.con, 1, diff)
         self.assertEqual(p2["action"], "restore")      # 组会 vs 出差 -> 不同族
 
+    def _insert_source(self, sid, text, created):
+        self.con.execute("INSERT INTO memory_source (id,tenant,scope,mode,name,"
+                         "label,text,source_hash,created_at) VALUES "
+                         "(?, 'default','private','chat',?, 'l', ?, 'h', ?)",
+                         (int(sid), "m%d" % sid, text, created))
+        self.con.commit()
+
+    def _archive_meeting(self, text="我的组会定在B座302，周三晚上七点"):
+        import archive_store as A
+        d = os.path.join(self.tmp, "arch_ct_%s" % abs(hash(text)))
+        z = os.path.join(d, "2026-01.zip")
+        side = z + ".sidecar.json"
+        A.archive_rows([{"id": 1, "name": "m1", "text": text,
+                         "created_at": "2026-01-05T10:00:00"}], z, side)
+        L.archive_mark(self.con, [1], z, A.sha_file(z))
+        self._insert_source(1, text, "2026-01-05T10:00:00")
+
+    def test_created_at_newer_skip_older_restore(self):
+        text = "我的组会定在B座302，周三晚上七点"
+        self._archive_meeting(text)
+        self._insert_source(5, text, "2026-02-01T10:00:00")
+        p = L.reheat_plan(self.con, 1, [(5, "m5", "l", text, "h", 1, "p", 8,
+                                        "别用第8列")])
+        self.assertEqual(p["action"], "skip_superseded")
+        self.assertEqual(p["superseded_by"], 5)
+        # 同 key 但 created_at 更旧 -> restore（id 更大也不行）
+        self._insert_source(8, text, "2025-12-01T00:00:00")
+        p2 = L.reheat_plan(self.con, 1, [(8, "m8", "l", text, "h", 1, "p", 8,
+                                         "别用第8列")])
+        self.assertEqual(p2["action"], "restore")
+
+    def test_different_key_newer_restore_and_column_order_safe(self):
+        self._archive_meeting()
+        self._insert_source(6, "我下周三去广州出差", "2026-02-01T10:00:00")
+        # 第 8 列放巨大 n_bytes，旧实现会误判“更新”
+        p = L.reheat_plan(self.con, 1, [(6, "m6", "l", "我下周三去广州出差",
+                                         "h", 1, "p", 999999999)])
+        self.assertEqual(p["action"], "restore")
+        # 同 key 但第 8 列是旧列序 -> 仍按 memory_source.created_at 判
+        self._insert_source(7, "我的组会定在B座302，周三晚上七点",
+                            "2026-03-01T10:00:00")
+        p2 = L.reheat_plan(self.con, 1, [(7, "m7", "l",
+                                          "我的组会定在B座302，周三晚上七点",
+                                          "h", 1, "p", 1)])
+        self.assertEqual(p2["action"], "skip_superseded")
+
     def test_fact_key_action_fallback(self):
         key, complete = L._fact_key("我把车换成了皖K3D7F9")
         self.assertIsNotNone(key)

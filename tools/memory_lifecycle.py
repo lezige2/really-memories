@@ -301,6 +301,30 @@ def _read_archived_text(con, source_id):
     return body.decode("utf-8", "replace"), None
 
 
+def _created_of(con, source_id):
+    try:
+        r = con.execute("SELECT created_at FROM memory_source WHERE id=?",
+                        (int(source_id),)).fetchone()
+        return str(r[0]) if r and r[0] else ""
+    except sqlite3.Error:
+        return ""
+
+
+def _newer(con, newer_id, older_id, older_created):
+    """按 memory_source.created_at 比较；解析失败回退 id 比较（保守）。"""
+    from datetime import datetime as _dt
+    c_new = _created_of(con, newer_id)
+    try:
+        return _dt.fromisoformat(c_new) > _dt.fromisoformat(older_created)
+    except Exception:                                # noqa: BLE001
+        try:
+            if c_new and older_created:
+                return c_new > older_created
+        except Exception:                            # noqa: BLE001
+            pass
+        return int(newer_id) > int(older_id)
+
+
 def reheat_plan(con, source_id, live_rows, trace_id=None):
     """纯函数：校验归档 -> 抽槽 -> 与 live 比较；只返回 plan，不写 DB。"""
     try:
@@ -334,20 +358,15 @@ def reheat_plan(con, source_id, live_rows, trace_id=None):
         plan.update(action="restore", reason="key_incomplete")
         _audit(trace_id, "restore", "key_incomplete", [int(source_id)], 1)
         return plan
-    try:
-        arch_created = con.execute(
-            "SELECT COALESCE((SELECT created_at FROM memory_source WHERE id=?), '')",
-            (int(source_id),)).fetchone()[0] or ""
-    except sqlite3.Error:
-        arch_created = ""
+    arch_created = _created_of(con, source_id)
     for r in live_rows or []:
         if int(r[0]) == int(source_id):
             continue
         k2, c2 = _fact_key(r[3] if len(r) > 3 else "")
         if not c2 or k2 != key:
             continue
-        created = str(r[8]) if len(r) > 8 and r[8] else ""
-        if int(r[0]) > int(source_id) and created > arch_created:
+        if int(r[0]) > int(source_id) and _newer(con, int(r[0]), source_id,
+                                                 arch_created):
             plan.update(action="skip_superseded", reason="newer_same_family",
                         superseded_by=int(r[0]))
             return plan

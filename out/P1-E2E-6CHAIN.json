@@ -1,0 +1,204 @@
+{
+ "scope": "copy only; rewrite_block_paths + assert_under",
+ "expected_fixed_before_run": true,
+ "cases": [
+  {
+   "cid": "C1",
+   "expected_action": "restore",
+   "query": "我下周三去北京出差，对吧？",
+   "want": "北京",
+   "archived_id": 4,
+   "archived_key": [
+    "self",
+    "出差",
+    "北京",
+    "下周三",
+    null
+   ],
+   "new_id": 21,
+   "new_key": [
+    "self",
+    "去",
+    null,
+    "周六",
+    null
+   ],
+   "got": "restore",
+   "reason": "no_newer",
+   "superseded_by": null,
+   "executed": true,
+   "block_rebuilt": true,
+   "answer": "不是的，你告诉我的是下周三要去广州出差",
+   "answer_ok": false,
+   "pass": false,
+   "action_ok": true
+  },
+  {
+   "cid": "C2",
+   "expected_action": "restore",
+   "query": "我下周三去上海开会，对吧？",
+   "want": "上海",
+   "archived_id": 5,
+   "archived_key": [
+    "self",
+    "开会",
+    "上海",
+    "下周三",
+    null
+   ],
+   "new_id": 22,
+   "new_key": [
+    "self",
+    null,
+    null,
+    null,
+    null
+   ],
+   "got": "restore",
+   "reason": "no_newer",
+   "superseded_by": null,
+   "executed": true,
+   "block_rebuilt": true,
+   "answer": "这条我没法从记忆里核对，先不猜。",
+   "answer_ok": false,
+   "pass": false,
+   "action_ok": true
+  },
+  {
+   "cid": "C3",
+   "expected_action": "restore",
+   "query": "我下周三去广州出差，对吧？",
+   "want": "广州",
+   "archived_id": 6,
+   "archived_key": [
+    "self",
+    "出差",
+    "广州",
+    "下周三",
+    null
+   ],
+   "new_id": 23,
+   "new_key": [
+    "self",
+    "签证",
+    null,
+    null,
+    null
+   ],
+   "got": "restore",
+   "reason": "no_newer",
+   "superseded_by": null,
+   "executed": true,
+   "block_rebuilt": true,
+   "answer": "对，你下周三去广州出差",
+   "answer_ok": true,
+   "pass": true,
+   "action_ok": true
+  },
+  {
+   "cid": "C4",
+   "expected_action": "restore",
+   "query": "我下周四去广州开会，对吧？",
+   "want": "广州",
+   "archived_id": 7,
+   "archived_key": [
+    "self",
+    "开会",
+    "广州",
+    "下周四",
+    null
+   ],
+   "new_id": 24,
+   "new_key": [
+    "self",
+    "练",
+    null,
+    "周日",
+    null
+   ],
+   "got": "restore",
+   "reason": "no_newer",
+   "superseded_by": null,
+   "executed": true,
+   "block_rebuilt": true,
+   "answer": "对，你下周四去广州开会",
+   "answer_ok": true,
+   "pass": true,
+   "action_ok": true
+  },
+  {
+   "cid": "C5",
+   "expected_action": "restore",
+   "query": "我下周五去杭州开会，对吧？",
+   "want": "杭州",
+   "archived_id": 8,
+   "archived_key": [
+    "self",
+    "开会",
+    "杭州",
+    "下周五",
+    null
+   ],
+   "new_id": 25,
+   "new_key": [
+    "self",
+    "到",
+    null,
+    null,
+    null
+   ],
+   "got": "restore",
+   "reason": "no_newer",
+   "superseded_by": null,
+   "executed": true,
+   "block_rebuilt": true,
+   "answer": "这条我没法从记忆里核对，先不猜。",
+   "answer_ok": false,
+   "pass": false,
+   "action_ok": true
+  },
+  {
+   "cid": "C6",
+   "expected_action": "skip",
+   "query": "我的健身年卡多少钱？",
+   "want": "两千六",
+   "archived_id": 26,
+   "archived_key": [
+    "self",
+    "健身",
+    null,
+    "周二",
+    null
+   ],
+   "new_id": 27,
+   "new_key": [
+    "self",
+    "健身",
+    null,
+    "周二",
+    null
+   ],
+   "same_key": true,
+   "got": "skip_superseded",
+   "reason": "newer_same_family",
+   "superseded_by": 27,
+   "executed": false,
+   "old_still_archived": true,
+   "new_is_kept": true,
+   "answer": "你的健身年卡是两千六",
+   "answer_ok": true,
+   "pass": false,
+   "action_ok": true
+  }
+ ],
+ "passed": 2,
+ "n": 6,
+ "gate": "6/6",
+ "verdict": "action 6/6（回热语义全对：5 条 restore+块重建、1 条拒绝回热且保留新值）；答案层 3/6（C1 答错城市、C2/C5 触发 verifier 回退）——属答案/检索层，不是 reheat",
+ "summary": {
+  "action_ok": 6,
+  "answer_ok": 3,
+  "n": 6,
+  "note": "expected 未改；skip 与 skip_superseded 视为同义（均为拒绝回热）"
+ }
+}
