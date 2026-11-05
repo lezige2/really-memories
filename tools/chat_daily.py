@@ -54,6 +54,7 @@ import assistant_commit as acommit      # noqa: E402  (P3；默认 off)
 import norm_dedup as ndedup             # noqa: E402  (norm_hash 去重；默认 off)
 import json_answer as jans               # noqa: E402  (强制 JSON 输出；默认 off)
 import shadow_dedup as sdedup            # noqa: E402  (影子去重；仅诊断)
+import attribute_recency as arec         # noqa: E402  (属性最新值 POC；默认 off)
 # P1b 代码不入库：可选依赖，只包这一个符号；缺失则功能 off + debug（不静默）
 try:
     import p1b_subject as _p1b
@@ -636,6 +637,7 @@ class DailyApp:
                  lifecycle_archive=False, archive_dir=None,
                  lifecycle_fallback=False, audit_enabled=False, audit_debug=False,
                  soft_limit=200, hard_limit=2000, confirm_first_archive=False,
+                 attribute_recency=False,
                  archive_days=21,
                  archive_state_file=None, backup_dir=None):
         self.eng = engine
@@ -695,6 +697,8 @@ class DailyApp:
             ROOT, "out", "p1", "archive_first_confirmed")
         self.backup_dir = backup_dir or os.path.join(ROOT, "out", "p1", "backup")
         self.archive_days = int(archive_days)
+        self.attribute_recency = bool(attribute_recency)
+        self._last_attr = None
         self._audit_trace = None
         self.archive_dir = archive_dir
         self._last_shadow = {"enabled": self.dedup_shadow, "checked": 0, "hits": []}
@@ -2054,6 +2058,11 @@ class DailyApp:
         except Exception:                                # noqa: BLE001
             pass
         try:
+            if getattr(self, "attribute_recency", False) and self._last_attr:
+                res["attribute_recency"] = dict(self._last_attr)
+        except Exception:                                # noqa: BLE001
+            pass
+        try:
             self._tts_emit(res.get("answer"))
         except Exception:                                # noqa: BLE001
             pass
@@ -3410,6 +3419,36 @@ class DailyApp:
     def _retrieval_select(self, text):
         t0 = time.perf_counter()
         sel = self._p1b_filter(self._retrieval_select_k2(text))
+        self._last_attr = None
+        if getattr(self, "attribute_recency", False) and sel:
+            try:
+                meta = {}
+                for s_ in sel:
+                    sid = int(s_.get("source_id"))
+                    r = self.con.execute(
+                        "SELECT created_at,text FROM memory_source WHERE id=?",
+                        (sid,)).fetchone()
+                    if r:
+                        meta[sid] = {"created_at": str(r[0] or ""),
+                                     "text": str(r[1] or "")}
+                d = arec.apply_filter(text, sel, meta)
+                self._last_attr = d
+                if d.get("applied") and d.get("hidden"):
+                    hide = set(d["hidden"])
+                    sel = [s_ for s_ in sel
+                           if int(s_.get("source_id")) not in hide]
+                if d.get("attribute") and getattr(self, "logger", None):
+                    try:
+                        self.logger.log_warning(
+                            "attribute_recency", "attribute recency POC",
+                            evidence={"attribute": d.get("attribute"),
+                                      "kept": d.get("kept"),
+                                      "hidden": d.get("hidden"),
+                                      "reason": d.get("reason")})
+                    except Exception:                # noqa: BLE001
+                        pass
+            except Exception:                        # noqa: BLE001
+                pass
         try:
             if getattr(self, "audit_enabled", False) and getattr(
                     self, "audit_debug", False):
@@ -4574,6 +4613,8 @@ def build_arg_parser():
                     help="P1b 主体键软覆盖（默认关；sidecar，不改 daily）")
     # do-not-enable: parse_fail 100%, w03 regression; see out/JSON-E2E-DEFAULT.md
     # do-not-enable-for-merge: diagnostic only
+    ap.add_argument("--attribute-recency", action="store_true", default=False,
+                    help="属性最新值 POC（默认关；手机号/健身时间）")
     ap.add_argument("--lifecycle-archive-days", type=int, default=21,
                     help="归档候选窗口天数（默认 21；可 90）")
     ap.add_argument("--lifecycle-soft-limit", type=int, default=200,
@@ -4676,6 +4717,7 @@ def main(argv=None):
                        hard_limit=getattr(args, "lifecycle_hard_limit", 2000),
                        confirm_first_archive=getattr(args, "confirm_first_archive", False),
                        archive_days=getattr(args, "lifecycle_archive_days", 21),
+                       attribute_recency=getattr(args, "attribute_recency", False),
                        audit_debug=getattr(args, "audit_debug", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
