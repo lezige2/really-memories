@@ -12,6 +12,6 @@
 ### Fixed
 - reheat created_at 列索引；row_month 月分组；audit reheat 双事件；SQLite access 写锁缓解。
 ### Known issues
-- MT20 11/20；extra 17/19（L07/L09）；L05 flaky；V9MT04/V9MT08 偶发；id14 reconstructed。
+- MT20 5×2 全开 51/100；extra 17/19（L07/L09）；L05 flaky；V9MT04/V9MT08 偶发；id14 reconstructed。
 ### Out of scope
 - QQ 语音、Web/UI、70B/云、多用户、40k 生产容量。
