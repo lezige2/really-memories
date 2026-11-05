@@ -44,3 +44,8 @@
 - 改用 WMI `Win32_Process.Create`（`out/ops/start-wmi.ps1` → `run-service.cmd`）：20:55 起，python PID **15784**，60s 后 health 200、进程仍在。
 - `START.md` 唯一命令已改为 `start-wmi.ps1`；禁止后台 job/Start-Process。
 - 默认未改、daily 未写、首次归档未签。
+
+## 2026-11-05 23:52 启动方式三次修正（detached）
+- WMI 直起 `cmd/python` 仍共享控制台，shell 停止时收到 ^C；`pythonw` 无法写日志且未起监听。
+- 改为 `launch_service.py`：`DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP`，stdout/stderr 重定向；PID **7160**，60s 后 health 200、进程仍在。
+- START 唯一命令改为 `start-wmi.ps1` → `launch_service.py`。
