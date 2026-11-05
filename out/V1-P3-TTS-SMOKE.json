@@ -1,0 +1,108 @@
+{
+ "schema": "v1_p3_tts_smoke_v1",
+ "p3": {
+  "promise_ask": {
+   "answer": "好的，我明天提醒你带伞",
+   "keys": [
+    "answer",
+    "block_ids",
+    "chars",
+    "k2",
+    "latency_s",
+    "notice",
+    "refused",
+    "retrieval",
+    "rollover",
+    "session",
+    "state",
+    "verified",
+    "verify",
+    "verify_attempts"
+   ],
+   "rows_after": 22,
+   "commits_after": [
+    [
+     22,
+     "助手承诺：好的,我明天提醒你带伞"
+    ]
+   ]
+  },
+  "normal_ask": {
+   "answer": "你的猫叫豆豆",
+   "rows_after": 22,
+   "commits_after": [
+    [
+     22,
+     "助手承诺：好的,我明天提醒你带伞"
+    ]
+   ]
+  },
+  "extra_chat_row": {
+   "id": 21,
+   "mode": "chat",
+   "text": "请说“我明天提醒你带伞”",
+   "finding": "除 assistant_commit 外，还写入一条 chat 行 ⇒ “写入仅 assistant_commit”不成立"
+  },
+  "triggered": true
+ },
+ "tts": {
+  "answer": "你的猫叫豆豆",
+  "has_tts_field": false,
+  "keys": [
+   "answer",
+   "block_ids",
+   "chars",
+   "k2",
+   "latency_s",
+   "notice",
+   "refused",
+   "retrieval",
+   "rollover",
+   "session",
+   "state",
+   "verified",
+   "verify",
+   "verify_attempts"
+  ],
+  "wav_files": [
+   {
+    "name": "tts-6a95bef14984.wav",
+    "bytes": 89960,
+    "sha16": "fc853885a1033aa8",
+    "riff": true
+   }
+  ],
+  "playback": "KNOWN —— 未开 --tts-speak，未验证播放"
+ },
+ "verdict": "P3：承诺句触发 assistant_commit；id21 chat 行经 P3-off 对照确认为既有 auto-remember，P3 边界 = 仅额外提交 id22；普通问答零副作用。TTS：wav 生成、无 tts 字段、文本一致；播放 KNOWN",
+ "p3_boundary": {
+  "p3_off": {
+   "rows_before": 20,
+   "rows_after": 21,
+   "new_rows": [
+    [
+     21,
+     "chat",
+     "请说“我明天提醒你带伞”"
+    ]
+   ]
+  },
+  "p3_on": {
+   "rows_before": 20,
+   "rows_after": 22,
+   "new_rows": [
+    [
+     21,
+     "chat",
+     "请说“我明天提醒你带伞”"
+    ],
+    [
+     22,
+     "assistant_commit",
+     "助手承诺：好的,我明天提醒你带伞"
+    ]
+   ]
+  },
+  "conclusion": "id21 (mode=chat) 在 P3 off 时同样写入 ⇒ 属既有 auto-remember，不是 P3 副作用；P3 on 仅额外多一条 assistant_commit(id22)"
+ }
+}

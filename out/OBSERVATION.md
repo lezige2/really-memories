@@ -32,3 +32,15 @@
 - 8765 一度无监听；未改默认、未写 daily。
 - 20:43 按 START 命令重启，PID **5680**，healthcheck **ok=true**；默认仍 5 项 on，首次归档未签。
 - 判定：不是模型/归档回归，但观察期服务稳定性有问题；继续观察，若再次无解释退出，按“回归证据”回 off 并排查。
+
+## 2026-11-05 20:52 服务启动方式修正（根因）
+- 20:40/20:44 两次 exit 127：err 无 traceback，服务曾正常 health 200 后退出；原因是**用会话内后台 job 起服务，job 生命周期结束带走子进程**，不是产品崩溃。
+- 改用 `out/ops/start-service.ps1`（PowerShell `Start-Process` 独立进程）：PID **14956**，20:52 启动，60s 后 health 200、进程仍在。
+- START.md 已把“唯一命令”改为该脚本；禁止再用后台 job 起服务。
+- 默认未改、daily 未写、首次归档未签。
+
+## 2026-11-05 20:55 启动方式二次修正（WMI）
+- `Start-Process` 起的 PID 14956 也在会话结束后被带走；Task Scheduler 注册被 PermissionDenied。
+- 改用 WMI `Win32_Process.Create`（`out/ops/start-wmi.ps1` → `run-service.cmd`）：20:55 起，python PID **15784**，60s 后 health 200、进程仍在。
+- `START.md` 唯一命令已改为 `start-wmi.ps1`；禁止后台 job/Start-Process。
+- 默认未改、daily 未写、首次归档未签。

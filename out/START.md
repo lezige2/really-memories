@@ -1,15 +1,13 @@
 # 启动（唯一命令）
 
 ```powershell
-cd D:\llama-mem
-python -X utf8 tools/chat_service.py `
-  --db kvmem/daily/chat.db `
-  --blocks kvmem/daily/blocks `
-  --sessions kvmem/daily/sessions `
-  --host 127.0.0.1 --port 8765 `
-  --retrieval topk --topk 4 --n-gpu-layers 28 `
-  --model "D:\models\Qwen2.5-14B-Instruct-Q4_K_M.gguf"
+powershell -NoProfile -ExecutionPolicy Bypass -File "D:\llama-mem\out\ops\start-wmi.ps1"
 ```
+
+- 用 WMI `Win32_Process.Create` 起独立进程，脱离会话 job；子进程 PID 看 `netstat :8765`；
+- 日志 `out/p1-enable/service.out/.err`；
+- 不要用会话内后台 job / `Start-Process` 起服务：job 结束时可能带走子进程（已发生 exit 127 两次）；
+- 如需前台调试，才用下面的 python 命令。
 
 ## 本版默认（v1 目标）
 - `--lifecycle-cap` **on**：200 软上限，201 允许并给 `capacity_warning`，2000 硬拒；
