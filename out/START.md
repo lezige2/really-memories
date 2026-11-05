@@ -14,7 +14,7 @@ python -X utf8 tools/chat_service.py `
 ## 本版默认（v1 目标）
 - `--lifecycle-cap` **on**：200 软上限，201 允许并给 `capacity_warning`，2000 硬拒；
 - `--memory-access` **on**：异步、可丢、可关；
-- `--lifecycle-archive` **on**：≥soft 才触发；**首次真实归档需 `--confirm-first-archive`**；
+- `--lifecycle-archive` **on**：≥soft 才触发；**首次真实归档需 `--confirm-first-archive`（容量压力 + 副本演练通过后）**；触发时必须显示“已归档 N 条，可回滚”，禁止静默；
 - `--lifecycle-fallback` **on**：主池空才查归档；
 - `--audit` **on**：决策类事件；retrieve 仅 `--audit-debug`；
 - K2 off、verifier v1、event off、TTS off。

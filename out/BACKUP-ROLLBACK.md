@@ -17,7 +17,8 @@ Copy-Item -Recurse -Force kvmem/daily/blocks out/backup/blocks
 ## 3 归档前自动备份
 - `auto_archive` 触发前写 `out/p1/backup/<ts>/chat.db` + blocks sha；
 - audit `stage=archive decision=backup` 记 db_sha/blocks_sha；
-- 首次真实归档还需 `--confirm-first-archive`（或状态文件）。
+- 首次真实归档还需 `--confirm-first-archive`（或状态文件）；签署条件：容量有压力/≥150 条 + 副本 200 条 archive→restore→回滚演练通过。
+- 触发时必须显示“已归档 N 条，可回滚”，禁止静默搬。
 
 ## 4 回滚命令
 ```powershell
