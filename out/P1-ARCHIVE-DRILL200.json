@@ -1,0 +1,85 @@
+{
+ "schema": "p1_archive_drill200_v1",
+ "workdir": "tmp/p1arch-drill",
+ "rewrite_assert_s": 0.01,
+ "build_s": 0.0,
+ "rows": 200,
+ "auto_archive_s": 0.13,
+ "archive": {
+  "candidates": 200,
+  "months": {
+   "2026-05": 70,
+   "2026-06": 70,
+   "2026-07": 60
+  },
+  "zips": [
+   "2026-05.zip",
+   "2026-06.zip",
+   "2026-07.zip"
+  ],
+  "archived": 200,
+  "active": 0,
+  "accounting_ok": true
+ },
+ "zip": {
+  "name": "2026-05.zip",
+  "bytes": 17705,
+  "entries": 70,
+  "manifest_zip_sha256": "c1e320d23f72bdae1c74412f6144e5ca1fdfb7793caf1e111ec9d01c333e4a07",
+  "recomputed_sha_match": true
+ },
+ "fallback": {
+  "hits": 5,
+  "top": [
+   [
+    146,
+    0.8571
+   ],
+   [
+    147,
+    0.8571
+   ],
+   [
+    148,
+    0.8571
+   ],
+   [
+    149,
+    0.8571
+   ],
+   [
+    150,
+    0.8571
+   ]
+  ],
+  "s": 0.028
+ },
+ "restore_plan": {
+  "entries": 70,
+  "actions": {
+   "restore": 70
+  },
+  "live_rows_passed": 0,
+  "zip_sha256_match": true,
+  "s": 0.007
+ },
+ "rollback": {
+  "rows_before": 200,
+  "rows_after": 200,
+  "content_identical": true,
+  "zips_left": 0
+ },
+ "total_s": 0.4,
+ "ok": true,
+ "commands": [
+  "python out/p1_archive_drill200.py",
+  "L.auto_archive(con, rows, datetime(2026,11,5,12,0,0), \"tmp/p1arch-drill/archive\", days=21)",
+  "L.fallback_archive(con, \"我的工位是B区 工位\", ARCH, max_hits=5)",
+  "A.restore_plan(active_rows, \"tmp/p1arch-drill/archive/2026-05.zip\", zip+\".sidecar.json\")"
+ ],
+ "notes": [
+  "未使用 --confirm-first-archive；out/p1/archive_first_confirmed 全程不存在（前后各查一次）",
+  "restore_plan 首次传全量 live 行 -> 全判 skip_superseded（同 id 仍在 live），改传 active(空) -> 全 restore；属调用方式而非缺陷",
+  "memory_source 的 created_at 有不可变触发器，故演练库是清空后重建 200 行，而非回拨原 20 行"
+ ]
+}
