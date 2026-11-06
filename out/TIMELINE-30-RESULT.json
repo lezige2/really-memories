@@ -1,0 +1,1331 @@
+{
+ "schema": "timeline_30_result_v1",
+ "n": 30,
+ "passed": 23,
+ "gate": ">=27/30 + abstain100 + fallback100",
+ "gate_pass": false,
+ "abstain_n": 9,
+ "abstain_ok": 4,
+ "fallback_n": 2,
+ "fallback_ok": 0,
+ "future": {
+  "n": 10,
+  "passed": 6
+ },
+ "rest": {
+  "n": 20,
+  "passed": 17
+ },
+ "rows": [
+  {
+   "id": "T01",
+   "kind": "value",
+   "query": "我去年去过哪？",
+   "expected": {
+    "kind": "value",
+    "value": "云南大理",
+    "period": "2025"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "Y",
+     "start": "2025-01-01",
+     "end": "2025-12-31",
+     "phrase": "去年",
+     "spec": 1
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "Y",
+       "start": "2025-01-01",
+       "end": "2025-12-31",
+       "phrase": "去年",
+       "spec": 1
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "去年",
+     "score": 0.5
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "T02",
+   "kind": "value",
+   "query": "前年我在哪工作？",
+   "expected": {
+    "kind": "value",
+    "value": "成都",
+    "period": "2024"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "Y",
+     "start": "2024-01-01",
+     "end": "2024-12-31",
+     "phrase": "前年",
+     "spec": 1
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "Y",
+       "start": "2024-01-01",
+       "end": "2024-12-31",
+       "phrase": "前年",
+       "spec": 1
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "前年",
+     "score": 0.5
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "T03",
+   "kind": "value",
+   "query": "三年前我在哪上班？",
+   "expected": {
+    "kind": "value",
+    "value": "苏州",
+    "period": "2023"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "Y",
+     "start": "2023-01-01",
+     "end": "2023-12-31",
+     "phrase": "三年前",
+     "spec": 1
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "Y",
+       "start": "2023-01-01",
+       "end": "2023-12-31",
+       "phrase": "三年前",
+       "spec": 1
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "三年前",
+     "score": 0.8
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "T04",
+   "kind": "value",
+   "query": "上个月我体检结果怎么样？",
+   "expected": {
+    "kind": "value",
+    "value": "血脂偏高",
+    "period": "2026-10"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "M",
+     "start": "2026-10-01",
+     "end": "2026-10-31",
+     "phrase": "上个月",
+     "spec": 2
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "M",
+       "start": "2026-10-01",
+       "end": "2026-10-31",
+       "phrase": "上个月",
+       "spec": 2
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "上个月",
+     "score": 0.2857
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "T05",
+   "kind": "value",
+   "query": "上周我去哪出差？",
+   "expected": {
+    "kind": "value",
+    "value": "南京",
+    "period": "2026-10-26..2026-11-01"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "R",
+     "start": "2026-10-26",
+     "end": "2026-11-01",
+     "phrase": "上周",
+     "spec": 3
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "R",
+       "start": "2026-10-26",
+       "end": "2026-11-01",
+       "phrase": "上周",
+       "spec": 3
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "上周",
+     "score": 0.5
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "T06",
+   "kind": "value",
+   "query": "前天我买了什么？",
+   "expected": {
+    "kind": "value",
+    "value": "显示器",
+    "period": "2026-11-04"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "D",
+     "start": "2026-11-04",
+     "end": "2026-11-04",
+     "phrase": "前天",
+     "spec": 3
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "D",
+       "start": "2026-11-04",
+       "end": "2026-11-04",
+       "phrase": "前天",
+       "spec": 3
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "前天",
+     "score": 0.6667
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "T07",
+   "kind": "value",
+   "query": "明年我有什么计划？",
+   "expected": {
+    "kind": "value",
+    "value": "考一个证书",
+    "period": "2027"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "Y",
+     "start": "2027-01-01",
+     "end": "2027-12-31",
+     "phrase": "明年",
+     "spec": 1
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "Y",
+       "start": "2027-01-01",
+       "end": "2027-12-31",
+       "phrase": "明年",
+       "spec": 1
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "明年",
+     "score": 0.0
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "T08",
+   "kind": "value",
+   "query": "下个月我要做什么？",
+   "expected": {
+    "kind": "value",
+    "value": "交续租合同",
+    "period": "2026-12"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "M",
+     "start": "2026-12-01",
+     "end": "2026-12-31",
+     "phrase": "下个月",
+     "spec": 2
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "M",
+       "start": "2026-12-01",
+       "end": "2026-12-31",
+       "phrase": "下个月",
+       "spec": 2
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "下个月",
+     "score": 0.0
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "T09",
+   "kind": "value",
+   "query": "我哪天去体检？",
+   "expected": {
+    "kind": "value",
+    "value": "2026-10-15",
+    "period": "2026-10-15"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "D",
+       "start": "2026-10-15",
+       "end": "2026-10-15",
+       "phrase": "2026-10-15",
+       "spec": 3
+      },
+      {
+       "kind": "M",
+       "start": "2026-10-01",
+       "end": "2026-10-31",
+       "phrase": "2026-10",
+       "spec": 2
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": null,
+     "score": 0.5
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": true,
+   "reason": "no_time_expression",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "T10",
+   "kind": "value",
+   "query": "我什么时候搬的家？",
+   "expected": {
+    "kind": "value",
+    "value": "2026-10",
+    "period": "2026-10",
+    "note": "月比年更具体，不得给 2025"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "Y",
+       "start": "2025-01-01",
+       "end": "2025-12-31",
+       "phrase": "2025年",
+       "spec": 1
+      },
+      {
+       "kind": "M",
+       "start": "2026-10-01",
+       "end": "2026-10-31",
+       "phrase": "上个月",
+       "spec": 2
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": null,
+     "score": 0.0
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": true,
+   "reason": "no_time_expression",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "T11",
+   "kind": "refusal",
+   "query": "三年前我养过什么宠物？",
+   "expected": {
+    "kind": "refusal",
+    "value": "应说明没有三年前宠物的记忆（不得把现在的猫当三年前）"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "Y",
+     "start": "2023-01-01",
+     "end": "2023-12-31",
+     "phrase": "三年前",
+     "spec": 1
+    }
+   ],
+   "kept": [],
+   "kept_detail": [],
+   "abstain": true,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "no_time_match",
+   "status": "abstain",
+   "ok": true
+  },
+  {
+   "id": "T12",
+   "kind": "refusal",
+   "query": "上个月我去过几个城市？",
+   "expected": {
+    "kind": "refusal",
+    "value": "应说明没有“去过几个城市”的信息"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "M",
+     "start": "2026-10-01",
+     "end": "2026-10-31",
+     "phrase": "上个月",
+     "spec": 2
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "M",
+       "start": "2026-10-01",
+       "end": "2026-10-31",
+       "phrase": "上个月",
+       "spec": 2
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "上个月",
+     "score": 0.0
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": false
+  },
+  {
+   "id": "T13",
+   "kind": "refusal",
+   "query": "去年我买了什么车？",
+   "expected": {
+    "kind": "refusal",
+    "value": "应说明没有买车的记录"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "Y",
+     "start": "2025-01-01",
+     "end": "2025-12-31",
+     "phrase": "去年",
+     "spec": 1
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "Y",
+       "start": "2025-01-01",
+       "end": "2025-12-31",
+       "phrase": "去年",
+       "spec": 1
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "去年",
+     "score": 0.0
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": false
+  },
+  {
+   "id": "T14",
+   "kind": "refusal",
+   "query": "2024-03-01 我在哪？",
+   "expected": {
+    "kind": "refusal",
+    "value": "应说明该日期没有记忆"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "D",
+     "start": "2024-03-01",
+     "end": "2024-03-01",
+     "phrase": "2024-03-01",
+     "spec": 3
+    },
+    {
+     "kind": "M",
+     "start": "2024-03-01",
+     "end": "2024-03-31",
+     "phrase": "2024-03",
+     "spec": 2
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "D",
+       "start": "2026-10-15",
+       "end": "2026-10-15",
+       "phrase": "2026-10-15",
+       "spec": 3
+      },
+      {
+       "kind": "M",
+       "start": "2026-10-01",
+       "end": "2026-10-31",
+       "phrase": "2026-10",
+       "spec": 2
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "2026-10-15",
+     "score": 0.375
+    }
+   ],
+   "abstain": false,
+   "ambiguous": true,
+   "lazy": false,
+   "reason": "ambiguous_time_expression",
+   "status": "kept",
+   "ok": false
+  },
+  {
+   "id": "T15",
+   "kind": "refusal",
+   "query": "下周我要做什么？",
+   "expected": {
+    "kind": "refusal",
+    "value": "下周无对应块，应说明没有安排"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "R",
+     "start": "2026-11-09",
+     "end": "2026-11-15",
+     "phrase": "下周",
+     "spec": 3
+    }
+   ],
+   "kept": [],
+   "kept_detail": [],
+   "abstain": true,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "no_time_match",
+   "status": "abstain",
+   "ok": true
+  },
+  {
+   "id": "T16",
+   "kind": "value",
+   "query": "大前年我住在哪个城市？",
+   "expected": {
+    "kind": "value",
+    "value": "青岛",
+    "period": "2023"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "Y",
+     "start": "2024-01-01",
+     "end": "2024-12-31",
+     "phrase": "前年",
+     "spec": 1
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "Y",
+       "start": "2024-01-01",
+       "end": "2024-12-31",
+       "phrase": "前年",
+       "spec": 1
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "前年",
+     "score": 0.1667
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "T17",
+   "kind": "value",
+   "query": "这个月我在忙什么？",
+   "expected": {
+    "kind": "value",
+    "value": "答辩",
+    "period": "2026-11"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "M",
+     "start": "2026-11-01",
+     "end": "2026-11-30",
+     "phrase": "这个月",
+     "spec": 2
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "M",
+       "start": "2026-11-01",
+       "end": "2026-11-30",
+       "phrase": "这个月",
+       "spec": 2
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "这个月",
+     "score": 0.0
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "T18",
+   "kind": "value",
+   "query": "上周日我干了什么？",
+   "expected": {
+    "kind": "value",
+    "value": "牙医",
+    "period": "2026-11-01"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "R",
+     "start": "2026-10-26",
+     "end": "2026-11-01",
+     "phrase": "上周",
+     "spec": 3
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "R",
+       "start": "2026-10-26",
+       "end": "2026-11-01",
+       "phrase": "上周",
+       "spec": 3
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "上周",
+     "score": 0.4
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "T19",
+   "kind": "refusal",
+   "query": "昨天我喂了狗吗？",
+   "expected": {
+    "kind": "refusal",
+    "value": "应说明没有昨天的记录（不得编造喂过）"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "D",
+     "start": "2026-11-05",
+     "end": "2026-11-05",
+     "phrase": "昨天",
+     "spec": 3
+    }
+   ],
+   "kept": [],
+   "kept_detail": [],
+   "abstain": true,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "no_time_match",
+   "status": "abstain",
+   "ok": true
+  },
+  {
+   "id": "T20",
+   "kind": "refusal",
+   "query": "两年前的月薪是多少？",
+   "expected": {
+    "kind": "refusal",
+    "value": "应说明没有两年前的薪水记录（不得把现在两万当两年前）"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "Y",
+     "start": "2024-01-01",
+     "end": "2024-12-31",
+     "phrase": "两年前",
+     "spec": 1
+    }
+   ],
+   "kept": [],
+   "kept_detail": [],
+   "abstain": true,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "no_time_match",
+   "status": "abstain",
+   "ok": true
+  },
+  {
+   "id": "F01",
+   "kind": "value",
+   "query": "明天我要去哪？",
+   "expected": {
+    "kind": "value",
+    "value": "医院",
+    "period": "2026-11-07"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "D",
+     "start": "2026-11-07",
+     "end": "2026-11-07",
+     "phrase": "明天",
+     "spec": 3
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "D",
+       "start": "2026-11-07",
+       "end": "2026-11-07",
+       "phrase": "明天",
+       "spec": 3
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "明天",
+     "score": 0.8
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "F02",
+   "kind": "value",
+   "query": "下周我去哪出差？",
+   "expected": {
+    "kind": "value",
+    "value": "武汉",
+    "period": "2026-11-09..2026-11-15"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "R",
+     "start": "2026-11-09",
+     "end": "2026-11-15",
+     "phrase": "下周",
+     "spec": 3
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "R",
+       "start": "2026-11-09",
+       "end": "2026-11-15",
+       "phrase": "下周",
+       "spec": 3
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "下周",
+     "score": 0.5
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "F03",
+   "kind": "value",
+   "query": "下周三我要做什么？",
+   "expected": {
+    "kind": "value",
+    "value": "跟客户吃饭",
+    "period": "2026-11-11"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "R",
+     "start": "2026-11-09",
+     "end": "2026-11-15",
+     "phrase": "下周",
+     "spec": 3
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "R",
+       "start": "2026-11-09",
+       "end": "2026-11-15",
+       "phrase": "下周",
+       "spec": 3
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "下周",
+     "score": 0.6
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "F04",
+   "kind": "value",
+   "query": "下个月我要参加什么？",
+   "expected": {
+    "kind": "value",
+    "value": "婚礼",
+    "period": "2026-12"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "M",
+     "start": "2026-12-01",
+     "end": "2026-12-31",
+     "phrase": "下个月",
+     "spec": 2
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "M",
+       "start": "2026-12-01",
+       "end": "2026-12-31",
+       "phrase": "下个月",
+       "spec": 2
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "下个月",
+     "score": 0.75
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "F05",
+   "kind": "value",
+   "query": "明年我有什么打算？",
+   "expected": {
+    "kind": "value",
+    "value": "换工作",
+    "period": "2027"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "Y",
+     "start": "2027-01-01",
+     "end": "2027-12-31",
+     "phrase": "明年",
+     "spec": 1
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "Y",
+       "start": "2027-01-01",
+       "end": "2027-12-31",
+       "phrase": "明年",
+       "spec": 1
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "明年",
+     "score": 0.25
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "F06",
+   "kind": "value",
+   "query": "后年我想做什么？",
+   "expected": {
+    "kind": "value",
+    "value": "读研",
+    "period": "2028"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "Y",
+     "start": "2028-01-01",
+     "end": "2028-12-31",
+     "phrase": "后年",
+     "spec": 1
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "Y",
+       "start": "2028-01-01",
+       "end": "2028-12-31",
+       "phrase": "后年",
+       "spec": 1
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "后年",
+     "score": 0.3333
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": true
+  },
+  {
+   "id": "F07",
+   "kind": "abstain",
+   "query": "下周我要买什么电脑？",
+   "expected": {
+    "kind": "abstain",
+    "value": "未来区间无买电脑事实，应 abstain（不得编）"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "R",
+     "start": "2026-11-09",
+     "end": "2026-11-15",
+     "phrase": "下周",
+     "spec": 3
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "R",
+       "start": "2026-11-09",
+       "end": "2026-11-15",
+       "phrase": "下周",
+       "spec": 3
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "下周",
+     "score": 0.3333
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": false
+  },
+  {
+   "id": "F08",
+   "kind": "abstain",
+   "query": "明年我要搬去哪？",
+   "expected": {
+    "kind": "abstain",
+    "value": "明年无搬家事实，应 abstain"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "Y",
+     "start": "2027-01-01",
+     "end": "2027-12-31",
+     "phrase": "明年",
+     "spec": 1
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "Y",
+       "start": "2027-01-01",
+       "end": "2027-12-31",
+       "phrase": "明年",
+       "spec": 1
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "明年",
+     "score": 0.0
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": false
+  },
+  {
+   "id": "F09",
+   "kind": "fallback",
+   "query": "我下个月要去哪出差？",
+   "expected": {
+    "kind": "fallback",
+    "value": "块内两个未来时间（2026-12 / 2027-01），应回退不猜"
+   },
+   "anchor": "2026-11-06T09:00:00",
+   "query_intervals": [
+    {
+     "kind": "M",
+     "start": "2026-12-01",
+     "end": "2026-12-31",
+     "phrase": "下个月",
+     "spec": 2
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "M",
+       "start": "2026-12-01",
+       "end": "2026-12-31",
+       "phrase": "下个月",
+       "spec": 2
+      }
+     ],
+     "anchor": "2026-11-06T09:00:00",
+     "phrase": "下个月",
+     "score": 0.1667
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": false
+  },
+  {
+   "id": "F10",
+   "kind": "fallback",
+   "query": "下周三我在哪开会？",
+   "expected": {
+    "kind": "fallback",
+    "value": "created_at(2027-02-01) 晚于查询时点(2026-11-06)，指向不明，应回退"
+   },
+   "anchor": "2027-02-01T00:00:00",
+   "query_intervals": [
+    {
+     "kind": "R",
+     "start": "2027-02-08",
+     "end": "2027-02-14",
+     "phrase": "下周",
+     "spec": 3
+    }
+   ],
+   "kept": [
+    1
+   ],
+   "kept_detail": [
+    {
+     "id": 1,
+     "intervals": [
+      {
+       "kind": "R",
+       "start": "2027-02-08",
+       "end": "2027-02-14",
+       "phrase": "下周",
+       "spec": 3
+      }
+     ],
+     "anchor": "2027-02-01T09:00:00",
+     "phrase": "下周",
+     "score": 0.75
+    }
+   ],
+   "abstain": false,
+   "ambiguous": false,
+   "lazy": false,
+   "reason": "",
+   "status": "kept",
+   "ok": false
+  }
+ ]
+}
