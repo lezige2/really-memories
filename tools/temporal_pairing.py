@@ -14,6 +14,9 @@ import temporal_timeline as TL
 import temporal_retrieval as T
 
 TOPIC_MIN = 0.14
+PLACE_Q = __import__("re").compile(r"去哪|去哪里|哪儿|在哪里|在哪")
+PLACE_TXT = __import__("re").compile(
+    r"(?:去|在|到)[\u4e00-\u9fff]{2,6}(?:开会|出差|参加|会议|复查|培训|旅游)|地点(?:在)?")
 
 
 def _key(row):
@@ -66,7 +69,9 @@ def retrieve(query, now, rows, topk=4):
             q_end = max(i["end"] for i in qivs)
             if g["anchor"] and g["anchor"][:10] > q_end:
                 out["created_conflict"] = True
-        if hit and score >= TOPIC_MIN:
+        if hit and (score >= TOPIC_MIN or
+                    (PLACE_Q.search(str(query or "")) and
+                     PLACE_TXT.search(g["text"]))):
             cands.append((g, score))
     if not cands:
         out.update(abstain=True, reason="no_group_time_topic")
@@ -90,18 +95,19 @@ def retrieve(query, now, rows, topk=4):
 
 
 def _export(g, score, reason):
-    latest = None
-    for r in g["rows"]:
-        key = (str(r.get("created_at") or ""), int(r["id"]))
-        if latest is None or key > latest[0]:
-            latest = (key, r)
+    # 组内按 (created_at, id) 最新在前；latest_id=第一个
+    ordered = sorted(g["rows"],
+                     key=lambda r: (str(r.get("created_at") or ""), int(r["id"])),
+                     reverse=True)
     blocks = [{"id": int(r["id"]), "text": str(r.get("text") or ""),
-               "note": "event_block"} for r in g["rows"]]
-    if latest is not None:
+               "created_at": str(r.get("created_at") or ""),
+               "note": "event_block"} for r in ordered]
+    if blocks:
         blocks[0]["note"] = "fact_latest"
     ivs = sorted(g["intervals"], key=lambda i: -i.get("spec", 0))
     return {"group_id": g["group_id"], "score": round(float(score), 4),
             "reason": reason, "anchor": g["anchor"],
             "intervals": ivs,
             "phrases": [i.get("phrase") for i in g["intervals"]],
-            "blocks": blocks, "latest_id": int(latest[1]["id"]) if latest else None}
+            "blocks": blocks,
+            "latest_id": int(blocks[0]["id"]) if blocks else None}
