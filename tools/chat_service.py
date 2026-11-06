@@ -600,6 +600,7 @@ def build_app(args, data):
                       attribute_recency=bool(getattr(args, "attribute_recency", False)),
                       attribute_rerank=bool(getattr(args, "attribute_rerank", False)),
                       slot_direct=bool(getattr(args, "slot_direct", False)),
+                      temporal_memory=bool(getattr(args, "temporal_memory", False)),
                       no_evidence_guard=bool(getattr(args, "no_evidence_guard", True)),
                       audit_debug=bool(getattr(args, "audit_debug", False)),
                       topk=getattr(args, "topk", D.DEFAULT_TOPK),
@@ -641,6 +642,8 @@ def main(argv=None):
     ap.add_argument("--evidence-guard", dest="no_evidence_guard",
                     action=argparse.BooleanOptionalAction, default=True,
                     help="无证据守卫（默认开；--no-evidence-guard 关闭）")
+    ap.add_argument("--temporal-memory", action="store_true", default=False,
+                    help="时间两轴检索（默认关）")
     ap.add_argument("--slot-direct", action="store_true", default=False,
                     help="确定性槽位直答（默认关）")
     ap.add_argument("--attribute-rerank", action="store_true", default=False,

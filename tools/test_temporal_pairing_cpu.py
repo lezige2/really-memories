@@ -47,6 +47,15 @@ class PairTests(unittest.TestCase):
         self.assertIn("培训", texts)
         self.assertTrue(any(g["group_id"] == "G1" for g in r["groups"]))
 
+    def test_group_order_latest_first(self):
+        c = self.c["P01"]
+        r = TP.retrieve(c["query"], NOW, rows_of(c))
+        g = r["groups"][0]
+        ids = [b["id"] for b in g["blocks"]]
+        self.assertEqual(ids, sorted(ids, reverse=True))
+        self.assertEqual(g["latest_id"], ids[0])
+        self.assertEqual([b["id"] for b in r["kept"]][:len(ids)], ids)
+
     def test_topic_mismatch_abstain(self):
         c = self.c["P02"]
         self.assertTrue(TP.retrieve(c["query"], NOW, rows_of(c))["abstain"])
