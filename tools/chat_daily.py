@@ -56,6 +56,7 @@ import json_answer as jans               # noqa: E402  (强制 JSON 输出；默
 import shadow_dedup as sdedup            # noqa: E402  (影子去重；仅诊断)
 import attribute_recency as arec         # noqa: E402  (属性最新值 POC；默认 off)
 import no_evidence_policy as nep         # noqa: E402  (无证据守卫；默认 on)
+import temporal_retrieval as trec       # noqa: E402  (时间两轴；默认 off)
 # P1b 代码不入库：可选依赖，只包这一个符号；缺失则功能 off + debug（不静默）
 try:
     import p1b_subject as _p1b
@@ -639,7 +640,7 @@ class DailyApp:
                  lifecycle_fallback=False, audit_enabled=False, audit_debug=False,
                  soft_limit=200, hard_limit=2000, confirm_first_archive=False,
                  attribute_recency=False, attribute_rerank=False, slot_direct=False,
-                 no_evidence_guard=True,
+                 no_evidence_guard=True, temporal_memory=False,
                  archive_days=21,
                  archive_state_file=None, backup_dir=None):
         self.eng = engine
@@ -703,6 +704,8 @@ class DailyApp:
         self.attribute_rerank = bool(attribute_rerank)
         self.slot_direct = bool(slot_direct)
         self.no_evidence_guard = bool(no_evidence_guard)
+        self.temporal_memory = bool(temporal_memory)
+        self._last_temporal = None
         self._slot_stats = {"attempted": 0, "applied": 0}
         self._last_slot_direct = None
         self._last_attr = None
@@ -2087,6 +2090,7 @@ class DailyApp:
             raise DailyError("bad_request", "问题为空")
         t0 = time.perf_counter()
         self._audit_trace = uuid.uuid4().hex if self.audit_enabled else None
+        self._last_temporal = None
         _slot = self._slot_direct_answer(text)
         _meta = self._meta_answer_text(text)
         if _meta is not None:
@@ -2113,6 +2117,16 @@ class DailyApp:
             pass
         try:
             res = self._no_evidence_guard(text, res)
+        except Exception:                                # noqa: BLE001
+            pass
+        try:
+            if getattr(self, "temporal_memory", False) and self._last_temporal:
+                _tm = dict(self._last_temporal)
+                res["temporal_memory"] = _tm
+                if _tm.get("abstain"):
+                    res["answer"] = "那段时间没有记录。"
+                    res["block_ids"] = []
+                    res["state"] = "temporal_abstain"
         except Exception:                                # noqa: BLE001
             pass
         try:
@@ -3642,6 +3656,40 @@ class DailyApp:
                         pass
             except Exception:                        # noqa: BLE001
                 pass
+        if getattr(self, "temporal_memory", False) and sel:
+            try:
+                now = datetime.now()
+                if trec.is_retrospective(text, now):
+                    rows = []
+                    for s_ in sel:
+                        sid = int(s_.get("source_id"))
+                        r = self.con.execute(
+                            "SELECT id,text,created_at FROM memory_source"
+                            " WHERE id=?", (sid,)).fetchone()
+                        if r:
+                            rows.append({"id": int(r[0]), "text": str(r[1] or ""),
+                                         "created_at": str(r[2] or "")})
+                    tr = trec.search(text, now, rows, topk=len(rows) or 4)
+                    self._last_temporal = tr
+                    if tr["abstain"]:
+                        sel = []
+                    else:
+                        order = [k["id"] for k in tr["kept"]]
+                        by_id = {int(s_["source_id"]): s_ for s_ in sel}
+                        sel = [by_id[i] for i in order if i in by_id]
+                    if getattr(self, "logger", None):
+                        try:
+                            self.logger.log_warning(
+                                "temporal_memory", "temporal two-axis",
+                                evidence={"normalized_query":
+                                          (tr["normalized_query"] or {}).get("start"),
+                                          "abstain": tr["abstain"],
+                                          "reason": tr["reason"],
+                                          "ids": [k["id"] for k in tr["kept"]]})
+                        except Exception:            # noqa: BLE001
+                            pass
+            except Exception:                        # noqa: BLE001
+                pass
         try:
             if getattr(self, "audit_enabled", False) and getattr(
                     self, "audit_debug", False):
@@ -4809,6 +4857,8 @@ def build_arg_parser():
     ap.add_argument("--evidence-guard", dest="no_evidence_guard",
                     action=argparse.BooleanOptionalAction, default=True,
                     help="无证据守卫（默认开；--no-evidence-guard 关闭）")
+    ap.add_argument("--temporal-memory", action="store_true", default=False,
+                    help="时间两轴检索（默认关；只检索不改答案）")
     ap.add_argument("--slot-direct", action="store_true", default=False,
                     help="确定性槽位直答（默认关；仅 phone/fitness）")
     ap.add_argument("--attribute-rerank", action="store_true", default=False,
@@ -4920,6 +4970,7 @@ def main(argv=None):
                        attribute_recency=getattr(args, "attribute_recency", False),
                        attribute_rerank=getattr(args, "attribute_rerank", False),
                        slot_direct=getattr(args, "slot_direct", False),
+                       temporal_memory=getattr(args, "temporal_memory", False),
                        no_evidence_guard=getattr(args, "no_evidence_guard", True),
                        audit_debug=getattr(args, "audit_debug", False),
                        topk=args.topk, rollover_at=args.rollover_at,

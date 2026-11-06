@@ -1,0 +1,184 @@
+{
+ "schema": "temporal_e2e_v1",
+ "time15": {
+  "hits": 8,
+  "n": 15,
+  "gate": ">=14/15",
+  "met": false,
+  "rows": [
+   {
+    "id": "T01",
+    "norm": "2025-01-01",
+    "kind": "Y",
+    "kept": [
+     21
+    ],
+    "abstain": false,
+    "hit": true,
+    "answer": "你去年去过云南大理"
+   },
+   {
+    "id": "T02",
+    "norm": "2024-01-01",
+    "kind": "Y",
+    "kept": [
+     22
+    ],
+    "abstain": false,
+    "hit": true,
+    "answer": "前年你在成都工作"
+   },
+   {
+    "id": "T03",
+    "norm": "2023-01-01",
+    "kind": "Y",
+    "kept": [
+     23
+    ],
+    "abstain": false,
+    "hit": true,
+    "answer": "三年前我在苏州上班。"
+   },
+   {
+    "id": "T04",
+    "norm": "2026-10-01",
+    "kind": "M",
+    "kept": [
+     24,
+     32
+    ],
+    "abstain": false,
+    "hit": true,
+    "answer": "上个月体检的时候医生说你的血脂偏高。其他的具体情况我就记不清了，你可以查看一下你的体检报告，上面应该会有详细的说明"
+   },
+   {
+    "id": "T05",
+    "norm": "2026-10-26",
+    "kind": "R",
+    "kept": [
+     25
+    ],
+    "abstain": false,
+    "hit": true,
+    "answer": "上周你去南京出差了"
+   },
+   {
+    "id": "T06",
+    "norm": "2026-11-04",
+    "kind": "D",
+    "kept": [
+     26
+    ],
+    "abstain": false,
+    "hit": true,
+    "answer": "前天你买了显示器"
+   },
+   {
+    "id": "T07",
+    "norm": "2027-01-01",
+    "kind": "Y",
+    "kept": [],
+    "abstain": true,
+    "hit": false,
+    "answer": "这个得你自己想想，我这边暂时没有记录你具体的计划。不过可以考虑下工作、学习或者旅行方面的目标"
+   },
+   {
+    "id": "T08",
+    "norm": "2026-12-01",
+    "kind": "M",
+    "kept": [
+     28
+    ],
+    "abstain": false,
+    "hit": false,
+    "answer": "下个月你要准备续签租房合同。其他具体安排记得提醒我一下"
+   },
+   {
+    "id": "T09",
+    "norm": "2026-12-01",
+    "kind": "M",
+    "kept": [
+     28
+    ],
+    "abstain": false,
+    "hit": false,
+    "answer": "你是在2026年10月15日去体检的"
+   },
+   {
+    "id": "T10",
+    "norm": "2026-12-01",
+    "kind": "M",
+    "kept": [
+     28
+    ],
+    "abstain": false,
+    "hit": false,
+    "answer": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "id": "T11",
+    "norm": "2023-01-01",
+    "kind": "Y",
+    "kept": [
+     23
+    ],
+    "abstain": false,
+    "hit": false,
+    "answer": "对不起，我真的记不清三年前你养过什么宠物了"
+   },
+   {
+    "id": "T12",
+    "norm": "2026-10-01",
+    "kind": "M",
+    "kept": [],
+    "abstain": true,
+    "hit": false,
+    "answer": "这个我记不清了，你可以查一下手机或者日历，应该能找到答案"
+   },
+   {
+    "id": "T13",
+    "norm": "2025-01-01",
+    "kind": "Y",
+    "kept": [],
+    "abstain": true,
+    "hit": false,
+    "answer": "这个我记不清了，你可以查一下购车时的记录或者发票，应该会有详细信息"
+   },
+   {
+    "id": "T14",
+    "norm": "2024-03-01",
+    "kind": "D",
+    "kept": [],
+    "abstain": true,
+    "hit": true,
+    "answer": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "id": "T15",
+    "norm": "2026-11-09",
+    "kind": "R",
+    "kept": [],
+    "abstain": true,
+    "hit": true,
+    "answer": "这个我没法确认：你没跟我提过下周的安排。"
+   }
+  ]
+ },
+ "laziness": {
+  "stale_temporal_on_no_time_query": true,
+  "evidence": "问完「下周我要做什么？」后问「我的猫叫什么？」，响应仍返回 temporal_memory={query:下周我要做什么？, norm start 2026-11-09}",
+  "isolated_T09_norm": "2026-11-09（应为 2026-10-15）"
+ },
+ "regression81": {
+  "pass": 77,
+  "n": 81,
+  "base": 81,
+  "fails": [
+   "m06",
+   "m08",
+   "h02",
+   "h03"
+  ]
+ },
+ "verdict": "FAIL：15 题 8/15（门 14）；81 77/81（基线 81/81，回归 m06/m08/h02/h03，均为含时间词的出差/会议题）；惰性失效——_last_temporal 未按请求清空，无时间问题也返回上次的时间结果并可能清空 sel"
+}

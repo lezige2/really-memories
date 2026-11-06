@@ -1,0 +1,341 @@
+{
+ "cases": [
+  {
+   "id": "T01",
+   "query": "我去年去过哪？",
+   "answer": "你去年去过云南大理",
+   "hit": true,
+   "expected": {
+    "kind": "value",
+    "value": "云南大理",
+    "period": "2025"
+   },
+   "norm": "2025-01-01",
+   "kind": "Y",
+   "kept": [
+    21
+   ],
+   "abstain": false,
+   "anchor": "2026-11-06T19:14:52.236798"
+  },
+  {
+   "id": "T02",
+   "query": "前年我在哪工作？",
+   "answer": "前年你在成都工作",
+   "hit": true,
+   "expected": {
+    "kind": "value",
+    "value": "成都",
+    "period": "2024"
+   },
+   "norm": "2024-01-01",
+   "kind": "Y",
+   "kept": [
+    22
+   ],
+   "abstain": false,
+   "anchor": "2026-11-06T19:14:54.397468"
+  },
+  {
+   "id": "T03",
+   "query": "三年前我在哪上班？",
+   "answer": "三年前我在苏州上班。",
+   "hit": true,
+   "expected": {
+    "kind": "value",
+    "value": "苏州",
+    "period": "2023"
+   },
+   "norm": "2023-01-01",
+   "kind": "Y",
+   "kept": [
+    23
+   ],
+   "abstain": false,
+   "anchor": "2026-11-06T19:14:56.580477"
+  },
+  {
+   "id": "T04",
+   "query": "上个月我体检结果怎么样？",
+   "answer": "上个月体检的时候医生说你的血脂偏高。其他情况记不清了，你可以查看一下体检报告",
+   "hit": true,
+   "expected": {
+    "kind": "value",
+    "value": "血脂偏高",
+    "period": "2026-10"
+   },
+   "norm": "2026-10-01",
+   "kind": "M",
+   "kept": [
+    24
+   ],
+   "abstain": false,
+   "anchor": "2026-11-06T19:15:01.681822"
+  },
+  {
+   "id": "T05",
+   "query": "上周我去哪出差？",
+   "answer": "上周你去南京出差了",
+   "hit": true,
+   "expected": {
+    "kind": "value",
+    "value": "南京",
+    "period": "2026-10-26..2026-11-01"
+   },
+   "norm": "2026-10-26",
+   "kind": "R",
+   "kept": [
+    25
+   ],
+   "abstain": false,
+   "anchor": "2026-11-06T19:15:05.716416"
+  },
+  {
+   "id": "T06",
+   "query": "前天我买了什么？",
+   "answer": "前天你买了显示器",
+   "hit": true,
+   "expected": {
+    "kind": "value",
+    "value": "显示器",
+    "period": "2026-11-04"
+   },
+   "norm": "2026-11-04",
+   "kind": "D",
+   "kept": [
+    26
+   ],
+   "abstain": false,
+   "anchor": "2026-11-06T19:15:07.952637"
+  },
+  {
+   "id": "T07",
+   "query": "明年我有什么计划？",
+   "answer": "这条我没法从记忆里核对，先不猜。",
+   "hit": false,
+   "expected": {
+    "kind": "value",
+    "value": "考一个证书",
+    "period": "2027"
+   },
+   "norm": null,
+   "kind": null,
+   "kept": [],
+   "abstain": null,
+   "anchor": null
+  },
+  {
+   "id": "T08",
+   "query": "下个月我要做什么？",
+   "answer": "下个月你要准备续签租房合同。其他具体安排记得不是很清楚了，如果还有别的事应该会再提醒你",
+   "hit": false,
+   "expected": {
+    "kind": "value",
+    "value": "交续租合同",
+    "period": "2026-12"
+   },
+   "norm": null,
+   "kind": null,
+   "kept": [],
+   "abstain": null,
+   "anchor": null
+  },
+  {
+   "id": "T09",
+   "query": "我哪天去体检？",
+   "answer": "你是在2026年10月15日去体检的",
+   "hit": false,
+   "expected": {
+    "kind": "value",
+    "value": "2026-10-15",
+    "period": "2026-10-15"
+   },
+   "norm": null,
+   "kind": null,
+   "kept": [],
+   "abstain": null,
+   "anchor": null
+  },
+  {
+   "id": "T10",
+   "query": "我什么时候搬的家？",
+   "answer": "这个我没法确认：你没跟我说过。",
+   "hit": false,
+   "expected": {
+    "kind": "value",
+    "value": "2026-10",
+    "period": "2026-10",
+    "note": "月比年更具体，不得给 2025"
+   },
+   "norm": null,
+   "kind": null,
+   "kept": [],
+   "abstain": null,
+   "anchor": null
+  },
+  {
+   "id": "T11",
+   "query": "三年前我养过什么宠物？",
+   "answer": "对不起，我真的记不清三年前你养过什么宠物了",
+   "hit": false,
+   "expected": {
+    "kind": "refusal",
+    "value": "应说明没有三年前宠物的记忆（不得把现在的猫当三年前）"
+   },
+   "norm": "2023-01-01",
+   "kind": "Y",
+   "kept": [
+    23
+   ],
+   "abstain": false,
+   "anchor": "2026-11-06T19:15:27.669117"
+  },
+  {
+   "id": "T12",
+   "query": "上个月我去过几个城市？",
+   "answer": "那段时间没有记录。",
+   "hit": true,
+   "expected": {
+    "kind": "refusal",
+    "value": "应说明没有“去过几个城市”的信息"
+   },
+   "norm": "2026-10-01",
+   "kind": "M",
+   "kept": [],
+   "abstain": true,
+   "anchor": "2026-11-06T19:15:33.346017"
+  },
+  {
+   "id": "T13",
+   "query": "去年我买了什么车？",
+   "answer": "那段时间没有记录。",
+   "hit": true,
+   "expected": {
+    "kind": "refusal",
+    "value": "应说明没有买车的记录"
+   },
+   "norm": "2025-01-01",
+   "kind": "Y",
+   "kept": [],
+   "abstain": true,
+   "anchor": "2026-11-06T19:15:36.237927"
+  },
+  {
+   "id": "T14",
+   "query": "2024-03-01 我在哪？",
+   "answer": "那段时间没有记录。",
+   "hit": true,
+   "expected": {
+    "kind": "refusal",
+    "value": "应说明该日期没有记忆"
+   },
+   "norm": "2024-03-01",
+   "kind": "D",
+   "kept": [],
+   "abstain": true,
+   "anchor": "2026-11-06T19:15:40.109950"
+  },
+  {
+   "id": "T15",
+   "query": "下周我要做什么？",
+   "answer": "这个我没法确认：你没跟我提过下周的安排。",
+   "hit": true,
+   "expected": {
+    "kind": "refusal",
+    "value": "下周无对应块，应说明没有安排"
+   },
+   "norm": null,
+   "kind": null,
+   "kept": [],
+   "abstain": null,
+   "anchor": null
+  },
+  {
+   "id": "T16",
+   "query": "大前年我住在哪个城市？",
+   "answer": "大前年你在青岛住过",
+   "hit": true,
+   "expected": {
+    "kind": "value",
+    "value": "青岛",
+    "period": "2023"
+   },
+   "norm": "2024-01-01",
+   "kind": "Y",
+   "kept": [
+    34
+   ],
+   "abstain": false,
+   "anchor": "2026-11-06T19:15:40.576237"
+  },
+  {
+   "id": "T17",
+   "query": "这个月我在忙什么？",
+   "answer": "你这个月在准备答辩",
+   "hit": true,
+   "expected": {
+    "kind": "value",
+    "value": "答辩",
+    "period": "2026-11"
+   },
+   "norm": null,
+   "kind": null,
+   "kept": [],
+   "abstain": null,
+   "anchor": null
+  },
+  {
+   "id": "T18",
+   "query": "上周日我干了什么？",
+   "answer": "上周日你去看牙医了",
+   "hit": true,
+   "expected": {
+    "kind": "value",
+    "value": "牙医",
+    "period": "2026-11-01"
+   },
+   "norm": "2026-10-26",
+   "kind": "R",
+   "kept": [
+    36
+   ],
+   "abstain": false,
+   "anchor": "2026-11-06T19:15:50.521392"
+  },
+  {
+   "id": "T19",
+   "query": "昨天我喂了狗吗？",
+   "answer": "那段时间没有记录。",
+   "hit": true,
+   "expected": {
+    "kind": "refusal",
+    "value": "应说明没有昨天的记录（不得编造喂过）"
+   },
+   "norm": "2026-11-05",
+   "kind": "D",
+   "kept": [],
+   "abstain": true,
+   "anchor": "2026-11-06T19:15:53.118247"
+  },
+  {
+   "id": "T20",
+   "query": "两年前的月薪是多少？",
+   "answer": "那段时间没有记录。",
+   "hit": true,
+   "expected": {
+    "kind": "refusal",
+    "value": "应说明没有两年前的薪水记录（不得把现在两万当两年前）"
+   },
+   "norm": "2024-01-01",
+   "kind": "Y",
+   "kept": [],
+   "abstain": true,
+   "anchor": "2026-11-06T19:15:53.490736"
+  }
+ ],
+ "residual": {
+  "time_ask_has_tm": false,
+  "next_no_time_has_tm": false,
+  "next_tm": null
+ }
+}
