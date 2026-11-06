@@ -637,7 +637,7 @@ class DailyApp:
                  lifecycle_archive=False, archive_dir=None,
                  lifecycle_fallback=False, audit_enabled=False, audit_debug=False,
                  soft_limit=200, hard_limit=2000, confirm_first_archive=False,
-                 attribute_recency=False,
+                 attribute_recency=False, attribute_rerank=False, slot_direct=False,
                  archive_days=21,
                  archive_state_file=None, backup_dir=None):
         self.eng = engine
@@ -698,7 +698,12 @@ class DailyApp:
         self.backup_dir = backup_dir or os.path.join(ROOT, "out", "p1", "backup")
         self.archive_days = int(archive_days)
         self.attribute_recency = bool(attribute_recency)
+        self.attribute_rerank = bool(attribute_rerank)
+        self.slot_direct = bool(slot_direct)
+        self._slot_stats = {"attempted": 0, "applied": 0}
+        self._last_slot_direct = None
         self._last_attr = None
+        self._last_rerank = None
         self._audit_trace = None
         self.archive_dir = archive_dir
         self._last_shadow = {"enabled": self.dedup_shadow, "checked": 0, "hits": []}
@@ -2030,12 +2035,56 @@ class DailyApp:
             pass
         return len(ids)
 
+    def _slot_direct_answer(self, text):
+        if not getattr(self, "slot_direct", False):
+            return None
+        self._slot_stats["attempted"] += 1
+        try:
+            rows = []
+            for r in self.con.execute(
+                    "SELECT id,text,created_at,tenant,scope FROM memory_source"
+                    " ORDER BY id"):
+                rows.append({"id": int(r[0]), "text": str(r[1] or ""),
+                             "created_at": str(r[2] or ""),
+                             "tenant": r[3], "scope": r[4]})
+            # 未归档/未 supersede
+            try:
+                bad = ml.archived_ids(self.con)
+                rows = [r for r in rows if int(r["id"]) not in bad]
+            except Exception:                        # noqa: BLE001
+                pass
+            try:
+                if _p1b is not None:
+                    side = _p1b.Sidecar(_p1b.sidecar_path(self.db_path)).load()
+                    sup = _p1b.superseded_ids(side)
+                    rows = [r for r in rows if int(r["id"]) not in sup]
+            except Exception:                        # noqa: BLE001
+                pass
+            d = arec.direct_answer(text, rows)
+            self._last_slot_direct = d
+            if d.get("applied"):
+                self._slot_stats["applied"] += 1
+                ans = d["value"]
+                return {"answer": ans, "block_ids": [int(d["block_id"])],
+                        "state": "slot_direct", "refused": False,
+                        "latency_s": 0.0, "chars": len(ans),
+                        "slot_direct": {"attr": d.get("attribute"),
+                                        "value": ans,
+                                        "block_id": int(d["block_id"]),
+                                        "reason": d.get("reason")},
+                        "k2": dict(getattr(self, "_last_k2", None) or
+                                   {"mode": self.k2_mode, "gate_reason": "off"})}
+        except Exception:                            # noqa: BLE001
+            return None
+        return None
+
     def ask(self, text):
         text = str(text or "").strip()
         if not text:
             raise DailyError("bad_request", "问题为空")
         t0 = time.perf_counter()
         self._audit_trace = uuid.uuid4().hex if self.audit_enabled else None
+        _slot = self._slot_direct_answer(text)
         _meta = self._meta_answer_text(text)
         if _meta is not None:
             try:
@@ -2044,7 +2093,9 @@ class DailyApp:
             except Exception:                            # noqa: BLE001
                 pass
             return _meta
-        if NATURAL_MODE:
+        if _slot is not None:
+            res = _slot                              # 直答也走公共后处理
+        elif NATURAL_MODE:
             res = self._ask_natural(text, t0)
         else:
             res = self._ask_strict(text, t0)
@@ -2055,6 +2106,11 @@ class DailyApp:
             pass
         try:
             res = self._json_finalize(text, res, t0)
+        except Exception:                                # noqa: BLE001
+            pass
+        try:
+            if getattr(self, "attribute_rerank", False) and self._last_rerank:
+                res["attribute_rerank"] = dict(self._last_rerank)
         except Exception:                                # noqa: BLE001
             pass
         try:
@@ -3420,6 +3476,7 @@ class DailyApp:
         t0 = time.perf_counter()
         sel = self._p1b_filter(self._retrieval_select_k2(text))
         self._last_attr = None
+        self._last_rerank = None
         if getattr(self, "attribute_recency", False) and sel:
             try:
                 meta = {}
@@ -3444,6 +3501,36 @@ class DailyApp:
                             evidence={"attribute": d.get("attribute"),
                                       "kept": d.get("kept"),
                                       "hidden": d.get("hidden"),
+                                      "reason": d.get("reason")})
+                    except Exception:                # noqa: BLE001
+                        pass
+            except Exception:                        # noqa: BLE001
+                pass
+        if getattr(self, "attribute_rerank", False) and sel:
+            try:
+                meta = {}
+                for s_ in sel:
+                    sid = int(s_.get("source_id"))
+                    r = self.con.execute(
+                        "SELECT created_at,text FROM memory_source WHERE id=?",
+                        (sid,)).fetchone()
+                    if r:
+                        meta[sid] = {"created_at": str(r[0] or ""),
+                                     "text": str(r[1] or "")}
+                d = arec.apply_rerank(text, sel, meta)
+                self._last_rerank = d
+                if d.get("applied") and d.get("order"):
+                    by_id = {int(s_["source_id"]): s_ for s_ in sel}
+                    seq = [by_id[i] for i in d["order"] if i in by_id]
+                    seq += [s_ for s_ in sel
+                            if int(s_["source_id"]) not in set(d["order"])]
+                    sel = seq
+                if d.get("attribute") and getattr(self, "logger", None):
+                    try:
+                        self.logger.log_warning(
+                            "attribute_rerank", "attribute rerank POC",
+                            evidence={"attribute": d.get("attribute"),
+                                      "order": d.get("order"),
                                       "reason": d.get("reason")})
                     except Exception:                # noqa: BLE001
                         pass
@@ -4613,6 +4700,10 @@ def build_arg_parser():
                     help="P1b 主体键软覆盖（默认关；sidecar，不改 daily）")
     # do-not-enable: parse_fail 100%, w03 regression; see out/JSON-E2E-DEFAULT.md
     # do-not-enable-for-merge: diagnostic only
+    ap.add_argument("--slot-direct", action="store_true", default=False,
+                    help="确定性槽位直答（默认关；仅 phone/fitness）")
+    ap.add_argument("--attribute-rerank", action="store_true", default=False,
+                    help="K3' 属性只重排（默认关；不隐藏）")
     ap.add_argument("--attribute-recency", action="store_true", default=False,
                     help="属性最新值 POC（默认关；手机号/健身时间）")
     ap.add_argument("--lifecycle-archive-days", type=int, default=21,
@@ -4718,6 +4809,8 @@ def main(argv=None):
                        confirm_first_archive=getattr(args, "confirm_first_archive", False),
                        archive_days=getattr(args, "lifecycle_archive_days", 21),
                        attribute_recency=getattr(args, "attribute_recency", False),
+                       attribute_rerank=getattr(args, "attribute_rerank", False),
+                       slot_direct=getattr(args, "slot_direct", False),
                        audit_debug=getattr(args, "audit_debug", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,

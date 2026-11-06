@@ -74,6 +74,104 @@ class RuleTests(unittest.TestCase):
         self.assertFalse(A.apply_filter("今天天气如何", sel([1]), {})["applied"])
 
 
+class RerankTests(unittest.TestCase):
+    def test_phone_rerank_new_first_all_kept(self):
+        m = meta([(1, "2026-01-01T00:00:00", "我的手机号是139-0000-1111"),
+                  (2, "2026-02-01T00:00:00", "我的手机号是138-0000-2222")])
+        d = A.apply_rerank("我的手机号是多少？", sel([1, 2]), m)
+        self.assertTrue(d["applied"])
+        self.assertEqual(d["order"], [2, 1])
+        self.assertEqual(sorted(d["order"]), [1, 2])   # 不隐藏
+
+    def test_fitness_rerank(self):
+        m = meta([(1, "2026-01-01T00:00:00", "我周一早上七点健身"),
+                  (2, "2026-02-01T00:00:00", "我周三晚上八点健身")])
+        d = A.apply_rerank("我几点健身？", sel([1, 2]), m)
+        self.assertTrue(d["applied"])
+        self.assertEqual(d["order"], [2, 1])
+
+    def test_unvalued_block_last_stable(self):
+        m = meta([(1, "2026-01-01T00:00:00", "我的手机号是13900001111"),
+                  (2, "2026-02-01T00:00:00", "我的手机号是13800002222"),
+                  (3, "2026-01-15T00:00:00", "今天天气不错")])
+        d = A.apply_rerank("我的手机号是多少？", sel([3, 1, 2]), m)
+        self.assertEqual(d["order"], [2, 1, 3])        # 无值块随后
+
+    def test_multi_entity_no_rerank(self):
+        m = meta([(1, "2026-01-01T00:00:00", "我的手机号是13900001111"),
+                  (2, "2026-02-01T00:00:00", "我还有一只手机号是13800002222")])
+        d = A.apply_rerank("我的手机号是多少？", sel([1, 2]), m)
+        self.assertFalse(d["applied"])
+        self.assertEqual(d["reason"], "multi_entity")
+
+    def test_one_valued_no_rerank(self):
+        m = meta([(1, "2026-01-01T00:00:00", "我的手机号是13900001111"),
+                  (2, "2026-01-15T00:00:00", "今天天气不错")])
+        d = A.apply_rerank("我的手机号是多少？", sel([1, 2]), m)
+        self.assertFalse(d["applied"])
+
+
+class DirectTests(unittest.TestCase):
+    def test_phone_latest_exact_bytes(self):
+        rows = [{"id": 1, "text": "我的手机号是139-0000-1111",
+                 "created_at": "2026-01-01T00:00:00"},
+                {"id": 2, "text": "我的手机号是138-0000-2222",
+                 "created_at": "2026-02-01T00:00:00"}]
+        d = A.direct_answer("我的手机号是多少？", rows)
+        self.assertTrue(d["applied"])
+        self.assertEqual(d["value"], "138-0000-2222")   # 逐字节原文
+        self.assertEqual(d["block_id"], 2)
+
+    def test_fitness_latest(self):
+        rows = [{"id": 1, "text": "我周一早上七点健身",
+                 "created_at": "2026-01-01T00:00:00"},
+                {"id": 2, "text": "我周三晚上八点健身",
+                 "created_at": "2026-02-01T00:00:00"}]
+        d = A.direct_answer("我几点健身？", rows)
+        self.assertTrue(d["applied"])
+        self.assertEqual(d["block_id"], 2)
+        self.assertIn("周三", d["value"])
+
+    def test_multi_entity_fallback(self):
+        rows = [{"id": 1, "text": "我的手机号是13900001111",
+                 "created_at": "2026-01-01T00:00:00"},
+                {"id": 2, "text": "我还有一只手机号是13800002222",
+                 "created_at": "2026-02-01T00:00:00"}]
+        self.assertFalse(A.direct_answer("我的手机号是多少？", rows)["applied"])
+
+    def test_negation_fallback(self):
+        rows = [{"id": 1, "text": "我的手机号是13900001111",
+                 "created_at": "2026-01-01T00:00:00"},
+                {"id": 2, "text": "那个号码算了，不是这个",
+                 "created_at": "2026-02-01T00:00:00"}]
+        d = A.direct_answer("我的手机号是多少？", rows)
+        self.assertFalse(d["applied"])
+        self.assertEqual(d["reason"], "negation_in_latest")
+
+    def test_same_second_id_tiebreak(self):
+        rows = [{"id": 1, "text": "我的手机号是13900001111",
+                 "created_at": "2026-02-01T00:00:00"},
+                {"id": 2, "text": "我的手机号是13800002222",
+                 "created_at": "2026-02-01T00:00:00"}]
+        d = A.direct_answer("我的手机号是多少？", rows)
+        self.assertTrue(d["applied"])
+        self.assertEqual(d["block_id"], 2)
+        self.assertEqual(d["reason"], "latest_same_second")
+
+    def test_fitness_full_values(self):
+        rows = [{"id": 1, "text": "我周二晚上七点四十健身",
+                 "created_at": "2026-02-01T00:00:00"}]
+        d = A.direct_answer("我几点健身？", rows)
+        self.assertTrue(d["applied"])
+        self.assertIn("七点四十", d["value"])
+        rows2 = [{"id": 1, "text": "我周二晚上九点半健身",
+                  "created_at": "2026-02-01T00:00:00"}]
+        self.assertIn("九点半", A.direct_answer("我几点健身？", rows2)["value"])
+        rows3 = [{"id": 1, "text": "我周二早上七点健身",
+                  "created_at": "2026-02-01T00:00:00"}]
+        self.assertIn("七点", A.direct_answer("我几点健身？", rows3)["value"])
+
+
 class WireTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -95,6 +193,81 @@ class WireTests(unittest.TestCase):
             app._ask_natural = lambda t, t0: {"answer": "x", "block_ids": []}
             res = app.ask("我的手机号是多少")
         self.assertNotIn("attribute_recency", res)
+
+    def test_slot_direct_off(self):
+        app = self.make_app(False)
+        with mock.patch.object(D, "NATURAL_MODE", True):
+            app._ask_natural = lambda t, t0: {"answer": "模型答案", "block_ids": []}
+            res = app.ask("我的手机号是多少")
+        self.assertNotEqual(res.get("state"), "slot_direct")
+        self.assertNotIn("slot_direct", res)
+
+    def test_slot_direct_audit_and_access(self):
+        import json as _json
+        import time as _t
+        tmp = tempfile.mkdtemp(prefix="sd_aud_")
+        model = os.path.join(tmp, "model.stub")
+        D.install_fake_model(model)
+        adir = os.path.join(tmp, "audit")
+        os.environ["LLAMA_AUDIT_DIR"] = adir
+        app = D.DailyApp(D.StubEngine(), db_path=os.path.join(tmp, "d.db"),
+                         blocks_dir=os.path.join(tmp, "b"),
+                         sessions_dir=os.path.join(tmp, "s"),
+                         model_path=model, restore=False,
+                         retrieval_mode="topk", topk=4, logger=False,
+                         slot_direct=True, memory_access=True,
+                         audit_enabled=True)
+        app.remember("我的手机号是138-0000-2222")
+        res = app.ask("我的手机号是多少？")
+        self.assertEqual(res["state"], "slot_direct")
+        app.flush_access(1.0)
+        end = _t.time() + 2
+        n = 0
+        while _t.time() < end:
+            try:
+                n = app.con.execute("SELECT COUNT(*) FROM memory_access").fetchone()[0]
+                if n:
+                    break
+            except Exception:                        # noqa: BLE001
+                pass
+            _t.sleep(0.02)
+        self.assertGreaterEqual(n, 1)                  # access 仍记录
+        f = [x for x in os.listdir(adir) if x.endswith(".jsonl")][0]
+        evs = [_json.loads(l) for l in open(os.path.join(adir, f), encoding="utf-8")]
+        self.assertTrue([e for e in evs if e["stage"] == "answer"])
+
+    def test_slot_direct_on_returns_db_value(self):
+        app = self.make_app(False)
+        app.slot_direct = True
+        import time as _t
+        app.remember("我的手机号是139-0000-1111")
+        _t.sleep(1.05)                                  # 避开同秒冲突
+        app.remember("我的手机号是138-0000-2222")
+        res = app.ask("我的手机号是多少？")
+        self.assertEqual(res["state"], "slot_direct")
+        self.assertEqual(res["answer"], "138-0000-2222")
+        self.assertTrue(res["block_ids"])
+        self.assertEqual(app._slot_stats["applied"], 1)
+
+    def test_rerank_off_no_field(self):
+        app = self.make_app(False)
+        with mock.patch.object(D, "NATURAL_MODE", True):
+            app._ask_natural = lambda t, t0: {"answer": "x", "block_ids": []}
+            res = app.ask("我的手机号是多少")
+        self.assertNotIn("attribute_rerank", res)
+
+    def test_wire_rerank_changes_order_keeps_all(self):
+        app = self.make_app(False)
+        app.attribute_rerank = True
+        app.remember("我的手机号是13900001111")
+        app.remember("我的手机号是13800002222")
+        ids = [r[0] for r in app._rows()]
+        app._retrieval_select_k2 = lambda text: [
+            {"source_id": i, "name": "m%d" % i, "score": 1.0} for i in ids]
+        out = app._retrieval_select("我的手机号是多少？")
+        self.assertEqual(len(out), 2)                  # 保留全部
+        self.assertEqual(out[0]["source_id"], max(ids))  # 新值在前
+        self.assertEqual(app._last_rerank["attribute"], "phone")
 
     def test_wire_filters_selection(self):
         app = self.make_app(True)
