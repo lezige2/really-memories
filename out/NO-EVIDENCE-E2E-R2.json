@@ -1,0 +1,44 @@
+{
+ "schema": "no_evidence_e2e_r2_v1",
+ "guard_on": {
+  "wechat": {
+   "answer": "你只告诉过我手机号 158-0000-2468，没告诉我微信号；这是手机号。",
+   "state": "no_evidence"
+  },
+  "phone": {
+   "answer": "你的手机号是158-0000-2468",
+   "state": "natural"
+  }
+ },
+ "guard_off": {
+  "wechat": {
+   "answer": "这个我没法确认：你没跟我说过。",
+   "state": "no_evidence"
+  }
+ },
+ "audit": [
+  {
+   "stage": "answer",
+   "decision": "clarified_proactive",
+   "reason": "no_evidence_clarified_proactive"
+  },
+  {
+   "stage": "answer",
+   "decision": "no_evidence",
+   "reason": "no_evidence"
+  },
+  {
+   "stage": "answer",
+   "decision": "natural",
+   "reason": "natural"
+  }
+ ],
+ "checks": {
+  "wechat_has_phone_value": true,
+  "wechat_has_clarify": true,
+  "wechat_no_fake_claim": true,
+  "phone_normal": true,
+  "guard_off_no_clarify": true
+ },
+ "verdict": "PASS：guard on 时「微信号」问题回答含手机号值、含“这是手机号/没告诉我微信号”、无“你的微信号是 X”；手机号问题正常；guard off 时不澄清（仅通用 no_evidence）；audit reason=no_evidence_clarified_proactive"
+}

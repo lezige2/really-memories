@@ -596,6 +596,11 @@ def build_app(args, data):
                       soft_limit=int(getattr(args, "lifecycle_soft_limit", 200)),
                       hard_limit=int(getattr(args, "lifecycle_hard_limit", 2000)),
                       confirm_first_archive=bool(getattr(args, "confirm_first_archive", False)),
+                      archive_days=int(getattr(args, "lifecycle_archive_days", 21)),
+                      attribute_recency=bool(getattr(args, "attribute_recency", False)),
+                      attribute_rerank=bool(getattr(args, "attribute_rerank", False)),
+                      slot_direct=bool(getattr(args, "slot_direct", False)),
+                      no_evidence_guard=bool(getattr(args, "no_evidence_guard", True)),
                       audit_debug=bool(getattr(args, "audit_debug", False)),
                       topk=getattr(args, "topk", D.DEFAULT_TOPK),
                       rollover_at=getattr(args, "rollover_at", D.ROLLOVER_AT_DEFAULT),
@@ -633,6 +638,16 @@ def main(argv=None):
     ap.add_argument("--p1b-subject", action="store_true", default=False,
                     help="P1b 主体键软覆盖（默认关；与 chat_daily 同名同义）")
     # do-not-enable-for-merge: diagnostic only
+    ap.add_argument("--evidence-guard", dest="no_evidence_guard",
+                    action=argparse.BooleanOptionalAction, default=True,
+                    help="无证据守卫（默认开；--no-evidence-guard 关闭）")
+    ap.add_argument("--slot-direct", action="store_true", default=False,
+                    help="确定性槽位直答（默认关）")
+    ap.add_argument("--attribute-rerank", action="store_true", default=False,
+                    help="K3' 属性只重排（默认关）")
+    ap.add_argument("--attribute-recency", action="store_true", default=False,
+                    help="属性最新值 POC（默认关；与 chat_daily 同名同义）")
+    ap.add_argument("--lifecycle-archive-days", type=int, default=21)
     ap.add_argument("--lifecycle-soft-limit", type=int, default=200,
                     help="软上限（默认 200，允许 300）")
     ap.add_argument("--lifecycle-hard-limit", type=int, default=2000)

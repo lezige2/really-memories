@@ -55,6 +55,7 @@ import norm_dedup as ndedup             # noqa: E402  (norm_hash 去重；默认
 import json_answer as jans               # noqa: E402  (强制 JSON 输出；默认 off)
 import shadow_dedup as sdedup            # noqa: E402  (影子去重；仅诊断)
 import attribute_recency as arec         # noqa: E402  (属性最新值 POC；默认 off)
+import no_evidence_policy as nep         # noqa: E402  (无证据守卫；默认 on)
 # P1b 代码不入库：可选依赖，只包这一个符号；缺失则功能 off + debug（不静默）
 try:
     import p1b_subject as _p1b
@@ -638,6 +639,7 @@ class DailyApp:
                  lifecycle_fallback=False, audit_enabled=False, audit_debug=False,
                  soft_limit=200, hard_limit=2000, confirm_first_archive=False,
                  attribute_recency=False, attribute_rerank=False, slot_direct=False,
+                 no_evidence_guard=True,
                  archive_days=21,
                  archive_state_file=None, backup_dir=None):
         self.eng = engine
@@ -700,6 +702,7 @@ class DailyApp:
         self.attribute_recency = bool(attribute_recency)
         self.attribute_rerank = bool(attribute_rerank)
         self.slot_direct = bool(slot_direct)
+        self.no_evidence_guard = bool(no_evidence_guard)
         self._slot_stats = {"attempted": 0, "applied": 0}
         self._last_slot_direct = None
         self._last_attr = None
@@ -2109,6 +2112,10 @@ class DailyApp:
         except Exception:                                # noqa: BLE001
             pass
         try:
+            res = self._no_evidence_guard(text, res)
+        except Exception:                                # noqa: BLE001
+            pass
+        try:
             if getattr(self, "attribute_rerank", False) and self._last_rerank:
                 res["attribute_rerank"] = dict(self._last_rerank)
         except Exception:                                # noqa: BLE001
@@ -2182,6 +2189,105 @@ class DailyApp:
                     trace_id=self._audit_trace, query=text,
                     answer=res.get("answer"))
         except Exception:                                # noqa: BLE001
+            pass
+        return res
+
+    def _no_evidence_guard(self, text, res):
+        if not getattr(self, "no_evidence_guard", False):
+            return res
+        if "微信" not in str(text or ""):
+            return res
+        try:
+            mems = [{"text": str(r[3])} for r in self._rows()]
+        except Exception:                            # noqa: BLE001
+            mems = []
+        old = str(res.get("answer") or "")
+        v = nep.check(text, old, mems)
+        if v.get("ok"):
+            # 主动澄清：微信问句 + 模型通用拒答（无手机号）+ DB 确有手机号
+            refusal = (res.get("state") in ("no_evidence", "verify_fallback")
+                       or re.search(r"没法|不知道|没有记录|不清楚|先不猜|记不清",
+                                    old))
+            if refusal and not nep.phone_in(old):
+                db_phone = None
+                try:
+                    best = None
+                    for r in self.con.execute(
+                            "SELECT id,text,created_at FROM memory_source"
+                            " ORDER BY id"):
+                        mm = nep._PHONE.search(str(r[1] or ""))
+                        if mm:
+                            key = (str(r[2] or ""), int(r[0]))
+                            if best is None or key > best[0]:
+                                best = (key, mm.group(0))
+                    db_phone = best[1] if best else None
+                except Exception:                    # noqa: BLE001
+                    db_phone = None
+                if db_phone:
+                    import hashlib
+                    new = ("你只告诉过我手机号 %s，没告诉我微信号；这是手机号。"
+                           % db_phone)
+                    res["answer"] = new
+                    res["no_evidence"] = {
+                        "action": "clarified_proactive",
+                        "reason": "proactive_no_evidence",
+                        "original_answer_sha16":
+                            hashlib.sha256(old.encode()).hexdigest()[:16]}
+                    try:
+                        if getattr(self, "logger", None):
+                            self.logger.log_warning(
+                                "no_evidence_clarified_proactive",
+                                "proactive clarification",
+                                evidence={"answer_sha16":
+                                          res["no_evidence"]["original_answer_sha16"]})
+                    except Exception:                # noqa: BLE001
+                        pass
+                    try:
+                        if getattr(self, "audit_enabled", False):
+                            import audit_log
+                            audit_log.event(
+                                "answer", decision="clarified_proactive",
+                                reason="no_evidence_clarified_proactive",
+                                block_ids=res.get("block_ids") or [],
+                                trace_id=getattr(self, "_audit_trace", None),
+                                query=text, answer=old)
+                    except Exception:                # noqa: BLE001
+                        pass
+            return res
+        reason = v.get("reason")
+        phone = None
+        m = nep._PHONE.search(old)
+        if m:
+            raw = m.group(0)
+            phone = raw.replace(" ", "")
+        if reason in ("phone_claimed_as_wechat", "phone_unexplained_for_wechat") \
+                and phone:
+            new = ("你只告诉过我手机号 %s，没告诉我微信号；这是手机号。" % phone)
+            action = "clarified"
+        else:
+            new = "这条我没法从记忆里核对，先不猜。"
+            action = "refused"
+        import hashlib
+        res["answer"] = new
+        res["no_evidence"] = {"action": action, "reason": reason,
+                              "original_answer_sha16":
+                                  hashlib.sha256(old.encode()).hexdigest()[:16]}
+        try:
+            if getattr(self, "logger", None):
+                self.logger.log_warning(
+                    "no_evidence_clarified", "no-evidence guard",
+                    evidence={"action": action, "reason": reason})
+        except Exception:                            # noqa: BLE001
+            pass
+        try:
+            if getattr(self, "audit_enabled", False):
+                import audit_log
+                audit_log.event("answer", decision=action,
+                                reason="no_evidence_clarified",
+                                block_ids=res.get("block_ids") or [],
+                                trace_id=getattr(self, "_audit_trace", None),
+                                query=text, answer=old)
+        except Exception:                            # noqa: BLE001
             pass
         return res
 
@@ -4700,6 +4806,9 @@ def build_arg_parser():
                     help="P1b 主体键软覆盖（默认关；sidecar，不改 daily）")
     # do-not-enable: parse_fail 100%, w03 regression; see out/JSON-E2E-DEFAULT.md
     # do-not-enable-for-merge: diagnostic only
+    ap.add_argument("--evidence-guard", dest="no_evidence_guard",
+                    action=argparse.BooleanOptionalAction, default=True,
+                    help="无证据守卫（默认开；--no-evidence-guard 关闭）")
     ap.add_argument("--slot-direct", action="store_true", default=False,
                     help="确定性槽位直答（默认关；仅 phone/fitness）")
     ap.add_argument("--attribute-rerank", action="store_true", default=False,
@@ -4811,6 +4920,7 @@ def main(argv=None):
                        attribute_recency=getattr(args, "attribute_recency", False),
                        attribute_rerank=getattr(args, "attribute_rerank", False),
                        slot_direct=getattr(args, "slot_direct", False),
+                       no_evidence_guard=getattr(args, "no_evidence_guard", True),
                        audit_debug=getattr(args, "audit_debug", False),
                        topk=args.topk, rollover_at=args.rollover_at,
                        n_ctx=args.n_ctx, chat_start=args.chat_start,
