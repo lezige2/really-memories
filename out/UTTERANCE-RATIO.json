@@ -1,0 +1,40 @@
+{
+ "schema": "utterance_ratio_v1",
+ "definition": {
+  "denominator": "写入次数（remember / 自动 rollover 各算一次，按 created_at 秒级簇近似）",
+  "numerator": "该次写入产出 ≥2 块（source 行/block 行）的次数"
+ },
+ "daily": {
+  "rows": 20,
+  "created_at_clusters": 14,
+  "clusters_ge2": 3,
+  "multi_block_writes": 0,
+  "write_events": 14,
+  "ratio": 0.0,
+  "note": "同秒簇（2/5/2）无法区分“一次写入多块”与“同秒多次写入”；derived_from 全 NULL，按多次写入计"
+ },
+ "rollover": {
+  "dbs_scanned": 55,
+  "rows": 2277,
+  "text_kind": {
+   "human_memory": 2217,
+   "conversation": 60
+  },
+  "derived_from_not_null": 0,
+  "rollover_rows": 0,
+  "ratio": 0.0,
+  "note": "全部 55 个库里没有任何 derived_from 行、也没有 rollover 典型 text_kind"
+ },
+ "_c_regression": {
+  "dbs": [
+   "kvmem/_c_regression/chat.db",
+   "kvmem/_c_regression2/chat.db"
+  ],
+  "tables": [],
+  "rows": 0,
+  "ratio": null,
+  "note": "历史库为空（无表），无法测量"
+ },
+ "verdict": "三处均 <10%（daily 0%、rollover 0%、_c_regression 无数据）⇒ 不加 utterance_id，不写草案",
+ "caveat": "没有 utterance_id 本身就无法严格区分“一次写入多块”和“同秒多次写入”；本测量只能确认现存数据中没有任何多块写入的痕迹"
+}
