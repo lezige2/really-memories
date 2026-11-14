@@ -3,7 +3,9 @@ const path = require('path');
 const fs = require('fs');
 const { spawn, execFile } = require('child_process');
 
-const ROOT = process.env.LLAMA_MEM_ROOT || 'D:\\llama-mem';
+const ROOT = process.env.LLAMA_MEM_ROOT || (app.isPackaged
+  ? path.join(process.resourcesPath, 'backend')
+  : 'D:\\llama-mem');
 const PY = process.env.LLAMA_MEM_PYTHON || 'C:\\Users\\lezige\\AppData\\Local\\Programs\\Python\\Python314\\python.exe';
 const API = process.env.LLAMA_MEM_API || 'http://127.0.0.1:8765';
 const CONFIG = path.join(app.getPath('userData'), 'config.json');

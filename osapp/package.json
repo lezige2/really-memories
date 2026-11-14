@@ -22,7 +22,12 @@
     "productName": "llama-mem",
     "directories": {"output": "release-builder"},
     "files": ["dist/**/*", "electron/**/*", "package.json"],
+    "extraResources": [
+      {"from": "../tools", "to": "backend/tools", "filter": ["**/*.py", "kvshim_vk.dll", "!**/__pycache__/**", "!quality/**", "!test_*"]},
+      {"from": "../out/ops", "to": "backend/out/ops"},
+      {"from": "../kvmem/daily", "to": "backend/kvmem/daily", "filter": ["chat.db", "blocks/**/*", "sessions/*.json"]}
+    ],
     "win": {"target": ["nsis"], "icon": "electron/icon.ico"},
-    "nsis": {"include": "installer/nsis-context.nsh"}
+    "nsis": {"include": "installer/nsis-context.nsh", "oneClick": true, "perMachine": false}
   }
 }

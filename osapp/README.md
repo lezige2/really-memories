@@ -13,11 +13,14 @@ pnpm build
 `run-osapp.cmd` 会清掉 `ELECTRON_RUN_AS_NODE` 并直接调用 `node_modules/electron/dist/electron.exe`，避免 Electron 被当成 Node 运行。
 首次 `pnpm install` 会下载 Electron 运行时（约 239MB，网络慢时需等）。
 
-### 便携版（已生成）
+### NSIS 安装包（当前正式安装）
 ```text
-osapp\release\llama-mem-win32-x64\llama-mem.exe
+osapp\release-builder\llama-mem Setup 0.1.0.exe
 ```
-双击即可；无需安装。当前仍是“便携目录”，不是 NSIS 安装包。
+- 默认安装到 **`D:\llama-mem-os`**；
+- 安装包内嵌 `resources\backend`（tools + out/ops + kvmem/daily）；
+- 模型不打包，仍读 `D:\models\Qwen2.5-14B-Instruct-Q4_K_M.gguf`；
+- 卸载会删除程序目录和右键菜单项，不删外部模型/原项目数据。
 
 ## 结构
 ```text
@@ -40,13 +43,16 @@ osapp/
 - 全局快捷键：`Ctrl+Alt+M` / `Ctrl+Alt+Q` 打开对话并聚焦输入框；`Ctrl+Alt+V` 把剪贴板文本存入记忆；
 - 托盘“显示/隐藏”；
 - 设置：API/模型/数据目录展示；“启动时启动服务”可选（默认关）；
-- 用户级安装器：`installer/install.ps1`（复制 + 开始菜单/桌面快捷方式）；
-- 文件右键“存入 llama-mem 记忆”（`tools/remember_file.py`，注册在 HKCU）。
+- NSIS 安装包：`release-builder/llama-mem Setup 0.1.0.exe`；
+- 安装路径 `D:\llama-mem-os`，后端/初始数据在 `resources\backend`；
+- 文件右键“存入 llama-mem 记忆”（`tools/remember_file.py`，注册在 HKCU）；
+- 剪贴板存入 `Ctrl+Alt+V`。
 
 ## 未做
-- NSIS/MSIX 单文件安装包（electron-builder 仍可能因下载依赖超时；当前是用户级安装脚本）；
-- 屏幕采集（默认不做）；剪贴板仅在按 `Ctrl+Alt+V` 时读取；
-- 真正的多页路由（当前单 Svelte 组件切换）。
+- 代码签名/自动更新；
+- 屏幕采集（默认不做）；
+- 真正的多页路由（当前单 Svelte 组件切换）；
+- Python 运行时未打包（使用本机 Python）。
 
 ## 注意
 - 服务必须用 detached/WMI 方式起，不能用会话后台 job（历史 exit 127）。
