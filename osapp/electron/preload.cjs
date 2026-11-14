@@ -18,5 +18,10 @@ contextBridge.exposeInMainWorld('os', {
     const listener = (_e, action) => cb(action);
     ipcRenderer.on('hotkey', listener);
     return () => ipcRenderer.removeListener('hotkey', listener);
+  },
+  onRemember: (cb) => {
+    const listener = (_e, payload) => cb(payload);
+    ipcRenderer.on('remember', listener);
+    return () => ipcRenderer.removeListener('remember', listener);
   }
 });

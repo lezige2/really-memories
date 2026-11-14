@@ -37,14 +37,13 @@ osapp/
 - 健康检查：`127.0.0.1:8765/health`；
 - `/ask`、`/memories`、`/forget`；
 - 开机自启：`app.setLoginItemSettings`；
-- 全局快捷键：`Ctrl+Alt+M` / `Ctrl+Alt+Q` 打开对话并聚焦输入框；
+- 全局快捷键：`Ctrl+Alt+M` / `Ctrl+Alt+Q` 打开对话并聚焦输入框；`Ctrl+Alt+V` 把剪贴板文本存入记忆；
 - 托盘“显示/隐藏”；
 - 设置：API/模型/数据目录展示；“启动时启动服务”可选（默认关）。
 
 ## 未做
 - 安装器（NSIS/electron-builder 已配，未打包）；
-- 全局快捷键；
-- 剪贴板/屏幕采集（默认不做）；
+- 屏幕采集（默认不做）；剪贴板仅在按 `Ctrl+Alt+V` 时读取；
 - 真正的多页路由（当前单 Svelte 组件切换）。
 
 ## 注意

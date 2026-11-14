@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, ipcMain, nativeImage, shell, globalShortcut } = require('electron');
+const { app, BrowserWindow, Tray, Menu, ipcMain, nativeImage, shell, globalShortcut, clipboard, Notification } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { spawn, execFile } = require('child_process');
@@ -115,6 +115,26 @@ function createWindow() {
   });
 }
 
+function notify(body) {
+  try {
+    if (Notification.isSupported()) new Notification({ title: 'llama-mem', body }).show();
+    else console.log('notify:', body);
+  } catch (e) { console.error('notify failed', e); }
+}
+
+async function rememberClipboard() {
+  const text = clipboard.readText().trim();
+  if (!text) { notify('剪贴板为空'); return; }
+  try {
+    const r = await apiJson('/remember', { method: 'POST', body: JSON.stringify({ text }) });
+    const ok = r.ok;
+    notify(ok ? '已存入记忆：' + text.slice(0, 60) : '存入失败：' + JSON.stringify(r.data).slice(0, 80));
+    if (win) win.webContents.send('remember', { ok, text, data: r.data });
+  } catch (e) {
+    notify('服务未启动，无法存入');
+  }
+}
+
 function showWindow(focusChat = false) {
   if (!win) return;
   if (win.isMinimized()) win.restore();
@@ -135,6 +155,8 @@ function createTray() {
     { label: '启动本地服务', click: () => spawnService() },
     { label: '停止本地服务', click: () => stopService() },
     { type: 'separator' },
+    { label: '存入剪贴板（Ctrl+Alt+V）', click: () => rememberClipboard() },
+    { type: 'separator' },
     { label: '退出', click: () => { quitting = true; app.quit(); } }
   ]);
   tray.setContextMenu(menu);
@@ -146,7 +168,11 @@ app.whenReady().then(() => {
   createTray();
   const ok1 = globalShortcut.register('CommandOrControl+Alt+M', () => showWindow(true));
   const ok2 = globalShortcut.register('CommandOrControl+Alt+Q', () => showWindow(true));
-  console.log('hotkeys', { memory: ok1, ask: ok2 });
+  let remKey = null;
+  for (const k of ['CommandOrControl+Alt+V', 'CommandOrControl+Alt+R', 'CommandOrControl+Shift+M']) {
+    if (globalShortcut.register(k, () => rememberClipboard())) { remKey = k; break; }
+  }
+  console.log('hotkeys', { memory: ok1, ask: ok2, remember: remKey });
   if (readConfig().autoService) spawnService();
   app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
 });

@@ -16,6 +16,7 @@
   let autoService = false;
   let statusNote = '';
   let statusData = null;
+  let toast = '';
   let composerEl;
 
   const api = window.os || null;
@@ -128,11 +129,22 @@
           setTimeout(() => composerEl && composerEl.focus(), 60);
         })
       : null;
+    const offRemember = api && api.onRemember
+      ? api.onRemember((p) => {
+          toast = p.ok ? '已存入：' + (p.text || '').slice(0, 40) : '存入失败';
+          setTimeout(() => { toast = ''; }, 3500);
+        })
+      : null;
     const t = setInterval(refreshHealth, 5000);
-    return () => { clearInterval(t); if (offHotkey) offHotkey(); };
+    return () => {
+      clearInterval(t);
+      if (offHotkey) offHotkey();
+      if (offRemember) offRemember();
+    };
   });
 </script>
 
+{#if toast}<div class="toast">{toast}</div>{/if}
 <div class="shell">
   <aside class="sidebar">
     <div class="brand">
