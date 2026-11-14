@@ -92,7 +92,10 @@ python -X utf8 training/run_training_eval.py --cases out/KV-CONFLICT-40.jsonl \
 
 | 时间 | 偏离 | 原因 | 影响 |
 |---|---|---|---|
-| — | — | — | — |
+| 2026-10-29 17:05 | 删除 `memory_source` id 21/22（KVN03 的两条 phone 事实） | 作废 r1 中断，hermetic 收尾未执行，`memories=22`；两条文本与夹具 KVN03 逐字相同，属测试残留 | 恢复 `memories=20`；该轮 32/42 作废、不与完整 r1 合算；完整 r1 单独计 12/42；证据 `out/KVC-BASE-PREFLIGHT-STATE.json` |
+| 2026-10-29 17:30 | 词面缺口登记（KVC11/12 `blocks=[]`） | 查询"公司"在块文本"我在云栖科技上班/星河数据"中无词面命中，`_retrieval_select` 返回空；块写入正常（remember ok, memory_delta=2） | 42 条 BASE 有一部分在测**检索词面桥**而非挂载策略；所有臂结论继承此偏差；K2 不指望修这 2 条 |
+| 2026-10-29 19:50 | **撤销 extra 旧基线（18–20/20）** | `BASE-EXTRA-EVAL.json` 用的是旧用例（L07 期望 `lin@example.org`、L09 `7418`），与现盘 `aze@example.com`/`8899` 不可比 | FINAL-HANDOFF 的 extra band **不得再引用**；须用 BASE 臂按当前 `training/sft_eval_extra_cases.jsonl` 重跑并重新冻结后，才允许谈 extra 结论 |
+| 2026-10-29 19:50 | Verifier 版本化 | L07（遗漏）/L09（数字错值）均 `verdict=pass`，暴露 v1 盲区 | 规划 v2：仅“查询槽位明确且该值在 kept 块中”时校验数字/字符串一致；缺值须显式拒答；“遗漏首位证据”不采用；v2 先在冻结 81/held-out 上验证不误杀，再启用 |
 
 ---
 

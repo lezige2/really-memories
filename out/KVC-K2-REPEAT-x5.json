@@ -1,0 +1,362 @@
+{
+ "schema": "kvc_repeat_ask_v1",
+ "arm": "K2",
+ "endpoint": "http://127.0.0.1:8765",
+ "times": 5,
+ "cases": {
+  "x03": {
+   "input": "在吗，我几点开会？",
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "七点",
+     "7点",
+     "19点",
+     "302"
+    ],
+    "not_contains": [
+     "（",
+     "不知道",
+     "无法"
+    ]
+   },
+   "runs": [
+    {
+     "answer": "这条我没法从记忆里核对，先不猜。",
+     "state": "verify_fallback",
+     "refused": false,
+     "verified": false,
+     "verify_verdict": "unsupported",
+     "verify_mismatches": [
+      {
+       "claim": "周四",
+       "type": "value_not_in_memory",
+       "expected_from_block": "周三"
+      }
+     ],
+     "verify_attempts": 1,
+     "block_ids": [
+      2,
+      1
+     ],
+     "created_ids": []
+    },
+    {
+     "answer": "这条我没法从记忆里核对，先不猜。",
+     "state": "verify_fallback",
+     "refused": false,
+     "verified": false,
+     "verify_verdict": "unsupported",
+     "verify_mismatches": [
+      {
+       "claim": "周四",
+       "type": "value_not_in_memory",
+       "expected_from_block": "周三"
+      }
+     ],
+     "verify_attempts": 1,
+     "block_ids": [
+      2,
+      1
+     ],
+     "created_ids": []
+    },
+    {
+     "answer": "这条我没法从记忆里核对，先不猜。",
+     "state": "verify_fallback",
+     "refused": false,
+     "verified": false,
+     "verify_verdict": "unsupported",
+     "verify_mismatches": [
+      {
+       "claim": "周四",
+       "type": "value_not_in_memory",
+       "expected_from_block": "周三"
+      }
+     ],
+     "verify_attempts": 1,
+     "block_ids": [
+      2,
+      1
+     ],
+     "created_ids": []
+    },
+    {
+     "answer": "这条我没法从记忆里核对，先不猜。",
+     "state": "verify_fallback",
+     "refused": false,
+     "verified": false,
+     "verify_verdict": "unsupported",
+     "verify_mismatches": [
+      {
+       "claim": "周四",
+       "type": "value_not_in_memory",
+       "expected_from_block": "周三"
+      }
+     ],
+     "verify_attempts": 1,
+     "block_ids": [
+      2,
+      1
+     ],
+     "created_ids": []
+    },
+    {
+     "answer": "这条我没法从记忆里核对，先不猜。",
+     "state": "verify_fallback",
+     "refused": false,
+     "verified": false,
+     "verify_verdict": "unsupported",
+     "verify_mismatches": [
+      {
+       "claim": "周四",
+       "type": "value_not_in_memory",
+       "expected_from_block": "周三"
+      }
+     ],
+     "verify_attempts": 1,
+     "block_ids": [
+      2,
+      1
+     ],
+     "created_ids": []
+    }
+   ],
+   "dist_state": {
+    "verify_fallback": 5
+   },
+   "dist_verdict": {
+    "unsupported": 5
+   },
+   "dist_answer": {
+    "这条我没法从记忆里核对，先不猜。": 5
+   }
+  },
+  "L07": {
+   "input": "我的邮箱是什么？",
+   "expect": {
+    "contains_any": [
+     "aze@example.com"
+    ],
+    "refusal": false
+   },
+   "runs": [
+    {
+     "answer": "你的邮箱你平时用得不多，我记不清了，你再告诉我一遍吧",
+     "state": "natural",
+     "refused": false,
+     "verified": true,
+     "verify_verdict": "pass",
+     "verify_mismatches": [],
+     "verify_attempts": 0,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "created_ids": [
+      21
+     ]
+    },
+    {
+     "answer": "你的邮箱我这里没有记录，可能记不清了，你可以告诉我具体是哪个邮箱吗",
+     "state": "natural",
+     "refused": false,
+     "verified": true,
+     "verify_verdict": "pass",
+     "verify_mismatches": [],
+     "verify_attempts": 0,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "created_ids": [
+      21
+     ]
+    },
+    {
+     "answer": "你的邮箱你平时用得不多，我记不清了，你再告诉我一遍吧",
+     "state": "natural",
+     "refused": false,
+     "verified": true,
+     "verify_verdict": "pass",
+     "verify_mismatches": [],
+     "verify_attempts": 0,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "created_ids": [
+      21
+     ]
+    },
+    {
+     "answer": "你的邮箱你平时用得不多，我记不清了，你再告诉我一遍吧",
+     "state": "natural",
+     "refused": false,
+     "verified": true,
+     "verify_verdict": "pass",
+     "verify_mismatches": [],
+     "verify_attempts": 0,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "created_ids": [
+      21
+     ]
+    },
+    {
+     "answer": "你的邮箱我记不清了，你记得吗",
+     "state": "natural",
+     "refused": false,
+     "verified": true,
+     "verify_verdict": "pass",
+     "verify_mismatches": [],
+     "verify_attempts": 0,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "created_ids": [
+      21
+     ]
+    }
+   ],
+   "dist_state": {
+    "natural": 5
+   },
+   "dist_verdict": {
+    "pass": 5
+   },
+   "dist_answer": {
+    "你的邮箱你平时用得不多，我记不清了，你再告诉我一遍吧": 3,
+    "你的邮箱我记不清了，你记得吗": 1,
+    "你的邮箱我这里没有记录，可能记不清了，你可以告诉我具体是哪个邮箱吗": 1
+   }
+  },
+  "L09": {
+   "input": "我的银行卡尾号是多少？",
+   "expect": {
+    "contains_any": [
+     "8899"
+    ],
+    "refusal": false
+   },
+   "runs": [
+    {
+     "answer": "你的银行卡尾号是88888",
+     "state": "natural",
+     "refused": false,
+     "verified": true,
+     "verify_verdict": "pass",
+     "verify_mismatches": [],
+     "verify_attempts": 0,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "created_ids": [
+      21
+     ]
+    },
+    {
+     "answer": "你的银行卡尾号是88888",
+     "state": "natural",
+     "refused": false,
+     "verified": true,
+     "verify_verdict": "pass",
+     "verify_mismatches": [],
+     "verify_attempts": 0,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "created_ids": [
+      21
+     ]
+    },
+    {
+     "answer": "你的银行卡尾号是88888",
+     "state": "natural",
+     "refused": false,
+     "verified": true,
+     "verify_verdict": "pass",
+     "verify_mismatches": [],
+     "verify_attempts": 0,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "created_ids": [
+      21
+     ]
+    },
+    {
+     "answer": "你的银行卡尾号是88888",
+     "state": "natural",
+     "refused": false,
+     "verified": true,
+     "verify_verdict": "pass",
+     "verify_mismatches": [],
+     "verify_attempts": 0,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "created_ids": [
+      21
+     ]
+    },
+    {
+     "answer": "你的银行卡尾号是88888",
+     "state": "natural",
+     "refused": false,
+     "verified": true,
+     "verify_verdict": "pass",
+     "verify_mismatches": [],
+     "verify_attempts": 0,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "created_ids": [
+      21
+     ]
+    }
+   ],
+   "dist_state": {
+    "natural": 5
+   },
+   "dist_verdict": {
+    "pass": 5
+   },
+   "dist_answer": {
+    "你的银行卡尾号是88888": 5
+   }
+  }
+ },
+ "after": {
+  "memories": 20
+ }
+}

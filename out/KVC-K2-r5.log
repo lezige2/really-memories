@@ -1,0 +1,52 @@
+18:42:08
+[pass  1/42] KVC01 kv_conflict        '我的猫叫什么？'
+[pass  2/42] KVC02 kv_conflict        '我猫的名字是什么？'
+[pass  3/42] KVC03 kv_conflict        '我的狗叫什么？'
+[pass  4/42] KVC04 kv_conflict        '我家狗的名字？'
+[pass  5/42] KVC05 kv_conflict        '我的车牌号是多少？'
+[pass  6/42] KVC06 kv_conflict        '我的车牌是什么？'
+[pass  7/42] KVC07 kv_conflict        '我的手机号是多少？'
+[pass  8/42] KVC08 kv_conflict        '我的手机号是什么？'
+[pass  9/42] KVC09 kv_conflict        '我的工位在哪？'
+[pass 10/42] KVC10 kv_conflict        '我的工位是几层几号？'
+[FAIL 11/42] KVC11 kv_conflict        '我在哪家公司上班？' -> [误拒] 不应拒答但被拒答; 缺内容：['星河数据'] 均未出现
+[FAIL 12/42] KVC12 kv_conflict        '我的公司叫什么？' -> [编造] 不应出现内容：'字节跳动'; 缺内容：['美团'] 均未出现
+[pass 13/42] KVC13 kv_conflict        '我老家在哪里？'
+[pass 14/42] KVC14 kv_conflict        '我老家是哪里的？'
+[pass 15/42] KVC15 kv_conflict        '我的车是什么颜色？'
+[pass 16/42] KVC16 kv_conflict        '我的车是什么颜色？'
+[pass 17/42] KVC17 kv_conflict        '我的车是什么车型？'
+[pass 18/42] KVC18 kv_conflict        '我的车型是什么？'
+[pass 19/42] KVC19 kv_conflict        '我的邮箱是多少？'
+[pass 20/42] KVC20 kv_conflict        '我的邮箱是什么？'
+[pass 21/42] KVC21 kv_conflict        '我对什么药过敏？'
+[pass 22/42] KVC22 kv_conflict        '我对什么过敏？'
+[pass 23/42] KVC23 kv_conflict        '我每周几几点健身？'
+[pass 24/42] KVC24 kv_conflict        '我什么时候健身？'
+[pass 25/42] KVC25 kv_conflict        '我下周二要去哪里出差？'
+[pass 26/42] KVC26 kv_conflict        '我下周一要去哪里开会？'
+[FAIL 27/42] KVC27 kv_conflict        '我的银行卡尾号是多少？' -> [僵硬] 缺内容：['9032'] 均未出现
+[pass 28/42] KVC28 kv_conflict        '我的银行卡尾号是什么？'
+[pass 29/42] KVC29 kv_conflict        '周一上午十点的会在哪开？'
+[FAIL 30/42] KVC30 kv_conflict        '周三的会在哪里开？' -> [僵硬] 缺内容：['五楼大会议室', '5楼大会议室', '五楼'] 均未出现
+[pass 31/42] KVN01 kv_conflict        '我的特斯拉是什么颜色？'
+[pass 32/42] KVN02 kv_conflict        '我的油车是什么颜色？'
+[FAIL 33/42] KVN03 kv_conflict        '我的工作号是多少？' -> [僵硬] 缺内容：['130-2468-1111', '13024681111'] 均未出现
+[FAIL 34/42] KVN04 kv_conflict        '我的备用号是多少？' -> [僵硬] 缺内容：['132-0000-3333', '13200003333'] 均未出现
+[FAIL 35/42] KVN05 kv_conflict        '我家大猫叫什么？' -> [僵硬] 缺内容：['咪咪'] 均未出现
+[FAIL 36/42] KVN06 kv_conflict        '我的白猫叫什么？' -> [僵硬] 缺内容：['雪球'] 均未出现
+[FAIL 37/42] KVN07 kv_conflict        '我的个人邮箱是什么？' -> [僵硬] 缺内容：['p@example.com'] 均未出现
+[pass 38/42] KVN08 kv_conflict        '我的备用邮箱是什么？'
+[pass 39/42] KVN09 kv_conflict        '我北京的工位是哪个？'
+[pass 40/42] KVN10 kv_conflict        '我总部的工位在几楼？'
+[FAIL 41/42] KVN11 kv_conflict        '我父亲老家在哪？' -> [僵硬] 缺内容：['山东'] 均未出现
+[pass 42/42] KVN12 kv_conflict        '我爱人老家在哪？'
+== TRAINING EVAL (live): 32/42 valid pass (76.2%), fail=10, infra=0, elapsed=338.7s ==
+failure_classes: {"误拒": 1, "编造": 1, "僵硬": 8}
+artifact: out\KVC-K2-r5.json sha256: 91df6c9394d40f3b34a6e4f337df3ca7baa511de5e6a963ef4833f6a44a72202
+next: out\KVC-K2-r5-NEXT.json sha256: 54f670547d42add79963729b5f21fcf2b02f3702f5d17598b51c2e4bdce29b1f
+  #1 僵硬 x8 -> 路由/意图（NATURAL_MODE、smalltalk/capability 分支）+ 提示词
+  #2 编造 x1 -> 证据路由（tools/evidence.decide）+ 生成后核对/修复回路
+  #3 误拒 x1 -> 意图与触发词（intent_of / 产品事实问句白名单）
+EXIT=0
+18:47:47

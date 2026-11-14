@@ -1,0 +1,7259 @@
+{
+ "schema": "training_eval_v1",
+ "role": "T11 训练+测试闭环：真实对话用例集回归（2026-10-27）",
+ "generated_at": "2026-11-06T01:02:27+0800",
+ "mode": "live",
+ "partial": false,
+ "endpoint": "http://127.0.0.1:8766",
+ "source_cases": {
+  "path": "out/SFT-EXTRA-CASES-v9-MT20.jsonl",
+  "sha256": "140500d3ca651ce5fdad594cac747a9beee2f56f383ed41f6e7e968d91b2124f",
+  "bytes": 32016,
+  "n": 20
+ },
+ "runner": {
+  "path": "training/run_training_eval.py",
+  "sha256": "41edc22baf4b9b866b248f22a0fe9059f5b40293a991a4c5ffbd0989e53b61c9",
+  "timeout_s": 90.0,
+  "classifier": "9 类：串味/编造/误拒/僵硬/重复尾巴/身份/联网无来源/记忆漏/延迟",
+  "connection_retries": 2,
+  "retry_wait_s": 5.0,
+  "state_class_mapping": {
+   "refused": "no_evidence",
+   "state=identity": "identity",
+   "state=capability": "capability",
+   "state=smalltalk": "smalltalk",
+   "state=ack": "ack",
+   "state=web": "web",
+   "block_ids 非空": "memory_hit",
+   "其余": "general"
+  }
+ },
+ "service": {
+  "health_before": {
+   "status": "ok",
+   "model_pin": {
+    "model_path": "D:\\models\\Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+    "model_size": 8988110976,
+    "model_mtime": 1793102210
+   },
+   "dll_pin": {
+    "path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+    "present": true,
+    "bytes": 50007552,
+    "sha16": "9edbafa150700614"
+   },
+   "vram_gib": null,
+   "memories": 20,
+   "session": {
+    "path": "kvmem\\at5\\sessions\\kvc.json",
+    "exists": false,
+    "chat_tokens": 0,
+    "chat_budget": 24576,
+    "chat_start": 8192,
+    "n_ctx": 32768,
+    "mounted": 0,
+    "control": false,
+    "n_predict": 192,
+    "rollover_at": 0.75,
+    "rollover_threshold_tokens": 18432
+   },
+   "engine": {
+    "mode": "real",
+    "type": "KVEngine",
+    "n_ctx": 32768,
+    "n_seq": 8,
+    "n_gpu_layers": 28,
+    "bytes_per_token": 104448,
+    "kv_pool_gib": 3.188,
+    "mem_total_gib": 3.188
+   },
+   "retrieval": {
+    "mode": "topk",
+    "topk": 4,
+    "library_count": 20,
+    "library_max": 200,
+    "mounted_ids": [],
+    "mounted_count": 0,
+    "candidates": 2,
+    "related": 0,
+    "memory_budget": 7680,
+    "last_truncation": null,
+    "query_expand": {
+     "enabled": false,
+     "unavailable": false,
+     "hits": [],
+     "before": null,
+     "after": null
+    },
+    "k2": {
+     "mode": "auto_off",
+     "gate_reason": "off",
+     "owner_gate": true,
+     "max_rows": 50
+    }
+   },
+   "version": "c-1.0",
+   "service": {
+    "version": "c-service-1.0",
+    "host": "127.0.0.1",
+    "port": 8766,
+    "serial": true,
+    "requests": 299,
+    "in_flight_max": 1,
+    "by_route": {
+     "GET /health": 26,
+     "GET /memories": 44,
+     "POST /reset": 23,
+     "POST /remember": 40,
+     "POST /ask": 126,
+     "POST /forget": 40
+    },
+    "uptime_s": 1144.1,
+    "fake_engine": false,
+    "degraded": false,
+    "ask_timeout_s": 90.0
+   }
+  },
+  "health_after": {
+   "status": "ok",
+   "model_pin": {
+    "model_path": "D:\\models\\Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+    "model_size": 8988110976,
+    "model_mtime": 1793102210
+   },
+   "dll_pin": {
+    "path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+    "present": true,
+    "bytes": 50007552,
+    "sha16": "9edbafa150700614"
+   },
+   "vram_gib": null,
+   "memories": 20,
+   "session": {
+    "path": "kvmem\\at5\\sessions\\kvc.json",
+    "exists": false,
+    "chat_tokens": 0,
+    "chat_budget": 24576,
+    "chat_start": 8192,
+    "n_ctx": 32768,
+    "mounted": 0,
+    "control": false,
+    "n_predict": 192,
+    "rollover_at": 0.75,
+    "rollover_threshold_tokens": 18432
+   },
+   "engine": {
+    "mode": "real",
+    "type": "KVEngine",
+    "n_ctx": 32768,
+    "n_seq": 8,
+    "n_gpu_layers": 28,
+    "bytes_per_token": 104448,
+    "kv_pool_gib": 3.188,
+    "mem_total_gib": 3.188
+   },
+   "retrieval": {
+    "mode": "topk",
+    "topk": 4,
+    "library_count": 20,
+    "library_max": 200,
+    "mounted_ids": [],
+    "mounted_count": 0,
+    "candidates": 2,
+    "related": 0,
+    "memory_budget": 7680,
+    "last_truncation": null,
+    "query_expand": {
+     "enabled": false,
+     "unavailable": false,
+     "hits": [],
+     "before": null,
+     "after": null
+    },
+    "k2": {
+     "mode": "auto_off",
+     "gate_reason": "off",
+     "owner_gate": true,
+     "max_rows": 50
+    }
+   },
+   "version": "c-1.0",
+   "service": {
+    "version": "c-service-1.0",
+    "host": "127.0.0.1",
+    "port": 8766,
+    "serial": true,
+    "requests": 590,
+    "in_flight_max": 1,
+    "by_route": {
+     "GET /health": 48,
+     "GET /memories": 85,
+     "POST /reset": 45,
+     "POST /remember": 80,
+     "POST /ask": 252,
+     "POST /forget": 80
+    },
+    "uptime_s": 1692.6,
+    "fake_engine": false,
+    "degraded": false,
+    "ask_timeout_s": 90.0
+   }
+  },
+  "preflight": {
+   "expect_memories": 20,
+   "got_memories": 20,
+   "ok": true
+  },
+  "elapsed_s": 548.509
+ },
+ "hermetic": {
+  "enabled": true,
+  "reset_supported": true,
+  "reset_error": null,
+  "snapshot_ids_n": 20,
+  "memories_before": 20,
+  "category_boundaries": [],
+  "added_total": 0,
+  "cleaned_total": 0,
+  "final": {
+   "snapshot_n": 20,
+   "extra": [],
+   "deleted": [],
+   "forget_errors": [],
+   "reset_after": true,
+   "memories_now": 20,
+   "memories_after": 20
+  },
+  "added_ids": [],
+  "memories_after_cleanup": 20
+ },
+ "summary": {
+  "scope": "live",
+  "n": 20,
+  "n_valid": 20,
+  "n_infra": 0,
+  "pass": 11,
+  "fail": 9,
+  "pass_rate": 0.55,
+  "pass_rate_including_infra": 0.55,
+  "by_category": {
+   "multi_turn_memory": {
+    "n": 20,
+    "pass": 11,
+    "pass_rate": 0.55
+   }
+  },
+  "failure_classes": {
+   "僵硬": 5,
+   "编造": 3,
+   "误拒": 1
+  },
+  "hard_assertions": {
+   "n": 0,
+   "pass": 0,
+   "fail": 0,
+   "pass_rate": null
+  },
+  "failures": [
+   {
+    "id": "V9MT01",
+    "category": "multi_turn_memory",
+    "input": "我养的猫叫什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我养了只猫叫安安"
+     },
+     {
+      "action": "remember",
+      "text": "我的猫名是朵朵"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "朵朵"
+     ],
+     "not_contains": [
+      "安安"
+     ],
+     "contains_all": [
+      "朵朵"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 猫名：3 轮闲聊+最后提问；上下文旧事实「我养了只猫叫安安」→新事实「我的猫名是朵朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你养的猫叫豆豆",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      14,
+      21
+     ],
+     "latency_client_s": 1.842,
+     "latency_server_s": 1.8277,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['朵朵'] 均未出现"
+    ]
+   },
+   {
+    "id": "V9MT02",
+    "category": "multi_turn_memory",
+    "input": "我的猫叫什么名字？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我养了只猫叫安安"
+     },
+     {
+      "action": "remember",
+      "text": "我的猫名是朵朵"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "朵朵"
+     ],
+     "not_contains": [
+      "安安"
+     ],
+     "contains_all": [
+      "朵朵"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 猫名：4 轮闲聊+最后提问；上下文旧事实「我养了只猫叫安安」→新事实「我的猫名是朵朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的猫叫豆豆",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      14,
+      21
+     ],
+     "latency_client_s": 1.63,
+     "latency_server_s": 1.6139,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['朵朵'] 均未出现"
+    ]
+   },
+   {
+    "id": "V9MT07",
+    "category": "multi_turn_memory",
+    "input": "我的工位在哪？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的工位是B区7号"
+     },
+     {
+      "action": "remember",
+      "text": "我的工位是C区11号"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "C区",
+      "11号"
+     ],
+     "not_contains": [
+      "B区",
+      "7号"
+     ],
+     "contains_all": [
+      "C区",
+      "11号"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 工位：3 轮闲聊+最后提问；上下文旧事实「我的工位是B区7号」→新事实「我的工位是C区11号」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的工位是B区7号",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      22,
+      3,
+      12
+     ],
+     "latency_client_s": 4.212,
+     "latency_server_s": 4.1952,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'B区'",
+     "不应出现内容：'7号'",
+     "缺内容：['C区', '11号'] 均未出现"
+    ]
+   },
+   {
+    "id": "V9MT09",
+    "category": "multi_turn_memory",
+    "input": "我的车牌号是多少？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的车牌号是京N32109"
+     },
+     {
+      "action": "remember",
+      "text": "我的车牌号是津D65432"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "津D65432",
+      "津D 65432"
+     ],
+     "not_contains": [
+      "京N32109"
+     ],
+     "contains_all": [
+      "津D65432"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 车牌：5 轮闲聊+最后提问；上下文旧事实「我的车牌号是京N32109」→新事实「我的车牌号是津D65432」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的车牌号是京A88888",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      3,
+      12,
+      13,
+      21
+     ],
+     "latency_client_s": 2.994,
+     "latency_server_s": 2.9791,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['津D65432', '津D 65432'] 均未出现"
+    ]
+   },
+   {
+    "id": "V9MT10",
+    "category": "multi_turn_memory",
+    "input": "我的车牌是什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的车牌号是京N32109"
+     },
+     {
+      "action": "remember",
+      "text": "我的车牌号是津D65432"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "津D65432",
+      "津D 65432"
+     ],
+     "not_contains": [
+      "京N32109"
+     ],
+     "contains_all": [
+      "津D65432"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 车牌：6 轮闲聊+最后提问；上下文旧事实「我的车牌号是京N32109」→新事实「我的车牌号是津D65432」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的车牌号是京A88888",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      3,
+      12,
+      13,
+      21
+     ],
+     "latency_client_s": 2.979,
+     "latency_server_s": 2.9629,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['津D65432', '津D 65432'] 均未出现"
+    ]
+   },
+   {
+    "id": "V9MT11",
+    "category": "multi_turn_memory",
+    "input": "我在哪家公司上班？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的公司是中石油"
+     },
+     {
+      "action": "remember",
+      "text": "我的公司是顺丰"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "顺丰"
+     ],
+     "not_contains": [
+      "中石油"
+     ],
+     "contains_all": [
+      "顺丰"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 公司：7 轮闲聊+最后提问；上下文旧事实「我的公司是中石油」→新事实「我的公司是顺丰」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "这个我没法确认：你没跟我说过。",
+     "state": "no_evidence",
+     "refused": true,
+     "block_ids": [],
+     "latency_client_s": 0.014,
+     "latency_server_s": 0.0022,
+     "state_class": "no_evidence",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "误拒",
+    "problems": [
+     "不应拒答但被拒答",
+     "缺内容：['顺丰'] 均未出现"
+    ]
+   },
+   {
+    "id": "V9MT12",
+    "category": "multi_turn_memory",
+    "input": "我的公司叫什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的公司是中石油"
+     },
+     {
+      "action": "remember",
+      "text": "我的公司是顺丰"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     },
+     {
+      "action": "ask",
+      "text": "今天几号来着？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "顺丰"
+     ],
+     "not_contains": [
+      "中石油"
+     ],
+     "contains_all": [
+      "顺丰"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 公司：8 轮闲聊+最后提问；上下文旧事实「我的公司是中石油」→新事实「我的公司是顺丰」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "这个信息我这里没有，你平时应该会提到，不过我记不清了",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.737,
+     "latency_server_s": 3.723,
+     "state_class": "general",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "time_local",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['顺丰'] 均未出现"
+    ]
+   },
+   {
+    "id": "V9MT17",
+    "category": "multi_turn_memory",
+    "input": "我最爱吃什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我最爱吃湘菜"
+     },
+     {
+      "action": "remember",
+      "text": "我最爱吃粤菜"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "粤菜"
+     ],
+     "not_contains": [
+      "湘菜"
+     ],
+     "contains_all": [
+      "粤菜"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 爱吃：7 轮闲聊+最后提问；上下文旧事实「我最爱吃湘菜」→新事实「我最爱吃粤菜」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你最爱吃湘菜，具体最爱哪道菜我就不清楚了，你有特别喜欢的湘菜吗",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      22
+     ],
+     "latency_client_s": 4.393,
+     "latency_server_s": 4.3786,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'湘菜'",
+     "缺内容：['粤菜'] 均未出现"
+    ]
+   },
+   {
+    "id": "V9MT18",
+    "category": "multi_turn_memory",
+    "input": "我爱吃什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我最爱吃湘菜"
+     },
+     {
+      "action": "remember",
+      "text": "我最爱吃粤菜"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     },
+     {
+      "action": "ask",
+      "text": "今天几号来着？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "粤菜"
+     ],
+     "not_contains": [
+      "湘菜"
+     ],
+     "contains_all": [
+      "粤菜"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 爱吃：8 轮闲聊+最后提问；上下文旧事实「我最爱吃湘菜」→新事实「我最爱吃粤菜」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你最爱吃湘菜，这个我记得很清楚",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      22
+     ],
+     "latency_client_s": 3.387,
+     "latency_server_s": 3.3726,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "time_local",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'湘菜'",
+     "缺内容：['粤菜'] 均未出现"
+    ]
+   }
+  ],
+  "infra_errors": []
+ },
+ "live": {
+  "scope": "live",
+  "n": 20,
+  "n_valid": 20,
+  "n_infra": 0,
+  "pass": 11,
+  "fail": 9,
+  "pass_rate": 0.55,
+  "pass_rate_including_infra": 0.55,
+  "by_category": {
+   "multi_turn_memory": {
+    "n": 20,
+    "pass": 11,
+    "pass_rate": 0.55
+   }
+  },
+  "failure_classes": {
+   "僵硬": 5,
+   "编造": 3,
+   "误拒": 1
+  },
+  "hard_assertions": {
+   "n": 0,
+   "pass": 0,
+   "fail": 0,
+   "pass_rate": null
+  },
+  "failures": [
+   {
+    "id": "V9MT01",
+    "category": "multi_turn_memory",
+    "input": "我养的猫叫什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我养了只猫叫安安"
+     },
+     {
+      "action": "remember",
+      "text": "我的猫名是朵朵"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "朵朵"
+     ],
+     "not_contains": [
+      "安安"
+     ],
+     "contains_all": [
+      "朵朵"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 猫名：3 轮闲聊+最后提问；上下文旧事实「我养了只猫叫安安」→新事实「我的猫名是朵朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你养的猫叫豆豆",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      14,
+      21
+     ],
+     "latency_client_s": 1.842,
+     "latency_server_s": 1.8277,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['朵朵'] 均未出现"
+    ]
+   },
+   {
+    "id": "V9MT02",
+    "category": "multi_turn_memory",
+    "input": "我的猫叫什么名字？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我养了只猫叫安安"
+     },
+     {
+      "action": "remember",
+      "text": "我的猫名是朵朵"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "朵朵"
+     ],
+     "not_contains": [
+      "安安"
+     ],
+     "contains_all": [
+      "朵朵"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 猫名：4 轮闲聊+最后提问；上下文旧事实「我养了只猫叫安安」→新事实「我的猫名是朵朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的猫叫豆豆",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      14,
+      21
+     ],
+     "latency_client_s": 1.63,
+     "latency_server_s": 1.6139,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['朵朵'] 均未出现"
+    ]
+   },
+   {
+    "id": "V9MT07",
+    "category": "multi_turn_memory",
+    "input": "我的工位在哪？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的工位是B区7号"
+     },
+     {
+      "action": "remember",
+      "text": "我的工位是C区11号"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "C区",
+      "11号"
+     ],
+     "not_contains": [
+      "B区",
+      "7号"
+     ],
+     "contains_all": [
+      "C区",
+      "11号"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 工位：3 轮闲聊+最后提问；上下文旧事实「我的工位是B区7号」→新事实「我的工位是C区11号」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的工位是B区7号",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      22,
+      3,
+      12
+     ],
+     "latency_client_s": 4.212,
+     "latency_server_s": 4.1952,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'B区'",
+     "不应出现内容：'7号'",
+     "缺内容：['C区', '11号'] 均未出现"
+    ]
+   },
+   {
+    "id": "V9MT09",
+    "category": "multi_turn_memory",
+    "input": "我的车牌号是多少？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的车牌号是京N32109"
+     },
+     {
+      "action": "remember",
+      "text": "我的车牌号是津D65432"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "津D65432",
+      "津D 65432"
+     ],
+     "not_contains": [
+      "京N32109"
+     ],
+     "contains_all": [
+      "津D65432"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 车牌：5 轮闲聊+最后提问；上下文旧事实「我的车牌号是京N32109」→新事实「我的车牌号是津D65432」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的车牌号是京A88888",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      3,
+      12,
+      13,
+      21
+     ],
+     "latency_client_s": 2.994,
+     "latency_server_s": 2.9791,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['津D65432', '津D 65432'] 均未出现"
+    ]
+   },
+   {
+    "id": "V9MT10",
+    "category": "multi_turn_memory",
+    "input": "我的车牌是什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的车牌号是京N32109"
+     },
+     {
+      "action": "remember",
+      "text": "我的车牌号是津D65432"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "津D65432",
+      "津D 65432"
+     ],
+     "not_contains": [
+      "京N32109"
+     ],
+     "contains_all": [
+      "津D65432"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 车牌：6 轮闲聊+最后提问；上下文旧事实「我的车牌号是京N32109」→新事实「我的车牌号是津D65432」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的车牌号是京A88888",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      3,
+      12,
+      13,
+      21
+     ],
+     "latency_client_s": 2.979,
+     "latency_server_s": 2.9629,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['津D65432', '津D 65432'] 均未出现"
+    ]
+   },
+   {
+    "id": "V9MT11",
+    "category": "multi_turn_memory",
+    "input": "我在哪家公司上班？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的公司是中石油"
+     },
+     {
+      "action": "remember",
+      "text": "我的公司是顺丰"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "顺丰"
+     ],
+     "not_contains": [
+      "中石油"
+     ],
+     "contains_all": [
+      "顺丰"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 公司：7 轮闲聊+最后提问；上下文旧事实「我的公司是中石油」→新事实「我的公司是顺丰」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "这个我没法确认：你没跟我说过。",
+     "state": "no_evidence",
+     "refused": true,
+     "block_ids": [],
+     "latency_client_s": 0.014,
+     "latency_server_s": 0.0022,
+     "state_class": "no_evidence",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "误拒",
+    "problems": [
+     "不应拒答但被拒答",
+     "缺内容：['顺丰'] 均未出现"
+    ]
+   },
+   {
+    "id": "V9MT12",
+    "category": "multi_turn_memory",
+    "input": "我的公司叫什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的公司是中石油"
+     },
+     {
+      "action": "remember",
+      "text": "我的公司是顺丰"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     },
+     {
+      "action": "ask",
+      "text": "今天几号来着？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "顺丰"
+     ],
+     "not_contains": [
+      "中石油"
+     ],
+     "contains_all": [
+      "顺丰"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 公司：8 轮闲聊+最后提问；上下文旧事实「我的公司是中石油」→新事实「我的公司是顺丰」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "这个信息我这里没有，你平时应该会提到，不过我记不清了",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 3.737,
+     "latency_server_s": 3.723,
+     "state_class": "general",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "time_local",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['顺丰'] 均未出现"
+    ]
+   },
+   {
+    "id": "V9MT17",
+    "category": "multi_turn_memory",
+    "input": "我最爱吃什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我最爱吃湘菜"
+     },
+     {
+      "action": "remember",
+      "text": "我最爱吃粤菜"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "粤菜"
+     ],
+     "not_contains": [
+      "湘菜"
+     ],
+     "contains_all": [
+      "粤菜"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 爱吃：7 轮闲聊+最后提问；上下文旧事实「我最爱吃湘菜」→新事实「我最爱吃粤菜」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你最爱吃湘菜，具体最爱哪道菜我就不清楚了，你有特别喜欢的湘菜吗",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      22
+     ],
+     "latency_client_s": 4.393,
+     "latency_server_s": 4.3786,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'湘菜'",
+     "缺内容：['粤菜'] 均未出现"
+    ]
+   },
+   {
+    "id": "V9MT18",
+    "category": "multi_turn_memory",
+    "input": "我爱吃什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我最爱吃湘菜"
+     },
+     {
+      "action": "remember",
+      "text": "我最爱吃粤菜"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     },
+     {
+      "action": "ask",
+      "text": "今天几号来着？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "粤菜"
+     ],
+     "not_contains": [
+      "湘菜"
+     ],
+     "contains_all": [
+      "粤菜"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 爱吃：8 轮闲聊+最后提问；上下文旧事实「我最爱吃湘菜」→新事实「我最爱吃粤菜」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你最爱吃湘菜，这个我记得很清楚",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      22
+     ],
+     "latency_client_s": 3.387,
+     "latency_server_s": 3.3726,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "verify_fallback",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "time_local",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'湘菜'",
+     "缺内容：['粤菜'] 均未出现"
+    ]
+   }
+  ],
+  "infra_errors": []
+ },
+ "results": [
+  {
+   "id": "V9MT01",
+   "category": "multi_turn_memory",
+   "input": "我养的猫叫什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我养了只猫叫安安"
+    },
+    {
+     "action": "remember",
+     "text": "我的猫名是朵朵"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "朵朵"
+    ],
+    "not_contains": [
+     "安安"
+    ],
+    "contains_all": [
+     "朵朵"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 猫名：3 轮闲聊+最后提问；上下文旧事实「我养了只猫叫安安」→新事实「我的猫名是朵朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你养的猫叫豆豆",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     14,
+     21
+    ],
+    "latency_client_s": 1.842,
+    "latency_server_s": 1.8277,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "缺内容：['朵朵'] 均未出现"
+   ]
+  },
+  {
+   "id": "V9MT02",
+   "category": "multi_turn_memory",
+   "input": "我的猫叫什么名字？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我养了只猫叫安安"
+    },
+    {
+     "action": "remember",
+     "text": "我的猫名是朵朵"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "朵朵"
+    ],
+    "not_contains": [
+     "安安"
+    ],
+    "contains_all": [
+     "朵朵"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 猫名：4 轮闲聊+最后提问；上下文旧事实「我养了只猫叫安安」→新事实「我的猫名是朵朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的猫叫豆豆",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     14,
+     21
+    ],
+    "latency_client_s": 1.63,
+    "latency_server_s": 1.6139,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "缺内容：['朵朵'] 均未出现"
+   ]
+  },
+  {
+   "id": "V9MT03",
+   "category": "multi_turn_memory",
+   "input": "我什么时候去健身？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的健身时间是周日上午九点半"
+    },
+    {
+     "action": "remember",
+     "text": "我的健身时间是周二晚上七点四十"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "周二晚上七点四十"
+    ],
+    "not_contains": [],
+    "contains_all": [
+     "周二晚上七点四十"
+    ],
+    "conflict_if_all": [
+     [
+      "周日上午九点半",
+      "周二晚上七点四十"
+     ]
+    ],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 健身：5 轮闲聊+最后提问；上下文旧事实「我的健身时间是周日上午九点半」→新事实「我的健身时间是周二晚上七点四十」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的健身时间是周二晚上七点四十，记得按时去哦",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     22,
+     21
+    ],
+    "latency_client_s": 3.112,
+    "latency_server_s": 3.0965,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "V9MT04",
+   "category": "multi_turn_memory",
+   "input": "我几点去健身？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的健身时间是周日上午九点半"
+    },
+    {
+     "action": "remember",
+     "text": "我的健身时间是周二晚上七点四十"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "周二晚上七点四十"
+    ],
+    "not_contains": [],
+    "contains_all": [
+     "周二晚上七点四十"
+    ],
+    "conflict_if_all": [
+     [
+      "周日上午九点半",
+      "周二晚上七点四十"
+     ]
+    ],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 健身：6 轮闲聊+最后提问；上下文旧事实「我的健身时间是周日上午九点半」→新事实「我的健身时间是周二晚上七点四十」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你之前说的健身时间是周二晚上七点四十",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     22,
+     21
+    ],
+    "latency_client_s": 3.763,
+    "latency_server_s": 3.7492,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "V9MT05",
+   "category": "multi_turn_memory",
+   "input": "我的手机号是多少？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的手机号是136-1111-3333"
+    },
+    {
+     "action": "remember",
+     "text": "我的手机号是158-0000-2468"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "158-0000-2468",
+     "15800002468"
+    ],
+    "not_contains": [],
+    "contains_all": [
+     "158-0000-2468"
+    ],
+    "conflict_if_all": [
+     [
+      "136-1111-3333",
+      "158-0000-2468"
+     ]
+    ],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 手机号：7 轮闲聊+最后提问；上下文旧事实「我的手机号是136-1111-3333」→新事实「我的手机号是158-0000-2468」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的手机号是158-0000-2468",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     21,
+     22,
+     3,
+     12
+    ],
+    "latency_client_s": 4.336,
+    "latency_server_s": 4.3207,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "V9MT06",
+   "category": "multi_turn_memory",
+   "input": "我的手机号是什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的手机号是136-1111-3333"
+    },
+    {
+     "action": "remember",
+     "text": "我的手机号是158-0000-2468"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    },
+    {
+     "action": "ask",
+     "text": "今天几号来着？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "158-0000-2468",
+     "15800002468"
+    ],
+    "not_contains": [],
+    "contains_all": [
+     "158-0000-2468"
+    ],
+    "conflict_if_all": [
+     [
+      "136-1111-3333",
+      "158-0000-2468"
+     ]
+    ],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 手机号：8 轮闲聊+最后提问；上下文旧事实「我的手机号是136-1111-3333」→新事实「我的手机号是158-0000-2468」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的手机号是158-0000-2468",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     21,
+     22,
+     3,
+     12
+    ],
+    "latency_client_s": 3.611,
+    "latency_server_s": 3.5972,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "time_local",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "V9MT07",
+   "category": "multi_turn_memory",
+   "input": "我的工位在哪？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的工位是B区7号"
+    },
+    {
+     "action": "remember",
+     "text": "我的工位是C区11号"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "C区",
+     "11号"
+    ],
+    "not_contains": [
+     "B区",
+     "7号"
+    ],
+    "contains_all": [
+     "C区",
+     "11号"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 工位：3 轮闲聊+最后提问；上下文旧事实「我的工位是B区7号」→新事实「我的工位是C区11号」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的工位是B区7号",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     21,
+     22,
+     3,
+     12
+    ],
+    "latency_client_s": 4.212,
+    "latency_server_s": 4.1952,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "编造",
+   "problems": [
+    "不应出现内容：'B区'",
+    "不应出现内容：'7号'",
+    "缺内容：['C区', '11号'] 均未出现"
+   ]
+  },
+  {
+   "id": "V9MT08",
+   "category": "multi_turn_memory",
+   "input": "我的工位是哪个？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的工位是B区7号"
+    },
+    {
+     "action": "remember",
+     "text": "我的工位是C区11号"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "C区",
+     "11号"
+    ],
+    "not_contains": [
+     "B区",
+     "7号"
+    ],
+    "contains_all": [
+     "C区",
+     "11号"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 工位：4 轮闲聊+最后提问；上下文旧事实「我的工位是B区7号」→新事实「我的工位是C区11号」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的工位是C区11号",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     21,
+     22,
+     3,
+     12
+    ],
+    "latency_client_s": 2.372,
+    "latency_server_s": 2.3574,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "V9MT09",
+   "category": "multi_turn_memory",
+   "input": "我的车牌号是多少？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的车牌号是京N32109"
+    },
+    {
+     "action": "remember",
+     "text": "我的车牌号是津D65432"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "津D65432",
+     "津D 65432"
+    ],
+    "not_contains": [
+     "京N32109"
+    ],
+    "contains_all": [
+     "津D65432"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 车牌：5 轮闲聊+最后提问；上下文旧事实「我的车牌号是京N32109」→新事实「我的车牌号是津D65432」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的车牌号是京A88888",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     3,
+     12,
+     13,
+     21
+    ],
+    "latency_client_s": 2.994,
+    "latency_server_s": 2.9791,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "缺内容：['津D65432', '津D 65432'] 均未出现"
+   ]
+  },
+  {
+   "id": "V9MT10",
+   "category": "multi_turn_memory",
+   "input": "我的车牌是什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的车牌号是京N32109"
+    },
+    {
+     "action": "remember",
+     "text": "我的车牌号是津D65432"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "津D65432",
+     "津D 65432"
+    ],
+    "not_contains": [
+     "京N32109"
+    ],
+    "contains_all": [
+     "津D65432"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 车牌：6 轮闲聊+最后提问；上下文旧事实「我的车牌号是京N32109」→新事实「我的车牌号是津D65432」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的车牌号是京A88888",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     3,
+     12,
+     13,
+     21
+    ],
+    "latency_client_s": 2.979,
+    "latency_server_s": 2.9629,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "缺内容：['津D65432', '津D 65432'] 均未出现"
+   ]
+  },
+  {
+   "id": "V9MT11",
+   "category": "multi_turn_memory",
+   "input": "我在哪家公司上班？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的公司是中石油"
+    },
+    {
+     "action": "remember",
+     "text": "我的公司是顺丰"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "顺丰"
+    ],
+    "not_contains": [
+     "中石油"
+    ],
+    "contains_all": [
+     "顺丰"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 公司：7 轮闲聊+最后提问；上下文旧事实「我的公司是中石油」→新事实「我的公司是顺丰」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "这个我没法确认：你没跟我说过。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "latency_client_s": 0.014,
+    "latency_server_s": 0.0022,
+    "state_class": "no_evidence",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "误拒",
+   "problems": [
+    "不应拒答但被拒答",
+    "缺内容：['顺丰'] 均未出现"
+   ]
+  },
+  {
+   "id": "V9MT12",
+   "category": "multi_turn_memory",
+   "input": "我的公司叫什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的公司是中石油"
+    },
+    {
+     "action": "remember",
+     "text": "我的公司是顺丰"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    },
+    {
+     "action": "ask",
+     "text": "今天几号来着？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "顺丰"
+    ],
+    "not_contains": [
+     "中石油"
+    ],
+    "contains_all": [
+     "顺丰"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 公司：8 轮闲聊+最后提问；上下文旧事实「我的公司是中石油」→新事实「我的公司是顺丰」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "这个信息我这里没有，你平时应该会提到，不过我记不清了",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.737,
+    "latency_server_s": 3.723,
+    "state_class": "general",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "time_local",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "缺内容：['顺丰'] 均未出现"
+   ]
+  },
+  {
+   "id": "V9MT13",
+   "category": "multi_turn_memory",
+   "input": "我下周三要去哪开会？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我下周三要去宜昌开会"
+    },
+    {
+     "action": "remember",
+     "text": "我下周三要去哈尔滨开会"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "哈尔滨"
+    ],
+    "not_contains": [
+     "宜昌"
+    ],
+    "contains_all": [
+     "哈尔滨"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 出差地：3 轮闲聊+最后提问；上下文旧事实「我下周三要去宜昌开会」→新事实「我下周三要去哈尔滨开会」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你下周三要去哈尔滨开会",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     22
+    ],
+    "latency_client_s": 1.639,
+    "latency_server_s": 1.6254,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "V9MT14",
+   "category": "multi_turn_memory",
+   "input": "我下周三去哪？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我下周三要去宜昌开会"
+    },
+    {
+     "action": "remember",
+     "text": "我下周三要去哈尔滨开会"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "哈尔滨"
+    ],
+    "not_contains": [
+     "宜昌"
+    ],
+    "contains_all": [
+     "哈尔滨"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 出差地：4 轮闲聊+最后提问；上下文旧事实「我下周三要去宜昌开会」→新事实「我下周三要去哈尔滨开会」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你下周三要去哈尔滨开会，记得早点准备哦",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     22
+    ],
+    "latency_client_s": 2.35,
+    "latency_server_s": 2.3341,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "V9MT15",
+   "category": "multi_turn_memory",
+   "input": "我老家在哪？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我老家在襄阳"
+    },
+    {
+     "action": "remember",
+     "text": "我老家在荆州"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "荆州"
+    ],
+    "not_contains": [
+     "襄阳"
+    ],
+    "contains_all": [
+     "荆州"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 老家：5 轮闲聊+最后提问；上下文旧事实「我老家在襄阳」→新事实「我老家在荆州」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你老家在荆州",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     21,
+     22
+    ],
+    "latency_client_s": 1.823,
+    "latency_server_s": 1.8078,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "V9MT16",
+   "category": "multi_turn_memory",
+   "input": "我老家是哪里？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我老家在襄阳"
+    },
+    {
+     "action": "remember",
+     "text": "我老家在荆州"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "荆州"
+    ],
+    "not_contains": [
+     "襄阳"
+    ],
+    "contains_all": [
+     "荆州"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 老家：6 轮闲聊+最后提问；上下文旧事实「我老家在襄阳」→新事实「我老家在荆州」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你老家在荆州，有啥想聊的吗",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     21,
+     22
+    ],
+    "latency_client_s": 2.783,
+    "latency_server_s": 2.7664,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "V9MT17",
+   "category": "multi_turn_memory",
+   "input": "我最爱吃什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我最爱吃湘菜"
+    },
+    {
+     "action": "remember",
+     "text": "我最爱吃粤菜"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "粤菜"
+    ],
+    "not_contains": [
+     "湘菜"
+    ],
+    "contains_all": [
+     "粤菜"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 爱吃：7 轮闲聊+最后提问；上下文旧事实「我最爱吃湘菜」→新事实「我最爱吃粤菜」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你最爱吃湘菜，具体最爱哪道菜我就不清楚了，你有特别喜欢的湘菜吗",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     21,
+     22
+    ],
+    "latency_client_s": 4.393,
+    "latency_server_s": 4.3786,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "编造",
+   "problems": [
+    "不应出现内容：'湘菜'",
+    "缺内容：['粤菜'] 均未出现"
+   ]
+  },
+  {
+   "id": "V9MT18",
+   "category": "multi_turn_memory",
+   "input": "我爱吃什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我最爱吃湘菜"
+    },
+    {
+     "action": "remember",
+     "text": "我最爱吃粤菜"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    },
+    {
+     "action": "ask",
+     "text": "今天几号来着？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "粤菜"
+    ],
+    "not_contains": [
+     "湘菜"
+    ],
+    "contains_all": [
+     "粤菜"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 爱吃：8 轮闲聊+最后提问；上下文旧事实「我最爱吃湘菜」→新事实「我最爱吃粤菜」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你最爱吃湘菜，这个我记得很清楚",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     21,
+     22
+    ],
+    "latency_client_s": 3.387,
+    "latency_server_s": 3.3726,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "time_local",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "编造",
+   "problems": [
+    "不应出现内容：'湘菜'",
+    "缺内容：['粤菜'] 均未出现"
+   ]
+  },
+  {
+   "id": "V9MT19",
+   "category": "multi_turn_memory",
+   "input": "我女儿的小名是什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我女儿小名叫果果"
+    },
+    {
+     "action": "remember",
+     "text": "我女儿小名叫米朵"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "米朵"
+    ],
+    "not_contains": [
+     "果果"
+    ],
+    "contains_all": [
+     "米朵"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 女儿小名：3 轮闲聊+最后提问；上下文旧事实「我女儿小名叫果果」→新事实「我女儿小名叫米朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你女儿的小名叫米朵",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     21,
+     22
+    ],
+    "latency_client_s": 1.685,
+    "latency_server_s": 1.6698,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "V9MT20",
+   "category": "multi_turn_memory",
+   "input": "我女儿叫什么小名？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我女儿小名叫果果"
+    },
+    {
+     "action": "remember",
+     "text": "我女儿小名叫米朵"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "米朵"
+    ],
+    "not_contains": [
+     "果果"
+    ],
+    "contains_all": [
+     "米朵"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 女儿小名：4 轮闲聊+最后提问；上下文旧事实「我女儿小名叫果果」→新事实「我女儿小名叫米朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你女儿的小名叫米朵",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     22,
+     21
+    ],
+    "latency_client_s": 2.02,
+    "latency_server_s": 2.0048,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  }
+ ],
+ "notes": [
+  "密闭评测：开始前 GET /memories 快照 + POST /reset；每个 category 边界清理测试块并 reset；结束后删除快照外全部 id 并 reset；元数据见 hermetic。共享会话历史无法重置，后段用例可能受前段上下文影响（已按 read-only → 写入类顺序排列）。",
+  "dry-run-instance：每条独立 fake 实例（零 GPU/零模型），只判结构项（refusal/state_class/memory_delta/延迟），正文包含类检查 skipped，不与 live 基线混算。",
+  "expect 扩展：memory_delta 为 T11 跑器补充字段（自动记忆用例核对入记忆条数），其余字段沿用 LEAD 指定 schema。",
+  "连接层错误（服务被重启/拒绝连接）计入 n_infra，不计入 pass_rate 分母；若 n_infra 偏大说明评测窗口内服务被外部重启，基线只对 n_valid 条成立。",
+  "partial=true 表示本轮被中断/未跑完；可用 --resume 在同一 --out 上续跑。",
+  "--reset-per-case：每条 case 主问和 pre_state 之前先 POST /reset 清会话（每条独立会话；case 内 pre_state ask 仍连续，供 MT20 多轮使用）。",
+  "--forget-created-per-case：每条 case 结束立即删除本 case /remember 创建的块（hermetic 下也生效），保证下一条 memory_before 恒定。"
+ ],
+ "failures": [
+  {
+   "id": "V9MT01",
+   "category": "multi_turn_memory",
+   "input": "我养的猫叫什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我养了只猫叫安安"
+    },
+    {
+     "action": "remember",
+     "text": "我的猫名是朵朵"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "朵朵"
+    ],
+    "not_contains": [
+     "安安"
+    ],
+    "contains_all": [
+     "朵朵"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 猫名：3 轮闲聊+最后提问；上下文旧事实「我养了只猫叫安安」→新事实「我的猫名是朵朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你养的猫叫豆豆",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     14,
+     21
+    ],
+    "latency_client_s": 1.842,
+    "latency_server_s": 1.8277,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "缺内容：['朵朵'] 均未出现"
+   ]
+  },
+  {
+   "id": "V9MT02",
+   "category": "multi_turn_memory",
+   "input": "我的猫叫什么名字？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我养了只猫叫安安"
+    },
+    {
+     "action": "remember",
+     "text": "我的猫名是朵朵"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "朵朵"
+    ],
+    "not_contains": [
+     "安安"
+    ],
+    "contains_all": [
+     "朵朵"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 猫名：4 轮闲聊+最后提问；上下文旧事实「我养了只猫叫安安」→新事实「我的猫名是朵朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的猫叫豆豆",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     14,
+     21
+    ],
+    "latency_client_s": 1.63,
+    "latency_server_s": 1.6139,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "缺内容：['朵朵'] 均未出现"
+   ]
+  },
+  {
+   "id": "V9MT07",
+   "category": "multi_turn_memory",
+   "input": "我的工位在哪？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的工位是B区7号"
+    },
+    {
+     "action": "remember",
+     "text": "我的工位是C区11号"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "C区",
+     "11号"
+    ],
+    "not_contains": [
+     "B区",
+     "7号"
+    ],
+    "contains_all": [
+     "C区",
+     "11号"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 工位：3 轮闲聊+最后提问；上下文旧事实「我的工位是B区7号」→新事实「我的工位是C区11号」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的工位是B区7号",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     21,
+     22,
+     3,
+     12
+    ],
+    "latency_client_s": 4.212,
+    "latency_server_s": 4.1952,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "编造",
+   "problems": [
+    "不应出现内容：'B区'",
+    "不应出现内容：'7号'",
+    "缺内容：['C区', '11号'] 均未出现"
+   ]
+  },
+  {
+   "id": "V9MT09",
+   "category": "multi_turn_memory",
+   "input": "我的车牌号是多少？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的车牌号是京N32109"
+    },
+    {
+     "action": "remember",
+     "text": "我的车牌号是津D65432"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "津D65432",
+     "津D 65432"
+    ],
+    "not_contains": [
+     "京N32109"
+    ],
+    "contains_all": [
+     "津D65432"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 车牌：5 轮闲聊+最后提问；上下文旧事实「我的车牌号是京N32109」→新事实「我的车牌号是津D65432」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的车牌号是京A88888",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     3,
+     12,
+     13,
+     21
+    ],
+    "latency_client_s": 2.994,
+    "latency_server_s": 2.9791,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "缺内容：['津D65432', '津D 65432'] 均未出现"
+   ]
+  },
+  {
+   "id": "V9MT10",
+   "category": "multi_turn_memory",
+   "input": "我的车牌是什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的车牌号是京N32109"
+    },
+    {
+     "action": "remember",
+     "text": "我的车牌号是津D65432"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "津D65432",
+     "津D 65432"
+    ],
+    "not_contains": [
+     "京N32109"
+    ],
+    "contains_all": [
+     "津D65432"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 车牌：6 轮闲聊+最后提问；上下文旧事实「我的车牌号是京N32109」→新事实「我的车牌号是津D65432」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的车牌号是京A88888",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     3,
+     12,
+     13,
+     21
+    ],
+    "latency_client_s": 2.979,
+    "latency_server_s": 2.9629,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "缺内容：['津D65432', '津D 65432'] 均未出现"
+   ]
+  },
+  {
+   "id": "V9MT11",
+   "category": "multi_turn_memory",
+   "input": "我在哪家公司上班？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的公司是中石油"
+    },
+    {
+     "action": "remember",
+     "text": "我的公司是顺丰"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "顺丰"
+    ],
+    "not_contains": [
+     "中石油"
+    ],
+    "contains_all": [
+     "顺丰"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 公司：7 轮闲聊+最后提问；上下文旧事实「我的公司是中石油」→新事实「我的公司是顺丰」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "这个我没法确认：你没跟我说过。",
+    "state": "no_evidence",
+    "refused": true,
+    "block_ids": [],
+    "latency_client_s": 0.014,
+    "latency_server_s": 0.0022,
+    "state_class": "no_evidence",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "误拒",
+   "problems": [
+    "不应拒答但被拒答",
+    "缺内容：['顺丰'] 均未出现"
+   ]
+  },
+  {
+   "id": "V9MT12",
+   "category": "multi_turn_memory",
+   "input": "我的公司叫什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的公司是中石油"
+    },
+    {
+     "action": "remember",
+     "text": "我的公司是顺丰"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    },
+    {
+     "action": "ask",
+     "text": "今天几号来着？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "顺丰"
+    ],
+    "not_contains": [
+     "中石油"
+    ],
+    "contains_all": [
+     "顺丰"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 公司：8 轮闲聊+最后提问；上下文旧事实「我的公司是中石油」→新事实「我的公司是顺丰」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "这个信息我这里没有，你平时应该会提到，不过我记不清了",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [],
+    "latency_client_s": 3.737,
+    "latency_server_s": 3.723,
+    "state_class": "general",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "time_local",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "僵硬",
+   "problems": [
+    "缺内容：['顺丰'] 均未出现"
+   ]
+  },
+  {
+   "id": "V9MT17",
+   "category": "multi_turn_memory",
+   "input": "我最爱吃什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我最爱吃湘菜"
+    },
+    {
+     "action": "remember",
+     "text": "我最爱吃粤菜"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "粤菜"
+    ],
+    "not_contains": [
+     "湘菜"
+    ],
+    "contains_all": [
+     "粤菜"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 爱吃：7 轮闲聊+最后提问；上下文旧事实「我最爱吃湘菜」→新事实「我最爱吃粤菜」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你最爱吃湘菜，具体最爱哪道菜我就不清楚了，你有特别喜欢的湘菜吗",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     21,
+     22
+    ],
+    "latency_client_s": 4.393,
+    "latency_server_s": 4.3786,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "编造",
+   "problems": [
+    "不应出现内容：'湘菜'",
+    "缺内容：['粤菜'] 均未出现"
+   ]
+  },
+  {
+   "id": "V9MT18",
+   "category": "multi_turn_memory",
+   "input": "我爱吃什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我最爱吃湘菜"
+    },
+    {
+     "action": "remember",
+     "text": "我最爱吃粤菜"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    },
+    {
+     "action": "ask",
+     "text": "今天几号来着？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "粤菜"
+    ],
+    "not_contains": [
+     "湘菜"
+    ],
+    "contains_all": [
+     "粤菜"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 爱吃：8 轮闲聊+最后提问；上下文旧事实「我最爱吃湘菜」→新事实「我最爱吃粤菜」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你最爱吃湘菜，这个我记得很清楚",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     21,
+     22
+    ],
+    "latency_client_s": 3.387,
+    "latency_server_s": 3.3726,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "time_local",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "编造",
+   "problems": [
+    "不应出现内容：'湘菜'",
+    "缺内容：['粤菜'] 均未出现"
+   ]
+  }
+ ]
+}

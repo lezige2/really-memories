@@ -1,0 +1,64 @@
+{
+ "schema": "p1_default_verify_v1",
+ "config": {
+  "db": "kvmem/p1def/chat.db (daily 副本)",
+  "flags": "无任何 lifecycle flag（默认）",
+  "k2": "off",
+  "verifier": "v1"
+ },
+ "tables": {
+  "memory_access": true,
+  "memory_archive": true,
+  "memory_source_new_columns": []
+ },
+ "ask": {
+  "latency_s": 2.81,
+  "answer": "你的猫叫豆豆",
+  "capacity_warning": null,
+  "access_immediately": 0,
+  "access_after_1_5s": 1
+ },
+ "results": {
+  "81": {
+   "pass": 81,
+   "n": 81,
+   "base": 81,
+   "new_fails": [],
+   "fails": []
+  },
+  "EXTRA": {
+   "pass": 17,
+   "n": 20,
+   "base": 18,
+   "new_fails": [
+    "L05"
+   ],
+   "fails": [
+    "L05",
+    "L07",
+    "L09"
+   ]
+  },
+  "MT20": {
+   "pass": 10,
+   "n": 20,
+   "base": 11,
+   "new_fails": [
+    "V9MT04"
+   ],
+   "fails": [
+    "V9MT01",
+    "V9MT02",
+    "V9MT04",
+    "V9MT07",
+    "V9MT09",
+    "V9MT10",
+    "V9MT11",
+    "V9MT12",
+    "V9MT17",
+    "V9MT18"
+   ]
+  }
+ },
+ "verdict": "81 81/81 与基线一致；extra 17/20 仅新增 L05（已知 flaky），剔除后 17/19 = 基线；MT20 10/20 新增 V9MT04（答案取旧值「周日上午九点半」，期望周二晚七点四十）⇒ 严格逐 case 存在 1 条回归，形态与全开轮的 V9MT08 同类，疑为 MT20 侧偶发，需 5× 配对定性"
+}

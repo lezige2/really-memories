@@ -1,0 +1,43 @@
+{
+ "schema": "auto_81_smoke_v1",
+ "config": {
+  "pid": 11208,
+  "db": "kvmem/auto/chat.db (daily 只读副本)",
+  "k2": "off",
+  "verifier": "v1",
+  "event_date": "off",
+  "tts": "off",
+  "ngl": 28,
+  "n_ctx": 32768,
+  "topk": 4,
+  "memories": 20,
+  "hardware": "全核 4.5G / PBO 仍开 / 频率 Auto"
+ },
+ "db_sha": {
+  "before": "be86499b451e8a12a9df0e6d5c49a66a82712e955de608d75a82e15d62850f9e",
+  "after_prefix": "2999a4d97a94a966"
+ },
+ "result": {
+  "pass": 80,
+  "n": 81,
+  "fails": [
+   "c09"
+  ],
+  "target": "81/81",
+  "met": false,
+  "p50_s": 2.07,
+  "p95_s": 4.87,
+  "mean_s": 2.24,
+  "elapsed_s": 199.5
+ },
+ "fail_detail": {
+  "id": "c09",
+  "input": "你记得我有几条记忆？",
+  "block_ids": [
+   1,
+   2
+  ],
+  "answer": "记不清了"
+ },
+ "verdict": "未达目标 81/81（80/81，c09 fail）；按令不重试、不换配置，服务已停"
+}

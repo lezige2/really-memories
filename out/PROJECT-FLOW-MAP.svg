@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1760" height="1320" viewBox="0 0 1760 1320">
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#5f6368"/></marker></defs>
+<rect width="100%" height="100%" fill="#fafafa"/>
+<text x="40" y="45.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="28" fill="#202124" text-anchor="start" font-weight='700'>llama-mem 当前项目总流程（2026-10-30）</text>
+<text x="40" y="78.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#5f6368" text-anchor="start" >颜色：绿=已实测通过；黄=部分/过渡；红=失败或阻塞；灰=未验证/未实现</text>
+<text x="40" y="120.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="20" fill="#1a73e8" text-anchor="start" font-weight='700'>① 写入路径（/remember）</text>
+<text x="610" y="120.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="20" fill="#1a73e8" text-anchor="start" font-weight='700'>② 读取/回答路径（/ask）</text>
+<text x="1220" y="120.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="20" fill="#1a73e8" text-anchor="start" font-weight='700'>③ 验证与研究（离线）</text>
+<rect x="40" y="140" width="500" height="56" rx="10" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2"/>
+<text x="52" y="165.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#1a73e8" text-anchor="start" font-weight='700'>用户说事实</text>
+<text x="52" y="188.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >example: 我的车是白色 SUV</text>
+<rect x="40" y="225" width="500" height="56" rx="10" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2"/>
+<text x="52" y="250.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#1a73e8" text-anchor="start" font-weight='700'>/remember</text>
+<text x="52" y="273.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >text / tags / source</text>
+<rect x="40" y="310" width="500" height="64" rx="10" fill="#fff4e5" stroke="#b26a00" stroke-width="2"/>
+<text x="52" y="335.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#b26a00" text-anchor="start" font-weight='700'>source_hash 精确判重</text>
+<text x="52" y="358.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >exact sha256 only；norm_hash 未实现</text>
+<text x="52" y="375.55" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >全角/空格变体拦不住 → 脏数据入库</text>
+<rect x="40" y="403" width="500" height="64" rx="10" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2"/>
+<text x="52" y="428.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#1a73e8" text-anchor="start" font-weight='700'>建 KV 块 + 写 SQLite</text>
+<text x="52" y="451.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >memory_source + memory_block + blocks/*.kv</text>
+<rect x="40" y="496" width="500" height="64" rx="10" fill="#fff4e5" stroke="#b26a00" stroke-width="2"/>
+<text x="52" y="521.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#b26a00" text-anchor="start" font-weight='700'>容量上限 200：硬拒绝</text>
+<text x="52" y="544.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >第 201 条返回 409 memory_full；不淘汰最老</text>
+<rect x="40" y="589" width="500" height="74" rx="10" fill="#f2f2f2" stroke="#666" stroke-width="2"/>
+<text x="52" y="614.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#666" text-anchor="start" font-weight='700'>owner / 主体抽取（P0 进行中）</text>
+<text x="52" y="637.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >确定性规则：我/人名/的/家/养/开</text>
+<text x="52" y="654.55" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >目标族键 (subject, predicate)；当前族键只有 family</text>
+<line x1="290" y1="196" x2="290" y2="225" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="290" y1="281" x2="290" y2="310" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="290" y1="374" x2="290" y2="403" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="290" y1="467" x2="290" y2="496" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="290" y1="560" x2="290" y2="589" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="550" y="630" font-family="Microsoft YaHei" font-size="12" fill="#666">P0 未完成前，写侧仍靠读侧 K2 兜底</text>
+<rect x="610" y="140" width="520" height="56" rx="10" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2"/>
+<text x="622" y="165.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#1a73e8" text-anchor="start" font-weight='700'>用户提问</text>
+<text x="622" y="188.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >自然语言；可含 我的/赵磊家的/刘敏的</text>
+<rect x="610" y="225" width="520" height="56" rx="10" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2"/>
+<text x="622" y="250.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#1a73e8" text-anchor="start" font-weight='700'>检索 topk4</text>
+<text x="622" y="273.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >向量/关键词检索；不保证正确块进前 4</text>
+<rect x="610" y="310" width="520" height="96" rx="10" fill="#fff4e5" stroke="#b26a00" stroke-width="2"/>
+<text x="622" y="335.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#b26a00" text-anchor="start" font-weight='700'>K2 auto gate（过渡）</text>
+<text x="622" y="358.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >rows ≤ 50 且 owner 可判 → 同族/同主体去重</text>
+<text x="622" y="375.55" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >rows &gt; 50 或 owner 缺失 → count/owner_missing 回退</text>
+<text x="622" y="393.1" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >200 档 40/40 全部 count 回退</text>
+<rect x="610" y="435" width="520" height="58" rx="10" fill="#e6f4ea" stroke="#2e7d32" stroke-width="2"/>
+<text x="622" y="460.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#2e7d32" text-anchor="start" font-weight='700'>时间锚点</text>
+<text x="622" y="483.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >created_at DESC；一次性会议/出差过期；periodic 豁免</text>
+<rect x="610" y="522" width="520" height="58" rx="10" fill="#e6f4ea" stroke="#2e7d32" stroke-width="2"/>
+<text x="622" y="547.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#2e7d32" text-anchor="start" font-weight='700'>挂载 KV 块（topk4）</text>
+<text x="622" y="570.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >P 记忆块进入 KV cache；不是把原文拼进 prompt</text>
+<rect x="610" y="609" width="520" height="58" rx="10" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2"/>
+<text x="622" y="634.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#1a73e8" text-anchor="start" font-weight='700'>14B Qwen2.5 Q4_K_M</text>
+<text x="622" y="657.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >9G；CPU 20 层 + GPU 28 层；串行 in_flight=1</text>
+<rect x="610" y="696" width="520" height="72" rx="10" fill="#e6f4ea" stroke="#2e7d32" stroke-width="2"/>
+<text x="622" y="721.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#2e7d32" text-anchor="start" font-weight='700'>verifier v2（默认 v1）</text>
+<text x="622" y="744.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >槽位明确才校验；中性 repair：仅 query+answer</text>
+<text x="622" y="761.55" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >无 KV 文本/hint/期望值；v1 保持</text>
+<rect x="610" y="797" width="520" height="58" rx="10" fill="#f2f2f2" stroke="#666" stroke-width="2"/>
+<text x="622" y="822.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#666" text-anchor="start" font-weight='700'>回答 / 可选 TTS</text>
+<text x="622" y="845.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >TTS 仅规格（D10），未实现；默认关闭</text>
+<line x1="870" y1="196" x2="870" y2="225" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="870" y1="281" x2="870" y2="310" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="870" y1="406" x2="870" y2="435" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="870" y1="493" x2="870" y2="522" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="870" y1="580" x2="870" y2="609" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="870" y1="667" x2="870" y2="696" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="870" y1="768" x2="870" y2="797" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="620" y="872" font-family="Microsoft YaHei" font-size="12" fill="#b26a00">20 档：gate=ok（81 81/81, extra 20/20, MT20 18/20）</text>
+<text x="620" y="888" font-family="Microsoft YaHei" font-size="12" fill="#b26a00">200 档：gate=count（recall .711, pass .175）</text>
+<rect x="1220" y="140" width="500" height="86" rx="10" fill="#e6f4ea" stroke="#2e7d32" stroke-width="2"/>
+<text x="1232" y="165.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#2e7d32" text-anchor="start" font-weight='700'>20 块产品库（V2e 候选）</text>
+<text x="1232" y="188.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >81 81/81；extra 20/20；MT20 18/20</text>
+<text x="1232" y="205.55" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >L05/L07/L09 已修；V9MT17/18 无族键边界</text>
+<rect x="1220" y="246" width="500" height="96" rx="10" fill="#fdecea" stroke="#c62828" stroke-width="2"/>
+<text x="1232" y="271.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#c62828" text-anchor="start" font-weight='700'>200 块 / 43,205 token</text>
+<text x="1232" y="294.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >K2-off：recall .711, pass .175, leak .125</text>
+<text x="1232" y="311.55" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >K2-auto：40/40 count, recall .711（no-op）</text>
+<text x="1232" y="329.1" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >K2-on：recall .368（owner 缺失 over-merge）</text>
+<rect x="1220" y="362" width="500" height="64" rx="10" fill="#f2f2f2" stroke="#666" stroke-width="2"/>
+<text x="1232" y="387.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#666" text-anchor="start" font-weight='700'>50 块多主体（P0 进行中）</text>
+<text x="1232" y="410.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >两车/两号/两只猫；K2-on vs off</text>
+<text x="1232" y="427.55" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >未测 → 51–199 未验证</text>
+<rect x="1220" y="446" width="500" height="96" rx="10" fill="#fdecea" stroke="#c62828" stroke-width="2"/>
+<text x="1232" y="471.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#c62828" text-anchor="start" font-weight='700'>自主性 SFT（已判负）</text>
+<text x="1232" y="494.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >v3 715 行 → 14B QLoRA run2 → adapter</text>
+<text x="1232" y="511.55" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" > dev acc 65.3% / test 87.3%; 漏触发 54.5%/20.5%</text>
+<text x="1232" y="529.1" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" > 判定 do-not-deploy；sim N/A（cases 无输入）</text>
+<rect x="1220" y="562" width="500" height="64" rx="10" fill="#f2f2f2" stroke="#666" stroke-width="2"/>
+<text x="1232" y="587.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#666" text-anchor="start" font-weight='700'>TTS / 三层架构</text>
+<text x="1232" y="610.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >仅规格（D10/ARCH-SPEC）；未实现</text>
+<text x="1232" y="627.55" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >追问 fail-closed；CPU/SAPI 先行</text>
+<rect x="1220" y="646" width="500" height="64" rx="10" fill="#fff4e5" stroke="#b26a00" stroke-width="2"/>
+<text x="1232" y="671.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#b26a00" text-anchor="start" font-weight='700'>40k 结论口径</text>
+<text x="1232" y="694.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >20/50/200 recall .769/.824/.711</text>
+<text x="1232" y="711.55" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >只写存取保留率；200 是库 token，非 prompt</text>
+<rect x="40" y="900" width="1680" height="390" rx="12" fill="#ffffff" stroke="#dadce0" stroke-width="2"/>
+<text x="60" y="935.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="20" fill="#202124" text-anchor="start" font-weight='700'>疑点 / 优化点（按优先级）</text>
+<text x="60" y="970.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="15" fill="#c62828" text-anchor="start" font-weight='700'>1. 族键不认主体（根因）</text>
+<text x="330" y="970.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >当前只按 猫/车牌/手机 合并；12–28 个不同 owner 被并成一族。优化：P0 抽 subject，键改 (subject,predicate)。</text>
+<text x="60" y="1013.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="15" fill="#b26a00" text-anchor="start" font-weight='700'>2. 写时无冲突消解</text>
+<text x="330" y="1013.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >旧值不标记 superseded，只靠读时猜。优化：P1 同 subject+predicate 写入软覆盖/追问；需用户批准+备份+回滚。</text>
+<text x="60" y="1056.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="15" fill="#b26a00" text-anchor="start" font-weight='700'>3. K2 auto 阈值 50 无证据</text>
+<text x="330" y="1056.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >50 档没测，51–199 未验证；50 是经验分界不是原理。优化：建 50 块多主体库，四条门槛一起验。</text>
+<text x="60" y="1099.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="15" fill="#c62828" text-anchor="start" font-weight='700'>4. recall 0.711 vs pass 0.175</text>
+<text x="330" y="1099.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >检索命中高、端到端答对低；归因未做。优化：先做检索→生成→verifier 的逐段归因，不先改模型。</text>
+<text x="60" y="1142.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="15" fill="#c62828" text-anchor="start" font-weight='700'>5. 脏数据 / 容量</text>
+<text x="330" y="1142.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >norm_hash 未实现；5 对脏数据入库；200 硬拒绝无 LRU。优化：影子 norm_hash 统计收益；容量策略单独产品决策。</text>
+<text x="60" y="1185.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="15" fill="#b26a00" text-anchor="start" font-weight='700'>6. 自主性负结果</text>
+<text x="330" y="1185.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >run2 跨族不稳、漏触发 54.5%；sim cases 无输入。优化：扩族×30 条、sim 内嵌输入，再谈训练。</text>
+<text x="60" y="1228.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="15" fill="#b26a00" text-anchor="start" font-weight='700'>7. 并发隔离事故</text>
+<text x="330" y="1228.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >8765 被旧 runner 重连清库。已修：端口/库租约、DB 指纹、停服确认、备份。</text>
+</svg>

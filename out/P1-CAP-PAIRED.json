@@ -1,0 +1,28 @@
+{
+ "schema": "p1_cap_paired_v1",
+ "setup": "同副本 kvmem/caponly、同 pre_state/now；access 均 off；各 20 次；单 GPU 顺序",
+ "cap_on": {
+  "pass": 18,
+  "n": 20,
+  "fallback": 2
+ },
+ "cap_off": {
+  "pass": 19,
+  "n": 20,
+  "fallback": 0
+ },
+ "criterion": {
+  "new_fail_zero": false,
+  "fallback_not_up": false,
+  "met": false
+ },
+ "stats": {
+  "pass_fisher_p": 1.0,
+  "fallback_fisher_p": 0.49
+ },
+ "disclosures": [
+  "首轮“cap-on”臂（21:07 启动）实际未带 --lifecycle-cap：代码在 20:46 被改动后默认已变回 off，故那一臂与对照同为 cap-off；本报告用显式 --lifecycle-cap 重跑",
+  "当前工作树 chat_service.py 的 --lifecycle-cap/--memory-access 默认值仍是 False（20:46 版本），未见“默认已切”"
+ ],
+ "verdict": "cap on 18/20（2 fallback）vs off 19/20（0 fallback）：新增 fail=1、fallback +2，按判据**未达标**；统计上不显著（pass p=1.0、fallback p=0.49），方向偏负，不能宣称“cap 单独不回归”，需扩样"
+}

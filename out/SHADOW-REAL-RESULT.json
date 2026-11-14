@@ -1,0 +1,414 @@
+{
+  "schema": "shadow_3batch_v1",
+  "frozen_sha256": "dde8d66db7dc87bb606a90e9f2af66afe12e61643f62d01bceb1505d891ae9f7",
+  "frozen_match": true,
+  "real": {
+    "pairs": 49,
+    "same": 17,
+    "different": 32,
+    "uncertain_excluded": [
+      "T006"
+    ],
+    "accuracy": 0.6939,
+    "wrong_merge": 1,
+    "missed_merge": 14,
+    "wrong_rate": 0.0204,
+    "missed_rate": 0.2857,
+    "hard_cases": [
+      {
+        "pair_id": "T001",
+        "label": "different",
+        "pred": false,
+        "ok": true,
+        "risk": "low_similarity",
+        "score": 0.2,
+        "text_a": "我车是灰的。",
+        "text_b": "我媳妇那辆也是灰的。"
+      },
+      {
+        "pair_id": "T002",
+        "label": "different",
+        "pred": false,
+        "ok": true,
+        "risk": "family_mismatch",
+        "score": 0.0,
+        "text_a": "我车灰色两厢。",
+        "text_b": "我又弄了一辆，也是灰的两厢。"
+      },
+      {
+        "pair_id": "T003",
+        "label": "different",
+        "pred": true,
+        "ok": false,
+        "risk": null,
+        "score": 0.3333,
+        "text_a": "牌子换成苏E8L2M6了。",
+        "text_b": "又添了辆车，牌是苏E8L2M6。"
+      },
+      {
+        "pair_id": "T004",
+        "label": "different",
+        "pred": false,
+        "ok": true,
+        "risk": "negation",
+        "score": 0.0,
+        "text_a": "我车牌不是 8L2M6。",
+        "text_b": "我车牌是 8L2M6。"
+      },
+      {
+        "pair_id": "T005",
+        "label": "different",
+        "pred": false,
+        "ok": true,
+        "risk": "negation",
+        "score": 0.0,
+        "text_a": "那个号我不用了。",
+        "text_b": "那个号还在用。"
+      },
+      {
+        "pair_id": "T007",
+        "label": "different",
+        "pred": false,
+        "ok": true,
+        "risk": "value_mismatch",
+        "score": 0.0,
+        "text_a": "车牌 8L2M6。",
+        "text_b": "车牌 8L2M7。"
+      },
+      {
+        "pair_id": "T008",
+        "label": "different",
+        "pred": false,
+        "ok": true,
+        "risk": "value_mismatch",
+        "score": 0.0,
+        "text_a": "手机尾号 4471。",
+        "text_b": "手机尾号 4472。"
+      },
+      {
+        "pair_id": "T009",
+        "label": "different",
+        "pred": false,
+        "ok": true,
+        "risk": "low_similarity",
+        "score": 0.6,
+        "text_a": "评审 12 月 3 号上午。",
+        "text_b": "评审 12 月 3 号晚上。"
+      },
+      {
+        "pair_id": "T010",
+        "label": "different",
+        "pred": false,
+        "ok": true,
+        "risk": "low_similarity",
+        "score": 0.5556,
+        "text_a": "评审 12 月 3 号。",
+        "text_b": "评审明年 12 月 3 号。"
+      },
+      {
+        "pair_id": "T011",
+        "label": "different",
+        "pred": false,
+        "ok": true,
+        "risk": "low_similarity",
+        "score": 0.375,
+        "text_a": "座位三排十八。",
+        "text_b": "座位三排八十一。"
+      },
+      {
+        "pair_id": "T012",
+        "label": "different",
+        "pred": false,
+        "ok": true,
+        "risk": "value_mismatch",
+        "score": 0.0,
+        "text_a": "卡号 6230 8801 4455 2210。",
+        "text_b": "卡号 6230 8801 4455 2210 7。"
+      },
+      {
+        "pair_id": "T013",
+        "label": "different",
+        "pred": false,
+        "ok": true,
+        "risk": "negation",
+        "score": 0.0,
+        "text_a": "猫叫团子。",
+        "text_b": "猫不叫团子。"
+      },
+      {
+        "pair_id": "T014",
+        "label": "different",
+        "pred": false,
+        "ok": true,
+        "risk": "low_similarity",
+        "score": 0.0,
+        "text_a": "猫叫团子。",
+        "text_b": "我压根没养猫。"
+      },
+      {
+        "pair_id": "T015",
+        "label": "different",
+        "pred": false,
+        "ok": true,
+        "risk": "negation",
+        "score": 0.0,
+        "text_a": "我从知微离职了。",
+        "text_b": "我在知微上班。"
+      },
+      {
+        "pair_id": "T016",
+        "label": "different",
+        "pred": false,
+        "ok": true,
+        "risk": "low_similarity",
+        "score": 0.4167,
+        "text_a": "搬出 A 座 1108 了。",
+        "text_b": "工位还在 A 座 1108。"
+      },
+      {
+        "pair_id": "T017",
+        "label": "different",
+        "pred": false,
+        "ok": true,
+        "risk": "low_similarity",
+        "score": 0.0,
+        "text_a": "那块旧牌我还收着。",
+        "text_b": "牌子换成新的了。"
+      }
+    ],
+    "failures": [
+      {
+        "pair_id": "S001",
+        "label": "same",
+        "decision": {
+          "would_merge": false,
+          "risk": "low_similarity",
+          "reason": "相似度不足或无值",
+          "score": 0.3889,
+          "family": "车牌",
+          "value_equal": false,
+          "tenant": "default",
+          "scope": "default",
+          "merge_allowed": false
+        }
+      },
+      {
+        "pair_id": "S002",
+        "label": "same",
+        "decision": {
+          "would_merge": false,
+          "risk": "low_similarity",
+          "reason": "相似度不足或无值",
+          "score": 0.2083,
+          "family": "手机",
+          "value_equal": false,
+          "tenant": "default",
+          "scope": "default",
+          "merge_allowed": false
+        }
+      },
+      {
+        "pair_id": "S003",
+        "label": "same",
+        "decision": {
+          "would_merge": false,
+          "risk": "low_similarity",
+          "reason": "相似度不足或无值",
+          "score": 0.0909,
+          "family": "老家",
+          "value_equal": false,
+          "tenant": "default",
+          "scope": "default",
+          "merge_allowed": false
+        }
+      },
+      {
+        "pair_id": "S004",
+        "label": "same",
+        "decision": {
+          "would_merge": false,
+          "risk": "low_similarity",
+          "reason": "相似度不足或无值",
+          "score": 0.1875,
+          "family": null,
+          "value_equal": false,
+          "tenant": "default",
+          "scope": "default",
+          "merge_allowed": false
+        }
+      },
+      {
+        "pair_id": "S005",
+        "label": "same",
+        "decision": {
+          "would_merge": false,
+          "risk": "value_mismatch",
+          "reason": "同族但值不同：团子 vs 团子一直",
+          "score": 0.0667,
+          "family": "猫",
+          "value_equal": false,
+          "tenant": "default",
+          "scope": "default",
+          "merge_allowed": false
+        }
+      },
+      {
+        "pair_id": "S006",
+        "label": "same",
+        "decision": {
+          "would_merge": false,
+          "risk": "slot_qualifier",
+          "reason": "限定词不同，视为不同槽",
+          "score": 0.0,
+          "family": null,
+          "value_equal": false,
+          "tenant": "default",
+          "scope": "default",
+          "merge_allowed": false
+        }
+      },
+      {
+        "pair_id": "S007",
+        "label": "same",
+        "decision": {
+          "would_merge": false,
+          "risk": "low_similarity",
+          "reason": "相似度不足或无值",
+          "score": 0.0714,
+          "family": "银行卡",
+          "value_equal": false,
+          "tenant": "default",
+          "scope": "default",
+          "merge_allowed": false
+        }
+      },
+      {
+        "pair_id": "S008",
+        "label": "same",
+        "decision": {
+          "would_merge": false,
+          "risk": "low_similarity",
+          "reason": "相似度不足或无值",
+          "score": 0.25,
+          "family": "工位",
+          "value_equal": false,
+          "tenant": "default",
+          "scope": "default",
+          "merge_allowed": false
+        }
+      },
+      {
+        "pair_id": "S009",
+        "label": "same",
+        "decision": {
+          "would_merge": false,
+          "risk": "low_similarity",
+          "reason": "相似度不足或无值",
+          "score": 0.0417,
+          "family": null,
+          "value_equal": false,
+          "tenant": "default",
+          "scope": "default",
+          "merge_allowed": false
+        }
+      },
+      {
+        "pair_id": "S010",
+        "label": "same",
+        "decision": {
+          "would_merge": false,
+          "risk": "low_similarity",
+          "reason": "相似度不足或无值",
+          "score": 0.1111,
+          "family": "狗",
+          "value_equal": false,
+          "tenant": "default",
+          "scope": "default",
+          "merge_allowed": false
+        }
+      },
+      {
+        "pair_id": "S011",
+        "label": "same",
+        "decision": {
+          "would_merge": false,
+          "risk": "low_similarity",
+          "reason": "相似度不足或无值",
+          "score": 0.25,
+          "family": "老家",
+          "value_equal": false,
+          "tenant": "default",
+          "scope": "default",
+          "merge_allowed": false
+        }
+      },
+      {
+        "pair_id": "S015",
+        "label": "same",
+        "decision": {
+          "would_merge": false,
+          "risk": "family_mismatch",
+          "reason": "不同族：车色 vs 车型",
+          "score": 0.0,
+          "family": null,
+          "value_equal": false,
+          "tenant": "default",
+          "scope": "default",
+          "merge_allowed": false
+        }
+      },
+      {
+        "pair_id": "S016",
+        "label": "same",
+        "decision": {
+          "would_merge": false,
+          "risk": "negation",
+          "reason": "一方是否定/离开表述",
+          "score": 0.0,
+          "family": null,
+          "value_equal": false,
+          "tenant": "default",
+          "scope": "default",
+          "merge_allowed": false
+        }
+      },
+      {
+        "pair_id": "S017",
+        "label": "same",
+        "decision": {
+          "would_merge": false,
+          "risk": "low_similarity",
+          "reason": "相似度不足或无值",
+          "score": 0.2727,
+          "family": "会议",
+          "value_equal": false,
+          "tenant": "default",
+          "scope": "default",
+          "merge_allowed": false
+        }
+      },
+      {
+        "pair_id": "T003",
+        "label": "different",
+        "decision": {
+          "would_merge": true,
+          "risk": null,
+          "reason": "同族+值归一相等",
+          "score": 0.3333,
+          "family": "车牌",
+          "value_equal": true,
+          "tenant": "default",
+          "scope": "default",
+          "merge_allowed": true
+        }
+      }
+    ]
+  },
+  "gate": {
+    "wrong_merge_zero": false,
+    "missed_le_5pct": false,
+    "pass": false
+  },
+  "jaccard": 0.8,
+  "run": "single frozen"
+}

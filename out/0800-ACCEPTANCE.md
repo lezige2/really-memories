@@ -40,8 +40,28 @@
 
 - **K2/verifier（V2b，干净单进程）**：81 **81/81**、extra **19/20**、MT20 **18/20**；repair 1/121（L09 修好），prompt 审计 `contains_kv_text/hint/expected_value/with_time` 全 False；K2d v1 复核因影子服务事故作废。
 - **TTS**：只有 D10 规格，未实现；定案 CPU + SAPI 先行、默认关闭、QQ 语音只播回答不播块原文。
-- **40k/E2E**：脚本/dry-run 保留，未建库/未跑；本窗口让路。
+- **40k（更新 2026-10-30 14:02）**：n20/n50 已于 01:11–01:22 建库并出斜率；**n200 首建库遭 K2E runner 污染、已作废并在 8766 隔离重建**——重建后 **200 行 / 200 块 / 200 文件、孤儿 0、零字节 0、缺文件 0、总 token 43,205**，`DATA-AUDIT-n200.json` **ok=true**；n200 k2off 评测进行中（14:01 时 32/40）。
+- **E2E**：仍未跑；本窗口让路。
 - **开源自主性数据**：HF 直连不通、mirror 大文件超时，未混入。
+
+## 5.1 事故与防复发（2026-10-30 新增）
+
+> 规则正文：`out/EXPERIMENT-ISOLATION.md`（sha16 `56ED2AE0FB01B3BD`）。D 摘要如下。
+
+**RED-03 · 40k n200 被并发实验污染（实验事故，非产品事故）**
+- 现象：n200 库在 **8765**（产品端口）上被 **C2 的 K2E runner 重连**后 `/reset`+`/remember` → **200 行→115、200 块→20**。
+- 根因：①规模实验复用产品端口 8765 ②旧 runner 未杀 ③服务重启后客户端自动重连 ④**写库前无 DB 指纹门禁**。
+- 后果：n200 首建库 + **K2E 首轮数据（n=20 / valid 17 / pass 5 / 29.4%）全部作废，不得引用**。
+- 修复：**8766 独立端口 + 独立库**重建（200/200/200，审计 ok），旧数据仅留指纹。
+
+**五条硬规则（防复发）**
+1. **端口/库租约**：8765=产品验收（`kvmem/daily/chat.db`）；8766=40k（`kvmem/scale40k/n*/chat.db`）；8767+ 按需。**禁止 8765 跑规模实验**；起服务前写 `out/EXPERIMENT-LEASE.json`（port/db/owner/pid/started_at）。
+2. **停/起服务**：停后必须 `netstat` 无 LISTENING **且无 runner/客户端进程**；起后记 PID/uptime/`/health`；**同端口双 PID = RED**。
+3. **runner 指纹门禁**：`/health` 校 `model_size=8988110976` + `memories` 预期；直读 DB 校 **rows/sha256 前缀**，**不符即 ABORT 不写库**；`reset/remember` 前再校一次。
+4. **数据保护**：评测前 `cp chat.db chat.db.bak-<ts>` 记 sha；污染只能用备份重建，**禁止手改绕过**；**重建后必跑 DATA-AUDIT**。
+5. **复盘模板**：时间线 / PID·端口 / 被污染文件+sha / 根因分类 / 修复 / **复发判据**。
+
+**当前环境（14:02）**：**8765 未在跑**（仅 8766 PID 3700 存活）→ 产品服务需按租约重启后做验收；`kvmem/scale40k/n200/chat.db` 被 8766 占用（取 sha 须先停服）。
 
 ## 6 8:00 需要你拍板
 

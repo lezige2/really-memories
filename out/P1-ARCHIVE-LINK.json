@@ -1,0 +1,39 @@
+{
+ "schema": "p1_archive_link_v1",
+ "setup": "副本 kvmem/p1arch：清空原 20 行，插入 200 行 created_at 回拨 90 天（2026-08-06）",
+ "archive": {
+  "rows": 200,
+  "candidates": 200,
+  "archived": 200,
+  "active": 0,
+  "total": 200,
+  "accounting_ok": true,
+  "zips": [
+   "2026-11.zip"
+  ],
+  "missing_rows": 0
+ },
+ "fallback": {
+  "hits": 5,
+  "top": [
+   [
+    1,
+    0.8571
+   ],
+   [
+    2,
+    0.8571
+   ],
+   [
+    3,
+    0.8571
+   ]
+  ]
+ },
+ "defect": {
+  "issue": "zip 月分组用错列：row_month 读 r[8]，但 block_rows 第 8 列是 n_bytes，created_at 未被 SELECT",
+  "evidence": "created_at=2026-08-06，实际生成 ['2026-11.zip']（当月 2026-11）",
+  "impact": "所有归档块都会落到“当前月”zip，历史月份无法按月归档"
+ },
+ "verdict": "归档联动账目 PASS（200/200、active 0、无丢行、fallback 命中 5）；但月分组错误"
+}

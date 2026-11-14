@@ -1,0 +1,211 @@
+{
+ "schema": "autonomy715_gate_v2",
+ "tool": "out/sft_data_gate.py（TASK-092，G1–G13）",
+ "input": "_gate_input_all.jsonl（train+dev+test = 572+72+71 = 715 行）",
+ "seed": 60000,
+ "overall": {
+  "rows": 715,
+  "real_fail_rows": 0,
+  "known_fp_rows": 0,
+  "pass_rate": 1.0,
+  "gate_exit_code": 0,
+  "g10_status": "PARTIAL（不标 pass）"
+ },
+ "g1_g13": {
+  "G1": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 715,
+   "pass_rate": 1.0,
+   "status": "pass"
+  },
+  "G2": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 715,
+   "pass_rate": 1.0,
+   "status": "pass"
+  },
+  "G3": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 715,
+   "pass_rate": 1.0,
+   "status": "pass"
+  },
+  "G4": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 715,
+   "pass_rate": 1.0,
+   "status": "pass"
+  },
+  "G5": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 715,
+   "pass_rate": 1.0,
+   "status": "pass"
+  },
+  "G6": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 715,
+   "pass_rate": 1.0,
+   "status": "pass"
+  },
+  "G7": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 715,
+   "pass_rate": 1.0,
+   "status": "pass"
+  },
+  "G8": {
+   "hits": 1,
+   "rows_affected": 0,
+   "rows_ok": 715,
+   "pass_rate": 1.0,
+   "status": "pass"
+  },
+  "G9": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 715,
+   "pass_rate": 1.0,
+   "status": "pass"
+  },
+  "G10": {
+   "status": "PARTIAL",
+   "not_pass": true,
+   "reason": "门内 classify() 无法在合规输入上识别 B/D：带记忆块的问句一律判 C；D 需 user 含“主动/请”，与本规格 G1“不得指令式输入”冲突。故只对可测的 A/C 做配额校验，B/D 配额标 N/A。",
+   "row_level_uniqueness": {
+    "hits": 0,
+    "status": "pass"
+   },
+   "quota_A_C": {
+    "checked_by": "sft_data_gate.py --quota A:100,C:60",
+    "gate_classifier_counts": {
+     "A": 189,
+     "C": 120
+    },
+    "need": {
+     "A": 100,
+     "C": 60
+    },
+    "status": "pass"
+   },
+   "quota_B_D": {
+    "status": "N/A",
+    "why": "classify 不可测（见 reason）；本数据集真实配额 A120/B100/C120/D160 见 manifest-v2，B/D 由标注字段 category 保证，不经门内启发式"
+   },
+   "dataset_level_lines": []
+  },
+  "G11": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 715,
+   "pass_rate": 1.0,
+   "status": "pass"
+  },
+  "G12": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 715,
+   "pass_rate": 1.0,
+   "status": "pass"
+  },
+  "G13": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 715,
+   "pass_rate": 1.0,
+   "status": "pass"
+  }
+ },
+ "g1_g12_pass_rate": 0.9167,
+ "g1_g12_detail": "G1–G12 中 11 条 pass_rate=1.0；G10=PARTIAL（不标 pass）",
+ "per_split": {
+  "train": {
+   "rows": 572,
+   "real_fail_rows": 0,
+   "pass_rate": 1.0,
+   "rule_hits": {
+    "G1": 0,
+    "G2": 0,
+    "G3": 0,
+    "G4": 0,
+    "G5": 0,
+    "G6": 0,
+    "G7": 0,
+    "G8": 1,
+    "G9": 0,
+    "G10": 0,
+    "G11": 0,
+    "G12": 0,
+    "G13": 0
+   },
+   "should_trigger_false": 160,
+   "neg_ratio": 0.2797,
+   "neg_ok_ge_25pct": true
+  },
+  "dev": {
+   "rows": 72,
+   "real_fail_rows": 0,
+   "pass_rate": 1.0,
+   "rule_hits": {
+    "G1": 0,
+    "G2": 0,
+    "G3": 0,
+    "G4": 0,
+    "G5": 0,
+    "G6": 0,
+    "G7": 0,
+    "G8": 1,
+    "G9": 0,
+    "G10": 0,
+    "G11": 0,
+    "G12": 0,
+    "G13": 0
+   },
+   "should_trigger_false": 28,
+   "neg_ratio": 0.3889,
+   "neg_ok_ge_25pct": true
+  },
+  "test": {
+   "rows": 71,
+   "real_fail_rows": 0,
+   "pass_rate": 1.0,
+   "rule_hits": {
+    "G1": 0,
+    "G2": 0,
+    "G3": 0,
+    "G4": 0,
+    "G5": 0,
+    "G6": 0,
+    "G7": 0,
+    "G8": 1,
+    "G9": 0,
+    "G10": 0,
+    "G11": 0,
+    "G12": 0,
+    "G13": 0
+   },
+   "should_trigger_false": 27,
+   "neg_ratio": 0.3803,
+   "neg_ok_ge_25pct": true
+  }
+ },
+ "should_trigger": {
+  "true": 500,
+  "false": 215
+ },
+ "negative_ratio_total": 0.3007,
+ "mapping": "见 manifest-v2.json: mapping（M1–M4：空/<SILENCE>→false；should_trigger=true→true+content；普通接话→false）",
+ "notes": [
+  "逐行 real_fail_rows=0，pass_rate=1.0；G1–G13 中仅 G2 命中 4 行（门内 known_fp：短句无谓语标记，非行级失败），其余规则 0 命中。",
+  "G10 记 PARTIAL，不标 pass：A/C 配额（A189≥100、C120≥60）由门校验通过，B/D 配额 N/A，行级 (system,user) 唯一性 0 命中。",
+  "负例率：train 27.97%（160/572）、dev 38.89%（28/72）、test 38.03%（27/71），合计 30.07%（215/715），每 split 均 ≥25%。",
+  "G8 唯一命中为数据集级提示（唯一 scene 文本只出现一次），非模板重复。"
+ ]
+}

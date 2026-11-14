@@ -1,0 +1,31 @@
+[FAIL  1/20] V9MT01 multi_turn_memory  '我养的猫叫什么？' -> [僵硬] 缺内容：['朵朵'] 均未出现
+[FAIL  2/20] V9MT02 multi_turn_memory  '我的猫叫什么名字？' -> [僵硬] 缺内容：['朵朵'] 均未出现
+[pass  3/20] V9MT03 multi_turn_memory  '我什么时候去健身？'
+[pass  4/20] V9MT04 multi_turn_memory  '我几点去健身？'
+[FAIL  5/20] V9MT05 multi_turn_memory  '我的手机号是多少？' -> [僵硬] 缺内容：['158-0000-2468', '15800002468'] 均未出现
+[FAIL  6/20] V9MT06 multi_turn_memory  '我的手机号是什么？' -> [僵硬] 缺内容：['158-0000-2468', '15800002468'] 均未出现
+[FAIL  7/20] V9MT07 multi_turn_memory  '我的工位在哪？' -> [编造] 不应出现内容：'B区'; 不应出现内容：'7号'; 缺内容：['C区', '11号'] 均未出现
+[pass  8/20] V9MT08 multi_turn_memory  '我的工位是哪个？'
+[FAIL  9/20] V9MT09 multi_turn_memory  '我的车牌号是多少？' -> [僵硬] 缺内容：['津D65432', '津D 65432'] 均未出现
+[FAIL 10/20] V9MT10 multi_turn_memory  '我的车牌是什么？' -> [僵硬] 缺内容：['津D65432', '津D 65432'] 均未出现
+[FAIL 11/20] V9MT11 multi_turn_memory  '我在哪家公司上班？' -> [误拒] 不应拒答但被拒答; 缺内容：['顺丰'] 均未出现
+[FAIL 12/20] V9MT12 multi_turn_memory  '我的公司叫什么？' -> [僵硬] 缺内容：['顺丰'] 均未出现
+[pass 13/20] V9MT13 multi_turn_memory  '我下周三要去哪开会？'
+[pass 14/20] V9MT14 multi_turn_memory  '我下周三去哪？'
+[pass 15/20] V9MT15 multi_turn_memory  '我老家在哪？'
+[pass 16/20] V9MT16 multi_turn_memory  '我老家是哪里？'
+[FAIL 17/20] V9MT17 multi_turn_memory  '我最爱吃什么？' -> [编造] 不应出现内容：'湘菜'; 缺内容：['粤菜'] 均未出现
+[FAIL 18/20] V9MT18 multi_turn_memory  '我爱吃什么？' -> [编造] 不应出现内容：'湘菜'; 缺内容：['粤菜'] 均未出现
+[pass 19/20] V9MT19 multi_turn_memory  '我女儿的小名是什么？'
+[pass 20/20] V9MT20 multi_turn_memory  '我女儿叫什么小名？'
+== TRAINING EVAL (live): 9/20 valid pass (45.0%), fail=11, infra=0, elapsed=564.9s ==
+failure_classes: {"僵硬": 7, "编造": 3, "误拒": 1}
+artifact: out\POC-AT-ON-5.json sha256: 25c9d866289c5790753facba5c0f8ff953744e5bbb374397180c778633c9ff78
+Traceback (most recent call last):
+  File "D:\llama-mem\training\run_training_eval.py", line 1135, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "D:\llama-mem\training\run_training_eval.py", line 1126, in main
+    os.replace(tmp, np_)
+    ~~~~~~~~~~^^^^^^^^^^
+FileExistsError: [WinError 183] 当文件已存在时，无法创建该文件。: 'nul.tmp' -> 'nul'

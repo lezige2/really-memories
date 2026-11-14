@@ -1,0 +1,160 @@
+{
+ "schema": "sft_data_v9_audit",
+ "task": "TASK-083/TASK-086/TASK-088",
+ "seed": 20261029,
+ "base_file": "training\\sft\\train_v8b.jsonl",
+ "base_rows": 1602,
+ "base_rows_kept": 1599,
+ "base_duplicate_rows_removed": 3,
+ "base_refusal_diversified": {
+  "这个我没法查，我没有实时数据。": 17,
+  "这个我没法确认：你没跟我说过。": 104,
+  "这条我没法确认，你没提过。": 34,
+  "这条我不能帮，超出我的边界。": 15
+ },
+ "rows": 4199,
+ "generated_rows": 2597,
+ "built_before_filter": {
+  "A": 880,
+  "B": 340,
+  "C": 125,
+  "D": 260,
+  "E": 414,
+  "F": 280,
+  "G": 242,
+  "H": 270,
+  "I": 110,
+  "J": 90,
+  "BOOST": 92
+ },
+ "planned": {
+  "base": 1599,
+  "boost": 0,
+  "A_multi_memory": 800,
+  "B_capability": 300,
+  "C_action_refusal": 120,
+  "D_realtime_refusal": 260,
+  "E_memory_pos": 260,
+  "F_chitchat": 260,
+  "G_identity_meta": 220,
+  "H_autonomy": 240,
+  "I_unknown": 90,
+  "J_time": 50
+ },
+ "A_modes": {
+  "explicit_semantic": 400,
+  "positional": 240,
+  "old_only": 160
+ },
+ "rejects": {},
+ "E_card_family_rows": 80,
+ "B_long_code_rows": 40,
+ "duplicates_dropped": 29,
+ "multi_turn_rows": 800,
+ "multi_turn_rounds_dist": {
+  "3": 168,
+  "4": 217,
+  "5": 216,
+  "6": 99,
+  "7": 50,
+  "8": 50
+ },
+ "multi_turn_rounds_6_8_rows": 199,
+ "multi_turn_mem_blocks_6_rows": 50,
+ "multi_turn_mem_blocks_dist": {
+  "2": 286,
+  "3": 246,
+  "4": 218,
+  "6": 50
+ },
+ "prompt_tokens_est": {
+  "method": "完整 prompt 估算：内容 tokens(CJK=1.0/alnum=0.34/other=0.55) + 每条消息角色/模板开销 4 + 起始 3，含 system",
+  "all_rows": {
+   "max": 530.5,
+   "p95": 404.9,
+   "rows_over_512": 26,
+   "rows_over_480": 40
+  },
+  "multi_turn_rows": {
+   "max": 452.8,
+   "p95": 435.4,
+   "rows_over_512": 0,
+   "rows_over_480": 0
+  },
+  "chars_max_multi": 459,
+  "chars_max_all": 855
+ },
+ "multi_turn_tokens_est": {
+  "max": 452.8,
+  "p95": 435.4,
+  "chars_max": 459,
+  "note": "旧口径（仅消息段），已由 prompt_tokens_est 取代"
+ },
+ "empty_user_rows": 0,
+ "banned_value_hits": {
+  "雪梨": 0,
+  "商汤": 0,
+  "豆豆": 0,
+  "布洛芬": 0,
+  "洛阳": 0,
+  "7418": 0,
+  "京A88888": 0,
+  "阿泽": 0,
+  "字节跳动": 0
+ },
+ "value_pool_check": {
+  "pass": true,
+  "eval_file": "out\\V9-EVAL-VALUES.json",
+  "eval_values_independent_n": 25,
+  "fixture_values_n": 295,
+  "enforced_n": 51,
+  "enforced_sample": [
+   "朵朵",
+   "安安",
+   "七点四十",
+   "九点半",
+   "158-0000-2468",
+   "136-1111-3333",
+   "津D65432",
+   "京N32109",
+   "顺丰",
+   "中石油",
+   "哈尔滨",
+   "宜昌",
+   "荆州",
+   "襄阳",
+   "粤菜",
+   "湘菜",
+   "米朵",
+   "果果",
+   "雪梨",
+   "商汤"
+  ],
+  "exempt_generic_n": 6,
+  "exempt_reason": "代码关键字/通用词汇/中文数词/时间槽/纯数字：禁用会与定稿规格冲突（B 类必须含 def、policy 必含记忆/助手、算术/日期必含数字）",
+  "conflicts_in_train_blob": {},
+  "base_value_replacements": {
+   "布丁": 6,
+   "团子": 54,
+   "杭州": 69,
+   "咪咪": 6,
+   "北京": 20,
+   "上海": 11,
+   "广州": 16,
+   "沪A": 6,
+   "DeepSeek": 4,
+   "成都": 37,
+   "深圳": 9,
+   "可乐": 10,
+   "小米": 18,
+   "B座": 16,
+   "GPT": 3,
+   "华为": 18,
+   "奶糖": 6
+  }
+ },
+ "files": {
+  "training\\sft\\train_v9.jsonl": "c3d0d156712f98003eefe6d61798ea0842c9fbd1997275fefd7d969ad6eced85",
+  "training\\sft\\data_v9.jsonl": "c3d0d156712f98003eefe6d61798ea0842c9fbd1997275fefd7d969ad6eced85"
+ }
+}

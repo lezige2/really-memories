@@ -1,0 +1,111 @@
+{
+ "schema": "kvc_repeat_ask_v1",
+ "arm": "BASE",
+ "endpoint": "http://127.0.0.1:8765",
+ "times": 5,
+ "cases": {
+  "x03": {
+   "input": "在吗，我几点开会？",
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "七点",
+     "7点",
+     "19点",
+     "302"
+    ],
+    "not_contains": [
+     "（",
+     "不知道",
+     "无法"
+    ]
+   },
+   "runs": [
+    {
+     "answer": "你每周三晚上七点有组会，地点在B座302",
+     "state": "natural",
+     "refused": false,
+     "verified": true,
+     "verify_verdict": "pass",
+     "verify_mismatches": [],
+     "verify_attempts": 1,
+     "block_ids": [
+      2,
+      1
+     ],
+     "created_ids": []
+    },
+    {
+     "answer": "你每周三晚上七点有组会，地点在B座302",
+     "state": "natural",
+     "refused": false,
+     "verified": true,
+     "verify_verdict": "pass",
+     "verify_mismatches": [],
+     "verify_attempts": 1,
+     "block_ids": [
+      2,
+      1
+     ],
+     "created_ids": []
+    },
+    {
+     "answer": "你每周三晚上七点有组会，地点在B座302",
+     "state": "natural",
+     "refused": false,
+     "verified": true,
+     "verify_verdict": "pass",
+     "verify_mismatches": [],
+     "verify_attempts": 1,
+     "block_ids": [
+      2,
+      1
+     ],
+     "created_ids": []
+    },
+    {
+     "answer": "你每周三晚上七点有组会，地点是B座302",
+     "state": "natural",
+     "refused": false,
+     "verified": true,
+     "verify_verdict": "pass",
+     "verify_mismatches": [],
+     "verify_attempts": 1,
+     "block_ids": [
+      2,
+      1
+     ],
+     "created_ids": []
+    },
+    {
+     "answer": "你每周三晚上七点有组会，地点是B座302",
+     "state": "natural",
+     "refused": false,
+     "verified": true,
+     "verify_verdict": "pass",
+     "verify_mismatches": [],
+     "verify_attempts": 1,
+     "block_ids": [
+      2,
+      1
+     ],
+     "created_ids": []
+    }
+   ],
+   "dist_state": {
+    "natural": 5
+   },
+   "dist_verdict": {
+    "pass": 5
+   },
+   "dist_answer": {
+    "你每周三晚上七点有组会，地点在B座302": 3,
+    "你每周三晚上七点有组会，地点是B座302": 2
+   }
+  }
+ },
+ "after": {
+  "memories": 20
+ }
+}

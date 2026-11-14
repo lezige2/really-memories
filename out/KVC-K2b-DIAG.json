@@ -1,0 +1,162 @@
+{
+ "schema": "kvc_k2b_diag_v1",
+ "at": "2026-10-29T19:47:51+08:00",
+ "service": {
+  "pid": 14160,
+  "flag": "--k2-family",
+  "k2_family_sha256": "8aca267e2ab2f75ad2d17ac91d64e1fefe317efc9884ed3412edd083f50958c0"
+ },
+ "method": "/reset -> pre_state 逐步重放 -> /ask 主问，逐字复刻 eval",
+ "cases": [
+  {
+   "id": "x03",
+   "input": "在吗，我几点开会？",
+   "expect": {
+    "refusal": false,
+    "state_class": "memory_hit",
+    "contains_any": [
+     "七点",
+     "7点",
+     "19点",
+     "302"
+    ],
+    "not_contains": [
+     "（",
+     "不知道",
+     "无法"
+    ]
+   },
+   "pre_state_steps": 0,
+   "created_ids": [],
+   "response": {
+    "answer": "这条我没法从记忆里核对，先不猜。",
+    "block_ids": [
+     2,
+     1
+    ],
+    "latency_s": 9.3342,
+    "refused": false,
+    "state": "verify_fallback",
+    "chars": 16,
+    "verified": false,
+    "verify": {
+     "verdict": "unsupported",
+     "mismatches": [
+      {
+       "claim": "周四",
+       "type": "value_not_in_memory",
+       "expected_from_block": "周三"
+      }
+     ],
+     "hint": "下面这些内容在记忆中找不到依据：周四（记忆里是 周三）；请只使用记忆原文重答，或直接说不知道。"
+    },
+    "verify_attempts": 1,
+    "retrieval": null,
+    "notice": null,
+    "rollover": null,
+    "session": "kvmem\\daily\\sessions\\kvc.json"
+   }
+  },
+  {
+   "id": "L07",
+   "input": "我的邮箱是什么？",
+   "expect": {
+    "contains_any": [
+     "aze@example.com"
+    ],
+    "refusal": false
+   },
+   "pre_state_steps": 9,
+   "created_ids": [
+    21
+   ],
+   "response": {
+    "answer": "你的邮箱我这里没记录，你平时用的是哪个邮箱呢",
+    "block_ids": [
+     21,
+     3,
+     12,
+     13
+    ],
+    "latency_s": 3.2439,
+    "refused": false,
+    "state": "natural",
+    "chars": 22,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 0,
+    "retrieval": null,
+    "notice": null,
+    "rollover": null,
+    "session": "kvmem\\daily\\sessions\\kvc.json"
+   }
+  },
+  {
+   "id": "L09",
+   "input": "我的银行卡尾号是多少？",
+   "expect": {
+    "contains_any": [
+     "8899"
+    ],
+    "refusal": false
+   },
+   "pre_state_steps": 9,
+   "created_ids": [
+    21
+   ],
+   "response": {
+    "answer": "你的银行卡尾号是88888",
+    "block_ids": [
+     21,
+     3,
+     12,
+     13
+    ],
+    "latency_s": 2.8006,
+    "refused": false,
+    "state": "natural",
+    "chars": 13,
+    "verified": true,
+    "verify": {
+     "verdict": "pass",
+     "mismatches": [],
+     "hint": ""
+    },
+    "verify_attempts": 0,
+    "retrieval": null,
+    "notice": null,
+    "rollover": null,
+    "session": "kvmem\\daily\\sessions\\kvc.json"
+   }
+  }
+ ],
+ "after": {
+  "memories": 20,
+  "ids": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20
+  ]
+ }
+}

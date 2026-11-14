@@ -1,0 +1,66 @@
+{
+ "scope": "copy only; daily untouched",
+ "source_id": 14,
+ "archive": {
+  "archived_id": 14,
+  "zip": "D:\\llama-mem\\kvmem\\reheat\\archive\\2026-11.zip",
+  "zip_sha256": "2a1563dc4f224fa0d651534a4fcf29346d13bd8379137aa3f58216f2fc416320",
+  "zip_exists": true,
+  "active_excludes_it": true,
+  "active_n": 19
+ },
+ "block_removed_before_reheat": false,
+ "reheat_1": {
+  "executed": true,
+  "plan_action": "restore",
+  "block_id": 14,
+  "block_path": "D:\\llama-mem\\kvmem\\reheat\\blocks\\mem-327723633d2d.kvmem",
+  "block_exists": true,
+  "n_tokens": 12,
+  "duplicate_blocks": 0,
+  "archive_record_kept": true,
+  "reheated_at": "2026-11-04T17:26:36",
+  "blocks_before": 39,
+  "blocks_after": 40
+ },
+ "ask": {
+  "question": "我的猫叫什么？",
+  "expected": "豆豆",
+  "answer": "你的猫叫豆豆",
+  "block_ids": [
+   14
+  ],
+  "answer_has_expected": true,
+  "state": "natural"
+ },
+ "reheat_2": {
+  "executed": false,
+  "reason": "already_reheated",
+  "blocks_after": 40,
+  "no_new_block": true
+ },
+ "reheat_superseded": {
+  "archived_id": 1,
+  "newer_live_id": 21,
+  "executed": false,
+  "plan_action": "skip_superseded",
+  "reason": "newer_exists",
+  "superseded_by": 5
+ },
+ "verdict": "closed loop PASS",
+ "incident": {
+  "what": "第一次运行时，副本 memory_block.path 仍指向 daily 绝对路径，脚本删除块文件时误删 kvmem/daily/blocks/mem-327723633d2d.kvmem（id14 猫）",
+  "detected_by": "blocks 计数 40→39 + 文件不存在",
+  "recovery": "把 reheat 重建出的同名块复制回 daily；daily 现有 40 块、DB sha 未变 0a7eae49…、memory_block 20 行、row14 路径存在",
+  "verification": {
+   "service_copy_ask": "我的猫叫什么？ → 你的猫叫豆豆，block_ids=[14]",
+   "independent_rebuild": "同文本/模型重建块：同尺寸 1,254,756 B，但 sha 不同（块内嵌非确定字节），故无法证明字节等同"
+  },
+  "residual_risk": "恢复文件由同文本+同模型重建，服务可正常挂载作答；但与原文件非字节等同，无法用哈希回溯证明"
+ },
+ "defect_found": {
+  "issue": "reheat_plan 的“同族更新”判据按粗粒度 predicate 匹配：组会 与 开会/出差 同归“会议”族，导致 id 1/2 被标 skip_superseded",
+  "evidence": "首次运行 sid=2 → skip_superseded(superseded_by=5，即“下周三去上海开会”)；sid=1 → superseded_by=5",
+  "impact": "本可回热的旧组会事实会被拒绝复活"
+ }
+}

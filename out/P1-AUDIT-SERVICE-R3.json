@@ -1,0 +1,35 @@
+{
+ "schema": "p1_audit_service_r3_v1",
+ "external_reheat_plan_events": 0,
+ "app_reheat_events": 2,
+ "merge_single_event": false,
+ "ask": [
+  {
+   "stage": "retrieve",
+   "trace": "8470d8e2db4640569769c93f94d7cb8f",
+   "query_sha16": "fd01f6dbf84d596a",
+   "answer_sha16": null,
+   "block_ids": [
+    14
+   ]
+  },
+  {
+   "stage": "answer",
+   "trace": "8470d8e2db4640569769c93f94d7cb8f",
+   "query_sha16": "fd01f6dbf84d596a",
+   "answer_sha16": "c224d22c0edf03b2",
+   "block_ids": [
+    14
+   ]
+  }
+ ],
+ "ask_same_trace": true,
+ "ask_query_sha16": "fd01f6dbf84d596a",
+ "gate": {
+  "extra_19_per_case": "未达——P1 回归 extra 17/20（L05,L07,L09），非 19",
+  "rollback_drill": "PASS（201 行内容不变、备份逐字节还原）",
+  "audit_trace": "ask 侧 PASS（同 trace、query_sha16 非空、无原文）",
+  "reheat_single_event": "FAIL（app.reheat 仍 2 条）"
+ },
+ "verdict": "reheat 合并为 1 条仍未生效（378 tests 未覆盖该路径）；其余三项状态如上"
+}

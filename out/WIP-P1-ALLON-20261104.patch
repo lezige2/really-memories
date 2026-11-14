@@ -1,0 +1,96 @@
+diff --git a/tools/chat_daily.py b/tools/chat_daily.py
+index 5cd72c7..d053168 100644
+--- a/tools/chat_daily.py
++++ b/tools/chat_daily.py
+@@ -4574,21 +4574,21 @@ def build_arg_parser():
+     ap.add_argument("--confirm-first-archive", action="store_true", default=False,
+                     help="确认首次真实归档（写状态文件，之后自动）")
+     ap.add_argument("--lifecycle-cap", action=argparse.BooleanOptionalAction,
+-                    default=False,
++                    default=True,
+                     help="P1 软/硬上限（默认关；--lifecycle-cap 开启）")
+     ap.add_argument("--audit-debug", action="store_true", default=False,
+                     help="审计检索明细 retrieve（默认关；仅 --audit 时生效）")
+     ap.add_argument("--audit", dest="audit_enabled",
+-                    action=argparse.BooleanOptionalAction, default=False,
++                    action=argparse.BooleanOptionalAction, default=True,
+                     help="服务级审计日志（默认关；只记 id/sha/原因/延迟）")
+     ap.add_argument("--lifecycle-fallback", action=argparse.BooleanOptionalAction,
+-                    default=False,
++                    default=True,
+                     help="P1 归档只读兜底（默认关；主池空时才查，不回写）")
+     ap.add_argument("--lifecycle-archive", action=argparse.BooleanOptionalAction,
+-                    default=False,
++                    default=True,
+                     help="P1 自动归档（默认关；仅 lifecycle-cap on 且达软上限时触发）")
+     ap.add_argument("--memory-access", action=argparse.BooleanOptionalAction,
+-                    default=False,
++                    default=True,
+                     help="P1 access 记录（默认关；--memory-access 开启）")
+     ap.add_argument("--meta-answer", action=argparse.BooleanOptionalAction,
+                     default=True,
+@@ -4659,11 +4659,11 @@ def main(argv=None):
+                        json_output=getattr(args, "json_output", False),
+                        dedup_shadow=getattr(args, "dedup_shadow", False),
+                        meta_answer=getattr(args, "meta_answer", True),
+-                       lifecycle_cap=getattr(args, "lifecycle_cap", False),
+-                       memory_access=getattr(args, "memory_access", False),
+-                       lifecycle_archive=getattr(args, "lifecycle_archive", False),
+-                       lifecycle_fallback=getattr(args, "lifecycle_fallback", False),
+-                       audit_enabled=getattr(args, "audit_enabled", False),
++                       lifecycle_cap=getattr(args, "lifecycle_cap", True),
++                       memory_access=getattr(args, "memory_access", True),
++                       lifecycle_archive=getattr(args, "lifecycle_archive", True),
++                       lifecycle_fallback=getattr(args, "lifecycle_fallback", True),
++                       audit_enabled=getattr(args, "audit_enabled", True),
+                        soft_limit=getattr(args, "lifecycle_soft_limit", 200),
+                        hard_limit=getattr(args, "lifecycle_hard_limit", 2000),
+                        confirm_first_archive=getattr(args, "confirm_first_archive", False),
+diff --git a/tools/chat_service.py b/tools/chat_service.py
+index 5d5dbfd..2dffddf 100644
+--- a/tools/chat_service.py
++++ b/tools/chat_service.py
+@@ -588,11 +588,11 @@ def build_app(args, data):
+                       json_output=bool(getattr(args, "json_output", False)),
+                       dedup_shadow=bool(getattr(args, "dedup_shadow", False)),
+                       meta_answer=bool(getattr(args, "meta_answer", True)),
+-                      lifecycle_cap=bool(getattr(args, "lifecycle_cap", False)),
+-                      memory_access=bool(getattr(args, "memory_access", False)),
+-                      lifecycle_archive=bool(getattr(args, "lifecycle_archive", False)),
+-                      lifecycle_fallback=bool(getattr(args, "lifecycle_fallback", False)),
+-                      audit_enabled=bool(getattr(args, "audit_enabled", False)),
++                      lifecycle_cap=bool(getattr(args, "lifecycle_cap", True)),
++                      memory_access=bool(getattr(args, "memory_access", True)),
++                      lifecycle_archive=bool(getattr(args, "lifecycle_archive", True)),
++                      lifecycle_fallback=bool(getattr(args, "lifecycle_fallback", True)),
++                      audit_enabled=bool(getattr(args, "audit_enabled", True)),
+                       soft_limit=int(getattr(args, "lifecycle_soft_limit", 200)),
+                       hard_limit=int(getattr(args, "lifecycle_hard_limit", 2000)),
+                       confirm_first_archive=bool(getattr(args, "confirm_first_archive", False)),
+@@ -638,21 +638,21 @@ def main(argv=None):
+     ap.add_argument("--lifecycle-hard-limit", type=int, default=2000)
+     ap.add_argument("--confirm-first-archive", action="store_true", default=False)
+     ap.add_argument("--lifecycle-cap", action=argparse.BooleanOptionalAction,
+-                    default=False,
++                    default=True,
+                     help="P1 软/硬上限（默认开；--no-lifecycle-cap 回滚）")
+     ap.add_argument("--audit-debug", action="store_true", default=False,
+                     help="审计检索明细 retrieve（默认关；与 chat_daily 同名同义）")
+     ap.add_argument("--audit", dest="audit_enabled",
+-                    action=argparse.BooleanOptionalAction, default=False,
++                    action=argparse.BooleanOptionalAction, default=True,
+                     help="服务级审计日志（默认关；与 chat_daily 同名同义）")
+     ap.add_argument("--lifecycle-fallback", action=argparse.BooleanOptionalAction,
+-                    default=False,
++                    default=True,
+                     help="P1 归档只读兜底（默认关；与 chat_daily 同名同义）")
+     ap.add_argument("--lifecycle-archive", action=argparse.BooleanOptionalAction,
+-                    default=False,
++                    default=True,
+                     help="P1 自动归档（默认关；与 chat_daily 同名同义）")
+     ap.add_argument("--memory-access", action=argparse.BooleanOptionalAction,
+-                    default=False,
++                    default=True,
+                     help="P1 access 记录（默认开；--no-memory-access 回滚）")
+     ap.add_argument("--meta-answer", action=argparse.BooleanOptionalAction,
+                     default=True,

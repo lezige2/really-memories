@@ -1,0 +1,88 @@
+{
+ "schema": "norm_dedup_accept_v1",
+ "copies": {
+  "on": "kvmem/norm/on/chat.db",
+  "off": "kvmem/norm/off/chat.db",
+  "daily_untouched": true
+ },
+ "on_arm": {
+  "variants": [
+   {
+    "text": "我的公司是顺丰",
+    "id": 21,
+    "duplicate": false
+   },
+   {
+    "text": "我的公司 是 顺丰",
+    "id": 21,
+    "duplicate": true
+   },
+   {
+    "text": "我的公司是顺丰。",
+    "id": 21,
+    "duplicate": true
+   }
+  ],
+  "near_variant": {
+   "text": "我的公司是顺丰集团",
+   "id": 22,
+   "duplicate": false
+  },
+  "rows_before": 20,
+  "rows_after": 22,
+  "sidecar_total": 17
+ },
+ "off_arm": {
+  "variants": [
+   {
+    "text": "我的公司是顺丰",
+    "id": 21,
+    "duplicate": false
+   },
+   {
+    "text": "我的公司 是 顺丰",
+    "id": 22,
+    "duplicate": false
+   },
+   {
+    "text": "我的公司是顺丰。",
+    "id": 23,
+    "duplicate": false
+   }
+  ],
+  "rows_before": 20,
+  "rows_after": 23,
+  "sidecar_before": 17,
+  "sidecar_after": 17
+ },
+ "scope_check": {
+  "method": "interface-level norm_dedup.find_duplicate on the ON copy DB (HTTP /remember has no scope param)",
+  "same_scope_private": "dup found -> id 21",
+  "other_scope_work": "null -> would add",
+  "caveat": "服务级 /remember 固定 scope=private，无法从 HTTP 测“不同 scope”；此为接口级验证"
+ },
+ "sidecar": {
+  "keys": [
+   "at",
+   "id",
+   "name",
+   "norm_hash",
+   "scope",
+   "tenant"
+  ],
+  "no_original_text": true,
+  "n": 17
+ },
+ "rows_blocks": {
+  "on": {
+   "rows": 22,
+   "blocks": 42
+  },
+  "off": {
+   "rows": 23,
+   "blocks": 43
+  }
+ },
+ "duplicate_norm_exposure": "HTTP /remember 响应白名单不含 duplicate_norm；证据取 duplicate=true + sidecar 记录",
+ "verdict": "PASS：归一重复被跳过（第2/3条 duplicate=true、复用 id21、行数不增）；近似句不误吞；flag off 三条全新增且 sidecar 不增长；sidecar 无原文"
+}

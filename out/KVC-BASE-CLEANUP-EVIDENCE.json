@@ -1,0 +1,73 @@
+{
+ "schema": "kvc_base_cleanup_evidence_v1",
+ "created_at": "2026-10-29T17:25:51+08:00",
+ "note": "作废 r1 的 KVN03 残留，恢复 memories=20。仅删 id 21、22，未删其它 id，未改 20 条基线。",
+ "deleted_memories": [
+  {
+   "id": 21,
+   "text": "我的工作号是130-2468-1111",
+   "name": "mem-c99c3f7419ab",
+   "created_at": null,
+   "label": [],
+   "source": "manual",
+   "len": 19,
+   "n_tokens": 17
+  },
+  {
+   "id": 22,
+   "text": "我的私人号是131-0000-2222",
+   "name": "mem-b7dc74bd42e2",
+   "created_at": null,
+   "label": [],
+   "source": "manual",
+   "len": 19,
+   "n_tokens": 17
+  }
+ ],
+ "provenance": {
+  "case_id": "KVN03",
+  "case_input": "我的工作号是多少？",
+  "case_remember_texts": [
+   "我的工作号是130-2468-1111",
+   "我的私人号是131-0000-2222"
+  ],
+  "match": "与删除行逐字相同",
+  "void_run": "out/KVC-BASE-r1-VOID-partial32.json (partial 32/42, hermetic.snapshot_ids_n=20, final=null)",
+  "baseline_ref": "out/BASE-ENV.json health.memories=20 / retrieval.library_count=20"
+ },
+ "authorization": "parent session-3e2449e4-f79a-4eaa-8655-df18862a795e（只删 21、22）",
+ "preflight_state_file": {
+  "path": "out/KVC-BASE-PREFLIGHT-STATE.json",
+  "sha256": "e2628901e8836d4490488fe71b06f0d6caa368573987426e11306dc533c2c360"
+ },
+ "after": {
+  "health_memories": 20,
+  "library_count": 20,
+  "ids": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20
+  ]
+ },
+ "r1_void_backup": {
+  "path": "out/KVC-BASE-r1-VOID-partial32.json",
+  "status": "作废，不与完整 42 条 r1 合算；原 out/KVC-BASE-r1.json 已被完整 r1 覆盖"
+ }
+}

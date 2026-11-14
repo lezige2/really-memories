@@ -1,0 +1,213 @@
+{
+  "schema": "autonomy600_freeze_v2",
+  "version": "v2",
+  "created_at": "2026-10-29T23:27:00+08:00",
+  "created_by": "D（文档+监控，只读核对后登记；未改数据、未改代码、未 commit）",
+  "supersedes": {
+    "v1": "out/autonomy600/*.jsonl（600 行，22:47）——非权威、不冻结、不用于训练；仅作历史留档"
+  },
+  "source": {
+    "dir": "out/autonomy600/",
+    "generated_at": "2026-10-29 23:22–23:23",
+    "spec": "out/SFT-AUTONOMY-DATA-SPEC.md",
+    "trigger_spec": "out/AUTONOMY-TRIGGER-SPEC.md",
+    "manifest": "out/autonomy600/manifest-v2.json",
+    "builder": "out/build_autonomy600.py + out/autonomy600_data.py（seed 60000）",
+    "policy_sha16": "92e92217a74eb81e"
+  },
+  "files": {
+    "train.jsonl": {
+      "sha256": "9ae27f59548a258cae046f141eabd246d9fc4932a942b14f11135ce8da893043",
+      "bytes": 677819,
+      "rows": 572
+    },
+    "dev.jsonl": {
+      "sha256": "150216614430aa39284495e13afdb451427be4706cb1055a74b41816b6043a16",
+      "bytes": 84198,
+      "rows": 72
+    },
+    "test.jsonl": {
+      "sha256": "8d820865fa91a36e24992348a2751a9752131003cad0adcaaa728e3b462f54e5",
+      "bytes": 83176,
+      "rows": 71
+    },
+    "manifest-v2.json": {
+      "sha256": "3ac4441021767d7f3ab975612c7b33db5ddbb8242ee2b9232fac215b74cff93a",
+      "bytes": 228881,
+      "rows": null
+    },
+    "GATE-v2.json": {
+      "sha256": "47205a2801e86a5be6a087f611748e0d9d2a5f1b245fd6718db8c62bf4dcf2a5",
+      "bytes": 4795,
+      "rows": null
+    }
+  },
+  "counts": {
+    "total_rows": 715,
+    "splits": {"train": 572, "dev": 72, "test": 71},
+    "should_trigger": {"true": 500, "false": 215},
+    "category_counts_manifest": {"A": 120, "B": 100, "C": 120, "D": 160, "N": 215},
+    "negative": {
+      "total": 215,
+      "ratio": 0.3007,
+      "per_split": {
+        "train": {"rows": 572, "false": 160, "ratio": 0.2797},
+        "dev": {"rows": 72, "false": 28, "ratio": 0.3889},
+        "test": {"rows": 71, "false": 27, "ratio": 0.3803}
+      },
+      "criterion": "总 ≥30% 且每 split ≥25% → 全部满足"
+    }
+  },
+  "per_row_fields": {
+    "jsonl_keys": ["messages", "should_trigger", "trigger_reason"],
+    "manifest_rows_keys": ["split", "line", "category", "family", "template_id", "should_trigger", "trigger_reason", "source", "anchor"],
+    "verified": true
+  },
+  "sim_cases": {
+    "path": "out/AUTONOMY-SIM-CASES.jsonl",
+    "frozen_at": "2026-10-29T23:42:00+08:00",
+    "frozen_by": "D（A 指示：训练开始后冻结，B 不得再改）",
+    "rows": 40,
+    "bytes": 6688,
+    "mtime": "2026-10-29 22:25（冻结前最后一次修改）",
+    "sha256": "2ad36c184527ba1b322744df6c37d050c94414495a024fa681c870640221e05c",
+    "fields": ["id", "expect_trigger", "severity", "must_not_contain", "note"],
+    "severity_dist": {"S1": 12, "S2": 17, "S3": 11},
+    "rule": "训练已于 23:36 开跑 → cases 冻结；任何对 cases 的改写使 sha 失配即作废本次 simulator 验收，须重新冻结并声明。"
+  },
+  "simulator": {
+    "role_split": {
+      "author": "B（非数据作者，满足独立性）",
+      "executor": "C（调用 adapter 生成 pred，按映射层 M1–M4 转 {trigger, content}，运行 out/autonomy_trigger_sim.py）",
+      "auditor": "D（核 cases sha、pred 来源、S1 零容忍、加权 ≤10%）",
+      "judge": "A（只判结论）"
+    },
+    "stage": "训后验收（**不是开训前置**）；开训前置为三件：v2 冻结 + B 100 锚 + 用户授权——均已于 23:36 前满足",
+    "pred_provenance": "pred 必须由 C 从训练产出的 adapter 实际生成；**禁止人工填写或改写 pred**",
+    "acceptance": {
+      "S1": "零容忍（任一 S1 即验收失败）",
+      "weighted_error": "≤10%",
+      "report": "漏触发 / 误触发 / 内容错 三向 + 三次运行的稳定性（三次只报稳定性，不作正确性门）"
+    }
+  },
+  "gate": {
+    "producer_report": "out/autonomy600/GATE-v2.json",
+    "producer_result": {
+      "rows": 715,
+      "real_fail_rows": 0,
+      "known_fp_rows": 0,
+      "pass_rate": 1.0,
+      "gate_exit_code": 0,
+      "g10_status": "PARTIAL（不标 pass）"
+    },
+    "d_recheck_report": "out/autonomy600/GATE-v2-D-RECHECK.json",
+    "d_recheck_command": "python -X utf8 out/sft_data_gate.py --input out/autonomy600/_gate_input_all.jsonl --out out/autonomy600/GATE-v2-D-RECHECK.json",
+    "d_recheck_result": {
+      "rows": 715,
+      "real_fail_rows": 0,
+      "pass_rate_real": 1.0,
+      "exit_code": 0,
+      "dataset_level_flags": {
+        "G8": ["同一 user 仅 1 种答案：267 个 user（提示加答案多样性；场景文本唯一，非模板重复）"],
+        "G10": ["B 类 0 条 < 配额 80", "D 类 0 条 < 配额 60"]
+      },
+      "interpretation": "G10 两条为门内 classify() 启发式误判（把 B/D 识别为 0）；逐行无失败。G10 记 PARTIAL，不冒充 pass。"
+    }
+  },
+  "holdout": {
+    "family_disjoint": true,
+    "template_disjoint": true,
+    "note": "train 族 k01–k16 / dev k17–k20 / test k21–k24；负例场景池按 split 切分（manifest-v2.holdout_check）"
+  },
+  "integrity_check_by_d": {
+    "manifest_vs_actual_sha256": "train/dev/test 三者与 manifest-v2.sha256 完全一致（一致即证明清单未被事后改写）",
+    "result": "pass"
+  },
+  "caveats": [
+    "G10 的 B/D 配额由 manifest 声明（B100/D160），门内 classify 不可识别 → 任何报告引用配额时必须写明口径，不得只写 'GATE pass'。",
+    "G2 在 producer 报告中命中 4 行（known_fp：短句无谓语），非行级失败。",
+    "逐行无独立 meta 块以外的标注：类别/族/模板在 manifest-v2.rows，不在 jsonl 行内；训练加载器只读 messages。",
+    "本冻结仅覆盖 v2 五文件；_gate_input_all.jsonl 为三 split 拼接（sha16 26b3682a7369d84e），不单独冻结。",
+    "远程训练启动于 2026-10-29 23:36（A10；包装器 tmp/a10_exec.py）：a10_autonomy_train.py --train train.jsonl --dev dev.jsonl --test test.jsonl --model /root/models/Qwen2.5-14B-Instruct --out /root/work/autonomy/run1 --epochs 1 --lr 1e-4 --r 8 --dropout 0.1；**远程 train.jsonl 的 sha256 尚未与本清单绑定** → 04:00 前须由 C 回传远程 sha（或训练日志内数据指纹），否则无法证明『训的是冻结 v2』。"
+  ],
+  "b_anchor": {
+    "path": "out/autonomy600/B-ANCHOR-100.jsonl",
+    "delivered_at": "2026-10-29T23:31:00+08:00",
+    "delivered_by": "B",
+    "rows": 100,
+    "bytes": 21215,
+    "sha256": "047c5ccfd76f8e43fbe394142e4a3ddf3ad91b2e5ec96f2ee489c5bd4f539970",
+    "sha_verified_by_d": "MATCH（2026-10-29 23:36 Get-FileHash 实测）",
+    "fields": ["id", "split", "line", "family", "category", "b_should_trigger", "b_content_ok", "severity", "note"],
+    "strata": {"A": 13, "B": 13, "C": 20, "D": 32, "N": 22},
+    "splits": {"train": 81, "dev": 8, "test": 11},
+    "trigger_agreement": {
+      "agree": 100,
+      "total": 100,
+      "divergence": 0.0,
+      "caveat": "b_should_trigger 与 category 完全同构（A/B/C/D=true 共 78 条，N=false 22 条）→ 0 分歧不构成独立验证，仅证明 B 与本数据集映射规则一致。"
+    },
+    "content_audit": {
+      "content_ok_false": 5,
+      "ratio_of_100": 0.05,
+      "all_in": "D 类",
+      "d_ratio": 0.156,
+      "severity": {"S1": 0, "S2": 5, "S3": 95}
+    },
+    "verdict": "可训（附条件）",
+    "conditions": [
+      "训练后 simulator 必须对这 5 条 content_error 做专项复核（同锚点复现）；",
+      "不得把 0/100 触发分歧表述为『锚点独立验证通过』——它是同构结果；",
+      "锚点 sha 绑定本 FREEZE-v2；锚文件被改写则本冻结与『可训』结论一并作废。"
+    ]
+  },
+  "training_run1": {
+    "adapter": {
+      "path": "D:\\models\\autonomy\\run1\\adapter\\adapter_model.safetensors",
+      "bytes": 137714904,
+      "sha256": "b02f38c0cd9010e9fbbe68ee36b1f22a565bb706b1bb95ec86b48ec475169495",
+      "verified_by_d": "MATCH（2026-10-29 23:57 本机实测）"
+    },
+    "tarball": {
+      "path": "out/AUTONOMY-RUN1-ADAPTER.tgz",
+      "bytes": 131227625
+    },
+    "train_log": {
+      "path": "out/AUTONOMY-RUN1-TRAIN.log",
+      "bytes": 8217,
+      "sha256": "09213a8545cbebaa1b6cb022fe6d7c17b0c922be4cb1826862f752788a8bc9b7",
+      "verified_by_d": "MATCH（2026-10-29 23:58 本机实测）",
+      "nan_count": 0,
+      "loss_curve": [3.8757, 2.3795, 2.2535, 2.1968, 1.7005, 1.799, 1.7117],
+      "train_runtime_s": 1029.3,
+      "train_loss": 2.2655417919158936,
+      "epoch_final": 0.99,
+      "grad_norm_range": [2.26, 3.37],
+      "note": "train_loss 2.27 与本项目历史 SFT 臂（v2 0.2808 等）不可比：数据/任务/损失口径不同，禁止横向引用。"
+    },
+    "recipe": {
+      "epochs": 1.0,
+      "r": 8,
+      "lora_alpha": 16,
+      "lora_dropout": 0.1,
+      "lr": 1e-4,
+      "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
+      "quant": "4bit nf4 double-quant",
+      "batch": "1 x grad_accum 8",
+      "steps": 71,
+      "eval_generation": "do_sample=False（greedy；日志有 temperature/top_p/top_k 未生效告警）"
+    },
+    "ambers_closed": {
+      "adapter_recovered": true,
+      "train_log_recovered": true,
+      "ambers_lite": "完全关闭"
+    }
+  },
+  "usage_rules": [
+    "训练只能使用本清单中的 train.jsonl；dev/test 只用于评测选择，不得混入训练。",
+    "任何对 v2 文件的改写都会使其 sha 失配 → 自动作废本次冻结，须重新冻结并重跑门禁。",
+    "B 锚已于 23:31 交付（100 行，sha256 047c5ccf…，D 实测 MATCH），**E2 不触发**；锚与 v2 口径分歧 0/100（同构，非独立验证）。",
+    "开训前提已满足三项（v2 冻结 ✓ + B 锚 ✓ + 用户授权 ✓），**simulator 一项待 A 明示**；结论：**可训（附条件）**——训后对 5 条 content_error 做专项复核。",
+    "保留旧口径作废声明：锚点若晚于 23:50 或分歧 ≥10% 则不开训——本条因锚已按期交付而未被触发。"
+  ]
+}

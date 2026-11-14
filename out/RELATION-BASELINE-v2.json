@@ -1,0 +1,883 @@
+{
+  "meta": {
+    "gold": "out/RELATION-GOLD-60.jsonl",
+    "sha256": "1d2636b3c4b0034848cdaab69fdbdaf61bc164951dd61409b20e108a07f793fc",
+    "n": 60,
+    "rule_file": "out/relation_baseline.py",
+    "inputs_used": [
+      "old",
+      "new"
+    ],
+    "inputs_forbidden": [
+      "label",
+      "note"
+    ],
+    "no_id_hardcoding": true,
+    "arms": [
+      "v2",
+      "v1_reference",
+      "always_ask"
+    ],
+    "caveat": "煨过一轮：cue 表是照着本数据集的改写方式列的，属 in-sample 上界，可外推的只是机制本身（cue+主语省略+类型相容+阻断项）。"
+  },
+  "config": {
+    "cues": [
+      "重新分配",
+      "之前说错",
+      "说错了",
+      "事实是",
+      "其实是",
+      "实际是",
+      "现在在",
+      "现在用",
+      "以后用",
+      "换成",
+      "换到",
+      "换为",
+      "改成",
+      "改到",
+      "改为",
+      "改叫",
+      "改名",
+      "改口",
+      "改去",
+      "搬到",
+      "挪到",
+      "调到",
+      "转到",
+      "升到",
+      "降到",
+      "变成",
+      "后来",
+      "查了",
+      "复查",
+      "更正",
+      "离职"
+    ],
+    "transform_regex": "(?:喷|染|刷|改|换|调|升|降|转|搬|挪)成",
+    "disposal_for_acquire": [
+      "卖了",
+      "卖掉",
+      "退了",
+      "注销",
+      "停用",
+      "离职",
+      "清空",
+      "不用了"
+    ],
+    "acquire": [
+      "提了",
+      "买了",
+      "入手",
+      "新提"
+    ],
+    "gates": [
+      "negation",
+      "revert",
+      "same_date",
+      "multi_slot",
+      "multi_value(numbered)",
+      "multi_value(listed)",
+      "multi_value(duplicate)",
+      "subject_conflict",
+      "type_mismatch",
+      "untyped_value"
+    ],
+    "types": [
+      "plate",
+      "phone",
+      "email",
+      "time",
+      "num:<unit>",
+      "color",
+      "school",
+      "venue",
+      "org",
+      "place",
+      "name"
+    ]
+  },
+  "v2": {
+    "accuracy": 0.9,
+    "correct_n": 54,
+    "confusion": {
+      "correct": {
+        "correct": 17,
+        "new_subject": 3,
+        "ambiguous": 0
+      },
+      "new_subject": {
+        "correct": 0,
+        "new_subject": 17,
+        "ambiguous": 3
+      },
+      "ambiguous": {
+        "correct": 0,
+        "new_subject": 0,
+        "ambiguous": 20
+      }
+    },
+    "per_class": {
+      "correct": {
+        "precision": 1.0,
+        "recall": 0.85,
+        "f1": 0.9189,
+        "support": 20
+      },
+      "new_subject": {
+        "precision": 0.85,
+        "recall": 0.85,
+        "f1": 0.85,
+        "support": 20
+      },
+      "ambiguous": {
+        "precision": 0.8696,
+        "recall": 1.0,
+        "f1": 0.9302,
+        "support": 20
+      }
+    },
+    "residual": {
+      "count": 3,
+      "ids": [
+        "RG08",
+        "RG12",
+        "RG20"
+      ]
+    },
+    "new_subject_false_commits": {
+      "count": 3,
+      "ids": [
+        "RG08",
+        "RG12",
+        "RG20"
+      ]
+    },
+    "predictions": [
+      {
+        "id": "RG01",
+        "pred": "correct",
+        "rule": "v1",
+        "why": "同主体换值: 赣A4T6W2 -> 换成鄂H9J5X3"
+      },
+      {
+        "id": "RG02",
+        "pred": "correct",
+        "rule": "cue_recovery",
+        "why": "省略主语继承 old + cue[现在用]: 189-4471-2063 -> 176-2215-8890"
+      },
+      {
+        "id": "RG03",
+        "pred": "correct",
+        "rule": "v1",
+        "why": "同主体换值: C 区 15 号 -> 搬到研发楼 8 层 03 号"
+      },
+      {
+        "id": "RG04",
+        "pred": "correct",
+        "rule": "cue_recovery",
+        "why": "省略主语继承 old + cue[现在在]: 澜川科技 -> 栖木数据"
+      },
+      {
+        "id": "RG05",
+        "pred": "correct",
+        "rule": "v1",
+        "why": "同主体换值: 雾岭 -> 青塘"
+      },
+      {
+        "id": "RG06",
+        "pred": "correct",
+        "rule": "cue_recovery",
+        "why": "省略主语继承 old + cue[喷成]: 墨绿色 -> 奶白色"
+      },
+      {
+        "id": "RG07",
+        "pred": "correct",
+        "rule": "cue_recovery",
+        "why": "省略主语继承 old + cue[提了]: 旅行车 -> 皮卡"
+      },
+      {
+        "id": "RG08",
+        "pred": "new_subject",
+        "rule": "gate:subject_conflict",
+        "why": "主体冲突: 邮箱 vs 公司"
+      },
+      {
+        "id": "RG09",
+        "pred": "correct",
+        "rule": "cue_recovery",
+        "why": "省略主语继承 old + cue[其实是]: 虾 -> 尘螨"
+      },
+      {
+        "id": "RG10",
+        "pred": "correct",
+        "rule": "cue_recovery",
+        "why": "省略主语继承 old + cue[改成]: ∅ -> 每周五 06:30"
+      },
+      {
+        "id": "RG11",
+        "pred": "correct",
+        "rule": "cue_recovery",
+        "why": "省略主语继承 old + cue[改去]: ∅ -> 昆明"
+      },
+      {
+        "id": "RG12",
+        "pred": "new_subject",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不同: 工资卡 -> 新卡"
+      },
+      {
+        "id": "RG13",
+        "pred": "correct",
+        "rule": "cue_recovery",
+        "why": "省略主语继承 old + cue[挪到]: 晴川厅 -> 叠翠厅"
+      },
+      {
+        "id": "RG14",
+        "pred": "correct",
+        "rule": "cue_recovery",
+        "why": "省略主语继承 old + cue[改叫]: 藕片 -> 芋圆"
+      },
+      {
+        "id": "RG15",
+        "pred": "correct",
+        "rule": "cue_recovery",
+        "why": "省略主语继承 old + cue[改成]: 麻薯 -> 铁蛋"
+      },
+      {
+        "id": "RG16",
+        "pred": "correct",
+        "rule": "cue_recovery",
+        "why": "省略主语继承 old + cue[转到]: ∅ -> 蓝湾幼儿园"
+      },
+      {
+        "id": "RG17",
+        "pred": "correct",
+        "rule": "cue_recovery",
+        "why": "省略主语继承 old + cue[升到]: 300M -> 500M"
+      },
+      {
+        "id": "RG18",
+        "pred": "correct",
+        "rule": "cue_recovery",
+        "why": "省略主语继承 old + cue[实际是]: ∅ -> 425 度"
+      },
+      {
+        "id": "RG19",
+        "pred": "correct",
+        "rule": "cue_recovery",
+        "why": "省略主语继承 old + cue[换到]: 地库 D 区 21 号 -> 地库 E 区 08 号"
+      },
+      {
+        "id": "RG20",
+        "pred": "new_subject",
+        "rule": "gate:subject_conflict",
+        "why": "主体冲突: 销售说我这车 vs 排量实际"
+      },
+      {
+        "id": "RG21",
+        "pred": "new_subject",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不同: 通勤车 -> 周末车"
+      },
+      {
+        "id": "RG22",
+        "pred": "new_subject",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不同: 工作号 -> 私人号"
+      },
+      {
+        "id": "RG23",
+        "pred": "new_subject",
+        "rule": "gate:subject_conflict",
+        "why": "主体冲突: 大猫 vs 后来领养的小猫"
+      },
+      {
+        "id": "RG24",
+        "pred": "new_subject",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不同: 父亲老家 -> 母亲老家"
+      },
+      {
+        "id": "RG25",
+        "pred": "new_subject",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不同: 总部工位 -> 分部工位"
+      },
+      {
+        "id": "RG26",
+        "pred": "new_subject",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不同: 工资卡 -> 理财卡"
+      },
+      {
+        "id": "RG27",
+        "pred": "new_subject",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不同: 公司收件地址 -> 家里收件地址"
+      },
+      {
+        "id": "RG28",
+        "pred": "new_subject",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不同: 老大 -> 老二"
+      },
+      {
+        "id": "RG29",
+        "pred": "new_subject",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不同: 自住的车位 -> 公司"
+      },
+      {
+        "id": "RG30",
+        "pred": "ambiguous",
+        "rule": "no_cue_keep_v1",
+        "why": "值不可得"
+      },
+      {
+        "id": "RG31",
+        "pred": "new_subject",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不同: 家里的橘猫 -> 公司养的狸花"
+      },
+      {
+        "id": "RG32",
+        "pred": "new_subject",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不同: 车险保单号 -> 家财险保单号"
+      },
+      {
+        "id": "RG33",
+        "pred": "new_subject",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不同: 工作 -> 论坛注册用"
+      },
+      {
+        "id": "RG34",
+        "pred": "ambiguous",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不可知"
+      },
+      {
+        "id": "RG35",
+        "pred": "new_subject",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不同: 主站域名 -> 副业站域名"
+      },
+      {
+        "id": "RG36",
+        "pred": "new_subject",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不同: 家里 WiFi -> 店里 WiFi"
+      },
+      {
+        "id": "RG37",
+        "pred": "new_subject",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不同: 澜川银行储蓄卡 -> 澜川银行信用卡"
+      },
+      {
+        "id": "RG38",
+        "pred": "ambiguous",
+        "rule": "no_cue_keep_v1",
+        "why": "值不可得"
+      },
+      {
+        "id": "RG39",
+        "pred": "new_subject",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不同: 周会 -> 客户会"
+      },
+      {
+        "id": "RG40",
+        "pred": "new_subject",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不同: 门禁卡 -> 爱人的门禁卡"
+      },
+      {
+        "id": "RG41",
+        "pred": "ambiguous",
+        "rule": "gate:multi_value(两只/两辆…和)",
+        "why": "阻断项命中: multi_value(两只/两辆…和)"
+      },
+      {
+        "id": "RG42",
+        "pred": "ambiguous",
+        "rule": "gate:multi_value(同类值 x2)",
+        "why": "阻断项命中: multi_value(同类值 x2)"
+      },
+      {
+        "id": "RG43",
+        "pred": "ambiguous",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不可知"
+      },
+      {
+        "id": "RG44",
+        "pred": "ambiguous",
+        "rule": "gate:multi_value(两只/两辆…和)",
+        "why": "阻断项命中: multi_value(两只/两辆…和)"
+      },
+      {
+        "id": "RG45",
+        "pred": "ambiguous",
+        "rule": "gate:multi_slot(在 x2)",
+        "why": "阻断项命中: multi_slot(在 x2)"
+      },
+      {
+        "id": "RG46",
+        "pred": "ambiguous",
+        "rule": "gate:multi_value(号 x2)",
+        "why": "阻断项命中: multi_value(号 x2)"
+      },
+      {
+        "id": "RG47",
+        "pred": "ambiguous",
+        "rule": "gate:multi_slot(在 x2)",
+        "why": "阻断项命中: multi_slot(在 x2)"
+      },
+      {
+        "id": "RG48",
+        "pred": "ambiguous",
+        "rule": "no_cue_keep_v1",
+        "why": "值不可得"
+      },
+      {
+        "id": "RG49",
+        "pred": "ambiguous",
+        "rule": "no_cue_keep_v1",
+        "why": "主体不可知"
+      },
+      {
+        "id": "RG50",
+        "pred": "ambiguous",
+        "rule": "no_cue_keep_v1",
+        "why": "值不可得"
+      },
+      {
+        "id": "RG51",
+        "pred": "ambiguous",
+        "rule": "gate:negation",
+        "why": "阻断项命中: negation"
+      },
+      {
+        "id": "RG52",
+        "pred": "ambiguous",
+        "rule": "gate:negation",
+        "why": "阻断项命中: negation"
+      },
+      {
+        "id": "RG53",
+        "pred": "ambiguous",
+        "rule": "gate:revert",
+        "why": "阻断项命中: revert"
+      },
+      {
+        "id": "RG54",
+        "pred": "ambiguous",
+        "rule": "gate:negation",
+        "why": "阻断项命中: negation"
+      },
+      {
+        "id": "RG55",
+        "pred": "ambiguous",
+        "rule": "no_cue_keep_v1",
+        "why": "值不可得"
+      },
+      {
+        "id": "RG56",
+        "pred": "ambiguous",
+        "rule": "no_cue_keep_v1",
+        "why": "值不可得"
+      },
+      {
+        "id": "RG57",
+        "pred": "ambiguous",
+        "rule": "no_cue_keep_v1",
+        "why": "值不可得"
+      },
+      {
+        "id": "RG58",
+        "pred": "ambiguous",
+        "rule": "no_cue_keep_v1",
+        "why": "值不可得"
+      },
+      {
+        "id": "RG59",
+        "pred": "ambiguous",
+        "rule": "no_cue_keep_v1",
+        "why": "值不可得"
+      },
+      {
+        "id": "RG60",
+        "pred": "ambiguous",
+        "rule": "gate:same_date",
+        "why": "阻断项命中: same_date"
+      }
+    ],
+    "recovered": [
+      {
+        "id": "RG02",
+        "cue": "现在用",
+        "old_value": "189-4471-2063",
+        "new_value": "176-2215-8890",
+        "types": [
+          "phone",
+          "phone"
+        ]
+      },
+      {
+        "id": "RG04",
+        "cue": "现在在",
+        "old_value": "澜川科技",
+        "new_value": "栖木数据",
+        "types": [
+          "org",
+          "org"
+        ]
+      },
+      {
+        "id": "RG06",
+        "cue": "喷成",
+        "old_value": "墨绿色",
+        "new_value": "奶白色",
+        "types": [
+          "color",
+          "color"
+        ]
+      },
+      {
+        "id": "RG07",
+        "cue": "提了",
+        "old_value": "旅行车",
+        "new_value": "皮卡",
+        "types": [
+          "name",
+          "name"
+        ]
+      },
+      {
+        "id": "RG09",
+        "cue": "其实是",
+        "old_value": "虾",
+        "new_value": "尘螨",
+        "types": [
+          "name",
+          "name"
+        ]
+      },
+      {
+        "id": "RG10",
+        "cue": "改成",
+        "old_value": "",
+        "new_value": "每周五 06:30",
+        "types": [
+          "none",
+          "time"
+        ]
+      },
+      {
+        "id": "RG11",
+        "cue": "改去",
+        "old_value": "",
+        "new_value": "昆明",
+        "types": [
+          "none",
+          "name"
+        ]
+      },
+      {
+        "id": "RG13",
+        "cue": "挪到",
+        "old_value": "晴川厅",
+        "new_value": "叠翠厅",
+        "types": [
+          "venue",
+          "venue"
+        ]
+      },
+      {
+        "id": "RG14",
+        "cue": "改叫",
+        "old_value": "藕片",
+        "new_value": "芋圆",
+        "types": [
+          "name",
+          "name"
+        ]
+      },
+      {
+        "id": "RG15",
+        "cue": "改成",
+        "old_value": "麻薯",
+        "new_value": "铁蛋",
+        "types": [
+          "name",
+          "name"
+        ]
+      },
+      {
+        "id": "RG16",
+        "cue": "转到",
+        "old_value": "",
+        "new_value": "蓝湾幼儿园",
+        "types": [
+          "none",
+          "school"
+        ]
+      },
+      {
+        "id": "RG17",
+        "cue": "升到",
+        "old_value": "300M",
+        "new_value": "500M",
+        "types": [
+          "num:M",
+          "num:M"
+        ]
+      },
+      {
+        "id": "RG18",
+        "cue": "实际是",
+        "old_value": "",
+        "new_value": "425 度",
+        "types": [
+          "none",
+          "num:度"
+        ]
+      },
+      {
+        "id": "RG19",
+        "cue": "换到",
+        "old_value": "地库 D 区 21 号",
+        "new_value": "地库 E 区 08 号",
+        "types": [
+          "num:号",
+          "num:号"
+        ]
+      }
+    ]
+  },
+  "v1_reference": {
+    "accuracy": 0.6,
+    "residual": {
+      "count": 17,
+      "ids": [
+        "RG02",
+        "RG04",
+        "RG06",
+        "RG07",
+        "RG08",
+        "RG09",
+        "RG10",
+        "RG11",
+        "RG12",
+        "RG13",
+        "RG14",
+        "RG15",
+        "RG16",
+        "RG17",
+        "RG18",
+        "RG19",
+        "RG20"
+      ]
+    },
+    "new_subject_false_commits": {
+      "count": 7,
+      "ids": [
+        "RG08",
+        "RG12",
+        "RG20",
+        "RG42",
+        "RG45",
+        "RG46",
+        "RG51"
+      ]
+    },
+    "confusion": {
+      "correct": {
+        "correct": 3,
+        "new_subject": 3,
+        "ambiguous": 14
+      },
+      "new_subject": {
+        "correct": 0,
+        "new_subject": 17,
+        "ambiguous": 3
+      },
+      "ambiguous": {
+        "correct": 0,
+        "new_subject": 4,
+        "ambiguous": 16
+      }
+    },
+    "per_class": {
+      "correct": {
+        "precision": 1.0,
+        "recall": 0.15,
+        "f1": 0.2609,
+        "support": 20
+      },
+      "new_subject": {
+        "precision": 0.7083,
+        "recall": 0.85,
+        "f1": 0.7727,
+        "support": 20
+      },
+      "ambiguous": {
+        "precision": 0.4848,
+        "recall": 0.8,
+        "f1": 0.6038,
+        "support": 20
+      }
+    },
+    "correct_n": 36
+  },
+  "always_ask": {
+    "accuracy": 0.3333,
+    "residual": {
+      "count": 20,
+      "ids": [
+        "RG01",
+        "RG02",
+        "RG03",
+        "RG04",
+        "RG05",
+        "RG06",
+        "RG07",
+        "RG08",
+        "RG09",
+        "RG10",
+        "RG11",
+        "RG12",
+        "RG13",
+        "RG14",
+        "RG15",
+        "RG16",
+        "RG17",
+        "RG18",
+        "RG19",
+        "RG20"
+      ]
+    },
+    "correct_n": 20,
+    "confusion": {
+      "correct": {
+        "correct": 0,
+        "new_subject": 0,
+        "ambiguous": 20
+      },
+      "new_subject": {
+        "correct": 0,
+        "new_subject": 0,
+        "ambiguous": 20
+      },
+      "ambiguous": {
+        "correct": 0,
+        "new_subject": 0,
+        "ambiguous": 20
+      }
+    },
+    "per_class": {
+      "correct": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 20
+      },
+      "new_subject": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 20
+      },
+      "ambiguous": {
+        "precision": 0.3333,
+        "recall": 1.0,
+        "f1": 0.5,
+        "support": 20
+      }
+    }
+  },
+  "rg43": {
+    "old": "车牌 苏D5K72M。",
+    "new": "皖R8F36J。",
+    "v1_pred": "ambiguous",
+    "v2_pred": "ambiguous",
+    "always_ask_pred": "ambiguous",
+    "label_check_only_for_report": "ambiguous",
+    "note": "旧句锚点抽得出“车牌”，新句裸值无可归属主体；两版都回 ambiguous。"
+  },
+  "in_sample_caveat": "cue 表是在本 60 条上归纳的（远不止这几个词，还包括 改成/搬到/挪到/调到/升到/改叫/改去/喷成 等变换与其实是/实际是/现在在/现在用/以后用/离职/卖了+提了 等改口表达），out-of-sample 待 B 的第二套 held-out 验证；本文件的 90% 是 in-sample 上界，不是泛化估计。",
+  "residual_detail": [
+    {
+      "id": "RG08",
+      "old": "我邮箱是 zhou.hq@lanmail.example。",
+      "new": "公司邮箱迁移，以后用 hq.zhou@qimu.example。",
+      "pred": "new_subject",
+      "gold": "correct",
+      "rule": "gate:subject_conflict",
+      "why": "主体冲突: 邮箱 vs 公司",
+      "old_value": "zhou.hq@lanmail.example",
+      "new_value": "迁移",
+      "v1_pred": "new_subject",
+      "failure_mode": "同槽位更新被读成新主体：new 句带上新的限定语（公司/排量/新卡），规则判成换主体 → 会造重复事实而非覆盖"
+    },
+    {
+      "id": "RG12",
+      "old": "工资卡尾号 5521。",
+      "new": "换卡了，新卡尾号 3907。",
+      "pred": "new_subject",
+      "gold": "correct",
+      "rule": "no_cue_keep_v1",
+      "why": "主体不同: 工资卡 -> 新卡",
+      "old_value": "5521",
+      "new_value": "3907",
+      "v1_pred": "new_subject",
+      "failure_mode": "同槽位更新被读成新主体：new 句带上新的限定语（公司/排量/新卡），规则判成换主体 → 会造重复事实而非覆盖"
+    },
+    {
+      "id": "RG20",
+      "old": "销售说我这车是 1.5T。",
+      "new": "查了铭牌，排量实际是 2.0T。",
+      "pred": "new_subject",
+      "gold": "correct",
+      "rule": "gate:subject_conflict",
+      "why": "主体冲突: 销售说我这车 vs 排量实际",
+      "old_value": "1.5T",
+      "new_value": "2.0T",
+      "v1_pred": "new_subject",
+      "failure_mode": "同槽位更新被读成新主体：new 句带上新的限定语（公司/排量/新卡），规则判成换主体 → 会造重复事实而非覆盖"
+    }
+  ],
+  "new_subject_false_detail": [
+    {
+      "id": "RG08",
+      "old": "我邮箱是 zhou.hq@lanmail.example。",
+      "new": "公司邮箱迁移，以后用 hq.zhou@qimu.example。",
+      "pred": "new_subject",
+      "gold": "correct",
+      "rule": "gate:subject_conflict",
+      "why": "主体冲突: 邮箱 vs 公司"
+    },
+    {
+      "id": "RG12",
+      "old": "工资卡尾号 5521。",
+      "new": "换卡了，新卡尾号 3907。",
+      "pred": "new_subject",
+      "gold": "correct",
+      "rule": "no_cue_keep_v1",
+      "why": "主体不同: 工资卡 -> 新卡"
+    },
+    {
+      "id": "RG20",
+      "old": "销售说我这车是 1.5T。",
+      "new": "查了铭牌，排量实际是 2.0T。",
+      "pred": "new_subject",
+      "gold": "correct",
+      "rule": "gate:subject_conflict",
+      "why": "主体冲突: 销售说我这车 vs 排量实际"
+    }
+  ],
+  "residual_verdict": "residual=3（阈值 12）→ P 只作可选对照"
+}

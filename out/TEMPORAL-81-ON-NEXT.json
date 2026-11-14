@@ -1,0 +1,92 @@
+{
+ "schema": "training_next_v1",
+ "role": "T11 下一轮修什么（按 live 基线失败频率排序；只给证据与建议，不写代码）",
+ "source": {
+  "path": "out/TRAINING-EVAL.json",
+  "sha256": "efec1e7fa05574840b303ecb42aeda00d743aecf585191d2cdd6fa4437a4c7ac",
+  "live_n": 81,
+  "live_fail": 4
+ },
+ "generated_at": "2026-11-06T18:54:07+0800",
+ "ranking_rule": "按 failure_class 出现次数降序；同频按类名字典序",
+ "items": [
+  {
+   "rank": 1,
+   "failure_class": "记忆漏",
+   "count": 2,
+   "share_of_failures": 0.5,
+   "share_of_cases": 0.0247,
+   "evidence": [
+    {
+     "id": "h02",
+     "category": "memory_qa",
+     "input": "我下周三去哪开会？",
+     "answer": "这个我没法确认：你没跟我说过。",
+     "state": "no_evidence",
+     "refused": true,
+     "block_ids": [],
+     "problems": [
+      "缺内容：['广州'] 均未出现"
+     ]
+    },
+    {
+     "id": "h03",
+     "category": "memory_qa",
+     "input": "我下周五去哪开会？",
+     "answer": "这个我没法确认：你没跟我说过。",
+     "state": "no_evidence",
+     "refused": true,
+     "block_ids": [],
+     "problems": [
+      "缺内容：['成都'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "记忆检索（topk/词面 bigram 召回与块选择）",
+   "suggestion": "检索召回问题：'我叫什么名字' 等自然问法与块内文本 bigram 不重合；补实体/别名召回或问句改写，并回归 m02/m04。"
+  },
+  {
+   "rank": 2,
+   "failure_class": "误拒",
+   "count": 2,
+   "share_of_failures": 0.5,
+   "share_of_cases": 0.0247,
+   "evidence": [
+    {
+     "id": "m06",
+     "category": "memory_qa",
+     "input": "我下周三要去哪出差？",
+     "answer": "这个我没法确认：你没跟我说过。",
+     "state": "no_evidence",
+     "refused": true,
+     "block_ids": [],
+     "problems": [
+      "不应拒答但被拒答",
+      "state_class：期望 memory_hit，实际 no_evidence（state='no_evidence', blocks=[]）",
+      "缺内容：['北京', '上海', '广州'] 均未出现"
+     ]
+    },
+    {
+     "id": "m08",
+     "category": "memory_qa",
+     "input": "我下周四要去哪开会？",
+     "answer": "这个我没法确认：你没跟我说过。",
+     "state": "no_evidence",
+     "refused": true,
+     "block_ids": [],
+     "problems": [
+      "不应拒答但被拒答",
+      "state_class：期望 memory_hit，实际 no_evidence（state='no_evidence', blocks=[]）",
+      "缺内容：['广州'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "意图与触发词（intent_of / 产品事实问句白名单）",
+   "suggestion": "收紧『个人事实问句』判定：混合句（问候/致谢+记忆问句）与身份/能力问句不得误拒；对问候前置词剥除后再判定。"
+  }
+ ],
+ "notes": [
+  "证据取自 live 基线每条失败的实际输出（answer/state/refused/block_ids/problems）。",
+  "建议责任单按应用层模块拆分，供下一轮开单；不代表已定位根因。"
+ ]
+}

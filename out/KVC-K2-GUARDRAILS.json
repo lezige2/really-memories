@@ -1,0 +1,170 @@
+{
+ "schema": "kvc_k2_guardrails_v1",
+ "generated_at": "2026-10-29T19:26:08+08:00",
+ "arm": "K2 (--k2-family), service PID 10104 (restarted by parent with detached Start-Process)",
+ "cmd_common": "--expect-memories 20 --reset-per-case --forget-created-per-case --hermetic --timeout 90",
+ "k2": {
+  "81": {
+   "file": "out/KVC-K2-81.json",
+   "n": 81,
+   "pass": 80,
+   "fail": 1,
+   "infra": 0,
+   "pass_rate": 0.987654,
+   "fail_ids": [
+    "x03"
+   ]
+  },
+  "extra": {
+   "file": "out/KVC-K2-EXTRA.json",
+   "n": 20,
+   "pass": 18,
+   "fail": 2,
+   "infra": 0,
+   "pass_rate": 0.9,
+   "fail_ids": [
+    "L07",
+    "L09"
+   ]
+  },
+  "MT20": {
+   "file": "out/KVC-K2-MT20.json",
+   "n": 20,
+   "pass": 17,
+   "fail": 3,
+   "infra": 0,
+   "pass_rate": 0.85,
+   "fail_ids": [
+    "V9MT05",
+    "V9MT06",
+    "V9MT11"
+   ]
+  }
+ },
+ "base": {
+  "81_disk": {
+   "file": "out/BASE-EVAL-81-RERUN.json",
+   "n": 81,
+   "pass": 78,
+   "fail": 3,
+   "infra": 0,
+   "pass_rate": 0.962963,
+   "fail_ids": [
+    "m04",
+    "w03",
+    "w05"
+   ]
+  },
+  "81_final": {
+   "file": "out/FINAL-BASE-81.json",
+   "n": 81,
+   "pass": 79,
+   "fail": 2,
+   "infra": 0,
+   "pass_rate": 0.975309,
+   "fail_ids": [
+    "w03",
+    "w05"
+   ]
+  },
+  "extra": {
+   "file": "out/BASE-EXTRA-EVAL.json",
+   "n": 20,
+   "pass": 20,
+   "fail": 0,
+   "infra": 0,
+   "pass_rate": 1.0,
+   "fail_ids": []
+  },
+  "MT20": {
+   "file": "out/MT20-BASE-P0.json",
+   "n": 20,
+   "pass": 13,
+   "fail": 7,
+   "infra": 0,
+   "pass_rate": 0.65,
+   "fail_ids": [
+    "V9MT01",
+    "V9MT02",
+    "V9MT06",
+    "V9MT09",
+    "V9MT10",
+    "V9MT11",
+    "V9MT12"
+   ]
+  }
+ },
+ "gates": {
+  "81": {
+   "k2": 80,
+   "base_disk": 78,
+   "base_final": 79,
+   "gate": ">=78 (盘上实测) / 遗书口径 79",
+   "ok": true
+  },
+  "extra": {
+   "k2": 18,
+   "base": 20,
+   "gate": ">=18",
+   "ok": true
+  },
+  "MT20": {
+   "k2": 17,
+   "base": 13,
+   "gate": ">=13",
+   "ok": true
+  }
+ },
+ "per_id_delta": {
+  "81": {
+   "new": [
+    "x03"
+   ],
+   "fixed": [
+    "w03",
+    "w05"
+   ],
+   "carried": []
+  },
+  "extra": {
+   "new": [
+    "L07",
+    "L09"
+   ],
+   "fixed": [],
+   "carried": []
+  },
+  "MT20": {
+   "new": [
+    "V9MT05"
+   ],
+   "fixed": [
+    "V9MT01",
+    "V9MT02",
+    "V9MT09",
+    "V9MT10",
+    "V9MT12"
+   ],
+   "carried": [
+    "V9MT06",
+    "V9MT11"
+   ]
+  }
+ },
+ "verdict": "全部达门槛：81 80/81、extra 18/20、MT20 17/20；但相对 BASE 存在逐条新增失败 x03/L07/L09/V9MT05",
+ "hermetic": {
+  "out/KVC-K2-81.json": 20,
+  "out/KVC-K2-EXTRA.json": 20,
+  "out/KVC-K2-MT20.json": 20
+ },
+ "elapsed_s": {
+  "81": 194.3,
+  "EXTRA": 253.0,
+  "MT20": 984.9
+ },
+ "sha256": {
+  "81": "30a9a7fe83d71bc554a4dfd5e514ec81794807d87890fcb7f094ee6a20381ebc",
+  "EXTRA": "38fab6d26c0e7510e93de79090d55454ff0b785b278d2a0c8ef4929cd823aa3a",
+  "MT20": "27268d7a389c8564aa42a5246a97ba7fcad739058905346dca9f16ecbbf02e32"
+ }
+}

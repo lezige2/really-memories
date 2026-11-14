@@ -1,0 +1,76 @@
+{
+ "scope": "copy only; blocks rewritten + assert_under",
+ "cases": [
+  {
+   "source_id": 1,
+   "archived_zip": "2026-11-01.zip",
+   "new_text": "我每周三晚上七点有组会，地点改到C座201。",
+   "new_id": 21,
+   "expected": "skip_superseded",
+   "got": "restore",
+   "reason": "no_newer",
+   "superseded_by": null,
+   "executed": true,
+   "block_rebuilt": true,
+   "active_before_new": 20,
+   "active_after": 21
+  },
+  {
+   "source_id": 2,
+   "archived_zip": "2026-11-02.zip",
+   "new_text": "我下周三要去上海开会。",
+   "new_id": 22,
+   "expected": "restore",
+   "got": "restore",
+   "reason": "no_newer",
+   "superseded_by": null,
+   "executed": true,
+   "block_rebuilt": true,
+   "active_before_new": 21,
+   "active_after": 22
+  },
+  {
+   "source_id": 4,
+   "archived_zip": "2026-11-04.zip",
+   "new_text": "我下周三要去上海开会。",
+   "new_id": 22,
+   "expected": "restore",
+   "got": "restore",
+   "reason": "no_newer",
+   "superseded_by": null,
+   "executed": true,
+   "block_rebuilt": true,
+   "active_before_new": 22,
+   "active_after": 22
+  },
+  {
+   "source_id": 5,
+   "archived_zip": "2026-11-05.zip",
+   "new_text": "我下周三要去北京出差。",
+   "new_id": 23,
+   "expected": "restore",
+   "got": "skip_superseded",
+   "reason": "newer_same_family",
+   "superseded_by": 22,
+   "executed": false,
+   "block_rebuilt": false,
+   "active_before_new": 22,
+   "active_after": 23
+  },
+  {
+   "source_id": 24,
+   "archived_zip": "2026-11-99.zip",
+   "new_text": "我周四上午十点有组会，线上。",
+   "new_id": null,
+   "expected": "restore",
+   "got": "restore",
+   "reason": "no_newer",
+   "superseded_by": null,
+   "executed": true,
+   "block_rebuilt": true,
+   "active_before_new": null,
+   "active_after": 25
+  }
+ ],
+ "all_expected": false
+}

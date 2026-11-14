@@ -1,0 +1,27 @@
+{
+ "schema": "p1_enable_dryrun_v1",
+ "config": {
+  "db": "kvmem/p1en/chat.db (20 行副本)",
+  "flags": "--lifecycle-cap --memory-access (archive/fallback off)",
+  "k2": "off",
+  "verifier": "v1"
+ },
+ "access_async": {
+  "ask_latency_s": 2.76,
+  "access_right_after": "n/a（表尚未建立）",
+  "access_after_1_5s": 1,
+  "non_blocking": true
+ },
+ "capacity": {
+  "writes_to_200": 180,
+  "at_200": {
+   "soft_limit": 200,
+   "hard_limit": 2000,
+   "count": 200
+  },
+  "has_field": true,
+  "write_201_ok": true,
+  "final_rows": 201
+ },
+ "verdict": "三条件全满足：access 异步不阻塞（2.76s）、200 返回 capacity_warning、201 仍成功且无淘汰（原 20 行保留）"
+}

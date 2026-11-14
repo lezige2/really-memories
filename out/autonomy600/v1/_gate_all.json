@@ -1,0 +1,181 @@
+{
+ "schema": "sft_data_gate_v2",
+ "task": "TASK-092",
+ "input": "D:\\llama-mem\\out\\autonomy600\\_gate_input_all.jsonl",
+ "summary": {
+  "rows": 600,
+  "multi_turn_rows": 0,
+  "known_fp_rules": [
+   "G2",
+   "G3",
+   "G5",
+   "G8"
+  ],
+  "known_fp_counts": {
+   "G1": 0,
+   "G2": 0,
+   "G3": 0,
+   "G4": 0,
+   "G5": 0,
+   "G6": 0,
+   "G7": 0,
+   "G8": 0,
+   "G9": 0,
+   "G10": 0,
+   "G11": 0,
+   "G12": 0,
+   "G13": 0
+  },
+  "real_fail_rows": 0,
+  "known_fp_rows": 0,
+  "pass_rows_real": 600,
+  "pass_rate_real": 1.0,
+  "fail_rows": 0,
+  "pass_rows": 600,
+  "pass_rate": 1.0,
+  "category_counts": {
+   "A": 71,
+   "unknown": 409,
+   "C": 120
+  },
+  "policy_sha16": "92e92217a74eb81e",
+  "min_len": 8,
+  "max_len": 60,
+  "safe_rules_zero": {
+   "G1": true,
+   "G4": true,
+   "G6": true,
+   "G7": true,
+   "G11": true,
+   "G12": true,
+   "G13": true
+  },
+  "rules": {
+   "G1": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G2": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G3": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G4": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G5": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G6": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G7": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G8": {
+    "n": 1,
+    "ok": false,
+    "sample": [
+     {
+      "line": 0,
+      "rule": "G8",
+      "evidence": "同一 user 仅 1 种答案：152 个 user（提示加答案多样性）"
+     }
+    ]
+   },
+   "G9": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G10": {
+    "n": 3,
+    "ok": false,
+    "sample": [
+     {
+      "line": 0,
+      "rule": "G10",
+      "evidence": "A 类 71 条 < 配额 100"
+     },
+     {
+      "line": 0,
+      "rule": "G10",
+      "evidence": "B 类 0 条 < 配额 80"
+     },
+     {
+      "line": 0,
+      "rule": "G10",
+      "evidence": "D 类 0 条 < 配额 60"
+     }
+    ]
+   },
+   "G11": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G12": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G13": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   }
+  }
+ },
+ "input_sha256_16": "7306c35adc09f799",
+ "violations": {
+  "G1": [],
+  "G2": [],
+  "G3": [],
+  "G4": [],
+  "G5": [],
+  "G6": [],
+  "G7": [],
+  "G8": [
+   {
+    "line": 0,
+    "rule": "G8",
+    "evidence": "同一 user 仅 1 种答案：152 个 user（提示加答案多样性）"
+   }
+  ],
+  "G9": [],
+  "G10": [
+   {
+    "line": 0,
+    "rule": "G10",
+    "evidence": "A 类 71 条 < 配额 100"
+   },
+   {
+    "line": 0,
+    "rule": "G10",
+    "evidence": "B 类 0 条 < 配额 80"
+   },
+   {
+    "line": 0,
+    "rule": "G10",
+    "evidence": "D 类 0 条 < 配额 60"
+   }
+  ],
+  "G11": [],
+  "G12": [],
+  "G13": []
+ }
+}

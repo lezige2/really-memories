@@ -1,0 +1,148 @@
+diff --git a/tools/chat_daily.py b/tools/chat_daily.py
+index 4172f3c..bee5f4e 100644
+--- a/tools/chat_daily.py
++++ b/tools/chat_daily.py
+@@ -628,7 +628,7 @@ class DailyApp:
+                  query_expand=False, confirm_writes=False, p1b_subject=False,
+                  tts=False, tts_speak=False, tts_timeout=20, tts_dir=None,
+                  assistant_memory=False, norm_dedup=False, json_output=False,
+-                 dedup_shadow=False, meta_answer=True):
++                 dedup_shadow=False, meta_answer=True, meta_polish=False):
+         self.eng = engine
+         self.model_path = model_path
+         _fmt = os.environ.get("LLAMA_MEM_CHAT_FORMAT", "").strip().lower()
+@@ -669,6 +669,7 @@ class DailyApp:
+         # do-not-enable-for-merge: diagnostic only
+         self.dedup_shadow = bool(dedup_shadow)   # 影子去重；仅诊断，默认关
+         self.meta_answer = bool(meta_answer)     # meta-v1 计数回答；默认开
++        self.meta_polish = bool(meta_polish)     # 可选模型润色；默认关
+         self._last_shadow = {"enabled": self.dedup_shadow, "checked": 0, "hits": []}
+         self._last_json = {"enabled": self.json_output, "parsed": False,
+                            "reported_block_id": None, "fallback": False,
+@@ -1910,8 +1911,24 @@ class DailyApp:
+         facts = self._meta_facts(n)
+         answer = (self._meta_space_template(facts) if is_space
+                   else self._meta_count_template(facts))
+-        meta = {"count": n, "rule": "meta-v1",
++        meta = {"count": n, "rule": "meta-v1", "model_used": False,
++                "fallback": False, "reason": "template",
+                 "facts": facts if is_space else {"count": n}}
++        # DO NOT ENABLE: meta-polish FAIL（封存于 worktree，不随模板 commit）
++        if getattr(self, "meta_polish", False):
++            try:
++                polished = self._meta_polish_call(self._meta_prompt(q, facts, answer))
++                reason = self._meta_validate(
++                    polished, facts, answer,
++                    need_count=has_count, need_space=is_space)
++                if reason is None:
++                    answer = polished.strip()
++                    meta.update(model_used=True, reason="polished")
++                else:
++                    meta.update(fallback=True, reason=reason)
++            except Exception as exc:                     # noqa: BLE001
++                meta.update(fallback=True,
++                            reason="error:%s" % type(exc).__name__)
+         latency_ms = round((time.perf_counter() - t0) * 1000.0, 2)
+         meta["latency_ms"] = latency_ms
+         try:
+@@ -1920,6 +1937,9 @@ class DailyApp:
+                     "meta_answer", "meta-v1 answer",
+                     evidence={"query": q[:60], "tenant": "default",
+                               "scope": "private", "count": n,
++                              "model_used": meta["model_used"],
++                              "fallback": meta["fallback"],
++                              "reason": meta["reason"],
+                               "latency_ms": latency_ms})
+         except Exception:                                # noqa: BLE001
+             pass
+@@ -1962,6 +1982,51 @@ class DailyApp:
+                     f["count"], f["kv_mb"], f["db_mb"],
+                     f["total_mb"], f["total_gb"]))
+ 
++    _META_LEAK_RE = re.compile(
++        r"只改写|数字只能来自|facts|\bcount\b|注入", re.I)
++
++    def _meta_prompt(self, q, f, template):
++        return ("只改写下面这段事实说明，不要新增/删除/改动任何数字或单位；"
++                "数字只能来自：%s。问题：%s\n原文：%s" % (
++                    json.dumps(f, ensure_ascii=False), q[:80], template))
++
++    def _meta_polish_call(self, prompt):
++        pos = self.chat_start if int(self.eng.n_tokens(0)) == 0 else None
++        return self.eng.ask(0, prompt, n_predict=96, pos=pos)
++
++    def _meta_validate(self, text, f, template, need_count=False, need_space=False):
++        """严格校验：数字全来自注入集合；单位随问题类型；注入泄漏判失败。"""
++        s = str(text or "")
++        if not s.strip():
++            return "empty"
++        if self._META_LEAK_RE.search(s):
++            return "prompt_leak"
++        allowed = set()
++        for k in ("count", "kv_mb", "db_mb", "total_mb", "kv_gb", "db_gb",
++                  "total_gb", "kv_bytes", "db_bytes", "total_bytes"):
++            v = f.get(k)
++            if v is None:
++                continue
++            allowed.add(str(v))
++            if isinstance(v, float):
++                allowed.add(str(int(v)))
++                allowed.add("%.1f" % v)
++                allowed.add("%.2f" % v)
++        nums = re.findall(r"\d+(?:\.\d+)?", s.replace(",", ""))
++        for x in nums:
++            if x not in allowed:
++                return "extra_or_changed_number:%s" % x
++        if need_count:
++            if "条" not in s:
++                return "missing_unit:条"
++            if f.get("count", 0) > 0 and str(f["count"]) not in nums:
++                return "missing_count"
++        if need_space:
++            for unit in ("MB", "GB"):
++                if unit.lower() not in s.lower():
++                    return "missing_unit:%s" % unit
++        return None
++
+     def _count_valid_memories(self, tenant="default", scope="private"):
+         ids = {int(r[0]) for r in self.con.execute(
+             "SELECT m.id FROM memory_source m WHERE m.tenant=? AND m.scope=? "
+@@ -4280,6 +4345,9 @@ def main(argv=None):
+                     help="P1b 主体键软覆盖（默认关；sidecar，不改 daily）")
+     # do-not-enable: parse_fail 100%, w03 regression; see out/JSON-E2E-DEFAULT.md
+     # do-not-enable-for-merge: diagnostic only
++    # DO NOT ENABLE: meta-polish FAIL（封存于 worktree，不随模板 commit）
++    ap.add_argument("--meta-polish", action="store_true", default=False,
++                    help="meta-v1 模型润色（默认关；数字严格校验，失败回退模板）")
+     ap.add_argument("--meta-answer", action=argparse.BooleanOptionalAction,
+                     default=True,
+                     help="meta-v1 计数回答（默认开；--no-meta-answer 回滚）")
+@@ -4344,6 +4412,7 @@ def main(argv=None):
+                        json_output=getattr(args, "json_output", False),
+                        dedup_shadow=getattr(args, "dedup_shadow", False),
+                        meta_answer=getattr(args, "meta_answer", True),
++                       meta_polish=getattr(args, "meta_polish", False),
+                        topk=args.topk, rollover_at=args.rollover_at,
+                        n_ctx=args.n_ctx, chat_start=args.chat_start,
+                        n_gpu_layers=args.n_gpu_layers)
+diff --git a/tools/chat_service.py b/tools/chat_service.py
+index 6a36ee7..f087604 100644
+--- a/tools/chat_service.py
++++ b/tools/chat_service.py
+@@ -588,6 +588,7 @@ def build_app(args, data):
+                       json_output=bool(getattr(args, "json_output", False)),
+                       dedup_shadow=bool(getattr(args, "dedup_shadow", False)),
+                       meta_answer=bool(getattr(args, "meta_answer", True)),
++                      meta_polish=bool(getattr(args, "meta_polish", False)),
+                       topk=getattr(args, "topk", D.DEFAULT_TOPK),
+                       rollover_at=getattr(args, "rollover_at", D.ROLLOVER_AT_DEFAULT),
+                       n_ctx=getattr(args, "n_ctx", D.N_CTX_DEFAULT),
+@@ -624,6 +625,8 @@ def main(argv=None):
+     ap.add_argument("--p1b-subject", action="store_true", default=False,
+                     help="P1b 主体键软覆盖（默认关；与 chat_daily 同名同义）")
+     # do-not-enable-for-merge: diagnostic only
++    ap.add_argument("--meta-polish", action="store_true", default=False,
++                    help="meta-v1 模型润色（默认关；数字严格校验）")
+     ap.add_argument("--meta-answer", action=argparse.BooleanOptionalAction,
+                     default=True,
+                     help="meta-v1 计数回答（默认开；--no-meta-answer 回滚）")

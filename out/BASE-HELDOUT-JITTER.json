@@ -1,0 +1,235 @@
+{
+ "schema": "heldout_jitter_v1",
+ "task": "TASK-031A",
+ "env": {
+  "same_head": "0f9ac1e (Lead 指定；E 未执行 git)",
+  "topk": 4,
+  "library_count": 20,
+  "service_instance_started_approx": "2026-10-28T15:53（uptime 6645.3s @17:44:xx）",
+  "serial": true,
+  "memories_snapshot": "out/BASE-MEMORIES-RERUN2.json"
+ },
+ "runs": {
+  "old_baseline": {
+   "file": "out/HELDOUT-EVAL-baseline-650a2e60.json",
+   "sha16": "650a2e60839ef4f6",
+   "pass": 82,
+   "n": 92,
+   "fail_ids": [
+    "h304",
+    "h315",
+    "h702",
+    "h804",
+    "h902",
+    "h903",
+    "h905",
+    "h906",
+    "h908",
+    "h910"
+   ]
+  },
+  "rerun1": {
+   "file": "out/BASE-HELDOUT-92-RERUN.json",
+   "sha16": "168641e8a552db2b",
+   "pass": 88,
+   "n": 92,
+   "window": [
+    "17:25:35",
+    "17:29:53"
+   ],
+   "fail_ids": [
+    "h304",
+    "h315",
+    "h411",
+    "h702"
+   ]
+  },
+  "rerun2": {
+   "file": "out/BASE-HELDOUT-92-RERUN2.json",
+   "sha16": "d4148789a739e4ea",
+   "pass": 90,
+   "n": 92,
+   "window": [
+    "17:47:05",
+    "17:51:20"
+   ],
+   "fail_ids": [
+    "h411",
+    "h907"
+   ]
+  }
+ },
+ "jitter": {
+  "rerun1_vs_rerun2_flip_count": 4,
+  "flip_rate": 0.0435,
+  "pass_range": [
+   88,
+   90
+  ],
+  "band": "88-90/92（中位 89，±1）",
+  "same_pass_but_answer_diff_rows": 23,
+  "flips": [
+   {
+    "id": "h304",
+    "category": "unknown",
+    "input": "我孩子几岁",
+    "rerun1": "FAIL",
+    "rerun2": "PASS",
+    "rerun1_why": "contains_forbidden",
+    "rerun2_why": "honest_fallback",
+    "rerun1_answer": "你上次提到过你孩子5岁，不过时间过去了一段时间，我可能记不清了，你可以告诉我具体是哪位孩子，或者再提醒一下他的年龄",
+    "rerun2_answer": "记不清了，你可以查一下他的出生证明或者户口本，上面应该有准确的信息"
+   },
+   {
+    "id": "h315",
+    "category": "unknown",
+    "input": "我入职多久了",
+    "rerun1": "FAIL",
+    "rerun2": "PASS",
+    "rerun1_why": "missing_expected",
+    "rerun2_why": "honest_fallback",
+    "rerun1_answer": "这个我得查查，不过咱们可以看看你的工作记录或者问问HR，应该能找到准确的时间",
+    "rerun2_answer": "这个我得查查，入职时有说过，不过现在记不清具体时间了。你可以看看自己的工作证或者问问HR，应该能找到入职日期"
+   },
+   {
+    "id": "h702",
+    "category": "net",
+    "input": "明天上海下雨吗",
+    "rerun1": "FAIL",
+    "rerun2": "PASS",
+    "rerun1_why": "missing_expected",
+    "rerun2_why": "ok",
+    "rerun1_answer": "这个我帮不了你，你可以查一下天气预报",
+    "rerun2_answer": "这条我没法从记忆里核对，先不猜。"
+   },
+   {
+    "id": "h907",
+    "category": "follow",
+    "input": "我刚才买了什么",
+    "rerun1": "PASS",
+    "rerun2": "FAIL",
+    "rerun1_why": "ok",
+    "rerun2_why": "missing_expected",
+    "rerun1_answer": "你刚才买了个新键盘",
+    "rerun2_answer": "这条我没法从记忆里核对，先不猜。"
+   }
+  ]
+ },
+ "old_vs_new": {
+  "old_vs_rerun2_changed": 12,
+  "old_pass": 82,
+  "rerun2_pass": 90,
+  "note": "差 8 条，远大于两次重跑抖动带 2 条；旧基线 13:51-13:59 属旧服务进程（当前进程约 15:53 启动），不可作为同环境对照",
+  "changes": [
+   {
+    "id": "h304",
+    "category": "unknown",
+    "input": "我孩子几岁",
+    "old": "FAIL",
+    "rerun2": "PASS",
+    "old_why": "contains_forbidden",
+    "rerun2_why": "honest_fallback"
+   },
+   {
+    "id": "h315",
+    "category": "unknown",
+    "input": "我入职多久了",
+    "old": "FAIL",
+    "rerun2": "PASS",
+    "old_why": "missing_expected",
+    "rerun2_why": "honest_fallback"
+   },
+   {
+    "id": "h411",
+    "category": "time",
+    "input": "我明天中午吃什么",
+    "old": "PASS",
+    "rerun2": "FAIL",
+    "old_why": "ok",
+    "rerun2_why": "missing_expected"
+   },
+   {
+    "id": "h702",
+    "category": "net",
+    "input": "明天上海下雨吗",
+    "old": "FAIL",
+    "rerun2": "PASS",
+    "old_why": "missing_expected",
+    "rerun2_why": "ok"
+   },
+   {
+    "id": "h804",
+    "category": "meta",
+    "input": "你的记忆有多久",
+    "old": "FAIL",
+    "rerun2": "PASS",
+    "old_why": "missing_expected",
+    "rerun2_why": "ok"
+   },
+   {
+    "id": "h902",
+    "category": "follow",
+    "input": "我刚才买了什么",
+    "old": "FAIL",
+    "rerun2": "PASS",
+    "old_why": "missing_expected",
+    "rerun2_why": "ok"
+   },
+   {
+    "id": "h903",
+    "category": "follow",
+    "input": "我下周要干嘛",
+    "old": "FAIL",
+    "rerun2": "PASS",
+    "old_why": "missing_expected",
+    "rerun2_why": "honest_fallback"
+   },
+   {
+    "id": "h905",
+    "category": "follow",
+    "input": "我明天要做什么",
+    "old": "FAIL",
+    "rerun2": "PASS",
+    "old_why": "missing_expected",
+    "rerun2_why": "ok"
+   },
+   {
+    "id": "h906",
+    "category": "follow",
+    "input": "我刚才说要去哪",
+    "old": "FAIL",
+    "rerun2": "PASS",
+    "old_why": "missing_expected",
+    "rerun2_why": "ok"
+   },
+   {
+    "id": "h907",
+    "category": "follow",
+    "input": "我刚才买了什么",
+    "old": "PASS",
+    "rerun2": "FAIL",
+    "old_why": "ok",
+    "rerun2_why": "missing_expected"
+   },
+   {
+    "id": "h908",
+    "category": "follow",
+    "input": "我下周要干嘛",
+    "old": "FAIL",
+    "rerun2": "PASS",
+    "old_why": "missing_expected",
+    "rerun2_why": "honest_fallback"
+   },
+   {
+    "id": "h910",
+    "category": "follow",
+    "input": "我明天要做什么",
+    "old": "FAIL",
+    "rerun2": "PASS",
+    "old_why": "missing_expected",
+    "rerun2_why": "ok"
+   }
+  ]
+ },
+ "conclusion": "同 HEAD/同 topk/同 20 块的两次 hermetic 重跑为 88 与 90（抖动带 88-90，逐条翻转 4/92=4.3%，其中 h304/h315/h702 fail→pass、h907 pass→fail，h411 两次均 fail）；旧 82 vs 新 88/90 的 6-8 条差超出抖动带，应定性为运行实例/代码态漂移（旧基线来自 15:53 之前启动的旧进程），非单纯采样抖动。"
+}

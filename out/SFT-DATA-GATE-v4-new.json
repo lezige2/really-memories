@@ -1,0 +1,8348 @@
+{
+ "schema": "sft_data_gate_v1",
+ "task": "TASK-040",
+ "input": "out/_v4_new_rows.jsonl",
+ "summary": {
+  "rows": 586,
+  "fail_rows": 568,
+  "pass_rows": 18,
+  "pass_rate": 0.0307,
+  "category_counts": {
+   "unknown": 196,
+   "A": 150,
+   "C": 180,
+   "B": 60
+  },
+  "policy_sha16": "92e92217a74eb81e",
+  "min_len": 8,
+  "max_len": 60,
+  "rules": {
+   "G1": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G2": {
+    "n": 89,
+    "ok": false,
+    "sample": [
+     {
+      "line": 227,
+      "rule": "G2",
+      "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+      "user": "我养的猫叫什么名字？",
+      "assistant": "你养的猫叫豆豆。"
+     },
+     {
+      "line": 231,
+      "rule": "G2",
+      "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+      "user": "我养的猫叫什么名字？",
+      "assistant": "你养的猫叫豆豆。"
+     },
+     {
+      "line": 235,
+      "rule": "G2",
+      "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+      "user": "我养的猫叫什么名字？",
+      "assistant": "你养的猫叫豆豆。"
+     }
+    ]
+   },
+   "G3": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G4": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G5": {
+    "n": 78,
+    "ok": false,
+    "sample": [
+     {
+      "line": 2,
+      "rule": "G5",
+      "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+      "user": "你能联网吗",
+      "assistant": "我连不了网，查不到实时信息。"
+     },
+     {
+      "line": 5,
+      "rule": "G5",
+      "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+      "user": "问一下，你能联网吗",
+      "assistant": "我连不了网，查不到实时信息。"
+     },
+     {
+      "line": 8,
+      "rule": "G5",
+      "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+      "user": "在吗，你能联网吗",
+      "assistant": "我连不了网，查不到实时信息。"
+     }
+    ]
+   },
+   "G6": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G7": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G8": {
+    "n": 526,
+    "ok": false,
+    "sample": [
+     {
+      "line": 1,
+      "rule": "G8",
+      "evidence": "assistant 归一化后出现 15 次（>3）"
+     },
+     {
+      "line": 2,
+      "rule": "G8",
+      "evidence": "assistant 归一化后出现 15 次（>3）"
+     },
+     {
+      "line": 3,
+      "rule": "G8",
+      "evidence": "assistant 归一化后出现 15 次（>3）"
+     }
+    ]
+   },
+   "G9": {
+    "n": 278,
+    "ok": false,
+    "sample": [
+     {
+      "line": 226,
+      "rule": "G9",
+      "evidence": "system 首行不是时间行：'我最爱吃火锅\\n我的车牌号是沪B12345\\n我下周三要去杭州开会\\n\\n当前时间：20'",
+      "user": "我下周三去哪开会？",
+      "assistant": "你下周三要去杭州开会。"
+     },
+     {
+      "line": 227,
+      "rule": "G9",
+      "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n我最爱吃火锅\\n\\n当前时间：2026-10-27 星期二 21:'",
+      "user": "我养的猫叫什么名字？",
+      "assistant": "你养的猫叫豆豆。"
+     },
+     {
+      "line": 228,
+      "rule": "G9",
+      "evidence": "system 首行不是时间行：'我每周三晚上七点有组会\\n我下个月去商汤出差\\n\\n当前时间：2026-10-27 星'",
+      "user": "我们组会几点开？",
+      "assistant": "你每周三晚上七点有组会。"
+     }
+    ]
+   },
+   "G10": {
+    "n": 343,
+    "ok": false,
+    "sample": [
+     {
+      "line": 2,
+      "rule": "G10",
+      "evidence": "同 (system,user) 重复出现（首次 line 1）",
+      "user": "你能联网吗",
+      "assistant": "我连不了网，查不到实时信息。"
+     },
+     {
+      "line": 3,
+      "rule": "G10",
+      "evidence": "同 (system,user) 重复出现（首次 line 1）",
+      "user": "你能联网吗",
+      "assistant": "不能哦，我没法联网。"
+     },
+     {
+      "line": 5,
+      "rule": "G10",
+      "evidence": "同 (system,user) 重复出现（首次 line 4）",
+      "user": "问一下，你能联网吗",
+      "assistant": "我连不了网，查不到实时信息。"
+     }
+    ]
+   },
+   "G11": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   },
+   "G12": {
+    "n": 0,
+    "ok": true,
+    "sample": []
+   }
+  }
+ },
+ "input_sha256_16": "c1c9e2ea6eeeddd9",
+ "violations": {
+  "G1": [],
+  "G2": [
+   {
+    "line": 227,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 231,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 235,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 239,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 243,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 247,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 251,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 255,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 259,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 263,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 267,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 271,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 275,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 279,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 283,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你养的猫叫豆豆。'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 346,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'杭州啊，那挺忙的。'",
+    "user": "我下周三要去杭州开会",
+    "assistant": "杭州啊，那挺忙的。"
+   },
+   {
+    "line": 351,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 354,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我最近在学做饭",
+    "assistant": "做饭，记着呢。"
+   },
+   {
+    "line": 356,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我周五晚上十点去健身",
+    "assistant": "健身，挺好的。"
+   },
+   {
+    "line": 357,
+    "rule": "G2",
+    "evidence": "assistant 长度 5 < 8",
+    "user": "我老家在合肥",
+    "assistant": "嗯，合肥。"
+   },
+   {
+    "line": 358,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'杭州啊，那挺忙的。'",
+    "user": "我下周三要去杭州开会",
+    "assistant": "杭州啊，那挺忙的。"
+   },
+   {
+    "line": 363,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 366,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我最近在学做饭",
+    "assistant": "做饭，记着呢。"
+   },
+   {
+    "line": 368,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我周五晚上十点去健身",
+    "assistant": "健身，挺好的。"
+   },
+   {
+    "line": 369,
+    "rule": "G2",
+    "evidence": "assistant 长度 5 < 8",
+    "user": "我老家在合肥",
+    "assistant": "嗯，合肥。"
+   },
+   {
+    "line": 370,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'杭州啊，那挺忙的。'",
+    "user": "我下周三要去杭州开会",
+    "assistant": "杭州啊，那挺忙的。"
+   },
+   {
+    "line": 375,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 378,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我最近在学做饭",
+    "assistant": "做饭，记着呢。"
+   },
+   {
+    "line": 380,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我周五晚上十点去健身",
+    "assistant": "健身，挺好的。"
+   },
+   {
+    "line": 381,
+    "rule": "G2",
+    "evidence": "assistant 长度 5 < 8",
+    "user": "我老家在合肥",
+    "assistant": "嗯，合肥。"
+   },
+   {
+    "line": 382,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'杭州啊，那挺忙的。'",
+    "user": "我下周三要去杭州开会",
+    "assistant": "杭州啊，那挺忙的。"
+   },
+   {
+    "line": 387,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 390,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我最近在学做饭",
+    "assistant": "做饭，记着呢。"
+   },
+   {
+    "line": 392,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我周五晚上十点去健身",
+    "assistant": "健身，挺好的。"
+   },
+   {
+    "line": 393,
+    "rule": "G2",
+    "evidence": "assistant 长度 5 < 8",
+    "user": "我老家在合肥",
+    "assistant": "嗯，合肥。"
+   },
+   {
+    "line": 394,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'杭州啊，那挺忙的。'",
+    "user": "我下周三要去杭州开会",
+    "assistant": "杭州啊，那挺忙的。"
+   },
+   {
+    "line": 399,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 402,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我最近在学做饭",
+    "assistant": "做饭，记着呢。"
+   },
+   {
+    "line": 404,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我周五晚上十点去健身",
+    "assistant": "健身，挺好的。"
+   },
+   {
+    "line": 405,
+    "rule": "G2",
+    "evidence": "assistant 长度 5 < 8",
+    "user": "我老家在合肥",
+    "assistant": "嗯，合肥。"
+   },
+   {
+    "line": 406,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'杭州啊，那挺忙的。'",
+    "user": "我下周三要去杭州开会",
+    "assistant": "杭州啊，那挺忙的。"
+   },
+   {
+    "line": 411,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 414,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我最近在学做饭",
+    "assistant": "做饭，记着呢。"
+   },
+   {
+    "line": 416,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我周五晚上十点去健身",
+    "assistant": "健身，挺好的。"
+   },
+   {
+    "line": 417,
+    "rule": "G2",
+    "evidence": "assistant 长度 5 < 8",
+    "user": "我老家在合肥",
+    "assistant": "嗯，合肥。"
+   },
+   {
+    "line": 418,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'杭州啊，那挺忙的。'",
+    "user": "我下周三要去杭州开会",
+    "assistant": "杭州啊，那挺忙的。"
+   },
+   {
+    "line": 423,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 430,
+    "rule": "G2",
+    "evidence": "assistant 长度 5 < 8",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 431,
+    "rule": "G2",
+    "evidence": "assistant 长度 6 < 8",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 436,
+    "rule": "G2",
+    "evidence": "assistant 长度 5 < 8",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 437,
+    "rule": "G2",
+    "evidence": "assistant 长度 6 < 8",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 442,
+    "rule": "G2",
+    "evidence": "assistant 长度 5 < 8",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 443,
+    "rule": "G2",
+    "evidence": "assistant 长度 6 < 8",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 448,
+    "rule": "G2",
+    "evidence": "assistant 长度 5 < 8",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 449,
+    "rule": "G2",
+    "evidence": "assistant 长度 6 < 8",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 454,
+    "rule": "G2",
+    "evidence": "assistant 长度 5 < 8",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 455,
+    "rule": "G2",
+    "evidence": "assistant 长度 6 < 8",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 460,
+    "rule": "G2",
+    "evidence": "assistant 长度 5 < 8",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 461,
+    "rule": "G2",
+    "evidence": "assistant 长度 6 < 8",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 466,
+    "rule": "G2",
+    "evidence": "assistant 长度 5 < 8",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 467,
+    "rule": "G2",
+    "evidence": "assistant 长度 6 < 8",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 472,
+    "rule": "G2",
+    "evidence": "assistant 长度 5 < 8",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 473,
+    "rule": "G2",
+    "evidence": "assistant 长度 6 < 8",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 478,
+    "rule": "G2",
+    "evidence": "assistant 长度 5 < 8",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 479,
+    "rule": "G2",
+    "evidence": "assistant 长度 6 < 8",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 484,
+    "rule": "G2",
+    "evidence": "assistant 长度 5 < 8",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 485,
+    "rule": "G2",
+    "evidence": "assistant 长度 6 < 8",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 488,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你对青霉素过敏。'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你对青霉素过敏。"
+   },
+   {
+    "line": 489,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你儿子小名毛豆。'",
+    "user": "我这周有什么安排？",
+    "assistant": "你儿子小名毛豆。"
+   },
+   {
+    "line": 497,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 500,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你对青霉素过敏。'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你对青霉素过敏。"
+   },
+   {
+    "line": 501,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你儿子小名毛豆。'",
+    "user": "我这周有什么安排？",
+    "assistant": "你儿子小名毛豆。"
+   },
+   {
+    "line": 509,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 512,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你对青霉素过敏。'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你对青霉素过敏。"
+   },
+   {
+    "line": 513,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你儿子小名毛豆。'",
+    "user": "我这周有什么安排？",
+    "assistant": "你儿子小名毛豆。"
+   },
+   {
+    "line": 521,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 524,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你对青霉素过敏。'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你对青霉素过敏。"
+   },
+   {
+    "line": 525,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你儿子小名毛豆。'",
+    "user": "我这周有什么安排？",
+    "assistant": "你儿子小名毛豆。"
+   },
+   {
+    "line": 533,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 536,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你对青霉素过敏。'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你对青霉素过敏。"
+   },
+   {
+    "line": 537,
+    "rule": "G2",
+    "evidence": "无谓语/碎片结尾：'你儿子小名毛豆。'",
+    "user": "我这周有什么安排？",
+    "assistant": "你儿子小名毛豆。"
+   },
+   {
+    "line": 545,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 548,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "",
+    "assistant": "对了，青霉素。"
+   },
+   {
+    "line": 554,
+    "rule": "G2",
+    "evidence": "assistant 长度 6 < 8",
+    "user": "",
+    "assistant": "对了，做饭。"
+   },
+   {
+    "line": 560,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "",
+    "assistant": "对了，青霉素。"
+   },
+   {
+    "line": 566,
+    "rule": "G2",
+    "evidence": "assistant 长度 6 < 8",
+    "user": "",
+    "assistant": "对了，做饭。"
+   },
+   {
+    "line": 572,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "",
+    "assistant": "对了，青霉素。"
+   },
+   {
+    "line": 578,
+    "rule": "G2",
+    "evidence": "assistant 长度 6 < 8",
+    "user": "",
+    "assistant": "对了，做饭。"
+   },
+   {
+    "line": 584,
+    "rule": "G2",
+    "evidence": "assistant 长度 7 < 8",
+    "user": "",
+    "assistant": "对了，青霉素。"
+   }
+  ],
+  "G3": [],
+  "G4": [],
+  "G5": [
+   {
+    "line": 2,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+    "user": "你能联网吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 5,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+    "user": "问一下，你能联网吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 8,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+    "user": "在吗，你能联网吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 11,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+    "user": "你是联网的吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 14,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+    "user": "问一下，你是联网的吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 17,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+    "user": "在吗，你是联网的吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 20,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+    "user": "你能上网吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 23,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+    "user": "问一下，你能上网吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 26,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+    "user": "在吗，你能上网吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 29,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+    "user": "你可以联网查东西吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 32,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+    "user": "问一下，你可以联网查东西吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 35,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+    "user": "在吗，你可以联网查东西吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 38,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+    "user": "你能查到实时信息吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 41,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+    "user": "问一下，你能查到实时信息吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 44,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，查不到实时信息。'",
+    "user": "在吗，你能查到实时信息吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 163,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "北京今天天气怎么样",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 164,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "北京今天天气怎么样",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 165,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "北京今天天气怎么样",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 166,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "问一下，北京今天天气怎么样",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 167,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "问一下，北京今天天气怎么样",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 168,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "问一下，北京今天天气怎么样",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 169,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "在吗，北京今天天气怎么样",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 170,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "在吗，北京今天天气怎么样",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 171,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "在吗，北京今天天气怎么样",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 172,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "明天上海下雨吗",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 173,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "明天上海下雨吗",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 174,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "明天上海下雨吗",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 175,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "问一下，明天上海下雨吗",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 176,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "问一下，明天上海下雨吗",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 177,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "问一下，明天上海下雨吗",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 178,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "在吗，明天上海下雨吗",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 179,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "在吗，明天上海下雨吗",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 180,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "在吗，明天上海下雨吗",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 181,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "今天北京限行尾号是多少",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 182,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "今天北京限行尾号是多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 183,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "今天北京限行尾号是多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 184,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "问一下，今天北京限行尾号是多少",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 185,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "问一下，今天北京限行尾号是多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 186,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "问一下，今天北京限行尾号是多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 187,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "在吗，今天北京限行尾号是多少",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 188,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "在吗，今天北京限行尾号是多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 189,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "在吗，今天北京限行尾号是多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 190,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "现在股价多少",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 191,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "现在股价多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 192,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "现在股价多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 193,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "问一下，现在股价多少",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 194,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "问一下，现在股价多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 195,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "问一下，现在股价多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 196,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "在吗，现在股价多少",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 197,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "在吗，现在股价多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 198,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "在吗，现在股价多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 199,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "帮我查一下明天的新闻",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 200,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "帮我查一下明天的新闻",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 201,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "帮我查一下明天的新闻",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 202,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "问一下，帮我查一下明天的新闻",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 203,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "问一下，帮我查一下明天的新闻",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 204,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "问一下，帮我查一下明天的新闻",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 205,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "在吗，帮我查一下明天的新闻",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 206,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "在吗，帮我查一下明天的新闻",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 207,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "在吗，帮我查一下明天的新闻",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 208,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "现在汇率是多少",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 209,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "现在汇率是多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 210,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "现在汇率是多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 211,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "问一下，现在汇率是多少",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 212,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "问一下，现在汇率是多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 213,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "问一下，现在汇率是多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 214,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "在吗，现在汇率是多少",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 215,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "在吗，现在汇率是多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 216,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "在吗，现在汇率是多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 217,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "今天油价多少",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 218,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "今天油价多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 219,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "今天油价多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 220,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "问一下，今天油价多少",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 221,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "问一下，今天油价多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 222,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "问一下，今天油价多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 223,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我查不到实时信息，你可以看看手机上的天气或新闻。'",
+    "user": "在吗，今天油价多少",
+    "assistant": "我查不到实时信息，你可以看看手机上的天气或新闻。"
+   },
+   {
+    "line": 224,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'这个我没法查，我没有实时数据。'",
+    "user": "在吗，今天油价多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 225,
+    "rule": "G5",
+    "evidence": "assistant 陈述实时环境事实：'我连不了网，实时信息查不到。'",
+    "user": "在吗，今天油价多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   }
+  ],
+  "G6": [],
+  "G7": [],
+  "G8": [
+   {
+    "line": 1,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 2,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 3,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 4,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 5,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 6,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 7,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 8,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 9,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 10,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 11,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 12,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 13,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 14,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 15,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 16,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 17,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 18,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 19,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 20,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 21,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 22,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 23,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 24,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 25,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 26,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 27,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 28,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 29,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 30,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 31,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 32,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 33,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 34,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 35,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 36,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 37,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 38,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 39,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 40,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 41,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 42,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 43,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 44,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 45,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 46,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 47,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 48,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 49,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 50,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 51,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 52,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 53,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 54,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 55,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 56,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 57,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 58,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 59,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 60,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 61,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 62,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 63,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 64,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 65,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 66,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 67,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 68,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 69,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 70,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 71,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 72,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 73,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 74,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 75,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 76,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 77,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 78,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 79,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 80,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 81,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 82,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 83,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 84,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 85,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 86,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 87,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 88,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 89,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 90,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 91,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 92,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 93,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 94,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 95,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 96,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 97,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 98,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 99,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 12 次（>3）"
+   },
+   {
+    "line": 100,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 101,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 102,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 103,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 104,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 105,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 106,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 107,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 108,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 109,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 110,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 111,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 112,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 113,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 114,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 115,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 116,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 117,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 118,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 119,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 120,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 121,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 122,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 123,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 124,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 125,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 126,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 9 次（>3）"
+   },
+   {
+    "line": 163,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 164,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 165,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 166,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 167,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 168,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 169,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 170,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 171,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 172,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 173,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 174,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 175,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 176,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 177,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 178,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 179,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 180,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 181,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 182,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 183,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 184,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 185,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 186,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 187,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 188,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 189,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 190,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 191,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 192,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 193,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 194,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 195,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 196,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 197,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 198,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 199,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 200,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 201,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 202,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 203,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 204,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 205,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 206,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 207,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 208,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 209,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 210,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 211,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 212,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 213,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 214,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 215,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 216,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 217,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 218,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 219,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 220,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 221,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 222,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 223,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 224,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 225,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 21 次（>3）"
+   },
+   {
+    "line": 226,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 227,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 228,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 229,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 230,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 231,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 232,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 233,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 234,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 235,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 236,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 237,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 238,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 239,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 240,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 241,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 242,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 243,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 244,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 245,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 246,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 247,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 248,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 249,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 250,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 251,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 252,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 253,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 254,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 255,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 256,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 257,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 258,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 259,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 260,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 261,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 262,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 263,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 264,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 265,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 266,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 267,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 268,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 269,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 270,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 271,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 272,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 273,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 274,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 275,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 276,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 277,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 278,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 279,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 280,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 281,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 282,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 283,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 284,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 285,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 15 次（>3）"
+   },
+   {
+    "line": 286,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 287,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 288,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 289,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 290,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 291,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 292,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 293,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 294,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 295,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 296,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 297,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 298,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 299,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 300,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 301,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 302,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 303,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 304,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 305,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 306,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 307,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 308,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 309,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 310,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 311,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 312,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 313,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 314,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 315,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 316,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 317,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 318,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 319,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 320,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 321,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 322,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 323,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 324,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 325,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 326,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 327,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 328,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 329,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 330,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 331,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 332,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 333,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 334,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 335,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 336,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 337,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 338,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 339,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 340,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 341,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 342,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 343,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 344,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 345,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 60 次（>3）"
+   },
+   {
+    "line": 346,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 347,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 348,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 349,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 350,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 351,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 352,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 353,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 354,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 355,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 356,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 357,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 358,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 359,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 360,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 361,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 362,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 363,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 364,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 365,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 366,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 367,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 368,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 369,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 370,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 371,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 372,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 373,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 374,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 375,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 376,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 377,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 378,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 379,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 380,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 381,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 382,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 383,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 384,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 385,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 386,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 387,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 388,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 389,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 390,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 391,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 392,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 393,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 394,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 395,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 396,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 397,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 398,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 399,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 400,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 401,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 402,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 403,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 404,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 405,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 406,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 407,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 408,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 409,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 410,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 411,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 412,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 413,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 414,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 415,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 416,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 417,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 6 次（>3）"
+   },
+   {
+    "line": 418,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 419,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 420,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 421,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 422,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 423,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 424,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 425,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 7 次（>3）"
+   },
+   {
+    "line": 426,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 427,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 428,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 429,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 430,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 431,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 432,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 433,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 434,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 435,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 436,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 437,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 438,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 439,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 440,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 441,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 442,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 443,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 444,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 445,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 446,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 447,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 448,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 449,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 450,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 451,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 452,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 453,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 454,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 455,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 456,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 457,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 458,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 459,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 460,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 461,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 462,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 463,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 464,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 465,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 466,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 467,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 468,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 469,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 470,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 471,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 472,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 473,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 474,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 475,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 476,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 477,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 478,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 479,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 480,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 481,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 482,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 483,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 484,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 485,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 10 次（>3）"
+   },
+   {
+    "line": 486,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 487,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 488,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 489,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 490,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 491,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 492,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 493,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 494,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 495,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 496,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 497,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 498,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 499,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 500,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 501,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 502,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 503,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 504,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 505,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 506,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 507,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 508,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 509,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 510,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 511,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 512,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 513,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 514,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 515,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 516,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 517,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 518,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 519,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 520,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 521,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 522,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 523,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 524,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 525,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 526,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 527,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 528,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 529,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 530,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 531,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 532,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 533,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 534,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 20 次（>3）"
+   },
+   {
+    "line": 535,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 536,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 537,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 538,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 539,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 540,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 541,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 542,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 543,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 544,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 545,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 5 次（>3）"
+   },
+   {
+    "line": 546,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 4 次（>3）"
+   },
+   {
+    "line": 547,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 4 次（>3）"
+   },
+   {
+    "line": 548,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 4 次（>3）"
+   },
+   {
+    "line": 549,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 4 次（>3）"
+   },
+   {
+    "line": 558,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 4 次（>3）"
+   },
+   {
+    "line": 559,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 4 次（>3）"
+   },
+   {
+    "line": 560,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 4 次（>3）"
+   },
+   {
+    "line": 561,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 4 次（>3）"
+   },
+   {
+    "line": 570,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 4 次（>3）"
+   },
+   {
+    "line": 571,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 4 次（>3）"
+   },
+   {
+    "line": 572,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 4 次（>3）"
+   },
+   {
+    "line": 573,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 4 次（>3）"
+   },
+   {
+    "line": 582,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 4 次（>3）"
+   },
+   {
+    "line": 583,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 4 次（>3）"
+   },
+   {
+    "line": 584,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 4 次（>3）"
+   },
+   {
+    "line": 585,
+    "rule": "G8",
+    "evidence": "assistant 归一化后出现 4 次（>3）"
+   },
+   {
+    "line": 0,
+    "rule": "G8",
+    "evidence": "同一 user 仅 1 种答案：34 个 user（提示加答案多样性）"
+   }
+  ],
+  "G9": [
+   {
+    "line": 226,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最爱吃火锅\\n我的车牌号是沪B12345\\n我下周三要去杭州开会\\n\\n当前时间：20'",
+    "user": "我下周三去哪开会？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 227,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n我最爱吃火锅\\n\\n当前时间：2026-10-27 星期二 21:'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 228,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我每周三晚上七点有组会\\n我下个月去商汤出差\\n\\n当前时间：2026-10-27 星'",
+    "user": "我们组会几点开？",
+    "assistant": "你每周三晚上七点有组会。"
+   },
+   {
+    "line": 229,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我在字节跳动上班\\n我用的手机是 iPhone 15\\n我养了只猫叫豆豆\\n\\n当前时间'",
+    "user": "我用的什么手机？",
+    "assistant": "你用的是 iPhone 15。"
+   },
+   {
+    "line": 230,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n我每周三晚上七点有组会\\n我下周三要去杭州开会\\n\\n当前时间：20'",
+    "user": "我下周三去哪开会？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 231,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n我用的手机是 iPhone 15\\n我最爱吃火锅\\n\\n当前时间：2'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 232,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n我每周三晚上七点有组会\\n我用的手机是 iPhone 15\\n\\n当'",
+    "user": "我们组会几点开？",
+    "assistant": "你每周三晚上七点有组会。"
+   },
+   {
+    "line": 233,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我用的手机是 iPhone 15\\n我老家在合肥\\n\\n当前时间：2026-10-27'",
+    "user": "我用的什么手机？",
+    "assistant": "你用的是 iPhone 15。"
+   },
+   {
+    "line": 234,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n我女儿小名雪梨\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "我下周三去哪开会？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 235,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n我用的手机是 iPhone 15\\n我在字节跳动上班\\n\\n当前时间'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 236,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我每周三晚上七点有组会\\n我老家在合肥\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "我们组会几点开？",
+    "assistant": "你每周三晚上七点有组会。"
+   },
+   {
+    "line": 237,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我用的手机是 iPhone 15\\n我最爱吃火锅\\n我女儿小名雪梨\\n\\n当前时间：20'",
+    "user": "我用的什么手机？",
+    "assistant": "你用的是 iPhone 15。"
+   },
+   {
+    "line": 238,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我老家在合肥\\n我用的手机是 iPhone 15\\n我下周三要去杭州开会\\n\\n当前时间'",
+    "user": "我下周三去哪开会？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 239,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下个月去商汤出差\\n我养了只猫叫豆豆\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 240,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我用的手机是 iPhone 15\\n我每周三晚上七点有组会\\n\\n当前时间：2026-'",
+    "user": "我们组会几点开？",
+    "assistant": "你每周三晚上七点有组会。"
+   },
+   {
+    "line": 241,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我用的手机是 iPhone 15\\n我女儿小名雪梨\\n\\n当前时间：2026-10-2'",
+    "user": "我用的什么手机？",
+    "assistant": "你用的是 iPhone 15。"
+   },
+   {
+    "line": 242,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n我老家在合肥\\n\\n当前时间：2026-10-27 星期二 2'",
+    "user": "我下周三去哪开会？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 243,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我老家在合肥\\n我下个月去商汤出差\\n我养了只猫叫豆豆\\n\\n当前时间：2026-10-'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 244,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我每周三晚上七点有组会\\n我用的手机是 iPhone 15\\n\\n当前时间：2026-'",
+    "user": "我们组会几点开？",
+    "assistant": "你每周三晚上七点有组会。"
+   },
+   {
+    "line": 245,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我的车牌号是沪B12345\\n我下周三要去杭州开会\\n我用的手机是 iPhone 1'",
+    "user": "我用的什么手机？",
+    "assistant": "你用的是 iPhone 15。"
+   },
+   {
+    "line": 246,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我女儿小名雪梨\\n我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "我下周三去哪开会？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 247,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n我每周三晚上七点有组会\\n\\n当前时间：2026-10-27 星期'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 248,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我女儿小名雪梨\\n我老家在合肥\\n我每周三晚上七点有组会\\n\\n当前时间：2026-10'",
+    "user": "我们组会几点开？",
+    "assistant": "你每周三晚上七点有组会。"
+   },
+   {
+    "line": 249,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我用的手机是 iPhone 15\\n我养了只猫叫豆豆\\n\\n当前时间：2026-10-'",
+    "user": "我用的什么手机？",
+    "assistant": "你用的是 iPhone 15。"
+   },
+   {
+    "line": 250,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n我每周三晚上七点有组会\\n我下周三要去杭州开会\\n\\n当前时间：20'",
+    "user": "我下周三去哪开会？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 251,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我在字节跳动上班\\n我养了只猫叫豆豆\\n我最爱吃火锅\\n\\n当前时间：2026-10-2'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 252,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我每周三晚上七点有组会\\n我下周三要去杭州开会\\n我的车牌号是沪B12345\\n\\n当前'",
+    "user": "我们组会几点开？",
+    "assistant": "你每周三晚上七点有组会。"
+   },
+   {
+    "line": 253,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下个月去商汤出差\\n我用的手机是 iPhone 15\\n\\n当前时间：2026-10'",
+    "user": "我用的什么手机？",
+    "assistant": "你用的是 iPhone 15。"
+   },
+   {
+    "line": 254,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我女儿小名雪梨\\n我下周三要去杭州开会\\n我在字节跳动上班\\n\\n当前时间：2026-1'",
+    "user": "我下周三去哪开会？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 255,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最爱吃火锅\\n我养了只猫叫豆豆\\n\\n当前时间：2026-10-27 星期二 21:'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 256,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我的车牌号是沪B12345\\n我老家在合肥\\n我每周三晚上七点有组会\\n\\n当前时间：2'",
+    "user": "我们组会几点开？",
+    "assistant": "你每周三晚上七点有组会。"
+   },
+   {
+    "line": 257,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我用的手机是 iPhone 15\\n我老家在合肥\\n\\n当前时间：2026-10-27'",
+    "user": "我用的什么手机？",
+    "assistant": "你用的是 iPhone 15。"
+   },
+   {
+    "line": 258,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n我的车牌号是沪B12345\\n\\n当前时间：2026-10-2'",
+    "user": "我下周三去哪开会？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 259,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n我下个月去商汤出差\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 260,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我每周三晚上七点有组会\\n我下个月去商汤出差\\n我在字节跳动上班\\n\\n当前时间：202'",
+    "user": "我们组会几点开？",
+    "assistant": "你每周三晚上七点有组会。"
+   },
+   {
+    "line": 261,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我用的手机是 iPhone 15\\n我养了只猫叫豆豆\\n我的车牌号是沪B12345\\n'",
+    "user": "我用的什么手机？",
+    "assistant": "你用的是 iPhone 15。"
+   },
+   {
+    "line": 262,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n我养了只猫叫豆豆\\n\\n当前时间：2026-10-27 星期二'",
+    "user": "我下周三去哪开会？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 263,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n我女儿小名雪梨\\n我每周三晚上七点有组会\\n\\n当前时间：2026-'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 264,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我每周三晚上七点有组会\\n我下个月去商汤出差\\n\\n当前时间：2026-10-27 星'",
+    "user": "我们组会几点开？",
+    "assistant": "你每周三晚上七点有组会。"
+   },
+   {
+    "line": 265,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我用的手机是 iPhone 15\\n我每周三晚上七点有组会\\n\\n当前时间：2026-'",
+    "user": "我用的什么手机？",
+    "assistant": "你用的是 iPhone 15。"
+   },
+   {
+    "line": 266,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二'",
+    "user": "我下周三去哪开会？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 267,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n我用的手机是 iPhone 15\\n\\n当前时间：2026-10-'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 268,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我每周三晚上七点有组会\\n我下个月去商汤出差\\n我的车牌号是沪B12345\\n\\n当前时'",
+    "user": "我们组会几点开？",
+    "assistant": "你每周三晚上七点有组会。"
+   },
+   {
+    "line": 269,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我女儿小名雪梨\\n我在字节跳动上班\\n我用的手机是 iPhone 15\\n\\n当前时间：'",
+    "user": "我用的什么手机？",
+    "assistant": "你用的是 iPhone 15。"
+   },
+   {
+    "line": 270,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n我的车牌号是沪B12345\\n我女儿小名雪梨\\n\\n当前时间：2'",
+    "user": "我下周三去哪开会？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 271,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n我女儿小名雪梨\\n我的车牌号是沪B12345\\n\\n当前时间：202'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 272,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n我每周三晚上七点有组会\\n我女儿小名雪梨\\n\\n当前时间：202'",
+    "user": "我们组会几点开？",
+    "assistant": "你每周三晚上七点有组会。"
+   },
+   {
+    "line": 273,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我的车牌号是沪B12345\\n我用的手机是 iPhone 15\\n我下周三要去杭州开'",
+    "user": "我用的什么手机？",
+    "assistant": "你用的是 iPhone 15。"
+   },
+   {
+    "line": 274,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我的车牌号是沪B12345\\n我养了只猫叫豆豆\\n我下周三要去杭州开会\\n\\n当前时间：'",
+    "user": "我下周三去哪开会？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 275,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我用的手机是 iPhone 15\\n我女儿小名雪梨\\n我养了只猫叫豆豆\\n\\n当前时间：'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 276,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最爱吃火锅\\n我每周三晚上七点有组会\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "我们组会几点开？",
+    "assistant": "你每周三晚上七点有组会。"
+   },
+   {
+    "line": 277,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我在字节跳动上班\\n我用的手机是 iPhone 15\\n我每周三晚上七点有组会\\n\\n当'",
+    "user": "我用的什么手机？",
+    "assistant": "你用的是 iPhone 15。"
+   },
+   {
+    "line": 278,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我每周三晚上七点有组会\\n我下周三要去杭州开会\\n我女儿小名雪梨\\n\\n当前时间：202'",
+    "user": "我下周三去哪开会？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 279,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最爱吃火锅\\n我养了只猫叫豆豆\\n\\n当前时间：2026-10-27 星期二 21:'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 280,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我每周三晚上七点有组会\\n我老家在合肥\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "我们组会几点开？",
+    "assistant": "你每周三晚上七点有组会。"
+   },
+   {
+    "line": 281,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我用的手机是 iPhone 15\\n我下周三要去杭州开会\\n\\n当前时间：2026-1'",
+    "user": "我用的什么手机？",
+    "assistant": "你用的是 iPhone 15。"
+   },
+   {
+    "line": 282,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我在字节跳动上班\\n我每周三晚上七点有组会\\n我下周三要去杭州开会\\n\\n当前时间：20'",
+    "user": "我下周三去哪开会？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 283,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n我下个月去商汤出差\\n我养了只猫叫豆豆\\n\\n当前时间：2026'",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 284,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我的车牌号是沪B12345\\n我每周三晚上七点有组会\\n我养了只猫叫豆豆\\n\\n当前时间'",
+    "user": "我们组会几点开？",
+    "assistant": "你每周三晚上七点有组会。"
+   },
+   {
+    "line": 285,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最爱吃火锅\\n我用的手机是 iPhone 15\\n我的车牌号是沪B12345\\n\\n当'",
+    "user": "我用的什么手机？",
+    "assistant": "你用的是 iPhone 15。"
+   },
+   {
+    "line": 286,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最爱吃火锅\\n我在字节跳动上班\\n\\n当前时间：2026-10-27 星期二 21:'",
+    "user": "我的生日是哪天？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 287,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n我最爱吃火锅\\n\\n当前时间：2026-10-27 星期二 2'",
+    "user": "我的身份证号是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 288,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我老家在合肥\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用户'",
+    "user": "我的工资是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 289,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最爱吃火锅\\n我每周三晚上七点有组会\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "我妈妈生日是哪天？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 290,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我的银行卡号是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 291,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n我的车牌号是沪B12345\\n\\n当前时间：2026-10-2'",
+    "user": "我血压多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 292,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最爱吃火锅\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用户'",
+    "user": "我大学在哪读的？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 293,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我用的手机是 iPhone 15\\n我养了只猫叫豆豆\\n\\n当前时间：2026-10-'",
+    "user": "我什么时候入职的？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 294,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我的车牌号是沪B12345\\n\\n当前时间：2026-10-27 星期二 21:00'",
+    "user": "我对什么过敏？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 295,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我每周三晚上七点有组会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n'",
+    "user": "我的快递到哪了？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 296,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我的社保号是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 297,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最爱吃火锅\\n我每周三晚上七点有组会\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "我穿多大码的鞋？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 298,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最爱吃火锅\\n我老家在合肥\\n\\n当前时间：2026-10-27 星期二 21:00'",
+    "user": "我的生日是哪天？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 299,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我每周三晚上七点有组会\\n我老家在合肥\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "我的身份证号是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 300,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我在字节跳动上班\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我的工资是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 301,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我老家在合肥\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用户'",
+    "user": "我妈妈生日是哪天？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 302,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n我在字节跳动上班\\n\\n当前时间：2026-10-27 星期二 2'",
+    "user": "我的银行卡号是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 303,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我每周三晚上七点有组会\\n我老家在合肥\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "我血压多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 304,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我每周三晚上七点有组会\\n我的车牌号是沪B12345\\n\\n当前时间：2026-10-'",
+    "user": "我大学在哪读的？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 305,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我什么时候入职的？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 306,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最爱吃火锅\\n我养了只猫叫豆豆\\n\\n当前时间：2026-10-27 星期二 21:'",
+    "user": "我对什么过敏？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 307,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我老家在合肥\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用户'",
+    "user": "我的快递到哪了？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 308,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n我每周三晚上七点有组会\\n\\n当前时间：2026-10-27 '",
+    "user": "我的社保号是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 309,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我穿多大码的鞋？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 310,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我在字节跳动上班\\n我用的手机是 iPhone 15\\n\\n当前时间：2026-10-'",
+    "user": "我的生日是哪天？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 311,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最爱吃火锅\\n我每周三晚上七点有组会\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "我的身份证号是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 312,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我的工资是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 313,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我用的手机是 iPhone 15\\n我每周三晚上七点有组会\\n\\n当前时间：2026-'",
+    "user": "我妈妈生日是哪天？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 314,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我在字节跳动上班\\n我老家在合肥\\n\\n当前时间：2026-10-27 星期二 21:'",
+    "user": "我的银行卡号是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 315,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我在字节跳动上班\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我血压多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 316,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我大学在哪读的？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 317,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我什么时候入职的？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 318,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n我在字节跳动上班\\n\\n当前时间：2026-10-27 星期二'",
+    "user": "我对什么过敏？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 319,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我的车牌号是沪B12345\\n\\n当前时间：2026-10-27 星期二 21:00'",
+    "user": "我的快递到哪了？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 320,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最爱吃火锅\\n我的车牌号是沪B12345\\n\\n当前时间：2026-10-27 星期'",
+    "user": "我的社保号是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 321,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我老家在合肥\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用户'",
+    "user": "我穿多大码的鞋？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 322,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我的生日是哪天？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 323,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我用的手机是 iPhone 15\\n我下周三要去杭州开会\\n\\n当前时间：2026-1'",
+    "user": "我的身份证号是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 324,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我的车牌号是沪B12345\\n我每周三晚上七点有组会\\n\\n当前时间：2026-10-'",
+    "user": "我的工资是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 325,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我老家在合肥\\n我在字节跳动上班\\n\\n当前时间：2026-10-27 星期二 21:'",
+    "user": "我妈妈生日是哪天？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 326,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我每周三晚上七点有组会\\n我下周三要去杭州开会\\n\\n当前时间：2026-10-27 '",
+    "user": "我的银行卡号是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 327,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我在字节跳动上班\\n我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二'",
+    "user": "我血压多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 328,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我大学在哪读的？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 329,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我的车牌号是沪B12345\\n我下周三要去杭州开会\\n\\n当前时间：2026-10-2'",
+    "user": "我什么时候入职的？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 330,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我的车牌号是沪B12345\\n\\n当前时间：2026-10-27 星期二 21:00'",
+    "user": "我对什么过敏？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 331,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n我最爱吃火锅\\n\\n当前时间：2026-10-27 星期二 2'",
+    "user": "我的快递到哪了？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 332,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只猫叫豆豆\\n我老家在合肥\\n\\n当前时间：2026-10-27 星期二 21:'",
+    "user": "我的社保号是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 333,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我在字节跳动上班\\n我每周三晚上七点有组会\\n\\n当前时间：2026-10-27 星期'",
+    "user": "我穿多大码的鞋？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 334,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我的生日是哪天？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 335,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n我养了只猫叫豆豆\\n\\n当前时间：2026-10-27 星期二'",
+    "user": "我的身份证号是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 336,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我在字节跳动上班\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我的工资是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 337,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我的车牌号是沪B12345\\n我养了只猫叫豆豆\\n\\n当前时间：2026-10-27 '",
+    "user": "我妈妈生日是哪天？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 338,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我的银行卡号是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 339,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最爱吃火锅\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用户'",
+    "user": "我血压多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 340,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我老家在合肥\\n我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二 2'",
+    "user": "我大学在哪读的？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 341,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我每周三晚上七点有组会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n'",
+    "user": "我什么时候入职的？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 342,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我在字节跳动上班\\n我老家在合肥\\n\\n当前时间：2026-10-27 星期二 21:'",
+    "user": "我对什么过敏？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 343,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我在字节跳动上班\\n我的车牌号是沪B12345\\n\\n当前时间：2026-10-27 '",
+    "user": "我的快递到哪了？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 344,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我老家在合肥\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用户'",
+    "user": "我的社保号是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 345,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我每周三晚上七点有组会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n'",
+    "user": "我穿多大码的鞋？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 351,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 354,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我最近在学做饭",
+    "assistant": "做饭，记着呢。"
+   },
+   {
+    "line": 356,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我周五晚上十点去健身",
+    "assistant": "健身，挺好的。"
+   },
+   {
+    "line": 357,
+    "rule": "G9",
+    "evidence": "assistant 长度 5 不在 [8,60]",
+    "user": "我老家在合肥",
+    "assistant": "嗯，合肥。"
+   },
+   {
+    "line": 363,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 366,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我最近在学做饭",
+    "assistant": "做饭，记着呢。"
+   },
+   {
+    "line": 368,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我周五晚上十点去健身",
+    "assistant": "健身，挺好的。"
+   },
+   {
+    "line": 369,
+    "rule": "G9",
+    "evidence": "assistant 长度 5 不在 [8,60]",
+    "user": "我老家在合肥",
+    "assistant": "嗯，合肥。"
+   },
+   {
+    "line": 375,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 378,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我最近在学做饭",
+    "assistant": "做饭，记着呢。"
+   },
+   {
+    "line": 380,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我周五晚上十点去健身",
+    "assistant": "健身，挺好的。"
+   },
+   {
+    "line": 381,
+    "rule": "G9",
+    "evidence": "assistant 长度 5 不在 [8,60]",
+    "user": "我老家在合肥",
+    "assistant": "嗯，合肥。"
+   },
+   {
+    "line": 387,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 390,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我最近在学做饭",
+    "assistant": "做饭，记着呢。"
+   },
+   {
+    "line": 392,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我周五晚上十点去健身",
+    "assistant": "健身，挺好的。"
+   },
+   {
+    "line": 393,
+    "rule": "G9",
+    "evidence": "assistant 长度 5 不在 [8,60]",
+    "user": "我老家在合肥",
+    "assistant": "嗯，合肥。"
+   },
+   {
+    "line": 399,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 402,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我最近在学做饭",
+    "assistant": "做饭，记着呢。"
+   },
+   {
+    "line": 404,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我周五晚上十点去健身",
+    "assistant": "健身，挺好的。"
+   },
+   {
+    "line": 405,
+    "rule": "G9",
+    "evidence": "assistant 长度 5 不在 [8,60]",
+    "user": "我老家在合肥",
+    "assistant": "嗯，合肥。"
+   },
+   {
+    "line": 411,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 414,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我最近在学做饭",
+    "assistant": "做饭，记着呢。"
+   },
+   {
+    "line": 416,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我周五晚上十点去健身",
+    "assistant": "健身，挺好的。"
+   },
+   {
+    "line": 417,
+    "rule": "G9",
+    "evidence": "assistant 长度 5 不在 [8,60]",
+    "user": "我老家在合肥",
+    "assistant": "嗯，合肥。"
+   },
+   {
+    "line": 423,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 430,
+    "rule": "G9",
+    "evidence": "assistant 长度 5 不在 [8,60]",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 431,
+    "rule": "G9",
+    "evidence": "assistant 长度 6 不在 [8,60]",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 436,
+    "rule": "G9",
+    "evidence": "assistant 长度 5 不在 [8,60]",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 437,
+    "rule": "G9",
+    "evidence": "assistant 长度 6 不在 [8,60]",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 442,
+    "rule": "G9",
+    "evidence": "assistant 长度 5 不在 [8,60]",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 443,
+    "rule": "G9",
+    "evidence": "assistant 长度 6 不在 [8,60]",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 448,
+    "rule": "G9",
+    "evidence": "assistant 长度 5 不在 [8,60]",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 449,
+    "rule": "G9",
+    "evidence": "assistant 长度 6 不在 [8,60]",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 454,
+    "rule": "G9",
+    "evidence": "assistant 长度 5 不在 [8,60]",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 455,
+    "rule": "G9",
+    "evidence": "assistant 长度 6 不在 [8,60]",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 460,
+    "rule": "G9",
+    "evidence": "assistant 长度 5 不在 [8,60]",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 461,
+    "rule": "G9",
+    "evidence": "assistant 长度 6 不在 [8,60]",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 466,
+    "rule": "G9",
+    "evidence": "assistant 长度 5 不在 [8,60]",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 467,
+    "rule": "G9",
+    "evidence": "assistant 长度 6 不在 [8,60]",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 472,
+    "rule": "G9",
+    "evidence": "assistant 长度 5 不在 [8,60]",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 473,
+    "rule": "G9",
+    "evidence": "assistant 长度 6 不在 [8,60]",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 478,
+    "rule": "G9",
+    "evidence": "assistant 长度 5 不在 [8,60]",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 479,
+    "rule": "G9",
+    "evidence": "assistant 长度 6 不在 [8,60]",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 484,
+    "rule": "G9",
+    "evidence": "assistant 长度 5 不在 [8,60]",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 485,
+    "rule": "G9",
+    "evidence": "assistant 长度 6 不在 [8,60]",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 486,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我这周有什么安排？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 487,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我周日下午三点去游泳\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周日下午三点去游泳。"
+   },
+   {
+    "line": 488,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我对青霉素过敏\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你对青霉素过敏。"
+   },
+   {
+    "line": 489,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我儿子小名毛豆\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "我这周有什么安排？",
+    "assistant": "你儿子小名毛豆。"
+   },
+   {
+    "line": 490,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我车是白色SUV\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你车是白色SUV。"
+   },
+   {
+    "line": 491,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我工位在D区3号\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你工位在D区3号。"
+   },
+   {
+    "line": 492,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我手机号是138-0000-2468\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "我这周有什么安排？",
+    "assistant": "你手机号是138-0000-2468。"
+   },
+   {
+    "line": 493,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我新家在滨江小区\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你新家在滨江小区。"
+   },
+   {
+    "line": 494,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最近在学做饭\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你最近在学做饭。"
+   },
+   {
+    "line": 495,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只柯基叫可乐\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你'",
+    "user": "我这周有什么安排？",
+    "assistant": "你养了只柯基叫可乐。"
+   },
+   {
+    "line": 496,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我周五晚上十点去健身\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周五晚上十点去健身。"
+   },
+   {
+    "line": 497,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 497,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我老家在合肥\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用户'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 498,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我这周有什么安排？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 499,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我周日下午三点去游泳\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周日下午三点去游泳。"
+   },
+   {
+    "line": 500,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我对青霉素过敏\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你对青霉素过敏。"
+   },
+   {
+    "line": 501,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我儿子小名毛豆\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "我这周有什么安排？",
+    "assistant": "你儿子小名毛豆。"
+   },
+   {
+    "line": 502,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我车是白色SUV\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你车是白色SUV。"
+   },
+   {
+    "line": 503,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我工位在D区3号\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你工位在D区3号。"
+   },
+   {
+    "line": 504,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我手机号是138-0000-2468\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "我这周有什么安排？",
+    "assistant": "你手机号是138-0000-2468。"
+   },
+   {
+    "line": 505,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我新家在滨江小区\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你新家在滨江小区。"
+   },
+   {
+    "line": 506,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最近在学做饭\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你最近在学做饭。"
+   },
+   {
+    "line": 507,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只柯基叫可乐\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你'",
+    "user": "我这周有什么安排？",
+    "assistant": "你养了只柯基叫可乐。"
+   },
+   {
+    "line": 508,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我周五晚上十点去健身\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周五晚上十点去健身。"
+   },
+   {
+    "line": 509,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 509,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我老家在合肥\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用户'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 510,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我这周有什么安排？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 511,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我周日下午三点去游泳\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周日下午三点去游泳。"
+   },
+   {
+    "line": 512,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我对青霉素过敏\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你对青霉素过敏。"
+   },
+   {
+    "line": 513,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我儿子小名毛豆\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "我这周有什么安排？",
+    "assistant": "你儿子小名毛豆。"
+   },
+   {
+    "line": 514,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我车是白色SUV\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你车是白色SUV。"
+   },
+   {
+    "line": 515,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我工位在D区3号\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你工位在D区3号。"
+   },
+   {
+    "line": 516,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我手机号是138-0000-2468\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "我这周有什么安排？",
+    "assistant": "你手机号是138-0000-2468。"
+   },
+   {
+    "line": 517,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我新家在滨江小区\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你新家在滨江小区。"
+   },
+   {
+    "line": 518,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最近在学做饭\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你最近在学做饭。"
+   },
+   {
+    "line": 519,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只柯基叫可乐\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你'",
+    "user": "我这周有什么安排？",
+    "assistant": "你养了只柯基叫可乐。"
+   },
+   {
+    "line": 520,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我周五晚上十点去健身\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周五晚上十点去健身。"
+   },
+   {
+    "line": 521,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 521,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我老家在合肥\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用户'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 522,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我这周有什么安排？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 523,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我周日下午三点去游泳\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周日下午三点去游泳。"
+   },
+   {
+    "line": 524,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我对青霉素过敏\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你对青霉素过敏。"
+   },
+   {
+    "line": 525,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我儿子小名毛豆\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "我这周有什么安排？",
+    "assistant": "你儿子小名毛豆。"
+   },
+   {
+    "line": 526,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我车是白色SUV\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你车是白色SUV。"
+   },
+   {
+    "line": 527,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我工位在D区3号\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你工位在D区3号。"
+   },
+   {
+    "line": 528,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我手机号是138-0000-2468\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "我这周有什么安排？",
+    "assistant": "你手机号是138-0000-2468。"
+   },
+   {
+    "line": 529,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我新家在滨江小区\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你新家在滨江小区。"
+   },
+   {
+    "line": 530,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最近在学做饭\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你最近在学做饭。"
+   },
+   {
+    "line": 531,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只柯基叫可乐\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你'",
+    "user": "我这周有什么安排？",
+    "assistant": "你养了只柯基叫可乐。"
+   },
+   {
+    "line": 532,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我周五晚上十点去健身\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周五晚上十点去健身。"
+   },
+   {
+    "line": 533,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 533,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我老家在合肥\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用户'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 534,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我这周有什么安排？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 535,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我周日下午三点去游泳\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周日下午三点去游泳。"
+   },
+   {
+    "line": 536,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我对青霉素过敏\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你对青霉素过敏。"
+   },
+   {
+    "line": 537,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我儿子小名毛豆\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "我这周有什么安排？",
+    "assistant": "你儿子小名毛豆。"
+   },
+   {
+    "line": 538,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我车是白色SUV\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你车是白色SUV。"
+   },
+   {
+    "line": 539,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我工位在D区3号\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你工位在D区3号。"
+   },
+   {
+    "line": 540,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我手机号是138-0000-2468\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "我这周有什么安排？",
+    "assistant": "你手机号是138-0000-2468。"
+   },
+   {
+    "line": 541,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我新家在滨江小区\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你新家在滨江小区。"
+   },
+   {
+    "line": 542,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最近在学做饭\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你最近在学做饭。"
+   },
+   {
+    "line": 543,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只柯基叫可乐\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你'",
+    "user": "我这周有什么安排？",
+    "assistant": "你养了只柯基叫可乐。"
+   },
+   {
+    "line": 544,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我周五晚上十点去健身\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周五晚上十点去健身。"
+   },
+   {
+    "line": 545,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 545,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我老家在合肥\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用户'",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 546,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "",
+    "assistant": "杭州，别忘了哈。"
+   },
+   {
+    "line": 547,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我周日下午三点去游泳\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "",
+    "assistant": "游泳，到时候提醒你一下。"
+   },
+   {
+    "line": 548,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "",
+    "assistant": "对了，青霉素。"
+   },
+   {
+    "line": 548,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我对青霉素过敏\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "",
+    "assistant": "对了，青霉素。"
+   },
+   {
+    "line": 549,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我儿子小名毛豆\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "",
+    "assistant": "毛豆，安排上了吗？"
+   },
+   {
+    "line": 550,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我车是白色SUV\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "",
+    "assistant": "白色SUV，需要我帮你记着吗？"
+   },
+   {
+    "line": 551,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我工位在D区3号\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "",
+    "assistant": "D区3号，记得留点时间。"
+   },
+   {
+    "line": 552,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我手机号是138-0000-2468\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "",
+    "assistant": "138-0000-2468，别忘了哈。"
+   },
+   {
+    "line": 553,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我新家在滨江小区\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "",
+    "assistant": "滨江，到时候提醒你一下。"
+   },
+   {
+    "line": 554,
+    "rule": "G9",
+    "evidence": "assistant 长度 6 不在 [8,60]",
+    "user": "",
+    "assistant": "对了，做饭。"
+   },
+   {
+    "line": 554,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最近在学做饭\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "",
+    "assistant": "对了，做饭。"
+   },
+   {
+    "line": 555,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只柯基叫可乐\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你'",
+    "user": "",
+    "assistant": "可乐，安排上了吗？"
+   },
+   {
+    "line": 556,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我周五晚上十点去健身\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "",
+    "assistant": "健身，需要我帮你记着吗？"
+   },
+   {
+    "line": 557,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我老家在合肥\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用户'",
+    "user": "",
+    "assistant": "合肥，记得留点时间。"
+   },
+   {
+    "line": 558,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "",
+    "assistant": "杭州，别忘了哈。"
+   },
+   {
+    "line": 559,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我周日下午三点去游泳\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "",
+    "assistant": "游泳，到时候提醒你一下。"
+   },
+   {
+    "line": 560,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "",
+    "assistant": "对了，青霉素。"
+   },
+   {
+    "line": 560,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我对青霉素过敏\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "",
+    "assistant": "对了，青霉素。"
+   },
+   {
+    "line": 561,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我儿子小名毛豆\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "",
+    "assistant": "毛豆，安排上了吗？"
+   },
+   {
+    "line": 562,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我车是白色SUV\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "",
+    "assistant": "白色SUV，需要我帮你记着吗？"
+   },
+   {
+    "line": 563,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我工位在D区3号\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "",
+    "assistant": "D区3号，记得留点时间。"
+   },
+   {
+    "line": 564,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我手机号是138-0000-2468\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "",
+    "assistant": "138-0000-2468，别忘了哈。"
+   },
+   {
+    "line": 565,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我新家在滨江小区\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "",
+    "assistant": "滨江，到时候提醒你一下。"
+   },
+   {
+    "line": 566,
+    "rule": "G9",
+    "evidence": "assistant 长度 6 不在 [8,60]",
+    "user": "",
+    "assistant": "对了，做饭。"
+   },
+   {
+    "line": 566,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最近在学做饭\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "",
+    "assistant": "对了，做饭。"
+   },
+   {
+    "line": 567,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只柯基叫可乐\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你'",
+    "user": "",
+    "assistant": "可乐，安排上了吗？"
+   },
+   {
+    "line": 568,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我周五晚上十点去健身\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "",
+    "assistant": "健身，需要我帮你记着吗？"
+   },
+   {
+    "line": 569,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我老家在合肥\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用户'",
+    "user": "",
+    "assistant": "合肥，记得留点时间。"
+   },
+   {
+    "line": 570,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "",
+    "assistant": "杭州，别忘了哈。"
+   },
+   {
+    "line": 571,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我周日下午三点去游泳\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "",
+    "assistant": "游泳，到时候提醒你一下。"
+   },
+   {
+    "line": 572,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "",
+    "assistant": "对了，青霉素。"
+   },
+   {
+    "line": 572,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我对青霉素过敏\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "",
+    "assistant": "对了，青霉素。"
+   },
+   {
+    "line": 573,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我儿子小名毛豆\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "",
+    "assistant": "毛豆，安排上了吗？"
+   },
+   {
+    "line": 574,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我车是白色SUV\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "",
+    "assistant": "白色SUV，需要我帮你记着吗？"
+   },
+   {
+    "line": 575,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我工位在D区3号\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "",
+    "assistant": "D区3号，记得留点时间。"
+   },
+   {
+    "line": 576,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我手机号是138-0000-2468\\n\\n当前时间：2026-10-27 星期二 '",
+    "user": "",
+    "assistant": "138-0000-2468，别忘了哈。"
+   },
+   {
+    "line": 577,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我新家在滨江小区\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是'",
+    "user": "",
+    "assistant": "滨江，到时候提醒你一下。"
+   },
+   {
+    "line": 578,
+    "rule": "G9",
+    "evidence": "assistant 长度 6 不在 [8,60]",
+    "user": "",
+    "assistant": "对了，做饭。"
+   },
+   {
+    "line": 578,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我最近在学做饭\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "",
+    "assistant": "对了，做饭。"
+   },
+   {
+    "line": 579,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我养了只柯基叫可乐\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你'",
+    "user": "",
+    "assistant": "可乐，安排上了吗？"
+   },
+   {
+    "line": 580,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我周五晚上十点去健身\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "",
+    "assistant": "健身，需要我帮你记着吗？"
+   },
+   {
+    "line": 581,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我老家在合肥\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用户'",
+    "user": "",
+    "assistant": "合肥，记得留点时间。"
+   },
+   {
+    "line": 582,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我下周三要去杭州开会\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "",
+    "assistant": "杭州，别忘了哈。"
+   },
+   {
+    "line": 583,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我周日下午三点去游泳\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n'",
+    "user": "",
+    "assistant": "游泳，到时候提醒你一下。"
+   },
+   {
+    "line": 584,
+    "rule": "G9",
+    "evidence": "assistant 长度 7 不在 [8,60]",
+    "user": "",
+    "assistant": "对了，青霉素。"
+   },
+   {
+    "line": 584,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我对青霉素过敏\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "",
+    "assistant": "对了，青霉素。"
+   },
+   {
+    "line": 585,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我儿子小名毛豆\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "",
+    "assistant": "毛豆，安排上了吗？"
+   },
+   {
+    "line": 586,
+    "rule": "G9",
+    "evidence": "system 首行不是时间行：'我对布洛芬过敏\\n\\n当前时间：2026-10-27 星期二 21:00。\\n\\n你是用'",
+    "user": "",
+    "assistant": "你对布洛芬过敏，吃药前记得问一下医生。"
+   }
+  ],
+  "G10": [
+   {
+    "line": 2,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 1）",
+    "user": "你能联网吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 3,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 1）",
+    "user": "你能联网吗",
+    "assistant": "不能哦，我没法联网。"
+   },
+   {
+    "line": 5,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 4）",
+    "user": "问一下，你能联网吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 6,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 4）",
+    "user": "问一下，你能联网吗",
+    "assistant": "不能哦，我没法联网。"
+   },
+   {
+    "line": 8,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 7）",
+    "user": "在吗，你能联网吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 9,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 7）",
+    "user": "在吗，你能联网吗",
+    "assistant": "不能哦，我没法联网。"
+   },
+   {
+    "line": 11,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 10）",
+    "user": "你是联网的吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 12,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 10）",
+    "user": "你是联网的吗",
+    "assistant": "不能哦，我没法联网。"
+   },
+   {
+    "line": 14,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 13）",
+    "user": "问一下，你是联网的吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 15,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 13）",
+    "user": "问一下，你是联网的吗",
+    "assistant": "不能哦，我没法联网。"
+   },
+   {
+    "line": 17,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 16）",
+    "user": "在吗，你是联网的吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 18,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 16）",
+    "user": "在吗，你是联网的吗",
+    "assistant": "不能哦，我没法联网。"
+   },
+   {
+    "line": 20,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 19）",
+    "user": "你能上网吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 21,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 19）",
+    "user": "你能上网吗",
+    "assistant": "不能哦，我没法联网。"
+   },
+   {
+    "line": 23,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 22）",
+    "user": "问一下，你能上网吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 24,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 22）",
+    "user": "问一下，你能上网吗",
+    "assistant": "不能哦，我没法联网。"
+   },
+   {
+    "line": 26,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 25）",
+    "user": "在吗，你能上网吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 27,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 25）",
+    "user": "在吗，你能上网吗",
+    "assistant": "不能哦，我没法联网。"
+   },
+   {
+    "line": 29,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 28）",
+    "user": "你可以联网查东西吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 30,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 28）",
+    "user": "你可以联网查东西吗",
+    "assistant": "不能哦，我没法联网。"
+   },
+   {
+    "line": 32,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 31）",
+    "user": "问一下，你可以联网查东西吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 33,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 31）",
+    "user": "问一下，你可以联网查东西吗",
+    "assistant": "不能哦，我没法联网。"
+   },
+   {
+    "line": 35,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 34）",
+    "user": "在吗，你可以联网查东西吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 36,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 34）",
+    "user": "在吗，你可以联网查东西吗",
+    "assistant": "不能哦，我没法联网。"
+   },
+   {
+    "line": 38,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 37）",
+    "user": "你能查到实时信息吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 39,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 37）",
+    "user": "你能查到实时信息吗",
+    "assistant": "不能哦，我没法联网。"
+   },
+   {
+    "line": 41,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 40）",
+    "user": "问一下，你能查到实时信息吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 42,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 40）",
+    "user": "问一下，你能查到实时信息吗",
+    "assistant": "不能哦，我没法联网。"
+   },
+   {
+    "line": 44,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 43）",
+    "user": "在吗，你能查到实时信息吗",
+    "assistant": "我连不了网，查不到实时信息。"
+   },
+   {
+    "line": 45,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 43）",
+    "user": "在吗，你能查到实时信息吗",
+    "assistant": "不能哦，我没法联网。"
+   },
+   {
+    "line": 47,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 46）",
+    "user": "你能操作应用吗",
+    "assistant": "做不了，我没法操作账号或文件。"
+   },
+   {
+    "line": 49,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 48）",
+    "user": "问一下，你能操作应用吗",
+    "assistant": "做不了，我没法操作账号或文件。"
+   },
+   {
+    "line": 51,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 50）",
+    "user": "在吗，你能操作应用吗",
+    "assistant": "做不了，我没法操作账号或文件。"
+   },
+   {
+    "line": 53,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 52）",
+    "user": "你会发消息吗",
+    "assistant": "做不了，我没法操作账号或文件。"
+   },
+   {
+    "line": 55,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 54）",
+    "user": "问一下，你会发消息吗",
+    "assistant": "做不了，我没法操作账号或文件。"
+   },
+   {
+    "line": 57,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 56）",
+    "user": "在吗，你会发消息吗",
+    "assistant": "做不了，我没法操作账号或文件。"
+   },
+   {
+    "line": 59,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 58）",
+    "user": "你能帮我转账吗",
+    "assistant": "做不了，我没法操作账号或文件。"
+   },
+   {
+    "line": 61,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 60）",
+    "user": "问一下，你能帮我转账吗",
+    "assistant": "做不了，我没法操作账号或文件。"
+   },
+   {
+    "line": 63,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 62）",
+    "user": "在吗，你能帮我转账吗",
+    "assistant": "做不了，我没法操作账号或文件。"
+   },
+   {
+    "line": 65,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 64）",
+    "user": "你能登录我的账号吗",
+    "assistant": "做不了，我没法操作账号或文件。"
+   },
+   {
+    "line": 67,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 66）",
+    "user": "问一下，你能登录我的账号吗",
+    "assistant": "做不了，我没法操作账号或文件。"
+   },
+   {
+    "line": 69,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 68）",
+    "user": "在吗，你能登录我的账号吗",
+    "assistant": "做不了，我没法操作账号或文件。"
+   },
+   {
+    "line": 71,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 70）",
+    "user": "你能删文件吗",
+    "assistant": "做不了，我没法操作账号或文件。"
+   },
+   {
+    "line": 73,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 72）",
+    "user": "问一下，你能删文件吗",
+    "assistant": "做不了，我没法操作账号或文件。"
+   },
+   {
+    "line": 75,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 74）",
+    "user": "在吗，你能删文件吗",
+    "assistant": "做不了，我没法操作账号或文件。"
+   },
+   {
+    "line": 77,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 76）",
+    "user": "你能记住事情吗",
+    "assistant": "记得住，你告诉我事实就行。"
+   },
+   {
+    "line": 79,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 78）",
+    "user": "问一下，你能记住事情吗",
+    "assistant": "记得住，你告诉我事实就行。"
+   },
+   {
+    "line": 81,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 80）",
+    "user": "在吗，你能记住事情吗",
+    "assistant": "记得住，你告诉我事实就行。"
+   },
+   {
+    "line": 83,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 82）",
+    "user": "你有记忆吗",
+    "assistant": "记得住，你告诉我事实就行。"
+   },
+   {
+    "line": 85,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 84）",
+    "user": "问一下，你有记忆吗",
+    "assistant": "记得住，你告诉我事实就行。"
+   },
+   {
+    "line": 87,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 86）",
+    "user": "在吗，你有记忆吗",
+    "assistant": "记得住，你告诉我事实就行。"
+   },
+   {
+    "line": 89,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 88）",
+    "user": "你记得住吗",
+    "assistant": "记得住，你告诉我事实就行。"
+   },
+   {
+    "line": 91,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 90）",
+    "user": "问一下，你记得住吗",
+    "assistant": "记得住，你告诉我事实就行。"
+   },
+   {
+    "line": 93,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 92）",
+    "user": "在吗，你记得住吗",
+    "assistant": "记得住，你告诉我事实就行。"
+   },
+   {
+    "line": 95,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 94）",
+    "user": "你会忘事吗",
+    "assistant": "记得住，你告诉我事实就行。"
+   },
+   {
+    "line": 97,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 96）",
+    "user": "问一下，你会忘事吗",
+    "assistant": "记得住，你告诉我事实就行。"
+   },
+   {
+    "line": 99,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 98）",
+    "user": "在吗，你会忘事吗",
+    "assistant": "记得住，你告诉我事实就行。"
+   },
+   {
+    "line": 101,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 100）",
+    "user": "你能做什么",
+    "assistant": "我能记事、按记忆答问题；不能联网、不能操作应用。"
+   },
+   {
+    "line": 102,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 100）",
+    "user": "你能做什么",
+    "assistant": "我记东西、答问题；不能替你操作应用。"
+   },
+   {
+    "line": 104,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 103）",
+    "user": "问一下，你能做什么",
+    "assistant": "我能记事、按记忆答问题；不能联网、不能操作应用。"
+   },
+   {
+    "line": 105,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 103）",
+    "user": "问一下，你能做什么",
+    "assistant": "我记东西、答问题；不能替你操作应用。"
+   },
+   {
+    "line": 107,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 106）",
+    "user": "在吗，你能做什么",
+    "assistant": "我能记事、按记忆答问题；不能联网、不能操作应用。"
+   },
+   {
+    "line": 108,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 106）",
+    "user": "在吗，你能做什么",
+    "assistant": "我记东西、答问题；不能替你操作应用。"
+   },
+   {
+    "line": 110,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 109）",
+    "user": "你会什么",
+    "assistant": "我能记事、按记忆答问题；不能联网、不能操作应用。"
+   },
+   {
+    "line": 111,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 109）",
+    "user": "你会什么",
+    "assistant": "我记东西、答问题；不能替你操作应用。"
+   },
+   {
+    "line": 113,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 112）",
+    "user": "问一下，你会什么",
+    "assistant": "我能记事、按记忆答问题；不能联网、不能操作应用。"
+   },
+   {
+    "line": 114,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 112）",
+    "user": "问一下，你会什么",
+    "assistant": "我记东西、答问题；不能替你操作应用。"
+   },
+   {
+    "line": 116,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 115）",
+    "user": "在吗，你会什么",
+    "assistant": "我能记事、按记忆答问题；不能联网、不能操作应用。"
+   },
+   {
+    "line": 117,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 115）",
+    "user": "在吗，你会什么",
+    "assistant": "我记东西、答问题；不能替你操作应用。"
+   },
+   {
+    "line": 119,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 118）",
+    "user": "你有什么能力",
+    "assistant": "我能记事、按记忆答问题；不能联网、不能操作应用。"
+   },
+   {
+    "line": 120,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 118）",
+    "user": "你有什么能力",
+    "assistant": "我记东西、答问题；不能替你操作应用。"
+   },
+   {
+    "line": 122,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 121）",
+    "user": "问一下，你有什么能力",
+    "assistant": "我能记事、按记忆答问题；不能联网、不能操作应用。"
+   },
+   {
+    "line": 123,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 121）",
+    "user": "问一下，你有什么能力",
+    "assistant": "我记东西、答问题；不能替你操作应用。"
+   },
+   {
+    "line": 125,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 124）",
+    "user": "在吗，你有什么能力",
+    "assistant": "我能记事、按记忆答问题；不能联网、不能操作应用。"
+   },
+   {
+    "line": 126,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 124）",
+    "user": "在吗，你有什么能力",
+    "assistant": "我记东西、答问题；不能替你操作应用。"
+   },
+   {
+    "line": 128,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 127）",
+    "user": "你现在记得几条",
+    "assistant": "我记着一些，你要问哪件？"
+   },
+   {
+    "line": 130,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 129）",
+    "user": "问一下，你现在记得几条",
+    "assistant": "我记着一些，你要问哪件？"
+   },
+   {
+    "line": 132,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 131）",
+    "user": "在吗，你现在记得几条",
+    "assistant": "我记着一些，你要问哪件？"
+   },
+   {
+    "line": 134,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 133）",
+    "user": "你还记得我的事吗",
+    "assistant": "记得，你直接问我就行。"
+   },
+   {
+    "line": 136,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 135）",
+    "user": "问一下，你还记得我的事吗",
+    "assistant": "记得，你直接问我就行。"
+   },
+   {
+    "line": 138,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 137）",
+    "user": "在吗，你还记得我的事吗",
+    "assistant": "记得，你直接问我就行。"
+   },
+   {
+    "line": 140,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 139）",
+    "user": "你会忘记我吗",
+    "assistant": "我会记着，记不清就说不清楚。"
+   },
+   {
+    "line": 142,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 141）",
+    "user": "问一下，你会忘记我吗",
+    "assistant": "我会记着，记不清就说不清楚。"
+   },
+   {
+    "line": 144,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 143）",
+    "user": "在吗，你会忘记我吗",
+    "assistant": "我会记着，记不清就说不清楚。"
+   },
+   {
+    "line": 146,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 145）",
+    "user": "你的记忆存在哪",
+    "assistant": "记忆存在你本地的库文件里。"
+   },
+   {
+    "line": 148,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 147）",
+    "user": "问一下，你的记忆存在哪",
+    "assistant": "记忆存在你本地的库文件里。"
+   },
+   {
+    "line": 150,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 149）",
+    "user": "在吗，你的记忆存在哪",
+    "assistant": "记忆存在你本地的库文件里。"
+   },
+   {
+    "line": 152,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 151）",
+    "user": "你记得我们昨天聊了什么吗",
+    "assistant": "我按记忆找，你给个线索更好。"
+   },
+   {
+    "line": 154,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 153）",
+    "user": "问一下，你记得我们昨天聊了什么吗",
+    "assistant": "我按记忆找，你给个线索更好。"
+   },
+   {
+    "line": 156,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 155）",
+    "user": "在吗，你记得我们昨天聊了什么吗",
+    "assistant": "我按记忆找，你给个线索更好。"
+   },
+   {
+    "line": 158,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 157）",
+    "user": "你记得几条我的信息",
+    "assistant": "我记着你说的，条数不重要。"
+   },
+   {
+    "line": 160,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 159）",
+    "user": "问一下，你记得几条我的信息",
+    "assistant": "我记着你说的，条数不重要。"
+   },
+   {
+    "line": 162,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 161）",
+    "user": "在吗，你记得几条我的信息",
+    "assistant": "我记着你说的，条数不重要。"
+   },
+   {
+    "line": 164,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 163）",
+    "user": "北京今天天气怎么样",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 165,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 163）",
+    "user": "北京今天天气怎么样",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 167,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 166）",
+    "user": "问一下，北京今天天气怎么样",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 168,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 166）",
+    "user": "问一下，北京今天天气怎么样",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 170,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 169）",
+    "user": "在吗，北京今天天气怎么样",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 171,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 169）",
+    "user": "在吗，北京今天天气怎么样",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 173,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 172）",
+    "user": "明天上海下雨吗",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 174,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 172）",
+    "user": "明天上海下雨吗",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 176,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 175）",
+    "user": "问一下，明天上海下雨吗",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 177,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 175）",
+    "user": "问一下，明天上海下雨吗",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 179,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 178）",
+    "user": "在吗，明天上海下雨吗",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 180,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 178）",
+    "user": "在吗，明天上海下雨吗",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 182,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 181）",
+    "user": "今天北京限行尾号是多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 183,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 181）",
+    "user": "今天北京限行尾号是多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 185,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 184）",
+    "user": "问一下，今天北京限行尾号是多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 186,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 184）",
+    "user": "问一下，今天北京限行尾号是多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 188,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 187）",
+    "user": "在吗，今天北京限行尾号是多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 189,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 187）",
+    "user": "在吗，今天北京限行尾号是多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 191,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 190）",
+    "user": "现在股价多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 192,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 190）",
+    "user": "现在股价多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 194,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 193）",
+    "user": "问一下，现在股价多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 195,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 193）",
+    "user": "问一下，现在股价多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 197,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 196）",
+    "user": "在吗，现在股价多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 198,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 196）",
+    "user": "在吗，现在股价多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 200,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 199）",
+    "user": "帮我查一下明天的新闻",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 201,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 199）",
+    "user": "帮我查一下明天的新闻",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 203,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 202）",
+    "user": "问一下，帮我查一下明天的新闻",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 204,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 202）",
+    "user": "问一下，帮我查一下明天的新闻",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 206,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 205）",
+    "user": "在吗，帮我查一下明天的新闻",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 207,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 205）",
+    "user": "在吗，帮我查一下明天的新闻",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 209,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 208）",
+    "user": "现在汇率是多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 210,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 208）",
+    "user": "现在汇率是多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 212,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 211）",
+    "user": "问一下，现在汇率是多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 213,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 211）",
+    "user": "问一下，现在汇率是多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 215,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 214）",
+    "user": "在吗，现在汇率是多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 216,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 214）",
+    "user": "在吗，现在汇率是多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 218,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 217）",
+    "user": "今天油价多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 219,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 217）",
+    "user": "今天油价多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 221,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 220）",
+    "user": "问一下，今天油价多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 222,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 220）",
+    "user": "问一下，今天油价多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 224,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 223）",
+    "user": "在吗，今天油价多少",
+    "assistant": "这个我没法查，我没有实时数据。"
+   },
+   {
+    "line": 225,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 223）",
+    "user": "在吗，今天油价多少",
+    "assistant": "我连不了网，实时信息查不到。"
+   },
+   {
+    "line": 250,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 230）",
+    "user": "我下周三去哪开会？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 257,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 233）",
+    "user": "我用的什么手机？",
+    "assistant": "你用的是 iPhone 15。"
+   },
+   {
+    "line": 264,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 228）",
+    "user": "我们组会几点开？",
+    "assistant": "你每周三晚上七点有组会。"
+   },
+   {
+    "line": 279,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 255）",
+    "user": "我养的猫叫什么名字？",
+    "assistant": "你养的猫叫豆豆。"
+   },
+   {
+    "line": 280,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 236）",
+    "user": "我们组会几点开？",
+    "assistant": "你每周三晚上七点有组会。"
+   },
+   {
+    "line": 317,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 305）",
+    "user": "我什么时候入职的？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 330,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 294）",
+    "user": "我对什么过敏？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 336,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 300）",
+    "user": "我的工资是多少？",
+    "assistant": "这个我没法确认：你没跟我说过。"
+   },
+   {
+    "line": 358,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 346）",
+    "user": "我下周三要去杭州开会",
+    "assistant": "杭州啊，那挺忙的。"
+   },
+   {
+    "line": 359,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 347）",
+    "user": "我周日下午三点去游泳",
+    "assistant": "行，游泳，别忘了。"
+   },
+   {
+    "line": 360,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 348）",
+    "user": "我对青霉素过敏",
+    "assistant": "青霉素，记着呢。"
+   },
+   {
+    "line": 361,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 349）",
+    "user": "我儿子小名毛豆",
+    "assistant": "好，毛豆，到时候看安排。"
+   },
+   {
+    "line": 362,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 350）",
+    "user": "我车是白色SUV",
+    "assistant": "白色SUV，挺好的。"
+   },
+   {
+    "line": 363,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 351）",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 364,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 352）",
+    "user": "我手机号是138-0000-2468",
+    "assistant": "138-0000-2468啊，那挺忙的。"
+   },
+   {
+    "line": 365,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 353）",
+    "user": "我新家在滨江小区",
+    "assistant": "行，滨江，别忘了。"
+   },
+   {
+    "line": 366,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 354）",
+    "user": "我最近在学做饭",
+    "assistant": "做饭，记着呢。"
+   },
+   {
+    "line": 367,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 355）",
+    "user": "我养了只柯基叫可乐",
+    "assistant": "好，可乐，到时候看安排。"
+   },
+   {
+    "line": 368,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 356）",
+    "user": "我周五晚上十点去健身",
+    "assistant": "健身，挺好的。"
+   },
+   {
+    "line": 369,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 357）",
+    "user": "我老家在合肥",
+    "assistant": "嗯，合肥。"
+   },
+   {
+    "line": 370,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 346）",
+    "user": "我下周三要去杭州开会",
+    "assistant": "杭州啊，那挺忙的。"
+   },
+   {
+    "line": 371,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 347）",
+    "user": "我周日下午三点去游泳",
+    "assistant": "行，游泳，别忘了。"
+   },
+   {
+    "line": 372,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 348）",
+    "user": "我对青霉素过敏",
+    "assistant": "青霉素，记着呢。"
+   },
+   {
+    "line": 373,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 349）",
+    "user": "我儿子小名毛豆",
+    "assistant": "好，毛豆，到时候看安排。"
+   },
+   {
+    "line": 374,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 350）",
+    "user": "我车是白色SUV",
+    "assistant": "白色SUV，挺好的。"
+   },
+   {
+    "line": 375,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 351）",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 376,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 352）",
+    "user": "我手机号是138-0000-2468",
+    "assistant": "138-0000-2468啊，那挺忙的。"
+   },
+   {
+    "line": 377,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 353）",
+    "user": "我新家在滨江小区",
+    "assistant": "行，滨江，别忘了。"
+   },
+   {
+    "line": 378,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 354）",
+    "user": "我最近在学做饭",
+    "assistant": "做饭，记着呢。"
+   },
+   {
+    "line": 379,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 355）",
+    "user": "我养了只柯基叫可乐",
+    "assistant": "好，可乐，到时候看安排。"
+   },
+   {
+    "line": 380,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 356）",
+    "user": "我周五晚上十点去健身",
+    "assistant": "健身，挺好的。"
+   },
+   {
+    "line": 381,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 357）",
+    "user": "我老家在合肥",
+    "assistant": "嗯，合肥。"
+   },
+   {
+    "line": 382,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 346）",
+    "user": "我下周三要去杭州开会",
+    "assistant": "杭州啊，那挺忙的。"
+   },
+   {
+    "line": 383,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 347）",
+    "user": "我周日下午三点去游泳",
+    "assistant": "行，游泳，别忘了。"
+   },
+   {
+    "line": 384,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 348）",
+    "user": "我对青霉素过敏",
+    "assistant": "青霉素，记着呢。"
+   },
+   {
+    "line": 385,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 349）",
+    "user": "我儿子小名毛豆",
+    "assistant": "好，毛豆，到时候看安排。"
+   },
+   {
+    "line": 386,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 350）",
+    "user": "我车是白色SUV",
+    "assistant": "白色SUV，挺好的。"
+   },
+   {
+    "line": 387,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 351）",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 388,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 352）",
+    "user": "我手机号是138-0000-2468",
+    "assistant": "138-0000-2468啊，那挺忙的。"
+   },
+   {
+    "line": 389,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 353）",
+    "user": "我新家在滨江小区",
+    "assistant": "行，滨江，别忘了。"
+   },
+   {
+    "line": 390,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 354）",
+    "user": "我最近在学做饭",
+    "assistant": "做饭，记着呢。"
+   },
+   {
+    "line": 391,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 355）",
+    "user": "我养了只柯基叫可乐",
+    "assistant": "好，可乐，到时候看安排。"
+   },
+   {
+    "line": 392,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 356）",
+    "user": "我周五晚上十点去健身",
+    "assistant": "健身，挺好的。"
+   },
+   {
+    "line": 393,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 357）",
+    "user": "我老家在合肥",
+    "assistant": "嗯，合肥。"
+   },
+   {
+    "line": 394,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 346）",
+    "user": "我下周三要去杭州开会",
+    "assistant": "杭州啊，那挺忙的。"
+   },
+   {
+    "line": 395,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 347）",
+    "user": "我周日下午三点去游泳",
+    "assistant": "行，游泳，别忘了。"
+   },
+   {
+    "line": 396,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 348）",
+    "user": "我对青霉素过敏",
+    "assistant": "青霉素，记着呢。"
+   },
+   {
+    "line": 397,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 349）",
+    "user": "我儿子小名毛豆",
+    "assistant": "好，毛豆，到时候看安排。"
+   },
+   {
+    "line": 398,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 350）",
+    "user": "我车是白色SUV",
+    "assistant": "白色SUV，挺好的。"
+   },
+   {
+    "line": 399,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 351）",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 400,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 352）",
+    "user": "我手机号是138-0000-2468",
+    "assistant": "138-0000-2468啊，那挺忙的。"
+   },
+   {
+    "line": 401,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 353）",
+    "user": "我新家在滨江小区",
+    "assistant": "行，滨江，别忘了。"
+   },
+   {
+    "line": 402,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 354）",
+    "user": "我最近在学做饭",
+    "assistant": "做饭，记着呢。"
+   },
+   {
+    "line": 403,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 355）",
+    "user": "我养了只柯基叫可乐",
+    "assistant": "好，可乐，到时候看安排。"
+   },
+   {
+    "line": 404,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 356）",
+    "user": "我周五晚上十点去健身",
+    "assistant": "健身，挺好的。"
+   },
+   {
+    "line": 405,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 357）",
+    "user": "我老家在合肥",
+    "assistant": "嗯，合肥。"
+   },
+   {
+    "line": 406,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 346）",
+    "user": "我下周三要去杭州开会",
+    "assistant": "杭州啊，那挺忙的。"
+   },
+   {
+    "line": 407,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 347）",
+    "user": "我周日下午三点去游泳",
+    "assistant": "行，游泳，别忘了。"
+   },
+   {
+    "line": 408,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 348）",
+    "user": "我对青霉素过敏",
+    "assistant": "青霉素，记着呢。"
+   },
+   {
+    "line": 409,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 349）",
+    "user": "我儿子小名毛豆",
+    "assistant": "好，毛豆，到时候看安排。"
+   },
+   {
+    "line": 410,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 350）",
+    "user": "我车是白色SUV",
+    "assistant": "白色SUV，挺好的。"
+   },
+   {
+    "line": 411,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 351）",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 412,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 352）",
+    "user": "我手机号是138-0000-2468",
+    "assistant": "138-0000-2468啊，那挺忙的。"
+   },
+   {
+    "line": 413,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 353）",
+    "user": "我新家在滨江小区",
+    "assistant": "行，滨江，别忘了。"
+   },
+   {
+    "line": 414,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 354）",
+    "user": "我最近在学做饭",
+    "assistant": "做饭，记着呢。"
+   },
+   {
+    "line": 415,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 355）",
+    "user": "我养了只柯基叫可乐",
+    "assistant": "好，可乐，到时候看安排。"
+   },
+   {
+    "line": 416,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 356）",
+    "user": "我周五晚上十点去健身",
+    "assistant": "健身，挺好的。"
+   },
+   {
+    "line": 417,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 357）",
+    "user": "我老家在合肥",
+    "assistant": "嗯，合肥。"
+   },
+   {
+    "line": 418,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 346）",
+    "user": "我下周三要去杭州开会",
+    "assistant": "杭州啊，那挺忙的。"
+   },
+   {
+    "line": 419,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 347）",
+    "user": "我周日下午三点去游泳",
+    "assistant": "行，游泳，别忘了。"
+   },
+   {
+    "line": 420,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 348）",
+    "user": "我对青霉素过敏",
+    "assistant": "青霉素，记着呢。"
+   },
+   {
+    "line": 421,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 349）",
+    "user": "我儿子小名毛豆",
+    "assistant": "好，毛豆，到时候看安排。"
+   },
+   {
+    "line": 422,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 350）",
+    "user": "我车是白色SUV",
+    "assistant": "白色SUV，挺好的。"
+   },
+   {
+    "line": 423,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 351）",
+    "user": "我工位在D区3号",
+    "assistant": "嗯，D区3号。"
+   },
+   {
+    "line": 424,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 352）",
+    "user": "我手机号是138-0000-2468",
+    "assistant": "138-0000-2468啊，那挺忙的。"
+   },
+   {
+    "line": 425,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 353）",
+    "user": "我新家在滨江小区",
+    "assistant": "行，滨江，别忘了。"
+   },
+   {
+    "line": 432,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 426）",
+    "user": "我最近在忙一个项目。我最近在忙什么？",
+    "assistant": "你只说了个大概，具体是哪个？"
+   },
+   {
+    "line": 433,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 427）",
+    "user": "我下周要出差。我去哪出差？",
+    "assistant": "方便说下具体是什么吗？"
+   },
+   {
+    "line": 434,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 428）",
+    "user": "我买了台新电脑。我买的什么电脑？",
+    "assistant": "这个我还不清楚，你说具体点。"
+   },
+   {
+    "line": 435,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 429）",
+    "user": "我养了只宠物。我的宠物叫什么？",
+    "assistant": "具体是哪个项目呀？"
+   },
+   {
+    "line": 436,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 430）",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 437,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 431）",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 438,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 426）",
+    "user": "我最近在忙一个项目。我最近在忙什么？",
+    "assistant": "你只说了个大概，具体是哪个？"
+   },
+   {
+    "line": 439,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 427）",
+    "user": "我下周要出差。我去哪出差？",
+    "assistant": "方便说下具体是什么吗？"
+   },
+   {
+    "line": 440,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 428）",
+    "user": "我买了台新电脑。我买的什么电脑？",
+    "assistant": "这个我还不清楚，你说具体点。"
+   },
+   {
+    "line": 441,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 429）",
+    "user": "我养了只宠物。我的宠物叫什么？",
+    "assistant": "具体是哪个项目呀？"
+   },
+   {
+    "line": 442,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 430）",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 443,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 431）",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 444,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 426）",
+    "user": "我最近在忙一个项目。我最近在忙什么？",
+    "assistant": "你只说了个大概，具体是哪个？"
+   },
+   {
+    "line": 445,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 427）",
+    "user": "我下周要出差。我去哪出差？",
+    "assistant": "方便说下具体是什么吗？"
+   },
+   {
+    "line": 446,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 428）",
+    "user": "我买了台新电脑。我买的什么电脑？",
+    "assistant": "这个我还不清楚，你说具体点。"
+   },
+   {
+    "line": 447,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 429）",
+    "user": "我养了只宠物。我的宠物叫什么？",
+    "assistant": "具体是哪个项目呀？"
+   },
+   {
+    "line": 448,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 430）",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 449,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 431）",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 450,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 426）",
+    "user": "我最近在忙一个项目。我最近在忙什么？",
+    "assistant": "你只说了个大概，具体是哪个？"
+   },
+   {
+    "line": 451,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 427）",
+    "user": "我下周要出差。我去哪出差？",
+    "assistant": "方便说下具体是什么吗？"
+   },
+   {
+    "line": 452,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 428）",
+    "user": "我买了台新电脑。我买的什么电脑？",
+    "assistant": "这个我还不清楚，你说具体点。"
+   },
+   {
+    "line": 453,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 429）",
+    "user": "我养了只宠物。我的宠物叫什么？",
+    "assistant": "具体是哪个项目呀？"
+   },
+   {
+    "line": 454,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 430）",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 455,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 431）",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 456,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 426）",
+    "user": "我最近在忙一个项目。我最近在忙什么？",
+    "assistant": "你只说了个大概，具体是哪个？"
+   },
+   {
+    "line": 457,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 427）",
+    "user": "我下周要出差。我去哪出差？",
+    "assistant": "方便说下具体是什么吗？"
+   },
+   {
+    "line": 458,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 428）",
+    "user": "我买了台新电脑。我买的什么电脑？",
+    "assistant": "这个我还不清楚，你说具体点。"
+   },
+   {
+    "line": 459,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 429）",
+    "user": "我养了只宠物。我的宠物叫什么？",
+    "assistant": "具体是哪个项目呀？"
+   },
+   {
+    "line": 460,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 430）",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 461,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 431）",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 462,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 426）",
+    "user": "我最近在忙一个项目。我最近在忙什么？",
+    "assistant": "你只说了个大概，具体是哪个？"
+   },
+   {
+    "line": 463,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 427）",
+    "user": "我下周要出差。我去哪出差？",
+    "assistant": "方便说下具体是什么吗？"
+   },
+   {
+    "line": 464,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 428）",
+    "user": "我买了台新电脑。我买的什么电脑？",
+    "assistant": "这个我还不清楚，你说具体点。"
+   },
+   {
+    "line": 465,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 429）",
+    "user": "我养了只宠物。我的宠物叫什么？",
+    "assistant": "具体是哪个项目呀？"
+   },
+   {
+    "line": 466,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 430）",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 467,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 431）",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 468,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 426）",
+    "user": "我最近在忙一个项目。我最近在忙什么？",
+    "assistant": "你只说了个大概，具体是哪个？"
+   },
+   {
+    "line": 469,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 427）",
+    "user": "我下周要出差。我去哪出差？",
+    "assistant": "方便说下具体是什么吗？"
+   },
+   {
+    "line": 470,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 428）",
+    "user": "我买了台新电脑。我买的什么电脑？",
+    "assistant": "这个我还不清楚，你说具体点。"
+   },
+   {
+    "line": 471,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 429）",
+    "user": "我养了只宠物。我的宠物叫什么？",
+    "assistant": "具体是哪个项目呀？"
+   },
+   {
+    "line": 472,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 430）",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 473,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 431）",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 474,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 426）",
+    "user": "我最近在忙一个项目。我最近在忙什么？",
+    "assistant": "你只说了个大概，具体是哪个？"
+   },
+   {
+    "line": 475,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 427）",
+    "user": "我下周要出差。我去哪出差？",
+    "assistant": "方便说下具体是什么吗？"
+   },
+   {
+    "line": 476,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 428）",
+    "user": "我买了台新电脑。我买的什么电脑？",
+    "assistant": "这个我还不清楚，你说具体点。"
+   },
+   {
+    "line": 477,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 429）",
+    "user": "我养了只宠物。我的宠物叫什么？",
+    "assistant": "具体是哪个项目呀？"
+   },
+   {
+    "line": 478,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 430）",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 479,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 431）",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 480,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 426）",
+    "user": "我最近在忙一个项目。我最近在忙什么？",
+    "assistant": "你只说了个大概，具体是哪个？"
+   },
+   {
+    "line": 481,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 427）",
+    "user": "我下周要出差。我去哪出差？",
+    "assistant": "方便说下具体是什么吗？"
+   },
+   {
+    "line": 482,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 428）",
+    "user": "我买了台新电脑。我买的什么电脑？",
+    "assistant": "这个我还不清楚，你说具体点。"
+   },
+   {
+    "line": 483,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 429）",
+    "user": "我养了只宠物。我的宠物叫什么？",
+    "assistant": "具体是哪个项目呀？"
+   },
+   {
+    "line": 484,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 430）",
+    "user": "我在准备考试。我考的哪门？",
+    "assistant": "是哪里的？"
+   },
+   {
+    "line": 485,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 431）",
+    "user": "我换了份工作。我换到哪家了？",
+    "assistant": "什么型号的？"
+   },
+   {
+    "line": 498,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 486）",
+    "user": "我这周有什么安排？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 499,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 487）",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周日下午三点去游泳。"
+   },
+   {
+    "line": 500,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 488）",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你对青霉素过敏。"
+   },
+   {
+    "line": 501,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 489）",
+    "user": "我这周有什么安排？",
+    "assistant": "你儿子小名毛豆。"
+   },
+   {
+    "line": 502,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 490）",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你车是白色SUV。"
+   },
+   {
+    "line": 503,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 491）",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你工位在D区3号。"
+   },
+   {
+    "line": 504,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 492）",
+    "user": "我这周有什么安排？",
+    "assistant": "你手机号是138-0000-2468。"
+   },
+   {
+    "line": 505,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 493）",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你新家在滨江小区。"
+   },
+   {
+    "line": 506,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 494）",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你最近在学做饭。"
+   },
+   {
+    "line": 507,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 495）",
+    "user": "我这周有什么安排？",
+    "assistant": "你养了只柯基叫可乐。"
+   },
+   {
+    "line": 508,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 496）",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周五晚上十点去健身。"
+   },
+   {
+    "line": 509,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 497）",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 510,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 486）",
+    "user": "我这周有什么安排？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 511,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 487）",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周日下午三点去游泳。"
+   },
+   {
+    "line": 512,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 488）",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你对青霉素过敏。"
+   },
+   {
+    "line": 513,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 489）",
+    "user": "我这周有什么安排？",
+    "assistant": "你儿子小名毛豆。"
+   },
+   {
+    "line": 514,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 490）",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你车是白色SUV。"
+   },
+   {
+    "line": 515,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 491）",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你工位在D区3号。"
+   },
+   {
+    "line": 516,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 492）",
+    "user": "我这周有什么安排？",
+    "assistant": "你手机号是138-0000-2468。"
+   },
+   {
+    "line": 517,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 493）",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你新家在滨江小区。"
+   },
+   {
+    "line": 518,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 494）",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你最近在学做饭。"
+   },
+   {
+    "line": 519,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 495）",
+    "user": "我这周有什么安排？",
+    "assistant": "你养了只柯基叫可乐。"
+   },
+   {
+    "line": 520,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 496）",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周五晚上十点去健身。"
+   },
+   {
+    "line": 521,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 497）",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 522,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 486）",
+    "user": "我这周有什么安排？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 523,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 487）",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周日下午三点去游泳。"
+   },
+   {
+    "line": 524,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 488）",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你对青霉素过敏。"
+   },
+   {
+    "line": 525,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 489）",
+    "user": "我这周有什么安排？",
+    "assistant": "你儿子小名毛豆。"
+   },
+   {
+    "line": 526,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 490）",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你车是白色SUV。"
+   },
+   {
+    "line": 527,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 491）",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你工位在D区3号。"
+   },
+   {
+    "line": 528,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 492）",
+    "user": "我这周有什么安排？",
+    "assistant": "你手机号是138-0000-2468。"
+   },
+   {
+    "line": 529,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 493）",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你新家在滨江小区。"
+   },
+   {
+    "line": 530,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 494）",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你最近在学做饭。"
+   },
+   {
+    "line": 531,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 495）",
+    "user": "我这周有什么安排？",
+    "assistant": "你养了只柯基叫可乐。"
+   },
+   {
+    "line": 532,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 496）",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周五晚上十点去健身。"
+   },
+   {
+    "line": 533,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 497）",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 534,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 486）",
+    "user": "我这周有什么安排？",
+    "assistant": "你下周三要去杭州开会。"
+   },
+   {
+    "line": 535,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 487）",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周日下午三点去游泳。"
+   },
+   {
+    "line": 536,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 488）",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你对青霉素过敏。"
+   },
+   {
+    "line": 537,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 489）",
+    "user": "我这周有什么安排？",
+    "assistant": "你儿子小名毛豆。"
+   },
+   {
+    "line": 538,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 490）",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你车是白色SUV。"
+   },
+   {
+    "line": 539,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 491）",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你工位在D区3号。"
+   },
+   {
+    "line": 540,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 492）",
+    "user": "我这周有什么安排？",
+    "assistant": "你手机号是138-0000-2468。"
+   },
+   {
+    "line": 541,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 493）",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你新家在滨江小区。"
+   },
+   {
+    "line": 542,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 494）",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你最近在学做饭。"
+   },
+   {
+    "line": 543,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 495）",
+    "user": "我这周有什么安排？",
+    "assistant": "你养了只柯基叫可乐。"
+   },
+   {
+    "line": 544,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 496）",
+    "user": "我最近有什么固定安排？",
+    "assistant": "你周五晚上十点去健身。"
+   },
+   {
+    "line": 545,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 497）",
+    "user": "你还记得我那件事吗？",
+    "assistant": "你老家在合肥。"
+   },
+   {
+    "line": 558,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 546）",
+    "user": "",
+    "assistant": "杭州，别忘了哈。"
+   },
+   {
+    "line": 559,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 547）",
+    "user": "",
+    "assistant": "游泳，到时候提醒你一下。"
+   },
+   {
+    "line": 560,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 548）",
+    "user": "",
+    "assistant": "对了，青霉素。"
+   },
+   {
+    "line": 561,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 549）",
+    "user": "",
+    "assistant": "毛豆，安排上了吗？"
+   },
+   {
+    "line": 562,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 550）",
+    "user": "",
+    "assistant": "白色SUV，需要我帮你记着吗？"
+   },
+   {
+    "line": 563,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 551）",
+    "user": "",
+    "assistant": "D区3号，记得留点时间。"
+   },
+   {
+    "line": 564,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 552）",
+    "user": "",
+    "assistant": "138-0000-2468，别忘了哈。"
+   },
+   {
+    "line": 565,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 553）",
+    "user": "",
+    "assistant": "滨江，到时候提醒你一下。"
+   },
+   {
+    "line": 566,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 554）",
+    "user": "",
+    "assistant": "对了，做饭。"
+   },
+   {
+    "line": 567,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 555）",
+    "user": "",
+    "assistant": "可乐，安排上了吗？"
+   },
+   {
+    "line": 568,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 556）",
+    "user": "",
+    "assistant": "健身，需要我帮你记着吗？"
+   },
+   {
+    "line": 569,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 557）",
+    "user": "",
+    "assistant": "合肥，记得留点时间。"
+   },
+   {
+    "line": 570,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 546）",
+    "user": "",
+    "assistant": "杭州，别忘了哈。"
+   },
+   {
+    "line": 571,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 547）",
+    "user": "",
+    "assistant": "游泳，到时候提醒你一下。"
+   },
+   {
+    "line": 572,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 548）",
+    "user": "",
+    "assistant": "对了，青霉素。"
+   },
+   {
+    "line": 573,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 549）",
+    "user": "",
+    "assistant": "毛豆，安排上了吗？"
+   },
+   {
+    "line": 574,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 550）",
+    "user": "",
+    "assistant": "白色SUV，需要我帮你记着吗？"
+   },
+   {
+    "line": 575,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 551）",
+    "user": "",
+    "assistant": "D区3号，记得留点时间。"
+   },
+   {
+    "line": 576,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 552）",
+    "user": "",
+    "assistant": "138-0000-2468，别忘了哈。"
+   },
+   {
+    "line": 577,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 553）",
+    "user": "",
+    "assistant": "滨江，到时候提醒你一下。"
+   },
+   {
+    "line": 578,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 554）",
+    "user": "",
+    "assistant": "对了，做饭。"
+   },
+   {
+    "line": 579,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 555）",
+    "user": "",
+    "assistant": "可乐，安排上了吗？"
+   },
+   {
+    "line": 580,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 556）",
+    "user": "",
+    "assistant": "健身，需要我帮你记着吗？"
+   },
+   {
+    "line": 581,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 557）",
+    "user": "",
+    "assistant": "合肥，记得留点时间。"
+   },
+   {
+    "line": 582,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 546）",
+    "user": "",
+    "assistant": "杭州，别忘了哈。"
+   },
+   {
+    "line": 583,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 547）",
+    "user": "",
+    "assistant": "游泳，到时候提醒你一下。"
+   },
+   {
+    "line": 584,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 548）",
+    "user": "",
+    "assistant": "对了，青霉素。"
+   },
+   {
+    "line": 585,
+    "rule": "G10",
+    "evidence": "同 (system,user) 重复出现（首次 line 549）",
+    "user": "",
+    "assistant": "毛豆，安排上了吗？"
+   },
+   {
+    "line": 0,
+    "rule": "G10",
+    "evidence": "B 类 60 条 < 配额 80"
+   },
+   {
+    "line": 0,
+    "rule": "G10",
+    "evidence": "D 类 0 条 < 配额 60"
+   }
+  ],
+  "G11": [],
+  "G12": []
+ }
+}

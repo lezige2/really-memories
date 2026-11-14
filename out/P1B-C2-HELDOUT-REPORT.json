@@ -1,0 +1,449 @@
+{
+ "schema": "p1b_c2_heldout_report_v1",
+ "heldout_sha256": "f98419176ad311b10d0d1dff5e08fbd70899eb27349c65ada1417b160dbff0a4",
+ "n": 23,
+ "stats": {
+  "chain": {
+   "n": 12,
+   "match": 5
+  },
+  "answer_regression": {
+   "n": 5,
+   "match": 5
+  },
+  "negation": {
+   "n": 6,
+   "match": 1
+  },
+  "all": {
+   "n": 23,
+   "match": 11,
+   "rate": 0.4783
+  }
+ },
+ "errors": {
+  "false_supersede": [
+   "P1B-C02"
+  ],
+  "missed_supersede": [
+   "P1B-C03",
+   "P1B-C07",
+   "P1B-C09",
+   "P1B-C10",
+   "P1B-C11",
+   "P1B-N02",
+   "P1B-N03",
+   "P1B-N04",
+   "P1B-N06"
+  ],
+  "extract_miss": [
+   "P1B-C07",
+   "P1B-C09",
+   "P1B-C10",
+   "P1B-N02",
+   "P1B-N03",
+   "P1B-N04",
+   "P1B-N06"
+  ],
+  "ask_mismatch": [],
+  "ambiguous_mismatch": []
+ },
+ "answer_regression": {
+  "covered": false,
+  "note": "仅回放决策/写路径，未起服务；R01-R05 是否仍拒答需活服务另测"
+ },
+ "rows": [
+  {
+   "id": "P1B-C01",
+   "group": "chain",
+   "kind": "两车并行·换牌",
+   "query": "我的车牌现在是多少？",
+   "expected": "supersede",
+   "got": "supersede",
+   "raw_action": "supersede",
+   "reason": "cue",
+   "extract": {
+    "subject": "self",
+    "predicate": "车牌",
+    "value": "沪C22222",
+    "subject_source": "self"
+   },
+   "failure_mode": "decided",
+   "match": true,
+   "note": "cue『换成』指向同一主体#1；应仅替换 #1 的车牌，不新增第二辆车"
+  },
+  {
+   "id": "P1B-C02",
+   "group": "chain",
+   "kind": "两车并行·新买一辆",
+   "query": "我的车牌现在是多少？",
+   "expected": "ask",
+   "got": "supersede",
+   "raw_action": "supersede",
+   "reason": "anchor",
+   "extract": {
+    "subject": "self",
+    "predicate": "车牌",
+    "value": "沪C22222",
+    "subject_source": "self"
+   },
+   "failure_mode": "decided",
+   "match": false,
+   "note": "同含『车牌』但与『换』cue 撞车：这是新增主体#2，不得覆盖 #1；主体不明应 ask（哪辆车）"
+  },
+  {
+   "id": "P1B-C03",
+   "group": "chain",
+   "kind": "两号并行",
+   "query": "我的工作号是多少？",
+   "expected": "supersede",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": null,
+   "extract": {
+    "subject": "工作",
+    "predicate": "手机",
+    "value": "13800002222",
+    "subject_source": "lexicon"
+   },
+   "failure_mode": "no_prior",
+   "match": false,
+   "note": "两个不同槽位，互不覆盖；问工作号只应取 #工作号"
+  },
+  {
+   "id": "P1B-C04",
+   "group": "chain",
+   "kind": "旧值陷阱·同槽三次写",
+   "query": "我的手机号是多少？",
+   "expected": "supersede",
+   "got": "supersede",
+   "raw_action": "supersede",
+   "reason": "cue",
+   "extract": {
+    "subject": "self",
+    "predicate": "手机",
+    "value": "13622222222",
+    "subject_source": "self"
+   },
+   "failure_mode": "decided",
+   "match": true,
+   "note": "同槽按写入时间最新者胜；两条旧值都必须被压掉"
+  },
+  {
+   "id": "P1B-C05",
+   "group": "chain",
+   "kind": "主体缺失句",
+   "query": "车牌换成京N·88888了，现在车牌多少？",
+   "expected": "ambiguous",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": null,
+   "extract": {
+    "subject": "self",
+    "predicate": "车牌",
+    "value": "沪A11111",
+    "subject_source": "self"
+   },
+   "failure_mode": "no_prior",
+   "match": false,
+   "note": "无『我的/我车』限定，可能是别人的车 → 不猜，ambiguous"
+  },
+  {
+   "id": "P1B-C06",
+   "group": "chain",
+   "kind": "两人同名不同主体",
+   "query": "张三的车牌是多少？",
+   "expected": "ignore",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": null,
+   "extract": {
+    "subject": "name:李三",
+    "predicate": "车牌",
+    "value": "京B00002",
+    "subject_source": "possessive"
+   },
+   "failure_mode": "no_prior",
+   "match": true,
+   "note": "跨主体（张三 vs 李三）不得串写；问张三应仍是京A·00001"
+  },
+  {
+   "id": "P1B-C07",
+   "group": "chain",
+   "kind": "旧值回写陷阱",
+   "query": "我的车牌是多少？",
+   "expected": "supersede",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": null,
+   "extract": null,
+   "failure_mode": "extract_miss",
+   "match": false,
+   "note": "后句只是保留旧牌（持有），不是把车牌改回旧值；当前值仍为沪C·22222"
+  },
+  {
+   "id": "P1B-C08",
+   "group": "chain",
+   "kind": "两猫并行·只改一只",
+   "query": "我家大猫叫什么？",
+   "expected": "supersede",
+   "got": "supersede",
+   "raw_action": "supersede",
+   "reason": "anchor",
+   "extract": {
+    "subject": "self",
+    "predicate": "猫",
+    "value": "团团了小",
+    "subject_source": "self"
+   },
+   "failure_mode": "decided",
+   "match": true,
+   "note": "只应替换大猫；小猫咪咪为新主体，不覆盖豆豆以外的槽"
+  },
+  {
+   "id": "P1B-C09",
+   "group": "chain",
+   "kind": "两工位并行",
+   "query": "我在北京的工位是哪个？",
+   "expected": "supersede",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": null,
+   "extract": {
+    "subject": "self",
+    "predicate": "工位",
+    "value": "",
+    "subject_source": "self"
+   },
+   "failure_mode": "extract_miss",
+   "match": false,
+   "note": "只替换北京工位；上海工位为并列主体，不得被覆盖或合并"
+  },
+  {
+   "id": "P1B-C10",
+   "group": "chain",
+   "kind": "一人两卡·只改工资卡",
+   "query": "我的工资卡卡号是多少？",
+   "expected": "supersede",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": null,
+   "extract": {
+    "subject": null,
+    "predicate": "银行卡",
+    "value": "",
+    "subject_source": "none"
+   },
+   "failure_mode": "extract_miss",
+   "match": false,
+   "note": "同为『卡』但不同槽；信用卡不得被工资卡覆盖"
+  },
+  {
+   "id": "P1B-C11",
+   "group": "chain",
+   "kind": "时间槽并行·只改周三",
+   "query": "我的组会是周几？",
+   "expected": "supersede",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": null,
+   "extract": {
+    "subject": "name:周五",
+    "predicate": "会议",
+    "value": "晚上八点",
+    "subject_source": "possessive"
+   },
+   "failure_mode": "no_prior",
+   "match": false,
+   "note": "仅改周三场次（含取消）；周五为新槽位，不得把两条合并成一条"
+  },
+  {
+   "id": "P1B-C12",
+   "group": "chain",
+   "kind": "两号并行·备用号陷阱",
+   "query": "我的备用号是多少？",
+   "expected": "supersede",
+   "got": "supersede",
+   "raw_action": "supersede",
+   "reason": "anchor",
+   "extract": {
+    "subject": "self",
+    "predicate": "手机",
+    "value": "13200003333",
+    "subject_source": "self"
+   },
+   "failure_mode": "decided",
+   "match": true,
+   "note": "『不改/不变』出现在同句，不能把主号也当成被替换"
+  },
+  {
+   "id": "P1B-R01",
+   "group": "answer_regression",
+   "kind": "软覆盖不得改变答案",
+   "query": "我的护照号码是多少？",
+   "expected": "ignore",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": "no_setup",
+   "extract": null,
+   "failure_mode": "no_setup",
+   "match": true,
+   "note": "原 id=probe1（S2 无据样本），软覆盖开启后必须仍为无依据拒答"
+  },
+  {
+   "id": "P1B-R02",
+   "group": "answer_regression",
+   "kind": "软覆盖不得改变答案",
+   "query": "我的驾照什么时候到期？",
+   "expected": "ignore",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": "no_setup",
+   "extract": null,
+   "failure_mode": "no_setup",
+   "match": true,
+   "note": "原 id=probe2"
+  },
+  {
+   "id": "P1B-R03",
+   "group": "answer_regression",
+   "kind": "软覆盖不得改变答案",
+   "query": "我的社保号是多少？",
+   "expected": "ignore",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": "no_setup",
+   "extract": null,
+   "failure_mode": "no_setup",
+   "match": true,
+   "note": "原 id=probe3"
+  },
+  {
+   "id": "P1B-R04",
+   "group": "answer_regression",
+   "kind": "软覆盖不得改变答案",
+   "query": "我下周的航班号是多少？",
+   "expected": "ignore",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": "no_setup",
+   "extract": null,
+   "failure_mode": "no_setup",
+   "match": true,
+   "note": "原 id=probe4"
+  },
+  {
+   "id": "P1B-R05",
+   "group": "answer_regression",
+   "kind": "软覆盖不得改变答案",
+   "query": "我订的酒店订单号是多少？",
+   "expected": "ignore",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": "no_setup",
+   "extract": null,
+   "failure_mode": "no_setup",
+   "match": true,
+   "note": "原 id=probe5"
+  },
+  {
+   "id": "P1B-N01",
+   "group": "negation",
+   "kind": "否定·不是",
+   "query": "我的车牌还是沪A·11111吗？",
+   "expected": "ambiguous",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": null,
+   "extract": {
+    "subject": "self",
+    "predicate": "车牌",
+    "value": "沪A11111",
+    "subject_source": "self"
+   },
+   "failure_mode": "no_prior",
+   "match": false,
+   "note": "只否定旧值、未给新值 → 不得猜新值，ambiguous（保留原文）"
+  },
+  {
+   "id": "P1B-N02",
+   "group": "negation",
+   "kind": "离开·已离职",
+   "query": "我在哪家公司上班？",
+   "expected": "supersede",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": null,
+   "extract": null,
+   "failure_mode": "extract_miss",
+   "match": false,
+   "note": "离职=当前无雇主，必须覆盖旧公司，不得继续答顺丰"
+  },
+  {
+   "id": "P1B-N03",
+   "group": "negation",
+   "kind": "离开·已搬走",
+   "query": "我的组会在哪开？",
+   "expected": "supersede",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": null,
+   "extract": null,
+   "failure_mode": "extract_miss",
+   "match": false,
+   "note": "地点作废，不得再答 B座302"
+  },
+  {
+   "id": "P1B-N04",
+   "group": "negation",
+   "kind": "否定·不再养",
+   "query": "我的猫叫什么？",
+   "expected": "supersede",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": null,
+   "extract": {
+    "subject": "self",
+    "predicate": "猫",
+    "value": "",
+    "subject_source": "self"
+   },
+   "failure_mode": "extract_miss",
+   "match": false,
+   "note": "宠物主体消失；不得再以豆豆为当前事实"
+  },
+  {
+   "id": "P1B-N05",
+   "group": "negation",
+   "kind": "否定·不是该公司",
+   "query": "我在字节跳动上班吗？",
+   "expected": "ignore",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": null,
+   "extract": {
+    "subject": "self",
+    "predicate": "公司",
+    "value": "字节跳动",
+    "subject_source": "self"
+   },
+   "failure_mode": "no_prior",
+   "match": true,
+   "note": "库中本无该事实的正面项：否定句不应写入正面事实"
+  },
+  {
+   "id": "P1B-N06",
+   "group": "negation",
+   "kind": "离开·已退",
+   "query": "我的健身房会员还有效吗？",
+   "expected": "supersede",
+   "got": "ignore",
+   "raw_action": "write",
+   "reason": null,
+   "extract": null,
+   "failure_mode": "extract_miss",
+   "match": false,
+   "note": "会员状态翻转；不得继续答有效"
+  }
+ ]
+}

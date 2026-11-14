@@ -1,0 +1,30 @@
+{
+ "schema": "p1_audit_service_r2_v1",
+ "ask": {
+  "events": 2,
+  "same_trace": true,
+  "retrieve_query_sha16": "fd01f6dbf84d596a",
+  "retrieve_query_sha16_nonempty": true,
+  "answer_sha16": "c224d22c0edf03b2",
+  "block_ids": [
+   14
+  ]
+ },
+ "reheat": {
+  "events": 2,
+  "detail": [
+   [
+    "archive",
+    "restore",
+    "no_newer"
+   ],
+   [
+    "archive",
+    "restore",
+    "reheat_execute"
+   ]
+  ],
+  "merged_single_event": false
+ },
+ "verdict": "ask 侧两项均通过（retrieve.query_sha16 已非空）；但 reheat 仍写 2 条（plan+execute），“合并为 1 条”在本路径未生效"
+}

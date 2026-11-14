@@ -1,0 +1,5608 @@
+{
+ "schema": "autonomy600_v1",
+ "seed": 60000,
+ "spec": "out/SFT-AUTONOMY-DATA-SPEC.md",
+ "policy_sha16": "92e92217a74eb81e",
+ "policy_source": "tools/chat_daily.py:SYSTEM_POLICY（逐字，G9 要求）",
+ "total": 600,
+ "lines": {
+  "train": 480,
+  "dev": 60,
+  "test": 60
+ },
+ "category_counts": {
+  "A": 120,
+  "B": 100,
+  "C": 120,
+  "D": 160,
+  "N": 100
+ },
+ "negative": {
+  "count": 100,
+  "ratio_of_all": 0.1667,
+  "subtypes": {
+   "silence": 50,
+   "irrelevant": 50
+  },
+  "note": "100 条全部属于“沉默/无关场景不得开口”，assistant 只接当下话题，不带记忆、不主动提醒"
+ },
+ "splits": {
+  "train": {
+   "rows": 480,
+   "families": [
+    "k01:pet_cat",
+    "k02:pet_dog",
+    "k03:allergy",
+    "k04:dislike",
+    "k05:hometown",
+    "k06:workplace",
+    "k07:weekly_class",
+    "k08:hobby_pottery",
+    "k09:kid",
+    "k10:travel",
+    "k11:commute",
+    "k12:device",
+    "k13:home",
+    "k14:plant",
+    "k15:sleep",
+    "k16:coffee"
+   ]
+  },
+  "dev": {
+   "rows": 60,
+   "families": [
+    "k17:book",
+    "k18:harmonica",
+    "k19:colleague",
+    "k20:birthday"
+   ]
+  },
+  "test": {
+   "rows": 60,
+   "families": [
+    "k21:car",
+    "k22:movie",
+    "k23:neighbor",
+    "k24:exam"
+   ]
+  }
+ },
+ "holdout_check": {
+  "family_test_vs_train_disjoint": true,
+  "family_dev_vs_train_disjoint": true,
+  "family_dev_vs_test_disjoint": true,
+  "template_test_vs_train_disjoint": true,
+  "template_dev_vs_train_disjoint": true,
+  "neg_scene_pool_test_vs_train_disjoint": true,
+  "user_text_test_vs_train_overlap": 0,
+  "family_sizes": {
+   "train": 16,
+   "dev": 4,
+   "test": 4
+  },
+  "template_sizes": {
+   "train": 80,
+   "dev": 20,
+   "test": 20
+  }
+ },
+ "sha256": {
+  "train": "f073c2b83b889dff299f5afc34b00bf0d2f3f60a9cf24d75ff24dfd0fda947f6",
+  "dev": "54909471954131c0124951b751634ac3610e724bb2dad8bb6c236cfcd53dcd60",
+  "test": "9860f02db7e652e20654897cd0bcd1bbad3cfd5b0e323db22e5ae1052130c525",
+  "all": "7306c35adc09f799c5628bd96f15fb0768adf3873ff564adbc07773b82127084"
+ },
+ "files": [
+  "train.jsonl",
+  "dev.jsonl",
+  "test.jsonl",
+  "_gate_input_all.jsonl",
+  "GATE.json"
+ ],
+ "format": "每行仅 {\"messages\":[system,user,assistant]}；category/family/source 见下方 meta（训练加载器只读 messages）",
+ "value_pool": "全虚构：芋圆/仙贝/芒果/内脏/泉州/云启/日语/陶艺/桃酥/柳州/骑车/星岩/望江里/龟背竹/美式/雾中灯塔/口琴/老聂/十一月十七/灰绿色/老港片/池姐/会计",
+ "value_pool_overlap_with_train_v8_v9_v10": {},
+ "gate": "GATE.json（out/sft_data_gate.py G1-G13）",
+ "meta": [
+  {
+   "split": "train",
+   "line": 1,
+   "category": "A",
+   "family": "pet_cat",
+   "template_id": "A_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 2,
+   "category": "A",
+   "family": "pet_cat",
+   "template_id": "A_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 3,
+   "category": "A",
+   "family": "pet_cat",
+   "template_id": "A_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 4,
+   "category": "A",
+   "family": "pet_cat",
+   "template_id": "A_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 5,
+   "category": "A",
+   "family": "pet_cat",
+   "template_id": "A_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 6,
+   "category": "A",
+   "family": "pet_cat",
+   "template_id": "A_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 7,
+   "category": "B",
+   "family": "pet_cat",
+   "template_id": "B_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 8,
+   "category": "B",
+   "family": "pet_cat",
+   "template_id": "B_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 9,
+   "category": "B",
+   "family": "pet_cat",
+   "template_id": "B_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 10,
+   "category": "B",
+   "family": "pet_cat",
+   "template_id": "B_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 11,
+   "category": "B",
+   "family": "pet_cat",
+   "template_id": "B_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 12,
+   "category": "C",
+   "family": "pet_cat",
+   "template_id": "C_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 13,
+   "category": "C",
+   "family": "pet_cat",
+   "template_id": "C_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 14,
+   "category": "C",
+   "family": "pet_cat",
+   "template_id": "C_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 15,
+   "category": "C",
+   "family": "pet_cat",
+   "template_id": "C_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 16,
+   "category": "C",
+   "family": "pet_cat",
+   "template_id": "C_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 17,
+   "category": "C",
+   "family": "pet_cat",
+   "template_id": "C_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 18,
+   "category": "D",
+   "family": "pet_cat",
+   "template_id": "D_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 19,
+   "category": "D",
+   "family": "pet_cat",
+   "template_id": "D_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 20,
+   "category": "D",
+   "family": "pet_cat",
+   "template_id": "D_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 21,
+   "category": "D",
+   "family": "pet_cat",
+   "template_id": "D_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 22,
+   "category": "D",
+   "family": "pet_cat",
+   "template_id": "D_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 23,
+   "category": "D",
+   "family": "pet_cat",
+   "template_id": "D_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 24,
+   "category": "D",
+   "family": "pet_cat",
+   "template_id": "D_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 25,
+   "category": "D",
+   "family": "pet_cat",
+   "template_id": "D_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 26,
+   "category": "D",
+   "family": "pet_cat",
+   "template_id": "D_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆"
+  },
+  {
+   "split": "train",
+   "line": 27,
+   "category": "N",
+   "family": "pet_cat",
+   "template_id": "N_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 28,
+   "category": "N",
+   "family": "pet_cat",
+   "template_id": "N_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 29,
+   "category": "N",
+   "family": "pet_cat",
+   "template_id": "N_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 30,
+   "category": "N",
+   "family": "pet_cat",
+   "template_id": "N_pet_cat",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芋圆",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 31,
+   "category": "A",
+   "family": "pet_dog",
+   "template_id": "A_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 32,
+   "category": "A",
+   "family": "pet_dog",
+   "template_id": "A_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 33,
+   "category": "A",
+   "family": "pet_dog",
+   "template_id": "A_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 34,
+   "category": "A",
+   "family": "pet_dog",
+   "template_id": "A_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 35,
+   "category": "A",
+   "family": "pet_dog",
+   "template_id": "A_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 36,
+   "category": "A",
+   "family": "pet_dog",
+   "template_id": "A_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 37,
+   "category": "B",
+   "family": "pet_dog",
+   "template_id": "B_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 38,
+   "category": "B",
+   "family": "pet_dog",
+   "template_id": "B_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 39,
+   "category": "B",
+   "family": "pet_dog",
+   "template_id": "B_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 40,
+   "category": "B",
+   "family": "pet_dog",
+   "template_id": "B_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 41,
+   "category": "B",
+   "family": "pet_dog",
+   "template_id": "B_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 42,
+   "category": "C",
+   "family": "pet_dog",
+   "template_id": "C_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 43,
+   "category": "C",
+   "family": "pet_dog",
+   "template_id": "C_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 44,
+   "category": "C",
+   "family": "pet_dog",
+   "template_id": "C_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 45,
+   "category": "C",
+   "family": "pet_dog",
+   "template_id": "C_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 46,
+   "category": "C",
+   "family": "pet_dog",
+   "template_id": "C_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 47,
+   "category": "C",
+   "family": "pet_dog",
+   "template_id": "C_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 48,
+   "category": "D",
+   "family": "pet_dog",
+   "template_id": "D_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 49,
+   "category": "D",
+   "family": "pet_dog",
+   "template_id": "D_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 50,
+   "category": "D",
+   "family": "pet_dog",
+   "template_id": "D_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 51,
+   "category": "D",
+   "family": "pet_dog",
+   "template_id": "D_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 52,
+   "category": "D",
+   "family": "pet_dog",
+   "template_id": "D_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 53,
+   "category": "D",
+   "family": "pet_dog",
+   "template_id": "D_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 54,
+   "category": "D",
+   "family": "pet_dog",
+   "template_id": "D_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 55,
+   "category": "D",
+   "family": "pet_dog",
+   "template_id": "D_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 56,
+   "category": "D",
+   "family": "pet_dog",
+   "template_id": "D_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝"
+  },
+  {
+   "split": "train",
+   "line": 57,
+   "category": "N",
+   "family": "pet_dog",
+   "template_id": "N_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 58,
+   "category": "N",
+   "family": "pet_dog",
+   "template_id": "N_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 59,
+   "category": "N",
+   "family": "pet_dog",
+   "template_id": "N_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 60,
+   "category": "N",
+   "family": "pet_dog",
+   "template_id": "N_pet_dog",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "仙贝",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 61,
+   "category": "A",
+   "family": "allergy",
+   "template_id": "A_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 62,
+   "category": "A",
+   "family": "allergy",
+   "template_id": "A_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 63,
+   "category": "A",
+   "family": "allergy",
+   "template_id": "A_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 64,
+   "category": "A",
+   "family": "allergy",
+   "template_id": "A_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 65,
+   "category": "A",
+   "family": "allergy",
+   "template_id": "A_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 66,
+   "category": "A",
+   "family": "allergy",
+   "template_id": "A_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 67,
+   "category": "B",
+   "family": "allergy",
+   "template_id": "B_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 68,
+   "category": "B",
+   "family": "allergy",
+   "template_id": "B_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 69,
+   "category": "B",
+   "family": "allergy",
+   "template_id": "B_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 70,
+   "category": "B",
+   "family": "allergy",
+   "template_id": "B_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 71,
+   "category": "B",
+   "family": "allergy",
+   "template_id": "B_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 72,
+   "category": "C",
+   "family": "allergy",
+   "template_id": "C_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 73,
+   "category": "C",
+   "family": "allergy",
+   "template_id": "C_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 74,
+   "category": "C",
+   "family": "allergy",
+   "template_id": "C_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 75,
+   "category": "C",
+   "family": "allergy",
+   "template_id": "C_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 76,
+   "category": "C",
+   "family": "allergy",
+   "template_id": "C_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 77,
+   "category": "C",
+   "family": "allergy",
+   "template_id": "C_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 78,
+   "category": "D",
+   "family": "allergy",
+   "template_id": "D_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 79,
+   "category": "D",
+   "family": "allergy",
+   "template_id": "D_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 80,
+   "category": "D",
+   "family": "allergy",
+   "template_id": "D_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 81,
+   "category": "D",
+   "family": "allergy",
+   "template_id": "D_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 82,
+   "category": "D",
+   "family": "allergy",
+   "template_id": "D_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 83,
+   "category": "D",
+   "family": "allergy",
+   "template_id": "D_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 84,
+   "category": "D",
+   "family": "allergy",
+   "template_id": "D_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 85,
+   "category": "D",
+   "family": "allergy",
+   "template_id": "D_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 86,
+   "category": "D",
+   "family": "allergy",
+   "template_id": "D_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果"
+  },
+  {
+   "split": "train",
+   "line": 87,
+   "category": "N",
+   "family": "allergy",
+   "template_id": "N_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 88,
+   "category": "N",
+   "family": "allergy",
+   "template_id": "N_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 89,
+   "category": "N",
+   "family": "allergy",
+   "template_id": "N_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 90,
+   "category": "N",
+   "family": "allergy",
+   "template_id": "N_allergy",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "芒果",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 91,
+   "category": "A",
+   "family": "dislike",
+   "template_id": "A_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 92,
+   "category": "A",
+   "family": "dislike",
+   "template_id": "A_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 93,
+   "category": "A",
+   "family": "dislike",
+   "template_id": "A_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 94,
+   "category": "A",
+   "family": "dislike",
+   "template_id": "A_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 95,
+   "category": "A",
+   "family": "dislike",
+   "template_id": "A_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 96,
+   "category": "A",
+   "family": "dislike",
+   "template_id": "A_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 97,
+   "category": "B",
+   "family": "dislike",
+   "template_id": "B_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 98,
+   "category": "B",
+   "family": "dislike",
+   "template_id": "B_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 99,
+   "category": "B",
+   "family": "dislike",
+   "template_id": "B_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 100,
+   "category": "B",
+   "family": "dislike",
+   "template_id": "B_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 101,
+   "category": "B",
+   "family": "dislike",
+   "template_id": "B_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 102,
+   "category": "C",
+   "family": "dislike",
+   "template_id": "C_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 103,
+   "category": "C",
+   "family": "dislike",
+   "template_id": "C_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 104,
+   "category": "C",
+   "family": "dislike",
+   "template_id": "C_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 105,
+   "category": "C",
+   "family": "dislike",
+   "template_id": "C_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 106,
+   "category": "C",
+   "family": "dislike",
+   "template_id": "C_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 107,
+   "category": "C",
+   "family": "dislike",
+   "template_id": "C_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 108,
+   "category": "D",
+   "family": "dislike",
+   "template_id": "D_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 109,
+   "category": "D",
+   "family": "dislike",
+   "template_id": "D_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 110,
+   "category": "D",
+   "family": "dislike",
+   "template_id": "D_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 111,
+   "category": "D",
+   "family": "dislike",
+   "template_id": "D_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 112,
+   "category": "D",
+   "family": "dislike",
+   "template_id": "D_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 113,
+   "category": "D",
+   "family": "dislike",
+   "template_id": "D_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 114,
+   "category": "D",
+   "family": "dislike",
+   "template_id": "D_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 115,
+   "category": "D",
+   "family": "dislike",
+   "template_id": "D_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 116,
+   "category": "D",
+   "family": "dislike",
+   "template_id": "D_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏"
+  },
+  {
+   "split": "train",
+   "line": 117,
+   "category": "N",
+   "family": "dislike",
+   "template_id": "N_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 118,
+   "category": "N",
+   "family": "dislike",
+   "template_id": "N_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 119,
+   "category": "N",
+   "family": "dislike",
+   "template_id": "N_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 120,
+   "category": "N",
+   "family": "dislike",
+   "template_id": "N_dislike",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "内脏",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 121,
+   "category": "A",
+   "family": "hometown",
+   "template_id": "A_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 122,
+   "category": "A",
+   "family": "hometown",
+   "template_id": "A_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 123,
+   "category": "A",
+   "family": "hometown",
+   "template_id": "A_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 124,
+   "category": "A",
+   "family": "hometown",
+   "template_id": "A_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 125,
+   "category": "A",
+   "family": "hometown",
+   "template_id": "A_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 126,
+   "category": "A",
+   "family": "hometown",
+   "template_id": "A_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 127,
+   "category": "B",
+   "family": "hometown",
+   "template_id": "B_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 128,
+   "category": "B",
+   "family": "hometown",
+   "template_id": "B_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 129,
+   "category": "B",
+   "family": "hometown",
+   "template_id": "B_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 130,
+   "category": "B",
+   "family": "hometown",
+   "template_id": "B_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 131,
+   "category": "B",
+   "family": "hometown",
+   "template_id": "B_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 132,
+   "category": "C",
+   "family": "hometown",
+   "template_id": "C_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 133,
+   "category": "C",
+   "family": "hometown",
+   "template_id": "C_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 134,
+   "category": "C",
+   "family": "hometown",
+   "template_id": "C_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 135,
+   "category": "C",
+   "family": "hometown",
+   "template_id": "C_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 136,
+   "category": "C",
+   "family": "hometown",
+   "template_id": "C_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 137,
+   "category": "C",
+   "family": "hometown",
+   "template_id": "C_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 138,
+   "category": "D",
+   "family": "hometown",
+   "template_id": "D_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 139,
+   "category": "D",
+   "family": "hometown",
+   "template_id": "D_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 140,
+   "category": "D",
+   "family": "hometown",
+   "template_id": "D_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 141,
+   "category": "D",
+   "family": "hometown",
+   "template_id": "D_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 142,
+   "category": "D",
+   "family": "hometown",
+   "template_id": "D_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 143,
+   "category": "D",
+   "family": "hometown",
+   "template_id": "D_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 144,
+   "category": "D",
+   "family": "hometown",
+   "template_id": "D_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 145,
+   "category": "D",
+   "family": "hometown",
+   "template_id": "D_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 146,
+   "category": "D",
+   "family": "hometown",
+   "template_id": "D_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州"
+  },
+  {
+   "split": "train",
+   "line": 147,
+   "category": "N",
+   "family": "hometown",
+   "template_id": "N_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 148,
+   "category": "N",
+   "family": "hometown",
+   "template_id": "N_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 149,
+   "category": "N",
+   "family": "hometown",
+   "template_id": "N_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 150,
+   "category": "N",
+   "family": "hometown",
+   "template_id": "N_hometown",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "泉州",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 151,
+   "category": "A",
+   "family": "workplace",
+   "template_id": "A_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 152,
+   "category": "A",
+   "family": "workplace",
+   "template_id": "A_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 153,
+   "category": "A",
+   "family": "workplace",
+   "template_id": "A_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 154,
+   "category": "A",
+   "family": "workplace",
+   "template_id": "A_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 155,
+   "category": "A",
+   "family": "workplace",
+   "template_id": "A_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 156,
+   "category": "A",
+   "family": "workplace",
+   "template_id": "A_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 157,
+   "category": "B",
+   "family": "workplace",
+   "template_id": "B_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 158,
+   "category": "B",
+   "family": "workplace",
+   "template_id": "B_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 159,
+   "category": "B",
+   "family": "workplace",
+   "template_id": "B_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 160,
+   "category": "B",
+   "family": "workplace",
+   "template_id": "B_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 161,
+   "category": "B",
+   "family": "workplace",
+   "template_id": "B_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 162,
+   "category": "C",
+   "family": "workplace",
+   "template_id": "C_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 163,
+   "category": "C",
+   "family": "workplace",
+   "template_id": "C_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 164,
+   "category": "C",
+   "family": "workplace",
+   "template_id": "C_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 165,
+   "category": "C",
+   "family": "workplace",
+   "template_id": "C_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 166,
+   "category": "C",
+   "family": "workplace",
+   "template_id": "C_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 167,
+   "category": "C",
+   "family": "workplace",
+   "template_id": "C_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 168,
+   "category": "D",
+   "family": "workplace",
+   "template_id": "D_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 169,
+   "category": "D",
+   "family": "workplace",
+   "template_id": "D_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 170,
+   "category": "D",
+   "family": "workplace",
+   "template_id": "D_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 171,
+   "category": "D",
+   "family": "workplace",
+   "template_id": "D_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 172,
+   "category": "D",
+   "family": "workplace",
+   "template_id": "D_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 173,
+   "category": "D",
+   "family": "workplace",
+   "template_id": "D_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 174,
+   "category": "D",
+   "family": "workplace",
+   "template_id": "D_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 175,
+   "category": "D",
+   "family": "workplace",
+   "template_id": "D_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 176,
+   "category": "D",
+   "family": "workplace",
+   "template_id": "D_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启"
+  },
+  {
+   "split": "train",
+   "line": 177,
+   "category": "N",
+   "family": "workplace",
+   "template_id": "N_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 178,
+   "category": "N",
+   "family": "workplace",
+   "template_id": "N_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 179,
+   "category": "N",
+   "family": "workplace",
+   "template_id": "N_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 180,
+   "category": "N",
+   "family": "workplace",
+   "template_id": "N_workplace",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "云启",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 181,
+   "category": "A",
+   "family": "weekly_class",
+   "template_id": "A_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 182,
+   "category": "A",
+   "family": "weekly_class",
+   "template_id": "A_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 183,
+   "category": "A",
+   "family": "weekly_class",
+   "template_id": "A_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 184,
+   "category": "A",
+   "family": "weekly_class",
+   "template_id": "A_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 185,
+   "category": "A",
+   "family": "weekly_class",
+   "template_id": "A_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 186,
+   "category": "A",
+   "family": "weekly_class",
+   "template_id": "A_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 187,
+   "category": "B",
+   "family": "weekly_class",
+   "template_id": "B_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 188,
+   "category": "B",
+   "family": "weekly_class",
+   "template_id": "B_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 189,
+   "category": "B",
+   "family": "weekly_class",
+   "template_id": "B_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 190,
+   "category": "B",
+   "family": "weekly_class",
+   "template_id": "B_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 191,
+   "category": "B",
+   "family": "weekly_class",
+   "template_id": "B_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 192,
+   "category": "C",
+   "family": "weekly_class",
+   "template_id": "C_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 193,
+   "category": "C",
+   "family": "weekly_class",
+   "template_id": "C_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 194,
+   "category": "C",
+   "family": "weekly_class",
+   "template_id": "C_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 195,
+   "category": "C",
+   "family": "weekly_class",
+   "template_id": "C_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 196,
+   "category": "C",
+   "family": "weekly_class",
+   "template_id": "C_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 197,
+   "category": "C",
+   "family": "weekly_class",
+   "template_id": "C_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 198,
+   "category": "D",
+   "family": "weekly_class",
+   "template_id": "D_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 199,
+   "category": "D",
+   "family": "weekly_class",
+   "template_id": "D_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 200,
+   "category": "D",
+   "family": "weekly_class",
+   "template_id": "D_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 201,
+   "category": "D",
+   "family": "weekly_class",
+   "template_id": "D_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 202,
+   "category": "D",
+   "family": "weekly_class",
+   "template_id": "D_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 203,
+   "category": "D",
+   "family": "weekly_class",
+   "template_id": "D_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 204,
+   "category": "D",
+   "family": "weekly_class",
+   "template_id": "D_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 205,
+   "category": "D",
+   "family": "weekly_class",
+   "template_id": "D_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 206,
+   "category": "D",
+   "family": "weekly_class",
+   "template_id": "D_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语"
+  },
+  {
+   "split": "train",
+   "line": 207,
+   "category": "N",
+   "family": "weekly_class",
+   "template_id": "N_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 208,
+   "category": "N",
+   "family": "weekly_class",
+   "template_id": "N_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 209,
+   "category": "N",
+   "family": "weekly_class",
+   "template_id": "N_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 210,
+   "category": "N",
+   "family": "weekly_class",
+   "template_id": "N_weekly_class",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "日语",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 211,
+   "category": "A",
+   "family": "hobby_pottery",
+   "template_id": "A_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 212,
+   "category": "A",
+   "family": "hobby_pottery",
+   "template_id": "A_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 213,
+   "category": "A",
+   "family": "hobby_pottery",
+   "template_id": "A_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 214,
+   "category": "A",
+   "family": "hobby_pottery",
+   "template_id": "A_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 215,
+   "category": "A",
+   "family": "hobby_pottery",
+   "template_id": "A_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 216,
+   "category": "A",
+   "family": "hobby_pottery",
+   "template_id": "A_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 217,
+   "category": "B",
+   "family": "hobby_pottery",
+   "template_id": "B_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 218,
+   "category": "B",
+   "family": "hobby_pottery",
+   "template_id": "B_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 219,
+   "category": "B",
+   "family": "hobby_pottery",
+   "template_id": "B_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 220,
+   "category": "B",
+   "family": "hobby_pottery",
+   "template_id": "B_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 221,
+   "category": "B",
+   "family": "hobby_pottery",
+   "template_id": "B_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 222,
+   "category": "C",
+   "family": "hobby_pottery",
+   "template_id": "C_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 223,
+   "category": "C",
+   "family": "hobby_pottery",
+   "template_id": "C_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 224,
+   "category": "C",
+   "family": "hobby_pottery",
+   "template_id": "C_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 225,
+   "category": "C",
+   "family": "hobby_pottery",
+   "template_id": "C_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 226,
+   "category": "C",
+   "family": "hobby_pottery",
+   "template_id": "C_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 227,
+   "category": "C",
+   "family": "hobby_pottery",
+   "template_id": "C_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 228,
+   "category": "D",
+   "family": "hobby_pottery",
+   "template_id": "D_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 229,
+   "category": "D",
+   "family": "hobby_pottery",
+   "template_id": "D_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 230,
+   "category": "D",
+   "family": "hobby_pottery",
+   "template_id": "D_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 231,
+   "category": "D",
+   "family": "hobby_pottery",
+   "template_id": "D_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 232,
+   "category": "D",
+   "family": "hobby_pottery",
+   "template_id": "D_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 233,
+   "category": "D",
+   "family": "hobby_pottery",
+   "template_id": "D_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 234,
+   "category": "D",
+   "family": "hobby_pottery",
+   "template_id": "D_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 235,
+   "category": "D",
+   "family": "hobby_pottery",
+   "template_id": "D_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 236,
+   "category": "D",
+   "family": "hobby_pottery",
+   "template_id": "D_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺"
+  },
+  {
+   "split": "train",
+   "line": 237,
+   "category": "N",
+   "family": "hobby_pottery",
+   "template_id": "N_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 238,
+   "category": "N",
+   "family": "hobby_pottery",
+   "template_id": "N_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 239,
+   "category": "N",
+   "family": "hobby_pottery",
+   "template_id": "N_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 240,
+   "category": "N",
+   "family": "hobby_pottery",
+   "template_id": "N_hobby_pottery",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "陶艺",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 241,
+   "category": "A",
+   "family": "kid",
+   "template_id": "A_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 242,
+   "category": "A",
+   "family": "kid",
+   "template_id": "A_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 243,
+   "category": "A",
+   "family": "kid",
+   "template_id": "A_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 244,
+   "category": "A",
+   "family": "kid",
+   "template_id": "A_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 245,
+   "category": "A",
+   "family": "kid",
+   "template_id": "A_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 246,
+   "category": "A",
+   "family": "kid",
+   "template_id": "A_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 247,
+   "category": "B",
+   "family": "kid",
+   "template_id": "B_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 248,
+   "category": "B",
+   "family": "kid",
+   "template_id": "B_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 249,
+   "category": "B",
+   "family": "kid",
+   "template_id": "B_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 250,
+   "category": "B",
+   "family": "kid",
+   "template_id": "B_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 251,
+   "category": "B",
+   "family": "kid",
+   "template_id": "B_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 252,
+   "category": "C",
+   "family": "kid",
+   "template_id": "C_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 253,
+   "category": "C",
+   "family": "kid",
+   "template_id": "C_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 254,
+   "category": "C",
+   "family": "kid",
+   "template_id": "C_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 255,
+   "category": "C",
+   "family": "kid",
+   "template_id": "C_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 256,
+   "category": "C",
+   "family": "kid",
+   "template_id": "C_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 257,
+   "category": "C",
+   "family": "kid",
+   "template_id": "C_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 258,
+   "category": "D",
+   "family": "kid",
+   "template_id": "D_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 259,
+   "category": "D",
+   "family": "kid",
+   "template_id": "D_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 260,
+   "category": "D",
+   "family": "kid",
+   "template_id": "D_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 261,
+   "category": "D",
+   "family": "kid",
+   "template_id": "D_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 262,
+   "category": "D",
+   "family": "kid",
+   "template_id": "D_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 263,
+   "category": "D",
+   "family": "kid",
+   "template_id": "D_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 264,
+   "category": "D",
+   "family": "kid",
+   "template_id": "D_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 265,
+   "category": "D",
+   "family": "kid",
+   "template_id": "D_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 266,
+   "category": "D",
+   "family": "kid",
+   "template_id": "D_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥"
+  },
+  {
+   "split": "train",
+   "line": 267,
+   "category": "N",
+   "family": "kid",
+   "template_id": "N_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 268,
+   "category": "N",
+   "family": "kid",
+   "template_id": "N_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 269,
+   "category": "N",
+   "family": "kid",
+   "template_id": "N_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 270,
+   "category": "N",
+   "family": "kid",
+   "template_id": "N_kid",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "桃酥",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 271,
+   "category": "A",
+   "family": "travel",
+   "template_id": "A_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 272,
+   "category": "A",
+   "family": "travel",
+   "template_id": "A_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 273,
+   "category": "A",
+   "family": "travel",
+   "template_id": "A_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 274,
+   "category": "A",
+   "family": "travel",
+   "template_id": "A_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 275,
+   "category": "A",
+   "family": "travel",
+   "template_id": "A_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 276,
+   "category": "A",
+   "family": "travel",
+   "template_id": "A_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 277,
+   "category": "B",
+   "family": "travel",
+   "template_id": "B_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 278,
+   "category": "B",
+   "family": "travel",
+   "template_id": "B_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 279,
+   "category": "B",
+   "family": "travel",
+   "template_id": "B_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 280,
+   "category": "B",
+   "family": "travel",
+   "template_id": "B_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 281,
+   "category": "B",
+   "family": "travel",
+   "template_id": "B_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 282,
+   "category": "C",
+   "family": "travel",
+   "template_id": "C_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 283,
+   "category": "C",
+   "family": "travel",
+   "template_id": "C_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 284,
+   "category": "C",
+   "family": "travel",
+   "template_id": "C_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 285,
+   "category": "C",
+   "family": "travel",
+   "template_id": "C_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 286,
+   "category": "C",
+   "family": "travel",
+   "template_id": "C_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 287,
+   "category": "C",
+   "family": "travel",
+   "template_id": "C_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 288,
+   "category": "D",
+   "family": "travel",
+   "template_id": "D_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 289,
+   "category": "D",
+   "family": "travel",
+   "template_id": "D_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 290,
+   "category": "D",
+   "family": "travel",
+   "template_id": "D_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 291,
+   "category": "D",
+   "family": "travel",
+   "template_id": "D_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 292,
+   "category": "D",
+   "family": "travel",
+   "template_id": "D_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 293,
+   "category": "D",
+   "family": "travel",
+   "template_id": "D_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 294,
+   "category": "D",
+   "family": "travel",
+   "template_id": "D_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 295,
+   "category": "D",
+   "family": "travel",
+   "template_id": "D_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 296,
+   "category": "D",
+   "family": "travel",
+   "template_id": "D_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州"
+  },
+  {
+   "split": "train",
+   "line": 297,
+   "category": "N",
+   "family": "travel",
+   "template_id": "N_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 298,
+   "category": "N",
+   "family": "travel",
+   "template_id": "N_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 299,
+   "category": "N",
+   "family": "travel",
+   "template_id": "N_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 300,
+   "category": "N",
+   "family": "travel",
+   "template_id": "N_travel",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "柳州",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 301,
+   "category": "A",
+   "family": "commute",
+   "template_id": "A_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 302,
+   "category": "A",
+   "family": "commute",
+   "template_id": "A_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 303,
+   "category": "A",
+   "family": "commute",
+   "template_id": "A_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 304,
+   "category": "A",
+   "family": "commute",
+   "template_id": "A_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 305,
+   "category": "A",
+   "family": "commute",
+   "template_id": "A_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 306,
+   "category": "A",
+   "family": "commute",
+   "template_id": "A_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 307,
+   "category": "B",
+   "family": "commute",
+   "template_id": "B_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 308,
+   "category": "B",
+   "family": "commute",
+   "template_id": "B_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 309,
+   "category": "B",
+   "family": "commute",
+   "template_id": "B_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 310,
+   "category": "B",
+   "family": "commute",
+   "template_id": "B_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 311,
+   "category": "B",
+   "family": "commute",
+   "template_id": "B_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 312,
+   "category": "C",
+   "family": "commute",
+   "template_id": "C_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 313,
+   "category": "C",
+   "family": "commute",
+   "template_id": "C_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 314,
+   "category": "C",
+   "family": "commute",
+   "template_id": "C_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 315,
+   "category": "C",
+   "family": "commute",
+   "template_id": "C_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 316,
+   "category": "C",
+   "family": "commute",
+   "template_id": "C_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 317,
+   "category": "C",
+   "family": "commute",
+   "template_id": "C_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 318,
+   "category": "D",
+   "family": "commute",
+   "template_id": "D_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 319,
+   "category": "D",
+   "family": "commute",
+   "template_id": "D_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 320,
+   "category": "D",
+   "family": "commute",
+   "template_id": "D_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 321,
+   "category": "D",
+   "family": "commute",
+   "template_id": "D_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 322,
+   "category": "D",
+   "family": "commute",
+   "template_id": "D_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 323,
+   "category": "D",
+   "family": "commute",
+   "template_id": "D_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 324,
+   "category": "D",
+   "family": "commute",
+   "template_id": "D_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 325,
+   "category": "D",
+   "family": "commute",
+   "template_id": "D_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 326,
+   "category": "D",
+   "family": "commute",
+   "template_id": "D_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车"
+  },
+  {
+   "split": "train",
+   "line": 327,
+   "category": "N",
+   "family": "commute",
+   "template_id": "N_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 328,
+   "category": "N",
+   "family": "commute",
+   "template_id": "N_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 329,
+   "category": "N",
+   "family": "commute",
+   "template_id": "N_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 330,
+   "category": "N",
+   "family": "commute",
+   "template_id": "N_commute",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "骑车",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 331,
+   "category": "A",
+   "family": "device",
+   "template_id": "A_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 332,
+   "category": "A",
+   "family": "device",
+   "template_id": "A_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 333,
+   "category": "A",
+   "family": "device",
+   "template_id": "A_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 334,
+   "category": "A",
+   "family": "device",
+   "template_id": "A_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 335,
+   "category": "A",
+   "family": "device",
+   "template_id": "A_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 336,
+   "category": "A",
+   "family": "device",
+   "template_id": "A_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 337,
+   "category": "B",
+   "family": "device",
+   "template_id": "B_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 338,
+   "category": "B",
+   "family": "device",
+   "template_id": "B_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 339,
+   "category": "B",
+   "family": "device",
+   "template_id": "B_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 340,
+   "category": "B",
+   "family": "device",
+   "template_id": "B_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 341,
+   "category": "B",
+   "family": "device",
+   "template_id": "B_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 342,
+   "category": "C",
+   "family": "device",
+   "template_id": "C_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 343,
+   "category": "C",
+   "family": "device",
+   "template_id": "C_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 344,
+   "category": "C",
+   "family": "device",
+   "template_id": "C_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 345,
+   "category": "C",
+   "family": "device",
+   "template_id": "C_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 346,
+   "category": "C",
+   "family": "device",
+   "template_id": "C_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 347,
+   "category": "C",
+   "family": "device",
+   "template_id": "C_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 348,
+   "category": "D",
+   "family": "device",
+   "template_id": "D_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 349,
+   "category": "D",
+   "family": "device",
+   "template_id": "D_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 350,
+   "category": "D",
+   "family": "device",
+   "template_id": "D_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 351,
+   "category": "D",
+   "family": "device",
+   "template_id": "D_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 352,
+   "category": "D",
+   "family": "device",
+   "template_id": "D_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 353,
+   "category": "D",
+   "family": "device",
+   "template_id": "D_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 354,
+   "category": "D",
+   "family": "device",
+   "template_id": "D_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 355,
+   "category": "D",
+   "family": "device",
+   "template_id": "D_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 356,
+   "category": "D",
+   "family": "device",
+   "template_id": "D_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩"
+  },
+  {
+   "split": "train",
+   "line": 357,
+   "category": "N",
+   "family": "device",
+   "template_id": "N_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 358,
+   "category": "N",
+   "family": "device",
+   "template_id": "N_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 359,
+   "category": "N",
+   "family": "device",
+   "template_id": "N_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 360,
+   "category": "N",
+   "family": "device",
+   "template_id": "N_device",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "星岩",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 361,
+   "category": "A",
+   "family": "home",
+   "template_id": "A_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 362,
+   "category": "A",
+   "family": "home",
+   "template_id": "A_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 363,
+   "category": "A",
+   "family": "home",
+   "template_id": "A_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 364,
+   "category": "A",
+   "family": "home",
+   "template_id": "A_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 365,
+   "category": "A",
+   "family": "home",
+   "template_id": "A_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 366,
+   "category": "A",
+   "family": "home",
+   "template_id": "A_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 367,
+   "category": "B",
+   "family": "home",
+   "template_id": "B_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 368,
+   "category": "B",
+   "family": "home",
+   "template_id": "B_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 369,
+   "category": "B",
+   "family": "home",
+   "template_id": "B_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 370,
+   "category": "B",
+   "family": "home",
+   "template_id": "B_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 371,
+   "category": "C",
+   "family": "home",
+   "template_id": "C_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 372,
+   "category": "C",
+   "family": "home",
+   "template_id": "C_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 373,
+   "category": "C",
+   "family": "home",
+   "template_id": "C_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 374,
+   "category": "C",
+   "family": "home",
+   "template_id": "C_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 375,
+   "category": "C",
+   "family": "home",
+   "template_id": "C_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 376,
+   "category": "C",
+   "family": "home",
+   "template_id": "C_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 377,
+   "category": "D",
+   "family": "home",
+   "template_id": "D_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 378,
+   "category": "D",
+   "family": "home",
+   "template_id": "D_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 379,
+   "category": "D",
+   "family": "home",
+   "template_id": "D_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 380,
+   "category": "D",
+   "family": "home",
+   "template_id": "D_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 381,
+   "category": "D",
+   "family": "home",
+   "template_id": "D_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 382,
+   "category": "D",
+   "family": "home",
+   "template_id": "D_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 383,
+   "category": "D",
+   "family": "home",
+   "template_id": "D_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 384,
+   "category": "D",
+   "family": "home",
+   "template_id": "D_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 385,
+   "category": "D",
+   "family": "home",
+   "template_id": "D_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里"
+  },
+  {
+   "split": "train",
+   "line": 386,
+   "category": "N",
+   "family": "home",
+   "template_id": "N_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 387,
+   "category": "N",
+   "family": "home",
+   "template_id": "N_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 388,
+   "category": "N",
+   "family": "home",
+   "template_id": "N_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 389,
+   "category": "N",
+   "family": "home",
+   "template_id": "N_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 390,
+   "category": "N",
+   "family": "home",
+   "template_id": "N_home",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "望江里",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 391,
+   "category": "A",
+   "family": "plant",
+   "template_id": "A_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 392,
+   "category": "A",
+   "family": "plant",
+   "template_id": "A_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 393,
+   "category": "A",
+   "family": "plant",
+   "template_id": "A_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 394,
+   "category": "A",
+   "family": "plant",
+   "template_id": "A_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 395,
+   "category": "A",
+   "family": "plant",
+   "template_id": "A_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 396,
+   "category": "A",
+   "family": "plant",
+   "template_id": "A_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 397,
+   "category": "B",
+   "family": "plant",
+   "template_id": "B_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 398,
+   "category": "B",
+   "family": "plant",
+   "template_id": "B_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 399,
+   "category": "B",
+   "family": "plant",
+   "template_id": "B_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 400,
+   "category": "B",
+   "family": "plant",
+   "template_id": "B_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 401,
+   "category": "C",
+   "family": "plant",
+   "template_id": "C_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 402,
+   "category": "C",
+   "family": "plant",
+   "template_id": "C_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 403,
+   "category": "C",
+   "family": "plant",
+   "template_id": "C_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 404,
+   "category": "C",
+   "family": "plant",
+   "template_id": "C_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 405,
+   "category": "C",
+   "family": "plant",
+   "template_id": "C_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 406,
+   "category": "C",
+   "family": "plant",
+   "template_id": "C_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 407,
+   "category": "D",
+   "family": "plant",
+   "template_id": "D_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 408,
+   "category": "D",
+   "family": "plant",
+   "template_id": "D_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 409,
+   "category": "D",
+   "family": "plant",
+   "template_id": "D_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 410,
+   "category": "D",
+   "family": "plant",
+   "template_id": "D_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 411,
+   "category": "D",
+   "family": "plant",
+   "template_id": "D_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 412,
+   "category": "D",
+   "family": "plant",
+   "template_id": "D_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 413,
+   "category": "D",
+   "family": "plant",
+   "template_id": "D_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 414,
+   "category": "D",
+   "family": "plant",
+   "template_id": "D_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 415,
+   "category": "D",
+   "family": "plant",
+   "template_id": "D_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹"
+  },
+  {
+   "split": "train",
+   "line": 416,
+   "category": "N",
+   "family": "plant",
+   "template_id": "N_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 417,
+   "category": "N",
+   "family": "plant",
+   "template_id": "N_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 418,
+   "category": "N",
+   "family": "plant",
+   "template_id": "N_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 419,
+   "category": "N",
+   "family": "plant",
+   "template_id": "N_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 420,
+   "category": "N",
+   "family": "plant",
+   "template_id": "N_plant",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "龟背竹",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 421,
+   "category": "A",
+   "family": "sleep",
+   "template_id": "A_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 422,
+   "category": "A",
+   "family": "sleep",
+   "template_id": "A_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 423,
+   "category": "A",
+   "family": "sleep",
+   "template_id": "A_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 424,
+   "category": "A",
+   "family": "sleep",
+   "template_id": "A_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 425,
+   "category": "A",
+   "family": "sleep",
+   "template_id": "A_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 426,
+   "category": "A",
+   "family": "sleep",
+   "template_id": "A_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 427,
+   "category": "B",
+   "family": "sleep",
+   "template_id": "B_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 428,
+   "category": "B",
+   "family": "sleep",
+   "template_id": "B_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 429,
+   "category": "B",
+   "family": "sleep",
+   "template_id": "B_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 430,
+   "category": "B",
+   "family": "sleep",
+   "template_id": "B_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 431,
+   "category": "C",
+   "family": "sleep",
+   "template_id": "C_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 432,
+   "category": "C",
+   "family": "sleep",
+   "template_id": "C_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 433,
+   "category": "C",
+   "family": "sleep",
+   "template_id": "C_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 434,
+   "category": "C",
+   "family": "sleep",
+   "template_id": "C_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 435,
+   "category": "C",
+   "family": "sleep",
+   "template_id": "C_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 436,
+   "category": "C",
+   "family": "sleep",
+   "template_id": "C_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 437,
+   "category": "D",
+   "family": "sleep",
+   "template_id": "D_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 438,
+   "category": "D",
+   "family": "sleep",
+   "template_id": "D_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 439,
+   "category": "D",
+   "family": "sleep",
+   "template_id": "D_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 440,
+   "category": "D",
+   "family": "sleep",
+   "template_id": "D_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 441,
+   "category": "D",
+   "family": "sleep",
+   "template_id": "D_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 442,
+   "category": "D",
+   "family": "sleep",
+   "template_id": "D_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 443,
+   "category": "D",
+   "family": "sleep",
+   "template_id": "D_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 444,
+   "category": "D",
+   "family": "sleep",
+   "template_id": "D_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 445,
+   "category": "D",
+   "family": "sleep",
+   "template_id": "D_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点"
+  },
+  {
+   "split": "train",
+   "line": 446,
+   "category": "N",
+   "family": "sleep",
+   "template_id": "N_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 447,
+   "category": "N",
+   "family": "sleep",
+   "template_id": "N_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 448,
+   "category": "N",
+   "family": "sleep",
+   "template_id": "N_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 449,
+   "category": "N",
+   "family": "sleep",
+   "template_id": "N_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 450,
+   "category": "N",
+   "family": "sleep",
+   "template_id": "N_sleep",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十二点",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 451,
+   "category": "A",
+   "family": "coffee",
+   "template_id": "A_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 452,
+   "category": "A",
+   "family": "coffee",
+   "template_id": "A_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 453,
+   "category": "A",
+   "family": "coffee",
+   "template_id": "A_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 454,
+   "category": "A",
+   "family": "coffee",
+   "template_id": "A_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 455,
+   "category": "A",
+   "family": "coffee",
+   "template_id": "A_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 456,
+   "category": "A",
+   "family": "coffee",
+   "template_id": "A_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 457,
+   "category": "B",
+   "family": "coffee",
+   "template_id": "B_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 458,
+   "category": "B",
+   "family": "coffee",
+   "template_id": "B_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 459,
+   "category": "B",
+   "family": "coffee",
+   "template_id": "B_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 460,
+   "category": "B",
+   "family": "coffee",
+   "template_id": "B_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 461,
+   "category": "C",
+   "family": "coffee",
+   "template_id": "C_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 462,
+   "category": "C",
+   "family": "coffee",
+   "template_id": "C_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 463,
+   "category": "C",
+   "family": "coffee",
+   "template_id": "C_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 464,
+   "category": "C",
+   "family": "coffee",
+   "template_id": "C_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 465,
+   "category": "C",
+   "family": "coffee",
+   "template_id": "C_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 466,
+   "category": "C",
+   "family": "coffee",
+   "template_id": "C_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 467,
+   "category": "D",
+   "family": "coffee",
+   "template_id": "D_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 468,
+   "category": "D",
+   "family": "coffee",
+   "template_id": "D_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 469,
+   "category": "D",
+   "family": "coffee",
+   "template_id": "D_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 470,
+   "category": "D",
+   "family": "coffee",
+   "template_id": "D_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 471,
+   "category": "D",
+   "family": "coffee",
+   "template_id": "D_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 472,
+   "category": "D",
+   "family": "coffee",
+   "template_id": "D_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 473,
+   "category": "D",
+   "family": "coffee",
+   "template_id": "D_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 474,
+   "category": "D",
+   "family": "coffee",
+   "template_id": "D_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 475,
+   "category": "D",
+   "family": "coffee",
+   "template_id": "D_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式"
+  },
+  {
+   "split": "train",
+   "line": 476,
+   "category": "N",
+   "family": "coffee",
+   "template_id": "N_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 477,
+   "category": "N",
+   "family": "coffee",
+   "template_id": "N_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "train",
+   "line": 478,
+   "category": "N",
+   "family": "coffee",
+   "template_id": "N_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 479,
+   "category": "N",
+   "family": "coffee",
+   "template_id": "N_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "train",
+   "line": 480,
+   "category": "N",
+   "family": "coffee",
+   "template_id": "N_coffee",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "美式",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "dev",
+   "line": 1,
+   "category": "A",
+   "family": "book",
+   "template_id": "A_book",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "雾中灯塔"
+  },
+  {
+   "split": "dev",
+   "line": 2,
+   "category": "A",
+   "family": "book",
+   "template_id": "A_book",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "雾中灯塔"
+  },
+  {
+   "split": "dev",
+   "line": 3,
+   "category": "A",
+   "family": "book",
+   "template_id": "A_book",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "雾中灯塔"
+  },
+  {
+   "split": "dev",
+   "line": 4,
+   "category": "B",
+   "family": "book",
+   "template_id": "B_book",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "雾中灯塔"
+  },
+  {
+   "split": "dev",
+   "line": 5,
+   "category": "B",
+   "family": "book",
+   "template_id": "B_book",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "雾中灯塔"
+  },
+  {
+   "split": "dev",
+   "line": 6,
+   "category": "B",
+   "family": "book",
+   "template_id": "B_book",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "雾中灯塔"
+  },
+  {
+   "split": "dev",
+   "line": 7,
+   "category": "C",
+   "family": "book",
+   "template_id": "C_book",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "雾中灯塔"
+  },
+  {
+   "split": "dev",
+   "line": 8,
+   "category": "C",
+   "family": "book",
+   "template_id": "C_book",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "雾中灯塔"
+  },
+  {
+   "split": "dev",
+   "line": 9,
+   "category": "C",
+   "family": "book",
+   "template_id": "C_book",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "雾中灯塔"
+  },
+  {
+   "split": "dev",
+   "line": 10,
+   "category": "D",
+   "family": "book",
+   "template_id": "D_book",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "雾中灯塔"
+  },
+  {
+   "split": "dev",
+   "line": 11,
+   "category": "D",
+   "family": "book",
+   "template_id": "D_book",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "雾中灯塔"
+  },
+  {
+   "split": "dev",
+   "line": 12,
+   "category": "N",
+   "family": "book",
+   "template_id": "N_book",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "雾中灯塔",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "dev",
+   "line": 13,
+   "category": "N",
+   "family": "book",
+   "template_id": "N_book",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "雾中灯塔",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "dev",
+   "line": 14,
+   "category": "N",
+   "family": "book",
+   "template_id": "N_book",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "雾中灯塔",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "dev",
+   "line": 15,
+   "category": "N",
+   "family": "book",
+   "template_id": "N_book",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "雾中灯塔",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "dev",
+   "line": 16,
+   "category": "A",
+   "family": "harmonica",
+   "template_id": "A_harmonica",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "口琴"
+  },
+  {
+   "split": "dev",
+   "line": 17,
+   "category": "A",
+   "family": "harmonica",
+   "template_id": "A_harmonica",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "口琴"
+  },
+  {
+   "split": "dev",
+   "line": 18,
+   "category": "A",
+   "family": "harmonica",
+   "template_id": "A_harmonica",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "口琴"
+  },
+  {
+   "split": "dev",
+   "line": 19,
+   "category": "B",
+   "family": "harmonica",
+   "template_id": "B_harmonica",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "口琴"
+  },
+  {
+   "split": "dev",
+   "line": 20,
+   "category": "B",
+   "family": "harmonica",
+   "template_id": "B_harmonica",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "口琴"
+  },
+  {
+   "split": "dev",
+   "line": 21,
+   "category": "B",
+   "family": "harmonica",
+   "template_id": "B_harmonica",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "口琴"
+  },
+  {
+   "split": "dev",
+   "line": 22,
+   "category": "C",
+   "family": "harmonica",
+   "template_id": "C_harmonica",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "口琴"
+  },
+  {
+   "split": "dev",
+   "line": 23,
+   "category": "C",
+   "family": "harmonica",
+   "template_id": "C_harmonica",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "口琴"
+  },
+  {
+   "split": "dev",
+   "line": 24,
+   "category": "C",
+   "family": "harmonica",
+   "template_id": "C_harmonica",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "口琴"
+  },
+  {
+   "split": "dev",
+   "line": 25,
+   "category": "D",
+   "family": "harmonica",
+   "template_id": "D_harmonica",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "口琴"
+  },
+  {
+   "split": "dev",
+   "line": 26,
+   "category": "D",
+   "family": "harmonica",
+   "template_id": "D_harmonica",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "口琴"
+  },
+  {
+   "split": "dev",
+   "line": 27,
+   "category": "N",
+   "family": "harmonica",
+   "template_id": "N_harmonica",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "口琴",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "dev",
+   "line": 28,
+   "category": "N",
+   "family": "harmonica",
+   "template_id": "N_harmonica",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "口琴",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "dev",
+   "line": 29,
+   "category": "N",
+   "family": "harmonica",
+   "template_id": "N_harmonica",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "口琴",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "dev",
+   "line": 30,
+   "category": "N",
+   "family": "harmonica",
+   "template_id": "N_harmonica",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "口琴",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "dev",
+   "line": 31,
+   "category": "A",
+   "family": "colleague",
+   "template_id": "A_colleague",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老聂"
+  },
+  {
+   "split": "dev",
+   "line": 32,
+   "category": "A",
+   "family": "colleague",
+   "template_id": "A_colleague",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老聂"
+  },
+  {
+   "split": "dev",
+   "line": 33,
+   "category": "A",
+   "family": "colleague",
+   "template_id": "A_colleague",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老聂"
+  },
+  {
+   "split": "dev",
+   "line": 34,
+   "category": "B",
+   "family": "colleague",
+   "template_id": "B_colleague",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老聂"
+  },
+  {
+   "split": "dev",
+   "line": 35,
+   "category": "B",
+   "family": "colleague",
+   "template_id": "B_colleague",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老聂"
+  },
+  {
+   "split": "dev",
+   "line": 36,
+   "category": "B",
+   "family": "colleague",
+   "template_id": "B_colleague",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老聂"
+  },
+  {
+   "split": "dev",
+   "line": 37,
+   "category": "C",
+   "family": "colleague",
+   "template_id": "C_colleague",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老聂"
+  },
+  {
+   "split": "dev",
+   "line": 38,
+   "category": "C",
+   "family": "colleague",
+   "template_id": "C_colleague",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老聂"
+  },
+  {
+   "split": "dev",
+   "line": 39,
+   "category": "C",
+   "family": "colleague",
+   "template_id": "C_colleague",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老聂"
+  },
+  {
+   "split": "dev",
+   "line": 40,
+   "category": "D",
+   "family": "colleague",
+   "template_id": "D_colleague",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老聂"
+  },
+  {
+   "split": "dev",
+   "line": 41,
+   "category": "D",
+   "family": "colleague",
+   "template_id": "D_colleague",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老聂"
+  },
+  {
+   "split": "dev",
+   "line": 42,
+   "category": "N",
+   "family": "colleague",
+   "template_id": "N_colleague",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老聂",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "dev",
+   "line": 43,
+   "category": "N",
+   "family": "colleague",
+   "template_id": "N_colleague",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老聂",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "dev",
+   "line": 44,
+   "category": "N",
+   "family": "colleague",
+   "template_id": "N_colleague",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老聂",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "dev",
+   "line": 45,
+   "category": "N",
+   "family": "colleague",
+   "template_id": "N_colleague",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老聂",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "dev",
+   "line": 46,
+   "category": "A",
+   "family": "birthday",
+   "template_id": "A_birthday",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十一月十七"
+  },
+  {
+   "split": "dev",
+   "line": 47,
+   "category": "A",
+   "family": "birthday",
+   "template_id": "A_birthday",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十一月十七"
+  },
+  {
+   "split": "dev",
+   "line": 48,
+   "category": "A",
+   "family": "birthday",
+   "template_id": "A_birthday",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十一月十七"
+  },
+  {
+   "split": "dev",
+   "line": 49,
+   "category": "B",
+   "family": "birthday",
+   "template_id": "B_birthday",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十一月十七"
+  },
+  {
+   "split": "dev",
+   "line": 50,
+   "category": "B",
+   "family": "birthday",
+   "template_id": "B_birthday",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十一月十七"
+  },
+  {
+   "split": "dev",
+   "line": 51,
+   "category": "B",
+   "family": "birthday",
+   "template_id": "B_birthday",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十一月十七"
+  },
+  {
+   "split": "dev",
+   "line": 52,
+   "category": "C",
+   "family": "birthday",
+   "template_id": "C_birthday",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十一月十七"
+  },
+  {
+   "split": "dev",
+   "line": 53,
+   "category": "C",
+   "family": "birthday",
+   "template_id": "C_birthday",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十一月十七"
+  },
+  {
+   "split": "dev",
+   "line": 54,
+   "category": "C",
+   "family": "birthday",
+   "template_id": "C_birthday",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十一月十七"
+  },
+  {
+   "split": "dev",
+   "line": 55,
+   "category": "D",
+   "family": "birthday",
+   "template_id": "D_birthday",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十一月十七"
+  },
+  {
+   "split": "dev",
+   "line": 56,
+   "category": "D",
+   "family": "birthday",
+   "template_id": "D_birthday",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十一月十七"
+  },
+  {
+   "split": "dev",
+   "line": 57,
+   "category": "N",
+   "family": "birthday",
+   "template_id": "N_birthday",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十一月十七",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "dev",
+   "line": 58,
+   "category": "N",
+   "family": "birthday",
+   "template_id": "N_birthday",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十一月十七",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "dev",
+   "line": 59,
+   "category": "N",
+   "family": "birthday",
+   "template_id": "N_birthday",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十一月十七",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "dev",
+   "line": 60,
+   "category": "N",
+   "family": "birthday",
+   "template_id": "N_birthday",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "十一月十七",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "test",
+   "line": 1,
+   "category": "A",
+   "family": "car",
+   "template_id": "A_car",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "灰绿色"
+  },
+  {
+   "split": "test",
+   "line": 2,
+   "category": "A",
+   "family": "car",
+   "template_id": "A_car",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "灰绿色"
+  },
+  {
+   "split": "test",
+   "line": 3,
+   "category": "A",
+   "family": "car",
+   "template_id": "A_car",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "灰绿色"
+  },
+  {
+   "split": "test",
+   "line": 4,
+   "category": "B",
+   "family": "car",
+   "template_id": "B_car",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "灰绿色"
+  },
+  {
+   "split": "test",
+   "line": 5,
+   "category": "B",
+   "family": "car",
+   "template_id": "B_car",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "灰绿色"
+  },
+  {
+   "split": "test",
+   "line": 6,
+   "category": "B",
+   "family": "car",
+   "template_id": "B_car",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "灰绿色"
+  },
+  {
+   "split": "test",
+   "line": 7,
+   "category": "C",
+   "family": "car",
+   "template_id": "C_car",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "灰绿色"
+  },
+  {
+   "split": "test",
+   "line": 8,
+   "category": "C",
+   "family": "car",
+   "template_id": "C_car",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "灰绿色"
+  },
+  {
+   "split": "test",
+   "line": 9,
+   "category": "C",
+   "family": "car",
+   "template_id": "C_car",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "灰绿色"
+  },
+  {
+   "split": "test",
+   "line": 10,
+   "category": "D",
+   "family": "car",
+   "template_id": "D_car",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "灰绿色"
+  },
+  {
+   "split": "test",
+   "line": 11,
+   "category": "D",
+   "family": "car",
+   "template_id": "D_car",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "灰绿色"
+  },
+  {
+   "split": "test",
+   "line": 12,
+   "category": "N",
+   "family": "car",
+   "template_id": "N_car",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "灰绿色",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "test",
+   "line": 13,
+   "category": "N",
+   "family": "car",
+   "template_id": "N_car",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "灰绿色",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "test",
+   "line": 14,
+   "category": "N",
+   "family": "car",
+   "template_id": "N_car",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "灰绿色",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "test",
+   "line": 15,
+   "category": "N",
+   "family": "car",
+   "template_id": "N_car",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "灰绿色",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "test",
+   "line": 16,
+   "category": "A",
+   "family": "movie",
+   "template_id": "A_movie",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老港片"
+  },
+  {
+   "split": "test",
+   "line": 17,
+   "category": "A",
+   "family": "movie",
+   "template_id": "A_movie",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老港片"
+  },
+  {
+   "split": "test",
+   "line": 18,
+   "category": "A",
+   "family": "movie",
+   "template_id": "A_movie",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老港片"
+  },
+  {
+   "split": "test",
+   "line": 19,
+   "category": "B",
+   "family": "movie",
+   "template_id": "B_movie",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老港片"
+  },
+  {
+   "split": "test",
+   "line": 20,
+   "category": "B",
+   "family": "movie",
+   "template_id": "B_movie",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老港片"
+  },
+  {
+   "split": "test",
+   "line": 21,
+   "category": "B",
+   "family": "movie",
+   "template_id": "B_movie",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老港片"
+  },
+  {
+   "split": "test",
+   "line": 22,
+   "category": "C",
+   "family": "movie",
+   "template_id": "C_movie",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老港片"
+  },
+  {
+   "split": "test",
+   "line": 23,
+   "category": "C",
+   "family": "movie",
+   "template_id": "C_movie",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老港片"
+  },
+  {
+   "split": "test",
+   "line": 24,
+   "category": "C",
+   "family": "movie",
+   "template_id": "C_movie",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老港片"
+  },
+  {
+   "split": "test",
+   "line": 25,
+   "category": "D",
+   "family": "movie",
+   "template_id": "D_movie",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老港片"
+  },
+  {
+   "split": "test",
+   "line": 26,
+   "category": "D",
+   "family": "movie",
+   "template_id": "D_movie",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老港片"
+  },
+  {
+   "split": "test",
+   "line": 27,
+   "category": "N",
+   "family": "movie",
+   "template_id": "N_movie",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老港片",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "test",
+   "line": 28,
+   "category": "N",
+   "family": "movie",
+   "template_id": "N_movie",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老港片",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "test",
+   "line": 29,
+   "category": "N",
+   "family": "movie",
+   "template_id": "N_movie",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老港片",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "test",
+   "line": 30,
+   "category": "N",
+   "family": "movie",
+   "template_id": "N_movie",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "老港片",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "test",
+   "line": 31,
+   "category": "A",
+   "family": "neighbor",
+   "template_id": "A_neighbor",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "池姐"
+  },
+  {
+   "split": "test",
+   "line": 32,
+   "category": "A",
+   "family": "neighbor",
+   "template_id": "A_neighbor",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "池姐"
+  },
+  {
+   "split": "test",
+   "line": 33,
+   "category": "A",
+   "family": "neighbor",
+   "template_id": "A_neighbor",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "池姐"
+  },
+  {
+   "split": "test",
+   "line": 34,
+   "category": "B",
+   "family": "neighbor",
+   "template_id": "B_neighbor",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "池姐"
+  },
+  {
+   "split": "test",
+   "line": 35,
+   "category": "B",
+   "family": "neighbor",
+   "template_id": "B_neighbor",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "池姐"
+  },
+  {
+   "split": "test",
+   "line": 36,
+   "category": "B",
+   "family": "neighbor",
+   "template_id": "B_neighbor",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "池姐"
+  },
+  {
+   "split": "test",
+   "line": 37,
+   "category": "C",
+   "family": "neighbor",
+   "template_id": "C_neighbor",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "池姐"
+  },
+  {
+   "split": "test",
+   "line": 38,
+   "category": "C",
+   "family": "neighbor",
+   "template_id": "C_neighbor",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "池姐"
+  },
+  {
+   "split": "test",
+   "line": 39,
+   "category": "C",
+   "family": "neighbor",
+   "template_id": "C_neighbor",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "池姐"
+  },
+  {
+   "split": "test",
+   "line": 40,
+   "category": "D",
+   "family": "neighbor",
+   "template_id": "D_neighbor",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "池姐"
+  },
+  {
+   "split": "test",
+   "line": 41,
+   "category": "D",
+   "family": "neighbor",
+   "template_id": "D_neighbor",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "池姐"
+  },
+  {
+   "split": "test",
+   "line": 42,
+   "category": "N",
+   "family": "neighbor",
+   "template_id": "N_neighbor",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "池姐",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "test",
+   "line": 43,
+   "category": "N",
+   "family": "neighbor",
+   "template_id": "N_neighbor",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "池姐",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "test",
+   "line": 44,
+   "category": "N",
+   "family": "neighbor",
+   "template_id": "N_neighbor",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "池姐",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "test",
+   "line": 45,
+   "category": "N",
+   "family": "neighbor",
+   "template_id": "N_neighbor",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "池姐",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "test",
+   "line": 46,
+   "category": "A",
+   "family": "exam",
+   "template_id": "A_exam",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "会计"
+  },
+  {
+   "split": "test",
+   "line": 47,
+   "category": "A",
+   "family": "exam",
+   "template_id": "A_exam",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "会计"
+  },
+  {
+   "split": "test",
+   "line": 48,
+   "category": "A",
+   "family": "exam",
+   "template_id": "A_exam",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "会计"
+  },
+  {
+   "split": "test",
+   "line": 49,
+   "category": "B",
+   "family": "exam",
+   "template_id": "B_exam",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "会计"
+  },
+  {
+   "split": "test",
+   "line": 50,
+   "category": "B",
+   "family": "exam",
+   "template_id": "B_exam",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "会计"
+  },
+  {
+   "split": "test",
+   "line": 51,
+   "category": "B",
+   "family": "exam",
+   "template_id": "B_exam",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "会计"
+  },
+  {
+   "split": "test",
+   "line": 52,
+   "category": "C",
+   "family": "exam",
+   "template_id": "C_exam",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "会计"
+  },
+  {
+   "split": "test",
+   "line": 53,
+   "category": "C",
+   "family": "exam",
+   "template_id": "C_exam",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "会计"
+  },
+  {
+   "split": "test",
+   "line": 54,
+   "category": "C",
+   "family": "exam",
+   "template_id": "C_exam",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "会计"
+  },
+  {
+   "split": "test",
+   "line": 55,
+   "category": "D",
+   "family": "exam",
+   "template_id": "D_exam",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "会计"
+  },
+  {
+   "split": "test",
+   "line": 56,
+   "category": "D",
+   "family": "exam",
+   "template_id": "D_exam",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "会计"
+  },
+  {
+   "split": "test",
+   "line": 57,
+   "category": "N",
+   "family": "exam",
+   "template_id": "N_exam",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "会计",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "test",
+   "line": 58,
+   "category": "N",
+   "family": "exam",
+   "template_id": "N_exam",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "会计",
+   "neg_subtype": "silence"
+  },
+  {
+   "split": "test",
+   "line": 59,
+   "category": "N",
+   "family": "exam",
+   "template_id": "N_exam",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "会计",
+   "neg_subtype": "irrelevant"
+  },
+  {
+   "split": "test",
+   "line": 60,
+   "category": "N",
+   "family": "exam",
+   "template_id": "N_exam",
+   "source": "autonomy600/synthetic-fictional-pool",
+   "anchor": "会计",
+   "neg_subtype": "irrelevant"
+  }
+ ]
+}

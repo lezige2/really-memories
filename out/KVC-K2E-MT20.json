@@ -1,0 +1,6983 @@
+{
+ "schema": "training_eval_v1",
+ "role": "T11 训练+测试闭环：真实对话用例集回归（2026-10-27）",
+ "generated_at": "2026-10-30T13:48:27+0800",
+ "mode": "live",
+ "partial": false,
+ "endpoint": "http://127.0.0.1:8765",
+ "source_cases": {
+  "path": "out/SFT-EXTRA-CASES-v9-MT20.jsonl",
+  "sha256": "140500d3ca651ce5fdad594cac747a9beee2f56f383ed41f6e7e968d91b2124f",
+  "bytes": 32016,
+  "n": 20
+ },
+ "runner": {
+  "path": "training/run_training_eval.py",
+  "sha256": "41edc22baf4b9b866b248f22a0fe9059f5b40293a991a4c5ffbd0989e53b61c9",
+  "timeout_s": 90.0,
+  "classifier": "9 类：串味/编造/误拒/僵硬/重复尾巴/身份/联网无来源/记忆漏/延迟",
+  "connection_retries": 2,
+  "retry_wait_s": 5.0,
+  "state_class_mapping": {
+   "refused": "no_evidence",
+   "state=identity": "identity",
+   "state=capability": "capability",
+   "state=smalltalk": "smalltalk",
+   "state=ack": "ack",
+   "state=web": "web",
+   "block_ids 非空": "memory_hit",
+   "其余": "general"
+  }
+ },
+ "service": {
+  "health_before": {
+   "status": "ok",
+   "model_pin": {
+    "model_path": "D:\\models\\Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+    "model_size": 8988110976,
+    "model_mtime": 1793102210
+   },
+   "dll_pin": {
+    "path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+    "present": true,
+    "bytes": 50007552,
+    "sha16": "9edbafa150700614"
+   },
+   "vram_gib": null,
+   "memories": 20,
+   "session": {
+    "path": "kvmem\\daily\\sessions\\kvc.json",
+    "exists": false,
+    "chat_tokens": 0,
+    "chat_budget": 24576,
+    "chat_start": 8192,
+    "n_ctx": 32768,
+    "mounted": 0,
+    "control": false,
+    "n_predict": 192,
+    "rollover_at": 0.75,
+    "rollover_threshold_tokens": 18432
+   },
+   "engine": {
+    "mode": "real",
+    "type": "KVEngine",
+    "n_ctx": 32768,
+    "n_seq": 8,
+    "n_gpu_layers": 28,
+    "bytes_per_token": 104448,
+    "kv_pool_gib": 3.188,
+    "mem_total_gib": 3.188
+   },
+   "retrieval": {
+    "mode": "topk",
+    "topk": 4,
+    "library_count": 20,
+    "library_max": 200,
+    "mounted_ids": [],
+    "mounted_count": 0,
+    "candidates": 20,
+    "related": 0,
+    "memory_budget": 7680,
+    "last_truncation": null
+   },
+   "version": "c-1.0",
+   "service": {
+    "version": "c-service-1.0",
+    "host": "127.0.0.1",
+    "port": 8765,
+    "serial": true,
+    "requests": 694,
+    "in_flight_max": 1,
+    "by_route": {
+     "GET /health": 110,
+     "GET /memories": 238,
+     "POST /reset": 120,
+     "POST /ask": 184,
+     "POST /remember": 16,
+     "POST /forget": 26
+    },
+    "uptime_s": 533.5,
+    "fake_engine": false,
+    "degraded": false,
+    "ask_timeout_s": 90.0
+   }
+  },
+  "health_after": {
+   "status": "ok",
+   "model_pin": {
+    "model_path": "D:\\models\\Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+    "model_size": 8988110976,
+    "model_mtime": 1793102210
+   },
+   "dll_pin": {
+    "path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+    "present": true,
+    "bytes": 50007552,
+    "sha16": "9edbafa150700614"
+   },
+   "vram_gib": null,
+   "memories": 200,
+   "session": {
+    "path": "kvmem/scale40k/n200/sessions\\scale.json",
+    "exists": false,
+    "chat_tokens": 0,
+    "chat_budget": 24576,
+    "chat_start": 8192,
+    "n_ctx": 32768,
+    "mounted": 0,
+    "control": false,
+    "n_predict": 192,
+    "rollover_at": 0.75,
+    "rollover_threshold_tokens": 18432
+   },
+   "engine": {
+    "mode": "real",
+    "type": "KVEngine",
+    "n_ctx": 32768,
+    "n_seq": 8,
+    "n_gpu_layers": 28,
+    "bytes_per_token": 104448,
+    "kv_pool_gib": 3.188,
+    "mem_total_gib": 3.188
+   },
+   "retrieval": {
+    "mode": "topk",
+    "topk": 4,
+    "library_count": 200,
+    "library_max": 200,
+    "mounted_ids": [],
+    "mounted_count": 0,
+    "candidates": 200,
+    "related": 0,
+    "memory_budget": 7680,
+    "last_truncation": null
+   },
+   "version": "c-1.0",
+   "service": {
+    "version": "c-service-1.0",
+    "host": "127.0.0.1",
+    "port": 8765,
+    "serial": true,
+    "requests": 61,
+    "in_flight_max": 1,
+    "by_route": {
+     "GET /health": 13,
+     "POST /reset": 12,
+     "GET /memories": 24,
+     "POST /remember": 12
+    },
+    "uptime_s": 0.9,
+    "fake_engine": false,
+    "degraded": false,
+    "ask_timeout_s": 90.0
+   }
+  },
+  "preflight": {
+   "expect_memories": 20,
+   "got_memories": 20,
+   "ok": true
+  },
+  "elapsed_s": 555.068
+ },
+ "hermetic": {
+  "enabled": true,
+  "reset_supported": true,
+  "reset_error": null,
+  "snapshot_ids_n": 20,
+  "memories_before": 20,
+  "category_boundaries": [],
+  "added_total": 180,
+  "cleaned_total": 180,
+  "final": {
+   "snapshot_n": 20,
+   "extra": [
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120,
+    121,
+    122,
+    123,
+    124,
+    125,
+    126,
+    127,
+    128,
+    129,
+    130,
+    131,
+    132,
+    133,
+    134,
+    135,
+    136,
+    137,
+    138,
+    139,
+    140,
+    141,
+    142,
+    143,
+    144,
+    145,
+    146,
+    147,
+    148,
+    149,
+    150,
+    151,
+    152,
+    153,
+    154,
+    155,
+    156,
+    157,
+    158,
+    159,
+    160,
+    161,
+    162,
+    163,
+    164,
+    165,
+    166,
+    167,
+    168,
+    169,
+    170,
+    171,
+    172,
+    173,
+    174,
+    175,
+    176,
+    177,
+    178,
+    179,
+    180,
+    181,
+    182,
+    183,
+    184,
+    185,
+    186,
+    187,
+    188,
+    189,
+    190,
+    191,
+    192,
+    193,
+    194,
+    195,
+    196,
+    197,
+    198,
+    199,
+    200
+   ],
+   "deleted": [
+    {
+     "id": 21,
+     "deleted": 1
+    },
+    {
+     "id": 22,
+     "deleted": 1
+    },
+    {
+     "id": 23,
+     "deleted": 1
+    },
+    {
+     "id": 24,
+     "deleted": 1
+    },
+    {
+     "id": 25,
+     "deleted": 1
+    },
+    {
+     "id": 26,
+     "deleted": 1
+    },
+    {
+     "id": 27,
+     "deleted": 1
+    },
+    {
+     "id": 28,
+     "deleted": 1
+    },
+    {
+     "id": 29,
+     "deleted": 1
+    },
+    {
+     "id": 30,
+     "deleted": 1
+    },
+    {
+     "id": 31,
+     "deleted": 1
+    },
+    {
+     "id": 32,
+     "deleted": 1
+    },
+    {
+     "id": 33,
+     "deleted": 1
+    },
+    {
+     "id": 34,
+     "deleted": 1
+    },
+    {
+     "id": 35,
+     "deleted": 1
+    },
+    {
+     "id": 36,
+     "deleted": 1
+    },
+    {
+     "id": 37,
+     "deleted": 1
+    },
+    {
+     "id": 38,
+     "deleted": 1
+    },
+    {
+     "id": 39,
+     "deleted": 1
+    },
+    {
+     "id": 40,
+     "deleted": 1
+    },
+    {
+     "id": 41,
+     "deleted": 1
+    },
+    {
+     "id": 42,
+     "deleted": 1
+    },
+    {
+     "id": 43,
+     "deleted": 1
+    },
+    {
+     "id": 44,
+     "deleted": 1
+    },
+    {
+     "id": 45,
+     "deleted": 1
+    },
+    {
+     "id": 46,
+     "deleted": 1
+    },
+    {
+     "id": 47,
+     "deleted": 1
+    },
+    {
+     "id": 48,
+     "deleted": 1
+    },
+    {
+     "id": 49,
+     "deleted": 1
+    },
+    {
+     "id": 50,
+     "deleted": 1
+    },
+    {
+     "id": 51,
+     "deleted": 1
+    },
+    {
+     "id": 52,
+     "deleted": 1
+    },
+    {
+     "id": 53,
+     "deleted": 1
+    },
+    {
+     "id": 54,
+     "deleted": 1
+    },
+    {
+     "id": 55,
+     "deleted": 1
+    },
+    {
+     "id": 56,
+     "deleted": 1
+    },
+    {
+     "id": 57,
+     "deleted": 1
+    },
+    {
+     "id": 58,
+     "deleted": 1
+    },
+    {
+     "id": 59,
+     "deleted": 1
+    },
+    {
+     "id": 60,
+     "deleted": 1
+    },
+    {
+     "id": 61,
+     "deleted": 1
+    },
+    {
+     "id": 62,
+     "deleted": 1
+    },
+    {
+     "id": 63,
+     "deleted": 1
+    },
+    {
+     "id": 64,
+     "deleted": 1
+    },
+    {
+     "id": 65,
+     "deleted": 1
+    },
+    {
+     "id": 66,
+     "deleted": 1
+    },
+    {
+     "id": 67,
+     "deleted": 1
+    },
+    {
+     "id": 68,
+     "deleted": 1
+    },
+    {
+     "id": 69,
+     "deleted": 1
+    },
+    {
+     "id": 70,
+     "deleted": 1
+    },
+    {
+     "id": 71,
+     "deleted": 1
+    },
+    {
+     "id": 72,
+     "deleted": 1
+    },
+    {
+     "id": 73,
+     "deleted": 1
+    },
+    {
+     "id": 74,
+     "deleted": 1
+    },
+    {
+     "id": 75,
+     "deleted": 1
+    },
+    {
+     "id": 76,
+     "deleted": 1
+    },
+    {
+     "id": 77,
+     "deleted": 1
+    },
+    {
+     "id": 78,
+     "deleted": 1
+    },
+    {
+     "id": 79,
+     "deleted": 1
+    },
+    {
+     "id": 80,
+     "deleted": 1
+    },
+    {
+     "id": 81,
+     "deleted": 1
+    },
+    {
+     "id": 82,
+     "deleted": 1
+    },
+    {
+     "id": 83,
+     "deleted": 1
+    },
+    {
+     "id": 84,
+     "deleted": 1
+    },
+    {
+     "id": 85,
+     "deleted": 1
+    },
+    {
+     "id": 86,
+     "deleted": 1
+    },
+    {
+     "id": 87,
+     "deleted": 1
+    },
+    {
+     "id": 88,
+     "deleted": 1
+    },
+    {
+     "id": 89,
+     "deleted": 1
+    },
+    {
+     "id": 90,
+     "deleted": 1
+    },
+    {
+     "id": 91,
+     "deleted": 1
+    },
+    {
+     "id": 92,
+     "deleted": 1
+    },
+    {
+     "id": 93,
+     "deleted": 1
+    },
+    {
+     "id": 94,
+     "deleted": 1
+    },
+    {
+     "id": 95,
+     "deleted": 1
+    },
+    {
+     "id": 96,
+     "deleted": 1
+    },
+    {
+     "id": 97,
+     "deleted": 1
+    },
+    {
+     "id": 98,
+     "deleted": 1
+    },
+    {
+     "id": 99,
+     "deleted": 1
+    },
+    {
+     "id": 100,
+     "deleted": 1
+    },
+    {
+     "id": 101,
+     "deleted": 1
+    },
+    {
+     "id": 102,
+     "deleted": 1
+    },
+    {
+     "id": 103,
+     "deleted": 1
+    },
+    {
+     "id": 104,
+     "deleted": 1
+    },
+    {
+     "id": 105,
+     "deleted": 1
+    },
+    {
+     "id": 106,
+     "deleted": 1
+    },
+    {
+     "id": 107,
+     "deleted": 1
+    },
+    {
+     "id": 108,
+     "deleted": 1
+    },
+    {
+     "id": 109,
+     "deleted": 1
+    },
+    {
+     "id": 110,
+     "deleted": 1
+    },
+    {
+     "id": 111,
+     "deleted": 1
+    },
+    {
+     "id": 112,
+     "deleted": 1
+    },
+    {
+     "id": 113,
+     "deleted": 1
+    },
+    {
+     "id": 114,
+     "deleted": 1
+    },
+    {
+     "id": 115,
+     "deleted": 1
+    },
+    {
+     "id": 116,
+     "deleted": 1
+    },
+    {
+     "id": 117,
+     "deleted": 1
+    },
+    {
+     "id": 118,
+     "deleted": 1
+    },
+    {
+     "id": 119,
+     "deleted": 1
+    },
+    {
+     "id": 120,
+     "deleted": 1
+    },
+    {
+     "id": 121,
+     "deleted": 1
+    },
+    {
+     "id": 122,
+     "deleted": 1
+    },
+    {
+     "id": 123,
+     "deleted": 1
+    },
+    {
+     "id": 124,
+     "deleted": 1
+    },
+    {
+     "id": 125,
+     "deleted": 1
+    },
+    {
+     "id": 126,
+     "deleted": 1
+    },
+    {
+     "id": 127,
+     "deleted": 1
+    },
+    {
+     "id": 128,
+     "deleted": 1
+    },
+    {
+     "id": 129,
+     "deleted": 1
+    },
+    {
+     "id": 130,
+     "deleted": 1
+    },
+    {
+     "id": 131,
+     "deleted": 1
+    },
+    {
+     "id": 132,
+     "deleted": 1
+    },
+    {
+     "id": 133,
+     "deleted": 1
+    },
+    {
+     "id": 134,
+     "deleted": 1
+    },
+    {
+     "id": 135,
+     "deleted": 1
+    },
+    {
+     "id": 136,
+     "deleted": 1
+    },
+    {
+     "id": 137,
+     "deleted": 1
+    },
+    {
+     "id": 138,
+     "deleted": 1
+    },
+    {
+     "id": 139,
+     "deleted": 1
+    },
+    {
+     "id": 140,
+     "deleted": 1
+    },
+    {
+     "id": 141,
+     "deleted": 1
+    },
+    {
+     "id": 142,
+     "deleted": 1
+    },
+    {
+     "id": 143,
+     "deleted": 1
+    },
+    {
+     "id": 144,
+     "deleted": 1
+    },
+    {
+     "id": 145,
+     "deleted": 1
+    },
+    {
+     "id": 146,
+     "deleted": 1
+    },
+    {
+     "id": 147,
+     "deleted": 1
+    },
+    {
+     "id": 148,
+     "deleted": 1
+    },
+    {
+     "id": 149,
+     "deleted": 1
+    },
+    {
+     "id": 150,
+     "deleted": 1
+    },
+    {
+     "id": 151,
+     "deleted": 1
+    },
+    {
+     "id": 152,
+     "deleted": 1
+    },
+    {
+     "id": 153,
+     "deleted": 1
+    },
+    {
+     "id": 154,
+     "deleted": 1
+    },
+    {
+     "id": 155,
+     "deleted": 1
+    },
+    {
+     "id": 156,
+     "deleted": 1
+    },
+    {
+     "id": 157,
+     "deleted": 1
+    },
+    {
+     "id": 158,
+     "deleted": 1
+    },
+    {
+     "id": 159,
+     "deleted": 1
+    },
+    {
+     "id": 160,
+     "deleted": 1
+    },
+    {
+     "id": 161,
+     "deleted": 1
+    },
+    {
+     "id": 162,
+     "deleted": 1
+    },
+    {
+     "id": 163,
+     "deleted": 1
+    },
+    {
+     "id": 164,
+     "deleted": 1
+    },
+    {
+     "id": 165,
+     "deleted": 1
+    },
+    {
+     "id": 166,
+     "deleted": 1
+    },
+    {
+     "id": 167,
+     "deleted": 1
+    },
+    {
+     "id": 168,
+     "deleted": 1
+    },
+    {
+     "id": 169,
+     "deleted": 1
+    },
+    {
+     "id": 170,
+     "deleted": 1
+    },
+    {
+     "id": 171,
+     "deleted": 1
+    },
+    {
+     "id": 172,
+     "deleted": 1
+    },
+    {
+     "id": 173,
+     "deleted": 1
+    },
+    {
+     "id": 174,
+     "deleted": 1
+    },
+    {
+     "id": 175,
+     "deleted": 1
+    },
+    {
+     "id": 176,
+     "deleted": 1
+    },
+    {
+     "id": 177,
+     "deleted": 1
+    },
+    {
+     "id": 178,
+     "deleted": 1
+    },
+    {
+     "id": 179,
+     "deleted": 1
+    },
+    {
+     "id": 180,
+     "deleted": 1
+    },
+    {
+     "id": 181,
+     "deleted": 1
+    },
+    {
+     "id": 182,
+     "deleted": 1
+    },
+    {
+     "id": 183,
+     "deleted": 1
+    },
+    {
+     "id": 184,
+     "deleted": 1
+    },
+    {
+     "id": 185,
+     "deleted": 1
+    },
+    {
+     "id": 186,
+     "deleted": 1
+    },
+    {
+     "id": 187,
+     "deleted": 1
+    },
+    {
+     "id": 188,
+     "deleted": 1
+    },
+    {
+     "id": 189,
+     "deleted": 1
+    },
+    {
+     "id": 190,
+     "deleted": 1
+    },
+    {
+     "id": 191,
+     "deleted": 1
+    },
+    {
+     "id": 192,
+     "deleted": 1
+    },
+    {
+     "id": 193,
+     "deleted": 1
+    },
+    {
+     "id": 194,
+     "deleted": 1
+    },
+    {
+     "id": 195,
+     "deleted": 1
+    },
+    {
+     "id": 196,
+     "deleted": 1
+    },
+    {
+     "id": 197,
+     "deleted": 1
+    },
+    {
+     "id": 198,
+     "deleted": 1
+    },
+    {
+     "id": 199,
+     "deleted": 1
+    },
+    {
+     "id": 200,
+     "deleted": 1
+    }
+   ],
+   "forget_errors": [],
+   "reset_after": true,
+   "memories_now": 200,
+   "memories_after": 20
+  },
+  "added_ids": [
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50,
+   51,
+   52,
+   53,
+   54,
+   55,
+   56,
+   57,
+   58,
+   59,
+   60,
+   61,
+   62,
+   63,
+   64,
+   65,
+   66,
+   67,
+   68,
+   69,
+   70,
+   71,
+   72,
+   73,
+   74,
+   75,
+   76,
+   77,
+   78,
+   79,
+   80,
+   81,
+   82,
+   83,
+   84,
+   85,
+   86,
+   87,
+   88,
+   89,
+   90,
+   91,
+   92,
+   93,
+   94,
+   95,
+   96,
+   97,
+   98,
+   99,
+   100,
+   101,
+   102,
+   103,
+   104,
+   105,
+   106,
+   107,
+   108,
+   109,
+   110,
+   111,
+   112,
+   113,
+   114,
+   115,
+   116,
+   117,
+   118,
+   119,
+   120,
+   121,
+   122,
+   123,
+   124,
+   125,
+   126,
+   127,
+   128,
+   129,
+   130,
+   131,
+   132,
+   133,
+   134,
+   135,
+   136,
+   137,
+   138,
+   139,
+   140,
+   141,
+   142,
+   143,
+   144,
+   145,
+   146,
+   147,
+   148,
+   149,
+   150,
+   151,
+   152,
+   153,
+   154,
+   155,
+   156,
+   157,
+   158,
+   159,
+   160,
+   161,
+   162,
+   163,
+   164,
+   165,
+   166,
+   167,
+   168,
+   169,
+   170,
+   171,
+   172,
+   173,
+   174,
+   175,
+   176,
+   177,
+   178,
+   179,
+   180,
+   181,
+   182,
+   183,
+   184,
+   185,
+   186,
+   187,
+   188,
+   189,
+   190,
+   191,
+   192,
+   193,
+   194,
+   195,
+   196,
+   197,
+   198,
+   199,
+   200
+  ],
+  "memories_after_cleanup": 20
+ },
+ "summary": {
+  "scope": "live",
+  "n": 20,
+  "n_valid": 17,
+  "n_infra": 3,
+  "pass": 5,
+  "fail": 12,
+  "pass_rate": 0.294118,
+  "pass_rate_including_infra": 0.25,
+  "by_category": {
+   "multi_turn_memory": {
+    "n": 17,
+    "pass": 5,
+    "pass_rate": 0.294118
+   }
+  },
+  "failure_classes": {
+   "延迟": 12
+  },
+  "hard_assertions": {
+   "n": 0,
+   "pass": 0,
+   "fail": 0,
+   "pass_rate": null
+  },
+  "failures": [
+   {
+    "id": "V9MT09",
+    "category": "multi_turn_memory",
+    "input": "我的车牌号是多少？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的车牌号是京N32109"
+     },
+     {
+      "action": "remember",
+      "text": "我的车牌号是津D65432"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "津D65432",
+      "津D 65432"
+     ],
+     "not_contains": [
+      "京N32109"
+     ],
+     "contains_all": [
+      "津D65432"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 车牌：5 轮闲聊+最后提问；上下文旧事实「我的车牌号是京N32109」→新事实「我的车牌号是津D65432」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT10",
+    "category": "multi_turn_memory",
+    "input": "我的车牌是什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的车牌号是京N32109"
+     },
+     {
+      "action": "remember",
+      "text": "我的车牌号是津D65432"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "津D65432",
+      "津D 65432"
+     ],
+     "not_contains": [
+      "京N32109"
+     ],
+     "contains_all": [
+      "津D65432"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 车牌：6 轮闲聊+最后提问；上下文旧事实「我的车牌号是京N32109」→新事实「我的车牌号是津D65432」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT11",
+    "category": "multi_turn_memory",
+    "input": "我在哪家公司上班？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的公司是中石油"
+     },
+     {
+      "action": "remember",
+      "text": "我的公司是顺丰"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "顺丰"
+     ],
+     "not_contains": [
+      "中石油"
+     ],
+     "contains_all": [
+      "顺丰"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 公司：7 轮闲聊+最后提问；上下文旧事实「我的公司是中石油」→新事实「我的公司是顺丰」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT12",
+    "category": "multi_turn_memory",
+    "input": "我的公司叫什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的公司是中石油"
+     },
+     {
+      "action": "remember",
+      "text": "我的公司是顺丰"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     },
+     {
+      "action": "ask",
+      "text": "今天几号来着？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "顺丰"
+     ],
+     "not_contains": [
+      "中石油"
+     ],
+     "contains_all": [
+      "顺丰"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 公司：8 轮闲聊+最后提问；上下文旧事实「我的公司是中石油」→新事实「我的公司是顺丰」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT13",
+    "category": "multi_turn_memory",
+    "input": "我下周三要去哪开会？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我下周三要去宜昌开会"
+     },
+     {
+      "action": "remember",
+      "text": "我下周三要去哈尔滨开会"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "哈尔滨"
+     ],
+     "not_contains": [
+      "宜昌"
+     ],
+     "contains_all": [
+      "哈尔滨"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 出差地：3 轮闲聊+最后提问；上下文旧事实「我下周三要去宜昌开会」→新事实「我下周三要去哈尔滨开会」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT14",
+    "category": "multi_turn_memory",
+    "input": "我下周三去哪？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我下周三要去宜昌开会"
+     },
+     {
+      "action": "remember",
+      "text": "我下周三要去哈尔滨开会"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "哈尔滨"
+     ],
+     "not_contains": [
+      "宜昌"
+     ],
+     "contains_all": [
+      "哈尔滨"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 出差地：4 轮闲聊+最后提问；上下文旧事实「我下周三要去宜昌开会」→新事实「我下周三要去哈尔滨开会」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT15",
+    "category": "multi_turn_memory",
+    "input": "我老家在哪？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我老家在襄阳"
+     },
+     {
+      "action": "remember",
+      "text": "我老家在荆州"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "荆州"
+     ],
+     "not_contains": [
+      "襄阳"
+     ],
+     "contains_all": [
+      "荆州"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 老家：5 轮闲聊+最后提问；上下文旧事实「我老家在襄阳」→新事实「我老家在荆州」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT16",
+    "category": "multi_turn_memory",
+    "input": "我老家是哪里？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我老家在襄阳"
+     },
+     {
+      "action": "remember",
+      "text": "我老家在荆州"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "荆州"
+     ],
+     "not_contains": [
+      "襄阳"
+     ],
+     "contains_all": [
+      "荆州"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 老家：6 轮闲聊+最后提问；上下文旧事实「我老家在襄阳」→新事实「我老家在荆州」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT17",
+    "category": "multi_turn_memory",
+    "input": "我最爱吃什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我最爱吃湘菜"
+     },
+     {
+      "action": "remember",
+      "text": "我最爱吃粤菜"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "粤菜"
+     ],
+     "not_contains": [
+      "湘菜"
+     ],
+     "contains_all": [
+      "粤菜"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 爱吃：7 轮闲聊+最后提问；上下文旧事实「我最爱吃湘菜」→新事实「我最爱吃粤菜」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT18",
+    "category": "multi_turn_memory",
+    "input": "我爱吃什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我最爱吃湘菜"
+     },
+     {
+      "action": "remember",
+      "text": "我最爱吃粤菜"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     },
+     {
+      "action": "ask",
+      "text": "今天几号来着？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "粤菜"
+     ],
+     "not_contains": [
+      "湘菜"
+     ],
+     "contains_all": [
+      "粤菜"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 爱吃：8 轮闲聊+最后提问；上下文旧事实「我最爱吃湘菜」→新事实「我最爱吃粤菜」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT19",
+    "category": "multi_turn_memory",
+    "input": "我女儿的小名是什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我女儿小名叫果果"
+     },
+     {
+      "action": "remember",
+      "text": "我女儿小名叫米朵"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "米朵"
+     ],
+     "not_contains": [
+      "果果"
+     ],
+     "contains_all": [
+      "米朵"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 女儿小名：3 轮闲聊+最后提问；上下文旧事实「我女儿小名叫果果」→新事实「我女儿小名叫米朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT20",
+    "category": "multi_turn_memory",
+    "input": "我女儿叫什么小名？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我女儿小名叫果果"
+     },
+     {
+      "action": "remember",
+      "text": "我女儿小名叫米朵"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "米朵"
+     ],
+     "not_contains": [
+      "果果"
+     ],
+     "contains_all": [
+      "米朵"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 女儿小名：4 轮闲聊+最后提问；上下文旧事实「我女儿小名叫果果」→新事实「我女儿小名叫米朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   }
+  ],
+  "infra_errors": [
+   {
+    "id": "V9MT06",
+    "category": "multi_turn_memory",
+    "input": "我的手机号是什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的手机号是136-1111-3333"
+     },
+     {
+      "action": "remember",
+      "text": "我的手机号是158-0000-2468"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     },
+     {
+      "action": "ask",
+      "text": "今天几号来着？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "158-0000-2468",
+      "15800002468"
+     ],
+     "not_contains": [],
+     "contains_all": [
+      "158-0000-2468"
+     ],
+     "conflict_if_all": [
+      [
+       "136-1111-3333",
+       "158-0000-2468"
+      ]
+     ],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 手机号：8 轮闲聊+最后提问；上下文旧事实「我的手机号是136-1111-3333」→新事实「我的手机号是158-0000-2468」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "error": "URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
+      },
+      {
+       "id": 22,
+       "error": "URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": true,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": true,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
+    ]
+   },
+   {
+    "id": "V9MT07",
+    "category": "multi_turn_memory",
+    "input": "我的工位在哪？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的工位是B区7号"
+     },
+     {
+      "action": "remember",
+      "text": "我的工位是C区11号"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "C区",
+      "11号"
+     ],
+     "not_contains": [
+      "B区",
+      "7号"
+     ],
+     "contains_all": [
+      "C区",
+      "11号"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 工位：3 轮闲聊+最后提问；上下文旧事实「我的工位是B区7号」→新事实「我的工位是C区11号」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "error": "ConnectionRefusedError: service not ready within 180s"
+    },
+    "setup": {},
+    "infra_error": true,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "exception: service not ready within 180s"
+    ]
+   },
+   {
+    "id": "V9MT08",
+    "category": "multi_turn_memory",
+    "input": "我的工位是哪个？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的工位是B区7号"
+     },
+     {
+      "action": "remember",
+      "text": "我的工位是C区11号"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "C区",
+      "11号"
+     ],
+     "not_contains": [
+      "B区",
+      "7号"
+     ],
+     "contains_all": [
+      "C区",
+      "11号"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 工位：4 轮闲聊+最后提问；上下文旧事实「我的工位是B区7号」→新事实「我的工位是C区11号」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "error": "ConnectionRefusedError: service not ready within 180s"
+    },
+    "setup": {},
+    "infra_error": true,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "exception: service not ready within 180s"
+    ]
+   }
+  ]
+ },
+ "live": {
+  "scope": "live",
+  "n": 20,
+  "n_valid": 17,
+  "n_infra": 3,
+  "pass": 5,
+  "fail": 12,
+  "pass_rate": 0.294118,
+  "pass_rate_including_infra": 0.25,
+  "by_category": {
+   "multi_turn_memory": {
+    "n": 17,
+    "pass": 5,
+    "pass_rate": 0.294118
+   }
+  },
+  "failure_classes": {
+   "延迟": 12
+  },
+  "hard_assertions": {
+   "n": 0,
+   "pass": 0,
+   "fail": 0,
+   "pass_rate": null
+  },
+  "failures": [
+   {
+    "id": "V9MT09",
+    "category": "multi_turn_memory",
+    "input": "我的车牌号是多少？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的车牌号是京N32109"
+     },
+     {
+      "action": "remember",
+      "text": "我的车牌号是津D65432"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "津D65432",
+      "津D 65432"
+     ],
+     "not_contains": [
+      "京N32109"
+     ],
+     "contains_all": [
+      "津D65432"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 车牌：5 轮闲聊+最后提问；上下文旧事实「我的车牌号是京N32109」→新事实「我的车牌号是津D65432」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT10",
+    "category": "multi_turn_memory",
+    "input": "我的车牌是什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的车牌号是京N32109"
+     },
+     {
+      "action": "remember",
+      "text": "我的车牌号是津D65432"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "津D65432",
+      "津D 65432"
+     ],
+     "not_contains": [
+      "京N32109"
+     ],
+     "contains_all": [
+      "津D65432"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 车牌：6 轮闲聊+最后提问；上下文旧事实「我的车牌号是京N32109」→新事实「我的车牌号是津D65432」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT11",
+    "category": "multi_turn_memory",
+    "input": "我在哪家公司上班？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的公司是中石油"
+     },
+     {
+      "action": "remember",
+      "text": "我的公司是顺丰"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "顺丰"
+     ],
+     "not_contains": [
+      "中石油"
+     ],
+     "contains_all": [
+      "顺丰"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 公司：7 轮闲聊+最后提问；上下文旧事实「我的公司是中石油」→新事实「我的公司是顺丰」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT12",
+    "category": "multi_turn_memory",
+    "input": "我的公司叫什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的公司是中石油"
+     },
+     {
+      "action": "remember",
+      "text": "我的公司是顺丰"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     },
+     {
+      "action": "ask",
+      "text": "今天几号来着？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "顺丰"
+     ],
+     "not_contains": [
+      "中石油"
+     ],
+     "contains_all": [
+      "顺丰"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 公司：8 轮闲聊+最后提问；上下文旧事实「我的公司是中石油」→新事实「我的公司是顺丰」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT13",
+    "category": "multi_turn_memory",
+    "input": "我下周三要去哪开会？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我下周三要去宜昌开会"
+     },
+     {
+      "action": "remember",
+      "text": "我下周三要去哈尔滨开会"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "哈尔滨"
+     ],
+     "not_contains": [
+      "宜昌"
+     ],
+     "contains_all": [
+      "哈尔滨"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 出差地：3 轮闲聊+最后提问；上下文旧事实「我下周三要去宜昌开会」→新事实「我下周三要去哈尔滨开会」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT14",
+    "category": "multi_turn_memory",
+    "input": "我下周三去哪？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我下周三要去宜昌开会"
+     },
+     {
+      "action": "remember",
+      "text": "我下周三要去哈尔滨开会"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "哈尔滨"
+     ],
+     "not_contains": [
+      "宜昌"
+     ],
+     "contains_all": [
+      "哈尔滨"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 出差地：4 轮闲聊+最后提问；上下文旧事实「我下周三要去宜昌开会」→新事实「我下周三要去哈尔滨开会」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT15",
+    "category": "multi_turn_memory",
+    "input": "我老家在哪？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我老家在襄阳"
+     },
+     {
+      "action": "remember",
+      "text": "我老家在荆州"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "荆州"
+     ],
+     "not_contains": [
+      "襄阳"
+     ],
+     "contains_all": [
+      "荆州"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 老家：5 轮闲聊+最后提问；上下文旧事实「我老家在襄阳」→新事实「我老家在荆州」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT16",
+    "category": "multi_turn_memory",
+    "input": "我老家是哪里？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我老家在襄阳"
+     },
+     {
+      "action": "remember",
+      "text": "我老家在荆州"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "荆州"
+     ],
+     "not_contains": [
+      "襄阳"
+     ],
+     "contains_all": [
+      "荆州"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 老家：6 轮闲聊+最后提问；上下文旧事实「我老家在襄阳」→新事实「我老家在荆州」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT17",
+    "category": "multi_turn_memory",
+    "input": "我最爱吃什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我最爱吃湘菜"
+     },
+     {
+      "action": "remember",
+      "text": "我最爱吃粤菜"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "粤菜"
+     ],
+     "not_contains": [
+      "湘菜"
+     ],
+     "contains_all": [
+      "粤菜"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 爱吃：7 轮闲聊+最后提问；上下文旧事实「我最爱吃湘菜」→新事实「我最爱吃粤菜」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT18",
+    "category": "multi_turn_memory",
+    "input": "我爱吃什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我最爱吃湘菜"
+     },
+     {
+      "action": "remember",
+      "text": "我最爱吃粤菜"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     },
+     {
+      "action": "ask",
+      "text": "今天几号来着？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "粤菜"
+     ],
+     "not_contains": [
+      "湘菜"
+     ],
+     "contains_all": [
+      "粤菜"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 爱吃：8 轮闲聊+最后提问；上下文旧事实「我最爱吃湘菜」→新事实「我最爱吃粤菜」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT19",
+    "category": "multi_turn_memory",
+    "input": "我女儿的小名是什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我女儿小名叫果果"
+     },
+     {
+      "action": "remember",
+      "text": "我女儿小名叫米朵"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "米朵"
+     ],
+     "not_contains": [
+      "果果"
+     ],
+     "contains_all": [
+      "米朵"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 女儿小名：3 轮闲聊+最后提问；上下文旧事实「我女儿小名叫果果」→新事实「我女儿小名叫米朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   },
+   {
+    "id": "V9MT20",
+    "category": "multi_turn_memory",
+    "input": "我女儿叫什么小名？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我女儿小名叫果果"
+     },
+     {
+      "action": "remember",
+      "text": "我女儿小名叫米朵"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "米朵"
+     ],
+     "not_contains": [
+      "果果"
+     ],
+     "contains_all": [
+      "米朵"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 女儿小名：4 轮闲聊+最后提问；上下文旧事实「我女儿小名叫果果」→新事实「我女儿小名叫米朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "HTTPError: HTTP Error 409: Conflict"
+    },
+    "setup": {
+     "prelude": [],
+     "cleanup": [],
+     "memory_before": 200,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：HTTPError: HTTP Error 409: Conflict"
+    ]
+   }
+  ],
+  "infra_errors": [
+   {
+    "id": "V9MT06",
+    "category": "multi_turn_memory",
+    "input": "我的手机号是什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的手机号是136-1111-3333"
+     },
+     {
+      "action": "remember",
+      "text": "我的手机号是158-0000-2468"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     },
+     {
+      "action": "ask",
+      "text": "最近在忙什么？"
+     },
+     {
+      "action": "ask",
+      "text": "有什么推荐的放松方式吗？"
+     },
+     {
+      "action": "ask",
+      "text": "你觉得我记性怎么样？"
+     },
+     {
+      "action": "ask",
+      "text": "今天几号来着？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "158-0000-2468",
+      "15800002468"
+     ],
+     "not_contains": [],
+     "contains_all": [
+      "158-0000-2468"
+     ],
+     "conflict_if_all": [
+      [
+       "136-1111-3333",
+       "158-0000-2468"
+      ]
+     ],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 手机号：8 轮闲聊+最后提问；上下文旧事实「我的手机号是136-1111-3333」→新事实「我的手机号是158-0000-2468」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": null,
+     "state": null,
+     "refused": null,
+     "block_ids": null,
+     "latency_client_s": 0.0,
+     "latency_server_s": null,
+     "state_class": "error",
+     "memory_delta": 0,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": "URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "error": "URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
+      },
+      {
+       "id": 22,
+       "error": "URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": true,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 0
+    },
+    "infra_error": true,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "请求失败：URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
+    ]
+   },
+   {
+    "id": "V9MT07",
+    "category": "multi_turn_memory",
+    "input": "我的工位在哪？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的工位是B区7号"
+     },
+     {
+      "action": "remember",
+      "text": "我的工位是C区11号"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "C区",
+      "11号"
+     ],
+     "not_contains": [
+      "B区",
+      "7号"
+     ],
+     "contains_all": [
+      "C区",
+      "11号"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 工位：3 轮闲聊+最后提问；上下文旧事实「我的工位是B区7号」→新事实「我的工位是C区11号」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "error": "ConnectionRefusedError: service not ready within 180s"
+    },
+    "setup": {},
+    "infra_error": true,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "exception: service not ready within 180s"
+    ]
+   },
+   {
+    "id": "V9MT08",
+    "category": "multi_turn_memory",
+    "input": "我的工位是哪个？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的工位是B区7号"
+     },
+     {
+      "action": "remember",
+      "text": "我的工位是C区11号"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     },
+     {
+      "action": "ask",
+      "text": "晚上有空吗？"
+     },
+     {
+      "action": "ask",
+      "text": "周末有什么计划吗？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "C区",
+      "11号"
+     ],
+     "not_contains": [
+      "B区",
+      "7号"
+     ],
+     "contains_all": [
+      "C区",
+      "11号"
+     ],
+     "conflict_if_all": [],
+     "refusal": false
+    },
+    "note": "[v9-MT] 维度 工位：4 轮闲聊+最后提问；上下文旧事实「我的工位是B区7号」→新事实「我的工位是C区11号」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+    "scope": "live",
+    "content_checks": true,
+    "actual": {
+     "error": "ConnectionRefusedError: service not ready within 180s"
+    },
+    "setup": {},
+    "infra_error": true,
+    "pass": false,
+    "failure_class": "延迟",
+    "problems": [
+     "exception: service not ready within 180s"
+    ]
+   }
+  ]
+ },
+ "results": [
+  {
+   "id": "V9MT01",
+   "category": "multi_turn_memory",
+   "input": "我养的猫叫什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我养了只猫叫安安"
+    },
+    {
+     "action": "remember",
+     "text": "我的猫名是朵朵"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "朵朵"
+    ],
+    "not_contains": [
+     "安安"
+    ],
+    "contains_all": [
+     "朵朵"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 猫名：3 轮闲聊+最后提问；上下文旧事实「我养了只猫叫安安」→新事实「我的猫名是朵朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你养的猫叫朵朵",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     22
+    ],
+    "latency_client_s": 1.992,
+    "latency_server_s": 1.9729,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "V9MT02",
+   "category": "multi_turn_memory",
+   "input": "我的猫叫什么名字？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我养了只猫叫安安"
+    },
+    {
+     "action": "remember",
+     "text": "我的猫名是朵朵"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "朵朵"
+    ],
+    "not_contains": [
+     "安安"
+    ],
+    "contains_all": [
+     "朵朵"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 猫名：4 轮闲聊+最后提问；上下文旧事实「我养了只猫叫安安」→新事实「我的猫名是朵朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的猫叫朵朵",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     22
+    ],
+    "latency_client_s": 1.743,
+    "latency_server_s": 1.7233,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "V9MT03",
+   "category": "multi_turn_memory",
+   "input": "我什么时候去健身？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的健身时间是周日上午九点半"
+    },
+    {
+     "action": "remember",
+     "text": "我的健身时间是周二晚上七点四十"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "周二晚上七点四十"
+    ],
+    "not_contains": [],
+    "contains_all": [
+     "周二晚上七点四十"
+    ],
+    "conflict_if_all": [
+     [
+      "周日上午九点半",
+      "周二晚上七点四十"
+     ]
+    ],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 健身：5 轮闲聊+最后提问；上下文旧事实「我的健身时间是周日上午九点半」→新事实「我的健身时间是周二晚上七点四十」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的健身时间是周二晚上七点四十",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     22
+    ],
+    "latency_client_s": 3.515,
+    "latency_server_s": 3.495,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "V9MT04",
+   "category": "multi_turn_memory",
+   "input": "我几点去健身？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的健身时间是周日上午九点半"
+    },
+    {
+     "action": "remember",
+     "text": "我的健身时间是周二晚上七点四十"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "周二晚上七点四十"
+    ],
+    "not_contains": [],
+    "contains_all": [
+     "周二晚上七点四十"
+    ],
+    "conflict_if_all": [
+     [
+      "周日上午九点半",
+      "周二晚上七点四十"
+     ]
+    ],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 健身：6 轮闲聊+最后提问；上下文旧事实「我的健身时间是周日上午九点半」→新事实「我的健身时间是周二晚上七点四十」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你周二晚上七点四十去健身",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     22
+    ],
+    "latency_client_s": 3.441,
+    "latency_server_s": 3.4225,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "V9MT05",
+   "category": "multi_turn_memory",
+   "input": "我的手机号是多少？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的手机号是136-1111-3333"
+    },
+    {
+     "action": "remember",
+     "text": "我的手机号是158-0000-2468"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "158-0000-2468",
+     "15800002468"
+    ],
+    "not_contains": [],
+    "contains_all": [
+     "158-0000-2468"
+    ],
+    "conflict_if_all": [
+     [
+      "136-1111-3333",
+      "158-0000-2468"
+     ]
+    ],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 手机号：7 轮闲聊+最后提问；上下文旧事实「我的手机号是136-1111-3333」→新事实「我的手机号是158-0000-2468」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": "你的手机号是158-0000-2468",
+    "state": "natural",
+    "refused": false,
+    "block_ids": [
+     22
+    ],
+    "latency_client_s": 4.718,
+    "latency_server_s": 4.6993,
+    "state_class": "memory_hit",
+    "memory_delta": 2,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": null
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "verify_fallback",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "deleted": 1,
+      "dialogue_reset": true
+     },
+     {
+      "id": 22,
+      "deleted": 1,
+      "dialogue_reset": true
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 2
+   },
+   "infra_error": false,
+   "pass": true,
+   "failure_class": null,
+   "problems": []
+  },
+  {
+   "id": "V9MT06",
+   "category": "multi_turn_memory",
+   "input": "我的手机号是什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的手机号是136-1111-3333"
+    },
+    {
+     "action": "remember",
+     "text": "我的手机号是158-0000-2468"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    },
+    {
+     "action": "ask",
+     "text": "今天几号来着？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "158-0000-2468",
+     "15800002468"
+    ],
+    "not_contains": [],
+    "contains_all": [
+     "158-0000-2468"
+    ],
+    "conflict_if_all": [
+     [
+      "136-1111-3333",
+      "158-0000-2468"
+     ]
+    ],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 手机号：8 轮闲聊+最后提问；上下文旧事实「我的手机号是136-1111-3333」→新事实「我的手机号是158-0000-2468」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
+   },
+   "setup": {
+    "prelude": [
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 21,
+      "duplicate": false
+     },
+     {
+      "action": "remember",
+      "ok": true,
+      "id": 22,
+      "duplicate": false
+     },
+     {
+      "action": "ask",
+      "ok": true,
+      "state": "natural",
+      "refused": false
+     }
+    ],
+    "cleanup": [
+     {
+      "id": 21,
+      "error": "URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
+     },
+     {
+      "id": 22,
+      "error": "URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
+     }
+    ],
+    "memory_before": 20,
+    "infra_error": true,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": true,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
+   ]
+  },
+  {
+   "id": "V9MT07",
+   "category": "multi_turn_memory",
+   "input": "我的工位在哪？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的工位是B区7号"
+    },
+    {
+     "action": "remember",
+     "text": "我的工位是C区11号"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "C区",
+     "11号"
+    ],
+    "not_contains": [
+     "B区",
+     "7号"
+    ],
+    "contains_all": [
+     "C区",
+     "11号"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 工位：3 轮闲聊+最后提问；上下文旧事实「我的工位是B区7号」→新事实「我的工位是C区11号」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "error": "ConnectionRefusedError: service not ready within 180s"
+   },
+   "setup": {},
+   "infra_error": true,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "exception: service not ready within 180s"
+   ]
+  },
+  {
+   "id": "V9MT08",
+   "category": "multi_turn_memory",
+   "input": "我的工位是哪个？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的工位是B区7号"
+    },
+    {
+     "action": "remember",
+     "text": "我的工位是C区11号"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "C区",
+     "11号"
+    ],
+    "not_contains": [
+     "B区",
+     "7号"
+    ],
+    "contains_all": [
+     "C区",
+     "11号"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 工位：4 轮闲聊+最后提问；上下文旧事实「我的工位是B区7号」→新事实「我的工位是C区11号」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "actual": {
+    "error": "ConnectionRefusedError: service not ready within 180s"
+   },
+   "setup": {},
+   "infra_error": true,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "exception: service not ready within 180s"
+   ]
+  },
+  {
+   "id": "V9MT09",
+   "category": "multi_turn_memory",
+   "input": "我的车牌号是多少？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的车牌号是京N32109"
+    },
+    {
+     "action": "remember",
+     "text": "我的车牌号是津D65432"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "津D65432",
+     "津D 65432"
+    ],
+    "not_contains": [
+     "京N32109"
+    ],
+    "contains_all": [
+     "津D65432"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 车牌：5 轮闲聊+最后提问；上下文旧事实「我的车牌号是京N32109」→新事实「我的车牌号是津D65432」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT10",
+   "category": "multi_turn_memory",
+   "input": "我的车牌是什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的车牌号是京N32109"
+    },
+    {
+     "action": "remember",
+     "text": "我的车牌号是津D65432"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "津D65432",
+     "津D 65432"
+    ],
+    "not_contains": [
+     "京N32109"
+    ],
+    "contains_all": [
+     "津D65432"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 车牌：6 轮闲聊+最后提问；上下文旧事实「我的车牌号是京N32109」→新事实「我的车牌号是津D65432」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT11",
+   "category": "multi_turn_memory",
+   "input": "我在哪家公司上班？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的公司是中石油"
+    },
+    {
+     "action": "remember",
+     "text": "我的公司是顺丰"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "顺丰"
+    ],
+    "not_contains": [
+     "中石油"
+    ],
+    "contains_all": [
+     "顺丰"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 公司：7 轮闲聊+最后提问；上下文旧事实「我的公司是中石油」→新事实「我的公司是顺丰」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT12",
+   "category": "multi_turn_memory",
+   "input": "我的公司叫什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的公司是中石油"
+    },
+    {
+     "action": "remember",
+     "text": "我的公司是顺丰"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    },
+    {
+     "action": "ask",
+     "text": "今天几号来着？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "顺丰"
+    ],
+    "not_contains": [
+     "中石油"
+    ],
+    "contains_all": [
+     "顺丰"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 公司：8 轮闲聊+最后提问；上下文旧事实「我的公司是中石油」→新事实「我的公司是顺丰」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT13",
+   "category": "multi_turn_memory",
+   "input": "我下周三要去哪开会？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我下周三要去宜昌开会"
+    },
+    {
+     "action": "remember",
+     "text": "我下周三要去哈尔滨开会"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "哈尔滨"
+    ],
+    "not_contains": [
+     "宜昌"
+    ],
+    "contains_all": [
+     "哈尔滨"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 出差地：3 轮闲聊+最后提问；上下文旧事实「我下周三要去宜昌开会」→新事实「我下周三要去哈尔滨开会」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT14",
+   "category": "multi_turn_memory",
+   "input": "我下周三去哪？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我下周三要去宜昌开会"
+    },
+    {
+     "action": "remember",
+     "text": "我下周三要去哈尔滨开会"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "哈尔滨"
+    ],
+    "not_contains": [
+     "宜昌"
+    ],
+    "contains_all": [
+     "哈尔滨"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 出差地：4 轮闲聊+最后提问；上下文旧事实「我下周三要去宜昌开会」→新事实「我下周三要去哈尔滨开会」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT15",
+   "category": "multi_turn_memory",
+   "input": "我老家在哪？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我老家在襄阳"
+    },
+    {
+     "action": "remember",
+     "text": "我老家在荆州"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "荆州"
+    ],
+    "not_contains": [
+     "襄阳"
+    ],
+    "contains_all": [
+     "荆州"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 老家：5 轮闲聊+最后提问；上下文旧事实「我老家在襄阳」→新事实「我老家在荆州」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT16",
+   "category": "multi_turn_memory",
+   "input": "我老家是哪里？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我老家在襄阳"
+    },
+    {
+     "action": "remember",
+     "text": "我老家在荆州"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "荆州"
+    ],
+    "not_contains": [
+     "襄阳"
+    ],
+    "contains_all": [
+     "荆州"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 老家：6 轮闲聊+最后提问；上下文旧事实「我老家在襄阳」→新事实「我老家在荆州」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT17",
+   "category": "multi_turn_memory",
+   "input": "我最爱吃什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我最爱吃湘菜"
+    },
+    {
+     "action": "remember",
+     "text": "我最爱吃粤菜"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "粤菜"
+    ],
+    "not_contains": [
+     "湘菜"
+    ],
+    "contains_all": [
+     "粤菜"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 爱吃：7 轮闲聊+最后提问；上下文旧事实「我最爱吃湘菜」→新事实「我最爱吃粤菜」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT18",
+   "category": "multi_turn_memory",
+   "input": "我爱吃什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我最爱吃湘菜"
+    },
+    {
+     "action": "remember",
+     "text": "我最爱吃粤菜"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    },
+    {
+     "action": "ask",
+     "text": "今天几号来着？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "粤菜"
+    ],
+    "not_contains": [
+     "湘菜"
+    ],
+    "contains_all": [
+     "粤菜"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 爱吃：8 轮闲聊+最后提问；上下文旧事实「我最爱吃湘菜」→新事实「我最爱吃粤菜」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT19",
+   "category": "multi_turn_memory",
+   "input": "我女儿的小名是什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我女儿小名叫果果"
+    },
+    {
+     "action": "remember",
+     "text": "我女儿小名叫米朵"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "米朵"
+    ],
+    "not_contains": [
+     "果果"
+    ],
+    "contains_all": [
+     "米朵"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 女儿小名：3 轮闲聊+最后提问；上下文旧事实「我女儿小名叫果果」→新事实「我女儿小名叫米朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT20",
+   "category": "multi_turn_memory",
+   "input": "我女儿叫什么小名？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我女儿小名叫果果"
+    },
+    {
+     "action": "remember",
+     "text": "我女儿小名叫米朵"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "米朵"
+    ],
+    "not_contains": [
+     "果果"
+    ],
+    "contains_all": [
+     "米朵"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 女儿小名：4 轮闲聊+最后提问；上下文旧事实「我女儿小名叫果果」→新事实「我女儿小名叫米朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  }
+ ],
+ "notes": [
+  "密闭评测：开始前 GET /memories 快照 + POST /reset；每个 category 边界清理测试块并 reset；结束后删除快照外全部 id 并 reset；元数据见 hermetic。共享会话历史无法重置，后段用例可能受前段上下文影响（已按 read-only → 写入类顺序排列）。",
+  "dry-run-instance：每条独立 fake 实例（零 GPU/零模型），只判结构项（refusal/state_class/memory_delta/延迟），正文包含类检查 skipped，不与 live 基线混算。",
+  "expect 扩展：memory_delta 为 T11 跑器补充字段（自动记忆用例核对入记忆条数），其余字段沿用 LEAD 指定 schema。",
+  "连接层错误（服务被重启/拒绝连接）计入 n_infra，不计入 pass_rate 分母；若 n_infra 偏大说明评测窗口内服务被外部重启，基线只对 n_valid 条成立。",
+  "partial=true 表示本轮被中断/未跑完；可用 --resume 在同一 --out 上续跑。",
+  "--reset-per-case：每条 case 主问和 pre_state 之前先 POST /reset 清会话（每条独立会话；case 内 pre_state ask 仍连续，供 MT20 多轮使用）。",
+  "--forget-created-per-case：每条 case 结束立即删除本 case /remember 创建的块（hermetic 下也生效），保证下一条 memory_before 恒定。"
+ ],
+ "failures": [
+  {
+   "id": "V9MT09",
+   "category": "multi_turn_memory",
+   "input": "我的车牌号是多少？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的车牌号是京N32109"
+    },
+    {
+     "action": "remember",
+     "text": "我的车牌号是津D65432"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "津D65432",
+     "津D 65432"
+    ],
+    "not_contains": [
+     "京N32109"
+    ],
+    "contains_all": [
+     "津D65432"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 车牌：5 轮闲聊+最后提问；上下文旧事实「我的车牌号是京N32109」→新事实「我的车牌号是津D65432」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT10",
+   "category": "multi_turn_memory",
+   "input": "我的车牌是什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的车牌号是京N32109"
+    },
+    {
+     "action": "remember",
+     "text": "我的车牌号是津D65432"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "津D65432",
+     "津D 65432"
+    ],
+    "not_contains": [
+     "京N32109"
+    ],
+    "contains_all": [
+     "津D65432"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 车牌：6 轮闲聊+最后提问；上下文旧事实「我的车牌号是京N32109」→新事实「我的车牌号是津D65432」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT11",
+   "category": "multi_turn_memory",
+   "input": "我在哪家公司上班？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的公司是中石油"
+    },
+    {
+     "action": "remember",
+     "text": "我的公司是顺丰"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "顺丰"
+    ],
+    "not_contains": [
+     "中石油"
+    ],
+    "contains_all": [
+     "顺丰"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 公司：7 轮闲聊+最后提问；上下文旧事实「我的公司是中石油」→新事实「我的公司是顺丰」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT12",
+   "category": "multi_turn_memory",
+   "input": "我的公司叫什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我的公司是中石油"
+    },
+    {
+     "action": "remember",
+     "text": "我的公司是顺丰"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    },
+    {
+     "action": "ask",
+     "text": "今天几号来着？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "顺丰"
+    ],
+    "not_contains": [
+     "中石油"
+    ],
+    "contains_all": [
+     "顺丰"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 公司：8 轮闲聊+最后提问；上下文旧事实「我的公司是中石油」→新事实「我的公司是顺丰」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT13",
+   "category": "multi_turn_memory",
+   "input": "我下周三要去哪开会？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我下周三要去宜昌开会"
+    },
+    {
+     "action": "remember",
+     "text": "我下周三要去哈尔滨开会"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "哈尔滨"
+    ],
+    "not_contains": [
+     "宜昌"
+    ],
+    "contains_all": [
+     "哈尔滨"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 出差地：3 轮闲聊+最后提问；上下文旧事实「我下周三要去宜昌开会」→新事实「我下周三要去哈尔滨开会」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT14",
+   "category": "multi_turn_memory",
+   "input": "我下周三去哪？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我下周三要去宜昌开会"
+    },
+    {
+     "action": "remember",
+     "text": "我下周三要去哈尔滨开会"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "哈尔滨"
+    ],
+    "not_contains": [
+     "宜昌"
+    ],
+    "contains_all": [
+     "哈尔滨"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 出差地：4 轮闲聊+最后提问；上下文旧事实「我下周三要去宜昌开会」→新事实「我下周三要去哈尔滨开会」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT15",
+   "category": "multi_turn_memory",
+   "input": "我老家在哪？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我老家在襄阳"
+    },
+    {
+     "action": "remember",
+     "text": "我老家在荆州"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "荆州"
+    ],
+    "not_contains": [
+     "襄阳"
+    ],
+    "contains_all": [
+     "荆州"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 老家：5 轮闲聊+最后提问；上下文旧事实「我老家在襄阳」→新事实「我老家在荆州」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT16",
+   "category": "multi_turn_memory",
+   "input": "我老家是哪里？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我老家在襄阳"
+    },
+    {
+     "action": "remember",
+     "text": "我老家在荆州"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "荆州"
+    ],
+    "not_contains": [
+     "襄阳"
+    ],
+    "contains_all": [
+     "荆州"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 老家：6 轮闲聊+最后提问；上下文旧事实「我老家在襄阳」→新事实「我老家在荆州」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT17",
+   "category": "multi_turn_memory",
+   "input": "我最爱吃什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我最爱吃湘菜"
+    },
+    {
+     "action": "remember",
+     "text": "我最爱吃粤菜"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "粤菜"
+    ],
+    "not_contains": [
+     "湘菜"
+    ],
+    "contains_all": [
+     "粤菜"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 爱吃：7 轮闲聊+最后提问；上下文旧事实「我最爱吃湘菜」→新事实「我最爱吃粤菜」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT18",
+   "category": "multi_turn_memory",
+   "input": "我爱吃什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我最爱吃湘菜"
+    },
+    {
+     "action": "remember",
+     "text": "我最爱吃粤菜"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    },
+    {
+     "action": "ask",
+     "text": "最近在忙什么？"
+    },
+    {
+     "action": "ask",
+     "text": "有什么推荐的放松方式吗？"
+    },
+    {
+     "action": "ask",
+     "text": "你觉得我记性怎么样？"
+    },
+    {
+     "action": "ask",
+     "text": "今天几号来着？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "粤菜"
+    ],
+    "not_contains": [
+     "湘菜"
+    ],
+    "contains_all": [
+     "粤菜"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 爱吃：8 轮闲聊+最后提问；上下文旧事实「我最爱吃湘菜」→新事实「我最爱吃粤菜」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT19",
+   "category": "multi_turn_memory",
+   "input": "我女儿的小名是什么？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我女儿小名叫果果"
+    },
+    {
+     "action": "remember",
+     "text": "我女儿小名叫米朵"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "米朵"
+    ],
+    "not_contains": [
+     "果果"
+    ],
+    "contains_all": [
+     "米朵"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 女儿小名：3 轮闲聊+最后提问；上下文旧事实「我女儿小名叫果果」→新事实「我女儿小名叫米朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  },
+  {
+   "id": "V9MT20",
+   "category": "multi_turn_memory",
+   "input": "我女儿叫什么小名？",
+   "pre_state": [
+    {
+     "action": "remember",
+     "text": "我女儿小名叫果果"
+    },
+    {
+     "action": "remember",
+     "text": "我女儿小名叫米朵"
+    },
+    {
+     "action": "ask",
+     "text": "你平时喜欢干什么？"
+    },
+    {
+     "action": "ask",
+     "text": "今天忙不忙？"
+    },
+    {
+     "action": "ask",
+     "text": "晚上有空吗？"
+    },
+    {
+     "action": "ask",
+     "text": "周末有什么计划吗？"
+    }
+   ],
+   "expect": {
+    "contains_any": [
+     "米朵"
+    ],
+    "not_contains": [
+     "果果"
+    ],
+    "contains_all": [
+     "米朵"
+    ],
+    "conflict_if_all": [],
+    "refusal": false
+   },
+   "note": "[v9-MT] 维度 女儿小名：4 轮闲聊+最后提问；上下文旧事实「我女儿小名叫果果」→新事实「我女儿小名叫米朵」，expect 最新值、not_contains 旧值（独立值池，训练集 0 出现）",
+   "scope": "live",
+   "content_checks": true,
+   "hard": false,
+   "actual": {
+    "answer": null,
+    "state": null,
+    "refused": null,
+    "block_ids": null,
+    "latency_client_s": 0.0,
+    "latency_server_s": null,
+    "state_class": "error",
+    "memory_delta": 0,
+    "retrieval": null,
+    "selected_ids": [],
+    "error": "HTTPError: HTTP Error 409: Conflict"
+   },
+   "setup": {
+    "prelude": [],
+    "cleanup": [],
+    "memory_before": 200,
+    "infra_error": false,
+    "reset_per_case": {
+     "ok": true,
+     "error": {
+      "reset": true,
+      "chat_tokens": 0
+     }
+    },
+    "memory_delta": 0
+   },
+   "infra_error": false,
+   "pass": false,
+   "failure_class": "延迟",
+   "problems": [
+    "请求失败：HTTPError: HTTP Error 409: Conflict"
+   ]
+  }
+ ]
+}

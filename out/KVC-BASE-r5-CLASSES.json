@@ -1,0 +1,3874 @@
+{
+ "schema": "kvc_base_classes_v1",
+ "source": "out/KVC-BASE-r5.json",
+ "n_results": 42,
+ "n_pass": 12,
+ "n_fail": 30,
+ "n_infra": 0,
+ "run_status": null,
+ "partial": false,
+ "rule": "1) not_contains命中且contains_any命中=双列 2) 仅not_contains命中=旧值 3) refused或拒答措辞=拒答 4) 其余=其它",
+ "counts": {
+  "旧值": 19,
+  "其它": 10,
+  "拒答": 1
+ },
+ "fail_ids": [
+  "KVC01",
+  "KVC02",
+  "KVC03",
+  "KVC04",
+  "KVC05",
+  "KVC06",
+  "KVC08",
+  "KVC09",
+  "KVC10",
+  "KVC11",
+  "KVC12",
+  "KVC13",
+  "KVC14",
+  "KVC15",
+  "KVC16",
+  "KVC17",
+  "KVC18",
+  "KVC19",
+  "KVC23",
+  "KVC24",
+  "KVC27",
+  "KVC28",
+  "KVC29",
+  "KVC30",
+  "KVN03",
+  "KVN04",
+  "KVN05",
+  "KVN06",
+  "KVN07",
+  "KVN11"
+ ],
+ "by_class": {
+  "旧值": [
+   "KVC01",
+   "KVC03",
+   "KVC04",
+   "KVC08",
+   "KVC09",
+   "KVC10",
+   "KVC13",
+   "KVC14",
+   "KVC15",
+   "KVC16",
+   "KVC17",
+   "KVC18",
+   "KVC19",
+   "KVC23",
+   "KVC24",
+   "KVC27",
+   "KVC28",
+   "KVC29",
+   "KVC30"
+  ],
+  "双列": [],
+  "拒答": [
+   "KVC11"
+  ],
+  "其它": [
+   "KVC02",
+   "KVC05",
+   "KVC06",
+   "KVC12",
+   "KVN03",
+   "KVN04",
+   "KVN05",
+   "KVN06",
+   "KVN07",
+   "KVN11"
+  ]
+ },
+ "items": [
+  {
+   "id": "KVC01",
+   "class": "旧值",
+   "answer": "你的猫叫团团",
+   "stale_hit": [
+    "团团"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "球球"
+    ],
+    "not_contains": [
+     "团团"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'团团'",
+    "缺内容：['球球'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC02",
+   "class": "其它",
+   "answer": "你养的猫叫豆豆",
+   "stale_hit": [],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "花卷"
+    ],
+    "not_contains": [
+     "年糕"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "僵硬",
+   "problems": [
+    "缺内容：['花卷'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC03",
+   "class": "旧值",
+   "answer": "你的狗叫大黄",
+   "stale_hit": [
+    "大黄"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "黑豆"
+    ],
+    "not_contains": [
+     "大黄"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'大黄'",
+    "缺内容：['黑豆'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC04",
+   "class": "旧值",
+   "answer": "你家狗的名字叫旺财",
+   "stale_hit": [
+    "旺财"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "来福"
+    ],
+    "not_contains": [
+     "旺财"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'旺财'",
+    "缺内容：['来福'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC05",
+   "class": "其它",
+   "answer": "你的车牌号是京A88888",
+   "stale_hit": [],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "津E54321",
+     "津E 54321"
+    ],
+    "not_contains": [
+     "京Q12345"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "僵硬",
+   "problems": [
+    "缺内容：['津E54321', '津E 54321'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC06",
+   "class": "其它",
+   "answer": "你的车牌号是京A88888",
+   "stale_hit": [],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "粤G09876",
+     "粤G 09876"
+    ],
+    "not_contains": [
+     "沪F67890"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "僵硬",
+   "problems": [
+    "缺内容：['粤G09876', '粤G 09876'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC08",
+   "class": "旧值",
+   "answer": "你的手机号是186-3333-4444",
+   "stale_hit": [
+    "186-3333-4444"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "177-5555-6666",
+     "17755556666",
+     "177 5555 6666"
+    ],
+    "not_contains": [
+     "186-3333-4444",
+     "18633334444"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'186-3333-4444'",
+    "缺内容：['177-5555-6666', '17755556666', '177 5555 6666'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC09",
+   "class": "旧值",
+   "answer": "你的工位在B座302。今天实验的结果是擦边",
+   "stale_hit": [
+    "B座302"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "C座501",
+     "C座 501",
+     "C-501"
+    ],
+    "not_contains": [
+     "B座302",
+     "B座 302"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'B座302'",
+    "缺内容：['C座501', 'C座 501', 'C-501'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC10",
+   "class": "旧值",
+   "answer": "你的工位是3层12号",
+   "stale_hit": [
+    "3层12号"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "5层08号",
+     "5层8号",
+     "5-08"
+    ],
+    "not_contains": [
+     "3层12号"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'3层12号'",
+    "缺内容：['5层08号', '5层8号', '5-08'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC11",
+   "class": "拒答",
+   "answer": "这个我没法确认：你没跟我说过。",
+   "stale_hit": [],
+   "expected_hit": [],
+   "refused_flag": true,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "星河数据"
+    ],
+    "not_contains": [
+     "云栖科技"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "误拒",
+   "problems": [
+    "不应拒答但被拒答",
+    "缺内容：['星河数据'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC12",
+   "class": "其它",
+   "answer": "朋友聊天",
+   "stale_hit": [],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "美团"
+    ],
+    "not_contains": [
+     "字节跳动"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "僵硬",
+   "problems": [
+    "缺内容：['美团'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC13",
+   "class": "旧值",
+   "answer": "你老家在杭州",
+   "stale_hit": [
+    "杭州"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "南京"
+    ],
+    "not_contains": [
+     "杭州"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'杭州'",
+    "缺内容：['南京'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC14",
+   "class": "旧值",
+   "answer": "你老家是成都的",
+   "stale_hit": [
+    "成都"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "西安"
+    ],
+    "not_contains": [
+     "成都"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'成都'",
+    "缺内容：['西安'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC15",
+   "class": "旧值",
+   "answer": "你的车是香槟色的。车牌号是京A88888",
+   "stale_hit": [
+    "香槟色"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "白色"
+    ],
+    "not_contains": [
+     "香槟色"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'香槟色'",
+    "缺内容：['白色'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC16",
+   "class": "旧值",
+   "answer": "你的车是蓝色的。车牌号是京A88888",
+   "stale_hit": [
+    "蓝色"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "黑色"
+    ],
+    "not_contains": [
+     "蓝色"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'蓝色'",
+    "缺内容：['黑色'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC17",
+   "class": "旧值",
+   "answer": "你的车是两厢车，但具体车型没有提到过",
+   "stale_hit": [
+    "两厢"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "SUV",
+     "suv"
+    ],
+    "not_contains": [
+     "两厢"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'两厢'",
+    "缺内容：['SUV', 'suv'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC18",
+   "class": "旧值",
+   "answer": "你的车是轿车，车牌号是京A88888",
+   "stale_hit": [
+    "轿车"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "MPV",
+     "mpv"
+    ],
+    "not_contains": [
+     "轿车"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'轿车'",
+    "缺内容：['MPV', 'mpv'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC19",
+   "class": "旧值",
+   "answer": "你的邮箱是aze@example.com",
+   "stale_hit": [
+    "aze@example.com"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "aze.work@example.com"
+    ],
+    "not_contains": [
+     "aze@example.com"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'aze@example.com'",
+    "缺内容：['aze.work@example.com'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC23",
+   "class": "旧值",
+   "answer": "你每周四晚上八点健身",
+   "stale_hit": [
+    "周四"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "周二",
+     "七点",
+     "7点"
+    ],
+    "not_contains": [
+     "周四"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'周四'",
+    "缺内容：['周二', '七点', '7点'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC24",
+   "class": "旧值",
+   "answer": "你计划在周六上午九点健身",
+   "stale_hit": [
+    "周六"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "周一",
+     "六点",
+     "6点"
+    ],
+    "not_contains": [
+     "周六"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'周六'",
+    "缺内容：['周一', '六点', '6点'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC27",
+   "class": "旧值",
+   "answer": "你的银行卡尾号是7418",
+   "stale_hit": [
+    "7418"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "9032"
+    ],
+    "not_contains": [
+     "7418"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'7418'",
+    "缺内容：['9032'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC28",
+   "class": "旧值",
+   "answer": "你的银行卡尾号是1122",
+   "stale_hit": [
+    "1122"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "8842"
+    ],
+    "not_contains": [
+     "1122"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'1122'",
+    "缺内容：['8842'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC29",
+   "class": "旧值",
+   "answer": "周一上午十点的会在7楼会议室开",
+   "stale_hit": [
+    "7楼"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "2楼会议室",
+     "二楼会议室",
+     "2楼"
+    ],
+    "not_contains": [
+     "7楼"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'7楼'",
+    "缺内容：['2楼会议室', '二楼会议室', '2楼'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVC30",
+   "class": "旧值",
+   "answer": "周三的会在三楼的洽谈室开",
+   "stale_hit": [
+    "三楼"
+   ],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "五楼大会议室",
+     "5楼大会议室",
+     "五楼"
+    ],
+    "not_contains": [
+     "三楼"
+    ],
+    "refusal": false
+   },
+   "failure_class_script": "编造",
+   "problems": [
+    "不应出现内容：'三楼'",
+    "缺内容：['五楼大会议室', '5楼大会议室', '五楼'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVN03",
+   "class": "其它",
+   "answer": "你的工作号是京A88888",
+   "stale_hit": [],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "130-2468-1111",
+     "13024681111"
+    ],
+    "not_contains": [],
+    "refusal": false
+   },
+   "failure_class_script": "僵硬",
+   "problems": [
+    "缺内容：['130-2468-1111', '13024681111'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVN04",
+   "class": "其它",
+   "answer": "你的备用号是京A88888",
+   "stale_hit": [],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "132-0000-3333",
+     "13200003333"
+    ],
+    "not_contains": [],
+    "refusal": false
+   },
+   "failure_class_script": "僵硬",
+   "problems": [
+    "缺内容：['132-0000-3333', '13200003333'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVN05",
+   "class": "其它",
+   "answer": "你家的大猫叫豆豆",
+   "stale_hit": [],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "咪咪"
+    ],
+    "not_contains": [],
+    "refusal": false
+   },
+   "failure_class_script": "僵硬",
+   "problems": [
+    "缺内容：['咪咪'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVN06",
+   "class": "其它",
+   "answer": "你的白猫叫豆豆",
+   "stale_hit": [],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "雪球"
+    ],
+    "not_contains": [],
+    "refusal": false
+   },
+   "failure_class_script": "僵硬",
+   "problems": [
+    "缺内容：['雪球'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVN07",
+   "class": "其它",
+   "answer": "你的个人邮箱是w@example.com",
+   "stale_hit": [],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "p@example.com"
+    ],
+    "not_contains": [],
+    "refusal": false
+   },
+   "failure_class_script": "僵硬",
+   "problems": [
+    "缺内容：['p@example.com'] 均未出现"
+   ],
+   "infra_error": false
+  },
+  {
+   "id": "KVN11",
+   "class": "其它",
+   "answer": "你父亲的老家在河南",
+   "stale_hit": [],
+   "expected_hit": [],
+   "refused_flag": false,
+   "refusal_wording": false,
+   "expect": {
+    "contains_any": [
+     "山东"
+    ],
+    "not_contains": [],
+    "refusal": false
+   },
+   "failure_class_script": "僵硬",
+   "problems": [
+    "缺内容：['山东'] 均未出现"
+   ],
+   "infra_error": false
+  }
+ ],
+ "summary": {
+  "scope": "live",
+  "n": 42,
+  "n_valid": 42,
+  "n_infra": 0,
+  "pass": 12,
+  "fail": 30,
+  "pass_rate": 0.285714,
+  "pass_rate_including_infra": 0.285714,
+  "by_category": {
+   "kv_conflict": {
+    "n": 42,
+    "pass": 12,
+    "pass_rate": 0.285714
+   }
+  },
+  "failure_classes": {
+   "编造": 19,
+   "僵硬": 10,
+   "误拒": 1
+  },
+  "hard_assertions": {
+   "n": 0,
+   "pass": 0,
+   "fail": 0,
+   "pass_rate": null
+  },
+  "failures": [
+   {
+    "id": "KVC01",
+    "category": "kv_conflict",
+    "input": "我的猫叫什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我养了只猫叫团团"
+     },
+     {
+      "action": "remember",
+      "text": "我的猫现在叫球球"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "球球"
+     ],
+     "not_contains": [
+      "团团"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] cat 正例：'我养了只猫叫团团' -> '我的猫现在叫球球'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的猫叫团团",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      14,
+      22,
+      21
+     ],
+     "latency_client_s": 1.79,
+     "latency_server_s": 1.7718,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'团团'",
+     "缺内容：['球球'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC02",
+    "category": "kv_conflict",
+    "input": "我猫的名字是什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我养的猫叫年糕"
+     },
+     {
+      "action": "remember",
+      "text": "我后来把猫改名成花卷"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "花卷"
+     ],
+     "not_contains": [
+      "年糕"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] cat 正例：'我养的猫叫年糕' -> '我后来把猫改名成花卷'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你养的猫叫豆豆",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      14,
+      21
+     ],
+     "latency_client_s": 2.058,
+     "latency_server_s": 2.0387,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['花卷'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC03",
+    "category": "kv_conflict",
+    "input": "我的狗叫什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我养了条狗叫大黄"
+     },
+     {
+      "action": "remember",
+      "text": "我的狗改名叫黑豆"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "黑豆"
+     ],
+     "not_contains": [
+      "大黄"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] dog 正例：'我养了条狗叫大黄' -> '我的狗改名叫黑豆'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的狗叫大黄",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      22,
+      21
+     ],
+     "latency_client_s": 1.755,
+     "latency_server_s": 1.7373,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'大黄'",
+     "缺内容：['黑豆'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC04",
+    "category": "kv_conflict",
+    "input": "我家狗的名字？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我家狗叫旺财"
+     },
+     {
+      "action": "remember",
+      "text": "我家狗现在叫来福"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "来福"
+     ],
+     "not_contains": [
+      "旺财"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] dog 正例：'我家狗叫旺财' -> '我家狗现在叫来福'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你家狗的名字叫旺财",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      22,
+      21
+     ],
+     "latency_client_s": 1.993,
+     "latency_server_s": 1.9738,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'旺财'",
+     "缺内容：['来福'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC05",
+    "category": "kv_conflict",
+    "input": "我的车牌号是多少？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的车牌号是京Q12345"
+     },
+     {
+      "action": "remember",
+      "text": "我的车牌号换成津E54321了"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "津E54321",
+      "津E 54321"
+     ],
+     "not_contains": [
+      "京Q12345"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] plate 正例：'我的车牌号是京Q12345' -> '我的车牌号换成津E54321了'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的车牌号是京A88888",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      3,
+      12,
+      13,
+      21
+     ],
+     "latency_client_s": 2.936,
+     "latency_server_s": 2.9153,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['津E54321', '津E 54321'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC06",
+    "category": "kv_conflict",
+    "input": "我的车牌是什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的车牌是沪F67890"
+     },
+     {
+      "action": "remember",
+      "text": "车牌已经换成粤G09876"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "粤G09876",
+      "粤G 09876"
+     ],
+     "not_contains": [
+      "沪F67890"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] plate 正例：'我的车牌是沪F67890' -> '车牌已经换成粤G09876'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的车牌号是京A88888",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "latency_client_s": 2.913,
+     "latency_server_s": 2.8931,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['粤G09876', '粤G 09876'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC08",
+    "category": "kv_conflict",
+    "input": "我的手机号是什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的手机号是186-3333-4444"
+     },
+     {
+      "action": "remember",
+      "text": "新手机号是177-5555-6666"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "177-5555-6666",
+      "17755556666",
+      "177 5555 6666"
+     ],
+     "not_contains": [
+      "186-3333-4444",
+      "18633334444"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] phone 正例：'我的手机号是186-3333-4444' -> '新手机号是177-5555-6666'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的手机号是186-3333-4444",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      22,
+      3,
+      12
+     ],
+     "latency_client_s": 3.667,
+     "latency_server_s": 3.648,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'186-3333-4444'",
+     "缺内容：['177-5555-6666', '17755556666', '177 5555 6666'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC09",
+    "category": "kv_conflict",
+    "input": "我的工位在哪？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的工位在B座302"
+     },
+     {
+      "action": "remember",
+      "text": "我的工位搬到C座501了"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "C座501",
+      "C座 501",
+      "C-501"
+     ],
+     "not_contains": [
+      "B座302",
+      "B座 302"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] seat 正例：'我的工位在B座302' -> '我的工位搬到C座501了'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的工位在B座302。今天实验的结果是擦边",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      22,
+      3,
+      12
+     ],
+     "latency_client_s": 3.603,
+     "latency_server_s": 3.5824,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'B座302'",
+     "缺内容：['C座501', 'C座 501', 'C-501'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC10",
+    "category": "kv_conflict",
+    "input": "我的工位是几层几号？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的工位是3层12号"
+     },
+     {
+      "action": "remember",
+      "text": "工位换到5层08号"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "5层08号",
+      "5层8号",
+      "5-08"
+     ],
+     "not_contains": [
+      "3层12号"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] seat 正例：'我的工位是3层12号' -> '工位换到5层08号'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的工位是3层12号",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "latency_client_s": 2.475,
+     "latency_server_s": 2.4563,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'3层12号'",
+     "缺内容：['5层08号', '5层8号', '5-08'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC11",
+    "category": "kv_conflict",
+    "input": "我在哪家公司上班？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我在云栖科技上班"
+     },
+     {
+      "action": "remember",
+      "text": "我跳槽去星河数据了"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "星河数据"
+     ],
+     "not_contains": [
+      "云栖科技"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] company 正例：'我在云栖科技上班' -> '我跳槽去星河数据了'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "这个我没法确认：你没跟我说过。",
+     "state": "no_evidence",
+     "refused": true,
+     "block_ids": [],
+     "latency_client_s": 0.02,
+     "latency_server_s": 0.0024,
+     "state_class": "no_evidence",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "误拒",
+    "problems": [
+     "不应拒答但被拒答",
+     "缺内容：['星河数据'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC12",
+    "category": "kv_conflict",
+    "input": "我的公司叫什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的公司是字节跳动"
+     },
+     {
+      "action": "remember",
+      "text": "我换到美团了"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "美团"
+     ],
+     "not_contains": [
+      "字节跳动"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] company 正例：'我的公司是字节跳动' -> '我换到美团了'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "朋友聊天",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "latency_client_s": 9.97,
+     "latency_server_s": 9.9492,
+     "state_class": "general",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['美团'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC13",
+    "category": "kv_conflict",
+    "input": "我老家在哪里？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我老家在杭州"
+     },
+     {
+      "action": "remember",
+      "text": "我老家其实是南京"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "南京"
+     ],
+     "not_contains": [
+      "杭州"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] hometown 正例：'我老家在杭州' -> '我老家其实是南京'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你老家在杭州",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      22
+     ],
+     "latency_client_s": 1.625,
+     "latency_server_s": 1.6048,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'杭州'",
+     "缺内容：['南京'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC14",
+    "category": "kv_conflict",
+    "input": "我老家是哪里的？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的老家是成都"
+     },
+     {
+      "action": "remember",
+      "text": "老家在西安"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "西安"
+     ],
+     "not_contains": [
+      "成都"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] hometown 正例：'我的老家是成都' -> '老家在西安'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你老家是成都的",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      22
+     ],
+     "latency_client_s": 1.674,
+     "latency_server_s": 1.6554,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'成都'",
+     "缺内容：['西安'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC15",
+    "category": "kv_conflict",
+    "input": "我的车是什么颜色？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的车是香槟色"
+     },
+     {
+      "action": "remember",
+      "text": "我的车现在是白色"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "白色"
+     ],
+     "not_contains": [
+      "香槟色"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] car_color 正例：'我的车是香槟色' -> '我的车现在是白色'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的车是香槟色的。车牌号是京A88888",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "latency_client_s": 3.864,
+     "latency_server_s": 3.8437,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'香槟色'",
+     "缺内容：['白色'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC16",
+    "category": "kv_conflict",
+    "input": "我的车是什么颜色？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的车是蓝色"
+     },
+     {
+      "action": "remember",
+      "text": "车漆改成黑色了"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "黑色"
+     ],
+     "not_contains": [
+      "蓝色"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] car_color 正例：'我的车是蓝色' -> '车漆改成黑色了'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的车是蓝色的。车牌号是京A88888",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "latency_client_s": 3.662,
+     "latency_server_s": 3.6426,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'蓝色'",
+     "缺内容：['黑色'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC17",
+    "category": "kv_conflict",
+    "input": "我的车是什么车型？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的车是两厢车"
+     },
+     {
+      "action": "remember",
+      "text": "我的车换成SUV了"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "SUV",
+      "suv"
+     ],
+     "not_contains": [
+      "两厢"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] car_type 正例：'我的车是两厢车' -> '我的车换成SUV了'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的车是两厢车，但具体车型没有提到过",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "latency_client_s": 9.562,
+     "latency_server_s": 9.5433,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'两厢'",
+     "缺内容：['SUV', 'suv'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC18",
+    "category": "kv_conflict",
+    "input": "我的车型是什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的车是轿车"
+     },
+     {
+      "action": "remember",
+      "text": "现在开的是MPV"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "MPV",
+      "mpv"
+     ],
+     "not_contains": [
+      "轿车"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] car_type 正例：'我的车是轿车' -> '现在开的是MPV'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的车是轿车，车牌号是京A88888",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      3,
+      12,
+      13,
+      21
+     ],
+     "latency_client_s": 5.376,
+     "latency_server_s": 5.3537,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'轿车'",
+     "缺内容：['MPV', 'mpv'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC19",
+    "category": "kv_conflict",
+    "input": "我的邮箱是多少？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的邮箱是aze@example.com"
+     },
+     {
+      "action": "remember",
+      "text": "邮箱改成aze.work@example.com"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "aze.work@example.com"
+     ],
+     "not_contains": [
+      "aze@example.com"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] email 正例：'我的邮箱是aze@example.com' -> '邮箱改成aze.work@example.com'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的邮箱是aze@example.com",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "latency_client_s": 3.391,
+     "latency_server_s": 3.3717,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'aze@example.com'",
+     "缺内容：['aze.work@example.com'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC23",
+    "category": "kv_conflict",
+    "input": "我每周几几点健身？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我每周四晚上八点健身"
+     },
+     {
+      "action": "remember",
+      "text": "改到周二晚上七点健身"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "周二",
+      "七点",
+      "7点"
+     ],
+     "not_contains": [
+      "周四"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] gym 正例：'我每周四晚上八点健身' -> '改到周二晚上七点健身'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你每周四晚上八点健身",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      22
+     ],
+     "latency_client_s": 2.074,
+     "latency_server_s": 2.0549,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'周四'",
+     "缺内容：['周二', '七点', '7点'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC24",
+    "category": "kv_conflict",
+    "input": "我什么时候健身？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我周六上午九点健身"
+     },
+     {
+      "action": "remember",
+      "text": "现在周一晚上六点健身"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "周一",
+      "六点",
+      "6点"
+     ],
+     "not_contains": [
+      "周六"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] gym 正例：'我周六上午九点健身' -> '现在周一晚上六点健身'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你计划在周六上午九点健身",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      22,
+      21
+     ],
+     "latency_client_s": 2.198,
+     "latency_server_s": 2.1792,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'周六'",
+     "缺内容：['周一', '六点', '6点'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC27",
+    "category": "kv_conflict",
+    "input": "我的银行卡尾号是多少？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的银行卡尾号是7418"
+     },
+     {
+      "action": "remember",
+      "text": "尾号换成9032了"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "9032"
+     ],
+     "not_contains": [
+      "7418"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] bank 正例：'我的银行卡尾号是7418' -> '尾号换成9032了'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的银行卡尾号是7418",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "latency_client_s": 9.502,
+     "latency_server_s": 9.4842,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'7418'",
+     "缺内容：['9032'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC28",
+    "category": "kv_conflict",
+    "input": "我的银行卡尾号是什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "银行卡尾号是1122"
+     },
+     {
+      "action": "remember",
+      "text": "新卡尾号8842"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "8842"
+     ],
+     "not_contains": [
+      "1122"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] bank 正例：'银行卡尾号是1122' -> '新卡尾号8842'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的银行卡尾号是1122",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "latency_client_s": 8.428,
+     "latency_server_s": 8.4088,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'1122'",
+     "缺内容：['8842'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC29",
+    "category": "kv_conflict",
+    "input": "周一上午十点的会在哪开？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "周一上午十点的会在7楼会议室"
+     },
+     {
+      "action": "remember",
+      "text": "改到2楼会议室"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "2楼会议室",
+      "二楼会议室",
+      "2楼"
+     ],
+     "not_contains": [
+      "7楼"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] meeting 正例：'周一上午十点的会在7楼会议室' -> '改到2楼会议室'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "周一上午十点的会在7楼会议室开",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21
+     ],
+     "latency_client_s": 3.188,
+     "latency_server_s": 3.1731,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'7楼'",
+     "缺内容：['2楼会议室', '二楼会议室', '2楼'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVC30",
+    "category": "kv_conflict",
+    "input": "周三的会在哪里开？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "周三的会在三楼洽谈室"
+     },
+     {
+      "action": "remember",
+      "text": "换到五楼大会议室"
+     },
+     {
+      "action": "ask",
+      "text": "今天忙不忙？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "五楼大会议室",
+      "5楼大会议室",
+      "五楼"
+     ],
+     "not_contains": [
+      "三楼"
+     ],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] meeting 正例：'周三的会在三楼洽谈室' -> '换到五楼大会议室'",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "周三的会在三楼的洽谈室开",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21
+     ],
+     "latency_client_s": 3.339,
+     "latency_server_s": 3.3232,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "编造",
+    "problems": [
+     "不应出现内容：'三楼'",
+     "缺内容：['五楼大会议室', '5楼大会议室', '五楼'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVN03",
+    "category": "kv_conflict",
+    "input": "我的工作号是多少？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的工作号是130-2468-1111"
+     },
+     {
+      "action": "remember",
+      "text": "我的私人号是131-0000-2222"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "130-2468-1111",
+      "13024681111"
+     ],
+     "not_contains": [],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] phone 负例（同族不同主体）：问 '我的工作号是130-2468-1111'，不得误隐藏",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的工作号是京A88888",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "latency_client_s": 2.632,
+     "latency_server_s": 2.6167,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['130-2468-1111', '13024681111'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVN04",
+    "category": "kv_conflict",
+    "input": "我的备用号是多少？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的备用号是132-0000-3333"
+     },
+     {
+      "action": "remember",
+      "text": "常用号是133-0000-4444"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "132-0000-3333",
+      "13200003333"
+     ],
+     "not_contains": [],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] phone 负例（同族不同主体）：问 '我的备用号是132-0000-3333'，不得误隐藏",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的备用号是京A88888",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "latency_client_s": 2.694,
+     "latency_server_s": 2.6769,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['132-0000-3333', '13200003333'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVN05",
+    "category": "kv_conflict",
+    "input": "我家大猫叫什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我家大猫叫咪咪"
+     },
+     {
+      "action": "remember",
+      "text": "我家小猫叫甜甜"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "咪咪"
+     ],
+     "not_contains": [],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] cat 负例（同族不同主体）：问 '我家大猫叫咪咪'，不得误隐藏",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你家的大猫叫豆豆",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      14,
+      21,
+      22
+     ],
+     "latency_client_s": 1.862,
+     "latency_server_s": 1.8465,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['咪咪'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVN06",
+    "category": "kv_conflict",
+    "input": "我的白猫叫什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我养的白猫叫雪球"
+     },
+     {
+      "action": "remember",
+      "text": "黑猫叫煤球"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "雪球"
+     ],
+     "not_contains": [],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] cat 负例（同族不同主体）：问 '我养的白猫叫雪球'，不得误隐藏",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的白猫叫豆豆",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      14,
+      21,
+      22
+     ],
+     "latency_client_s": 1.753,
+     "latency_server_s": 1.7338,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['雪球'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVN07",
+    "category": "kv_conflict",
+    "input": "我的个人邮箱是什么？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我的个人邮箱是p@example.com"
+     },
+     {
+      "action": "remember",
+      "text": "工作邮箱是w@example.com"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "p@example.com"
+     ],
+     "not_contains": [],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] email 负例（同族不同主体）：问 '我的个人邮箱是p@example.com'，不得误隐藏",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你的个人邮箱是w@example.com",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      22,
+      3,
+      12
+     ],
+     "latency_client_s": 2.024,
+     "latency_server_s": 2.0082,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['p@example.com'] 均未出现"
+    ]
+   },
+   {
+    "id": "KVN11",
+    "category": "kv_conflict",
+    "input": "我父亲老家在哪？",
+    "pre_state": [
+     {
+      "action": "remember",
+      "text": "我父亲老家在山东"
+     },
+     {
+      "action": "remember",
+      "text": "我母亲老家在河南"
+     },
+     {
+      "action": "ask",
+      "text": "你平时喜欢干什么？"
+     }
+    ],
+    "expect": {
+     "contains_any": [
+      "山东"
+     ],
+     "not_contains": [],
+     "refusal": false
+    },
+    "note": "[KV-CONFLICT] hometown 负例（同族不同主体）：问 '我父亲老家在山东'，不得误隐藏",
+    "scope": "live",
+    "content_checks": true,
+    "hard": false,
+    "actual": {
+     "answer": "你父亲的老家在河南",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      22
+     ],
+     "latency_client_s": 1.612,
+     "latency_server_s": 1.5955,
+     "state_class": "memory_hit",
+     "memory_delta": 2,
+     "retrieval": null,
+     "selected_ids": [],
+     "error": null
+    },
+    "setup": {
+     "prelude": [
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 21,
+       "duplicate": false
+      },
+      {
+       "action": "remember",
+       "ok": true,
+       "id": 22,
+       "duplicate": false
+      },
+      {
+       "action": "ask",
+       "ok": true,
+       "state": "natural",
+       "refused": false
+      }
+     ],
+     "cleanup": [
+      {
+       "id": 21,
+       "deleted": 1,
+       "dialogue_reset": true
+      },
+      {
+       "id": 22,
+       "deleted": 1,
+       "dialogue_reset": true
+      }
+     ],
+     "memory_before": 20,
+     "infra_error": false,
+     "reset_per_case": {
+      "ok": true,
+      "error": {
+       "reset": true,
+       "chat_tokens": 0
+      }
+     },
+     "memory_delta": 2
+    },
+    "infra_error": false,
+    "pass": false,
+    "failure_class": "僵硬",
+    "problems": [
+     "缺内容：['山东'] 均未出现"
+    ]
+   }
+  ],
+  "infra_errors": []
+ },
+ "hermetic": true
+}

@@ -1,0 +1,49 @@
+{
+ "schema": "kvc_repeat_ask_v1",
+ "arm": "V2b",
+ "endpoint": "http://127.0.0.1:8765",
+ "times": 1,
+ "cases": {
+  "L09": {
+   "input": "我的银行卡尾号是多少？",
+   "expect": {
+    "contains_any": [
+     "8899"
+    ],
+    "refusal": false
+   },
+   "runs": [
+    {
+     "answer": "我的银行卡尾号是 8899",
+     "state": "natural",
+     "refused": false,
+     "verified": true,
+     "verify_verdict": "pass",
+     "verify_mismatches": [],
+     "verify_attempts": 1,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "created_ids": [
+      21
+     ]
+    }
+   ],
+   "dist_state": {
+    "natural": 1
+   },
+   "dist_verdict": {
+    "pass": 1
+   },
+   "dist_answer": {
+    "我的银行卡尾号是 8899": 1
+   }
+  }
+ },
+ "after": {
+  "memories": 20
+ }
+}

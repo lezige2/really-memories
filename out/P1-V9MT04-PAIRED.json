@@ -1,0 +1,35 @@
+{
+ "schema": "p1_v9mt04_paired_v1",
+ "setup": "同副本 kvmem/v9m04、同 pre_state（周日9:30 → 周二19:40 + 6 轮闲聊）、各 5 次；单 GPU 顺序执行",
+ "default_on": {
+  "pass": 2,
+  "n": 5,
+  "states": [
+   "verify_fallback",
+   "natural",
+   "verify_fallback",
+   "verify_fallback",
+   "natural"
+  ]
+ },
+ "explicit_off": {
+  "pass": 5,
+  "n": 5,
+  "states": [
+   "natural",
+   "natural",
+   "natural",
+   "natural",
+   "natural"
+  ]
+ },
+ "stats": {
+  "rd_off_minus_on": 0.6,
+  "ci95": [
+   0.17,
+   1.03
+  ],
+  "fisher_p": 0.167
+ },
+ "verdict": "默认 on 2/5（3 次 verify_fallback）、显式 off 5/5（全 natural）；RD +0.60、Fisher p=0.167。虽未过 0.05，但方向一致且差距大，按“明显差”判 **暂停默认开启**，先查 cap/access 是否影响挂载/校验"
+}

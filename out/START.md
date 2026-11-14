@@ -4,7 +4,7 @@
 powershell -NoProfile -ExecutionPolicy Bypass -File "D:\llama-mem\out\ops\start-wmi.ps1"
 ```
 
-- 用 WMI `Win32_Process.Create` 起独立进程，脱离会话 job；子进程 PID 看 `netstat :8765`；
+- `start-wmi.ps1` → `launch_service.py`，用 `DETACHED_PROCESS|CREATE_NEW_PROCESS_GROUP` 起无控制台子进程；PID 看 `netstat :8765`；
 - 日志 `out/p1-enable/service.out/.err`；
 - 不要用会话内后台 job / `Start-Process` 起服务：job 结束时可能带走子进程（已发生 exit 127 两次）；
 - 如需前台调试，才用下面的 python 命令。

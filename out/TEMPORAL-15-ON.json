@@ -1,0 +1,193 @@
+[
+ {
+  "id": "T01",
+  "query": "我去年去过哪？",
+  "answer": "你去年去过云南大理",
+  "state": "natural",
+  "temporal": {},
+  "expected": {
+   "kind": "value",
+   "value": "云南大理",
+   "period": "2025"
+  },
+  "hit": true
+ },
+ {
+  "id": "T02",
+  "query": "前年我在哪工作？",
+  "answer": "前年你在成都工作。不过具体是哪一家公司我不太记得了",
+  "state": "natural",
+  "temporal": {},
+  "expected": {
+   "kind": "value",
+   "value": "成都",
+   "period": "2024"
+  },
+  "hit": true
+ },
+ {
+  "id": "T03",
+  "query": "三年前我在哪上班？",
+  "answer": "三年前你在苏州上班",
+  "state": "natural",
+  "temporal": {},
+  "expected": {
+   "kind": "value",
+   "value": "苏州",
+   "period": "2023"
+  },
+  "hit": true
+ },
+ {
+  "id": "T04",
+  "query": "上个月我体检结果怎么样？",
+  "answer": "上个月体检的时候医生说你的血脂偏高。其他的具体情况我就记不清了，你可以查看一下当时的体检报告",
+  "state": "natural",
+  "temporal": {},
+  "expected": {
+   "kind": "value",
+   "value": "血脂偏高",
+   "period": "2026-10"
+  },
+  "hit": true
+ },
+ {
+  "id": "T05",
+  "query": "上周我去哪出差？",
+  "answer": "这条我没法从记忆里核对，先不猜。",
+  "state": "verify_fallback",
+  "temporal": {},
+  "expected": {
+   "kind": "value",
+   "value": "南京",
+   "period": "2026-10-26..2026-11-01"
+  },
+  "hit": false
+ },
+ {
+  "id": "T06",
+  "query": "前天我买了什么？",
+  "answer": "前天你买了显示器",
+  "state": "natural",
+  "temporal": {},
+  "expected": {
+   "kind": "value",
+   "value": "显示器",
+   "period": "2026-11-04"
+  },
+  "hit": true
+ },
+ {
+  "id": "T07",
+  "query": "明年我有什么计划？",
+  "answer": "记不清具体的计划了，你可以再想想或者查查看之前的记录",
+  "state": "natural",
+  "temporal": {},
+  "expected": {
+   "kind": "value",
+   "value": "考一个证书",
+   "period": "2027"
+  },
+  "hit": false
+ },
+ {
+  "id": "T08",
+  "query": "下个月我要做什么？",
+  "answer": "下个月你要准备续签租房合同。其他具体安排记得提醒我一下",
+  "state": "natural",
+  "temporal": {},
+  "expected": {
+   "kind": "value",
+   "value": "交续租合同",
+   "period": "2026-12"
+  },
+  "hit": false
+ },
+ {
+  "id": "T09",
+  "query": "我哪天去体检？",
+  "answer": "你是在2026年10月15日去体检的",
+  "state": "natural",
+  "temporal": {},
+  "expected": {
+   "kind": "value",
+   "value": "2026-10-15",
+   "period": "2026-10-15"
+  },
+  "hit": false
+ },
+ {
+  "id": "T10",
+  "query": "我什么时候搬的家？",
+  "answer": "这个我没法确认：你没跟我说过。",
+  "state": "no_evidence",
+  "temporal": {},
+  "expected": {
+   "kind": "value",
+   "value": "2026-10",
+   "period": "2026-10",
+   "note": "月比年更具体，不得给 2025"
+  },
+  "hit": false
+ },
+ {
+  "id": "T11",
+  "query": "三年前我养过什么宠物？",
+  "answer": "这条我没法从记忆里核对，先不猜。",
+  "state": "verify_fallback",
+  "temporal": {},
+  "expected": {
+   "kind": "refusal",
+   "value": "应说明没有三年前宠物的记忆（不得把现在的猫当三年前）"
+  },
+  "hit": false
+ },
+ {
+  "id": "T12",
+  "query": "上个月我去过几个城市？",
+  "answer": "只记得你提到去过云南大理，其他情况记不清了",
+  "state": "natural",
+  "temporal": {},
+  "expected": {
+   "kind": "refusal",
+   "value": "应说明没有“去过几个城市”的信息"
+  },
+  "hit": false
+ },
+ {
+  "id": "T13",
+  "query": "去年我买了什么车？",
+  "answer": "这个我就不清楚了，你当时没和我说过",
+  "state": "natural",
+  "temporal": {},
+  "expected": {
+   "kind": "refusal",
+   "value": "应说明没有买车的记录"
+  },
+  "hit": true
+ },
+ {
+  "id": "T14",
+  "query": "2024-03-01 我在哪？",
+  "answer": "这个我没法确认：你没跟我说过。",
+  "state": "no_evidence",
+  "temporal": {},
+  "expected": {
+   "kind": "refusal",
+   "value": "应说明该日期没有记忆"
+  },
+  "hit": true
+ },
+ {
+  "id": "T15",
+  "query": "下周我要做什么？",
+  "answer": "这个我没法确认：你没跟我提过下周的安排。",
+  "state": "no_time_match",
+  "temporal": {},
+  "expected": {
+   "kind": "refusal",
+   "value": "下周无对应块，应说明没有安排"
+  },
+  "hit": true
+ }
+]

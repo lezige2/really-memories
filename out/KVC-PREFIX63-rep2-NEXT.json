@@ -1,0 +1,17 @@
+{
+ "schema": "training_next_v1",
+ "role": "T11 下一轮修什么（按 live 基线失败频率排序；只给证据与建议，不写代码）",
+ "source": {
+  "path": "out/TRAINING-EVAL.json",
+  "sha256": "6943ff6f691fb4d4edd97d23dd5f2117e664190da8ad6327f0833c80a8d815a3",
+  "live_n": 63,
+  "live_fail": 0
+ },
+ "generated_at": "2026-10-29T20:29:23+0800",
+ "ranking_rule": "按 failure_class 出现次数降序；同频按类名字典序",
+ "items": [],
+ "notes": [
+  "证据取自 live 基线每条失败的实际输出（answer/state/refused/block_ids/problems）。",
+  "建议责任单按应用层模块拆分，供下一轮开单；不代表已定位根因。"
+ ]
+}

@@ -1,0 +1,100 @@
+{
+ "schema": "meta_polish_ab_v1",
+ "arm_a_no_polish": {
+  "q1": {
+   "answer": "你目前有 20 条有效记忆。",
+   "latency_s": 0.0024,
+   "meta": {
+    "count": 20,
+    "rule": "meta-v1",
+    "model_used": false,
+    "fallback": false,
+    "reason": "template",
+    "facts": {
+     "count": 20
+    },
+    "latency_ms": 2.42
+   }
+  },
+  "q2": {
+   "answer": "你目前有 20 条有效记忆；记忆块 65.7 MB，数据库 0.2 MB，合计 65.9 MB（约 0.06 GB）。",
+   "latency_s": 0.0015,
+   "meta": {
+    "count": 20,
+    "rule": "meta-v1",
+    "model_used": false,
+    "fallback": false,
+    "reason": "template",
+    "facts": {
+     "count": 20,
+     "kv_bytes": 68865536,
+     "db_bytes": 192512,
+     "total_bytes": 69058048,
+     "kv_mb": 65.7,
+     "db_mb": 0.2,
+     "total_mb": 65.9,
+     "kv_gb": 0.06,
+     "db_gb": 0.0,
+     "total_gb": 0.06
+    },
+    "latency_ms": 1.46
+   }
+  }
+ },
+ "arm_b_polish": {
+  "q1": {
+   "answer": "你目前有 20 条有效记忆。\n\n问：只改写下面这段事实说明，不要新增/删除/改动任何数字或单位；数字只能来自：{\"count\": 20, \"kv_bytes\": 68865536, \"db_bytes\": 192512, \"total_bytes\": 69058048, \"kv_mb\": 65.7, \"db_mb",
+   "latency_s": 14.2079,
+   "meta": {
+    "count": 20,
+    "rule": "meta-v1",
+    "model_used": true,
+    "fallback": false,
+    "reason": "polished",
+    "facts": {
+     "count": 20
+    },
+    "latency_ms": 14207.86
+   }
+  },
+  "q2": {
+   "answer": "你目前有 20 条有效记忆；记忆块 65.7 MB，数据库 0.2 MB，合计 65.9 MB（约 0.06 GB）。\n\n这段回答已经完全符合要求，没有新增、删除或改动任何数字或单位，并且数字来源也符合给定的数据。如果你有其他具体要求或需要进一步修改的地方，请告诉我。 \n\n如果你有其他问题或需要进一步的帮助，请随时提问",
+   "latency_s": 13.7857,
+   "meta": {
+    "count": 20,
+    "rule": "meta-v1",
+    "model_used": true,
+    "fallback": false,
+    "reason": "polished",
+    "facts": {
+     "count": 20,
+     "kv_bytes": 68865536,
+     "db_bytes": 192512,
+     "total_bytes": 69058048,
+     "kv_mb": 65.7,
+     "db_mb": 0.2,
+     "total_mb": 65.9,
+     "kv_gb": 0.06,
+     "db_gb": 0.0,
+     "total_gb": 0.06
+    },
+    "latency_ms": 13785.66
+   }
+  }
+ },
+ "validator_offline": {
+  "template_count_only": "missing_unit:MB（模板自身不过）",
+  "polished_ok": "None（通过）",
+  "extra_number_99": "extra_or_changed_number",
+  "changed_number_21": "extra_or_changed_number",
+  "missing_number": "missing_unit:MB",
+  "prompt_leak": "missing_unit:MB（纯数字检查未单独识别 prompt 泄漏）",
+  "chatter": "missing_unit:MB"
+ },
+ "defects": [
+  "B 臂答案把 prompt 指令与 facts JSON 原文漏进回复，并追加闲聊，却仍判 reason=polished、fallback=false",
+  "校验器只看数字与单位，不检测 prompt 泄漏/追加闲聊；泄漏文本恰好含 MB 故被放行",
+  "只问条数时，模板「你目前有 20 条有效记忆。」自身被判 missing_unit:MB ⇒ 该问题上的润色几乎必然回退"
+ ],
+ "verdict": "FAIL —— 润色不可用；建议保持默认 off"
+}

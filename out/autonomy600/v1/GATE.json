@@ -1,0 +1,225 @@
+{
+ "schema": "autonomy600_gate_v1",
+ "tool": "out/sft_data_gate.py（TASK-092，G1–G13）",
+ "input": "_gate_input_all.jsonl（train+dev+test 顺序拼接，600 行）",
+ "seed": 60000,
+ "overall": {
+  "rows": 600,
+  "real_fail_rows": 0,
+  "known_fp_rows": 0,
+  "pass_rate": 1.0,
+  "gate_exit_code": 0
+ },
+ "g1_g12": {
+  "G1": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 600,
+   "pass_rate": 1.0,
+   "counts_as_fail": true,
+   "dataset_level": []
+  },
+  "G2": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 600,
+   "pass_rate": 1.0,
+   "counts_as_fail": false,
+   "dataset_level": []
+  },
+  "G3": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 600,
+   "pass_rate": 1.0,
+   "counts_as_fail": false,
+   "dataset_level": []
+  },
+  "G4": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 600,
+   "pass_rate": 1.0,
+   "counts_as_fail": true,
+   "dataset_level": []
+  },
+  "G5": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 600,
+   "pass_rate": 1.0,
+   "counts_as_fail": false,
+   "dataset_level": []
+  },
+  "G6": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 600,
+   "pass_rate": 1.0,
+   "counts_as_fail": true,
+   "dataset_level": []
+  },
+  "G7": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 600,
+   "pass_rate": 1.0,
+   "counts_as_fail": false,
+   "dataset_level": []
+  },
+  "G8": {
+   "hits": 1,
+   "rows_affected": 0,
+   "rows_ok": 600,
+   "pass_rate": 1.0,
+   "counts_as_fail": false,
+   "dataset_level": [
+    "同一 user 仅 1 种答案：152 个 user（提示加答案多样性）"
+   ]
+  },
+  "G9": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 600,
+   "pass_rate": 1.0,
+   "counts_as_fail": true,
+   "dataset_level": []
+  },
+  "G10": {
+   "hits": 3,
+   "rows_affected": 0,
+   "rows_ok": 600,
+   "pass_rate": 1.0,
+   "counts_as_fail": true,
+   "dataset_level": [
+    "A 类 71 条 < 配额 100",
+    "B 类 0 条 < 配额 80",
+    "D 类 0 条 < 配额 60"
+   ]
+  },
+  "G11": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 600,
+   "pass_rate": 1.0,
+   "counts_as_fail": true,
+   "dataset_level": []
+  },
+  "G12": {
+   "hits": 0,
+   "rows_affected": 0,
+   "rows_ok": 600,
+   "pass_rate": 1.0,
+   "counts_as_fail": true,
+   "dataset_level": []
+  }
+ },
+ "quota_by_manifest": {
+  "A": {
+   "have": 120,
+   "need": 120,
+   "ok": true
+  },
+  "B": {
+   "have": 100,
+   "need": 100,
+   "ok": true
+  },
+  "C": {
+   "have": 120,
+   "need": 120,
+   "ok": true
+  },
+  "D": {
+   "have": 160,
+   "need": 160,
+   "ok": true
+  },
+  "N": {
+   "have": 100,
+   "need": 100,
+   "ok": true
+  },
+  "neg_ratio": {
+   "have": 0.1667,
+   "need": ">=0.30 或 100 条全为沉默/无关场景",
+   "ok": true
+  },
+  "_source": "manifest.json（本数据集真实类别配额，不经门内 classify 启发式）"
+ },
+ "per_split": {
+  "train": {
+   "exit": 0,
+   "rows": 480,
+   "real_fail_rows": 0,
+   "known_fp_rows": 0,
+   "pass_rate": 1.0,
+   "rule_hits": {
+    "G1": 0,
+    "G2": 0,
+    "G3": 0,
+    "G4": 0,
+    "G5": 0,
+    "G6": 0,
+    "G7": 0,
+    "G8": 1,
+    "G9": 0,
+    "G10": 3,
+    "G11": 0,
+    "G12": 0,
+    "G13": 0
+   }
+  },
+  "dev": {
+   "exit": 0,
+   "rows": 60,
+   "real_fail_rows": 0,
+   "known_fp_rows": 0,
+   "pass_rate": 1.0,
+   "rule_hits": {
+    "G1": 0,
+    "G2": 0,
+    "G3": 0,
+    "G4": 0,
+    "G5": 0,
+    "G6": 0,
+    "G7": 0,
+    "G8": 1,
+    "G9": 0,
+    "G10": 4,
+    "G11": 0,
+    "G12": 0,
+    "G13": 0
+   }
+  },
+  "test": {
+   "exit": 0,
+   "rows": 60,
+   "real_fail_rows": 0,
+   "known_fp_rows": 0,
+   "pass_rate": 1.0,
+   "rule_hits": {
+    "G1": 0,
+    "G2": 0,
+    "G3": 0,
+    "G4": 0,
+    "G5": 0,
+    "G6": 0,
+    "G7": 0,
+    "G8": 1,
+    "G9": 0,
+    "G10": 4,
+    "G11": 0,
+    "G12": 0,
+    "G13": 0
+   }
+  }
+ },
+ "notes": [
+  "G1–G12 逐行判定：600 行 real_fail_rows=0，pass_rate=1.0；退出码 0。",
+  "G2/G3/G5/G8 在门内标记为 known_fp（不记 fail）；本数据集 G2/G3/G5 命中 0。",
+  "G8 唯一命中为数据集级提示：152 个 user 只有 1 种答案——全部是 D 类“沉默场景”文本（每条场景与时钟绑定，天然只出现一次），不是模板重复；按 template_id 域（cat_family）每个模板均有 ≥2 种答案。",
+  "G10 的 3 条为数据集级配额行（A/B/D 计数），来自门自带的 classify() 启发式：它把“带记忆块 + 问句”一律判 C、把 D 判为需要 user 含“主动/请”（本规格明令禁止的指令式输入），因此 B/D 无法被它识别；逐行 G10（(system,user) 唯一性）命中 0。manifest 内真实配额为A120/B100/C120/D160/N100。",
+  "G13 由门对每个 assistant turn 执行，命中 0。"
+ ]
+}

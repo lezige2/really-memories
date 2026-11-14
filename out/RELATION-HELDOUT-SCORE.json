@@ -1,0 +1,248 @@
+{
+  "meta": {
+    "gold": "out/RELATION-HELDOUT-60.jsonl",
+    "sha256": "475d6ec44fe3e4aa09629f0fa862fac0e46de84cb5b29ad61e841edbe21946f4",
+    "n": 60,
+    "labels_present": {
+      "correct": 20,
+      "new_subject": 20,
+      "ambiguous": 20
+    },
+    "scorer": "out/relation_heldout_score.py",
+    "rules_untouched": true,
+    "content_printed": false,
+    "note": "只评分；old/new 原文不进入输出。arm_v1=relation_baseline.predict，arm_v2=relation_baseline.predict_v2。"
+  },
+  "arm_v1_rule": {
+    "accuracy": 0.55,
+    "correct_n": 33,
+    "confusion": {
+      "correct": {
+        "correct": 0,
+        "new_subject": 6,
+        "ambiguous": 14
+      },
+      "new_subject": {
+        "correct": 0,
+        "new_subject": 15,
+        "ambiguous": 5
+      },
+      "ambiguous": {
+        "correct": 0,
+        "new_subject": 2,
+        "ambiguous": 18
+      }
+    },
+    "four_way": {
+      "正则_regular": 33,
+      "错隐藏_ambiguous_to_correct": 0,
+      "重复_correct_to_new_subject": 6,
+      "重复_ambiguous_to_new_subject": 2,
+      "重复_total": 8,
+      "漏判_correct_to_ambiguous": 14,
+      "其余_new_subject_to_ambiguous": 5,
+      "其余_new_subject_to_correct": 0
+    },
+    "per_class": {
+      "correct": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 20
+      },
+      "new_subject": {
+        "precision": 0.6522,
+        "recall": 0.75,
+        "f1": 0.6977,
+        "support": 20
+      },
+      "ambiguous": {
+        "precision": 0.4865,
+        "recall": 0.9,
+        "f1": 0.6316,
+        "support": 20
+      }
+    },
+    "oos_residual": {
+      "count": 20,
+      "ids": [
+        "RH01",
+        "RH02",
+        "RH03",
+        "RH04",
+        "RH05",
+        "RH06",
+        "RH07",
+        "RH08",
+        "RH09",
+        "RH10",
+        "RH11",
+        "RH12",
+        "RH13",
+        "RH14",
+        "RH15",
+        "RH16",
+        "RH17",
+        "RH18",
+        "RH19",
+        "RH20"
+      ]
+    }
+  },
+  "arm_v2_rule": {
+    "accuracy": 0.6,
+    "correct_n": 36,
+    "confusion": {
+      "correct": {
+        "correct": 1,
+        "new_subject": 6,
+        "ambiguous": 13
+      },
+      "new_subject": {
+        "correct": 0,
+        "new_subject": 15,
+        "ambiguous": 5
+      },
+      "ambiguous": {
+        "correct": 0,
+        "new_subject": 0,
+        "ambiguous": 20
+      }
+    },
+    "four_way": {
+      "正则_regular": 36,
+      "错隐藏_ambiguous_to_correct": 0,
+      "重复_correct_to_new_subject": 6,
+      "重复_ambiguous_to_new_subject": 0,
+      "重复_total": 6,
+      "漏判_correct_to_ambiguous": 13,
+      "其余_new_subject_to_ambiguous": 5,
+      "其余_new_subject_to_correct": 0
+    },
+    "per_class": {
+      "correct": {
+        "precision": 1.0,
+        "recall": 0.05,
+        "f1": 0.0952,
+        "support": 20
+      },
+      "new_subject": {
+        "precision": 0.7143,
+        "recall": 0.75,
+        "f1": 0.7317,
+        "support": 20
+      },
+      "ambiguous": {
+        "precision": 0.5263,
+        "recall": 1.0,
+        "f1": 0.6897,
+        "support": 20
+      }
+    },
+    "oos_residual": {
+      "count": 19,
+      "ids": [
+        "RH01",
+        "RH02",
+        "RH03",
+        "RH04",
+        "RH05",
+        "RH06",
+        "RH07",
+        "RH08",
+        "RH09",
+        "RH10",
+        "RH11",
+        "RH12",
+        "RH13",
+        "RH14",
+        "RH15",
+        "RH16",
+        "RH17",
+        "RH19",
+        "RH20"
+      ]
+    }
+  },
+  "rg43_analog": {
+    "match": "structural",
+    "candidates": [
+      {
+        "id": "RH10",
+        "v1_pred": "ambiguous",
+        "v2_pred": "ambiguous",
+        "gold": "correct"
+      },
+      {
+        "id": "RH13",
+        "v1_pred": "ambiguous",
+        "v2_pred": "ambiguous",
+        "gold": "correct"
+      },
+      {
+        "id": "RH27",
+        "v1_pred": "ambiguous",
+        "v2_pred": "ambiguous",
+        "gold": "new_subject"
+      },
+      {
+        "id": "RH42",
+        "v1_pred": "ambiguous",
+        "v2_pred": "ambiguous",
+        "gold": "ambiguous"
+      },
+      {
+        "id": "RH47",
+        "v1_pred": "ambiguous",
+        "v2_pred": "ambiguous",
+        "gold": "ambiguous"
+      },
+      {
+        "id": "RH48",
+        "v1_pred": "ambiguous",
+        "v2_pred": "ambiguous",
+        "gold": "ambiguous"
+      },
+      {
+        "id": "RH49",
+        "v1_pred": "ambiguous",
+        "v2_pred": "ambiguous",
+        "gold": "ambiguous"
+      },
+      {
+        "id": "RH53",
+        "v1_pred": "ambiguous",
+        "v2_pred": "ambiguous",
+        "gold": "ambiguous"
+      },
+      {
+        "id": "RH54",
+        "v1_pred": "ambiguous",
+        "v2_pred": "ambiguous",
+        "gold": "ambiguous"
+      },
+      {
+        "id": "RH57",
+        "v1_pred": "ambiguous",
+        "v2_pred": "ambiguous",
+        "gold": "ambiguous"
+      },
+      {
+        "id": "RH59",
+        "v1_pred": "ambiguous",
+        "v2_pred": "ambiguous",
+        "gold": "ambiguous"
+      },
+      {
+        "id": "RH60",
+        "v1_pred": "ambiguous",
+        "v2_pred": "ambiguous",
+        "gold": "ambiguous"
+      }
+    ]
+  },
+  "verdict": {
+    "v1_residual_vs_threshold_12": "at_or_above",
+    "v2_residual_vs_threshold_12": "at_or_above"
+  }
+}

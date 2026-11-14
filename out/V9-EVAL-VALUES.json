@@ -1,0 +1,9235 @@
+{
+ "schema": "v9_eval_values_v1",
+ "task": "TASK-099",
+ "generated_at": "2026-10-29T10:18:48",
+ "train_blob": {
+  "files": [
+   "data.jsonl",
+   "data_v4.jsonl",
+   "data_v9.jsonl",
+   "train.jsonl",
+   "train_v3.jsonl",
+   "train_v4.jsonl",
+   "train_v6.jsonl",
+   "train_v8.jsonl",
+   "train_v8b.jsonl",
+   "train_v9.jsonl",
+   "v3_autonomy.jsonl",
+   "val.jsonl"
+  ],
+  "bytes": 21015218,
+  "sha16": "5fc454c40a60e530",
+  "sha256": "5fc454c40a60e530d7996e889f16ac187e881e7bcbb465581494f824f9ec8aa1",
+  "files_detail": [
+   {
+    "name": "data.jsonl",
+    "bytes": 2204196,
+    "sha256": "7c660a48f61b9476d6a1017d453c7424f9b436afce439851510866e8d9250589"
+   },
+   {
+    "name": "data_v4.jsonl",
+    "bytes": 1292879,
+    "sha256": "498c9977e734ef6113cbaed9dcd2e3f9a8c202d1f0bfaade1bcdf2d33d962415"
+   },
+   {
+    "name": "data_v9.jsonl",
+    "bytes": 4337460,
+    "sha256": "c3d0d156712f98003eefe6d61798ea0842c9fbd1997275fefd7d969ad6eced85"
+   },
+   {
+    "name": "train.jsonl",
+    "bytes": 2204196,
+    "sha256": "7c660a48f61b9476d6a1017d453c7424f9b436afce439851510866e8d9250589"
+   },
+   {
+    "name": "train_v3.jsonl",
+    "bytes": 808443,
+    "sha256": "f01972ce030e9b0bf5190a456cdfedacf622a23d07be8f273e7862e4f92723ba"
+   },
+   {
+    "name": "train_v4.jsonl",
+    "bytes": 1292879,
+    "sha256": "498c9977e734ef6113cbaed9dcd2e3f9a8c202d1f0bfaade1bcdf2d33d962415"
+   },
+   {
+    "name": "train_v6.jsonl",
+    "bytes": 1324247,
+    "sha256": "d64b6a00d49154ceebd47218395d6604b9f8b4e6a3dbc4fc4c600a209da74965"
+   },
+   {
+    "name": "train_v8.jsonl",
+    "bytes": 1363617,
+    "sha256": "f7f908d3eabef8621556155c2463d9f96eac1193caa03ad349bb32d61e35e9b6"
+   },
+   {
+    "name": "train_v8b.jsonl",
+    "bytes": 1445464,
+    "sha256": "33023f0a5c11adbefad1dcaff0e166b7c309ed5bd9b09f35a5143ec122496fc2"
+   },
+   {
+    "name": "train_v9.jsonl",
+    "bytes": 4337460,
+    "sha256": "c3d0d156712f98003eefe6d61798ea0842c9fbd1997275fefd7d969ad6eced85"
+   },
+   {
+    "name": "v3_autonomy.jsonl",
+    "bytes": 285220,
+    "sha256": "0f2c6cbf22f5e84c6e824a22cbed3ddd2a203060fb6b3cfcac497bc253dc424a"
+   },
+   {
+    "name": "val.jsonl",
+    "bytes": 136236,
+    "sha256": "65315a7be24bd118052b62950160c7926d3877d6d4d7767cd7980fe2df8019fa"
+   }
+  ],
+  "note": "train_blob=12 个训练 jsonl 按文件名排序拼接后的 sha256（非单文件哈希；单文件哈希见 files_detail，train_v9.jsonl 应为 c3d0d156…）"
+ },
+ "eval_values_independent": {
+  "朵朵": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "contains_all"
+   }
+  ],
+  "安安": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "not_contains"
+   }
+  ],
+  "周二晚上七点四十": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "conflict_if_all"
+   }
+  ],
+  "周日上午九点半": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "conflict_if_all"
+   }
+  ],
+  "158-0000-2468": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "conflict_if_all"
+   }
+  ],
+  "15800002468": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   }
+  ],
+  "136-1111-3333": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "conflict_if_all"
+   }
+  ],
+  "C区": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "contains_all"
+   }
+  ],
+  "11号": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "contains_all"
+   }
+  ],
+  "B区": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "not_contains"
+   }
+  ],
+  "7号": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "not_contains"
+   }
+  ],
+  "津D65432": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "contains_all"
+   }
+  ],
+  "津D 65432": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "expect"
+   }
+  ],
+  "京N32109": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "not_contains"
+   }
+  ],
+  "顺丰": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "contains_all"
+   }
+  ],
+  "中石油": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "not_contains"
+   }
+  ],
+  "哈尔滨": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "contains_all"
+   }
+  ],
+  "宜昌": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "not_contains"
+   }
+  ],
+  "荆州": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "contains_all"
+   }
+  ],
+  "襄阳": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "not_contains"
+   }
+  ],
+  "粤菜": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "contains_all"
+   }
+  ],
+  "湘菜": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "not_contains"
+   }
+  ],
+  "米朵": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "contains_all"
+   }
+  ],
+  "果果": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "not_contains"
+   }
+  ]
+ },
+ "independent_entities": {
+  "朵朵": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "contains_all"
+   }
+  ],
+  "安安": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "not_contains"
+   }
+  ],
+  "周二晚上七点四十": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "conflict_if_all"
+   }
+  ],
+  "周日上午九点半": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "conflict_if_all"
+   }
+  ],
+  "158-0000-2468": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "conflict_if_all"
+   }
+  ],
+  "136-1111-3333": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "conflict_if_all"
+   }
+  ],
+  "津D65432": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "contains_all"
+   }
+  ],
+  "津D 65432": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "expect"
+   }
+  ],
+  "京N32109": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "not_contains"
+   }
+  ],
+  "顺丰": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "contains_all"
+   }
+  ],
+  "中石油": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "not_contains"
+   }
+  ],
+  "哈尔滨": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "contains_all"
+   }
+  ],
+  "宜昌": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "not_contains"
+   }
+  ],
+  "荆州": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "contains_all"
+   }
+  ],
+  "襄阳": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "not_contains"
+   }
+  ],
+  "粤菜": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "contains_all"
+   }
+  ],
+  "湘菜": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "not_contains"
+   }
+  ],
+  "米朵": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "contains_all"
+   }
+  ],
+  "果果": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "not_contains"
+   }
+  ]
+ },
+ "independent_generic_tokens": {
+  "15800002468": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   }
+  ],
+  "C区": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "contains_all"
+   }
+  ],
+  "11号": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "contains_all"
+   }
+  ],
+  "B区": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "not_contains"
+   }
+  ],
+  "7号": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "not_contains"
+   }
+  ]
+ },
+ "fixture_entities": {
+  "137-0000-9527": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L01",
+    "kind": "expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "13700009527": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L01",
+    "kind": "expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "E区": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L02",
+    "kind": "expect"
+   }
+  ],
+  "E 区": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L02",
+    "kind": "expect"
+   }
+  ],
+  "雪梨": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L03",
+    "kind": "expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "商汤": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L04",
+    "kind": "expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "银色": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D05",
+    "kind": "expect"
+   }
+  ],
+  "两厢": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D05",
+    "kind": "expect"
+   }
+  ],
+  "lin@example.org": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L07",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L07",
+    "kind": "expect"
+   }
+  ],
+  "洛阳": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L08",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L08",
+    "kind": "expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "7418": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L09",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L09",
+    "kind": "expect"
+   }
+  ],
+  "布洛芬": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L10",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L10",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D03",
+    "kind": "expect"
+   }
+  ],
+  "无法": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R05",
+    "kind": "expect"
+   }
+  ],
+  "无法确认": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R05",
+    "kind": "expect"
+   }
+  ],
+  "我的备用手机号是 137-0000-9527": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L01",
+    "kind": "remember"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   }
+  ],
+  "我的工位在 E 区 9 号": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L02",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L02",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L02",
+    "kind": "remember"
+   }
+  ],
+  "我女儿的小名是雪梨": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L03",
+    "kind": "remember"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   }
+  ],
+  "我下个月要去商汤出差": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L04",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L04",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L04",
+    "kind": "remember"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   }
+  ],
+  "我的车是银色两厢车": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "C03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "D05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D05",
+    "kind": "remember"
+   }
+  ],
+  "我每周四晚上十点健身": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L06",
+    "kind": "remember"
+   }
+  ],
+  "我的邮箱是 lin@example.org": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L07",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L07",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L07",
+    "kind": "remember"
+   }
+  ],
+  "我老家在洛阳": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L08",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L08",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L08",
+    "kind": "remember"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   }
+  ],
+  "我的银行卡尾号是 7418": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L09",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L09",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L09",
+    "kind": "remember"
+   }
+  ],
+  "我对布洛芬过敏": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L10",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L10",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "C04",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "D03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L10",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C04",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D03",
+    "kind": "remember"
+   }
+  ],
+  "六点五十": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D02",
+    "kind": "expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "18:50": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D02",
+    "kind": "expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "银川": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D01",
+    "kind": "expect"
+   }
+  ],
+  "哈尔滨": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "expect"
+   }
+  ],
+  "六点四十": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C02",
+    "kind": "expect"
+   }
+  ],
+  "18:40": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C02",
+    "kind": "expect"
+   }
+  ],
+  "栗子": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D04",
+    "kind": "expect"
+   }
+  ],
+  "我每周四晚上六点五十健身": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L06",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L06",
+    "kind": "remember"
+   }
+  ],
+  "我下周三要去银川开会": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "A01",
+    "kind": "input_fact"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "C01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "D01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "input_fact"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D01",
+    "kind": "remember"
+   }
+  ],
+  "我女儿的小名是栗子": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "A02",
+    "kind": "input_fact"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "D04",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "input_fact"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D04",
+    "kind": "remember"
+   }
+  ],
+  "我最近开始学吉他": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "A03",
+    "kind": "input_fact"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "input_fact"
+   }
+  ],
+  "我换了个新工位在 E 区 9 号": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "A04",
+    "kind": "input_fact"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "input_fact"
+   }
+  ],
+  "我周五晚上六点四十去健身": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "C02",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C02",
+    "kind": "remember"
+   }
+  ],
+  "我周四晚上六点五十去游泳": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "D02",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D02",
+    "kind": "remember"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   }
+  ],
+  "朵朵": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "expect"
+   }
+  ],
+  "周二晚上七点四十": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "expect"
+   }
+  ],
+  "周日上午九点半": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "expect"
+   }
+  ],
+  "158-0000-2468": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   }
+  ],
+  "15800002468": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   }
+  ],
+  "136-1111-3333": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   }
+  ],
+  "津D65432": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "expect"
+   }
+  ],
+  "津D 65432": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "expect"
+   }
+  ],
+  "顺丰": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "expect"
+   }
+  ],
+  "荆州": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "expect"
+   }
+  ],
+  "粤菜": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "expect"
+   }
+  ],
+  "米朵": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "expect"
+   }
+  ],
+  "我养了只猫叫安安": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "remember"
+   }
+  ],
+  "我的猫名是朵朵": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "remember"
+   }
+  ],
+  "我的健身时间是周日上午九点半": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "remember"
+   }
+  ],
+  "我的健身时间是周二晚上七点四十": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "remember"
+   }
+  ],
+  "我的手机号是136-1111-3333": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "remember"
+   }
+  ],
+  "我的手机号是158-0000-2468": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "remember"
+   }
+  ],
+  "我的工位是B区7号": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "remember"
+   }
+  ],
+  "我的工位是C区11号": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "remember"
+   }
+  ],
+  "我的车牌号是京N32109": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "remember"
+   }
+  ],
+  "我的车牌号是津D65432": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "remember"
+   }
+  ],
+  "我的公司是中石油": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "remember"
+   }
+  ],
+  "我的公司是顺丰": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "remember"
+   }
+  ],
+  "我下周三要去宜昌开会": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "remember"
+   }
+  ],
+  "我下周三要去哈尔滨开会": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "remember"
+   }
+  ],
+  "我老家在襄阳": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "remember"
+   }
+  ],
+  "我老家在荆州": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "remember"
+   }
+  ],
+  "我最爱吃湘菜": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "remember"
+   }
+  ],
+  "我最爱吃粤菜": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "remember"
+   }
+  ],
+  "我女儿小名叫果果": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "remember"
+   }
+  ],
+  "我女儿小名叫米朵": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "remember"
+   }
+  ],
+  "我的车牌号是闽D74185": [
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   }
+  ],
+  "闽D74185": [
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "闽D 74185": [
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "闽D-74185": [
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "我的工位在 18 号": [
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   }
+  ]
+ },
+ "fixture_mem_entities": {
+  "MEM:我的备用手机号是 137-0000-9527": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L01",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的工位在 E 区 9 号": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L02",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L02",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L02",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我女儿的小名是雪梨": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L03",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我下个月要去商汤出差": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L04",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L04",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L04",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的车是银色两厢车": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "C03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "D05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D05",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我每周四晚上十点健身": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L06",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的邮箱是 lin@example.org": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L07",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L07",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L07",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我老家在洛阳": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L08",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L08",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L08",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的银行卡尾号是 7418": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L09",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L09",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L09",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我对布洛芬过敏": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L10",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L10",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "C04",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "D03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L10",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C04",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D03",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我每周四晚上六点五十健身": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L06",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L06",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我下周三要去银川开会": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "C01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "D01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D01",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我周五晚上六点四十去健身": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "C02",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C02",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我周四晚上六点五十去游泳": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "D02",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D02",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我女儿的小名是栗子": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "D04",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D04",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我养了只猫叫安安": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的猫名是朵朵": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的健身时间是周日上午九点半": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的健身时间是周二晚上七点四十": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的手机号是136-1111-3333": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的手机号是158-0000-2468": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的工位是B区7号": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的工位是C区11号": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的车牌号是京N32109": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的车牌号是津D65432": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的公司是中石油": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的公司是顺丰": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我下周三要去宜昌开会": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我下周三要去哈尔滨开会": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我老家在襄阳": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我老家在荆州": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我最爱吃湘菜": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我最爱吃粤菜": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我女儿小名叫果果": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我女儿小名叫米朵": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "remember"
+   }
+  ]
+ },
+ "fixture_values": {
+  "137-0000-9527": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L01",
+    "kind": "expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "13700009527": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L01",
+    "kind": "expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "MEM:我的备用手机号是 137-0000-9527": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L01",
+    "kind": "remember"
+   }
+  ],
+  "E区": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L02",
+    "kind": "expect"
+   }
+  ],
+  "E 区": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L02",
+    "kind": "expect"
+   }
+  ],
+  "9号": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L02",
+    "kind": "expect"
+   }
+  ],
+  "9 号": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L02",
+    "kind": "expect"
+   }
+  ],
+  "MEM:我的工位在 E 区 9 号": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L02",
+    "kind": "remember"
+   }
+  ],
+  "雪梨": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L03",
+    "kind": "expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "MEM:我女儿的小名是雪梨": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L03",
+    "kind": "remember"
+   }
+  ],
+  "商汤": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L04",
+    "kind": "expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "MEM:我下个月要去商汤出差": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L04",
+    "kind": "remember"
+   }
+  ],
+  "银色": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D05",
+    "kind": "expect"
+   }
+  ],
+  "两厢": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D05",
+    "kind": "expect"
+   }
+  ],
+  "MEM:我的车是银色两厢车": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D05",
+    "kind": "remember"
+   }
+  ],
+  "十点": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L06",
+    "kind": "expect"
+   }
+  ],
+  "10点": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L06",
+    "kind": "expect"
+   }
+  ],
+  "22点": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L06",
+    "kind": "expect"
+   }
+  ],
+  "MEM:我每周四晚上十点健身": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L06",
+    "kind": "remember"
+   }
+  ],
+  "lin@example.org": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L07",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L07",
+    "kind": "expect"
+   }
+  ],
+  "MEM:我的邮箱是 lin@example.org": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L07",
+    "kind": "remember"
+   }
+  ],
+  "洛阳": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L08",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L08",
+    "kind": "expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "MEM:我老家在洛阳": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L08",
+    "kind": "remember"
+   }
+  ],
+  "7418": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L09",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L09",
+    "kind": "expect"
+   }
+  ],
+  "MEM:我的银行卡尾号是 7418": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L09",
+    "kind": "remember"
+   }
+  ],
+  "布洛芬": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L10",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L10",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D03",
+    "kind": "expect"
+   }
+  ],
+  "MEM:我对布洛芬过敏": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L10",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C04",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D03",
+    "kind": "remember"
+   }
+  ],
+  "不知道": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m07",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m08",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s06",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "x01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "x02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "x03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "f01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "f02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "f03",
+    "kind": "not_contains"
+   }
+  ],
+  "没有": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w05",
+    "kind": "expect"
+   }
+  ],
+  "没告诉": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u08",
+    "kind": "expect"
+   }
+  ],
+  "没法": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u08",
+    "kind": "expect"
+   }
+  ],
+  "无法": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m07",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s06",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "x01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "x02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "x03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w05",
+    "kind": "expect"
+   }
+  ],
+  "记不清": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u08",
+    "kind": "expect"
+   }
+  ],
+  "没提过": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R05",
+    "kind": "expect"
+   }
+  ],
+  "无法确认": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "R05",
+    "kind": "expect"
+   }
+  ],
+  "我的备用手机号是 137-0000-9527": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L01",
+    "kind": "remember"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   }
+  ],
+  "我的工位在 E 区 9 号": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L02",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L02",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L02",
+    "kind": "remember"
+   }
+  ],
+  "我女儿的小名是雪梨": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L03",
+    "kind": "remember"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   }
+  ],
+  "我下个月要去商汤出差": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L04",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L04",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L04",
+    "kind": "remember"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   }
+  ],
+  "我的车是银色两厢车": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "C03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "D05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D05",
+    "kind": "remember"
+   }
+  ],
+  "我每周四晚上十点健身": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L06",
+    "kind": "remember"
+   }
+  ],
+  "我的邮箱是 lin@example.org": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L07",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L07",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L07",
+    "kind": "remember"
+   }
+  ],
+  "我老家在洛阳": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L08",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L08",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L08",
+    "kind": "remember"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   }
+  ],
+  "我的银行卡尾号是 7418": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L09",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L09",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L09",
+    "kind": "remember"
+   }
+  ],
+  "我对布洛芬过敏": [
+   {
+    "source": "SFT-EXTRA-CASES-v2.jsonl",
+    "id": "L10",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L10",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "C04",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "D03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L10",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C04",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D03",
+    "kind": "remember"
+   }
+  ],
+  "六点五十": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D02",
+    "kind": "expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "18点50": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D02",
+    "kind": "expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "18:50": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D02",
+    "kind": "expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "MEM:我每周四晚上六点五十健身": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L06",
+    "kind": "remember"
+   }
+  ],
+  "好": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "expect"
+   }
+  ],
+  "记": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "expect"
+   }
+  ],
+  "行": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "expect"
+   }
+  ],
+  "收到": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "expect"
+   }
+  ],
+  "没问题": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "expect"
+   }
+  ],
+  "记下": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "expect"
+   }
+  ],
+  "知道了": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "expect"
+   }
+  ],
+  "嗯": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "expect"
+   }
+  ],
+  "不能": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w05",
+    "kind": "expect"
+   }
+  ],
+  "做不了": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D05",
+    "kind": "not_contains"
+   }
+  ],
+  "帮不了": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D05",
+    "kind": "not_contains"
+   }
+  ],
+  "哪": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   }
+  ],
+  "什么": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   }
+  ],
+  "具体": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   }
+  ],
+  "型号": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   }
+  ],
+  "城市": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   }
+  ],
+  "名字": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   }
+  ],
+  "没说": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   }
+  ],
+  "哪个": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   }
+  ],
+  "哪家": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "expect"
+   }
+  ],
+  "项目名是": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "not_contains"
+   }
+  ],
+  "叫做": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "not_contains"
+   }
+  ],
+  "名称是": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B01",
+    "kind": "not_contains"
+   }
+  ],
+  "北京": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m06",
+    "kind": "expect"
+   }
+  ],
+  "上海": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "f01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "f02",
+    "kind": "expect"
+   }
+  ],
+  "广州": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "h02",
+    "kind": "expect"
+   }
+  ],
+  "深圳": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m06",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m08",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s01",
+    "kind": "not_contains"
+   }
+  ],
+  "成都": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "h03",
+    "kind": "expect"
+   }
+  ],
+  "杭州": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s01",
+    "kind": "not_contains"
+   }
+  ],
+  "银川": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D01",
+    "kind": "expect"
+   }
+  ],
+  "哈尔滨": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "expect"
+   }
+  ],
+  "MacBook": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "not_contains"
+   }
+  ],
+  "ThinkPad": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "not_contains"
+   }
+  ],
+  "联想": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "not_contains"
+   }
+  ],
+  "戴尔": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "not_contains"
+   }
+  ],
+  "华为": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "not_contains"
+   }
+  ],
+  "苹果": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "not_contains"
+   }
+  ],
+  "小米": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B03",
+    "kind": "not_contains"
+   }
+  ],
+  "豆豆": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s03",
+    "kind": "expect"
+   }
+  ],
+  "咪咪": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "not_contains"
+   }
+  ],
+  "团子": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "not_contains"
+   }
+  ],
+  "布丁": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "not_contains"
+   }
+  ],
+  "可乐": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "not_contains"
+   }
+  ],
+  "奶糖": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "B04",
+    "kind": "not_contains"
+   }
+  ],
+  "开会": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "f02",
+    "kind": "expect"
+   }
+  ],
+  "MEM:我下周三要去银川开会": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D01",
+    "kind": "remember"
+   }
+  ],
+  "六点四十": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C02",
+    "kind": "expect"
+   }
+  ],
+  "18点40": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C02",
+    "kind": "expect"
+   }
+  ],
+  "18:40": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C02",
+    "kind": "expect"
+   }
+  ],
+  "MEM:我周五晚上六点四十去健身": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C02",
+    "kind": "remember"
+   }
+  ],
+  "（": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m07",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m08",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s06",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "x01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "x02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "x03",
+    "kind": "not_contains"
+   }
+  ],
+  "MEM:我周四晚上六点五十去游泳": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D02",
+    "kind": "remember"
+   }
+  ],
+  "栗子": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D04",
+    "kind": "expect"
+   }
+  ],
+  "MEM:我女儿的小名是栗子": [
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D04",
+    "kind": "remember"
+   }
+  ],
+  "我每周四晚上六点五十健身": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "L06",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "L06",
+    "kind": "remember"
+   }
+  ],
+  "我下周三要去银川开会": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "A01",
+    "kind": "input_fact"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "C01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "D01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A01",
+    "kind": "input_fact"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D01",
+    "kind": "remember"
+   }
+  ],
+  "我女儿的小名是栗子": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "A02",
+    "kind": "input_fact"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "D04",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A02",
+    "kind": "input_fact"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D04",
+    "kind": "remember"
+   }
+  ],
+  "我最近开始学吉他": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "A03",
+    "kind": "input_fact"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A03",
+    "kind": "input_fact"
+   }
+  ],
+  "我换了个新工位在 E 区 9 号": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "A04",
+    "kind": "input_fact"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "A04",
+    "kind": "input_fact"
+   }
+  ],
+  "我周五晚上六点四十去健身": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "C02",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "C02",
+    "kind": "remember"
+   }
+  ],
+  "我周四晚上六点五十去游泳": [
+   {
+    "source": "SFT-EXTRA-CASES-v3.jsonl",
+    "id": "D02",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v3-dempty.jsonl",
+    "id": "D02",
+    "kind": "remember"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   }
+  ],
+  "朵朵": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "expect"
+   }
+  ],
+  "安安": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "not_contains"
+   }
+  ],
+  "MEM:我养了只猫叫安安": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的猫名是朵朵": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "remember"
+   }
+  ],
+  "周二晚上七点四十": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "expect"
+   }
+  ],
+  "周日上午九点半": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "expect"
+   }
+  ],
+  "MEM:我的健身时间是周日上午九点半": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的健身时间是周二晚上七点四十": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "remember"
+   }
+  ],
+  "158-0000-2468": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   }
+  ],
+  "15800002468": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   }
+  ],
+  "136-1111-3333": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "conflict_if_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "expect"
+   }
+  ],
+  "MEM:我的手机号是136-1111-3333": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的手机号是158-0000-2468": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "remember"
+   }
+  ],
+  "C区": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "expect"
+   }
+  ],
+  "11号": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "expect"
+   }
+  ],
+  "B区": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "not_contains"
+   }
+  ],
+  "7号": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "not_contains"
+   }
+  ],
+  "MEM:我的工位是B区7号": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的工位是C区11号": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "remember"
+   }
+  ],
+  "津D65432": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "expect"
+   }
+  ],
+  "津D 65432": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "expect"
+   }
+  ],
+  "京N32109": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "not_contains"
+   }
+  ],
+  "MEM:我的车牌号是京N32109": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的车牌号是津D65432": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "remember"
+   }
+  ],
+  "顺丰": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "expect"
+   }
+  ],
+  "中石油": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "not_contains"
+   }
+  ],
+  "MEM:我的公司是中石油": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我的公司是顺丰": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "remember"
+   }
+  ],
+  "宜昌": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "not_contains"
+   }
+  ],
+  "MEM:我下周三要去宜昌开会": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我下周三要去哈尔滨开会": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "remember"
+   }
+  ],
+  "荆州": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "expect"
+   }
+  ],
+  "襄阳": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "not_contains"
+   }
+  ],
+  "MEM:我老家在襄阳": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我老家在荆州": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "remember"
+   }
+  ],
+  "粤菜": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "expect"
+   }
+  ],
+  "湘菜": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "not_contains"
+   }
+  ],
+  "MEM:我最爱吃湘菜": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我最爱吃粤菜": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "remember"
+   }
+  ],
+  "米朵": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "contains_all"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "expect"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "expect"
+   }
+  ],
+  "果果": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "not_contains"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "not_contains"
+   }
+  ],
+  "MEM:我女儿小名叫果果": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我女儿小名叫米朵": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "remember"
+   }
+  ],
+  "我养了只猫叫安安": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "remember"
+   }
+  ],
+  "我的猫名是朵朵": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT01",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT02",
+    "kind": "remember"
+   }
+  ],
+  "我的健身时间是周日上午九点半": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "remember"
+   }
+  ],
+  "我的健身时间是周二晚上七点四十": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT03",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT04",
+    "kind": "remember"
+   }
+  ],
+  "我的手机号是136-1111-3333": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "remember"
+   }
+  ],
+  "我的手机号是158-0000-2468": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT05",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT06",
+    "kind": "remember"
+   }
+  ],
+  "我的工位是B区7号": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "remember"
+   }
+  ],
+  "我的工位是C区11号": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT07",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT08",
+    "kind": "remember"
+   }
+  ],
+  "我的车牌号是京N32109": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "remember"
+   }
+  ],
+  "我的车牌号是津D65432": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT09",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT10",
+    "kind": "remember"
+   }
+  ],
+  "我的公司是中石油": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "remember"
+   }
+  ],
+  "我的公司是顺丰": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT11",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT12",
+    "kind": "remember"
+   }
+  ],
+  "我下周三要去宜昌开会": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "remember"
+   }
+  ],
+  "我下周三要去哈尔滨开会": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT13",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT14",
+    "kind": "remember"
+   }
+  ],
+  "我老家在襄阳": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "remember"
+   }
+  ],
+  "我老家在荆州": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT15",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT16",
+    "kind": "remember"
+   }
+  ],
+  "我最爱吃湘菜": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "remember"
+   }
+  ],
+  "我最爱吃粤菜": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT17",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT18",
+    "kind": "remember"
+   }
+  ],
+  "我女儿小名叫果果": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "remember"
+   }
+  ],
+  "我女儿小名叫米朵": [
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT19",
+    "kind": "remember"
+   },
+   {
+    "source": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+    "id": "V9MT20",
+    "kind": "remember"
+   }
+  ],
+  "我的车牌号是闽D74185": [
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   }
+  ],
+  "闽D74185": [
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "闽D 74185": [
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "闽D-74185": [
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "我的工位在 18 号": [
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_fact"
+   }
+  ],
+  "18 号": [
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "18号": [
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   },
+   {
+    "source": "BASE-VERIFY-PROBES.py",
+    "id": "FACT",
+    "kind": "probe_expect"
+   }
+  ],
+  "你好": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g09",
+    "kind": "expect"
+   }
+  ],
+  "您好": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g09",
+    "kind": "expect"
+   }
+  ],
+  "嗨": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g09",
+    "kind": "expect"
+   }
+  ],
+  "哈喽": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g09",
+    "kind": "expect"
+   }
+  ],
+  "有啥": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g09",
+    "kind": "expect"
+   }
+  ],
+  "在的": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g09",
+    "kind": "expect"
+   }
+  ],
+  "晚上好": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g09",
+    "kind": "expect"
+   }
+  ],
+  "早上好": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g09",
+    "kind": "expect"
+   }
+  ],
+  "在呢": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g05",
+    "kind": "expect"
+   }
+  ],
+  "有事吗": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "g05",
+    "kind": "expect"
+   }
+  ],
+  "本地": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i08",
+    "kind": "expect"
+   }
+  ],
+  "助手": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i08",
+    "kind": "expect"
+   }
+  ],
+  "记忆": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c09",
+    "kind": "expect"
+   }
+  ],
+  "AI": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i08",
+    "kind": "expect"
+   }
+  ],
+  "DeepSeek": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i07",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i08",
+    "kind": "not_contains"
+   }
+  ],
+  "DeepSeek-R1": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i07",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i08",
+    "kind": "not_contains"
+   }
+  ],
+  "GPT": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i07",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i08",
+    "kind": "not_contains"
+   }
+  ],
+  "Qwen": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i07",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i08",
+    "kind": "not_contains"
+   }
+  ],
+  "通义": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i07",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i08",
+    "kind": "not_contains"
+   }
+  ],
+  "R1": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i07",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i08",
+    "kind": "not_contains"
+   }
+  ],
+  "Lite-Preview": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i07",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i08",
+    "kind": "not_contains"
+   }
+  ],
+  "深度求索": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i07",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "i08",
+    "kind": "not_contains"
+   }
+  ],
+  "不联网": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w05",
+    "kind": "expect"
+   }
+  ],
+  "条": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c09",
+    "kind": "expect"
+   }
+  ],
+  "（数量": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c09",
+    "kind": "not_contains"
+   }
+  ],
+  "（具体": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c09",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "f01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "f02",
+    "kind": "not_contains"
+   }
+  ],
+  "您在问": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "c09",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e06",
+    "kind": "not_contains"
+   }
+  ],
+  "对吗": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e06",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m02",
+    "kind": "not_contains"
+   }
+  ],
+  "无法回答": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e06",
+    "kind": "not_contains"
+   }
+  ],
+  "没有提到": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e06",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k06",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "f01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "f02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "f03",
+    "kind": "not_contains"
+   }
+  ],
+  "不想猜": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "e06",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k06",
+    "kind": "not_contains"
+   }
+  ],
+  "京A88888": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "x01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "x02",
+    "kind": "expect"
+   }
+  ],
+  "阿泽": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m02",
+    "kind": "expect"
+   }
+  ],
+  "（用户的名字": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m02",
+    "kind": "not_contains"
+   }
+  ],
+  "302": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m06",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "x03",
+    "kind": "expect"
+   }
+  ],
+  "B座": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m03",
+    "kind": "expect"
+   }
+  ],
+  "七点": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "x03",
+    "kind": "expect"
+   }
+  ],
+  "7点": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "x03",
+    "kind": "expect"
+   }
+  ],
+  "19点": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "x03",
+    "kind": "expect"
+   }
+  ],
+  "七": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m04",
+    "kind": "expect"
+   }
+  ],
+  "周报": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m05",
+    "kind": "expect"
+   }
+  ],
+  "体检": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m05",
+    "kind": "expect"
+   }
+  ],
+  "复盘": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m05",
+    "kind": "expect"
+   }
+  ],
+  "B座302": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "m06",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s01",
+    "kind": "not_contains"
+   }
+  ],
+  "拉萨": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s01",
+    "kind": "expect"
+   }
+  ],
+  "MEM:我明年一月要去拉萨出差": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s01",
+    "kind": "remember"
+   }
+  ],
+  "T-88231": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s02",
+    "kind": "expect"
+   }
+  ],
+  "88231": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s02",
+    "kind": "expect"
+   }
+  ],
+  "MEM:我的测试工号是T-88231": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s02",
+    "kind": "remember"
+   }
+  ],
+  "MEM:我养了一只猫叫豆豆": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s03",
+    "kind": "remember"
+   }
+  ],
+  "两点": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s04",
+    "kind": "expect"
+   }
+  ],
+  "2点": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s04",
+    "kind": "expect"
+   }
+  ],
+  "14点": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s04",
+    "kind": "expect"
+   }
+  ],
+  "MEM:我下下周五下午两点要去做胃镜": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s04",
+    "kind": "remember"
+   }
+  ],
+  "李静": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s05",
+    "kind": "expect"
+   }
+  ],
+  "MEM:我姐姐的名字是李静": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s05",
+    "kind": "remember"
+   }
+  ],
+  "6677": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s06",
+    "kind": "expect"
+   }
+  ],
+  "MEM:我的银行卡尾号是6677": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "s06",
+    "kind": "remember"
+   }
+  ],
+  "建议": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k04",
+    "kind": "expect"
+   }
+  ],
+  "可以告诉我": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u08",
+    "kind": "expect"
+   }
+  ],
+  "不确定": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u08",
+    "kind": "expect"
+   }
+  ],
+  "抱歉": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u05",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u06",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u07",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "u08",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w05",
+    "kind": "expect"
+   }
+  ],
+  "查不到": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w05",
+    "kind": "expect"
+   }
+  ],
+  "无法查看": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w05",
+    "kind": "expect"
+   }
+  ],
+  "没法查": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w05",
+    "kind": "expect"
+   }
+  ],
+  "看不到实时": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w05",
+    "kind": "expect"
+   }
+  ],
+  "查不到实时": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w05",
+    "kind": "expect"
+   }
+  ],
+  "无法提供实时": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w03",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w04",
+    "kind": "expect"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w05",
+    "kind": "expect"
+   }
+  ],
+  "晴": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "not_contains"
+   }
+  ],
+  "多云": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "not_contains"
+   }
+  ],
+  "℃": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "not_contains"
+   }
+  ],
+  "28度": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "not_contains"
+   }
+  ],
+  "限行尾号是": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w03",
+    "kind": "not_contains"
+   }
+  ],
+  "来源：": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w05",
+    "kind": "not_contains"
+   }
+  ],
+  "尾号是1": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w03",
+    "kind": "not_contains"
+   }
+  ],
+  "尾号是2": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w03",
+    "kind": "not_contains"
+   }
+  ],
+  "尾号是3": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w03",
+    "kind": "not_contains"
+   }
+  ],
+  "现在是1": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w04",
+    "kind": "not_contains"
+   }
+  ],
+  "现在是2": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w04",
+    "kind": "not_contains"
+   }
+  ],
+  "现在3": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w04",
+    "kind": "not_contains"
+   }
+  ],
+  "据新华": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w05",
+    "kind": "not_contains"
+   }
+  ],
+  "据央视": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "w05",
+    "kind": "not_contains"
+   }
+  ],
+  "缓存": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k01",
+    "kind": "expect"
+   }
+  ],
+  "键值": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k01",
+    "kind": "expect"
+   }
+  ],
+  "KV": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k01",
+    "kind": "expect"
+   }
+  ],
+  "存储": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k01",
+    "kind": "expect"
+   }
+  ],
+  "注意力": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k01",
+    "kind": "expect"
+   }
+  ],
+  "记忆里没有": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k01",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k02",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k03",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k04",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k05",
+    "kind": "not_contains"
+   },
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k06",
+    "kind": "not_contains"
+   }
+  ],
+  "散射": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k02",
+    "kind": "expect"
+   }
+  ],
+  "蓝": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k02",
+    "kind": "expect"
+   }
+  ],
+  "光": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k02",
+    "kind": "expect"
+   }
+  ],
+  "波长": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k02",
+    "kind": "expect"
+   }
+  ],
+  "瑞利": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k02",
+    "kind": "expect"
+   }
+  ],
+  "排序": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k03",
+    "kind": "expect"
+   }
+  ],
+  "def": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k03",
+    "kind": "expect"
+   }
+  ],
+  "function": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k03",
+    "kind": "expect"
+   }
+  ],
+  "pivot": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k03",
+    "kind": "expect"
+   }
+  ],
+  "代码": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k03",
+    "kind": "expect"
+   }
+  ],
+  "数组": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k03",
+    "kind": "expect"
+   }
+  ],
+  "穿": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k04",
+    "kind": "expect"
+   }
+  ],
+  "衣": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k04",
+    "kind": "expect"
+   }
+  ],
+  "天气": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k04",
+    "kind": "expect"
+   }
+  ],
+  "凉": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k04",
+    "kind": "expect"
+   }
+  ],
+  "暖": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k04",
+    "kind": "expect"
+   }
+  ],
+  "2": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k05",
+    "kind": "expect"
+   }
+  ],
+  "二": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k05",
+    "kind": "expect"
+   }
+  ],
+  "38": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k06",
+    "kind": "expect"
+   }
+  ],
+  "万公里": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k06",
+    "kind": "expect"
+   }
+  ],
+  "距离": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k06",
+    "kind": "expect"
+   }
+  ],
+  "千米": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "k06",
+    "kind": "expect"
+   }
+  ],
+  "出差": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "f01",
+    "kind": "expect"
+   }
+  ],
+  "沪A": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "f03",
+    "kind": "expect"
+   }
+  ],
+  "12345": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "f03",
+    "kind": "expect"
+   }
+  ],
+  "车牌": [
+   {
+    "source": "dialog_cases.jsonl",
+    "id": "f03",
+    "kind": "expect"
+   }
+  ]
+ },
+ "assertions": {
+  "independent_values_n": 24,
+  "independent_entities_n": 19,
+  "generic_tokens_n": 5,
+  "fixture_entities_n": 75,
+  "fixture_mem_entities_n": 35,
+  "independent_entities_vs_train_blob": {},
+  "fixture_entities_vs_train_blob": {},
+  "independent_entities_vs_reserved": {},
+  "pass": true
+ },
+ "mt20": {
+  "path": "SFT-EXTRA-CASES-v9-MT20.jsonl",
+  "rows": 20,
+  "sha256": "140500d3ca651ce5fdad594cac747a9beee2f56f383ed41f6e7e968d91b2124f",
+  "sha16": "140500d3ca651ce5"
+ }
+}

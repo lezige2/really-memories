@@ -1,0 +1,115 @@
+{
+  "schema": "k2c_mt20_debug_v1",
+  "generated_at": "2026-10-29T21:13:34",
+  "sources": {
+    "k2c": "out/KVC-K2c-MT20.json",
+    "base": "out/MT20-BASE-P0.json",
+    "blocks": "kvmem/daily/chat.db.bak-20261029-2022 (read-only)",
+    "injected_created_at": "2026-10-29T20:59:14"
+  },
+  "cases": [
+    {
+      "id": "V9MT05",
+      "query": "我的手机号是多少？",
+      "query_key": {
+        "family": "手机",
+        "predicate": "号码",
+        "owner": null,
+        "slot": null
+      },
+      "family": "手机",
+      "owner": null,
+      "predicate": "号码",
+      "slot": null,
+      "members": [
+        {
+          "id": 21,
+          "created_at": "2026-10-29T20:59:14",
+          "family": "手机",
+          "owner": null,
+          "text": "我的手机号是136-1111-3333"
+        },
+        {
+          "id": 22,
+          "created_at": "2026-10-29T20:59:14",
+          "family": "手机",
+          "owner": null,
+          "text": "我的手机号是158-0000-2468"
+        }
+      ],
+      "kept_id": 22,
+      "hidden_ids": [
+        21
+      ],
+      "select_k2_hit": true,
+      "expected_value": [
+        "158-0000-2468",
+        "15800002468"
+      ],
+      "expected_in_kept": true,
+      "expected_in_hidden": false,
+      "k2c_run": {
+        "answer": "你的手机号是京A88888，不过这看起来像是车牌号，你的手机号我这里没有记录",
+        "block_ids": [
+          22,
+          3,
+          12
+        ],
+        "pass": false
+      },
+      "base_run": {
+        "answer": "你的手机号是158-0000-2468",
+        "block_ids": [
+          21,
+          22,
+          3,
+          12
+        ],
+        "pass": true
+      }
+    },
+    {
+      "id": "V9MT18",
+      "query": "我爱吃什么？",
+      "query_key": {
+        "family": null,
+        "predicate": null,
+        "owner": null,
+        "slot": null
+      },
+      "family": null,
+      "owner": null,
+      "predicate": null,
+      "slot": null,
+      "members": [],
+      "kept_id": null,
+      "hidden_ids": [],
+      "select_k2_hit": false,
+      "expected_value": [
+        "粤菜"
+      ],
+      "expected_in_kept": false,
+      "expected_in_hidden": false,
+      "k2c_run": {
+        "answer": "你最爱吃湘菜",
+        "block_ids": [
+          21,
+          22
+        ],
+        "pass": false
+      },
+      "base_run": {
+        "answer": "你最爱吃粤菜，不过具体偏好我记不清了，你可以告诉我具体是哪种吗",
+        "block_ids": [
+          21,
+          22
+        ],
+        "pass": true
+      }
+    }
+  ],
+  "conclusions": [
+    "V9MT05：不是族键 over-merge、也不是 K2 排序错。family=手机，族内只有 21/22；created_at 排序 kept=22（158-0000-2468）、hidden=[21]，期望值在 kept。实际失败来自“其它族 topk 补足”把车牌 #3/#12 挂进来（block_ids [22,3,12]），答案串味成京A88888。",
+    "V9MT18：query“我爱吃什么”不在族键表（family=None），select_k2 返回 None，K2 未介入；21/22（湘菜/粤菜）都未被 hidden，也没有 kept 选错。答案回到旧值湘菜属“旧值块未被 hidden”（K2 无族可依），与 BASE 同块却答案不同，疑为模型抽样差异，需另查。"
+  ]
+}

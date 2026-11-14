@@ -1,0 +1,227 @@
+{
+ "schema": "training_next_v1",
+ "role": "T11 下一轮修什么（按 live 基线失败频率排序；只给证据与建议，不写代码）",
+ "source": {
+  "path": "out/TRAINING-EVAL.json",
+  "sha256": "098fda7737112f8c50ff5d2b57d13141b9a0919d0c4f7b7a2a7816b3471cfdab",
+  "live_n": 42,
+  "live_fail": 31
+ },
+ "generated_at": "2026-10-29T17:25:34+0800",
+ "ranking_rule": "按 failure_class 出现次数降序；同频按类名字典序",
+ "items": [
+  {
+   "rank": 1,
+   "failure_class": "编造",
+   "count": 19,
+   "share_of_failures": 0.6129,
+   "share_of_cases": 0.4524,
+   "evidence": [
+    {
+     "id": "KVC01",
+     "category": "kv_conflict",
+     "input": "我的猫叫什么？",
+     "answer": "你的猫叫团团",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      14,
+      22,
+      21
+     ],
+     "problems": [
+      "不应出现内容：'团团'",
+      "缺内容：['球球'] 均未出现"
+     ]
+    },
+    {
+     "id": "KVC03",
+     "category": "kv_conflict",
+     "input": "我的狗叫什么？",
+     "answer": "你的狗叫大黄",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      22,
+      21
+     ],
+     "problems": [
+      "不应出现内容：'大黄'",
+      "缺内容：['黑豆'] 均未出现"
+     ]
+    },
+    {
+     "id": "KVC04",
+     "category": "kv_conflict",
+     "input": "我家狗的名字？",
+     "answer": "你家狗的名字叫旺财",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      22,
+      21
+     ],
+     "problems": [
+      "不应出现内容：'旺财'",
+      "缺内容：['来福'] 均未出现"
+     ]
+    },
+    {
+     "id": "KVC08",
+     "category": "kv_conflict",
+     "input": "我的手机号是什么？",
+     "answer": "你的手机号是186-3333-4444",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      22,
+      3,
+      12
+     ],
+     "problems": [
+      "不应出现内容：'186-3333-4444'",
+      "缺内容：['177-5555-6666', '17755556666', '177 5555 6666'] 均未出现"
+     ]
+    },
+    {
+     "id": "KVC09",
+     "category": "kv_conflict",
+     "input": "我的工位在哪？",
+     "answer": "你的工位在B座302",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      22,
+      3,
+      12
+     ],
+     "problems": [
+      "不应出现内容：'B座302'",
+      "缺内容：['C座501', 'C座 501', 'C-501'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "证据路由（tools/evidence.decide）+ 生成后核对/修复回路",
+   "suggestion": "无记忆证据的个人事实问句必须拒答（refused=true + 统一话术），并由核对回路拦截具体值；把 u05/m02/m06 作为门禁用例。"
+  },
+  {
+   "rank": 2,
+   "failure_class": "僵硬",
+   "count": 11,
+   "share_of_failures": 0.3548,
+   "share_of_cases": 0.2619,
+   "evidence": [
+    {
+     "id": "KVC02",
+     "category": "kv_conflict",
+     "input": "我猫的名字是什么？",
+     "answer": "你养的猫叫豆豆",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      14,
+      21
+     ],
+     "problems": [
+      "缺内容：['花卷'] 均未出现"
+     ]
+    },
+    {
+     "id": "KVC05",
+     "category": "kv_conflict",
+     "input": "我的车牌号是多少？",
+     "answer": "你的车牌号是京A88888",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      3,
+      12,
+      13,
+      21
+     ],
+     "problems": [
+      "缺内容：['津E54321', '津E 54321'] 均未出现"
+     ]
+    },
+    {
+     "id": "KVC06",
+     "category": "kv_conflict",
+     "input": "我的车牌是什么？",
+     "answer": "你的车牌号是京A88888",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "problems": [
+      "缺内容：['粤G09876', '粤G 09876'] 均未出现"
+     ]
+    },
+    {
+     "id": "KVC12",
+     "category": "kv_conflict",
+     "input": "我的公司叫什么？",
+     "answer": "我是你的本地记忆助手",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [],
+     "problems": [
+      "缺内容：['美团'] 均未出现"
+     ]
+    },
+    {
+     "id": "KVC17",
+     "category": "kv_conflict",
+     "input": "我的车是什么车型？",
+     "answer": "这条我没法从记忆里核对，先不猜。",
+     "state": "verify_fallback",
+     "refused": false,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "problems": [
+      "缺内容：['SUV', 'suv'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "路由/意图（NATURAL_MODE、smalltalk/capability 分支）+ 提示词",
+   "suggestion": "先修路由：寒暄/能力/感叹走快速分支（不落 14B 泛答）；对『您在问…』式复读直接替换为明确应答；补意图词表回归。"
+  },
+  {
+   "rank": 3,
+   "failure_class": "误拒",
+   "count": 1,
+   "share_of_failures": 0.0323,
+   "share_of_cases": 0.0238,
+   "evidence": [
+    {
+     "id": "KVC11",
+     "category": "kv_conflict",
+     "input": "我在哪家公司上班？",
+     "answer": "这个我没法确认：你没跟我说过。",
+     "state": "no_evidence",
+     "refused": true,
+     "block_ids": [],
+     "problems": [
+      "不应拒答但被拒答",
+      "缺内容：['星河数据'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "意图与触发词（intent_of / 产品事实问句白名单）",
+   "suggestion": "收紧『个人事实问句』判定：混合句（问候/致谢+记忆问句）与身份/能力问句不得误拒；对问候前置词剥除后再判定。"
+  }
+ ],
+ "notes": [
+  "证据取自 live 基线每条失败的实际输出（answer/state/refused/block_ids/problems）。",
+  "建议责任单按应用层模块拆分，供下一轮开单；不代表已定位根因。"
+ ]
+}

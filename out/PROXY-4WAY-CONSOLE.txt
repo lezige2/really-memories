@@ -1,0 +1,261 @@
+{
+ "out": "out\\PROXY-COMPARE-4WAY.json",
+ "missing": [],
+ "main": {
+  "base": {
+   "n": 193,
+   "pass": 156,
+   "effective_n": 174,
+   "effective_pass": 142
+  },
+  "v2": {
+   "n": 193,
+   "pass": 167,
+   "effective_n": 174,
+   "effective_pass": 149
+  },
+  "v3": {
+   "n": 193,
+   "pass": 169,
+   "effective_n": 174,
+   "effective_pass": 150
+  },
+  "v4": {
+   "n": 193,
+   "pass": 168,
+   "effective_n": 174,
+   "effective_pass": 149
+  }
+ },
+ "main_delta": {
+  "v3->v4": {
+   "new_pass": 8,
+   "new_fail": 9,
+   "identical": 22
+  },
+  "v2->v4": {
+   "new_pass": 8,
+   "new_fail": 7,
+   "identical": 31
+  },
+  "base->v4": {
+   "new_pass": 21,
+   "new_fail": 9,
+   "identical": 19
+  },
+  "v3->v2": {
+   "new_pass": 6,
+   "new_fail": 8,
+   "identical": 94
+  }
+ },
+ "autonomy": {
+  "base": {
+   "A": [
+    4,
+    4
+   ],
+   "B": [
+    3,
+    4
+   ],
+   "C": [
+    4,
+    4
+   ],
+   "D": [
+    5,
+    5
+   ]
+  },
+  "v2": {
+   "A": [
+    4,
+    4
+   ],
+   "B": [
+    0,
+    4
+   ],
+   "C": [
+    2,
+    4
+   ],
+   "D": [
+    0,
+    5
+   ]
+  },
+  "v3": {
+   "A": [
+    4,
+    4
+   ],
+   "B": [
+    2,
+    4
+   ],
+   "C": [
+    3,
+    4
+   ],
+   "D": [
+    5,
+    5
+   ]
+  },
+  "v4": {
+   "A": [
+    4,
+    4
+   ],
+   "B": [
+    1,
+    4
+   ],
+   "C": [
+    4,
+    4
+   ],
+   "D": [
+    2,
+    5
+   ]
+  }
+ },
+ "guard": {
+  "base": {
+   "memory": [
+    "m01",
+    "m02",
+    "m03",
+    "m04",
+    "m05",
+    "m06",
+    "m07",
+    "m08",
+    "h02",
+    "h03",
+    "h502",
+    "h505",
+    "h515"
+   ],
+   "unknown_refusal": [
+    "u02",
+    "h301",
+    "h308",
+    "h311",
+    "h312",
+    "h314",
+    "h315",
+    "R09"
+   ],
+   "follow": []
+  },
+  "v2": {
+   "memory": [
+    "m01",
+    "m02",
+    "m03",
+    "m04",
+    "m05",
+    "m06",
+    "m07",
+    "m08",
+    "h02",
+    "h03",
+    "L04",
+    "L09",
+    "L10"
+   ],
+   "unknown_refusal": [],
+   "follow": []
+  },
+  "v3": {
+   "memory": [
+    "m01",
+    "m02",
+    "m03",
+    "m04",
+    "m05",
+    "m06",
+    "m07",
+    "m08",
+    "h02",
+    "h03"
+   ],
+   "unknown_refusal": [],
+   "follow": []
+  },
+  "v4": {
+   "memory": [
+    "m01",
+    "m02",
+    "m03",
+    "m04",
+    "m05",
+    "m06",
+    "m07",
+    "m08",
+    "h02",
+    "h03",
+    "L09"
+   ],
+   "unknown_refusal": [],
+   "follow": []
+  }
+ },
+ "veto_watch": {
+  "c04": {
+   "ok": true,
+   "why": "ok",
+   "answer": "我不能联网，你问具体问题吧。",
+   "risk_pattern": false
+  },
+  "c06": {
+   "ok": true,
+   "why": "ok",
+   "answer": "我不能联网，没法查资料。",
+   "risk_pattern": false
+  },
+  "c09": {
+   "ok": true,
+   "why": "ok",
+   "answer": "你有几条记忆我没法直接查，你具体问什么我才能确认。",
+   "risk_pattern": false
+  },
+  "w01": {
+   "ok": true,
+   "why": "ok",
+   "answer": "这个我没法查，你问下度娘吧。",
+   "risk_pattern": true
+  },
+  "w02": {
+   "ok": true,
+   "why": "ok",
+   "answer": "这个我没法查，你手机上不是有天气 app 吗？",
+   "risk_pattern": false
+  },
+  "h701": {
+   "ok": true,
+   "why": "ok",
+   "answer": "这个我没法查，你试试手机上的天气 app。",
+   "risk_pattern": false
+  },
+  "L04": {
+   "ok": true,
+   "why": "ok",
+   "answer": "你下个月要去商汤出差。",
+   "risk_pattern": false
+  },
+  "L09": {
+   "ok": false,
+   "why": "僵硬",
+   "answer": "这个我没法确认，你还是自己查一下吧。",
+   "risk_pattern": false
+  }
+ },
+ "warnings": [
+  "autonomy 用例 sha 跨臂不同（v4 D 类为空 user 口径，属预期；A/B/C 仍可比）"
+ ]
+}

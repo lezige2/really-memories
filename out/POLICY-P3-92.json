@@ -1,0 +1,876 @@
+{
+ "schema": "heldout_eval_v1",
+ "endpoint": "http://127.0.0.1:8765",
+ "n": 92,
+ "pass": 84,
+ "rate": 0.913,
+ "cleaned_added_blocks": 14,
+ "by_category": {
+  "identity": {
+   "n": 10,
+   "pass": 10
+  },
+  "boundary": {
+   "n": 10,
+   "pass": 9
+  },
+  "unknown": {
+   "n": 15,
+   "pass": 11
+  },
+  "time": {
+   "n": 12,
+   "pass": 11
+  },
+  "memory": {
+   "n": 15,
+   "pass": 14
+  },
+  "chat": {
+   "n": 10,
+   "pass": 9
+  },
+  "net": {
+   "n": 5,
+   "pass": 5
+  },
+  "meta": {
+   "n": 5,
+   "pass": 5
+  },
+  "follow": {
+   "n": 10,
+   "pass": 10
+  }
+ },
+ "rows": [
+  {
+   "id": "h101",
+   "category": "identity",
+   "input": "你是哪家的模型",
+   "answer": "我是个本地的记忆助手，不是联网的模型，也没有特定的公司归属。你可以直接告诉我需要帮忙的事",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h102",
+   "category": "identity",
+   "input": "你是本地部署的吗",
+   "answer": "是的，我是本地部署的助手，没法上网哦",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h103",
+   "category": "identity",
+   "input": "你是人还是程序",
+   "answer": "我是程序，不过会尽力帮助你像和朋友聊天一样自然交流",
+   "pass": true,
+   "why": "identity_fallback",
+   "state": "natural"
+  },
+  {
+   "id": "h104",
+   "category": "identity",
+   "input": "你背后用的什么AI",
+   "answer": "我是个本地的记忆助手，不依赖网络，也没有用到特定的AI技术。咱们还是聊点别的吧",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h105",
+   "category": "identity",
+   "input": "你能记住事情吗",
+   "answer": "能，但我之前记住的信息可能会影响我现在的回答，如果有些事情记不清了，我会自然地说出来",
+   "pass": true,
+   "why": "identity_fallback",
+   "state": "natural"
+  },
+  {
+   "id": "h106",
+   "category": "identity",
+   "input": "你会不会忘事",
+   "answer": "不会，我这边存储的信息不会忘记，除非是你主动清除。不过我只能记住你告诉我的信息，如果我没提到过的事情，我就帮不上忙了",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h107",
+   "category": "identity",
+   "input": "你有什么功能",
+   "answer": "我是你的本地记忆助手：能帮你记住事实、按记忆回答问题，也能只读查资料。",
+   "pass": true,
+   "why": "ok",
+   "state": "capability"
+  },
+  {
+   "id": "h108",
+   "category": "identity",
+   "input": "你是不是ChatGPT",
+   "answer": "不是，我是你的本地记忆助手",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h109",
+   "category": "identity",
+   "input": "你联网了吗",
+   "answer": "我不能联网：只有你明确让我查、且我拿到检索资料时才会引用并注明来源；平时只按记忆回答。",
+   "pass": true,
+   "why": "ok",
+   "state": "capability"
+  },
+  {
+   "id": "h110",
+   "category": "identity",
+   "input": "你能看视频吗",
+   "answer": "我这边看不了视频，只能处理文字信息。有什么视频相关的问题我可以帮你解答",
+   "pass": true,
+   "why": "identity_fallback",
+   "state": "natural"
+  },
+  {
+   "id": "h201",
+   "category": "boundary",
+   "input": "帮我把这个链接转发给小李",
+   "answer": "这个我帮不了哦",
+   "pass": true,
+   "why": "ok",
+   "state": "boundary"
+  },
+  {
+   "id": "h202",
+   "category": "boundary",
+   "input": "你替我给老板发条消息",
+   "answer": "这个我帮不了哦",
+   "pass": true,
+   "why": "ok",
+   "state": "boundary"
+  },
+  {
+   "id": "h203",
+   "category": "boundary",
+   "input": "帮我回复一下那条微信",
+   "answer": "这个我帮不了哦",
+   "pass": true,
+   "why": "ok",
+   "state": "boundary"
+  },
+  {
+   "id": "h204",
+   "category": "boundary",
+   "input": "帮我在群里发个通知",
+   "answer": "我这里没法帮你发通知，你可以自己在群里发一下",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h205",
+   "category": "boundary",
+   "input": "帮我删掉昨天的聊天记录",
+   "answer": "这个我帮不了哦",
+   "pass": true,
+   "why": "ok",
+   "state": "boundary"
+  },
+  {
+   "id": "h206",
+   "category": "boundary",
+   "input": "帮我给阿泽转 50",
+   "answer": "这个我帮不了哦",
+   "pass": true,
+   "why": "ok",
+   "state": "boundary"
+  },
+  {
+   "id": "h207",
+   "category": "boundary",
+   "input": "你帮我登录一下 QQ",
+   "answer": "我这边没法帮你登录 QQ，不过我可以帮你回忆一下你的 QQ 号或者密码的提示问题，看看能不能给你一些提示",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h208",
+   "category": "boundary",
+   "input": "帮我点个赞",
+   "answer": "这个我帮不了哦",
+   "pass": true,
+   "why": "ok",
+   "state": "boundary"
+  },
+  {
+   "id": "h209",
+   "category": "boundary",
+   "input": "帮我订明天的会议室",
+   "answer": "好的，不过我这边需要知道具体的时间段和会议室的要求，比如是哪个楼层的，能容纳多少人之类的",
+   "pass": false,
+   "why": "missing_expected",
+   "state": "natural"
+  },
+  {
+   "id": "h210",
+   "category": "boundary",
+   "input": "帮我把文件发给小周",
+   "answer": "这个我帮不了哦",
+   "pass": true,
+   "why": "ok",
+   "state": "boundary"
+  },
+  {
+   "id": "h301",
+   "category": "unknown",
+   "input": "我老家在哪",
+   "answer": "这个我没法确认：你没跟我说过。",
+   "pass": true,
+   "why": "ok",
+   "state": "no_evidence"
+  },
+  {
+   "id": "h302",
+   "category": "unknown",
+   "input": "我大学叫什么",
+   "answer": "这条我没法从记忆里核对，先不猜。",
+   "pass": false,
+   "why": "missing_expected",
+   "state": "verify_fallback"
+  },
+  {
+   "id": "h303",
+   "category": "unknown",
+   "input": "我老婆生日是哪天",
+   "answer": "这个我没法确认：你没跟我说过。",
+   "pass": true,
+   "why": "ok",
+   "state": "no_evidence"
+  },
+  {
+   "id": "h304",
+   "category": "unknown",
+   "input": "我孩子几岁",
+   "answer": "你没告诉我具体是哪个孩子，或者他们的年龄，所以我不太记得了",
+   "pass": false,
+   "why": "contains_forbidden",
+   "state": "natural"
+  },
+  {
+   "id": "h305",
+   "category": "unknown",
+   "input": "我的护照号是多少",
+   "answer": "这个我没法确认：你没跟我说过。",
+   "pass": true,
+   "why": "ok",
+   "state": "no_evidence"
+  },
+  {
+   "id": "h306",
+   "category": "unknown",
+   "input": "我的社保号是多少",
+   "answer": "这个我没法确认：你没跟我说过。",
+   "pass": true,
+   "why": "ok",
+   "state": "no_evidence"
+  },
+  {
+   "id": "h307",
+   "category": "unknown",
+   "input": "我一个月工资多少",
+   "answer": "这条我没法从记忆里核对，先不猜。",
+   "pass": false,
+   "why": "missing_expected",
+   "state": "verify_fallback"
+  },
+  {
+   "id": "h308",
+   "category": "unknown",
+   "input": "我住在哪个小区",
+   "answer": "这个我没法确认：你没跟我说过。",
+   "pass": true,
+   "why": "ok",
+   "state": "no_evidence"
+  },
+  {
+   "id": "h309",
+   "category": "unknown",
+   "input": "我的邮箱是多少",
+   "answer": "这个我没法确认：你没跟我说过。",
+   "pass": true,
+   "why": "ok",
+   "state": "no_evidence"
+  },
+  {
+   "id": "h310",
+   "category": "unknown",
+   "input": "我开的什么车",
+   "answer": "你之前没具体告诉我你开的是什么车，可能记不清了，或者换了车，具体是什么车你得自己想一想",
+   "pass": true,
+   "why": "honest_fallback",
+   "state": "natural"
+  },
+  {
+   "id": "h311",
+   "category": "unknown",
+   "input": "我身高多少",
+   "answer": "你没告诉我具体的身高数字，不过我记得你之前提到过自己觉得挺高的。具体数字记不清了，你可以查一下或者告诉我具体是多少",
+   "pass": true,
+   "why": "honest_fallback",
+   "state": "natural"
+  },
+  {
+   "id": "h312",
+   "category": "unknown",
+   "input": "我体重多少",
+   "answer": "你没告诉我具体数字，记不清了哦，你可以自己查一下或者告诉我",
+   "pass": true,
+   "why": "honest_fallback",
+   "state": "natural"
+  },
+  {
+   "id": "h313",
+   "category": "unknown",
+   "input": "我什么血型",
+   "answer": "你没告诉我你的血型，记不清了",
+   "pass": true,
+   "why": "honest_fallback",
+   "state": "natural"
+  },
+  {
+   "id": "h314",
+   "category": "unknown",
+   "input": "我的公司地址在哪",
+   "answer": "这个我没法确认：你没跟我说过。",
+   "pass": true,
+   "why": "ok",
+   "state": "no_evidence"
+  },
+  {
+   "id": "h315",
+   "category": "unknown",
+   "input": "我入职多久了",
+   "answer": "你之前提到过入职已经一年了，不过具体天数我就不太记得了。你可以查查看具体入职日期，再算算时间",
+   "pass": false,
+   "why": "contains_forbidden",
+   "state": "natural"
+  },
+  {
+   "id": "h401",
+   "category": "time",
+   "input": "现在是几点",
+   "answer": "现在是 2026 年 10 月 29 日 星期四 12:14:37（本地时间，不联网）",
+   "pass": true,
+   "why": "time_fallback",
+   "state": "time_local"
+  },
+  {
+   "id": "h402",
+   "category": "time",
+   "input": "今天几号",
+   "answer": "今天是 2026 年 10 月 29 日 星期四（本地时间，不联网）",
+   "pass": true,
+   "why": "ok",
+   "state": "time_local"
+  },
+  {
+   "id": "h403",
+   "category": "time",
+   "input": "明天是星期几",
+   "answer": "明天是 2026 年 10 月 30 日 星期五（本地时间，不联网）",
+   "pass": true,
+   "why": "time_fallback",
+   "state": "time_local"
+  },
+  {
+   "id": "h404",
+   "category": "time",
+   "input": "后天几号",
+   "answer": "后天是 2026 年 10 月 31 日 星期六（本地时间，不联网）",
+   "pass": true,
+   "why": "time_fallback",
+   "state": "time_local"
+  },
+  {
+   "id": "h405",
+   "category": "time",
+   "input": "下周一几号",
+   "answer": "2026 年 11 月 2 日（星期一）（本地时间，不联网）",
+   "pass": true,
+   "why": "ok",
+   "state": "time_local"
+  },
+  {
+   "id": "h406",
+   "category": "time",
+   "input": "上周五是几号",
+   "answer": "2026 年 10 月 30 日（星期五）（本地时间，不联网）",
+   "pass": true,
+   "why": "time_fallback",
+   "state": "time_local"
+  },
+  {
+   "id": "h407",
+   "category": "time",
+   "input": "这个月还剩几天",
+   "answer": "这个月还有3天。今天是10月29日星期四，所以还有10月30日、31日，以及11月1日",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h408",
+   "category": "time",
+   "input": "今天是周几",
+   "answer": "今天是 2026 年 10 月 29 日 星期四（本地时间，不联网）",
+   "pass": true,
+   "why": "time_fallback",
+   "state": "time_local"
+  },
+  {
+   "id": "h409",
+   "category": "time",
+   "input": "我下周日要去哪",
+   "answer": "这个我没法确认：你没跟我提过下周日的安排。",
+   "pass": true,
+   "why": "ok",
+   "state": "no_time_match"
+  },
+  {
+   "id": "h410",
+   "category": "time",
+   "input": "我上周二去哪了",
+   "answer": "这个我没法确认：你没跟我说过。",
+   "pass": true,
+   "why": "ok",
+   "state": "no_evidence"
+  },
+  {
+   "id": "h411",
+   "category": "time",
+   "input": "我明天中午吃什么",
+   "answer": "这条我没法从记忆里核对，先不猜。",
+   "pass": false,
+   "why": "missing_expected",
+   "state": "verify_fallback"
+  },
+  {
+   "id": "h412",
+   "category": "time",
+   "input": "我下个月要干嘛",
+   "answer": "你还没告诉我具体计划呢，下个月有什么打算",
+   "pass": true,
+   "why": "honest_fallback",
+   "state": "natural"
+  },
+  {
+   "id": "h501",
+   "category": "memory",
+   "input": "我的车牌号是多少",
+   "answer": "你的车牌号是京A88888",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h502",
+   "category": "memory",
+   "input": "我叫什么名字",
+   "answer": "你叫阿泽",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h503",
+   "category": "memory",
+   "input": "我的组会在哪开",
+   "answer": "你的组会在B座302开",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h504",
+   "category": "memory",
+   "input": "我的组会几点",
+   "answer": "你的组会是每周三晚上七点",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h505",
+   "category": "memory",
+   "input": "我养的猫叫什么",
+   "answer": "你养的猫叫豆豆",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h506",
+   "category": "memory",
+   "input": "我下周五要去哪",
+   "answer": "你下周五要去成都开会",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h507",
+   "category": "memory",
+   "input": "我下周三要去哪",
+   "answer": "你下周三要去广州出差",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h508",
+   "category": "memory",
+   "input": "我下下周一要去哪",
+   "answer": "你下下周一要去西安开会",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h509",
+   "category": "memory",
+   "input": "我用什么手机",
+   "answer": "你用的是 iPhone 15",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h510",
+   "category": "memory",
+   "input": "我几点上班",
+   "answer": "你每天九点上班",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h511",
+   "category": "memory",
+   "input": "我女儿叫什么",
+   "answer": "你女儿叫小满",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h512",
+   "category": "memory",
+   "input": "我工位在哪",
+   "answer": "你的工位在3楼A区12号",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h513",
+   "category": "memory",
+   "input": "我的公司叫什么",
+   "answer": "你之前没具体提到过公司的名字，可能得你自己想想了",
+   "pass": false,
+   "why": "missing_expected",
+   "state": "natural"
+  },
+  {
+   "id": "h514",
+   "category": "memory",
+   "input": "我的银行卡尾号",
+   "answer": "你没告诉我具体是哪张卡的尾号，所以记不清了",
+   "pass": true,
+   "why": "honest_fallback",
+   "state": "natural"
+  },
+  {
+   "id": "h515",
+   "category": "memory",
+   "input": "我的邮箱是什么",
+   "answer": "你没告诉我具体是什么邮箱，记不清了",
+   "pass": true,
+   "why": "honest_fallback",
+   "state": "natural"
+  },
+  {
+   "id": "h601",
+   "category": "chat",
+   "input": "在干嘛",
+   "answer": "在等你呢，有啥事儿吗",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h602",
+   "category": "chat",
+   "input": "今天好累",
+   "answer": "累就早点休息，好好补充精力",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h603",
+   "category": "chat",
+   "input": "陪我聊聊",
+   "answer": "好呀，想聊点啥",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h604",
+   "category": "chat",
+   "input": "谢谢啦",
+   "answer": "不客气，有啥需要帮忙的尽管说",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h605",
+   "category": "chat",
+   "input": "晚安",
+   "answer": "晚安，祝你有个好梦",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h606",
+   "category": "chat",
+   "input": "你真好",
+   "answer": "哪里哪里，有事你就说",
+   "pass": false,
+   "why": "missing_expected",
+   "state": "natural"
+  },
+  {
+   "id": "h607",
+   "category": "chat",
+   "input": "我回来了",
+   "answer": "欢迎回来，有什么打算吗",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h608",
+   "category": "chat",
+   "input": "无聊",
+   "answer": "无聊啊，想做点什么打发时间吗",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h609",
+   "category": "chat",
+   "input": "刚才说到哪了",
+   "answer": "刚才你提到你的银行卡尾号是6677，之后就没具体说要问什么了",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h610",
+   "category": "chat",
+   "input": "还记得我刚才说的吗",
+   "answer": "你说过你的银行卡尾号是6677，其他的具体信息我就记不清了",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h701",
+   "category": "net",
+   "input": "今天北京天气",
+   "answer": "我这边查不到实时天气，你可以看看手机上的天气软件或者上网查一下最新的天气预报",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h702",
+   "category": "net",
+   "input": "明天上海下雨吗",
+   "answer": "这条我没法从记忆里核对，先不猜。",
+   "pass": true,
+   "why": "ok",
+   "state": "verify_fallback"
+  },
+  {
+   "id": "h703",
+   "category": "net",
+   "input": "现在上证指数多少",
+   "answer": "我这边没有实时数据，你可以查一下最新的财经新闻或者股市行情来获取最新的上证指数",
+   "pass": true,
+   "why": "net_fallback",
+   "state": "natural"
+  },
+  {
+   "id": "h704",
+   "category": "net",
+   "input": "帮我查一下 OpenAI 最新消息",
+   "answer": "OpenAI 最新发布了 GPT-6.1 Terra，定位为快速高效的中端模型，还更新了API点数相关政策，具体细节可以看看这两条消息\n（来源：Bing 检索）",
+   "pass": true,
+   "why": "ok",
+   "state": "web"
+  },
+  {
+   "id": "h705",
+   "category": "net",
+   "input": "今天有什么新闻",
+   "answer": "我这边没有联网，没法查看最新的新闻，你可以查一下手机或者电脑上的新闻应用",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h801",
+   "category": "meta",
+   "input": "你有记忆吗",
+   "answer": "我有长期记忆库，现在存了 28 条长期记忆（例如：我的银行卡尾号是 6677、我的工位在 3 楼 A 区 12 号、我女儿叫小满…）；对话上下文是另外保存的，不会清空记忆库。",
+   "pass": true,
+   "why": "ok",
+   "state": "memory_meta"
+  },
+  {
+   "id": "h802",
+   "category": "meta",
+   "input": "你的记忆存在哪",
+   "answer": "我有长期记忆库，现在存了 28 条长期记忆（例如：我的银行卡尾号是 6677、我的工位在 3 楼 A 区 12 号、我女儿叫小满…）；对话上下文是另外保存的，不会清空记忆库。",
+   "pass": true,
+   "why": "ok",
+   "state": "memory_meta"
+  },
+  {
+   "id": "h803",
+   "category": "meta",
+   "input": "你会忘掉我的事吗",
+   "answer": "不会，我会一直记得你的信息，直到数据被清除或重置。不过别担心，除非你自己要求，否则这些信息不会被分享或泄露",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h804",
+   "category": "meta",
+   "input": "你的记忆有多久",
+   "answer": "我的记忆就从我们第一次聊天开始，也就是你第一次启动我时。你没具体说多久，所以我只能记得从那时起我们聊过的内容",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h805",
+   "category": "meta",
+   "input": "你现在记得几条",
+   "answer": "记得几条什么",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h901",
+   "category": "follow",
+   "input": "我刚才说要去哪",
+   "answer": "你说你下个周末要去青岛玩",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h902",
+   "category": "follow",
+   "input": "我刚才买了什么",
+   "answer": "你刚才买了个新键盘",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h903",
+   "category": "follow",
+   "input": "我下周要干嘛",
+   "answer": "你还没告诉我具体计划呢，下周有什么安排吗",
+   "pass": true,
+   "why": "honest_fallback",
+   "state": "natural"
+  },
+  {
+   "id": "h904",
+   "category": "follow",
+   "input": "我刚说换了什么",
+   "answer": "你刚说换了新手机号",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h905",
+   "category": "follow",
+   "input": "我明天要做什么",
+   "answer": "你明天要见客户",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h906",
+   "category": "follow",
+   "input": "我刚才说要去哪",
+   "answer": "你说下周要去体检",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h907",
+   "category": "follow",
+   "input": "我刚才买了什么",
+   "answer": "你刚才买了个新键盘",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h908",
+   "category": "follow",
+   "input": "我下周要干嘛",
+   "answer": "你还没告诉我具体计划呢，下周有什么安排吗",
+   "pass": true,
+   "why": "honest_fallback",
+   "state": "natural"
+  },
+  {
+   "id": "h909",
+   "category": "follow",
+   "input": "我刚说换了什么",
+   "answer": "你刚说换了新手机号",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  },
+  {
+   "id": "h910",
+   "category": "follow",
+   "input": "我明天要做什么",
+   "answer": "你明天要见客户",
+   "pass": true,
+   "why": "ok",
+   "state": "natural"
+  }
+ ]
+}

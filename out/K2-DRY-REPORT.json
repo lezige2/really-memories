@@ -1,0 +1,2846 @@
+{
+  "schema": "k2_dry_v2",
+  "generated_at": "2026-10-29T17:52:36",
+  "source_db": "kvmem/daily/chat.db",
+  "dry_db": "out/K2-DRY.sqlite",
+  "fixture": "out/KV-CONFLICT-40.jsonl",
+  "fixture_sha256": "ff4e9afa84880b256a56963138762f3e4e2754b736f112c3936eb61226d53af1",
+  "dry_db_sha256": "98ceb43e36d0a62ca75c0a1e50cebee30db2a9eaf8ede83e125a972b84338e15",
+  "definitions": {
+    "expected_in_kept": "expect.contains_any 任一项出现在主 kept 块（归一后）",
+    "expected_hidden": "期望值在可见块里都没有、只出现在 hidden",
+    "mis_hide_other_subject": "hidden 里出现同族但 owner 不同的块（query 带 owner 时评估）",
+    "hide_same_value": "同值块被隐（本轮规则：同值块保留可见）",
+    "hide_complement": "无谓词值的纯补充块被隐（本轮：带补充属性块保留可见）",
+    "hide_same_value_or_complement": "hide_same_value 或 hide_complement",
+    "info_loss": "hidden token 集 - 可见 kept token 集，再扣除被替代的本族值 token",
+    "info_loss_unexpected": "info_loss 中扣除旧值字符后的剩余 token 数"
+  },
+  "summary": {
+    "n_cases": 42,
+    "n_positive": 30,
+    "n_negative": 12,
+    "base_blocks": 20,
+    "db_max_id": 20,
+    "db_total_rows": 20,
+    "db_residual_ids": [],
+    "injected_ids": [
+      21,
+      22
+    ],
+    "blocks_per_case": 22,
+    "r1_prelude": {
+      "prelude_ids": [
+        21,
+        22
+      ],
+      "memory_before": 20,
+      "memory_delta": 2
+    },
+    "gates": {
+      "expected_in_kept_false": [],
+      "expected_hidden_cases": [],
+      "mis_hide_other_subject_cases": [],
+      "hide_same_value_or_complement_cases": [],
+      "all_zero": true
+    },
+    "family_found_false": [],
+    "family_found_false_count": 0,
+    "supplementary_kept_cases": [
+      "KVC05",
+      "KVC06",
+      "KVC30"
+    ],
+    "supplementary_kept_count": 6,
+    "info_loss_gt0_cases": [
+      "KVC01",
+      "KVC02",
+      "KVC03",
+      "KVC05",
+      "KVC06",
+      "KVC07",
+      "KVC08",
+      "KVC09",
+      "KVC10",
+      "KVC11",
+      "KVC12",
+      "KVC19",
+      "KVC20",
+      "KVC23",
+      "KVC24",
+      "KVC25",
+      "KVC27",
+      "KVC28",
+      "KVC29",
+      "KVC30"
+    ],
+    "info_loss_gt0_count": 20,
+    "info_loss_unexpected_gt0_cases": [],
+    "families_covered": [
+      "会议",
+      "健身",
+      "公司",
+      "出差",
+      "工位",
+      "手机",
+      "狗",
+      "猫",
+      "老家",
+      "车型",
+      "车牌",
+      "车色",
+      "过敏",
+      "邮箱",
+      "银行卡"
+    ],
+    "family_coverage": {
+      "会议": 3,
+      "健身": 2,
+      "公司": 2,
+      "出差": 1,
+      "工位": 4,
+      "手机": 4,
+      "狗": 2,
+      "猫": 4,
+      "老家": 4,
+      "车型": 2,
+      "车牌": 2,
+      "车色": 4,
+      "过敏": 2,
+      "邮箱": 4,
+      "银行卡": 2
+    },
+    "family_coverage_count": 15,
+    "hidden_counts": {
+      "KVC01": 2,
+      "KVC02": 2,
+      "KVC03": 1,
+      "KVC04": 1,
+      "KVC05": 2,
+      "KVC06": 2,
+      "KVC07": 1,
+      "KVC08": 1,
+      "KVC09": 1,
+      "KVC10": 1,
+      "KVC11": 1,
+      "KVC12": 1,
+      "KVC13": 1,
+      "KVC14": 1,
+      "KVC15": 1,
+      "KVC16": 1,
+      "KVC17": 1,
+      "KVC18": 1,
+      "KVC19": 1,
+      "KVC20": 1,
+      "KVC21": 1,
+      "KVC22": 1,
+      "KVC23": 1,
+      "KVC24": 1,
+      "KVC25": 1,
+      "KVC26": 0,
+      "KVC27": 1,
+      "KVC28": 1,
+      "KVC29": 1,
+      "KVC30": 1,
+      "KVN01": 0,
+      "KVN02": 0,
+      "KVN03": 0,
+      "KVN04": 0,
+      "KVN05": 0,
+      "KVN06": 0,
+      "KVN07": 0,
+      "KVN08": 0,
+      "KVN09": 0,
+      "KVN10": 0,
+      "KVN11": 0,
+      "KVN12": 0
+    },
+    "negative_all_zero": true,
+    "gate_expected_in_kept_pass": true,
+    "ambiguous_cases": [
+      {
+        "ids": [
+          "KVC12"
+        ],
+        "why": "'我换到美团了' 无族键，按同 case 上一条继承 (公司)；补充规则"
+      },
+      {
+        "ids": [
+          "KVC05",
+          "KVC06"
+        ],
+        "why": "基块 #3/#12 含 阿泽/实验 等非车牌属性：按'保留可见'处理，因此旧车牌 京A88888 仍可见（无信息损失，但去旧值不彻底）"
+      },
+      {
+        "ids": [
+          "KVC25",
+          "KVC26",
+          "KVC29",
+          "KVC30"
+        ],
+        "why": "会议/出差已加日期槽（仅 day，无时刻），跨日期不再并族"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "case_id": "KVC01",
+      "case_class": "positive",
+      "query": "我的猫叫什么？",
+      "family": "猫",
+      "predicate": "名字",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 14,
+          "role": "base",
+          "owner": null,
+          "slot": null,
+          "text": "补充一个事实：我养的猫叫豆豆。"
+        },
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我养了只猫叫团团"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "我的猫现在叫球球"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "我的猫现在叫球球",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        14,
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 14,
+          "role": "base",
+          "text": "补充一个事实：我养的猫叫豆豆。"
+        },
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我养了只猫叫团团"
+        }
+      ],
+      "expected_value": [
+        "球球"
+      ],
+      "not_contains": [
+        "团团"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 2,
+      "info_loss_tokens": [
+        "养",
+        "只"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=猫; owner=None; predicate=名字; slot=None"
+    },
+    {
+      "case_id": "KVC02",
+      "case_class": "positive",
+      "query": "我猫的名字是什么？",
+      "family": "猫",
+      "predicate": "名字",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 14,
+          "role": "base",
+          "owner": null,
+          "slot": null,
+          "text": "补充一个事实：我养的猫叫豆豆。"
+        },
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我养的猫叫年糕"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "我后来把猫改名成花卷"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "我后来把猫改名成花卷",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        14,
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 14,
+          "role": "base",
+          "text": "补充一个事实：我养的猫叫豆豆。"
+        },
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我养的猫叫年糕"
+        }
+      ],
+      "expected_value": [
+        "花卷"
+      ],
+      "not_contains": [
+        "年糕"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 2,
+      "info_loss_tokens": [
+        "养",
+        "叫"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=猫; owner=None; predicate=名字; slot=None"
+    },
+    {
+      "case_id": "KVC03",
+      "case_class": "positive",
+      "query": "我的狗叫什么？",
+      "family": "狗",
+      "predicate": "名字",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我养了条狗叫大黄"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "我的狗改名叫黑豆"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "我的狗改名叫黑豆",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我养了条狗叫大黄"
+        }
+      ],
+      "expected_value": [
+        "黑豆"
+      ],
+      "not_contains": [
+        "大黄"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 2,
+      "info_loss_tokens": [
+        "养",
+        "条"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=狗; owner=None; predicate=名字; slot=None"
+    },
+    {
+      "case_id": "KVC04",
+      "case_class": "positive",
+      "query": "我家狗的名字？",
+      "family": "狗",
+      "predicate": "名字",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我家狗叫旺财"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "我家狗现在叫来福"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "我家狗现在叫来福",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我家狗叫旺财"
+        }
+      ],
+      "expected_value": [
+        "来福"
+      ],
+      "not_contains": [
+        "旺财"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=狗; owner=None; predicate=名字; slot=None"
+    },
+    {
+      "case_id": "KVC05",
+      "case_class": "positive",
+      "query": "我的车牌号是多少？",
+      "family": "车牌",
+      "predicate": "号码",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 3,
+          "role": "base",
+          "owner": null,
+          "slot": null,
+          "text": "我叫阿泽，今天（2026-10-27）我们做完了 b7 实验，结论是擦边；我的车牌号是京A88888。"
+        },
+        {
+          "id": 12,
+          "role": "base",
+          "owner": null,
+          "slot": null,
+          "text": "我叫阿泽，我的车牌号是京A88888。"
+        },
+        {
+          "id": 13,
+          "role": "base",
+          "owner": null,
+          "slot": null,
+          "text": "顺便说一下，我的车牌号是京A88888。"
+        },
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我的车牌号是京Q12345"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "我的车牌号换成津E54321了"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "我的车牌号换成津E54321了",
+      "kept_ids": [
+        3,
+        12,
+        22
+      ],
+      "supplementary_kept": [
+        {
+          "id": 3,
+          "reason": "supplementary",
+          "tokens": [
+            "2026-10-27",
+            "b7",
+            "今",
+            "们",
+            "做",
+            "叫",
+            "天",
+            "完",
+            "擦",
+            "泽",
+            "结",
+            "论"
+          ]
+        },
+        {
+          "id": 12,
+          "reason": "supplementary",
+          "tokens": [
+            "叫",
+            "泽",
+            "阿"
+          ]
+        }
+      ],
+      "hidden_ids": [
+        13,
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 13,
+          "role": "base",
+          "text": "顺便说一下，我的车牌号是京A88888。"
+        },
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我的车牌号是京Q12345"
+        }
+      ],
+      "expected_value": [
+        "津E54321",
+        "津E 54321"
+      ],
+      "not_contains": [
+        "京Q12345"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 1,
+      "info_loss_tokens": [
+        "q12345"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=车牌; owner=None; predicate=号码; slot=None"
+    },
+    {
+      "case_id": "KVC06",
+      "case_class": "positive",
+      "query": "我的车牌是什么？",
+      "family": "车牌",
+      "predicate": "号码",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 3,
+          "role": "base",
+          "owner": null,
+          "slot": null,
+          "text": "我叫阿泽，今天（2026-10-27）我们做完了 b7 实验，结论是擦边；我的车牌号是京A88888。"
+        },
+        {
+          "id": 12,
+          "role": "base",
+          "owner": null,
+          "slot": null,
+          "text": "我叫阿泽，我的车牌号是京A88888。"
+        },
+        {
+          "id": 13,
+          "role": "base",
+          "owner": null,
+          "slot": null,
+          "text": "顺便说一下，我的车牌号是京A88888。"
+        },
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我的车牌是沪F67890"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "车牌已经换成粤G09876"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "车牌已经换成粤G09876",
+      "kept_ids": [
+        3,
+        12,
+        22
+      ],
+      "supplementary_kept": [
+        {
+          "id": 3,
+          "reason": "supplementary",
+          "tokens": [
+            "2026-10-27",
+            "b7",
+            "今",
+            "们",
+            "做",
+            "叫",
+            "天",
+            "完",
+            "擦",
+            "泽",
+            "结",
+            "论"
+          ]
+        },
+        {
+          "id": 12,
+          "reason": "supplementary",
+          "tokens": [
+            "叫",
+            "泽",
+            "阿"
+          ]
+        }
+      ],
+      "hidden_ids": [
+        13,
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 13,
+          "role": "base",
+          "text": "顺便说一下，我的车牌号是京A88888。"
+        },
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我的车牌是沪F67890"
+        }
+      ],
+      "expected_value": [
+        "粤G09876",
+        "粤G 09876"
+      ],
+      "not_contains": [
+        "沪F67890"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 1,
+      "info_loss_tokens": [
+        "f67890"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=车牌; owner=None; predicate=号码; slot=None"
+    },
+    {
+      "case_id": "KVC07",
+      "case_class": "positive",
+      "query": "我的手机号是多少？",
+      "family": "手机",
+      "predicate": "号码",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我的手机号是135-2468-1357"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "我的手机号改成159-8888-0001"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "我的手机号改成159-8888-0001",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我的手机号是135-2468-1357"
+        }
+      ],
+      "expected_value": [
+        "159-8888-0001",
+        "15988880001",
+        "159 8888 0001"
+      ],
+      "not_contains": [
+        "135-2468-1357",
+        "13524681357"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 1,
+      "info_loss_tokens": [
+        "135-2468-1357"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=手机; owner=None; predicate=号码; slot=None"
+    },
+    {
+      "case_id": "KVC08",
+      "case_class": "positive",
+      "query": "我的手机号是什么？",
+      "family": "手机",
+      "predicate": "号码",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我的手机号是186-3333-4444"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "新手机号是177-5555-6666"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "新手机号是177-5555-6666",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我的手机号是186-3333-4444"
+        }
+      ],
+      "expected_value": [
+        "177-5555-6666",
+        "17755556666",
+        "177 5555 6666"
+      ],
+      "not_contains": [
+        "186-3333-4444",
+        "18633334444"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 1,
+      "info_loss_tokens": [
+        "186-3333-4444"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=手机; owner=None; predicate=号码; slot=None"
+    },
+    {
+      "case_id": "KVC09",
+      "case_class": "positive",
+      "query": "我的工位在哪？",
+      "family": "工位",
+      "predicate": "地点",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我的工位在B座302"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "我的工位搬到C座501了"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "我的工位搬到C座501了",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我的工位在B座302"
+        }
+      ],
+      "expected_value": [
+        "C座501",
+        "C座 501",
+        "C-501"
+      ],
+      "not_contains": [
+        "B座302",
+        "B座 302"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 1,
+      "info_loss_tokens": [
+        "302"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=工位; owner=None; predicate=地点; slot=None"
+    },
+    {
+      "case_id": "KVC10",
+      "case_class": "positive",
+      "query": "我的工位是几层几号？",
+      "family": "工位",
+      "predicate": "地点",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我的工位是3层12号"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "工位换到5层08号"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "工位换到5层08号",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我的工位是3层12号"
+        }
+      ],
+      "expected_value": [
+        "5层08号",
+        "5层8号",
+        "5-08"
+      ],
+      "not_contains": [
+        "3层12号"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 1,
+      "info_loss_tokens": [
+        "12"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=工位; owner=None; predicate=地点; slot=None"
+    },
+    {
+      "case_id": "KVC11",
+      "case_class": "positive",
+      "query": "我在哪家公司上班？",
+      "family": "公司",
+      "predicate": "名称",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我在云栖科技上班"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "我跳槽去星河数据了"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "我跳槽去星河数据了",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我在云栖科技上班"
+        }
+      ],
+      "expected_value": [
+        "星河数据"
+      ],
+      "not_contains": [
+        "云栖科技"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 1,
+      "info_loss_tokens": [
+        "班"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=公司; owner=None; predicate=名称; slot=None"
+    },
+    {
+      "case_id": "KVC12",
+      "case_class": "positive",
+      "query": "我的公司叫什么？",
+      "family": "公司",
+      "predicate": "名称",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我的公司是字节跳动"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "我换到美团了"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "我换到美团了",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我的公司是字节跳动"
+        }
+      ],
+      "expected_value": [
+        "美团"
+      ],
+      "not_contains": [
+        "字节跳动"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 2,
+      "info_loss_tokens": [
+        "公",
+        "司"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=公司; owner=None; predicate=名称; slot=None"
+    },
+    {
+      "case_id": "KVC13",
+      "case_class": "positive",
+      "query": "我老家在哪里？",
+      "family": "老家",
+      "predicate": "地点",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我老家在杭州"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "我老家其实是南京"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "我老家其实是南京",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我老家在杭州"
+        }
+      ],
+      "expected_value": [
+        "南京"
+      ],
+      "not_contains": [
+        "杭州"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=老家; owner=None; predicate=地点; slot=None"
+    },
+    {
+      "case_id": "KVC14",
+      "case_class": "positive",
+      "query": "我老家是哪里的？",
+      "family": "老家",
+      "predicate": "地点",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我的老家是成都"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "老家在西安"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "老家在西安",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我的老家是成都"
+        }
+      ],
+      "expected_value": [
+        "西安"
+      ],
+      "not_contains": [
+        "成都"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=老家; owner=None; predicate=地点; slot=None"
+    },
+    {
+      "case_id": "KVC15",
+      "case_class": "positive",
+      "query": "我的车是什么颜色？",
+      "family": "车色",
+      "predicate": "颜色",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我的车是香槟色"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "我的车现在是白色"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "我的车现在是白色",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我的车是香槟色"
+        }
+      ],
+      "expected_value": [
+        "白色"
+      ],
+      "not_contains": [
+        "香槟色"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=车色; owner=None; predicate=颜色; slot=None"
+    },
+    {
+      "case_id": "KVC16",
+      "case_class": "positive",
+      "query": "我的车是什么颜色？",
+      "family": "车色",
+      "predicate": "颜色",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我的车是蓝色"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "车漆改成黑色了"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "车漆改成黑色了",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我的车是蓝色"
+        }
+      ],
+      "expected_value": [
+        "黑色"
+      ],
+      "not_contains": [
+        "蓝色"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=车色; owner=None; predicate=颜色; slot=None"
+    },
+    {
+      "case_id": "KVC17",
+      "case_class": "positive",
+      "query": "我的车是什么车型？",
+      "family": "车型",
+      "predicate": "车型",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我的车是两厢车"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "我的车换成SUV了"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "我的车换成SUV了",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我的车是两厢车"
+        }
+      ],
+      "expected_value": [
+        "SUV",
+        "suv"
+      ],
+      "not_contains": [
+        "两厢"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=车型; owner=None; predicate=车型; slot=None"
+    },
+    {
+      "case_id": "KVC18",
+      "case_class": "positive",
+      "query": "我的车型是什么？",
+      "family": "车型",
+      "predicate": "车型",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我的车是轿车"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "现在开的是MPV"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "现在开的是MPV",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我的车是轿车"
+        }
+      ],
+      "expected_value": [
+        "MPV",
+        "mpv"
+      ],
+      "not_contains": [
+        "轿车"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=车型; owner=None; predicate=车型; slot=None"
+    },
+    {
+      "case_id": "KVC19",
+      "case_class": "positive",
+      "query": "我的邮箱是多少？",
+      "family": "邮箱",
+      "predicate": "邮箱",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我的邮箱是aze@example.com"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "邮箱改成aze.work@example.com"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "邮箱改成aze.work@example.com",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我的邮箱是aze@example.com"
+        }
+      ],
+      "expected_value": [
+        "aze.work@example.com"
+      ],
+      "not_contains": [
+        "aze@example.com"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 1,
+      "info_loss_tokens": [
+        "aze@example.com"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=邮箱; owner=None; predicate=邮箱; slot=None"
+    },
+    {
+      "case_id": "KVC20",
+      "case_class": "positive",
+      "query": "我的邮箱是什么？",
+      "family": "邮箱",
+      "predicate": "邮箱",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我的邮箱是lin@example.com"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": "工作",
+          "slot": null,
+          "text": "工作邮箱是lin.work@example.com"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "工作邮箱是lin.work@example.com",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我的邮箱是lin@example.com"
+        }
+      ],
+      "expected_value": [
+        "lin.work@example.com"
+      ],
+      "not_contains": [
+        "lin@example.com"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 1,
+      "info_loss_tokens": [
+        "lin@example.com"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=邮箱; owner=None; predicate=邮箱; slot=None"
+    },
+    {
+      "case_id": "KVC21",
+      "case_class": "positive",
+      "query": "我对什么药过敏？",
+      "family": "过敏",
+      "predicate": "过敏原",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我对布洛芬过敏"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "我其实对青霉素过敏"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "我其实对青霉素过敏",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我对布洛芬过敏"
+        }
+      ],
+      "expected_value": [
+        "青霉素"
+      ],
+      "not_contains": [
+        "布洛芬"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=过敏; owner=None; predicate=过敏原; slot=None"
+    },
+    {
+      "case_id": "KVC22",
+      "case_class": "positive",
+      "query": "我对什么过敏？",
+      "family": "过敏",
+      "predicate": "过敏原",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我花粉过敏"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "我海鲜过敏"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "我海鲜过敏",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我花粉过敏"
+        }
+      ],
+      "expected_value": [
+        "海鲜"
+      ],
+      "not_contains": [
+        "花粉"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=过敏; owner=None; predicate=过敏原; slot=None"
+    },
+    {
+      "case_id": "KVC23",
+      "case_class": "positive",
+      "query": "我每周几几点健身？",
+      "family": "健身",
+      "predicate": "时间",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": {
+            "day": "周四",
+            "time": "晚上八点"
+          },
+          "text": "我每周四晚上八点健身"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": {
+            "day": "周二",
+            "time": "晚上七点"
+          },
+          "text": "改到周二晚上七点健身"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "改到周二晚上七点健身",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我每周四晚上八点健身"
+        }
+      ],
+      "expected_value": [
+        "周二",
+        "七点",
+        "7点"
+      ],
+      "not_contains": [
+        "周四"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 1,
+      "info_loss_tokens": [
+        "每"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=健身; owner=None; predicate=时间; slot=None"
+    },
+    {
+      "case_id": "KVC24",
+      "case_class": "positive",
+      "query": "我什么时候健身？",
+      "family": "健身",
+      "predicate": "时间",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": {
+            "day": "周六",
+            "time": "上午九点"
+          },
+          "text": "我周六上午九点健身"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": {
+            "day": "周一",
+            "time": "晚上六点"
+          },
+          "text": "现在周一晚上六点健身"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "现在周一晚上六点健身",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我周六上午九点健身"
+        }
+      ],
+      "expected_value": [
+        "周一",
+        "六点",
+        "6点"
+      ],
+      "not_contains": [
+        "周六"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 1,
+      "info_loss_tokens": [
+        "午"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=健身; owner=None; predicate=时间; slot=None"
+    },
+    {
+      "case_id": "KVC25",
+      "case_class": "positive",
+      "query": "我下周二要去哪里出差？",
+      "family": "出差",
+      "predicate": "地点",
+      "owner": null,
+      "slot": {
+        "day": "下周二",
+        "time": null
+      },
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": "北京",
+          "slot": {
+            "day": "下周二",
+            "time": null
+          },
+          "text": "我下周二要去北京出差"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": "上海",
+          "slot": {
+            "day": "下周二",
+            "time": null
+          },
+          "text": "下周二改成去上海出差"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "下周二改成去上海出差",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我下周二要去北京出差"
+        }
+      ],
+      "expected_value": [
+        "上海"
+      ],
+      "not_contains": [
+        "北京"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 1,
+      "info_loss_tokens": [
+        "要"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=出差; owner=None; predicate=地点; slot={'day': '下周二', 'time': None}"
+    },
+    {
+      "case_id": "KVC26",
+      "case_class": "positive",
+      "query": "我下周一要去哪里开会？",
+      "family": "会议",
+      "predicate": "地点",
+      "owner": null,
+      "slot": {
+        "day": "下周一",
+        "time": null
+      },
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": {
+            "day": "下周一",
+            "time": null
+          },
+          "text": "改到下周一去成都开会"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "改到下周一去成都开会",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [],
+      "hidden_blocks": [],
+      "expected_value": [
+        "成都"
+      ],
+      "not_contains": [
+        "杭州"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=会议; owner=None; predicate=地点; slot={'day': '下周一', 'time': None}"
+    },
+    {
+      "case_id": "KVC27",
+      "case_class": "positive",
+      "query": "我的银行卡尾号是多少？",
+      "family": "银行卡",
+      "predicate": "尾号",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "我的银行卡尾号是7418"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "尾号换成9032了"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "尾号换成9032了",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "我的银行卡尾号是7418"
+        }
+      ],
+      "expected_value": [
+        "9032"
+      ],
+      "not_contains": [
+        "7418"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 4,
+      "info_loss_tokens": [
+        "7418",
+        "卡",
+        "行",
+        "银"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=银行卡; owner=None; predicate=尾号; slot=None"
+    },
+    {
+      "case_id": "KVC28",
+      "case_class": "positive",
+      "query": "我的银行卡尾号是什么？",
+      "family": "银行卡",
+      "predicate": "尾号",
+      "owner": null,
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": null,
+          "text": "银行卡尾号是1122"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": null,
+          "text": "新卡尾号8842"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "新卡尾号8842",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "银行卡尾号是1122"
+        }
+      ],
+      "expected_value": [
+        "8842"
+      ],
+      "not_contains": [
+        "1122"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 3,
+      "info_loss_tokens": [
+        "1122",
+        "行",
+        "银"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=银行卡; owner=None; predicate=尾号; slot=None"
+    },
+    {
+      "case_id": "KVC29",
+      "case_class": "positive",
+      "query": "周一上午十点的会在哪开？",
+      "family": "会议",
+      "predicate": "地点",
+      "owner": null,
+      "slot": {
+        "day": "周一",
+        "time": "上午十点"
+      },
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": {
+            "day": "周一",
+            "time": "上午十点"
+          },
+          "text": "周一上午十点的会在7楼会议室"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": {
+            "day": "周一",
+            "time": "上午十点"
+          },
+          "text": "改到2楼会议室"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "改到2楼会议室",
+      "kept_ids": [
+        22
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "周一上午十点的会在7楼会议室"
+        }
+      ],
+      "expected_value": [
+        "2楼会议室",
+        "二楼会议室",
+        "2楼"
+      ],
+      "not_contains": [
+        "7楼"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 4,
+      "info_loss_tokens": [
+        "十",
+        "午",
+        "周",
+        "点"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=会议; owner=None; predicate=地点; slot={'day': '周一', 'time': '上午十点'}"
+    },
+    {
+      "case_id": "KVC30",
+      "case_class": "positive",
+      "query": "周三的会在哪里开？",
+      "family": "会议",
+      "predicate": "地点",
+      "owner": null,
+      "slot": {
+        "day": "周三",
+        "time": null
+      },
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 1,
+          "role": "base",
+          "owner": null,
+          "slot": {
+            "day": "周三",
+            "time": "晚上七点"
+          },
+          "text": "我每周三晚上七点有组会，地点在B座302；本周待办是交周报、周三体检、周五复盘。"
+        },
+        {
+          "id": 2,
+          "role": "base",
+          "owner": null,
+          "slot": {
+            "day": "周三",
+            "time": "晚上七点"
+          },
+          "text": "我每周三晚上七点有组会，地点B座302。"
+        },
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": null,
+          "slot": {
+            "day": "周三",
+            "time": null
+          },
+          "text": "周三的会在三楼洽谈室"
+        },
+        {
+          "id": 22,
+          "role": "case_new",
+          "owner": null,
+          "slot": {
+            "day": "周三",
+            "time": null
+          },
+          "text": "换到五楼大会议室"
+        }
+      ],
+      "kept_id": 22,
+      "kept_text": "换到五楼大会议室",
+      "kept_ids": [
+        1,
+        2,
+        22
+      ],
+      "supplementary_kept": [
+        {
+          "id": 1,
+          "reason": "supplementary",
+          "tokens": [
+            "七",
+            "交",
+            "体",
+            "办",
+            "地",
+            "复",
+            "待",
+            "报",
+            "晚",
+            "本",
+            "检",
+            "每"
+          ]
+        },
+        {
+          "id": 2,
+          "reason": "supplementary",
+          "tokens": [
+            "七",
+            "地",
+            "晚",
+            "每",
+            "点",
+            "组"
+          ]
+        }
+      ],
+      "hidden_ids": [
+        21
+      ],
+      "hidden_blocks": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "text": "周三的会在三楼洽谈室"
+        }
+      ],
+      "expected_value": [
+        "五楼大会议室",
+        "5楼大会议室",
+        "五楼"
+      ],
+      "not_contains": [
+        "三楼"
+      ],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 2,
+      "info_loss_tokens": [
+        "洽",
+        "谈"
+      ],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=会议; owner=None; predicate=地点; slot={'day': '周三', 'time': None}"
+    },
+    {
+      "case_id": "KVN01",
+      "case_class": "negative",
+      "query": "我的特斯拉是什么颜色？",
+      "family": "车色",
+      "predicate": "颜色",
+      "owner": "特斯拉",
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": "特斯拉",
+          "slot": null,
+          "text": "我的特斯拉是蓝色"
+        }
+      ],
+      "kept_id": 21,
+      "kept_text": "我的特斯拉是蓝色",
+      "kept_ids": [
+        21
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [],
+      "hidden_blocks": [],
+      "expected_value": [
+        "蓝色"
+      ],
+      "not_contains": [],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=车色; owner=特斯拉; predicate=颜色; slot=None"
+    },
+    {
+      "case_id": "KVN02",
+      "case_class": "negative",
+      "query": "我的油车是什么颜色？",
+      "family": "车色",
+      "predicate": "颜色",
+      "owner": "油车",
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": "油车",
+          "slot": null,
+          "text": "我的油车是灰色"
+        }
+      ],
+      "kept_id": 21,
+      "kept_text": "我的油车是灰色",
+      "kept_ids": [
+        21
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [],
+      "hidden_blocks": [],
+      "expected_value": [
+        "灰色"
+      ],
+      "not_contains": [],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=车色; owner=油车; predicate=颜色; slot=None"
+    },
+    {
+      "case_id": "KVN03",
+      "case_class": "negative",
+      "query": "我的工作号是多少？",
+      "family": "手机",
+      "predicate": "号码",
+      "owner": "工作",
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": "工作",
+          "slot": null,
+          "text": "我的工作号是130-2468-1111"
+        }
+      ],
+      "kept_id": 21,
+      "kept_text": "我的工作号是130-2468-1111",
+      "kept_ids": [
+        21
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [],
+      "hidden_blocks": [],
+      "expected_value": [
+        "130-2468-1111",
+        "13024681111"
+      ],
+      "not_contains": [],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=手机; owner=工作; predicate=号码; slot=None"
+    },
+    {
+      "case_id": "KVN04",
+      "case_class": "negative",
+      "query": "我的备用号是多少？",
+      "family": "手机",
+      "predicate": "号码",
+      "owner": "备用",
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": "备用",
+          "slot": null,
+          "text": "我的备用号是132-0000-3333"
+        }
+      ],
+      "kept_id": 21,
+      "kept_text": "我的备用号是132-0000-3333",
+      "kept_ids": [
+        21
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [],
+      "hidden_blocks": [],
+      "expected_value": [
+        "132-0000-3333",
+        "13200003333"
+      ],
+      "not_contains": [],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=手机; owner=备用; predicate=号码; slot=None"
+    },
+    {
+      "case_id": "KVN05",
+      "case_class": "negative",
+      "query": "我家大猫叫什么？",
+      "family": "猫",
+      "predicate": "名字",
+      "owner": "大猫",
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": "大猫",
+          "slot": null,
+          "text": "我家大猫叫咪咪"
+        }
+      ],
+      "kept_id": 21,
+      "kept_text": "我家大猫叫咪咪",
+      "kept_ids": [
+        21
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [],
+      "hidden_blocks": [],
+      "expected_value": [
+        "咪咪"
+      ],
+      "not_contains": [],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=猫; owner=大猫; predicate=名字; slot=None"
+    },
+    {
+      "case_id": "KVN06",
+      "case_class": "negative",
+      "query": "我的白猫叫什么？",
+      "family": "猫",
+      "predicate": "名字",
+      "owner": "白猫",
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": "白猫",
+          "slot": null,
+          "text": "我养的白猫叫雪球"
+        }
+      ],
+      "kept_id": 21,
+      "kept_text": "我养的白猫叫雪球",
+      "kept_ids": [
+        21
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [],
+      "hidden_blocks": [],
+      "expected_value": [
+        "雪球"
+      ],
+      "not_contains": [],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=猫; owner=白猫; predicate=名字; slot=None"
+    },
+    {
+      "case_id": "KVN07",
+      "case_class": "negative",
+      "query": "我的个人邮箱是什么？",
+      "family": "邮箱",
+      "predicate": "邮箱",
+      "owner": "个人",
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": "个人",
+          "slot": null,
+          "text": "我的个人邮箱是p@example.com"
+        }
+      ],
+      "kept_id": 21,
+      "kept_text": "我的个人邮箱是p@example.com",
+      "kept_ids": [
+        21
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [],
+      "hidden_blocks": [],
+      "expected_value": [
+        "p@example.com"
+      ],
+      "not_contains": [],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=邮箱; owner=个人; predicate=邮箱; slot=None"
+    },
+    {
+      "case_id": "KVN08",
+      "case_class": "negative",
+      "query": "我的备用邮箱是什么？",
+      "family": "邮箱",
+      "predicate": "邮箱",
+      "owner": "备用",
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": "备用",
+          "slot": null,
+          "text": "我的备用邮箱是b1@example.com"
+        }
+      ],
+      "kept_id": 21,
+      "kept_text": "我的备用邮箱是b1@example.com",
+      "kept_ids": [
+        21
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [],
+      "hidden_blocks": [],
+      "expected_value": [
+        "b1@example.com"
+      ],
+      "not_contains": [],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=邮箱; owner=备用; predicate=邮箱; slot=None"
+    },
+    {
+      "case_id": "KVN09",
+      "case_class": "negative",
+      "query": "我北京的工位是哪个？",
+      "family": "工位",
+      "predicate": "地点",
+      "owner": "北京",
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": "北京",
+          "slot": null,
+          "text": "我在北京的工位是A1"
+        }
+      ],
+      "kept_id": 21,
+      "kept_text": "我在北京的工位是A1",
+      "kept_ids": [
+        21
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [],
+      "hidden_blocks": [],
+      "expected_value": [
+        "A1"
+      ],
+      "not_contains": [],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=工位; owner=北京; predicate=地点; slot=None"
+    },
+    {
+      "case_id": "KVN10",
+      "case_class": "negative",
+      "query": "我总部的工位在几楼？",
+      "family": "工位",
+      "predicate": "地点",
+      "owner": "总部",
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": "总部",
+          "slot": null,
+          "text": "我总部工位在8楼"
+        }
+      ],
+      "kept_id": 21,
+      "kept_text": "我总部工位在8楼",
+      "kept_ids": [
+        21
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [],
+      "hidden_blocks": [],
+      "expected_value": [
+        "8楼"
+      ],
+      "not_contains": [],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=工位; owner=总部; predicate=地点; slot=None"
+    },
+    {
+      "case_id": "KVN11",
+      "case_class": "negative",
+      "query": "我父亲老家在哪？",
+      "family": "老家",
+      "predicate": "地点",
+      "owner": "父亲",
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": "父亲",
+          "slot": null,
+          "text": "我父亲老家在山东"
+        }
+      ],
+      "kept_id": 21,
+      "kept_text": "我父亲老家在山东",
+      "kept_ids": [
+        21
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [],
+      "hidden_blocks": [],
+      "expected_value": [
+        "山东"
+      ],
+      "not_contains": [],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=老家; owner=父亲; predicate=地点; slot=None"
+    },
+    {
+      "case_id": "KVN12",
+      "case_class": "negative",
+      "query": "我爱人老家在哪？",
+      "family": "老家",
+      "predicate": "地点",
+      "owner": "爱人",
+      "slot": null,
+      "family_found": true,
+      "family_members": [
+        {
+          "id": 21,
+          "role": "case_old",
+          "owner": "爱人",
+          "slot": null,
+          "text": "我爱人老家在湖南"
+        }
+      ],
+      "kept_id": 21,
+      "kept_text": "我爱人老家在湖南",
+      "kept_ids": [
+        21
+      ],
+      "supplementary_kept": [],
+      "hidden_ids": [],
+      "hidden_blocks": [],
+      "expected_value": [
+        "湖南"
+      ],
+      "not_contains": [],
+      "expected_in_kept": true,
+      "expected_hidden": false,
+      "mis_hide_other_subject": false,
+      "hide_same_value": false,
+      "hide_complement": false,
+      "hide_same_value_or_complement": false,
+      "hide_same_value_ids": [],
+      "hide_complement_ids": [],
+      "info_loss": 0,
+      "info_loss_tokens": [],
+      "info_loss_unexpected": 0,
+      "info_loss_unexpected_tokens": [],
+      "hide_rule": "family=老家; owner=爱人; predicate=地点; slot=None"
+    }
+  ]
+}

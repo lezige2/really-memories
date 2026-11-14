@@ -1,0 +1,29 @@
+{
+ "schema": "p1_l05_paired_v1",
+ "setup": "同一副本 kvmem/p1svc/l05（20 行，rewrite+assert）；同一 pre_state（remember 我的车是白色 SUV + 8 轮闲聊）；两臂各 5 次",
+ "baseline": {
+  "pass": 4,
+  "n": 5,
+  "states": [
+   "natural",
+   "natural",
+   "natural",
+   "verify_fallback",
+   "natural"
+  ]
+ },
+ "p1": {
+  "pass": 2,
+  "n": 5,
+  "states": [
+   "verify_fallback",
+   "natural",
+   "natural",
+   "verify_fallback",
+   "verify_fallback"
+  ]
+ },
+ "fisher_two_sided_p": 0.5238,
+ "note": "两臂为顺序执行（单 GPU 无法同时驻留两个引擎），非严格交替；同副本/同 pre_state/同 now 条件满足",
+ "verdict": "基线 4/5、P1 2/5：数值上 P1 低，但 n=5 下 Fisher p=0.52，不能判回归；按 B 给的端点（4v4 不回归、4v1 回归）本条落在中间地带，需扩样"
+}

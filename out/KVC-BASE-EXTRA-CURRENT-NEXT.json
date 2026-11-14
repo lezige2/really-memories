@@ -1,0 +1,63 @@
+{
+ "schema": "training_next_v1",
+ "role": "T11 下一轮修什么（按 live 基线失败频率排序；只给证据与建议，不写代码）",
+ "source": {
+  "path": "out/TRAINING-EVAL.json",
+  "sha256": "067c05a18ef511b14ceb1c2ff6ee25ea99ca49f1d9553295f3c68a4e2a720ba3",
+  "live_n": 20,
+  "live_fail": 2
+ },
+ "generated_at": "2026-10-29T20:06:31+0800",
+ "ranking_rule": "按 failure_class 出现次数降序；同频按类名字典序",
+ "items": [
+  {
+   "rank": 1,
+   "failure_class": "僵硬",
+   "count": 2,
+   "share_of_failures": 1.0,
+   "share_of_cases": 0.1,
+   "evidence": [
+    {
+     "id": "L07",
+     "category": "long_memory",
+     "input": "我的邮箱是什么？",
+     "answer": "你的邮箱你平时用得不多，我记不清了，你再告诉我一遍吧",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "problems": [
+      "缺内容：['aze@example.com'] 均未出现"
+     ]
+    },
+    {
+     "id": "L09",
+     "category": "long_memory",
+     "input": "我的银行卡尾号是多少？",
+     "answer": "你的银行卡尾号是88888",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      3,
+      12,
+      13
+     ],
+     "problems": [
+      "缺内容：['8899'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "路由/意图（NATURAL_MODE、smalltalk/capability 分支）+ 提示词",
+   "suggestion": "先修路由：寒暄/能力/感叹走快速分支（不落 14B 泛答）；对『您在问…』式复读直接替换为明确应答；补意图词表回归。"
+  }
+ ],
+ "notes": [
+  "证据取自 live 基线每条失败的实际输出（answer/state/refused/block_ids/problems）。",
+  "建议责任单按应用层模块拆分，供下一轮开单；不代表已定位根因。"
+ ]
+}

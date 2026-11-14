@@ -3,46 +3,18 @@
  "role": "T11 下一轮修什么（按 live 基线失败频率排序；只给证据与建议，不写代码）",
  "source": {
   "path": "out/TRAINING-EVAL.json",
-  "sha256": "e8ac21b5afe3d90027289b97cd84d3a14a0c756a991bd87b45988db992488299",
+  "sha256": "220f09cc40012a2b0ae48edd91d0ecf9c62d3b8a0be507ce5cde98cbb227d3bb",
   "live_n": 20,
-  "live_fail": 2
+  "live_fail": 1
  },
- "generated_at": "2026-10-29T14:25:17+0800",
+ "generated_at": "2026-10-29T14:32:28+0800",
  "ranking_rule": "按 failure_class 出现次数降序；同频按类名字典序",
  "items": [
   {
    "rank": 1,
-   "failure_class": "僵硬",
-   "count": 1,
-   "share_of_failures": 0.5,
-   "share_of_cases": 0.05,
-   "evidence": [
-    {
-     "id": "L05",
-     "category": "long_memory",
-     "input": "我的车是什么颜色、什么车型？",
-     "answer": "这条我没法从记忆里核对，先不猜。",
-     "state": "verify_fallback",
-     "refused": false,
-     "block_ids": [
-      25,
-      3,
-      12,
-      13
-     ],
-     "problems": [
-      "缺内容：['银色', '两厢'] 均未出现"
-     ]
-    }
-   ],
-   "suggested_owner": "路由/意图（NATURAL_MODE、smalltalk/capability 分支）+ 提示词",
-   "suggestion": "先修路由：寒暄/能力/感叹走快速分支（不落 14B 泛答）；对『您在问…』式复读直接替换为明确应答；补意图词表回归。"
-  },
-  {
-   "rank": 2,
    "failure_class": "编造",
    "count": 1,
-   "share_of_failures": 0.5,
+   "share_of_failures": 1.0,
    "share_of_cases": 0.05,
    "evidence": [
     {

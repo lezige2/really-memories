@@ -1,0 +1,41 @@
+{
+ "schema": "p1_100_link_v1",
+ "config": {
+  "rows": 100,
+  "months": {
+   "2026-07": 35,
+   "2026-08": 35,
+   "2026-09": 30
+  },
+  "db": "kvmem/p100 (rewrite+assert)",
+  "flags_equivalent": "cap+archive+fallback on、access off",
+  "k2": "off",
+  "verifier": "v1"
+ },
+ "archive": {
+  "archived": 100,
+  "active": 0,
+  "accounting_ok": true,
+  "zips": [
+   "2026-07.zip",
+   "2026-08.zip",
+   "2026-09.zip"
+  ]
+ },
+ "fallback": {
+  "hits": 3,
+  "top_score": 0.8571
+ },
+ "reheat": {
+  "id": 1,
+  "executed": true,
+  "block_exists": true,
+  "active_after": true,
+  "archive_still_marked": true,
+  "second_reheat": {
+   "executed": false,
+   "reason": "already_reheated"
+  }
+ },
+ "verdict": "100 行联动 PASS：三月分桶 35/35/30、归档 100/active 0 账目一致、fallback 命中 3；reheat 1 条 → 块重建、回到 active（archived 标记保留但 reheated_at 使其生效）、二次 already_reheated 幂等"
+}

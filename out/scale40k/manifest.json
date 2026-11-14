@@ -1,0 +1,170 @@
+{
+  "generated_by": "SCALE-40K-GEN.py (CPU only, no model calls, synthetic)",
+  "seed": 40000,
+  "files": {
+    "blocks": "blocks_200.jsonl",
+    "queries": "queries_100.jsonl"
+  },
+  "totals": {
+    "blocks": 200,
+    "queries": 100,
+    "unique_facts": 120,
+    "chain_blocks": 40,
+    "noise_blocks": 40,
+    "families": 10,
+    "chains": 10,
+    "chain_len": 4
+  },
+  "family_dist": {
+    "noise": 40,
+    "plate": 20,
+    "company": 20,
+    "phone": 20,
+    "bank": 16,
+    "meeting": 16,
+    "seat": 16,
+    "car_color": 16,
+    "cat": 12,
+    "dog": 12,
+    "hometown": 12
+  },
+  "kind_dist": {
+    "fact": 120,
+    "noise": 40,
+    "chain": 40
+  },
+  "query_kind_dist": {
+    "direct": 40,
+    "paraphrase": 30,
+    "chain_last": 20,
+    "negative": 10
+  },
+  "position_dist": {
+    "0.0-0.2": 43,
+    "0.2-0.4": 37,
+    "0.4-0.6": 37,
+    "0.6-0.8": 40,
+    "0.8-1.0": 43
+  },
+  "position_anchors": {
+    "~0.1": 14,
+    "~0.4": 10,
+    "~0.5": 4,
+    "~0.7": 10,
+    "~0.9": 14
+  },
+  "chain_position_targets": {
+    "A": 0.1,
+    "B": 0.4,
+    "C": 0.7,
+    "D": 0.9
+  },
+  "key_fact_anchor_targets": [
+    0.1,
+    0.5,
+    0.9
+  ],
+  "key_facts": [
+    {
+      "id": "b0019",
+      "family": "plate",
+      "owner": "张伟",
+      "value": "京N·7K3Q0",
+      "position": 0.1008
+    },
+    {
+      "id": "b0021",
+      "family": "plate",
+      "owner": "吴静",
+      "value": "京N·7K3Q9",
+      "position": 0.1016
+    },
+    {
+      "id": "b0023",
+      "family": "bank",
+      "owner": "黄婷",
+      "value": "6222 0201 8830 4408",
+      "position": 0.1024
+    },
+    {
+      "id": "b0025",
+      "family": "meeting",
+      "owner": "杨帆",
+      "value": "2026-11-02 14:06",
+      "position": 0.1032
+    },
+    {
+      "id": "b0099",
+      "family": "plate",
+      "owner": "刘敏",
+      "value": "京N·7K3Q3",
+      "position": 0.5008
+    },
+    {
+      "id": "b0100",
+      "family": "bank",
+      "owner": "李娜",
+      "value": "6222 0201 8830 4402",
+      "position": 0.5016
+    },
+    {
+      "id": "b0101",
+      "family": "bank",
+      "owner": "徐斌",
+      "value": "6222 0201 8830 4411",
+      "position": 0.5024
+    },
+    {
+      "id": "b0102",
+      "family": "meeting",
+      "owner": "周昊",
+      "value": "2026-11-02 14:09",
+      "position": 0.5032
+    },
+    {
+      "id": "b0174",
+      "family": "plate",
+      "owner": "赵磊",
+      "value": "京N·7K3Q6",
+      "position": 0.9008
+    },
+    {
+      "id": "b0176",
+      "family": "bank",
+      "owner": "陈杰",
+      "value": "6222 0201 8830 4405",
+      "position": 0.9016
+    },
+    {
+      "id": "b0178",
+      "family": "meeting",
+      "owner": "王强",
+      "value": "2026-11-02 14:03",
+      "position": 0.9024
+    },
+    {
+      "id": "b0180",
+      "family": "meeting",
+      "owner": "孙悦",
+      "value": "2026-11-02 14:12",
+      "position": 0.9032
+    }
+  ],
+  "chinese_chars": {
+    "blocks_total": 40706,
+    "blocks_avg": 203.53,
+    "blocks_min": 198,
+    "blocks_max": 209,
+    "queries_total": 1144
+  },
+  "sha256": {
+    "blocks_200.jsonl": "496373f7c3233272016ecba109f989901602cad06145ad9ac305ac724536c1e2",
+    "queries_100.jsonl": "99f08f077dd3bc9a71ef035ef089b4263adadd71bbc0bf71409e79bc2790a5d5"
+  },
+  "notes": [
+    "同族 12 值仅在末位/末字上不同（company 为尾部分部编号），制造高相似检索对抗。",
+    "冲突链每块只陈述自身值，不引用旧值，避免 not_contains 误伤。",
+    "查询文本不含任何块的完整值串（生成后已程序校验）。",
+    "负例 4 类：问旧值 6 / 伪造值 2 / 不存在 2；不存在类 target_block_id 为 null。"
+  ]
+}

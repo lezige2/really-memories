@@ -1,0 +1,129 @@
+{
+  "schema": "v2_mt17_18_debug_v1",
+  "generated_at": "2026-10-29T21:33:54",
+  "source": "out/KVC-V2-MT20.json",
+  "verifier_version_env": "v2",
+  "cases": [
+    {
+      "id": "V9MT17",
+      "query": "我最爱吃什么？",
+      "answer": "你最爱吃湘菜，这个我记得很清楚",
+      "blocks": [
+        {
+          "id": 21,
+          "text": "我最爱吃湘菜"
+        },
+        {
+          "id": 22,
+          "text": "我最爱吃粤菜"
+        }
+      ],
+      "query_key": {
+        "family": null,
+        "predicate": null,
+        "owner": null,
+        "slot": null
+      },
+      "strict_predicate_clear": null,
+      "slot": null,
+      "verify_v2": {
+        "verdict": "pass",
+        "mismatches": [],
+        "hint": "",
+        "checked_values": 0,
+        "version": "v2"
+      },
+      "verify_v1": {
+        "verdict": "pass",
+        "mismatches": []
+      },
+      "actual_meta": {
+        "state": "natural",
+        "block_ids": [
+          21,
+          22
+        ],
+        "latency_server_s": 3.6253
+      },
+      "recorded_verify": null,
+      "recorded_verify_attempts": null,
+      "expect": {
+        "contains_any": [
+          "粤菜"
+        ],
+        "not_contains": [
+          "湘菜"
+        ],
+        "contains_all": [
+          "粤菜"
+        ],
+        "conflict_if_all": [],
+        "refusal": false
+      },
+      "pass": false
+    },
+    {
+      "id": "V9MT18",
+      "query": "我爱吃什么？",
+      "answer": "你最爱吃湘菜，这个我记得很清楚",
+      "blocks": [
+        {
+          "id": 21,
+          "text": "我最爱吃湘菜"
+        },
+        {
+          "id": 22,
+          "text": "我最爱吃粤菜"
+        }
+      ],
+      "query_key": {
+        "family": null,
+        "predicate": null,
+        "owner": null,
+        "slot": null
+      },
+      "strict_predicate_clear": null,
+      "slot": null,
+      "verify_v2": {
+        "verdict": "pass",
+        "mismatches": [],
+        "hint": "",
+        "checked_values": 0,
+        "version": "v2"
+      },
+      "verify_v1": {
+        "verdict": "pass",
+        "mismatches": []
+      },
+      "actual_meta": {
+        "state": "natural",
+        "block_ids": [
+          21,
+          22
+        ],
+        "latency_server_s": 4.0609
+      },
+      "recorded_verify": null,
+      "recorded_verify_attempts": null,
+      "expect": {
+        "contains_any": [
+          "粤菜"
+        ],
+        "not_contains": [
+          "湘菜"
+        ],
+        "contains_all": [
+          "粤菜"
+        ],
+        "conflict_if_all": [],
+        "refusal": false
+      },
+      "pass": false
+    }
+  ],
+  "conclusions": [
+    "V9MT17/V9MT18：query 无槽位（family=None，extract_slot=None，非 STRICT 命中），verify_v2 对实际答案均返回 pass（v1 亦 pass）——v2 未触发，未产生 repair/fallback。",
+    "失败证据：两条答案 \"你最爱吃湘菜，这个我记得很清楚\"、state=natural、block_ids 三臂一致 [21,22]；结果无 verify/verify_attempts 记录也无 verify_fallback，说明是生成/挂载顺序漂移，不是 v2 引入。",
+    "若要防旧值：应加“同族槽位冲突/新块优先”的读侧或 K2 族键扩展，不属 v2 规则范围。"
+  ]
+}

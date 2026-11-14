@@ -1,0 +1,79 @@
+{
+ "schema": "p1_v9mt04_twoarm_v1",
+ "setup": "同副本 kvmem/v9m04c、同 pre_state；各 20 次；单 GPU 顺序",
+ "arms": {
+  "off_all20": {
+   "pass": 20,
+   "n": 20,
+   "fallback": 0,
+   "fail_detail": []
+  },
+  "cap_only": {
+   "pass": 19,
+   "n": 20,
+   "fallback": 1,
+   "fail_detail": [
+    {
+     "state": "verify_fallback",
+     "blocks": [
+      22,
+      21
+     ],
+     "verify": {
+      "verdict": "unsupported",
+      "mismatches": [
+       {
+        "claim": "周三",
+        "type": "value_not_in_memory",
+        "expected_from_block": "周二"
+       }
+      ],
+      "hint": "下面这些内容在记忆中找不到依据：周三（记忆里是 周二）；请只使用记忆原文重答，或直接说不知道。"
+     },
+     "answer": "这条我没法从记忆里核对，先不猜。"
+    }
+   ]
+  },
+  "access_only": {
+   "pass": 19,
+   "n": 20,
+   "fallback": 1,
+   "fail_detail": [
+    {
+     "state": "verify_fallback",
+     "blocks": [
+      22,
+      21
+     ],
+     "verify": {
+      "verdict": "unsupported",
+      "mismatches": [
+       {
+        "claim": "周三",
+        "type": "value_not_in_memory",
+        "expected_from_block": "周二"
+       }
+      ],
+      "hint": "下面这些内容在记忆中找不到依据：周三（记忆里是 周二）；请只使用记忆原文重答，或直接说不知道。"
+     },
+     "answer": "这条我没法从记忆里核对，先不猜。"
+    }
+   ]
+  }
+ },
+ "signature": {
+  "state": "verify_fallback",
+  "verdict": "unsupported",
+  "claim": "周三（value_not_in_memory）",
+  "blocks": [
+   22,
+   21
+  ],
+  "note": "cap-only 与 access-only 的唯一失败完全同形"
+ },
+ "stats": {
+  "cap_vs_off_fisher_p": 1.0,
+  "access_vs_off_fisher_p": 1.0
+ },
+ "verdict": "全关 20/20；cap-only 19/20（1 fallback）、access-only 19/20（1 fallback），两臂失败签名完全相同 ⇒ 无法把致因归到单一开关；1/20 差异统计上不显著（p=1.0）"
+}

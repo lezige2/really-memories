@@ -1,0 +1,61 @@
+{
+ "schema": "training_next_v1",
+ "role": "T11 下一轮修什么（按 live 基线失败频率排序；只给证据与建议，不写代码）",
+ "source": {
+  "path": "out/TRAINING-EVAL.json",
+  "sha256": "18f76ec913ac6ebfb9aa13512ef2d6fc72f07d141354d5fc486a93591f73913e",
+  "live_n": 20,
+  "live_fail": 2
+ },
+ "generated_at": "2026-10-30T15:33:24+0800",
+ "ranking_rule": "按 failure_class 出现次数降序；同频按类名字典序",
+ "items": [
+  {
+   "rank": 1,
+   "failure_class": "编造",
+   "count": 2,
+   "share_of_failures": 1.0,
+   "share_of_cases": 0.1,
+   "evidence": [
+    {
+     "id": "V9MT17",
+     "category": "multi_turn_memory",
+     "input": "我最爱吃什么？",
+     "answer": "你最爱吃湘菜，还有其他喜欢的食物吗",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      22
+     ],
+     "problems": [
+      "不应出现内容：'湘菜'",
+      "缺内容：['粤菜'] 均未出现"
+     ]
+    },
+    {
+     "id": "V9MT18",
+     "category": "multi_turn_memory",
+     "input": "我爱吃什么？",
+     "answer": "你最爱吃湘菜，这个我记得很清楚",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21,
+      22
+     ],
+     "problems": [
+      "不应出现内容：'湘菜'",
+      "缺内容：['粤菜'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "证据路由（tools/evidence.decide）+ 生成后核对/修复回路",
+   "suggestion": "无记忆证据的个人事实问句必须拒答（refused=true + 统一话术），并由核对回路拦截具体值；把 u05/m02/m06 作为门禁用例。"
+  }
+ ],
+ "notes": [
+  "证据取自 live 基线每条失败的实际输出（answer/state/refused/block_ids/problems）。",
+  "建议责任单按应用层模块拆分，供下一轮开单；不代表已定位根因。"
+ ]
+}

@@ -1,0 +1,324 @@
+{
+ "schema": "align_v2_c2_v1",
+ "positives": {
+  "raw_pass": 3,
+  "n": 10,
+  "answer_supported": [
+   "P2-H06",
+   "P2-H10"
+  ],
+  "misreject_among_supported": [],
+  "unsupported_but_pass": [
+   "P2-H09"
+  ],
+  "rows": [
+   {
+    "id": "P2-H01",
+    "query": "陈杰家里那只猫叫什么名字？",
+    "expected": [
+     "小桃"
+    ],
+    "answer": "陈杰家里那只猫叫小柠",
+    "answer_supports_target": false,
+    "decision": "reject",
+    "reason": "no_aligned_block",
+    "fail_open": false,
+    "raw_pass": false
+   },
+   {
+    "id": "P2-H02",
+    "query": "杨帆养的那只猫叫什么？",
+    "expected": [
+     "小杏"
+    ],
+    "answer": "杨帆养的那只猫叫小柠",
+    "answer_supports_target": false,
+    "decision": "reject",
+    "reason": "no_aligned_block",
+    "fail_open": false,
+    "raw_pass": false
+   },
+   {
+    "id": "P2-H03",
+    "query": "孙悦家的猫叫什么来着？",
+    "expected": [
+     "小桐"
+    ],
+    "answer": "孙悦家的猫叫小柠",
+    "answer_supports_target": false,
+    "decision": "reject",
+    "reason": "no_aligned_block",
+    "fail_open": false,
+    "raw_pass": false
+   },
+   {
+    "id": "P2-H04",
+    "query": "张伟那辆车的车牌是多少？",
+    "expected": [
+     "京N·7K3Q0",
+     "7K3Q0"
+    ],
+    "answer": "张伟那辆车的车牌号是京N·7K3Q9",
+    "answer_supports_target": false,
+    "decision": "reject",
+    "reason": "no_aligned_block",
+    "fail_open": false,
+    "raw_pass": false
+   },
+   {
+    "id": "P2-H05",
+    "query": "冯樱在哪家公司上班？",
+    "expected": [
+     "宁波启元"
+    ],
+    "answer": "冯樱现在在杭州云枢网络科技有限公司二部上班",
+    "answer_supports_target": false,
+    "decision": "reject",
+    "reason": "unresolved_subject",
+    "fail_open": false,
+    "raw_pass": false
+   },
+   {
+    "id": "P2-H06",
+    "query": "韩峥的手机号是多少？",
+    "expected": [
+     "13720013001"
+    ],
+    "answer": "韩峥的手机号是13720013001",
+    "answer_supports_target": true,
+    "decision": "pass",
+    "reason": "aligned_block",
+    "fail_open": false,
+    "raw_pass": true
+   },
+   {
+    "id": "P2-H07",
+    "query": "曹岚的银行卡号是多少？",
+    "expected": [
+     "6217 0012 3456 7801",
+     "6217001234567801"
+    ],
+    "answer": "这条我没法从记忆里核对，先不猜。",
+    "answer_supports_target": false,
+    "decision": "reject",
+    "reason": "no_value_for_asked_slot",
+    "fail_open": false,
+    "raw_pass": false
+   },
+   {
+    "id": "P2-H08",
+    "query": "卢婷的车是什么颜色？",
+    "expected": [
+     "珍珠白"
+    ],
+    "answer": "卢婷的车是冰川蓝",
+    "answer_supports_target": false,
+    "decision": "reject",
+    "reason": "no_value_for_asked_slot",
+    "fail_open": false,
+    "raw_pass": false
+   },
+   {
+    "id": "P2-H09",
+    "query": "周昊养的那条狗叫什么？",
+    "expected": [
+     "阿平"
+    ],
+    "answer": "周昊提到过，自己养的那条狗叫阿泰",
+    "answer_supports_target": false,
+    "decision": "pass",
+    "reason": "aligned_block",
+    "fail_open": false,
+    "raw_pass": false
+   },
+   {
+    "id": "P2-H10",
+    "query": "蔡敏的公司叫什么名字？",
+    "expected": [
+     "苏州明远"
+    ],
+    "answer": "蔡敏现在用的公司是苏州明远智能装备有限公司四部",
+    "answer_supports_target": true,
+    "decision": "pass",
+    "reason": "aligned_block",
+    "fail_open": false,
+    "raw_pass": true
+   }
+  ]
+ },
+ "negatives": {
+  "reject": 20,
+  "pass": 0,
+  "fail_open": 0,
+  "rows": [
+   {
+    "id": "P2-N01",
+    "query": "我的车牌保险到期日是哪天？",
+    "decision": "reject",
+    "reason": "facet_time_mismatch",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N02",
+    "query": "我家的门牌号是多少？",
+    "decision": "reject",
+    "reason": "no_value_for_asked_slot",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N03",
+    "query": "我的银行卡密码是多少？",
+    "decision": "reject",
+    "reason": "other_slot_value:公司",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N04",
+    "query": "我上个月工资多少？",
+    "decision": "reject",
+    "reason": "other_slot_value:公司",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N05",
+    "query": "我的学号是多少？",
+    "decision": "reject",
+    "reason": "no_value_for_asked_slot",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N06",
+    "query": "我公司的座机分机号是多少？",
+    "decision": "reject",
+    "reason": "no_aligned_block",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N07",
+    "query": "我的快递收货地址是哪里？",
+    "decision": "reject",
+    "reason": "no_value_for_asked_slot",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N08",
+    "query": "我的车牌是哪年上的？",
+    "decision": "reject",
+    "reason": "other_slot_value:IMEI",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N09",
+    "query": "我的护照签发地是哪里？",
+    "decision": "reject",
+    "reason": "no_value_for_asked_slot",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N10",
+    "query": "我的医保卡余额是多少？",
+    "decision": "reject",
+    "reason": "no_value_for_asked_slot",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N11",
+    "query": "储物柜的初始密码是多少？",
+    "decision": "reject",
+    "reason": "unresolved_subject",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N12",
+    "query": "我那个包裹的运单编号是多少？",
+    "decision": "reject",
+    "reason": "no_value_for_asked_slot",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N13",
+    "query": "我车牌的年检到期日是哪天？",
+    "decision": "reject",
+    "reason": "no_value_for_asked_slot",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N14",
+    "query": "我手机的IMEI号是多少？",
+    "decision": "reject",
+    "reason": "no_aligned_block",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N15",
+    "query": "我公司的统一社会信用代码是多少？",
+    "decision": "reject",
+    "reason": "no_aligned_block",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N16",
+    "query": "我银行卡的有效期到哪年哪月？",
+    "decision": "reject",
+    "reason": "other_slot_value:公司",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N17",
+    "query": "我那次会议的会议号是多少？",
+    "decision": "reject",
+    "reason": "no_value_for_asked_slot",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N18",
+    "query": "我家猫的疫苗本编号是多少？",
+    "decision": "reject",
+    "reason": "no_value_for_asked_slot",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N19",
+    "query": "我工位的分机号码是多少？",
+    "decision": "reject",
+    "reason": "other_slot_value:公司",
+    "fail_open": false
+   },
+   {
+    "id": "P2-N20",
+    "query": "我老家的邮政编码是多少？",
+    "decision": "reject",
+    "reason": "no_value_for_asked_slot",
+    "fail_open": false
+   }
+  ]
+ },
+ "multi_fact": [
+  {
+   "case": "车牌+电话，问车牌",
+   "q": "我的车牌号是多少？",
+   "a": "你的车牌是京N·7K3Q0，电话是13720013001。",
+   "decision": "reject",
+   "reason": "no_aligned_block",
+   "fail_open": false
+  },
+  {
+   "case": "车牌+电话，问电话",
+   "q": "我的手机号是多少？",
+   "a": "你的车牌是京N·7K3Q0，电话是13720013001。",
+   "decision": "pass",
+   "reason": "aligned_block",
+   "fail_open": false
+  }
+ ],
+ "root_cause": {
+  "issue": "块主体具名 (name:张伟) + 查询为 self(我的) ⇒ no_aligned_block，即使答案值完全正确",
+  "evidence": [
+   "单事实「你的车牌是京N·7K3Q0」+ 块19(张伟) → reject no_aligned_block",
+   "单事实手机「韩峥的手机号是13720013001」+ 块22(主体不可识别) → pass",
+   "多事实车牌+电话 问车牌 → reject；问电话 → pass"
+  ],
+  "note": "并非“多事实”导致；车牌类因块带具名主体而系统性误杀"
+ },
+ "verdict": "正例原始 3/10、支持者误拒 0/2、负例 20/20 拒且 fail_open 0 —— 三项与自测一致；但 0/2 是抽样偶然（两个支持样例恰为主体不可识别类），正确车牌答案仍会被拒，指标掩盖系统性问题"
+}

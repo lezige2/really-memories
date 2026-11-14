@@ -1,0 +1,162 @@
+{
+ "negatives": [
+  {
+   "id": "P2-N01",
+   "query": "我的车牌保险到期日是哪天？",
+   "decision": "reject",
+   "reason": "facet_time_mismatch",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N02",
+   "query": "我家的门牌号是多少？",
+   "decision": "reject",
+   "reason": "no_value_for_asked_slot",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N03",
+   "query": "我的银行卡密码是多少？",
+   "decision": "reject",
+   "reason": "other_slot_value:公司",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N04",
+   "query": "我上个月工资多少？",
+   "decision": "reject",
+   "reason": "other_slot_value:公司",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N05",
+   "query": "我的学号是多少？",
+   "decision": "reject",
+   "reason": "no_value_for_asked_slot",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N06",
+   "query": "我公司的座机分机号是多少？",
+   "decision": "reject",
+   "reason": "no_aligned_block",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N07",
+   "query": "我的快递收货地址是哪里？",
+   "decision": "reject",
+   "reason": "no_value_for_asked_slot",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N08",
+   "query": "我的车牌是哪年上的？",
+   "decision": "reject",
+   "reason": "other_slot_value:IMEI",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N09",
+   "query": "我的护照签发地是哪里？",
+   "decision": "reject",
+   "reason": "no_value_for_asked_slot",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N10",
+   "query": "我的医保卡余额是多少？",
+   "decision": "reject",
+   "reason": "no_value_for_asked_slot",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N11",
+   "query": "储物柜的初始密码是多少？",
+   "decision": "reject",
+   "reason": "unresolved_subject",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N12",
+   "query": "我那个包裹的运单编号是多少？",
+   "decision": "reject",
+   "reason": "no_value_for_asked_slot",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N13",
+   "query": "我车牌的年检到期日是哪天？",
+   "decision": "reject",
+   "reason": "no_value_for_asked_slot",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N14",
+   "query": "我手机的IMEI号是多少？",
+   "decision": "reject",
+   "reason": "no_aligned_block",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N15",
+   "query": "我公司的统一社会信用代码是多少？",
+   "decision": "reject",
+   "reason": "no_aligned_block",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N16",
+   "query": "我银行卡的有效期到哪年哪月？",
+   "decision": "reject",
+   "reason": "other_slot_value:公司",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N17",
+   "query": "我那次会议的会议号是多少？",
+   "decision": "reject",
+   "reason": "no_value_for_asked_slot",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N18",
+   "query": "我家猫的疫苗本编号是多少？",
+   "decision": "reject",
+   "reason": "no_value_for_asked_slot",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N19",
+   "query": "我工位的分机号码是多少？",
+   "decision": "reject",
+   "reason": "other_slot_value:公司",
+   "fail_open": false
+  },
+  {
+   "id": "P2-N20",
+   "query": "我老家的邮政编码是多少？",
+   "decision": "reject",
+   "reason": "no_value_for_asked_slot",
+   "fail_open": false
+  }
+ ],
+ "multi_fact": [
+  {
+   "case": "车牌+电话，问车牌",
+   "q": "我的车牌号是多少？",
+   "a": "你的车牌是京N·7K3Q0，电话是13720013001。",
+   "decision": "reject",
+   "reason": "no_aligned_block",
+   "fail_open": false
+  },
+  {
+   "case": "车牌+电话，问电话",
+   "q": "我的手机号是多少？",
+   "a": "你的车牌是京N·7K3Q0，电话是13720013001。",
+   "decision": "pass",
+   "reason": "aligned_block",
+   "fail_open": false
+  }
+ ]
+}

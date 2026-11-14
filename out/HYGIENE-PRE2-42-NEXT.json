@@ -1,0 +1,141 @@
+{
+ "schema": "training_next_v1",
+ "role": "T11 下一轮修什么（按 live 基线失败频率排序；只给证据与建议，不写代码）",
+ "source": {
+  "path": "out/TRAINING-EVAL.json",
+  "sha256": "e36415125c8e45a9cd59129c519a61c712db13224bc55039d9b6edfce27aae44",
+  "live_n": 42,
+  "live_fail": 6
+ },
+ "generated_at": "2026-10-31T00:58:36+0800",
+ "ranking_rule": "按 failure_class 出现次数降序；同频按类名字典序",
+ "items": [
+  {
+   "rank": 1,
+   "failure_class": "僵硬",
+   "count": 4,
+   "share_of_failures": 0.6667,
+   "share_of_cases": 0.0952,
+   "evidence": [
+    {
+     "id": "KVC18",
+     "category": "kv_conflict",
+     "input": "我的车型是什么？",
+     "answer": "你是说想确认自己车的型号吗",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      22
+     ],
+     "problems": [
+      "缺内容：['MPV', 'mpv'] 均未出现"
+     ]
+    },
+    {
+     "id": "KVC22",
+     "category": "kv_conflict",
+     "input": "我对什么过敏？",
+     "answer": "这条我没法从记忆里核对，先不猜。",
+     "state": "verify_fallback",
+     "refused": false,
+     "block_ids": [
+      22
+     ],
+     "problems": [
+      "缺内容：['海鲜'] 均未出现"
+     ]
+    },
+    {
+     "id": "KVC29",
+     "category": "kv_conflict",
+     "input": "周一上午十点的会在哪开？",
+     "answer": "周一上午十点的会具体在哪里开我记不清了，你可以查一下日程或者问问组织会议的人确认一下",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      22,
+      1,
+      2,
+      5
+     ],
+     "problems": [
+      "缺内容：['2楼会议室', '二楼会议室', '2楼'] 均未出现"
+     ]
+    },
+    {
+     "id": "KVC30",
+     "category": "kv_conflict",
+     "input": "周三的会在哪里开？",
+     "answer": "周三的会是在B座302开",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      22,
+      1,
+      2,
+      5
+     ],
+     "problems": [
+      "缺内容：['五楼大会议室', '5楼大会议室', '五楼'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "路由/意图（NATURAL_MODE、smalltalk/capability 分支）+ 提示词",
+   "suggestion": "先修路由：寒暄/能力/感叹走快速分支（不落 14B 泛答）；对『您在问…』式复读直接替换为明确应答；补意图词表回归。"
+  },
+  {
+   "rank": 2,
+   "failure_class": "编造",
+   "count": 1,
+   "share_of_failures": 0.1667,
+   "share_of_cases": 0.0238,
+   "evidence": [
+    {
+     "id": "KVC12",
+     "category": "kv_conflict",
+     "input": "我的公司叫什么？",
+     "answer": "你的公司是字节跳动",
+     "state": "natural",
+     "refused": false,
+     "block_ids": [
+      21
+     ],
+     "problems": [
+      "不应出现内容：'字节跳动'",
+      "缺内容：['美团'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "证据路由（tools/evidence.decide）+ 生成后核对/修复回路",
+   "suggestion": "无记忆证据的个人事实问句必须拒答（refused=true + 统一话术），并由核对回路拦截具体值；把 u05/m02/m06 作为门禁用例。"
+  },
+  {
+   "rank": 3,
+   "failure_class": "误拒",
+   "count": 1,
+   "share_of_failures": 0.1667,
+   "share_of_cases": 0.0238,
+   "evidence": [
+    {
+     "id": "KVC11",
+     "category": "kv_conflict",
+     "input": "我在哪家公司上班？",
+     "answer": "这个我没法确认：你没跟我说过。",
+     "state": "no_evidence",
+     "refused": true,
+     "block_ids": [],
+     "problems": [
+      "不应拒答但被拒答",
+      "缺内容：['星河数据'] 均未出现"
+     ]
+    }
+   ],
+   "suggested_owner": "意图与触发词（intent_of / 产品事实问句白名单）",
+   "suggestion": "收紧『个人事实问句』判定：混合句（问候/致谢+记忆问句）与身份/能力问句不得误拒；对问候前置词剥除后再判定。"
+  }
+ ],
+ "notes": [
+  "证据取自 live 基线每条失败的实际输出（answer/state/refused/block_ids/problems）。",
+  "建议责任单按应用层模块拆分，供下一轮开单；不代表已定位根因。"
+ ]
+}

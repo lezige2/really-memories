@@ -1,0 +1,28 @@
+16:14:44
+[pass  1/20] V9MT01 multi_turn_memory  '我养的猫叫什么？'
+[pass  2/20] V9MT02 multi_turn_memory  '我的猫叫什么名字？'
+[pass  3/20] V9MT03 multi_turn_memory  '我什么时候去健身？'
+[pass  4/20] V9MT04 multi_turn_memory  '我几点去健身？'
+[pass  5/20] V9MT05 multi_turn_memory  '我的手机号是多少？'
+[pass  6/20] V9MT06 multi_turn_memory  '我的手机号是什么？'
+[pass  7/20] V9MT07 multi_turn_memory  '我的工位在哪？'
+[pass  8/20] V9MT08 multi_turn_memory  '我的工位是哪个？'
+[pass  9/20] V9MT09 multi_turn_memory  '我的车牌号是多少？'
+[pass 10/20] V9MT10 multi_turn_memory  '我的车牌是什么？'
+[pass 11/20] V9MT11 multi_turn_memory  '我在哪家公司上班？'
+[pass 12/20] V9MT12 multi_turn_memory  '我的公司叫什么？'
+[pass 13/20] V9MT13 multi_turn_memory  '我下周三要去哪开会？'
+[pass 14/20] V9MT14 multi_turn_memory  '我下周三去哪？'
+[pass 15/20] V9MT15 multi_turn_memory  '我老家在哪？'
+[pass 16/20] V9MT16 multi_turn_memory  '我老家是哪里？'
+[FAIL 17/20] V9MT17 multi_turn_memory  '我最爱吃什么？' -> [编造] 不应出现内容：'湘菜'; 缺内容：['粤菜'] 均未出现
+[FAIL 18/20] V9MT18 multi_turn_memory  '我爱吃什么？' -> [编造] 不应出现内容：'湘菜'; 缺内容：['粤菜'] 均未出现
+[pass 19/20] V9MT19 multi_turn_memory  '我女儿的小名是什么？'
+[pass 20/20] V9MT20 multi_turn_memory  '我女儿叫什么小名？'
+== TRAINING EVAL (live): 18/20 valid pass (90.0%), fail=2, infra=0, elapsed=482.7s ==
+failure_classes: {"编造": 2}
+artifact: out\KVC-V2F-MT20.json sha256: e79a08ecd67bfb820cea3077656115142fc7b6523084ea7b3a8dd1a5ba3e4d03
+next: out\KVC-V2F-MT20-NEXT.json sha256: f4e8be7bcba2f62e141a81f2592680556676338386a50ba5bd2e1d45db231267
+  #1 编造 x2 -> 证据路由（tools/evidence.decide）+ 生成后核对/修复回路
+EXIT=0
+16:22:47

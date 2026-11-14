@@ -1,0 +1,399 @@
+{
+ "schema": "kvc_k2_band_v1",
+ "generated_at": "2026-10-29T18:48:00+08:00",
+ "arm": "K2 (--k2-family, service-side flag, default off; explicit --model/session kvc.json/topk4/ngl28/n_ctx32768)",
+ "k2_service": {
+  "pid": 2344,
+  "cmdline_flag": "--k2-family",
+  "log": "kvmem/daily/service_kvc_k2.out/.err",
+  "note": "/health 与 /status 不暴露 k2 flag；以命令行 + 代码默认 off 为臂证据"
+ },
+ "eval_cmd": "python -X utf8 training/run_training_eval.py --cases out/KV-CONFLICT-40.jsonl --out out/KVC-K2-rN.json --next out/KVC-K2-rN-NEXT.json --expect-memories 20 --reset-per-case --forget-created-per-case --hermetic --timeout 90",
+ "runs": {
+  "1": {
+   "pass": 31,
+   "fail": 11,
+   "n_infra": 0,
+   "pass_rate": 0.738095,
+   "elapsed_s": 364.6,
+   "start": "18:15:09",
+   "end": "18:21:14",
+   "classes": {
+    "拒答": 2,
+    "旧值": 1,
+    "其它": 8
+   },
+   "soft_refusal_ids": [
+    "KVC11",
+    "KVC27",
+    "KVC30"
+   ],
+   "fail_ids": [
+    "KVC07",
+    "KVC11",
+    "KVC12",
+    "KVC27",
+    "KVC30",
+    "KVN03",
+    "KVN04",
+    "KVN05",
+    "KVN06",
+    "KVN07",
+    "KVN11"
+   ],
+   "memories_after_cleanup": 20,
+   "sha256": "4ba3b18358675a557958380bdab2b53d37e96062422580aac8ab51922379f3ec"
+  },
+  "2": {
+   "pass": 30,
+   "fail": 12,
+   "n_infra": 0,
+   "pass_rate": 0.714286,
+   "elapsed_s": 397.6,
+   "start": "18:22:47",
+   "end": "18:29:25",
+   "classes": {
+    "拒答": 1,
+    "旧值": 1,
+    "其它": 10
+   },
+   "soft_refusal_ids": [
+    "KVC11",
+    "KVC18",
+    "KVC27",
+    "KVC29",
+    "KVC30"
+   ],
+   "fail_ids": [
+    "KVC11",
+    "KVC12",
+    "KVC18",
+    "KVC27",
+    "KVC29",
+    "KVC30",
+    "KVN03",
+    "KVN04",
+    "KVN05",
+    "KVN06",
+    "KVN07",
+    "KVN11"
+   ],
+   "memories_after_cleanup": 20,
+   "sha256": "ea3be6efe3f129b452b87d59299eb85da3b9bf16aa120eb987e114e6a5672830"
+  },
+  "3": {
+   "pass": 31,
+   "fail": 11,
+   "n_infra": 0,
+   "pass_rate": 0.738095,
+   "elapsed_s": 368.5,
+   "start": "18:29:59",
+   "end": "18:36:08",
+   "classes": {
+    "拒答": 2,
+    "旧值": 1,
+    "其它": 8
+   },
+   "soft_refusal_ids": [
+    "KVC11",
+    "KVC27",
+    "KVC30"
+   ],
+   "fail_ids": [
+    "KVC07",
+    "KVC11",
+    "KVC12",
+    "KVC27",
+    "KVC30",
+    "KVN03",
+    "KVN04",
+    "KVN05",
+    "KVN06",
+    "KVN07",
+    "KVN11"
+   ],
+   "memories_after_cleanup": 20,
+   "sha256": "90b8545b229af419951b9b79bf0784ed836d92e52582b22ca17795f580345ea0"
+  },
+  "4": {
+   "pass": 31,
+   "fail": 11,
+   "n_infra": 0,
+   "pass_rate": 0.738095,
+   "elapsed_s": 342.5,
+   "start": "18:36:17",
+   "end": "18:42:00",
+   "classes": {
+    "拒答": 2,
+    "旧值": 1,
+    "其它": 8
+   },
+   "soft_refusal_ids": [
+    "KVC11",
+    "KVC27",
+    "KVC30"
+   ],
+   "fail_ids": [
+    "KVC07",
+    "KVC11",
+    "KVC12",
+    "KVC27",
+    "KVC30",
+    "KVN03",
+    "KVN04",
+    "KVN05",
+    "KVN06",
+    "KVN07",
+    "KVN11"
+   ],
+   "memories_after_cleanup": 20,
+   "sha256": "c4e49fc61ce9b644295c9b92f325aee24e5ecdd5deed5cd2de257ec63d95e55f"
+  },
+  "5": {
+   "pass": 32,
+   "fail": 10,
+   "n_infra": 0,
+   "pass_rate": 0.761905,
+   "elapsed_s": 338.7,
+   "start": "18:42:08",
+   "end": "18:47:47",
+   "classes": {
+    "拒答": 1,
+    "旧值": 1,
+    "其它": 8
+   },
+   "soft_refusal_ids": [
+    "KVC11",
+    "KVC27",
+    "KVC30"
+   ],
+   "fail_ids": [
+    "KVC11",
+    "KVC12",
+    "KVC27",
+    "KVC30",
+    "KVN03",
+    "KVN04",
+    "KVN05",
+    "KVN06",
+    "KVN07",
+    "KVN11"
+   ],
+   "memories_after_cleanup": 20,
+   "sha256": "91df6c9394d40f3b34a6e4f337df3ca7baa511de5e6a963ef4833f6a44a72202"
+  }
+ },
+ "band": {
+  "pass": [
+   31,
+   30,
+   31,
+   31,
+   32
+  ],
+  "min": 30,
+  "max": 32,
+  "elapsed_s": [
+   364.6,
+   397.6,
+   368.5,
+   342.5,
+   338.7
+  ]
+ },
+ "cross_run": {
+  "always_fail": [
+   "KVC11",
+   "KVC12",
+   "KVC27",
+   "KVC30",
+   "KVN03",
+   "KVN04",
+   "KVN05",
+   "KVN06",
+   "KVN07",
+   "KVN11"
+  ],
+  "flip": [
+   "KVC07",
+   "KVC18",
+   "KVC29"
+  ],
+  "always_pass": [
+   "KVC01",
+   "KVC02",
+   "KVC03",
+   "KVC04",
+   "KVC05",
+   "KVC06",
+   "KVC08",
+   "KVC09",
+   "KVC10",
+   "KVC13",
+   "KVC14",
+   "KVC15",
+   "KVC16",
+   "KVC17",
+   "KVC19",
+   "KVC20",
+   "KVC21",
+   "KVC22",
+   "KVC23",
+   "KVC24",
+   "KVC25",
+   "KVC26",
+   "KVC28",
+   "KVC31",
+   "KVC32",
+   "KVC33",
+   "KVC34",
+   "KVC35",
+   "KVC36",
+   "KVC37",
+   "KVC38",
+   "KVC39",
+   "KVC40",
+   "KVN01",
+   "KVN02",
+   "KVN08",
+   "KVN09",
+   "KVN10",
+   "KVN12"
+  ]
+ },
+ "vs_base": {
+  "base_pass": [
+   12,
+   11,
+   12,
+   12,
+   12
+  ],
+  "k2_pass": [
+   31,
+   30,
+   31,
+   31,
+   32
+  ],
+  "mean_base": 11.8,
+  "mean_k2": 31.0,
+  "delta_mean": 19.2,
+  "base_always_fail": [
+   "KVC01",
+   "KVC02",
+   "KVC03",
+   "KVC04",
+   "KVC05",
+   "KVC06",
+   "KVC08",
+   "KVC09",
+   "KVC10",
+   "KVC11",
+   "KVC12",
+   "KVC13",
+   "KVC14",
+   "KVC15",
+   "KVC16",
+   "KVC17",
+   "KVC18",
+   "KVC19",
+   "KVC23",
+   "KVC24",
+   "KVC27",
+   "KVC28",
+   "KVC29",
+   "KVC30",
+   "KVN03",
+   "KVN04",
+   "KVN05",
+   "KVN06",
+   "KVN07",
+   "KVN11"
+  ],
+  "k2_always_fail": [
+   "KVC11",
+   "KVC12",
+   "KVC27",
+   "KVC30",
+   "KVN03",
+   "KVN04",
+   "KVN05",
+   "KVN06",
+   "KVN07",
+   "KVN11"
+  ],
+  "fixed_by_k2": [
+   "KVC01",
+   "KVC02",
+   "KVC03",
+   "KVC04",
+   "KVC05",
+   "KVC06",
+   "KVC08",
+   "KVC09",
+   "KVC10",
+   "KVC13",
+   "KVC14",
+   "KVC15",
+   "KVC16",
+   "KVC17",
+   "KVC18",
+   "KVC19",
+   "KVC23",
+   "KVC24",
+   "KVC28",
+   "KVC29"
+  ],
+  "base_always_pass_now_fail": [],
+  "still_failing": [
+   "KVC11",
+   "KVC12",
+   "KVC27",
+   "KVC30",
+   "KVN03",
+   "KVN04",
+   "KVN05",
+   "KVN06",
+   "KVN07",
+   "KVN11"
+  ],
+  "k2_classes": {
+   "1": {
+    "拒答": 2,
+    "旧值": 1,
+    "其它": 8
+   },
+   "2": {
+    "拒答": 1,
+    "旧值": 1,
+    "其它": 10
+   },
+   "3": {
+    "拒答": 2,
+    "旧值": 1,
+    "其它": 8
+   },
+   "4": {
+    "拒答": 2,
+    "旧值": 1,
+    "其它": 8
+   },
+   "5": {
+    "拒答": 1,
+    "旧值": 1,
+    "其它": 8
+   }
+  }
+ },
+ "baseline": {
+  "memories_expected": 20,
+  "after_each_run": [
+   20,
+   20,
+   20,
+   20,
+   20
+  ]
+ }
+}

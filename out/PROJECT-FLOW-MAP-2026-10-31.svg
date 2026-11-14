@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="1480" viewBox="0 0 1900 1480">
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#5f6368"/></marker></defs>
+<rect width="100%" height="100%" fill="#fafafa"/>
+<text x="40" y="45.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="28" fill="#202124" text-anchor="start" font-weight='700'>llama-mem 全流程与最终状态（2026-10-31 17:10）</text>
+<text x="40" y="78.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#5f6368" text-anchor="start" >绿=已验证/可用；黄=默认关闭或部分；红=FAIL/封存；灰=不适用/未实现</text>
+<text x="40" y="120.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="20" fill="#1a73e8" text-anchor="start" font-weight='700'>① 写入路径</text>
+<text x="620" y="120.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="20" fill="#1a73e8" text-anchor="start" font-weight='700'>② 读取/回答路径</text>
+<text x="1220" y="120.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="20" fill="#1a73e8" text-anchor="start" font-weight='700'>③ 归档 / 能力 / 输出</text>
+<rect x="40" y="145" width="520" height="55" rx="10" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2"/>
+<text x="52" y="170.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#1a73e8" text-anchor="start" font-weight='700'>用户说事实</text>
+<text x="52" y="193.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >例：我的车是白色 SUV / 我明天提醒你</text>
+<rect x="40" y="225" width="520" height="72" rx="10" fill="#fff4e5" stroke="#b26a00" stroke-width="2"/>
+<text x="52" y="250.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#b26a00" text-anchor="start" font-weight='700'>/remember</text>
+<text x="52" y="273.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >confirm-writes=off（显式冲突确认，0/84 触发）</text>
+<text x="52" y="290.55" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >assistant-memory=off（承诺钩子）；event-date=off</text>
+<rect x="40" y="322" width="520" height="64" rx="10" fill="#fff4e5" stroke="#b26a00" stroke-width="2"/>
+<text x="52" y="347.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#b26a00" text-anchor="start" font-weight='700'>source_hash 精确判重</text>
+<text x="52" y="370.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >norm_hash 未实现；全角/空格变体拦不住</text>
+<rect x="40" y="411" width="520" height="64" rx="10" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2"/>
+<text x="52" y="436.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#1a73e8" text-anchor="start" font-weight='700'>KV 块 + SQLite</text>
+<text x="52" y="459.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >memory_source + block；200 条硬上限，201=409</text>
+<rect x="40" y="500" width="520" height="92" rx="10" fill="#f2f2f2" stroke="#666" stroke-width="2"/>
+<text x="52" y="525.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#666" text-anchor="start" font-weight='700'>写侧主体/冲突能力</text>
+<text x="52" y="548.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >P1b subject：**not_applicable**（daily 多实体 0/4）</text>
+<text x="52" y="565.55" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >P3 assistant_commit：默认 off；CLI 确认：默认 off</text>
+<text x="52" y="583.1" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >不写 daily tags；tags 参与检索，禁止当语义元数据</text>
+<line x1="300" y1="200" x2="300" y2="225" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="300" y1="297" x2="300" y2="322" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="300" y1="386" x2="300" y2="411" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="300" y1="475" x2="300" y2="500" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="620" y="145" width="540" height="55" rx="10" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2"/>
+<text x="632" y="170.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#1a73e8" text-anchor="start" font-weight='700'>用户提问</text>
+<text x="632" y="193.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >自然语言；可含 我的/赵磊家的/时间词</text>
+<rect x="620" y="225" width="540" height="88" rx="10" fill="#fdecea" stroke="#c62828" stroke-width="2"/>
+<text x="632" y="250.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#c62828" text-anchor="start" font-weight='700'>topk4 + coverage 闸 0.30</text>
+<text x="632" y="273.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >K2 永久 off（daily 多实体 0/4，不适用）</text>
+<text x="632" y="290.55" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >闸清空=空池；raw50 有 target 也可能被清</text>
+<rect x="620" y="338" width="540" height="55" rx="10" fill="#fdecea" stroke="#c62828" stroke-width="2"/>
+<text x="632" y="363.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#c62828" text-anchor="start" font-weight='700'>event_date off</text>
+<text x="632" y="386.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >P0 迁移 FAIL 已回滚；无消费方；永久 off</text>
+<rect x="620" y="418" width="540" height="55" rx="10" fill="#e6f4ea" stroke="#2e7d32" stroke-width="2"/>
+<text x="632" y="443.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#2e7d32" text-anchor="start" font-weight='700'>挂 KV 块（topk4）</text>
+<text x="632" y="466.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >P 块进 KV cache；不把原文拼进 prompt</text>
+<rect x="620" y="498" width="540" height="55" rx="10" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2"/>
+<text x="632" y="523.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#1a73e8" text-anchor="start" font-weight='700'>14B Qwen2.5 Q4_K_M</text>
+<text x="632" y="546.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >9G；CPU 20 层 + GPU 28 层；串行</text>
+<rect x="620" y="578" width="540" height="78" rx="10" fill="#fff4e5" stroke="#b26a00" stroke-width="2"/>
+<text x="632" y="603.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#b26a00" text-anchor="start" font-weight='700'>verifier v1 默认</text>
+<text x="632" y="626.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >v2.2 显式可用但**最终候选 FAIL**（MT20 17/20）</text>
+<text x="632" y="643.55" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >V9MT11 known flaky；repair 中性</text>
+<rect x="620" y="681" width="540" height="55" rx="10" fill="#f2f2f2" stroke="#666" stroke-width="2"/>
+<text x="632" y="706.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#666" text-anchor="start" font-weight='700'>回答 / TTS 可选</text>
+<text x="632" y="729.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >--tts 默认 off；本机 wav/播放可用；QQ 不支持</text>
+<line x1="890" y1="200" x2="890" y2="225" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="890" y1="313" x2="890" y2="338" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="890" y1="393" x2="890" y2="418" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="890" y1="473" x2="890" y2="498" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="890" y1="553" x2="890" y2="578" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="890" y1="656" x2="890" y2="681" stroke="#5f6368" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="1220" y="145" width="620" height="70" rx="10" fill="#e6f4ea" stroke="#2e7d32" stroke-width="2"/>
+<text x="1232" y="170.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#2e7d32" text-anchor="start" font-weight='700'>archive_store（能力，默认 off）</text>
+<text x="1232" y="193.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >本地 zip + manifest + sha + sidecar；不 ALTER daily；源不删</text>
+<rect x="1220" y="240" width="620" height="88" rx="10" fill="#e6f4ea" stroke="#2e7d32" stroke-width="2"/>
+<text x="1232" y="265.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#2e7d32" text-anchor="start" font-weight='700'>archive_admin CLI</text>
+<text x="1232" y="288.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >list / archive / restore / scan / fallback / reheat</text>
+<text x="1232" y="305.55" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >默认 dry-run；--apply 才写 out/p1b；local only</text>
+<rect x="1220" y="353" width="620" height="64" rx="10" fill="#fff4e5" stroke="#b26a00" stroke-width="2"/>
+<text x="1232" y="378.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#b26a00" text-anchor="start" font-weight='700'>scan 候选</text>
+<text x="1232" y="401.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >超期 +（superseded 或 无引用）；access 只加分，不单独触发</text>
+<rect x="1220" y="442" width="620" height="64" rx="10" fill="#fff4e5" stroke="#b26a00" stroke-width="2"/>
+<text x="1232" y="467.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#b26a00" text-anchor="start" font-weight='700'>月份索引 + fallback</text>
+<text x="1232" y="490.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >month→zip/sha/ids；去年/上月→unlocated + 倒序盲搜</text>
+<rect x="1220" y="531" width="620" height="64" rx="10" fill="#fff4e5" stroke="#b26a00" stroke-width="2"/>
+<text x="1232" y="556.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#b26a00" text-anchor="start" font-weight='700'>reheat plan</text>
+<text x="1232" y="579.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >同 subject+predicate 有更新→superseded_by；只写 plan/副本</text>
+<rect x="1220" y="620" width="620" height="64" rx="10" fill="#f2f2f2" stroke="#666" stroke-width="2"/>
+<text x="1232" y="645.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#666" text-anchor="start" font-weight='700'>TTS 输出</text>
+<text x="1232" y="668.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >本机 wav/播放 PASS（可闻性未验）；QQ 桥只文本，不支持语音</text>
+<rect x="1220" y="709" width="620" height="70" rx="10" fill="#f2f2f2" stroke="#666" stroke-width="2"/>
+<text x="1232" y="734.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" fill="#666" text-anchor="start" font-weight='700'>边界</text>
+<text x="1232" y="757.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >默认 off / 无定时器 / 不自动搬 / 不写 daily</text>
+<text x="1232" y="774.55" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >真实冒烟只对副本；daily 未动</text>
+<rect x="40" y="820" width="1800" height="620" rx="12" fill="#ffffff" stroke="#dadce0" stroke-width="2"/>
+<text x="60" y="855.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="20" fill="#202124" text-anchor="start" font-weight='700'>最终状态 / 关键结论（按证据，不按愿望）</text>
+<text x="60" y="900.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="15" fill="#c62828" text-anchor="start" font-weight='700'>默认路径真实分数</text>
+<text x="300" y="900.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >K2 off + verifier v1：81 81/81、extra 18/20、MT20 11/20。17/18 都依赖已关闭 flag，不能当默认。</text>
+<text x="60" y="958.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="15" fill="#c62828" text-anchor="start" font-weight='700'>P0 event_date</text>
+<text x="300" y="958.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >代码/样本/写侧/P0E 有；迁移 event on 时 extra 18→17（L05），已整库回滚；L05 证为答案层 flaky；event 永 off。</text>
+<text x="60" y="1016.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="15" fill="#2e7d32" text-anchor="start" font-weight='700'>P1 归档</text>
+<text x="300" y="1016.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >能力+CLI+扫描/月索引/fallback/reheat 已落地；默认 off、dry-run、不自动搬、不写 daily；真实冒烟 6 行/5 restore+1 superseded。</text>
+<text x="60" y="1074.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="15" fill="#c62828" text-anchor="start" font-weight='700'>P2 粗排</text>
+<text x="300" y="1074.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >pool@20 32/38=.842；raw20 .947；BM25 仅补 2 条、新 heldout 零增量；撤闸负例 3/20 被作答 → FAIL 封存。</text>
+<text x="60" y="1132.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="15" fill="#666" text-anchor="start" font-weight='700'>owner / K2</text>
+<text x="300" y="1132.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >daily 多实体 0/4，owner 线 not_applicable；K2/检索永久 off；n200 多实体 8/10 为合成构造，不可外推 daily。</text>
+<text x="60" y="1190.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="15" fill="#c62828" text-anchor="start" font-weight='700'>P1b / hygiene</text>
+<text x="300" y="1190.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >P1b R2 5/18 FAIL；hygiene tags 两方案都 36→33，否决；daily 原样。tags 参与检索，标签即键。</text>
+<text x="60" y="1248.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="15" fill="#fff4e5" text-anchor="start" font-weight='700'>P3 / TTS / CLI</text>
+<text x="300" y="1248.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >assistant 承诺钩子默认 off；TTS 本机 wav/播放 pass、QQ 不支持；CLI 显式确认默认 off。</text>
+<text x="60" y="1306.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="15" fill="#666" text-anchor="start" font-weight='700'>40k / 自主性</text>
+<text x="300" y="1306.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >40k 20/50/200 recall .769/.824/.711，pass .15-.175，跳过；自主性 do-not-deploy。</text>
+<text x="60" y="1364.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="15" fill="#2e7d32" text-anchor="start" font-weight='700'>不变量</text>
+<text x="300" y="1364.0" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="13" fill="#3c4043" text-anchor="start" >默认为 K2 off、verifier v1、event off、TTS off、confirm off；不切默认、不 push。</text>
+</svg>

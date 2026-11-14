@@ -1,0 +1,417 @@
+{
+ "positives": [
+  {
+   "id": "c09",
+   "query": "你记得我有几条记忆？",
+   "answer": "你有两条相关记忆，不过具体是什么内容我就记不清了",
+   "expected": [
+    "条",
+    "记忆"
+   ],
+   "block_ids": [
+    1,
+    2
+   ],
+   "decision": "pass",
+   "reason": "no_asked_predicate"
+  },
+  {
+   "id": "m01",
+   "query": "我的车牌号是多少？",
+   "answer": "你的车牌号是京A88888",
+   "expected": [
+    "京A88888"
+   ],
+   "block_ids": [
+    13
+   ],
+   "decision": "pass",
+   "reason": "aligned_block"
+  },
+  {
+   "id": "m02",
+   "query": "我叫什么名字？",
+   "answer": "你叫阿泽",
+   "expected": [
+    "阿泽"
+   ],
+   "block_ids": [
+    12,
+    3
+   ],
+   "decision": "pass",
+   "reason": "no_asked_predicate"
+  },
+  {
+   "id": "m03",
+   "query": "我的组会在哪开？",
+   "answer": "你的组会在B座302开。今天是周五，组会已经结束了",
+   "expected": [
+    "302",
+    "B座"
+   ],
+   "block_ids": [
+    2,
+    1
+   ],
+   "decision": "reject",
+   "reason": "other_slot_value:工位"
+  },
+  {
+   "id": "m04",
+   "query": "我周三晚上几点有组会？",
+   "answer": "你每周三晚上七点有组会，地点在B座302",
+   "expected": [
+    "七点",
+    "7点",
+    "19点",
+    "七"
+   ],
+   "block_ids": [
+    1
+   ],
+   "decision": "reject",
+   "reason": "facet_time_mismatch"
+  },
+  {
+   "id": "m05",
+   "query": "我本周待办有哪些？",
+   "answer": "你这周的待办事项有交周报、周三体检和周五复盘。现在已经周五了，复盘应该就是你当前要做的事情了",
+   "expected": [
+    "周报",
+    "体检",
+    "复盘"
+   ],
+   "block_ids": [
+    1
+   ],
+   "decision": "pass",
+   "reason": "no_asked_predicate"
+  },
+  {
+   "id": "m06",
+   "query": "我下周三要去哪出差？",
+   "answer": "你下周三要去广州出差",
+   "expected": [
+    "北京",
+    "上海",
+    "广州"
+   ],
+   "block_ids": [
+    6
+   ],
+   "decision": "reject",
+   "reason": "no_value_for_asked_slot"
+  },
+  {
+   "id": "m07",
+   "query": "我的车牌号是多少？再说一次",
+   "answer": "你的车牌号是京A88888",
+   "expected": [
+    "京A88888"
+   ],
+   "block_ids": [
+    13
+   ],
+   "decision": "pass",
+   "reason": "aligned_block"
+  },
+  {
+   "id": "m08",
+   "query": "我下周四要去哪开会？",
+   "answer": "你下周四要去广州开会",
+   "expected": [
+    "广州"
+   ],
+   "block_ids": [
+    7
+   ],
+   "decision": "reject",
+   "reason": "no_value_for_asked_slot"
+  },
+  {
+   "id": "s01",
+   "query": "我明年一月要去哪出差？",
+   "answer": "你明年一月要去拉萨出差",
+   "expected": [
+    "拉萨"
+   ],
+   "block_ids": [
+    21
+   ],
+   "decision": "reject",
+   "reason": "no_value_for_asked_slot"
+  },
+  {
+   "id": "s02",
+   "query": "我的测试工号是多少？",
+   "answer": "你的测试工号是T-88231",
+   "expected": [
+    "T-88231",
+    "88231"
+   ],
+   "block_ids": [
+    21,
+    3,
+    12,
+    13
+   ],
+   "decision": "reject",
+   "reason": "other_slot_value:工位"
+  },
+  {
+   "id": "s03",
+   "query": "我养的猫叫什么名字？",
+   "answer": "你养的猫叫豆豆",
+   "expected": [
+    "豆豆"
+   ],
+   "block_ids": [
+    21
+   ],
+   "decision": "pass",
+   "reason": "aligned_block"
+  },
+  {
+   "id": "s04",
+   "query": "我下下周五下午几点去做胃镜？",
+   "answer": "你下下周五下午两点去做胃镜",
+   "expected": [
+    "两点",
+    "2点",
+    "14点"
+   ],
+   "block_ids": [
+    21
+   ],
+   "decision": "pass",
+   "reason": "no_asked_predicate"
+  },
+  {
+   "id": "s05",
+   "query": "我姐姐叫什么名字？",
+   "answer": "你姐姐的名字是李静",
+   "expected": [
+    "李静"
+   ],
+   "block_ids": [
+    21
+   ],
+   "decision": "pass",
+   "reason": "no_asked_predicate"
+  },
+  {
+   "id": "s06",
+   "query": "我的银行卡尾号是多少？",
+   "answer": "你的银行卡尾号是6677",
+   "expected": [
+    "6677"
+   ],
+   "block_ids": [
+    21
+   ],
+   "decision": "pass",
+   "reason": "aligned_block"
+  },
+  {
+   "id": "x01",
+   "query": "你好，我的车牌是多少",
+   "answer": "你的车牌号是京A88888",
+   "expected": [
+    "京A88888"
+   ],
+   "block_ids": [
+    13
+   ],
+   "decision": "pass",
+   "reason": "aligned_block"
+  },
+  {
+   "id": "x02",
+   "query": "谢谢，我的车牌号是多少？",
+   "answer": "你的车牌号是京A88888",
+   "expected": [
+    "京A88888"
+   ],
+   "block_ids": [
+    13
+   ],
+   "decision": "pass",
+   "reason": "aligned_block"
+  },
+  {
+   "id": "x03",
+   "query": "在吗，我几点开会？",
+   "answer": "你每周三晚上七点有组会，不过今天是周五，你不用开会",
+   "expected": [
+    "七点",
+    "7点",
+    "19点",
+    "302"
+   ],
+   "block_ids": [
+    2,
+    1
+   ],
+   "decision": "reject",
+   "reason": "facet_time_mismatch"
+  },
+  {
+   "id": "k04",
+   "query": "今天适合穿什么",
+   "answer": "今天天气一般，不太冷也不热，穿件薄外套或者长袖衬衫应该挺合适的。不过你如果不出门，穿什么就随意些了",
+   "expected": [
+    "穿",
+    "衣",
+    "天气",
+    "建议",
+    "凉",
+    "暖"
+   ],
+   "block_ids": [
+    20
+   ],
+   "decision": "pass",
+   "reason": "no_asked_predicate"
+  },
+  {
+   "id": "h02",
+   "query": "我下周三去哪开会？",
+   "answer": "你下周三要去广州出差",
+   "expected": [
+    "广州"
+   ],
+   "block_ids": [
+    6
+   ],
+   "decision": "reject",
+   "reason": "no_value_for_asked_slot"
+  }
+ ],
+ "negatives": [
+  {
+   "id": "P2-N01",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "facet_time_mismatch"
+  },
+  {
+   "id": "P2-N02",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "no_value_for_asked_slot"
+  },
+  {
+   "id": "P2-N03",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "other_slot_value:公司"
+  },
+  {
+   "id": "P2-N04",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "other_slot_value:公司"
+  },
+  {
+   "id": "P2-N05",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "no_value_for_asked_slot"
+  },
+  {
+   "id": "P2-N06",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "no_aligned_block"
+  },
+  {
+   "id": "P2-N07",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "no_value_for_asked_slot"
+  },
+  {
+   "id": "P2-N08",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "other_slot_value:车牌"
+  },
+  {
+   "id": "P2-N09",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "no_value_for_asked_slot"
+  },
+  {
+   "id": "P2-N10",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "no_value_for_asked_slot"
+  },
+  {
+   "id": "P2-N11",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "unresolved_subject"
+  },
+  {
+   "id": "P2-N12",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "no_value_for_asked_slot"
+  },
+  {
+   "id": "P2-N13",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "no_value_for_asked_slot"
+  },
+  {
+   "id": "P2-N14",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "other_slot_value:验证码"
+  },
+  {
+   "id": "P2-N15",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "no_aligned_block"
+  },
+  {
+   "id": "P2-N16",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "other_slot_value:公司"
+  },
+  {
+   "id": "P2-N17",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "no_value_for_asked_slot"
+  },
+  {
+   "id": "P2-N18",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "no_value_for_asked_slot"
+  },
+  {
+   "id": "P2-N19",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "other_slot_value:公司"
+  },
+  {
+   "id": "P2-N20",
+   "decision": "reject",
+   "fail_open": false,
+   "reason": "no_value_for_asked_slot"
+  }
+ ],
+ "h04": {
+  "decision": "pass",
+  "reason": "aligned_block"
+ }
+}

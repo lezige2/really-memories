@@ -1,0 +1,98 @@
+{
+ "version": "c-1.0",
+ "engine_meta": {
+  "n_ctx": 32768,
+  "n_gpu_layers": 28,
+  "chat_start": 8192,
+  "chat_budget": 24576,
+  "memory_budget": 7680,
+  "kv": "q8_0",
+  "n_seq": 8
+ },
+ "spec": {
+  "spec_sha16": "694ebbad136efbec",
+  "spec_bytes": 5295,
+  "freeze": "694ebbad136efbec",
+  "freeze_sha16": "f772ee32c26254c0"
+ },
+ "model_pin": {
+  "model_path": "D:\\models\\Qwen2.5-14B-Instruct-Q4_K_M.gguf",
+  "model_size": 8988110976,
+  "model_mtime": 1793102210
+ },
+ "dll_pin": {
+  "path": "D:\\llama-mem\\tools\\kvshim_vk.dll",
+  "present": true,
+  "bytes": 50007552,
+  "sha16": "9edbafa150700614"
+ },
+ "engine": {
+  "mode": "real",
+  "type": "KVEngine",
+  "n_ctx": 32768,
+  "n_seq": 8,
+  "n_gpu_layers": 28,
+  "bytes_per_token": 104448,
+  "kv_pool_gib": 3.188,
+  "mem_total_gib": 3.188
+ },
+ "vram_gib": null,
+ "vram_gib_source": "external_sampler_required",
+ "vram_gib_note": "C 版不直接读驱动显存，null 不是 0；SPEC §4 的峰值由验收臂 tools/run_c_acceptance.py 用 nvidia-smi/PowerShell GPU 计数器外部采样，结果写 C-V1-ACCEPT.json:resources.peak_gib",
+ "kv_pool_gib": 3.188,
+ "memories": {
+  "count": 20,
+  "total_tokens": 659,
+  "max_memories": 200,
+  "max_total_tokens": 7680
+ },
+ "retrieval": {
+  "mode": "topk",
+  "topk": 4,
+  "library_count": 20,
+  "library_max": 200,
+  "mounted_ids": [],
+  "mounted_count": 0,
+  "candidates": 20,
+  "related": 0,
+  "memory_budget": 7680,
+  "last_truncation": null
+ },
+ "session": {
+  "path": "kvmem\\daily\\sessions\\kvc.json",
+  "exists": false,
+  "chat_tokens": 0,
+  "chat_budget": 24576,
+  "chat_start": 8192,
+  "n_ctx": 32768,
+  "mounted": 0,
+  "control": false,
+  "n_predict": 192,
+  "rollover_at": 0.75,
+  "rollover_threshold_tokens": 18432
+ },
+ "rollover": {
+  "at": 0.75,
+  "threshold_tokens": 18432,
+  "last": null
+ },
+ "warnings": [
+  "上次异常退出（会话 s-20261029-165911-f4e745，末事件 status@seq 2428），已写 crash_recovered 可核对"
+ ],
+ "service": {
+  "version": "c-service-1.0",
+  "host": "127.0.0.1",
+  "port": 8765,
+  "serial": true,
+  "requests": 4,
+  "in_flight_max": 1,
+  "by_route": {
+   "GET /health": 1,
+   "GET /status": 3
+  },
+  "uptime_s": 17.1,
+  "fake_engine": false,
+  "degraded": false,
+  "ask_timeout_s": 90.0
+ }
+}

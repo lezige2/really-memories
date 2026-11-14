@@ -1,0 +1,148 @@
+{
+ "schema": "data_hygiene_jinga88888_v1",
+ "read_only": true,
+ "source_db": "kvmem/daily/chat.db",
+ "source_db_sha256": "0a7eae495c4be89cbd385382d180cdcfdea102a9d955369a411b5798d4c95d49",
+ "group": {
+  "value": "京A88888",
+  "ids": [
+   3,
+   12,
+   13
+  ],
+  "rows": [
+   {
+    "id": 3,
+    "mode": "chat",
+    "name": "mem-87c86a52a6b7",
+    "label": "日常记忆",
+    "text": "我叫阿泽，今天（2026-10-27）我们做完了 b7 实验，结论是擦边；我的车牌号是京A88888。",
+    "source_hash": "87c86a52a6b7cf978da06cace21646188f943a8937216567b54ee84c7800c72f",
+    "created_at": "2026-10-27T20:00:12",
+    "block_path": "D:\\llama-mem\\kvmem\\daily\\blocks\\mem-87c86a52a6b7.kvmem",
+    "block_sha256": "51d37ab8773e75aaea70457c3a10ab580e1933bbe5d6cf888b2876f61866b6e3",
+    "n_tokens": 43,
+    "n_bytes": 4493140,
+    "tags": [],
+    "meta_source": "manual",
+    "block_exists": true
+   },
+   {
+    "id": 12,
+    "mode": "chat",
+    "name": "mem-4e03739cc73f",
+    "label": "日常记忆",
+    "text": "我叫阿泽，我的车牌号是京A88888。",
+    "source_hash": "4e03739cc73f5ee4f93195efc4168ef10d1a6b12cb835ab291d6d684bd984a9d",
+    "created_at": "2026-10-28T15:11:40",
+    "block_path": "kvmem\\daily\\blocks\\mem-4e03739cc73f.kvmem",
+    "block_sha256": "f82007866bf6d3ddc283b7d0397134bc1ba025d3504e6bc005773c9547d91c9d",
+    "n_tokens": 17,
+    "n_bytes": 1777076,
+    "tags": [],
+    "meta_source": "manual",
+    "block_exists": true
+   },
+   {
+    "id": 13,
+    "mode": "chat",
+    "name": "mem-cbe655201683",
+    "label": "日常记忆",
+    "text": "顺便说一下，我的车牌号是京A88888。",
+    "source_hash": "cbe65520168371ff5fa48aaac7e2186ed3399e695d15bff3dc279fa70d0f6387",
+    "created_at": "2026-10-28T16:05:06",
+    "block_path": "kvmem\\daily\\blocks\\mem-cbe655201683.kvmem",
+    "block_sha256": "a5ce4fbc4b4b3f9ed10ab29c8c53b7d33e1a4ff6f7b6997fc92d6af0d6ae9535",
+    "n_tokens": 16,
+    "n_bytes": 1672612,
+    "tags": [],
+    "meta_source": "manual",
+    "block_exists": true
+   }
+  ]
+ },
+ "verdict": {
+  "type": "same_value_repeat_write",
+  "independent_sources": false,
+  "reason": "同一用户阿泽的同一车牌值，三次不同上下文自述：id3 多事实原始句、id12 复述、id13 ‘顺便说一下’；文本/块 sha 均不同，无 superseded/dup 标记。",
+  "contexts": {
+   "3": "含 b7 实验结论的原始多事实句",
+   "12": "纯车牌复述",
+   "13": "‘顺便说一下’补充句"
+  }
+ },
+ "leak_link": {
+  "n200_leak_rate": 0.125,
+  "leak_queries": [
+   {
+    "id": "q083",
+    "kind": "chain_last",
+    "text": "卢婷现在的车身颜色是什么？",
+    "leak_hits": [
+     "星空灰"
+    ],
+    "answer": "卢婷的车身颜色是星空灰"
+   },
+   {
+    "id": "q084",
+    "kind": "chain_last",
+    "text": "卢婷最新的车身颜色是哪个？之前那些都不算了。",
+    "leak_hits": [
+     "星空灰"
+    ],
+    "answer": "卢婷最新的车身颜色是星空灰"
+   },
+   {
+    "id": "q086",
+    "kind": "chain_last",
+    "text": "蒋川最新的车牌号是哪个？之前那些都不算了。",
+    "leak_hits": [
+     "苏E·2P9R4",
+     "苏E2P9R4"
+    ],
+    "answer": "蒋川一开始的车牌号是苏E·2P9R4，那阵子一直没动过。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不用抬声音。天气一凉，人就容"
+   },
+   {
+    "id": "q097",
+    "kind": "negative",
+    "text": "卢婷的车身颜色是不是琉璃金？",
+    "leak_hits": [
+     "星空灰"
+    ],
+    "answer": "卢婷的车身颜色是星空灰，不是琉璃金"
+   },
+   {
+    "id": "q098",
+    "kind": "negative",
+    "text": "蒋川的车牌号是不是苏E·7Q1W2？",
+    "leak_hits": [
+     "苏E·2P9R4",
+     "苏E2P9R4"
+    ],
+    "answer": "蒋川一开始的车牌号是苏E·2P9R4，那阵子一直没动过。刚才楼下有人在搬东西，动静挺大，响了好一阵才消停，现在总算安静下来了，说话也不用抬声音。天气一凉，人就容"
+   }
+  ],
+  "n200_rows_with_value": 0,
+  "contributed": false,
+  "note": "n200 的 0.125 全部来自 卢婷车色/蒋川车牌 的链式旧值（q083/84/86/97/98），n200 库内 0 条含京A88888，本组未贡献；若在 daily 库上评测，这 3 块同值可同时挂载，会污染同一泄漏口径（潜在污染）。"
+ },
+ "suggestions_not_executed": [
+  {
+   "action": "标 dup 保留",
+   "detail": "id3 为主记录；id12/13 标 dup_of=3（或 superseded_by=3），保留原文与块"
+  },
+  {
+   "action": "加标签",
+   "detail": "给三块加 plate:京A88888；12/13 加 dup_of:3、context:restatement"
+  },
+  {
+   "action": "不删",
+   "detail": "历史不可变；删除会破坏块/源一致与复现，且三块可作上下文样本"
+  }
+ ],
+ "hygiene_notes": [
+  "block path 不一致：id3 为绝对路径，id12/13 为相对路径（同为 kvmem/daily/blocks）",
+  "tags 均空、meta_source 均 manual，无 superseded 语义可用",
+  "块文件均在、大小>0，sha 三者互异"
+ ]
+}

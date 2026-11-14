@@ -1,0 +1,104 @@
+{
+ "schema": "poc_attr_2_v1",
+ "setup": "副本 kvmem/attr、8766、同 pre_state；各 case 5 次/臂",
+ "off_total": 20,
+ "on_total": 18,
+ "n_total": 20,
+ "rows": [
+  {
+   "id": "V9MT03",
+   "off": 5,
+   "on": 5,
+   "n": 5,
+   "attr_applied": 5,
+   "attr_reasons": [
+    "filtered"
+   ],
+   "kept": [
+    [
+     22
+    ]
+   ],
+   "hidden": [
+    [
+     21
+    ]
+   ],
+   "on_fails": []
+  },
+  {
+   "id": "V9MT04",
+   "off": 5,
+   "on": 5,
+   "n": 5,
+   "attr_applied": 5,
+   "attr_reasons": [
+    "filtered"
+   ],
+   "kept": [
+    [
+     22
+    ]
+   ],
+   "hidden": [
+    [
+     21
+    ]
+   ],
+   "on_fails": []
+  },
+  {
+   "id": "V9MT05",
+   "off": 5,
+   "on": 5,
+   "n": 5,
+   "attr_applied": 0,
+   "attr_reasons": [
+    "value_missing"
+   ],
+   "kept": [
+    []
+   ],
+   "hidden": [
+    []
+   ],
+   "on_fails": []
+  },
+  {
+   "id": "V9MT06",
+   "off": 5,
+   "on": 3,
+   "n": 5,
+   "attr_applied": 0,
+   "attr_reasons": [
+    "value_missing"
+   ],
+   "kept": [
+    []
+   ],
+   "hidden": [
+    []
+   ],
+   "on_fails": [
+    {
+     "state": "verify_fallback",
+     "answer": "这条我没法从记忆里核对，先不猜。"
+    },
+    {
+     "state": "verify_fallback",
+     "answer": "这条我没法从记忆里核对，先不猜。"
+    }
+   ]
+  }
+ ],
+ "gate": {
+  "on_not_below_off": false,
+  "old_value_killed": {
+   "V9MT03": true,
+   "V9MT04": true,
+   "V9MT05": null,
+   "V9MT06": null
+  }
+ },
+ "verdict": "FAIL：on 18/20 < off 20/20（V9MT06 5→3，2 次 verify_fallback）。attribute_recency 对 fitness（03/04）生效：applied=true、kept=[22]、hidden=[21]；对 phone（05/06）未生效：applied=false、reason=value_missing，旧值筛选根本没发生"
+}
