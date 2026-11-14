@@ -13,9 +13,13 @@ import urllib.request
 
 API = os.environ.get("LLAMA_MEM_API", "http://127.0.0.1:8765")
 MAX = 4000
+QUIET = "--quiet" in sys.argv
 
 
 def msg(text):
+    if QUIET:
+        print(text)
+        return
     try:
         ctypes.windll.user32.MessageBoxW(0, text, "llama-mem", 0x40)
     except Exception:
