@@ -147,6 +147,7 @@ app.whenReady().then(() => {
   const ok1 = globalShortcut.register('CommandOrControl+Alt+M', () => showWindow(true));
   const ok2 = globalShortcut.register('CommandOrControl+Alt+Q', () => showWindow(true));
   console.log('hotkeys', { memory: ok1, ask: ok2 });
+  if (readConfig().autoService) spawnService();
   app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
 });
 

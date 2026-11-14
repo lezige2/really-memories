@@ -31,7 +31,9 @@ osapp/
 - 健康检查：`127.0.0.1:8765/health`；
 - `/ask`、`/memories`、`/forget`；
 - 开机自启：`app.setLoginItemSettings`；
-- 设置：API/模型/数据目录展示。
+- 全局快捷键：`Ctrl+Alt+M` / `Ctrl+Alt+Q` 打开对话并聚焦输入框；
+- 托盘“显示/隐藏”；
+- 设置：API/模型/数据目录展示；“启动时启动服务”可选（默认关）。
 
 ## 未做
 - 安装器（NSIS/electron-builder 已配，未打包）；

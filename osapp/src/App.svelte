@@ -13,6 +13,7 @@
   let memError = '';
   let config = { api: 'http://127.0.0.1:8765', model: 'Qwen2.5-14B-Instruct-Q4_K_M' };
   let autostart = false;
+  let autoService = false;
   let statusNote = '';
   let composerEl;
 
@@ -86,6 +87,13 @@
     await api.autostartSet(autostart);
   }
 
+  async function toggleAutoService() {
+    if (!api) return;
+    autoService = !autoService;
+    config = { ...config, autoService };
+    await api.configSet(config);
+  }
+
   let filtered = [];
   $: filtered = memories.filter(m =>
     !memQuery || JSON.stringify(m).toLowerCase().includes(memQuery.toLowerCase()));
@@ -93,6 +101,7 @@
   onMount(async () => {
     if (api) {
       try { config = { ...config, ...(await api.configGet() || {}) }; } catch {}
+      autoService = !!config.autoService;
       try { autostart = await api.autostartGet(); } catch {}
     }
     refreshHealth();
@@ -195,6 +204,10 @@
           <div class="setting">
             <div><b>开机自启</b><div class="muted small">登录 Windows 后自动启动托盘</div></div>
             <button class="toggle" class:on={autostart} on:click={toggleAutostart} aria-label="开机自启"></button>
+          </div>
+          <div class="setting">
+            <div><b>启动时启动本地服务</b><div class="muted small">托盘启动后自动拉起 8765（14B 加载较慢）</div></div>
+            <button class="toggle" class:on={autoService} on:click={toggleAutoService} aria-label="启动时启动服务"></button>
           </div>
           <div class="setting">
             <div><b>本地 API</b><div class="muted small">{config.api}</div></div>
