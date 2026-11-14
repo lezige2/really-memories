@@ -12,6 +12,18 @@ let win = null;
 let tray = null;
 let quitting = false;
 
+const gotLock = app.requestSingleInstanceLock();
+if (!gotLock) {
+  app.exit(0);
+}
+app.on('second-instance', () => {
+  if (win) {
+    if (win.isMinimized()) win.restore();
+    win.show();
+    win.focus();
+  }
+});
+
 function readConfig() {
   try { return JSON.parse(fs.readFileSync(CONFIG, 'utf8')); } catch { return {}; }
 }
@@ -77,9 +89,27 @@ function createWindow() {
       nodeIntegration: false
     }
   });
+  win.webContents.on('console-message', (_e, level, message, line, source) => {
+    console.log('CONSOLE', level, message, source + ':' + line);
+  });
+  win.webContents.on('did-fail-load', (_e, code, desc) => {
+    console.error('LOAD_FAIL', code, desc);
+  });
   const dev = process.env.VITE_DEV_SERVER_URL;
   if (dev) win.loadURL(dev);
   else win.loadFile(path.join(__dirname, '..', 'dist', 'index.html'));
+  if (process.env.OSAPP_SHOT) {
+    win.webContents.once('did-finish-load', () => {
+      setTimeout(async () => {
+        try {
+          const img = await win.webContents.capturePage();
+          fs.writeFileSync(process.env.OSAPP_SHOT, img.toPNG());
+        } catch (e) { console.error('shot failed', e); }
+        quitting = true;
+        app.quit();
+      }, 2500);
+    });
+  }
   win.on('close', (e) => {
     if (!quitting) { e.preventDefault(); win.hide(); }
   });
