@@ -14,6 +14,7 @@
   let config = { api: 'http://127.0.0.1:8765', model: 'Qwen2.5-14B-Instruct-Q4_K_M' };
   let autostart = false;
   let statusNote = '';
+  let composerEl;
 
   const api = window.os || null;
 
@@ -96,8 +97,14 @@
     }
     refreshHealth();
     loadMemories();
+    const offHotkey = api && api.onHotkey
+      ? api.onHotkey(() => {
+          page = 'chat';
+          setTimeout(() => composerEl && composerEl.focus(), 60);
+        })
+      : null;
     const t = setInterval(refreshHealth, 5000);
-    return () => clearInterval(t);
+    return () => { clearInterval(t); if (offHotkey) offHotkey(); };
   });
 </script>
 
@@ -142,7 +149,7 @@
             {#if busy}<div class="msg bot"><span class="muted">思考中…</span></div>{/if}
           </div>
           <div class="composer">
-            <textarea bind:value={input} placeholder="问点什么，或说“记住：…”" on:keydown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } }}></textarea>
+            <textarea bind:this={composerEl} bind:value={input} placeholder="问点什么，或说“记住：…”" on:keydown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } }}></textarea>
             <button class="primary" on:click={send} disabled={busy}>发送</button>
           </div>
         </div>

@@ -11,5 +11,10 @@ contextBridge.exposeInMainWorld('os', {
   configSet: (c) => ipcRenderer.invoke('config:set', c),
   autostartGet: () => ipcRenderer.invoke('autostart:get'),
   autostartSet: (v) => ipcRenderer.invoke('autostart:set', v),
-  openPath: (p) => ipcRenderer.invoke('shell:open', p)
+  openPath: (p) => ipcRenderer.invoke('shell:open', p),
+  onHotkey: (cb) => {
+    const listener = (_e, action) => cb(action);
+    ipcRenderer.on('hotkey', listener);
+    return () => ipcRenderer.removeListener('hotkey', listener);
+  }
 });

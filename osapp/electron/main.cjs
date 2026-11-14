@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, ipcMain, nativeImage, shell } = require('electron');
+const { app, BrowserWindow, Tray, Menu, ipcMain, nativeImage, shell, globalShortcut } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { spawn, execFile } = require('child_process');
@@ -115,13 +115,22 @@ function createWindow() {
   });
 }
 
+function showWindow(focusChat = false) {
+  if (!win) return;
+  if (win.isMinimized()) win.restore();
+  win.show();
+  win.focus();
+  if (focusChat) win.webContents.send('hotkey', 'chat');
+}
+
 function createTray() {
   const iconPath = path.join(__dirname, 'icon.png');
   const img = fs.existsSync(iconPath) ? nativeImage.createFromPath(iconPath) : nativeImage.createEmpty();
   tray = new Tray(img);
   tray.setToolTip('llama-mem');
   const menu = Menu.buildFromTemplate([
-    { label: '打开 llama-mem', click: () => { if (win) { win.show(); win.focus(); } } },
+    { label: '打开 llama-mem', click: () => showWindow(false) },
+    { label: '显示/隐藏', click: () => { if (win && win.isVisible()) win.hide(); else showWindow(false); } },
     { type: 'separator' },
     { label: '启动本地服务', click: () => spawnService() },
     { label: '停止本地服务', click: () => stopService() },
@@ -129,15 +138,19 @@ function createTray() {
     { label: '退出', click: () => { quitting = true; app.quit(); } }
   ]);
   tray.setContextMenu(menu);
-  tray.on('double-click', () => { if (win) { win.show(); win.focus(); } });
+  tray.on('double-click', () => showWindow(false));
 }
 
 app.whenReady().then(() => {
   createWindow();
   createTray();
+  const ok1 = globalShortcut.register('CommandOrControl+Alt+M', () => showWindow(true));
+  const ok2 = globalShortcut.register('CommandOrControl+Alt+Q', () => showWindow(true));
+  console.log('hotkeys', { memory: ok1, ask: ok2 });
   app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
 });
 
+app.on('will-quit', () => { globalShortcut.unregisterAll(); });
 app.on('before-quit', () => { quitting = true; });
 app.on('window-all-closed', () => { /* keep tray alive */ });
 
