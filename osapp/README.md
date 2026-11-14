@@ -13,6 +13,12 @@ pnpm build
 `run-osapp.cmd` 会清掉 `ELECTRON_RUN_AS_NODE` 并直接调用 `node_modules/electron/dist/electron.exe`，避免 Electron 被当成 Node 运行。
 首次 `pnpm install` 会下载 Electron 运行时（约 239MB，网络慢时需等）。
 
+### 便携版（已生成）
+```text
+osapp\release\llama-mem-win32-x64\llama-mem.exe
+```
+双击即可；无需安装。当前仍是“便携目录”，不是 NSIS 安装包。
+
 ## 结构
 ```text
 osapp/
