@@ -39,10 +39,12 @@ osapp/
 - 开机自启：`app.setLoginItemSettings`；
 - 全局快捷键：`Ctrl+Alt+M` / `Ctrl+Alt+Q` 打开对话并聚焦输入框；`Ctrl+Alt+V` 把剪贴板文本存入记忆；
 - 托盘“显示/隐藏”；
-- 设置：API/模型/数据目录展示；“启动时启动服务”可选（默认关）。
+- 设置：API/模型/数据目录展示；“启动时启动服务”可选（默认关）；
+- 用户级安装器：`installer/install.ps1`（复制 + 开始菜单/桌面快捷方式）；
+- 文件右键“存入 llama-mem 记忆”（`tools/remember_file.py`，注册在 HKCU）。
 
 ## 未做
-- 安装器（NSIS/electron-builder 已配，未打包）；
+- NSIS/MSIX 单文件安装包（electron-builder 仍可能因下载依赖超时；当前是用户级安装脚本）；
 - 屏幕采集（默认不做）；剪贴板仅在按 `Ctrl+Alt+V` 时读取；
 - 真正的多页路由（当前单 Svelte 组件切换）。
 
