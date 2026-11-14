@@ -20,7 +20,9 @@
   "build": {
     "appId": "dev.llamamem.os",
     "productName": "llama-mem",
+    "directories": {"output": "release-builder"},
     "files": ["dist/**/*", "electron/**/*", "package.json"],
-    "win": {"target": ["nsis"], "icon": "electron/icon.ico"}
+    "win": {"target": ["nsis"], "icon": "electron/icon.ico"},
+    "nsis": {"include": "installer/nsis-context.nsh"}
   }
 }
