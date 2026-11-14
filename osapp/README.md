@@ -8,9 +8,9 @@ cd D:\llama-mem\osapp
 $env:PATH="C:\Users\lezige\.dsh\dsh-runtimes\dsh-next-primary-runtime\dependencies\node\bin;$env:PATH"
 pnpm install
 pnpm build
-.\start-osapp.cmd
+.\run-osapp.cmd
 ```
-`start-osapp.cmd` 会清掉 `ELECTRON_RUN_AS_NODE` 并直接调用 `node_modules/electron/dist/electron.exe`，避免 Electron 被当成 Node 运行。
+`run-osapp.cmd` 会清掉 `ELECTRON_RUN_AS_NODE` 并直接调用 `node_modules/electron/dist/electron.exe`，避免 Electron 被当成 Node 运行。
 首次 `pnpm install` 会下载 Electron 运行时（约 239MB，网络慢时需等）。
 
 ## 结构
