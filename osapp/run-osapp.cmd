@@ -7,5 +7,5 @@ if not exist "node_modules\electron\dist\electron.exe" (
   pause
   exit /b 1
 )
-start "" "node_modules\electron\dist\electron.exe" "."
+start "" "%~dp0node_modules\electron\dist\electron.exe" "%~dp0"
 endlocal
