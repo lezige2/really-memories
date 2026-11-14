@@ -15,6 +15,7 @@
   let autostart = false;
   let autoService = false;
   let statusNote = '';
+  let statusData = null;
   let composerEl;
 
   const api = window.os || null;
@@ -43,6 +44,21 @@
     const r = await api.stop();
     statusNote = r.ok ? '已停止' : (r.error || '停止失败');
     await refreshHealth();
+  }
+
+  async function newChat() {
+    if (api) { try { await api.reset(); } catch {} }
+    messages = [{ role: 'bot', text: '新对话。说吧。', meta: 'system' }];
+    page = 'chat';
+    setTimeout(() => composerEl && composerEl.focus(), 60);
+  }
+
+  async function loadStatus() {
+    if (!api) return;
+    try {
+      const r = await api.status();
+      statusData = r.data || null;
+    } catch { statusData = { error: 'status unavailable' }; }
   }
 
   async function send() {
@@ -123,10 +139,11 @@
       <div class="logo"></div>
       <div><b>llama-mem</b><span>local memory · offline</span></div>
     </div>
+    <button class="primary" style="margin:0 8px 14px" on:click={newChat}>＋ 新对话</button>
     <nav class="nav">
       <button class:active={page === 'chat'} on:click={() => page = 'chat'}>💬 对话</button>
       <button class:active={page === 'memory'} on:click={() => { page = 'memory'; loadMemories(); }}>🧠 记忆库</button>
-      <button class:active={page === 'status'} on:click={() => { page = 'status'; refreshHealth(); }}>📊 状态</button>
+      <button class:active={page === 'status'} on:click={() => { page = 'status'; refreshHealth(); loadStatus(); }}>📊 状态</button>
       <button class:active={page === 'settings'} on:click={() => page = 'settings'}>⚙️ 设置</button>
     </nav>
     <div class="foot">
@@ -197,6 +214,9 @@
             </div>
           </div>
           <div class="muted small" style="margin-top:12px">{statusNote || '启动后托盘常驻；关闭窗口不会退出。'}</div>
+          {#if statusData}
+            <pre class="code">{JSON.stringify(statusData, null, 2)}</pre>
+          {/if}
         </div>
 
       {:else if page === 'settings'}

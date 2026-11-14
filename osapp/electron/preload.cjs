@@ -6,6 +6,8 @@ contextBridge.exposeInMainWorld('os', {
   stop: () => ipcRenderer.invoke('service:stop'),
   ask: (text) => ipcRenderer.invoke('api:ask', text),
   memories: () => ipcRenderer.invoke('api:memories'),
+  reset: () => ipcRenderer.invoke('api:reset'),
+  status: () => ipcRenderer.invoke('api:status'),
   forget: (id) => ipcRenderer.invoke('api:forget', id),
   configGet: () => ipcRenderer.invoke('config:get'),
   configSet: (c) => ipcRenderer.invoke('config:set', c),

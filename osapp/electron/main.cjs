@@ -160,6 +160,8 @@ ipcMain.handle('service:start', spawnService);
 ipcMain.handle('service:stop', stopService);
 ipcMain.handle('api:ask', async (_e, text) => apiJson('/ask', { method: 'POST', body: JSON.stringify({ text }) }));
 ipcMain.handle('api:memories', async () => apiJson('/memories'));
+ipcMain.handle('api:reset', async () => apiJson('/reset', { method: 'POST', body: '{}' }));
+ipcMain.handle('api:status', async () => apiJson('/status'));
 ipcMain.handle('api:forget', async (_e, id) => apiJson('/forget', { method: 'POST', body: JSON.stringify({ id }) }));
 ipcMain.handle('config:get', () => readConfig());
 ipcMain.handle('config:set', (_e, c) => { writeConfig(c); return true; });
